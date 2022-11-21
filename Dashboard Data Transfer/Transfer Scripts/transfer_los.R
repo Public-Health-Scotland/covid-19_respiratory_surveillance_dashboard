@@ -24,3 +24,5 @@ g_los <- i_los %>%
 
 
 write.csv(g_los, glue(output_folder, "Length_of_Stay.csv"), row.names=FALSE)
+
+rm(i_los, g_los)

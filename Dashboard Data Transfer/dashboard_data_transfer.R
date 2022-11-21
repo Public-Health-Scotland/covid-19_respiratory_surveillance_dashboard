@@ -16,6 +16,7 @@ library(zoo)
 library(tidyr)
 library(readxl)
 library(readr)
+library(gt)
 # remotes::install_github("RosalynLP/friendlyloader")
 # Provides the following functions:
 # ----------------------------------
@@ -63,19 +64,36 @@ i_population <- read_csv_with_options(glue(input_data, "population.csv"))  %>%
 
 i_population %<>%
   pivot_longer(cols=c("Male", "Female", "Total"), values_to="value", names_to="sex") %>%
-  dplyr::rename(pop_number=value)
+  dplyr::rename(PopNumber=value,
+                AgeGroup = age_group,
+                Sex = sex)
 
 i_population[i_population == "May-14"] <- "5-14"
-i_population$age_group[i_population$age_group == "total"] <- "All"
-i_population$age_group <- sapply(i_population$age_group, function(x) str_remove(x, "years"))
-i_population$age_group <- sapply(i_population$age_group, function(x) str_remove_all(x, " "))
+i_population$AgeGroup[i_population$AgeGroup == "total"] <- "Total"
+i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove(x, "years"))
+i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove_all(x, " "))
 
 ##### Cases
 source("Transfer Scripts/transfer_cases.R")
 
+##### NRS Deaths
+source("Transfer Scripts/transfer_deaths.R")
 
+##### Ethnicity
+# Updated quarterly
+source("Transfer Scripts/transfer_ethnicity.R")
 
+##### ICU
+source("Transfer Scripts/transfer_icu.R")
 
+##### Hosp Adms
+source("Transfer Scripts/transfer_admissions.R")
+
+##### Length of Stay
+source("Transfer Scripts/transfer_los.R")
+
+##### Vaccine Wastage
+source("Transfer Scripts/transfer_vacc_wastage.R")
 
 
 
