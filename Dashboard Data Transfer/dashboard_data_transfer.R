@@ -16,7 +16,6 @@ library(zoo)
 library(tidyr)
 library(readxl)
 library(readr)
-library(gt)
 # remotes::install_github("RosalynLP/friendlyloader")
 # Provides the following functions:
 # ----------------------------------
