@@ -97,3 +97,6 @@ source("Transfer Scripts/transfer_vacc_wastage.R")
 ##### ONS
 source("Transfer Scripts/transfer_ons.R")
 
+#### Care Homes
+source("Transfer Scripts/transfer_carehomes.R")
+
