@@ -13,8 +13,8 @@ g_cases %<>%
          Cumulative = as.numeric(Cumulative))
 
 pop_grandtotal <- i_population %>%
-  filter(age_group == "All", sex == "Total") %>%
-  .$pop_number
+  filter(AgeGroup == "Total", Sex == "Total") %>%
+  .$PopNumber
 
 g_cases %<>%
   mutate(SevenDayAverage = zoo::rollmean(NumberCasesPerDay, k = 7, fill = NA, align="right"),
