@@ -2,7 +2,7 @@
 
 
 
-i_los <- read_csv_with_options(glue(input_data, "Hospital Admissions/{format(report_date -2,'%Y-%m-%d')}_LOS Table Dashboard.csv"))
+i_los <- read_csv_with_options(glue(input_data, "{format(report_date -2,'%Y-%m-%d')}_LOS Table Dashboard.csv"))
 
 g_los <- i_los %>%
   dplyr::rename(AgeGroup = age_band_custom,
