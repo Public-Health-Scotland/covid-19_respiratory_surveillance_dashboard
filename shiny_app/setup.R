@@ -30,12 +30,16 @@ bttn_remove <-  list('select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d',
                      'autoScale2d',   'toggleSpikelines',  'hoverCompareCartesian',
                      'hoverClosestCartesian')
 
-# LOAD IN DATA HERE ----
+# LOAD IN DATA ----
 
-app_data <- list()
 # Load in data to app_data
 # Find all rds files in shiny_app/data
 rds_files <- list.files(path="data/", pattern="*.rds")
 for (rds in rds_files){
   load_rds_file(rds)
 }
+
+
+
+
+

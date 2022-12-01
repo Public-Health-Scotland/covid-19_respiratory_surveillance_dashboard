@@ -33,7 +33,7 @@ tabPanel(title = "Introduction",
     icon = icon_no_warning_fn("circle-info"),
     value = "intro",
 
-    h1("Welcome to the dashboard")
+    source(file.path("indicators/introduction/introduction_ui.R"), local = TRUE)$value
 
 ), # tabpanel
 ##############################################.
@@ -43,7 +43,7 @@ tabPanel(title = "Summary",
          icon = icon_no_warning_fn("square-poll-vertical"),
          value = "summary",
 
-         h1("Summary stuff here")
+         source(file.path("indicators/summary/summary_ui.R"), local = TRUE)$value
 
 ), # tabpanel
 ##############################################.
@@ -61,59 +61,55 @@ tabPanel(title = "Cases",
 # ADMISSIONS ----
 ##############################################.
 tabPanel(title = "Hospital admissions",
-         # Look at https://fontawesome.com/search?m=free for icons
-         icon = icon_no_warning_fn("hospital-user"),
-         value = "hospital_admissions",
+      # Look at https://fontawesome.com/search?m=free for icons
+      icon = icon_no_warning_fn("hospital-user"),
+      value = "hospital_admissions",
 
-         source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
+      source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
 
 ), # tabpanel
 ##############################################.
 # OCCUPANCY ----
 ##############################################.
 tabPanel(title = "Hospital occupancy",
-         # Look at https://fontawesome.com/search?m=free for icons
-         icon = icon_no_warning_fn("bed-pulse"),
-         value = "hospital_occupancy",
+      # Look at https://fontawesome.com/search?m=free for icons
+      icon = icon_no_warning_fn("bed-pulse"),
+      value = "hospital_occupancy",
 
-         br()
-         #source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
+      source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
 
 ), # tabpanel
 ##############################################.
 # VACCINE WASTAGE ----
 ##############################################.
 tabPanel(title = "Vaccine wastage",
-         # Look at https://fontawesome.com/search?m=free for icons
-         icon = icon_no_warning_fn("biohazard"),
-         value = "vaccines",
+      # Look at https://fontawesome.com/search?m=free for icons
+      icon = icon_no_warning_fn("biohazard"),
+      value = "vaccines",
 
-         source(file.path("indicators/vaccines/vaccines_ui.R"), local = TRUE)$value
+      source(file.path("indicators/vaccines/vaccines_ui.R"), local = TRUE)$value
 
 ), # tabpanel
 ##############################################.
 # NOTES ----
 ##############################################.
 tabPanel(title = "Notes",
-         # Look at https://fontawesome.com/search?m=free for icons
-         icon = icon_no_warning_fn("file-pen"),
-         value = "notes",
+      # Look at https://fontawesome.com/search?m=free for icons
+      icon = icon_no_warning_fn("file-pen"),
+      value = "notes",
 
-         br()
-
-         #source(file.path("indicators/notes/notes_ui.R"), local = TRUE)$value
+      source(file.path("indicators/notes/notes_ui.R"), local = TRUE)$value
 
 ), # tabpanel
 ##############################################.
 # DATA DOWNLOAD ----
 ##############################################.
 tabPanel(title = "Download data",
-         # Look at https://fontawesome.com/search?m=free for icons
-         icon = icon_no_warning_fn("floppy-disk"),
-         value = "download",
+      # Look at https://fontawesome.com/search?m=free for icons
+      icon = icon_no_warning_fn("floppy-disk"),
+      value = "download",
 
-         br()
-       #  source(file.path("indicators/download/download_ui.R"), local = TRUE)$value
+      source(file.path("indicators/download/download_ui.R"), local = TRUE)$value
 
 ) # tabpanel
 #
@@ -126,13 +122,26 @@ tabPanel(title = "Download data",
 
 server <- function(input, output, session) {
 
-    # Get functions
-    source(file.path("functions/core_functions.R"), local = TRUE)$value
+  # Get functions
+  source(file.path("functions/core_functions.R"), local = TRUE)$value
+  source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
+  source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
+  source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
+  source(file.path("indicators/hospital_admissions/hospital_admissions_functions.R"), local = TRUE)$value
+  source(file.path("indicators/hospital_occupancy/hospital_occupancy_functions.R"), local = TRUE)$value
+  source(file.path("indicators/vaccines/vaccines_functions.R"), local = TRUE)$value
+  source(file.path("indicators/notes/notes_functions.R"), local = TRUE)$value
+  source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
 
-    # Get content for individual pages
-    source(file.path("indicators/cases/cases_server.R"), local = TRUE)$value
-    source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
-    source(file.path("indicators/vaccines/vaccines_server.R"), local = TRUE)$value
+  # Get content for individual pages
+  source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
+  source(file.path("indicators/summary/summary_server.R"), local = TRUE)$value
+  source(file.path("indicators/cases/cases_server.R"), local = TRUE)$value
+  source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
+  source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
+  source(file.path("indicators/vaccines/vaccines_server.R"), local = TRUE)$value
+  source(file.path("indicators/notes/notes_server.R"), local = TRUE)$value
+  source(file.path("indicators/download/download_server.R"), local = TRUE)$value
 
 }
 
