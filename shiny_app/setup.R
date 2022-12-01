@@ -7,21 +7,6 @@ if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Sco
 
 pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT)
 
-# Shiny packages ----
-library(shiny)
-library(shinycssloaders)
-library(DT)
-
-# Data wrangling packages ----
-library(dplyr)
-library(magrittr)
-
-# Plotting packages ----
-library(plotly)
-
-# PHS styling packages ----
-library(phsstyles)
-
 # Load core functions ----
 source("functions/core_functions.R")
 
