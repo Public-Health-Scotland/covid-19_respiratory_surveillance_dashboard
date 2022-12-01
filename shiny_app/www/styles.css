@@ -10,6 +10,7 @@
       --phs-teal-30: #BCD9DA;
       --phs-teal-50: #8FBFC2;
       --phs-teal-80: #4B999D;
+      --phs-teal: #1E7F84;
       --phs-purple-80: #655E9D;
       --phs-purple-30: #C5C3DA;
       --phs-magenta-30: #E1C7DF;
@@ -139,7 +140,7 @@ th, td {
   .table > .tbody > tr.active th,
 .table > .tbody > tr.active td{
   background-color: var(--phs-purple);
-  color: var(--white);
+  color: var(--phs-teal);
 }
 
 /*

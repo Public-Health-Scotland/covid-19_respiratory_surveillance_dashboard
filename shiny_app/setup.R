@@ -3,6 +3,7 @@
 # Shiny packages ----
 library(shiny)
 library(shinycssloaders)
+library(DT)
 
 # Data wrangling packages ----
 library(dplyr)
