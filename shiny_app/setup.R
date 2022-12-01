@@ -1,5 +1,12 @@
 ####################### Setup #######################
 
+# Getting packages
+if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
+if (!pacman::p_isinstalled("friendlyloader")){pacman::p_install_gh("RosalynLP/friendlyloader")}
+if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Scotland/phsstyles")}
+
+pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT)
+
 # Shiny packages ----
 library(shiny)
 library(shinycssloaders)
