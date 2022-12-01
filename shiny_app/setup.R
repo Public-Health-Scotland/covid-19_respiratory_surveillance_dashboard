@@ -10,6 +10,7 @@ pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT)
 # Shiny packages ----
 library(shiny)
 library(shinycssloaders)
+library(DT)
 
 # Data wrangling packages ----
 library(dplyr)
