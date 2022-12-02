@@ -144,3 +144,146 @@ th, td {
 }
 
 /*
+
+/* Tabset panels */
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+   background-color: var(--phs-teal-80);
+}
+/* tab box */
+.nav-tabs-custom {
+     background-color: var(--white);
+     border: 100px;
+     border-color: var(--phs-teal);
+}
+
+/*
+ Comes from https://github.com/rstudio/shinydashboard/blob/main/inst/AdminLTE/AdminLTE.css
+ * Component: Small Box
+ * --------------------
+ */
+.small-box {
+  border-radius: 3px;
+  position: relative;
+  display: block;
+  margin-bottom: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.small-box > .inner {
+  padding: 3px;
+}
+.small-box > .small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 2px 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+.small-box > .small-box-footer:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.15);
+}
+.small-box h3 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: var(--white);
+  white-space: nowrap;
+  padding: 0;
+}
+
+/* For the numbers inside the boxes */
+.small-box .shiny-text-output {
+  text-align: center;
+  font-size: 15px;
+  color: var(--white);
+}
+.small-box p > small {
+  display: block;
+  font-size: 13px;
+  margin-top: 3px;
+}
+.small-box h3,
+.small-box p {
+  z-index: 5;
+}
+.small-box .icon {
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  z-index: 0;
+  font-size: 90px;
+  color: rgba(0, 0, 0, 0.15);
+}
+.small-box:hover {
+  text-decoration: none;
+  color: var(--white);
+}
+.small-box:hover .icon {
+  font-size: 95px;
+}
+@media (max-width: 767px) {
+  .small-box {
+    text-align: center;
+  }
+  .small-box .icon {
+    display: none;
+  }
+  .small-box p {
+    font-size: 12px;
+  }
+}
+
+.small-box .icon {
+
+  -webkit-transition: all 0.3s linear;
+
+  -o-transition: all 0.3s linear;
+
+  transition: all 0.3s linear;
+
+  position: absolute;
+
+  top:-10px;
+
+  right:10px;
+
+  z-index:0;
+
+  font-size:90px;
+
+  color:rgba(0,0, 0, 0.15);
+
+}
+
+
+.small-box:hover .icon {
+
+  font-size:95px;
+
+}
+
+
+/* Hack to get the colours we want on shinydashboard varBox */
+
+.small-box.bg-green { background-color:var(--phs-green); !important; color:#000000 !important; }
+
+.small-box.bg-purple { background-color:var(--phs-purple); !important; color:#000000 !important; }
+
+.small-box.bg-blue { background-color:var(--phs-blue); !important; color:#000000 !important; }
+
+.small-box.bg-fuchsia { background-color:var(--phs-magenta); !important; color:#000000 !important; }
+
+.small-box.bg-olive { background-color:var(--phs-graphite); !important; color:#000000 !important; }
+
+.small-box.bg-teal { background-color:var(--phs-teal); !important; color:#000000 !important; }
+

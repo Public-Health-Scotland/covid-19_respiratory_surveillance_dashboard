@@ -80,7 +80,7 @@ make_table <- function(input_data_table,
                                      autoWidth = TRUE,
                                      initComplete = JS(
                                        "function(settings, json) {",
-                                       "$(this.api().table().header()).css({'background-color': '#BCD9DA', 'color': '#1E7F84'});",
+                                       "$(this.api().table().header()).css({'background-color': '#B3D7F2', 'color': '#3F3685'});",
                                        "}"), # Make header phs-blue
                                      order = tab_order),
 
