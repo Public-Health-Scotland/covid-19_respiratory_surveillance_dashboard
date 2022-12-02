@@ -3,26 +3,12 @@
 # to dashboard data folder                          #
 #####################################################
 
-library(dplyr)
-library(magrittr)
-library(glue)
-library(openxlsx)
-library(lubridate)
-library(janitor)
-library(stringr)
-library(data.table)
-library(stats)
-library(zoo)
-library(tidyr)
-library(readxl)
-library(readr)
-# remotes::install_github("RosalynLP/friendlyloader")
-# Provides the following functions:
-# ----------------------------------
-# read_csv_with_options
-# read_excel_with_options
-# read_all_sheets
-library(friendlyloader)
+# Getting packages
+if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
+if (!pacman::p_isinstalled("friendlyloader")){pacman::p_install_gh("RosalynLP/friendlyloader")}
+
+pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate,
+               janitor, stringr, data.table, stats, zoo, tidyr, readxl, readr)
 
 # Setting permisisons for files outputted
 Sys.umask("006")
