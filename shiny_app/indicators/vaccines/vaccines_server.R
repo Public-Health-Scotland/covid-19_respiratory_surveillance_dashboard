@@ -26,5 +26,5 @@ output$vaccine_wastage_plot <- renderPlotly({
 output$vaccine_wastage_reason_plot <- renderPlotly({
   Vaccine_Wastage_Reason %>%
   make_vaccine_wastage_reason_plot()
-  
+
 })

@@ -4,6 +4,7 @@
       --black: #000000;
       --phs-purple: #3F3685;
       --phs-blue: #0078D4;
+      --phs-blue-10: #E6F2FB;
       --phs-green: #83BB26;
       --phs-graphite: #948DA3;
       --phs-magenta: #9B4393;
@@ -158,25 +159,38 @@ th, td {
      border-color: var(--phs-teal);
 }
 
+/* Headline banner */
+.headline {
+  background-color: var(--phs-blue-10);
+
+}
+
+.headline h3 {
+  color: var(--phs-blue);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+
 /*
  Comes from https://github.com/rstudio/shinydashboard/blob/main/inst/AdminLTE/AdminLTE.css
  * Component: Small Box
  * --------------------
  */
 .small-box {
-  border-radius: 3px;
+  border-radius: 10px;
   position: relative;
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .small-box > .inner {
-  padding: 3px;
+  padding: 10px;
 }
 .small-box > .small-box-footer {
   position: relative;
   text-align: center;
-  padding: 2px 0;
+  padding: 3px 0;
   color: #fff;
   color: rgba(255, 255, 255, 0.8);
   display: block;
@@ -189,25 +203,22 @@ th, td {
   background: rgba(0, 0, 0, 0.15);
 }
 .small-box h3 {
-  text-align: center;
-  font-size: 18px;
+  color: white;
+  font-size: 38px;
   font-weight: bold;
   margin: 0 0 10px 0;
-  color: var(--white);
   white-space: nowrap;
   padding: 0;
 }
-
-/* For the numbers inside the boxes */
-.small-box .shiny-text-output {
-  text-align: center;
-  font-size: 15px;
-  color: var(--white);
+.small-box p {
+  color: white;
+  font-size: 20px;
 }
 .small-box p > small {
   display: block;
+  color: #f9f9f9;
   font-size: 13px;
-  margin-top: 3px;
+  margin-top: 5px;
 }
 .small-box h3,
 .small-box p {
@@ -226,7 +237,7 @@ th, td {
 }
 .small-box:hover {
   text-decoration: none;
-  color: var(--white);
+  color: #f9f9f9;
 }
 .small-box:hover .icon {
   font-size: 95px;
@@ -243,35 +254,14 @@ th, td {
   }
 }
 
-.small-box .icon {
-
-  -webkit-transition: all 0.3s linear;
-
-  -o-transition: all 0.3s linear;
-
-  transition: all 0.3s linear;
-
+.small-box .icon-large {
   position: absolute;
-
-  top:-10px;
-
-  right:10px;
-
-  z-index:0;
-
-  font-size:90px;
-
-  color:rgba(0,0, 0, 0.15);
-
+  top: auto;
+  bottom: 5px;
+  right: 5px;
+  font-size: 70px;
+  color: rgba(0, 0, 0, 0.15);
 }
-
-
-.small-box:hover .icon {
-
-  font-size:95px;
-
-}
-
 
 /* Hack to get the colours we want on shinydashboard varBox */
 
