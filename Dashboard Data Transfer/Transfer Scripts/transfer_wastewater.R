@@ -7,7 +7,7 @@ i_wastewater <- read_excel(glue(input_data, "wastewater_{format(report_date -5,'
 
 g_wastewater <- i_wastewater %>%
   dplyr::rename(Date = Date7DayEnding,
-                WastewaterAverageMgc = WWAvgMgc) %>%
+                WastewaterSevenDayAverageMgc = WWAvgMgc) %>%
   mutate(Date = format(Date, "%Y%m%d"))
 
 
