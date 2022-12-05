@@ -3,7 +3,7 @@
 
 ##### Wastewater
 
-i_wastewater <- read_excel(glue(input_data, "wastewater_{format(report_date -5,'%d%m%y')}.xlsx"))
+i_wastewater <- read_excel_with_options(glue(input_data, "wastewater_{format(report_date -2,'%y%m%d')}.xlsx"))
 
 g_wastewater <- i_wastewater %>%
   dplyr::rename(Date = Date7DayEnding,
