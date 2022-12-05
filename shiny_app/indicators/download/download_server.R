@@ -1,8 +1,8 @@
 # Data download choices
 
 cases_download_choices <- list(
-  "Daily COVID-19 cases" = Cases,
-  "ONS infection survey estimates" = ONS
+  "Daily COVID-19 reported cases" = Cases,
+  "ONS infection survey cases estimates" = ONS
   )
 hospital_admissions_download_choices <- list(
   "Daily COVID-19 hospital admissions" = Admissions,
