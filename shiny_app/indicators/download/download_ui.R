@@ -5,7 +5,7 @@ tagList(
 
     # Filters and toggles
     fluidRow(width=12,
-             box(width=NULL, height="400px",
+             box(width=NULL, height="250px",
                  tagList(
                    p(strong("Follow the steps below to generate the dataset to download.")),
                    radioButtons("download_indicator",
@@ -41,7 +41,7 @@ tagList(
              ) # box
     ), # fluidrow
 
-    fluidRow(width=12, height="100px", br()),
+    fluidRow(width=12, height="5px", br()),
 
     # Data download area
     fluidRow(width=12,

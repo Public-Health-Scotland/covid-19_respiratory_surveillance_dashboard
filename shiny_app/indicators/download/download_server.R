@@ -49,9 +49,9 @@ chosen_dataset <- reactive({
 output$data_download_output <- downloadHandler(
   filename = function(){
     if(input$download_filetype == ".csv"){
-      "data.csv"
+      glue("{input$download_indicator}.csv")
     } else if (input$download_filetype == ".xlsx"){
-      "data.xlsx"
+      glue("{input$download_indicator}.xlsx")
     } else {
       "invalid"
     }
