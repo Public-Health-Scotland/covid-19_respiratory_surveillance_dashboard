@@ -5,7 +5,7 @@ if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
 if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Scotland/phsstyles")}
 
 pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT,
-               shinydashboard, glue, janitor)
+               shinydashboard, glue)
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -19,9 +19,7 @@ yaxis_plots <- list(title = FALSE, rangemode="tozero", fixedrange=TRUE, size = 4
                     tickfont = list(size=14), titlefont = list(size=14))
 
 # Buttons to remove from plotly plots
-bttn_remove <-  list(#'select2d',
-                     #'lasso2d',
-                     #'zoomIn2d', 'zoomOut2d',
+bttn_remove <-  list('select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d',
                      'autoScale2d',   'toggleSpikelines',  'hoverCompareCartesian',
                      'hoverClosestCartesian')
 
