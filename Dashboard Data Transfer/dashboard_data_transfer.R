@@ -8,7 +8,7 @@ if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
 if (!pacman::p_isinstalled("friendlyloader")){pacman::p_install_gh("RosalynLP/friendlyloader")}
 
 pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate,
-               janitor, stringr, data.table, stats, zoo, tidyr, readxl, readr)
+               janitor, stringr, data.table, stats, zoo, tidyr, readxl, readr, friendlyloader)
 
 # Setting permisisons for files outputted
 Sys.umask("006")
@@ -97,4 +97,7 @@ source("Transfer Scripts/transfer_ons.R")
 
 #### Care Homes
 source("Transfer Scripts/transfer_carehomes.R")
+
+#### R Number
+source("Transfer Scripts/transfer_r_number.R")
 
