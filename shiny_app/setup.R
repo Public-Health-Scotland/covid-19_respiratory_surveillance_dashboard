@@ -5,7 +5,7 @@ if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
 if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Scotland/phsstyles")}
 
 pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT,
-               shinydashboard, glue)
+               shinydashboard, glue, shinyWidgets)
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -32,6 +32,8 @@ for (rds in rds_files){
   load_rds_file(rds)
 }
 
+vaccine_wastage_month <- {Vaccine_Wastage %>% tail(1) %>%
+    .$Month %>% convert_opendata_date() %>% convert_date_to_month()}
 
 
 
