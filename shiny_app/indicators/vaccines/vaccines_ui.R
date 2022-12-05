@@ -22,6 +22,8 @@ tagList(
                subtitle = "Percent wasted",
                color = "blue",
                icon = icon_no_warning_fn("percent")),
+           # These linebreaks are here to make the banner big enough to
+           # include all the valueBoxes
            linebreaks(6)
            ),
 
