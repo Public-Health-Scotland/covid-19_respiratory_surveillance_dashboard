@@ -1,4 +1,4 @@
-# Dashboard data transfer for Vaccine Wastage data
+# Dashboard data transfer for Wastewater data
 # Sourced from ../dashboard_data_transfer.R
 
 ##### Wastewater
