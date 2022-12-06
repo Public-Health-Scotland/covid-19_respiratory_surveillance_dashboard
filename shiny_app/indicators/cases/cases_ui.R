@@ -24,7 +24,7 @@ tagList(
                     tagList(h3("Estimated COVID-19 R number"),
                             plotlyOutput("r_number_plot"))),
            tabPanel("Wastewater",
-                    tagList(h3("Wastewater"),
+                    tagList(h3("Seven day average trend in wastewater COVID-19"),
                             plotlyOutput("wastewater_plot")))
         ) #tabBox
   )
