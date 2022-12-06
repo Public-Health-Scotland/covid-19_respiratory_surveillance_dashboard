@@ -6,7 +6,9 @@ make_reported_cases_plot <- function(data){
 
   yaxis_plots[["title"]] <- "Reported cases"
   xaxis_plots[["title"]] <- "Date"
+
   xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
 
 
   p <- plot_ly(data, x = ~Date,

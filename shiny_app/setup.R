@@ -16,7 +16,8 @@ xaxis_plots <- list(title = FALSE, tickfont = list(size=14), titlefont = list(si
                     showline = TRUE)
 
 yaxis_plots <- list(title = FALSE, rangemode="tozero", size = 4,
-                    tickfont = list(size=14), titlefont = list(size=14))
+                    fixedrange = FALSE, tickfont = list(size=14),
+                    titlefont = list(size=14))
 
 # Buttons to remove from plotly plots
 bttn_remove <-  list(
