@@ -48,3 +48,58 @@ make_reported_cases_plot <- function(data){
   return(p)
 
 }
+
+
+
+
+make_ons_cases_plot <- function(data){
+
+
+  data %<>%
+    filter(Nation == "Scotland") %>%
+    mutate(EndDate = convert_opendata_date(EndDate),
+           ErrorBarHeight = UpperCIOfficialEstimate - LowerCIOfficialEstimate,
+           ErrorBarLowerHeight = OfficialPositivityEstimate - LowerCIOfficialEstimate)
+
+  yaxis_plots[["title"]] <- "Official positivity estimate (%)"
+  xaxis_plots[["title"]] <- "Week ending"
+
+
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+  yaxis_plots[["ticksuffix"]] <- "%"
+
+  p <- plot_ly(data, x = ~EndDate,
+               textposition = "none",
+               text = ~paste0("<b>Week ending</b>: ", format(EndDate, "%d %b %y"), "\n",
+                              "<b>Official positivity estimate</b>: ", round_half_up(OfficialPositivityEstimate,1), "%\n",
+                              "<b>Estimated prevalence</b>: ", EstimatedRatio),
+               hovertemplate = "%{text}",
+               height = 500)%>%
+
+    add_lines(y = ~OfficialPositivityEstimate,
+              line = list(color = phs_colours("phs-blue-30")),
+              name = 'Official positivity estimate',
+              error_y = ~list(array = ErrorBarHeight,
+                              arrayminus = ErrorBarLowerHeight,
+                              symmetric = FALSE,
+                              width = 0.5,
+                              color = phs_colours("phs-blue")),
+              marker = list(color = phs_colours("phs-blue"),
+                            size = 5)) %>%
+
+    layout(margin = list(b = 80, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(x = 100, y = 0.5)) %>%
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+  return(p)
+
+}
+
+
+
+
+

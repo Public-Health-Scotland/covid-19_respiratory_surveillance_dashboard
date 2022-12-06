@@ -1,10 +1,22 @@
 tagList(
 
-  tabBox(width = NULL, type = "pills",
-         tabPanel("Plot",
+  fluidRow(width = 12,
+    tabBox(width = NULL, type = "pills",
+          tabPanel("Plot",
                   tagList(h3("Reported COVID-19 cases"),
                           plotlyOutput("reported_cases_plot"))),
-         tabPanel("Data",
+           tabPanel("Data",
                   tagList(h3("Reported COVID-19 cases data"),
                           dataTableOutput("reported_cases_table"))))
+  ),
+
+  fluidRow(height="600px", width =12, linebreaks(4)),
+
+
+  fluidRow(width = 12,
+    box(width = NULL,
+        tagList(h3("Estimated COVID-19 infection rate"),
+                h4("ONS covid infection survey"),
+                plotlyOutput("ons_cases_plot")))
+  )
 )

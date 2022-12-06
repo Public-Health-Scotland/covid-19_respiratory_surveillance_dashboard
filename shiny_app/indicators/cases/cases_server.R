@@ -11,4 +11,12 @@ output$reported_cases_table <- renderDataTable({
 output$reported_cases_plot <- renderPlotly({
   Cases %>%
     make_reported_cases_plot()
+
+})
+
+
+output$ons_cases_plot <- renderPlotly({
+  ONS %>%
+    make_ons_cases_plot()
+
 })
