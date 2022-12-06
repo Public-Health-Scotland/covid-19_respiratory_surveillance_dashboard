@@ -1,20 +1,37 @@
 /* CSS styles used in the shiny app */
   :root{
+
     --white: #ffffff;
       --black: #000000;
+
       --phs-purple: #3F3685;
+      --phs-purple-80: #655E9D;
+      --phs-purple-30: #C5C3DA;
+
       --phs-blue: #0078D4;
+      --phs-blue-80: #3393DD;
+      --phs-blue-50: #80BCEA;
+      --phs-blue-30: #B3D7F2;
+      --phs-blue-10: #E6F2FB;
+
       --phs-green: #83BB26;
+      --phs-green-80: #9CC951;
+      --phs-green-50: #C1DD93;
+      --phs-green-30: #DAEBBE;
+      --phs-green-10: #F3F8E9;
+
       --phs-graphite: #948DA3;
+
       --phs-magenta: #9B4393;
+      --phs-magenta-30: #E1C7DF;
+
       --phs-teal-30: #BCD9DA;
       --phs-teal-50: #8FBFC2;
       --phs-teal-80: #4B999D;
       --phs-teal: #1E7F84;
-      --phs-purple-80: #655E9D;
-      --phs-purple-30: #C5C3DA;
-      --phs-magenta-30: #E1C7DF;
+
       --phs-liberty-10: #F0EFF3;
+
       --light-grey: #ddd;
   }
 
@@ -48,7 +65,7 @@
 
 /* Style hyperlinks */
   .externallink {color: var(--phs-purple); font-weight: bold;}
-.externallink:hover {color: var(--phs-teal-50);}
+.externallink:hover {color: var(--phs-blue-50);}
 
 /* Border tables - th, td puts within the table as well */
   .border-table{border:1px solid var(--phs-purple);}
@@ -65,7 +82,7 @@ th, td {
 
 /* Button styles */
   .btn {
-    background-color: var(--phs-teal-50);
+    background-color: var(--phs-blue-50);
     color: black; background-image:none;
     border: 2px solid var(--phs-purple);
     border-radius: 10px;
@@ -98,7 +115,7 @@ th, td {
   .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
     color: var(--white);
     text-decoration: none;
-    background-color: var(--phs-teal-50);
+    background-color: var(--phs-blue-50);
     outline: 0;
   }
 
@@ -117,22 +134,22 @@ th, td {
 .pagination > li > span:hover
 {
   color:var(--phs-purple);
-  background-color: var(--phs-teal-50);
-  border-color: var(--phs-teal-80);
+  background-color: var(--phs-blue-50);
+  border-color: var(--phs-blue-80);
   border-radius: 5px;
 }
 
 .pagination > .active > a
 {
   color: var(--phs-purple);
-  background-color: var(--phs-teal-50) !Important;
-  border: solid 1px var(--phs-teal-50) !Important;
+  background-color: var(--phs-blue-50) !Important;
+  border: solid 1px var(--phs-blue-50) !Important;
 }
 
 .pagination > .active > a:hover
 {
-  background-color: var(--phs-teal-50) !Important;
-  border: solid 1px var(--phs-teal-50);
+  background-color: var(--phs-blue-50) !Important;
+  border: solid 1px var(--phs-blue-50);
 }
 
 /* data table */
@@ -140,7 +157,7 @@ th, td {
   .table > .tbody > tr.active th,
 .table > .tbody > tr.active td{
   background-color: var(--phs-purple);
-  color: var(--phs-teal);
+  color: var(--phs-blue);
 }
 
 /*
@@ -149,13 +166,13 @@ th, td {
 .nav-pills>li.active>a,
 .nav-pills>li.active>a:focus,
 .nav-pills>li.active>a:hover {
-   background-color: var(--phs-teal-80);
+   background-color: var(--phs-blue-80);
 }
 /* tab box */
 .nav-tabs-custom {
      background-color: var(--white);
      border: 100px;
-     border-color: var(--phs-teal);
+     border-color: var(--phs-blue);
 }
 
 /*
