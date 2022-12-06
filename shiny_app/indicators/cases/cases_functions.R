@@ -80,7 +80,7 @@ make_ons_cases_plot <- function(data){
     add_lines(y = ~OfficialPositivityEstimate,
               line = list(color = phs_colours("phs-blue-30")),
               name = 'Official positivity estimate',
-              error_y = ~list(array = ErrorBarHeight,
+              error_y = ~list(array = ErrorBarHeight/2,
                               arrayminus = ErrorBarLowerHeight,
                               symmetric = FALSE,
                               width = 0.5,
@@ -99,7 +99,56 @@ make_ons_cases_plot <- function(data){
 
 }
 
+make_r_number_plot <- function(data){
 
+
+  data %<>%
+    mutate(Date = convert_opendata_date(Date),
+           ErrorBarHeight = UpperBound - LowerBound,
+           ErrorBarCentre = (UpperBound + LowerBound)/2)
+
+
+  yaxis_plots[["title"]] <- "Estimated R number"
+  xaxis_plots[["title"]] <- "Date reporting"
+
+
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
+  p <- plot_ly(data, x = ~Date,
+               textposition = "none",
+               text = ~paste0("<b>Date reporting</b>: ", format(Date, "%d %b %y"), "\n",
+                              "<b>Lower estimate</b>: ", LowerBound, "\n",
+                              "<b>Upper estimate</b>: ", UpperBound),
+               hovertemplate = "%{text}",
+               height = 500)%>%
+
+    add_segments(x = ~(min(Date)- months(1)),
+                 xend = ~(max(Date) + months(1)),
+                 y = 1,
+                 yend = 1,
+                 showlegend = FALSE,
+                 line = list(color = phs_colours("phs-purple"), width = 1)) %>%
+
+    add_lines(y = ~ErrorBarCentre,
+              line = list(color = phs_colours("phs-blue"), width = 0),
+              name = 'Estimated R number',
+              showlegend = FALSE,
+              error_y = ~list(array = ErrorBarHeight/2,
+                              #symmetric = TRUE,
+                              width = 0.5,
+                              color = phs_colours("phs-blue"))) %>%
+
+    layout(margin = list(b = 80, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(x = 100, y = 0.5)) %>%
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+  return(p)
+
+}
 
 
 

@@ -20,3 +20,16 @@ output$ons_cases_plot <- renderPlotly({
     make_ons_cases_plot()
 
 })
+
+
+output$r_number_plot <- renderPlotly({
+  R_Number %>%
+    make_r_number_plot()
+
+})
+
+output$wastewater_plot <- renderPlotly({
+  Wastewater %>%
+    make_wastewater_plot()
+
+})

@@ -9,6 +9,6 @@ g_r_number <- i_r_number %>%
   dplyr::rename(Date = date, LowerBound = lower_bound, UpperBound = upper_bound) %>%
   mutate(Date = format(Date, "%Y%m%d"))
 
-write_csv(g_r_number, glue(output_folder, "r_number.csv"))
+write_csv(g_r_number, glue(output_folder, "R_Number.csv"))
 
 rm(i_r_number, g_r_number)

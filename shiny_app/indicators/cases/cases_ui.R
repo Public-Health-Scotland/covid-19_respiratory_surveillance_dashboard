@@ -14,9 +14,20 @@ tagList(
 
 
   fluidRow(width = 12,
-    box(width = NULL,
-        tagList(h3("Estimated COVID-19 infection rate"),
-                h4("ONS covid infection survey"),
-                plotlyOutput("ons_cases_plot")))
+    tabBox(width = NULL,
+           type = "pills",
+           tabPanel("Estimated infections",
+                    tagList(h3("Estimated COVID-19 infection rate"),
+                            h4("ONS covid infection survey"),
+                            plotlyOutput("ons_cases_plot"))),
+           tabPanel("R number",
+                    tagList(h3("Estimated COVID-19 R number"),
+                            plotlyOutput("r_number_plot"))),
+           tabPanel("Wastewater",
+                    tagList(h3("Wastewater"),
+                            plotlyOutput("wastewater_plot")))
+        ) #tabBox
   )
-)
+
+
+  )
