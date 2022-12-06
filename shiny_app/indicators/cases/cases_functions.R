@@ -16,11 +16,12 @@ make_reported_cases_plot <- function(data){
                hovertemplate = "%{text}")%>%
 
     add_lines(y = ~NumberCasesPerDay,
-             line = list(color = phs_colours("phs-blue-50")),
+             line = list(color = phs_colours("phs-blue-30")),
              name = 'Reported cases') %>%
 
     add_lines(y = ~SevenDayAverage, name = '7 day average',
-              line = list(color = phs_colours("phs-purple"))) %>%
+              line = list(color = phs_colours("phs-blue"),
+                          width = 4)) %>%
 
 
 #Adding vertical lines for notes on chart
@@ -29,7 +30,8 @@ make_reported_cases_plot <- function(data){
                              xs= c("2022-01-06", "2022-05-01"),
                              notes=c("From 5 Jan cases  include PCR + LFD",
                                      "Change in testing policy on 1 May"),
-                             colors=c(phs_colours("phs-rust"), phs_colours("phs-teal"))) %>%
+                             colors=c(phs_colours("phs-rust"),
+                                      phs_colours("phs-purple"))) %>%
 
 
     layout(margin = list(b = 80, t = 5),
