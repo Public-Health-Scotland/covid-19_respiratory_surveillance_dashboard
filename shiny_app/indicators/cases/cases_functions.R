@@ -6,6 +6,7 @@ make_reported_cases_plot <- function(data){
 
   yaxis_plots[["title"]] <- "Reported cases"
   xaxis_plots[["title"]] <- "Date"
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
 
 
   p <- plot_ly(data, x = ~Date,
@@ -13,7 +14,8 @@ make_reported_cases_plot <- function(data){
                text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
                               "<b>Reported cases</b>: ", format(NumberCasesPerDay, big.mark=","), "\n",
                               "<b>7 day average</b>: ", format(round_half_up(SevenDayAverage, 1), big.mark=","), "\n"),
-               hovertemplate = "%{text}")%>%
+               hovertemplate = "%{text}",
+               height = 500)%>%
 
     add_lines(y = ~NumberCasesPerDay,
              line = list(color = phs_colours("phs-blue-30")),
@@ -36,11 +38,10 @@ make_reported_cases_plot <- function(data){
 
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5),
-           height = 500) %>%
+           legend = list(x = 100, y = 0.5)) %>%
 
-    config(displaylogo = F, displayModeBar = TRUE)#,
-          # modeBarButtonsToRemove = bttn_remove )
+    config(displaylogo = F, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
 
   return(p)
 
