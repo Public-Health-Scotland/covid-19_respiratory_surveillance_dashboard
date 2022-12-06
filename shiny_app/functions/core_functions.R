@@ -1,14 +1,14 @@
 ####################### Core functions #######################
 
-# Add n linebreaks
+# Add n linebreaks ----
 linebreaks <- function(n){HTML(strrep(br(), n))}
 
-# Remove warnings from icons
+# Remove warnings from icons ----
 icon_no_warning_fn = function(icon_name) {
   icon(icon_name, verify_fa=FALSE)
 }
 
-## Function to format a given entry in a table
+## Function to format a given entry in a table ----
 format_entry <- function(x, dp=0, perc=F){
   # x (numeric, char): entry
   # dp (int): number of decimal places
@@ -35,8 +35,7 @@ format_entry <- function(x, dp=0, perc=F){
   }
 }
 
-# Data table for Data tab
-
+# Data table for Data tab ----
 make_table <- function(input_data_table,
                           add_separator_cols = NULL, # with , separator and 0dp
                           add_separator_cols_1dp = NULL, # with , separator and 1dp
@@ -100,7 +99,7 @@ make_table <- function(input_data_table,
 }
 
 
-# Data table with breakdown by Health Board
+# Data table with breakdown by Health Board ----
 make_byboard_data_table <- function(input_data_table,
                                board_name_column,  # Name of the column with board names e.g. "NHS Board"
                                add_separator_cols=NULL, # Column indices to add thousand separators to
@@ -153,7 +152,7 @@ make_byboard_data_table <- function(input_data_table,
 
 }
 
-# Load data from shiny_app/data
+# Load data from shiny_app/data ----
 load_rds_file <- function(rds){
   # Given a .rds file name in shiny_app/data
   # this function loads it as a variable with the same name as the
@@ -161,6 +160,7 @@ load_rds_file <- function(rds){
   assign(gsub(".rds", "", rds), readRDS(paste0("data/", rds)), envir = .GlobalEnv)
 }
 
+# Date conversion functions ----
 convert_opendata_date <- function(date){
   date <- as.Date(as.character(date), format = "%Y%m%d")
   return(date)
@@ -171,6 +171,7 @@ convert_date_to_month <- function(date){
   return(date)
 }
 
+# vline functions ----
 vline <- function(x, width=3.0, color="black", ...) {
   l_shape = list(
     type = "line",
