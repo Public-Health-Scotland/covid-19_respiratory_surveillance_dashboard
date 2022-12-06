@@ -19,12 +19,58 @@ tagList(
            tabPanel("Estimated infections",
                     tagList(h3("Estimated COVID-19 infection rate"),
                             h4("ONS covid infection survey"),
+                            tags$div(class = "headline",
+                                     h3(glue("Figures from week ending {ONS %>% tail(1) %>%
+                .$EndDate %>% convert_opendata_date()}")),
+                                     valueBox(value = {ONS %>% tail(1) %>%
+                                         .$EstimatedRatio},
+                                         subtitle = "Estimated prevalence",
+                                         color = "blue",
+                                         icon = icon_no_warning_fn("viruses")),
+                                     valueBox(value = {ONS %>% tail(1) %>%
+                                         .$EstimatedCases %>%
+                                         format(big.mark = ",")},
+                                         subtitle = "Estimated cases",
+                                         color = "blue",
+                                         icon = icon_no_warning_fn("people-group")),
+                                     valueBox(value = {ONS %>% tail(1) %>%
+                                         .$OfficialPositivityEstimate %>% round_half_up(1) %>%
+                                         paste0("%")},
+                                         subtitle = "Estimated positivity",
+                                         color = "blue",
+                                         icon = icon_no_warning_fn("percent"))),
+                            fluidRow(height="600px", width =12, linebreaks(4)),
                             plotlyOutput("ons_cases_plot"))),
            tabPanel("R number",
                     tagList(h3("Estimated COVID-19 R number"),
+                            tags$div(class = "headline",
+                                     h3(glue("Figures from reporting date {R_Number %>% tail(1) %>%
+                .$Date %>% convert_opendata_date()}")),
+                                     valueBox(value = {R_Number %>% tail(1) %>%
+                                         .$LowerBound},
+                                         subtitle = "Lower R number estimate",
+                                         color = "blue",
+                                         icon = icon_no_warning_fn("arrows-down-to-line")),
+                                     valueBox(value = {R_Number %>% tail(1) %>%
+                                         .$UpperBound},
+                                         subtitle = "Upper R number estimate",
+                                         color = "blue",
+                                         icon = icon_no_warning_fn("arrows-up-to-line"))),
+                            fluidRow(height="600px", width =12, linebreaks(4)),
                             plotlyOutput("r_number_plot"))),
            tabPanel("Wastewater",
                     tagList(h3("Seven day average trend in wastewater COVID-19"),
+                            tags$div(class = "headline",
+                                     h3(glue("Seven day average from week ending {Wastewater %>% tail(1) %>%
+                .$Date %>% convert_opendata_date()}")),
+                                     valueBox(value = {Wastewater %>% tail(1) %>%
+                                         .$WastewaterSevenDayAverageMgc %>%
+                                         signif(3) %>%
+                                         paste0("Mgc/p/d")},
+                                         subtitle = "COVID-19 wastewater level",
+                                         color = "blue",
+                                         icon = icon_no_warning_fn("faucet-drip"))),
+                            fluidRow(height="600px", width =12, linebreaks(4)),
                             plotlyOutput("wastewater_plot")))
         ) #tabBox
   )
