@@ -26,7 +26,7 @@ make_reported_cases_plot <- function(data){
                           width = 4)) %>%
 
 
-#Adding vertical lines for notes on chart
+    # Adding vertical lines for notes on chart
     add_lines_and_notes(dataframe = data,
                              ycol = "NumberCasesPerDay",
                              xs= c("2022-01-06", "2022-05-01"),
@@ -40,7 +40,7 @@ make_reported_cases_plot <- function(data){
            yaxis = yaxis_plots, xaxis = xaxis_plots,
            legend = list(x = 100, y = 0.5)) %>%
 
-    config(displaylogo = F, displayModeBar = TRUE,
+    config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
 
   return(p)
