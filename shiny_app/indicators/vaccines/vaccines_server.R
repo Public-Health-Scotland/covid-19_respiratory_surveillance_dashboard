@@ -14,6 +14,7 @@ output$vaccine_wastage_reason_table <- renderDataTable({
   Vaccine_Wastage_Reason %>%
     dplyr::rename(`Reason for wastage` = ReasonForWastage,
                   `Reason for wastage %` = ReasonForWastagePc) %>%
+    mutate(`Reason for wastage` = str_to_sentence(`Reason for wastage`)) %>%
     make_table(add_percentage_cols = 2)
 })
 

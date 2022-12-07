@@ -185,6 +185,12 @@ th, td {
      border-radius: 5px 5px 5px 5px;
 }
 
+/* box */
+.box {
+  background-color: var(--phs-liberty-10);
+  border-radius: 5px 5px 5px 5px;
+}
+
 /* Headline banner */
 .headline {
   border-radius: 10px;

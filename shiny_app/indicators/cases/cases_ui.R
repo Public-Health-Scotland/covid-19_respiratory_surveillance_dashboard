@@ -1,4 +1,7 @@
 tagList(
+  fluidRow(width = 12,
+           h1("COVID-19 cases"),
+           linebreaks(2)),
 
   fluidRow(width = 12,
     tabBox(width = NULL,
