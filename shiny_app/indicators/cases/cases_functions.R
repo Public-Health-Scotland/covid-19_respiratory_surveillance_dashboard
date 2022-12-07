@@ -187,4 +187,3 @@ make_wastewater_plot <- function(data){
   return(p)
 
 }
-

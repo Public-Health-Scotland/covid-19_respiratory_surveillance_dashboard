@@ -20,7 +20,7 @@ make_vaccine_wastage_plot <- function(data){
                hovertemplate = "%{text}")%>%
 
     add_trace(y = ~NumberOfDosesWasted, name = 'Doses wasted',
-              marker = list(color = phs_colours("phs-purple"))) %>%
+              marker = list(color = phs_colors("phs-purple"))) %>%
 
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
@@ -51,9 +51,15 @@ make_vaccine_wastage_reason_plot <- function(data){
                text = ~paste0("<b>Reason For Wastage</b>: ", ReasonForWastage, "\n",
                               "<b>Percentage</b>: ", ReasonForWastagePc, "%\n"),
                name = 'Reason for Wastage',
+<<<<<<< HEAD
                marker = list(color = phs_colours("phs-teal-50")),
                hovertemplate = "%{text}") %>%
 
+=======
+               marker = list(color = phs_colors("phs-teal-50")),
+               hovertemplate = "%{text}")%>%
+
+>>>>>>> 4964c46e1aa13f53fe28075b0c60265fb61599b3
     layout(margin = list(b = 80, t = 5),
          #  bargap = 0.8,
            height = 300,
