@@ -84,7 +84,7 @@ tabPanel(title = "Hospital occupancy",
 ##############################################.
 tabPanel(title = "Vaccine wastage",
       # Look at https://fontawesome.com/search?m=free for icons
-      icon = icon_no_warning_fn("biohazard"),
+      icon = icon_no_warning_fn("syringe"),
       value = "vaccines",
 
       source(file.path("indicators/vaccines/vaccines_ui.R"), local = TRUE)$value

@@ -5,7 +5,7 @@ if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
 if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Scotland/phsstyles")}
 
 pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT,
-               shinydashboard, glue, janitor)
+               shinydashboard, glue)
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -30,6 +30,7 @@ bttn_remove <-  list(
                      'hoverCompareCartesian',
                      'hoverClosestCartesian'
                   )
+
 
 # LOAD IN DATA ----
 
