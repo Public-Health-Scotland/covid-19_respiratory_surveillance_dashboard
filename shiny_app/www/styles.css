@@ -54,9 +54,9 @@
     padding: 5px; box-shadow: none; }
 
 /* Navigation bar following PHS colour scheme */
-  .navbar-default {color: var(--white); background-color: var(--phs-purple); }
+  .navbar-default {color: var(--white); background-color: var(--phs-purple); border-radius: 5px 5px 5px 5px;}
 .navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--phs-purple); background-color: var(--white)}
-.navbar-default .navbar-nav > li > a {color: var(--white);}
+.navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
   color: var(--white);
   background-color: var(--phs-purple-80);
