@@ -1,5 +1,8 @@
 
 tagList(
+  fluidRow(width = 12,
+           h1("COVID-19 vaccine wastage"),
+           linebreaks(2)),
 
   tags$div(class = "headline",
            h3(glue("Figures from {Vaccine_Wastage %>% tail(1) %>%
@@ -7,13 +10,13 @@ tagList(
               valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$NumberOfDosesAdministered %>%
                format(big.mark = ",")},
-               subtitle = "Doses Administered",
+               subtitle = "Doses administered",
                color = "blue",
                icon = icon_no_warning_fn("syringe")),
            valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$NumberOfDosesWasted %>%
                format(big.mark = ",")},
-               subtitle = "Doses Wasted",
+               subtitle = "Doses wasted",
                color = "blue",
                icon = icon_no_warning_fn("dumpster")),
            valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
@@ -31,16 +34,22 @@ tagList(
 
   tabBox(width = NULL, type = "pills",
          tabPanel("Plot",
-                  tagList(h3("COVID-19 Vaccine Wastage"),
+                  tagList(h3("COVID-19 vaccine wastage"),
                           plotlyOutput("vaccine_wastage_plot"))),
          tabPanel("Data",
-                  tagList(h3("COVID-19 Vaccine Wastage Data"),
+                  tagList(h3("COVID-19 vaccine wastage data"),
                           dataTableOutput("vaccine_wastage_table")))),
 
-  fluidRow(column(width = 6,
+  #fluidRow(height = "25px", linebreaks(1)),
+
+  fluidRow(box(width = NULL,
+           tagList(
+           h3("Reasons for wastage"),
+           column(width = 6,
                   plotlyOutput("vaccine_wastage_reason_plot")),
            column(width = 6,
-                  dataTableOutput("vaccine_wastage_reason_table")))
+                  dataTableOutput("vaccine_wastage_reason_table")),
+           linebreaks(13))))
 
 
 

@@ -124,6 +124,7 @@ server <- function(input, output, session) {
 
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
+  source(file.path("functions/plot_functions.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
