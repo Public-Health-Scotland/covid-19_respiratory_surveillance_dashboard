@@ -16,7 +16,6 @@ make_vaccine_wastage_plot <- function(data){
                               "<b>Doses wasted</b>: ", format(NumberOfDosesWasted, big.mark=","), "\n",
                               "<b>Percentage wasted</b>: ", PercentageWasted, "%\n"),
                name = 'Doses administered',
-           #    color = phs_colors("phs-teal"),
                marker = list(color = phs_colours("phs-magenta-50")),
                hovertemplate = "%{text}")%>%
 
@@ -53,7 +52,7 @@ make_vaccine_wastage_reason_plot <- function(data){
                               "<b>Percentage</b>: ", ReasonForWastagePc, "%\n"),
                name = 'Reason for Wastage',
                marker = list(color = phs_colours("phs-teal-50")),
-               hovertemplate = "%{text}")%>%
+               hovertemplate = "%{text}") %>%
 
     layout(margin = list(b = 80, t = 5),
          #  bargap = 0.8,
