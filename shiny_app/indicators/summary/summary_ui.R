@@ -46,7 +46,28 @@ tagList(
           )),
       box(height=500,
           tagList(
-            h2("Vaccine wastage")
+            h2("Vaccine wastage"),
+            infoBox(title="Doses wasted",
+                    value={Vaccine_Wastage %>% tail(1) %>%
+                        .$NumberOfDosesWasted %>%
+                        format(big.mark = ",")},
+                    icon = icon_no_warning_fn("dumpster"),
+                    width = NULL,
+                    color = "teal"),
+            infoBox(title="Doses administered",
+                    value={Vaccine_Wastage %>% tail(1) %>%
+                        .$NumberOfDosesAdministered %>%
+                        format(big.mark = ",")},
+                    icon = icon_no_warning_fn("syringe"),
+                    width = NULL,
+                    color = "teal"),
+            infoBox(title="Percent wasted",
+                    value={Vaccine_Wastage %>% tail(1) %>%
+                        .$PercentageWasted %>%
+                        paste0("%")},
+                    icon = icon_no_warning_fn("percent"),
+                    width = NULL,
+                    color = "teal")
           )),
 
       fluidRow(height="100px", width=12, linebreaks(10))
