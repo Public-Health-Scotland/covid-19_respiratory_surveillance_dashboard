@@ -14,6 +14,7 @@ add_lines_and_notes <- function(p,           # plot to add lines to
                         y = 0,
                         yend = max(dataframe[[ycol]]),
                         name = c(notes[i]),
+                        hovertemplate = notes[i],
                         line = list(color = colors[i],
                                     width = 1,
                                     dash = "dot")
