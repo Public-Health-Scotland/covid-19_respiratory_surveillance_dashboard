@@ -15,17 +15,15 @@ tagList(
                                          color = "blue",
                                          icon = icon_no_warning_fn("viruses")),
                                      valueBox(value = {ONS %>% tail(1) %>%
-                                         .$EstimatedCases %>%
-                                         format(big.mark = ",")},
-                                         subtitle = "Estimated cases",
+                                         .$LowerCIRatio},
+                                         subtitle = "Lower 95% confidence interval",
                                          color = "blue",
-                                         icon = icon_no_warning_fn("people-group")),
+                                         icon = icon_no_warning_fn("arrows-down-to-line")),
                                      valueBox(value = {ONS %>% tail(1) %>%
-                                         .$OfficialPositivityEstimate %>% round_half_up(1) %>%
-                                         paste0("%")},
-                                         subtitle = "Estimated positivity",
+                                         .$UpperCIRatio},
+                                         subtitle = "Upper 95% confidence interval",
                                          color = "blue",
-                                         icon = icon_no_warning_fn("percent")),
+                                         icon = icon_no_warning_fn("arrows-up-to-line")),
                                      # These linebreaks are here to make the banner big enough to
                                      # include all the valueBoxes
                                      linebreaks(6)),

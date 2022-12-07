@@ -25,7 +25,7 @@ make_reported_cases_plot <- function(data){
 
     add_lines(y = ~SevenDayAverage, name = '7 day average',
               line = list(color = phs_colours("phs-blue"),
-                          width = 4)) %>%
+                          width = 2)) %>%
 
 
     # Adding vertical lines for notes on chart
@@ -73,7 +73,8 @@ make_ons_cases_plot <- function(data){
                textposition = "none",
                text = ~paste0("<b>Week ending</b>: ", format(EndDate, "%d %b %y"), "\n",
                               "<b>Official positivity estimate</b>: ", round_half_up(OfficialPositivityEstimate,1), "%\n",
-                              "<b>Estimated prevalence</b>: ", EstimatedRatio),
+                              "<b>Estimated prevalence</b>: ", EstimatedRatio, "\n",
+                              "<b>Estimated cases</b>: ", format(EstimatedCases, big.mark=",")),
                hovertemplate = "%{text}",
                height = 500)%>%
 
