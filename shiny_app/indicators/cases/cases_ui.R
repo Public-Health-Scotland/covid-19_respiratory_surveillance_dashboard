@@ -27,7 +27,7 @@ tagList(
                                      # These linebreaks are here to make the banner big enough to
                                      # include all the valueBoxes
                                      linebreaks(6)),
-                            fluidRow(height="600px", width =12, linebreaks(4)),
+                            fluidRow(height="300px", width=12, linebreaks(3)),
                             plotlyOutput("ons_cases_plot"))),
            tabPanel("R number",
                     tagList(h3("Estimated COVID-19 R number"),
@@ -48,7 +48,7 @@ tagList(
                             # include all the valueBoxes
                             linebreaks(6)
                             ), #div
-                            fluidRow(height="600px", width =12, linebreaks(4)),
+                            fluidRow(height="300px", width =12, linebreaks(3)),
                             plotlyOutput("r_number_plot"))),
            tabPanel("Wastewater",
                     tagList(h3("Seven day average trend in wastewater COVID-19"),
@@ -66,12 +66,12 @@ tagList(
                             # include all the valueBoxes
                             linebreaks(6)
                             ), #div
-                            fluidRow(height="600px", width =12, linebreaks(4)),
+                            fluidRow(height="300px", width =12, linebreaks(3)),
                             plotlyOutput("wastewater_plot")))
         ) #tabBox
   ), # fluid row
 
-  fluidRow(height="600px", width =12, linebreaks(4)),
+  fluidRow(height="700px", width =12, linebreaks(5)),
 
   fluidRow(width = 12,
       tabBox(width = NULL, type = "pills",
@@ -81,6 +81,9 @@ tagList(
             tabPanel("Data",
                       tagList(h3("Reported COVID-19 cases data"),
                               dataTableOutput("reported_cases_table"))))
-  ) #fluidrow
+  ), #fluidrow
+
+  # Padding out the bottom of the page
+  fluidRow(height="200px", width=12, linebreaks(5))
 
 )#taglist

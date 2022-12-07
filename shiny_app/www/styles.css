@@ -32,6 +32,7 @@
       --phs-teal: #1E7F84;
 
       --phs-liberty-10: #F0EFF3;
+      --phs-liberty-30: #D3CEDA;
 
       --light-grey: #ddd;
   }
@@ -164,22 +165,30 @@ th, td {
 /*
 
 /* Tabset panels */
-.nav-pills>li.active>a,
-.nav-pills>li.active>a:focus,
-.nav-pills>li.active>a:hover {
+.nav-pills>li.active > a:focus,
+.nav-pills>li.active> a
+{
    background-color: var(--phs-blue-80);
 }
+
+.nav-pills> li > a:hover
+{
+  background-color: var(--phs-blue-30);
+}
+
+
 /* tab box */
 .nav-tabs-custom {
-     background-color: var(--white);
+     background-color: var(--phs-liberty-10);
      border: 100px;
      border-color: var(--phs-blue);
+     border-radius: 5px 5px 5px 5px;
 }
 
 /* Headline banner */
 .headline {
   border-radius: 10px;
-  background-color: var(--phs-blue-10);
+  background-color: var(--phs-liberty-30);
 
 }
 
