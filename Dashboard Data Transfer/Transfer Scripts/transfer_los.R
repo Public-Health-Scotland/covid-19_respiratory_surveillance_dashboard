@@ -3,6 +3,8 @@
 
 
 i_los <- read_csv_with_options(glue(input_data, "{format(report_date -2,'%Y-%m-%d')}_LOS Table Dashboard.csv"))
+i_los_median <- read_csv_with_options(glue(input_data, "los_mean_4weeks.csv"))
+
 
 g_los <- i_los %>%
   dplyr::rename(AgeGroup = age_band_custom,
@@ -25,4 +27,15 @@ g_los <- i_los %>%
 
 write.csv(g_los, glue(output_folder, "Length_of_Stay.csv"), row.names=FALSE)
 
-rm(i_los, g_los)
+g_los_median <- i_los_median %>%
+  dplyr::rename(AgeGroup = los_age_band,
+                MeanLengthOfStay = mean_los,
+                MedianLengthOfStay = median_los) %>%
+  mutate(AgeGroup = recode(AgeGroup, "All ages" = "All Ages"),
+         AgeGroupQF = ifelse(AgeGroup == "All Ages", "d", "")) %>%
+  select(AgeGroup, AgeGroupQF, MeanLengthOfStay, MedianLengthOfStay)
+
+write.csv(g_los_median, glue(output_folder, "Length_of_Stay_Median.csv"), row.names=FALSE)
+
+
+rm(i_los, g_los, i_los_median, g_los_median)
