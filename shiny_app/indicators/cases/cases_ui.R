@@ -83,7 +83,7 @@ tagList(
                                  withSpinner(plotlyOutput("reported_cases_plot")))),
             tabPanel("Data",
                       tagList(h3("Reported COVID-19 cases data"),
-                              dataTableOutput("reported_cases_table"))))
+                              withSpinner(dataTableOutput("reported_cases_table")))))
   ), #fluidrow
 
   # Padding out the bottom of the page
