@@ -31,6 +31,10 @@ bttn_remove <-  list(
                      'hoverClosestCartesian'
                   )
 
+home_list<- c("About"= "about",
+              "Using the dashboard"= "use",
+              "Further information"= "info",
+              "Accessibility"= "accessibility")
 
 # LOAD IN DATA ----
 
