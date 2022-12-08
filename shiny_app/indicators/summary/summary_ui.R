@@ -5,11 +5,42 @@ tagList(
     tagList(
       box(height=500,
           tagList(
-            h2("Hospital admissions")
+            h2("Hospital admissions"),
+            infoBox(title="Admissions",
+                    value= admissions_headline,
+                    subtitle = "Weekly total",
+                    icon = icon_no_warning_fn("hospital"),
+                    width = NULL,
+                    color = "green"),
+            infoBox(title="ICU admissions",
+                    value= ICU_headline,
+                    subtitle = "Weekly total",
+                    icon = icon_no_warning_fn("heart-pulse"),
+                    width = NULL,
+                    color = "green"),
+            infoBox(title="Length of stay",
+                    value= glue("{Length_of_Stay_Median %>% filter(AgeGroup == 'All Ages') %>%
+                        .$MedianLengthOfStay %>%round_half_up(1)} days"),
+                    subtitle = "Median",
+                    icon = icon_no_warning_fn("clock"),
+                    width = NULL,
+                    color = "green")
           )),
       box(height=500,
           tagList(
-            h2("Hospital occupancy")
+            h2("Hospital occupancy"),
+            infoBox(title="Hospital beds occupied",
+                    value= "tbc",
+                    subtitle = "7 day average",
+                    icon = icon_no_warning_fn("bed"),
+                    width = NULL,
+                    color = "fuchsia"),
+            infoBox(title="ICU beds occupied",
+                    value= "tbc",
+                    subtitle = "7 day average",
+                    icon = icon_no_warning_fn("bed-pulse"),
+                    width = NULL,
+                    color = "fuchsia")
           )),
       linebreaks(10),
       box(height=500,
