@@ -10,7 +10,8 @@ i_adm <- read_csv_with_options(glue("{adm_path}/Proxy provisional figures/{repor
 read_rds_with_options <- create_loader_with_options(readRDS)
 i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI_Admissions_proxy.rds"))
 
-#o_adm_simd <- read.csv(glue("{output_folder}/Admissions_SIMD.csv"), header = TRUE, stringsAsFactors = FALSE, check.names=FALSE)
+i_simd_trend <- read_csv_with_options(glue(input_data, "/{format(report_date-2, format='%Y%m%d')} - simd summary.csv"))
+
 
 # Filter CHI and 12 files down to last Sunday
 i_chiadm %<>% filter(admission_date <= (report_date - 3))
@@ -200,6 +201,14 @@ g_adm_agegroup  <- i_chiadm %>%
                 Admissions = number)
 
 write.csv(g_adm_agegroup, glue(output_folder, "Admissions_AgeGrp.csv"), row.names = FALSE)
+
+
+
+g_simd_trend <- i_simd_trend %>%
+  dplyr::rename(WeekEnding = date, NumberOfAdmissions = Total, SIMD = simd, ProvisionalOrStable = provisional) %>%
+  mutate(WeekEnding = format(as.Date(WeekEnding), "%Y%m%d"))
+
+write_csv(g_simd_trend, glue(output_folder, "Admissions_SimdTrend.csv"))
 
 rm(g_adm_agegroup, adm_path)
 
