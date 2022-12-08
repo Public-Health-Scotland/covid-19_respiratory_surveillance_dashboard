@@ -91,15 +91,132 @@ th, td {
     border: 2px solid var(--phs-purple);
     border-radius: 10px;
   }
-.btn:hover{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:hover{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);
 }
-.btn:focus{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:focus{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:active{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:active{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:checked{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:checked{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+
+/* Radio button */
+.radiobtn{background-color:var(--phs-blue);
+  color: white;
+  border: 2px solid var(--phs-purple);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.radiobtn:focus{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+.radiobtn:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+/*.radiobtn:focus:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}*/
+.radiobtn:checked{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+
+.radiobtn:hover{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
+
+/* SIDE BAR SELECTORS */
+
+
+
+/* Changes the background colours of the buttons to match PHS colours, and adds rounded corners */
+
+.btn-home {
+
+  color:var(--phs-blue);
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue-10);
+
+  border-color:white;
+
+  border-radius:10px;
+
+  padding:5px;
+
+
+
+}
+
+
+
+
+
+/* This changes the colour of the button when you hover over it */
+
+.btn-home:hover {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+
+
+/* This defines the colour of the active (clicked) button */
+
+.btn-home.active:focus, .btn-home.active:hover {
+
+color:white;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+/* This defines the colour of the button that is selected when you first go to the tab */
+
+.btn-home.active, .btn-home:active, .open>.dropdown-toggle.btn-home {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+/* This defines the colour of the button in the instant it is clicked  */
+
+.btn-home:hover:focus:active {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
 
 /* Title of selectize input boxes*/
   label {
@@ -192,6 +309,12 @@ th, td {
   background-color: var(--phs-liberty-10);
   border-radius: 5px 5px 5px 5px;
 }
+
+/* boxes for summary page*/
+.box-info {
+   background-color: var(--phs-blue-10);
+}
+
 
 /* Headline banner */
 .headline {
