@@ -100,8 +100,8 @@ tagList(
                     width = NULL,
                     color = "teal")
           )),
-
-      fluidRow(height="100px", width=12, linebreaks(10))
+      # Padding out the bottom of the page
+      fluidRow(height="500px", width=12, linebreaks(5))
     ) # taglist
 )# fluidRow
 )

@@ -42,6 +42,7 @@
 /* Setting header colour */
   h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     color: var(--phs-purple);
+    font-weight: bold;
   }
 /* Body styles */
   body {
@@ -59,7 +60,7 @@
 /* Navigation bar following PHS colour scheme */
   .navbar-default {color: var(--white); background-color: var(--phs-purple); border-radius: 5px 5px 5px 5px;}
 .navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--phs-purple); background-color: var(--white)}
-.navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px;}
+.navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px; font-weight: bold;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
   color: var(--white);
   background-color: var(--phs-purple-80);
@@ -244,8 +245,8 @@ color:white;
 
   .pagination > li > a
 {
-  background-color: var(--phs-liberty-10);
-  color: var(--phs-purple);
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
   transition: background-color .3s;
 }
 
@@ -254,17 +255,17 @@ color:white;
 .pagination > li > span:focus,
 .pagination > li > span:hover
 {
-  color:var(--phs-purple);
+  color:white;
   background-color: var(--phs-blue-50);
-  border-color: var(--phs-blue-80);
+  /*border-color: var(--phs-blue-80);*/
   border-radius: 5px;
 }
 
 .pagination > .active > a
 {
-  color: var(--phs-purple);
-  background-color: var(--phs-blue-50) !Important;
-  border: solid 1px var(--phs-blue-50) !Important;
+  color: white;
+  background-color: var(--phs-blue) !Important;
+  border: solid 1px var(--phs-blue) !Important;
 }
 
 .pagination > .active > a:hover
@@ -287,12 +288,25 @@ color:white;
 .nav-pills>li.active > a:focus,
 .nav-pills>li.active> a
 {
-   background-color: var(--phs-blue-80);
+   background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
 .nav-pills> li > a:hover
 {
-  background-color: var(--phs-blue-30);
+  background-color: var(--phs-blue-50);
+  color: white;
+  font-weight: bold;
+}
+
+.nav-pills> li > a
+{
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
+  font-weight: bold;
 }
 
 
@@ -302,24 +316,28 @@ color:white;
      border: 100px;
      border-color: var(--phs-blue);
      border-radius: 5px 5px 5px 5px;
+     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
 }
 
 /* box */
 .box {
   background-color: var(--phs-liberty-10);
   border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
 }
 
 /* boxes for summary page*/
 .box-info {
    background-color: var(--phs-blue-10);
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
 }
 
 
 /* Headline banner */
 .headline {
   border-radius: 10px;
-  background-color: var(--phs-liberty-30);
+  background-color: var(--phs-blue-10);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3) ;
 
 }
 
