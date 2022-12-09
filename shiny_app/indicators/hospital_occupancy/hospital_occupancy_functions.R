@@ -71,5 +71,4 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
 }
 
 
-test <- make_occupancy_plots(Occupancy_Hospital, healthboard = "S92000003", occupancy = "hospital")
-test
+
