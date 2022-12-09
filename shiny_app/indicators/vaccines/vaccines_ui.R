@@ -38,7 +38,7 @@ tagList(
                           withSpinner(plotlyOutput("vaccine_wastage_plot")))),
          tabPanel("Data",
                   tagList(h3("COVID-19 vaccine wastage data"),
-                          withSpinner(dataTableOutput("vaccine_wastage_table")))),
+                          withSpinner(dataTableOutput("vaccine_wastage_table"))))),
 
   #fluidRow(height = "25px", linebreaks(1)),
 
@@ -53,7 +53,7 @@ tagList(
 
 
 
-  )
+
 )#taglist
 
 
