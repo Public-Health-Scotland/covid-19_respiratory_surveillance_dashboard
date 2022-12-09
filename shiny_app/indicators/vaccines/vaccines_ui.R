@@ -32,13 +32,15 @@ tagList(
 
   fluidRow(height = "50px", br()),
 
-  tabBox(width = NULL, type = "pills",
+  tabBox(width = NULL,
+         height = 600,
+         type = "pills",
          tabPanel("Plot",
                   tagList(h3("COVID-19 vaccine wastage"),
                           withSpinner(plotlyOutput("vaccine_wastage_plot")))),
          tabPanel("Data",
                   tagList(h3("COVID-19 vaccine wastage data"),
-                          withSpinner(dataTableOutput("vaccine_wastage_table")))),
+                          withSpinner(dataTableOutput("vaccine_wastage_table"))))),
 
   #fluidRow(height = "25px", linebreaks(1)),
 
@@ -53,7 +55,7 @@ tagList(
 
 
 
-  )
+
 )#taglist
 
 
