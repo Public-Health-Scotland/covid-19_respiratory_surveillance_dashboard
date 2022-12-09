@@ -91,14 +91,14 @@ tabPanel(title = "Vaccine wastage",
 
 ), # tabpanel
 ##############################################.
-# NOTES ----
+# METADATA ----
 ##############################################.
-tabPanel(title = "Notes",
+tabPanel(title = "Metadata",
       # Look at https://fontawesome.com/search?m=free for icons
       icon = icon_no_warning_fn("file-pen"),
-      value = "notes",
+      value = "metadata",
 
-      source(file.path("indicators/notes/notes_ui.R"), local = TRUE)$value
+      source(file.path("indicators/metadata/metadata_ui.R"), local = TRUE)$value
 
 ), # tabpanel
 ##############################################.
@@ -131,7 +131,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/hospital_admissions/hospital_admissions_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_functions.R"), local = TRUE)$value
   source(file.path("indicators/vaccines/vaccines_functions.R"), local = TRUE)$value
-  source(file.path("indicators/notes/notes_functions.R"), local = TRUE)$value
+  source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
 
   # Get content for individual pages
@@ -141,7 +141,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
   source(file.path("indicators/vaccines/vaccines_server.R"), local = TRUE)$value
-  source(file.path("indicators/notes/notes_server.R"), local = TRUE)$value
+  source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
 
 }
