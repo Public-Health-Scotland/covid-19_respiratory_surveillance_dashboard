@@ -5,6 +5,7 @@ tagList(
 
   fluidRow(width = 12,
     tabBox(width = NULL,
+           height = 900,
            type = "pills",
            tabPanel("Estimated infections",
                     tagList(h3("Estimated COVID-19 infection rate"),
@@ -74,10 +75,12 @@ tagList(
         ) #tabBox
   ), # fluid row
 
-  fluidRow(height="700px", width =12, linebreaks(5)),
+  fluidRow(height="50px", width =12, br()),
 
   fluidRow(width = 12,
-      tabBox(width = NULL, type = "pills",
+      tabBox(width = NULL,
+             height = 750,
+             type = "pills",
             tabPanel("Plot",
                       tagList(h3("Reported COVID-19 cases"),
                                  withSpinner(plotlyOutput("reported_cases_plot")))),

@@ -42,6 +42,7 @@
 /* Setting header colour */
   h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     color: var(--phs-purple);
+    font-weight: bold;
   }
 /* Body styles */
   body {
@@ -59,7 +60,7 @@
 /* Navigation bar following PHS colour scheme */
   .navbar-default {color: var(--white); background-color: var(--phs-purple); border-radius: 5px 5px 5px 5px;}
 .navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--phs-purple); background-color: var(--white)}
-.navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px;}
+.navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px; font-weight: bold;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
   color: var(--white);
   background-color: var(--phs-purple-80);
@@ -91,15 +92,175 @@ th, td {
     border: 2px solid var(--phs-purple);
     border-radius: 10px;
   }
-.btn:hover{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:hover{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);
 }
-.btn:focus{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:focus{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:active{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:active{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:checked{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:checked{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+
+
+
+/*https://codepen.io/JavaScriptJunkie/pen/pPRooV*/
+
+
+/*Special buttons*/
+ .special_button > .btn{
+    /*display: block;*/
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+
+    /*Button shape & animation*/
+    border-radius: border-rounded;
+    border: 0px solid var(--phs-purple);
+    margin: 5px;
+    width:  250px;
+    height: 50px;
+    background-size: 100% auto;
+    color: white;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    background-image: linear-gradient(to right, var(--phs-blue-30) 0%, var(--phs-blue-80) 40%,
+    var(--phs-blue) 100%);
+    background-position: right center;
+}
+
+.special_button > .btn:hover {
+    background-position: right center;
+    background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);
+    box-shadow: 0 4px 15px 0 var(--phs-purple);
+}
+
+.special_button > .btn:focus:active {
+    outline: none;
+    color: white;
+    background-color: white;
+    background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);
+    box-shadow: 0 8px 20px 0 var(--phs-purple);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Radio button */
+.radiobtn{background-color:var(--phs-blue);
+  color: white;
+  border: 2px solid var(--phs-purple);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.radiobtn:focus{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+.radiobtn:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+/*.radiobtn:focus:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}*/
+.radiobtn:checked{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+
+.radiobtn:hover{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
+
+/* SIDE BAR SELECTORS */
+
+
+
+/* Changes the background colours of the buttons to match PHS colours, and adds rounded corners */
+
+.btn-home {
+  color:var(--phs-blue);
+  font-weight: bold;
+  background-color:var(--phs-blue-10);
+  border-color:white;
+  border-radius:10px;
+  padding:5px;
+  min-width:250px;
+}
+
+
+
+/* This changes the colour of the button when you hover over it */
+
+.btn-home:hover {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+
+
+/* This defines the colour of the active (clicked) button */
+
+.btn-home.active:focus, .btn-home.active:hover {
+
+color:white;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+/* This defines the colour of the button that is selected when you first go to the tab */
+
+.btn-home.active, .btn-home:active, .open>.dropdown-toggle.btn-home {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+/* This defines the colour of the button in the instant it is clicked  */
+
+.btn-home:hover:focus:active {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
 
 /* Title of selectize input boxes*/
   label {
@@ -127,8 +288,8 @@ th, td {
 
   .pagination > li > a
 {
-  background-color: var(--phs-liberty-10);
-  color: var(--phs-purple);
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
   transition: background-color .3s;
 }
 
@@ -137,17 +298,17 @@ th, td {
 .pagination > li > span:focus,
 .pagination > li > span:hover
 {
-  color:var(--phs-purple);
+  color:white;
   background-color: var(--phs-blue-50);
-  border-color: var(--phs-blue-80);
+  /*border-color: var(--phs-blue-80);*/
   border-radius: 5px;
 }
 
 .pagination > .active > a
 {
-  color: var(--phs-purple);
-  background-color: var(--phs-blue-50) !Important;
-  border: solid 1px var(--phs-blue-50) !Important;
+  color: white;
+  background-color: var(--phs-blue) !Important;
+  border: solid 1px var(--phs-blue) !Important;
 }
 
 .pagination > .active > a:hover
@@ -170,12 +331,25 @@ th, td {
 .nav-pills>li.active > a:focus,
 .nav-pills>li.active> a
 {
-   background-color: var(--phs-blue-80);
+   background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
 .nav-pills> li > a:hover
 {
-  background-color: var(--phs-blue-30);
+  background-color: var(--phs-blue-50);
+  color: white;
+  font-weight: bold;
+}
+
+.nav-pills> li > a
+{
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
+  font-weight: bold;
 }
 
 
@@ -185,18 +359,28 @@ th, td {
      border: 100px;
      border-color: var(--phs-blue);
      border-radius: 5px 5px 5px 5px;
+     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
 }
 
 /* box */
 .box {
   background-color: var(--phs-liberty-10);
   border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
 }
+
+/* boxes for summary page*/
+.box-info {
+   background-color: var(--phs-blue-10);
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
+}
+
 
 /* Headline banner */
 .headline {
   border-radius: 10px;
-  background-color: var(--phs-liberty-30);
+  background-color: var(--phs-blue-10);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3) ;
 
 }
 
