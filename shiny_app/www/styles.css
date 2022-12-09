@@ -85,22 +85,55 @@ th, td {
 }
 
 /* Button styles */
-  .btn {
-    background-color: var(--phs-blue-50);
-    color: black; background-image:none;
-    border: 2px solid var(--phs-purple);
-    border-radius: 10px;
-  }
-.btn:hover{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);
+.btn:active
+{
+   background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
-.btn:focus{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:active{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:checked{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
 
+.btn:hover
+{
+  background-color: var(--phs-blue-50);
+  color: white;
+  font-weight: bold;
+}
+
+.btn
+{
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
+  font-weight: bold;
+}
+
+.btn:focus
+{
+   background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active:focus
+{
+   background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn:checked
+{
+   background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+}
 
 
 /*https://codepen.io/JavaScriptJunkie/pen/pPRooV*/
@@ -277,11 +310,13 @@ color:white;
 
 /* Dropdown menu */
   .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-    color: var(--white);
-    text-decoration: none;
-    background-color: var(--phs-blue-50);
-    outline: 0;
+  background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
   }
+
 
 /* Data table page selectors */
 
