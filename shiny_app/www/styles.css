@@ -415,4 +415,13 @@ a > .info-box {
 .info-box-number.bg-red { color: var(--phs-rust);   }
 */
 
+.popover-title{
+  background-color: var(--phs-blue);
+  color: white;
+}
 
+.popover-content{
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
+
+}
