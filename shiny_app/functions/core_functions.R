@@ -76,7 +76,7 @@ make_table <- function(input_data_table,
                       rownames = FALSE,
                       options = list(pageLength = maxrows,
                                      dom = 'tip',
-                                     #autoWidth = TRUE,
+                                     scrollX = TRUE,
                                      initComplete = JS(
                                        "function(settings, json) {",
                                        "$(this.api().table().header()).css({'background-color': '#0078D4', 'color': 'white'});",

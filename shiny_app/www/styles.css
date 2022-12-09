@@ -14,7 +14,6 @@
       --phs-blue-30: #B3D7F2;
       --phs-blue-10: #E6F2FB;
 
-
       --phs-green: #83BB26;
       --phs-green-80: #9CC951;
       --phs-green-50: #C1DD93;
@@ -300,7 +299,6 @@ color:white;
 {
   color:white;
   background-color: var(--phs-blue-50);
-  /*border-color: var(--phs-blue-80);*/
   border-radius: 5px;
 }
 
@@ -309,6 +307,7 @@ color:white;
   color: white;
   background-color: var(--phs-blue) !Important;
   border: solid 1px var(--phs-blue) !Important;
+
 }
 
 .pagination > .active > a:hover
@@ -336,6 +335,7 @@ color:white;
    font-weight: bold;
    padding:10px;
    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+
 }
 
 .nav-pills> li > a:hover

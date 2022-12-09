@@ -7,6 +7,7 @@ if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Sco
 pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT,
                shinydashboard, shinyWidgets, glue, stringr, janitor)
 
+
 # Load core functions ----
 source("functions/core_functions.R")
 
@@ -44,6 +45,10 @@ rds_files <- list.files(path="data/", pattern="*.rds")
 for (rds in rds_files){
   load_rds_file(rds)
 }
+
+
+vaccine_wastage_month <- {Vaccine_Wastage %>% tail(1) %>%
+    .$Month %>% convert_opendata_date() %>% convert_date_to_month()}
 
 #Creating variable for latest week for headlines
 

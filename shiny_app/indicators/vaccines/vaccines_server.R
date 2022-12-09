@@ -1,5 +1,3 @@
-
-
 output$vaccine_wastage_table <- renderDataTable({
   Vaccine_Wastage %>%
     arrange(desc(Month)) %>%

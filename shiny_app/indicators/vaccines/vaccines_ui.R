@@ -7,7 +7,7 @@ tagList(
   tags$div(class = "headline",
            h3(glue("Figures from {Vaccine_Wastage %>% tail(1) %>%
                 .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-              valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
+           valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$NumberOfDosesAdministered %>%
                format(big.mark = ",")},
                subtitle = "Doses administered",
