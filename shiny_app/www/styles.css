@@ -1,6 +1,7 @@
 /* CSS styles used in the shiny app */
   :root{
-    --white: #ffffff;
+
+      --white: #ffffff;
       --black: #000000;
 
       --phs-purple: #3F3685;
@@ -29,8 +30,10 @@
       --phs-teal-80: #4B999D;
       --phs-teal: #1E7F84;
 
-
       --phs-liberty-10: #F0EFF3;
+      --phs-liberty-30: #D3CEDA;
+
+      --phs-rust: #C73918;
 
       --light-grey: #ddd;
   }
@@ -38,6 +41,7 @@
 /* Setting header colour */
   h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     color: var(--phs-purple);
+    font-weight: bold;
   }
 /* Body styles */
   body {
@@ -53,9 +57,9 @@
     padding: 5px; box-shadow: none; }
 
 /* Navigation bar following PHS colour scheme */
-  .navbar-default {color: var(--white); background-color: var(--phs-purple); }
+  .navbar-default {color: var(--white); background-color: var(--phs-purple); border-radius: 5px 5px 5px 5px;}
 .navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--phs-purple); background-color: var(--white)}
-.navbar-default .navbar-nav > li > a {color: var(--white);}
+.navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px; font-weight: bold;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
   color: var(--white);
   background-color: var(--phs-purple-80);
@@ -87,15 +91,175 @@ th, td {
     border: 2px solid var(--phs-purple);
     border-radius: 10px;
   }
-.btn:hover{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:hover{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);
 }
-.btn:focus{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:focus{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:active{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:active{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.btn:checked{background-color:#9F9BC2; border: 2px solid var(--phs-purple-30);
+.btn:checked{background-color:var(--phs-liberty); border: 2px solid var(--phs-purple-30);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+
+
+
+/*https://codepen.io/JavaScriptJunkie/pen/pPRooV*/
+
+
+/*Special buttons*/
+ .special_button > .btn{
+    /*display: block;*/
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+
+    /*Button shape & animation*/
+    border-radius: border-rounded;
+    border: 0px solid var(--phs-purple);
+    margin: 5px;
+    width:  250px;
+    height: 50px;
+    background-size: 100% auto;
+    color: white;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    background-image: linear-gradient(to right, var(--phs-blue-30) 0%, var(--phs-blue-80) 40%,
+    var(--phs-blue) 100%);
+    background-position: right center;
+}
+
+.special_button > .btn:hover {
+    background-position: right center;
+    background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);
+    box-shadow: 0 4px 15px 0 var(--phs-purple);
+}
+
+.special_button > .btn:focus:active {
+    outline: none;
+    color: white;
+    background-color: white;
+    background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);
+    box-shadow: 0 8px 20px 0 var(--phs-purple);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Radio button */
+.radiobtn{background-color:var(--phs-blue);
+  color: white;
+  border: 2px solid var(--phs-purple);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.radiobtn:focus{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+.radiobtn:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+/*.radiobtn:focus:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}*/
+.radiobtn:checked{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+
+.radiobtn:hover{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
+
+/* SIDE BAR SELECTORS */
+
+
+
+/* Changes the background colours of the buttons to match PHS colours, and adds rounded corners */
+
+.btn-home {
+  color:var(--phs-blue);
+  font-weight: bold;
+  background-color:var(--phs-blue-10);
+  border-color:white;
+  border-radius:10px;
+  padding:5px;
+  min-width:250px;
+}
+
+
+
+/* This changes the colour of the button when you hover over it */
+
+.btn-home:hover {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+
+
+/* This defines the colour of the active (clicked) button */
+
+.btn-home.active:focus, .btn-home.active:hover {
+
+color:white;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+/* This defines the colour of the button that is selected when you first go to the tab */
+
+.btn-home.active, .btn-home:active, .open>.dropdown-toggle.btn-home {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
+
+
+
+/* This defines the colour of the button in the instant it is clicked  */
+
+.btn-home:hover:focus:active {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--phs-blue);
+
+  border-color:white;
+
+
+
+}
 
 /* Title of selectize input boxes*/
   label {
@@ -123,8 +287,8 @@ th, td {
 
   .pagination > li > a
 {
-  background-color: var(--phs-liberty-10);
-  color: var(--phs-purple);
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
   transition: background-color .3s;
 }
 
@@ -133,17 +297,17 @@ th, td {
 .pagination > li > span:focus,
 .pagination > li > span:hover
 {
-  color:var(--phs-purple);
+  color:white;
   background-color: var(--phs-blue-50);
-  border-color: var(--phs-blue-80);
   border-radius: 5px;
 }
 
 .pagination > .active > a
 {
-  color: var(--phs-purple);
-  background-color: var(--phs-blue-50) !Important;
-  border: solid 1px var(--phs-blue-50) !Important;
+  color: white;
+  background-color: var(--phs-blue) !Important;
+  border: solid 1px var(--phs-blue) !Important;
+
 }
 
 .pagination > .active > a:hover
@@ -163,17 +327,69 @@ th, td {
 /*
 
 /* Tabset panels */
-.nav-pills>li.active>a,
-.nav-pills>li.active>a:focus,
-.nav-pills>li.active>a:hover {
-   background-color: var(--phs-blue-80);
+.nav-pills>li.active > a:focus,
+.nav-pills>li.active> a
+{
+   background-color: var(--phs-blue);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+
 }
+
+.nav-pills> li > a:hover
+{
+  background-color: var(--phs-blue-50);
+  color: white;
+  font-weight: bold;
+}
+
+.nav-pills> li > a
+{
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
+  font-weight: bold;
+}
+
+
 /* tab box */
 .nav-tabs-custom {
-     background-color: var(--white);
+     background-color: var(--phs-liberty-10);
      border: 100px;
      border-color: var(--phs-blue);
+     border-radius: 5px 5px 5px 5px;
+     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
 }
+
+/* box */
+.box {
+  background-color: var(--phs-liberty-10);
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
+}
+
+/* boxes for summary page*/
+.box-info {
+   background-color: var(--phs-blue-10);
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
+}
+
+
+/* Headline banner */
+.headline {
+  border-radius: 10px;
+  background-color: var(--phs-blue-10);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3) ;
+
+}
+
+.headline h3 {
+  color: var(--phs-blue);
+  font-weight: bold;
+  font-size: 30px;
+}
+
 
 /*
  Comes from https://github.com/rstudio/shinydashboard/blob/main/inst/AdminLTE/AdminLTE.css
@@ -181,19 +397,19 @@ th, td {
  * --------------------
  */
 .small-box {
-  border-radius: 3px;
+  border-radius: 10px;
   position: relative;
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .small-box > .inner {
-  padding: 3px;
+  padding: 10px;
 }
 .small-box > .small-box-footer {
   position: relative;
   text-align: center;
-  padding: 2px 0;
+  padding: 3px 0;
   color: #fff;
   color: rgba(255, 255, 255, 0.8);
   display: block;
@@ -206,25 +422,22 @@ th, td {
   background: rgba(0, 0, 0, 0.15);
 }
 .small-box h3 {
-  text-align: center;
-  font-size: 18px;
+  color: white;
+  font-size: 38px;
   font-weight: bold;
   margin: 0 0 10px 0;
-  color: var(--white);
   white-space: nowrap;
   padding: 0;
 }
-
-/* For the numbers inside the boxes */
-.small-box .shiny-text-output {
-  text-align: center;
-  font-size: 15px;
-  color: var(--white);
+.small-box p {
+  color: white;
+  font-size: 20px;
 }
 .small-box p > small {
   display: block;
+  color: #f9f9f9;
   font-size: 13px;
-  margin-top: 3px;
+  margin-top: 5px;
 }
 .small-box h3,
 .small-box p {
@@ -243,7 +456,7 @@ th, td {
 }
 .small-box:hover {
   text-decoration: none;
-  color: var(--white);
+  color: #f9f9f9;
 }
 .small-box:hover .icon {
   font-size: 95px;
@@ -260,35 +473,14 @@ th, td {
   }
 }
 
-.small-box .icon {
-
-  -webkit-transition: all 0.3s linear;
-
-  -o-transition: all 0.3s linear;
-
-  transition: all 0.3s linear;
-
+.small-box .icon-large {
   position: absolute;
-
-  top:-10px;
-
-  right:10px;
-
-  z-index:0;
-
-  font-size:90px;
-
-  color:rgba(0,0, 0, 0.15);
-
+  top: auto;
+  bottom: 5px;
+  right: 5px;
+  font-size: 70px;
+  color: rgba(0, 0, 0, 0.15);
 }
-
-
-.small-box:hover .icon {
-
-  font-size:95px;
-
-}
-
 
 /* Hack to get the colours we want on shinydashboard varBox */
 
@@ -303,4 +495,108 @@ th, td {
 .small-box.bg-olive { background-color:var(--phs-graphite); !important; color:#000000 !important; }
 
 .small-box.bg-teal { background-color:var(--phs-teal); !important; color:#000000 !important; }
+
+
+/*
+ * Comes from https://github.com/rstudio/shinydashboard/blob/main/inst/AdminLTE/AdminLTE.css
+ * Component: Info Box
+ * -------------------
+ */
+.info-box {
+  display: block;
+  min-height: 100px;
+  background: #fff;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.info-box small {
+  font-size: 12px;
+}
+
+.info-box .progress {
+  background: rgba(0, 0, 0, 0.2);
+  margin: 5px -10px 5px -10px;
+  height: 2px;
+}
+.info-box .progress,
+.info-box .progress .progress-bar {
+  border-radius: 0;
+}
+.info-box .progress .progress-bar {
+  background: #fff;
+}
+
+.info-box-icon {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 2px;
+  display: block;
+  float: left;
+  height: 100px;
+  width: 90px;
+  text-align: center;
+  font-size: 45px;
+  line-height: 90px;
+  color: white;
+  /*background: rgba(0, 0, 0, 0.);*/
+}
+.info-box-icon > img {
+  max-width: 100%;
+  color: white;
+}
+.info-box-content {
+  padding: 5px 10px;
+  margin-left: 90px;
+}
+.info-box-number {
+  display: block;
+  font-weight: bold;
+  font-size: 25px;
+}
+.progress-description,
+.info-box-text {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.info-box-text {
+  text-transform: uppercase;
+}
+.info-box-more {
+  display: block;
+}
+.progress-description {
+  margin: 0;
+}
+
+/* Don't highlight text when info box is in <a> tag */
+a > .info-box {
+  color: #333;
+}
+
+.info-box-icon.bg-green { background-color:var(--phs-green); color: white;  }
+.info-box-icon.bg-purple { background-color:var(--phs-purple); color: white; }
+.info-box-icon.bg-blue { background-color:var(--phs-blue); color: white; }
+.info-box-icon.bg-fuchsia { background-color:var(--phs-magenta); color:white; }
+.info-box-icon.bg-olive { background-color:var(--phs-graphite);color: white;  }
+.info-box-icon.bg-teal { background-color:var(--phs-teal);  color: white; }
+.info-box-icon.bg-red { background-color:var(--phs-rust);  color: white; }
+
+
+/*.info-box-number.p.bg-green { color: var(--phs-green);  }
+.info-box-number.bg-purple {color: var(--phs-purple);   }
+.info-box-number.bg-blue { color: var(--phs-blue);  }
+.info-box-number.bg-fuchsia { color: var(--phs-magenta);  }
+.info-box-number.bg-olive {color: var(--phs-graphite);    }
+.info-box-number.bg-teal { color: var(--phs-teal);   }
+.info-box-number.bg-red { color: var(--phs-rust);   }
+*/
+
 
