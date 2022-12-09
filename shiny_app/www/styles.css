@@ -181,24 +181,14 @@ th, td {
 /* Changes the background colours of the buttons to match PHS colours, and adds rounded corners */
 
 .btn-home {
-
   color:var(--phs-blue);
-
   font-weight: bold;
-
   background-color:var(--phs-blue-10);
-
   border-color:white;
-
   border-radius:10px;
-
   padding:5px;
-
-
-
+  min-width:250px;
 }
-
-
 
 
 

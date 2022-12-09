@@ -1,10 +1,10 @@
 sidebarLayout(
-  sidebarPanel(width = 3,
+  sidebarPanel(width = 4,
                radioGroupButtons("home_select", status = "home",
                                  choices = home_list,
                                  direction = "vertical", justified = T)),
 
-  mainPanel(width = 9,
+  mainPanel(width = 8,
             # About
             conditionalPanel(
               condition= 'input.home_select == "about"',
