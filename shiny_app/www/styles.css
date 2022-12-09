@@ -5,6 +5,8 @@
       --black: #000000;
 
       --phs-purple: #3F3685;
+      --phs-purple-10: #ECEBF3;
+      --phs-purple-50: #9F9BC2;
       --phs-purple-80: #655E9D;
       --phs-purple-30: #C5C3DA;
 
@@ -334,7 +336,7 @@ color:white;
    color: white;
    font-weight: bold;
    padding:10px;
-   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+   box-shadow: 0 8px 8px var(--phs-purple-50);
 
 }
 
@@ -359,20 +361,20 @@ color:white;
      border: 100px;
      border-color: var(--phs-blue);
      border-radius: 5px 5px 5px 5px;
-     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
+     box-shadow: 0 8px 8px var(--phs-purple-30)
 }
 
 /* box */
 .box {
   background-color: var(--phs-liberty-10);
   border-radius: 5px 5px 5px 5px;
-  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
+  box-shadow: 0 8px 8px var(--phs-purple-30)
 }
 
 /* boxes for summary page*/
 .box-info {
    background-color: var(--phs-blue-10);
-   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3)
+   box-shadow: 0 8px 8px var(--phs-purple-30)
 }
 
 
@@ -380,7 +382,7 @@ color:white;
 .headline {
   border-radius: 10px;
   background-color: var(--phs-blue-10);
-  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3) ;
+  box-shadow: 0 8px 8px var(--phs-purple-30) ;
 
 }
 
