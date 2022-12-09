@@ -115,3 +115,4 @@ rm(i_occupancy, g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland,
    g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland, g_occupancy_ICU)
 
 
+
