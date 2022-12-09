@@ -8,10 +8,20 @@ sidebarLayout(
             # About
             conditionalPanel(
               condition= 'input.home_select == "about"',
-              tagList(h3(tags$b("COVID-19 in Scotland")),
-                      p("text here")
-                      ) # tagList
-                      ), # conditionalPanel
+                tagList(h3(tags$b("COVID-19 in Scotland")),
+                        p("text here"),
+                       tags$div(class = "special_button",
+                                actionButton("jump_to_summary", "Summary"),
+                                                actionButton("jump_to_cases", "Cases"),
+                                                actionButton("jump_to_hospital_admissions", "Hospital admissions"),
+                                                actionButton("jump_to_hospital_occupancy", "Hospital occupancy"),
+                                                actionButton("jump_to_vaccine_wastage", "Vaccine wastage"),
+                                               actionButton("jump_to_notes", "Notes"),
+                                               actionButton("jump_to_download_data", "Download data")
+
+                       )#div
+                )# tagList
+            ), # conditionalPanel
 
             # Using the dashboard
             conditionalPanel(
