@@ -274,17 +274,10 @@ color:white;
 /* This defines the colour of the button that is selected when you first go to the tab */
 
 .btn-home.active, .btn-home:active, .open>.dropdown-toggle.btn-home {
-
   color:white;
-
   font-weight: bold;
-
   background-color:var(--phs-blue);
-
   border-color:white;
-
-
-
 }
 
 
@@ -292,18 +285,33 @@ color:white;
 /* This defines the colour of the button in the instant it is clicked  */
 
 .btn-home:hover:focus:active {
-
   color:white;
-
   font-weight: bold;
-
   background-color:var(--phs-blue);
-
   border-color:white;
-
-
-
 }
+
+
+.btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default {
+    color: var(--phs-blue) !Important ;
+    background-color: var(--phs-blue-10) !Important ;
+    border-color: white !Important ;
+    font-weight:bold;
+    outline: 0px !Important;
+}
+
+.btn-default.active.focus, .btn-default:active:focus, .open>.dropdown-toggle.btn-default {
+    color: var(--phs-blue) !Important ;
+    background-color: var(--phs-blue-10) !Important ;
+    border-color: white !Important ;
+    font-weight:bold;
+    outline: 0px !Important;
+}
+
+
+
+
+
 
 /* Title of selectize input boxes*/
   label {
