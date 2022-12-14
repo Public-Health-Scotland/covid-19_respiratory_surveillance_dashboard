@@ -88,6 +88,36 @@ tagList(h1("Metadata"),
                                    p("Length of stay, i.e. the length of time an individual spends in hospital, is an important indicator for measuring the severity of COVID-19."),
                                    p(strong("Source: Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br(),
+                                   p("In this section, LOS has been grouped into categories to aid comparison. The interpretation of the categories is as follows:"),
+                                   br(),
+                                   tags$table(
+                                     tags$tr(
+                                       tags$th("LOS category"),
+                                       tags$th("Interpretation")
+                                     ),
+
+                                     tags$tr(
+                                       tags$td("1 day or less"),
+                                       tags$td("Less than or equal to 24 hours")
+                                     ),
+                                     tags$tr(
+                                       tags$td("2-3 days"),
+                                       tags$td("2-3 days	Greater than 24 hours and less than or equal to 72 hours")
+                                     ),
+                                     tags$tr(
+                                       tags$td("4-5 days"),
+                                       tags$td("Greater than 72 hours and less than or equal to 120 hours")
+                                     ),
+                                     tags$tr(
+                                       tags$td("6-7 days"),
+                                       tags$td("6-7 days	Greater than 120 hours and less than or equal to 168 hours")
+                                     ),
+                                     tags$tr(
+                                       tags$td("8+ days"),
+                                       tags$td("Greater than 168 hours")
+                                     )
+                                   ),
+                                   br(),
                                    p("Please note:"),
                                    tags$li("Length of stay in hospital can be influenced by a variety of factors including age, reason for admission, co-morbidities, and hospital pressures.
             The analysis presented in this publication has not been adjusted to account for these factors. "),

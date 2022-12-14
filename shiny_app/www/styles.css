@@ -52,6 +52,18 @@
     background-color: var(--white);
   }
 
+th{
+  background-color:var(--phs-blue);
+  color:var(--white);
+  font-weight: bold;
+  padding: 5px;
+}
+
+td{
+  padding:5px;
+}
+
+
 /* Style sidebars/well panels */
   .well {background-color:var(--white); border: 0 solid var(--phs-blue);
     padding: 5px; box-shadow: none; }
