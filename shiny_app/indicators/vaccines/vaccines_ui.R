@@ -33,7 +33,7 @@ tagList(
   fluidRow(height = "50px", br()),
 
   tabBox(width = NULL,
-         height = 600,
+         #height = 610,
          type = "pills",
          tabPanel("Plot",
                   tagList(h3("COVID-19 vaccine wastage"),
