@@ -1,6 +1,11 @@
 
 tagList(
   fluidRow(width = 12,
+           actionButton("jump_to_metadata_vaccines",
+                        label = "Metadata",
+                        class = "metadata-btn",
+                        icon = icon_no_warning_fn("file-pen")
+           ),
            h1("COVID-19 vaccine wastage"),
            linebreaks(2)),
 
