@@ -5,7 +5,7 @@ output$vaccine_wastage_table <- renderDataTable({
     dplyr::rename(`Number of doses administered` = NumberOfDosesAdministered,
                   `Number of doses wasted` = NumberOfDosesWasted,
                   `Percentage wasted` = PercentageWasted) %>%
-    make_table(add_separator_cols = c(2,3), add_percentage_cols = 4)#, maxrows = 10)
+    make_table(add_separator_cols = c(2,3), add_percentage_cols = 4)
   })
 
 output$vaccine_wastage_reason_table <- renderDataTable({
