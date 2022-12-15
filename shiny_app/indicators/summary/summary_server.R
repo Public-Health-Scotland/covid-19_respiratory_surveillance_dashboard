@@ -79,6 +79,7 @@ output$doses_wasted_infobox <- renderInfoBox({
           value={Vaccine_Wastage %>% tail(1) %>%
               .$NumberOfDosesWasted %>%
               format(big.mark = ",")},
+          subtitle = "Monthly total",
           icon = icon_no_warning_fn("dumpster"),
           color = "teal")
 })
@@ -88,6 +89,7 @@ output$doses_administered_infobox <- renderInfoBox({
           value={Vaccine_Wastage %>% tail(1) %>%
               .$NumberOfDosesAdministered %>%
               format(big.mark = ",")},
+          subtitle = "Monthly total",
           icon = icon_no_warning_fn("syringe"),
           color = "teal")
 })
@@ -97,6 +99,7 @@ output$percent_wasted_infobox <- renderInfoBox({
           value={Vaccine_Wastage %>% tail(1) %>%
               .$PercentageWasted %>%
               paste0("%")},
+          subtitle = "Monthly %",
           icon = icon_no_warning_fn("percent"),
           color = "teal")
 })
