@@ -3,7 +3,7 @@ tagList(
            linebreaks(1)),
   fluidRow(
     tagList(
-      box(height=500,
+      box(height=500, status = "info",
           tagList(
             h2("Hospital admissions"),
             infoBoxOutput("admissions_infobox", width=NULL),
@@ -19,7 +19,7 @@ tagList(
                       placement = "top", trigger = "hover",
                       options = NULL)
           )),
-      box(height=500,
+      box(height=500, status = "info",
           tagList(
             h2("Hospital occupancy"),
             infoBoxOutput("occupancy_infobox", width=NULL),
@@ -32,7 +32,7 @@ tagList(
                       options = NULL)
           )),
       linebreaks(10),
-      box(height=500,
+      box(height=500, status = "info",
           tagList(
             h2("Cases"),
             infoBoxOutput("ons_infobox", width=NULL),
@@ -53,7 +53,7 @@ tagList(
                       options = NULL)
 
           )),
-      box(height=500,
+      box(height=500, status = "info",
           tagList(
             h2("Vaccine wastage"),
             infoBoxOutput("doses_wasted_infobox", width=NULL),
@@ -69,8 +69,8 @@ tagList(
                       placement = "top", trigger = "hover",
                       options = NULL)
           )),
-
-      fluidRow(height="100px", width=12, linebreaks(10))
+      # Padding out the bottom of the page
+      fluidRow(height="500px", width=12, linebreaks(5))
     ) # taglist
 )# fluidRow
 )

@@ -7,7 +7,7 @@ tagList(
   tags$div(class = "headline",
            h3(glue("Figures from {Vaccine_Wastage %>% tail(1) %>%
                 .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-              valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
+           valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$NumberOfDosesAdministered %>%
                format(big.mark = ",")},
                subtitle = "Doses administered",
@@ -32,13 +32,15 @@ tagList(
 
   fluidRow(height = "50px", br()),
 
-  tabBox(width = NULL, type = "pills",
+  tabBox(width = NULL,
+         height = 600,
+         type = "pills",
          tabPanel("Plot",
                   tagList(h3("COVID-19 vaccine wastage"),
-                          plotlyOutput("vaccine_wastage_plot"))),
+                          withSpinner(plotlyOutput("vaccine_wastage_plot")))),
          tabPanel("Data",
                   tagList(h3("COVID-19 vaccine wastage data"),
-                          dataTableOutput("vaccine_wastage_table")))),
+                          withSpinner(dataTableOutput("vaccine_wastage_table"))))),
 
   #fluidRow(height = "25px", linebreaks(1)),
 
@@ -46,14 +48,15 @@ tagList(
            tagList(
            h3("Reasons for wastage"),
            column(width = 6,
-                  plotlyOutput("vaccine_wastage_reason_plot")),
+                  withSpinner(plotlyOutput("vaccine_wastage_reason_plot"))),
            column(width = 6,
-                  dataTableOutput("vaccine_wastage_reason_table")),
+                  withSpinner(dataTableOutput("vaccine_wastage_reason_table"))),
            linebreaks(13))))
 
 
 
-)
+
+)#taglist
 
 
 
