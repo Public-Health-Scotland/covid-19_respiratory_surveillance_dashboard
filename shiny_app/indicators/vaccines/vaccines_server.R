@@ -16,6 +16,8 @@ output$vaccine_wastage_reason_table <- renderDataTable({
     make_table(add_percentage_cols = 2)
 })
 
+
+
 output$vaccine_wastage_plot <- renderPlotly({
   Vaccine_Wastage %>%
     make_vaccine_wastage_plot()
