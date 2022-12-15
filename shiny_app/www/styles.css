@@ -666,7 +666,7 @@ a > .info-box {
 
 
 .popover {
-  width: 500px !Important;
+  max-width: 100%;
 }
 
 
