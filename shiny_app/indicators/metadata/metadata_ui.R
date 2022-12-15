@@ -184,7 +184,7 @@ tagList(h1("Metadata"),
 
 
                    #### HOSPITAL OCCUPANCY PANEL ----
-                   bsCollapsePanel("Hospital Occupancy",
+                   bsCollapsePanel("Hospital occupancy",
 
                                    #Hospital occupancy ----
                                    h4("Hospital occupancy"),

@@ -409,6 +409,15 @@ color:white;
 }
 
 
+/* notes panel */
+.panel-heading
+{
+  background-color: var(--phs-blue-10) !Important;
+  color: var(--phs-blue) !Important;
+  font-weight: bold !Important;
+}
+
+
 /* tab box */
 .nav-tabs-custom {
      background-color: var(--phs-liberty-10);
@@ -664,4 +673,10 @@ a > .info-box {
   background-color: var(--phs-blue-10);
   color: var(--phs-blue);
 
+}
+
+
+.tooltip {
+  background-color: var(--phs-blue-10) !Important;
+  color: var(--phs-blue) !Important;
 }

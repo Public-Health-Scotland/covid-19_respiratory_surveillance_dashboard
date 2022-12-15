@@ -7,7 +7,8 @@ tagList(
           tagList(
             h2("Hospital admissions"),
             infoBoxOutput("admissions_infobox", width=NULL),
-            bsPopover("admissions_infobox", "title", "This is some content blah blah blah",
+            bsPopover("admissions_infobox", "COVID-19 hospital admissions",
+                      "An admission to hospital where the patient had a first positive PCR from 14 days prior to admission up to two days following admission. This includes reinfections which are 90 days or more since their last positive test. This only includes emergency admissions to medical or paediatric specialties, excluding emergency admissions for injuries.",
                       placement = "top", trigger = "hover",
                       options = NULL),
             infoBoxOutput("icu_infobox", width=NULL),
