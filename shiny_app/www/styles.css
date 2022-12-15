@@ -664,19 +664,26 @@ a > .info-box {
 .info-box-number.bg-red { color: var(--phs-rust);   }
 */
 
+
+.popover {
+  width: 500px !Important;
+}
+
+
 .popover-title{
   background-color: var(--phs-blue);
   color: white;
+  width: 500px;
 }
 
 .popover-content{
   background-color: var(--phs-blue-10);
   color: var(--phs-blue);
+  width: 500px;
 
 }
 
 
 .tooltip {
-  background-color: var(--phs-blue-10) !Important;
-  color: var(--phs-blue) !Important;
+  width: 500px;
 }
