@@ -15,9 +15,9 @@ sidebarLayout(
                                                 actionButton("jump_to_cases", "Cases"),
                                                 actionButton("jump_to_hospital_admissions", "Hospital admissions"),
                                                 actionButton("jump_to_hospital_occupancy", "Hospital occupancy"),
-                                                actionButton("jump_to_vaccine_wastage", "Vaccine wastage"),
-                                               actionButton("jump_to_notes", "Notes"),
-                                               actionButton("jump_to_download_data", "Download data")
+                                                actionButton("jump_to_vaccines", "Vaccine wastage"),
+                                               actionButton("jump_to_metadata", "Metadata"),
+                                               actionButton("jump_to_download", "Download data")
 
                        )#div
                 )# tagList
