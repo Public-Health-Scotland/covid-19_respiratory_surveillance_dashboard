@@ -17,7 +17,7 @@ tagList(
                                                 format(big.mark = ",")},
                                                 subtitle = "Latest 7 day total",
                                                 color = "blue",
-                                                icon = icon_no_warning_fn("arrow-up")),
+                                                icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {Admissions_AgeSex %>% tail(1) %>%
                                                 .$TotalInfections %>%
                                                 format(big.mark = ",")},
@@ -122,7 +122,7 @@ tagList(
                                                 format(big.mark = ",")},
                                                 subtitle = "Latest 7 day total",
                                                 color = "blue",
-                                                icon = icon_no_warning_fn("arrow-up")),
+                                                icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {ICU_AgeSex %>% tail(1) %>%
                                                 .$CovidAdmissionsToICU %>%
                                                 format(big.mark = ",")},
