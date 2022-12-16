@@ -9,19 +9,33 @@ tagList(
                   tabPanel("Hospital admissions",
                            tagList(h3("Number of COVID-19 admissions to hospital"),
                                    tags$div(class = "headline",
-                                            h3(glue("Figures from week ending {Admissions_AgeBD %>% tail(1) %>%
-                                                    .$WeekOfAdmission %>%
-                                                    format('%d %b %y')}")),
-                                            valueBox(value = {Admissions_AgeBD %>% tail(1) %>%
+                                            h3("Admissions from last three weeks"),
+
+                                            valueBox(value = {Admissions_AgeBD %>% tail(12) %>%
+                                                filter(AgeGroup == "Total") %>%
                                                 .$TotalInfections %>%
                                                 format(big.mark = ",")},
-                                                subtitle = "Latest 7 day total",
+                                                subtitle = glue("Week ending {Admissions_AgeBD %>% tail(1) %>%
+                                                    .$WeekOfAdmission %>%
+                                                    format('%d %b %y')} - provisional"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {Admissions_AgeSex %>% tail(1) %>%
+                                            valueBox(value = {Admissions_AgeBD%>% tail(24) %>% head(12) %>%
+                                                filter(AgeGroup == "Total") %>%
                                                 .$TotalInfections %>%
                                                 format(big.mark = ",")},
-                                                subtitle = "Cumulative total",
+                                                subtitle = glue("Week ending {Admissions_AgeBD %>% tail(24) %>% head(1) %>%
+                                                    .$WeekOfAdmission %>%
+                                                    format('%d %b %y')}"),
+                                                color = "blue",
+                                                icon = icon_no_warning_fn("hospital-user")),
+                                            valueBox(value = {Admissions_AgeBD%>% tail(36) %>% head(12) %>%
+                                                filter(AgeGroup == "Total") %>%
+                                                .$TotalInfections %>%
+                                                format(big.mark = ",")},
+                                                subtitle = glue("Week ending {Admissions_AgeBD %>% tail(36) %>% head(1) %>%
+                                                    .$WeekOfAdmission %>%
+                                                    format('%d %b %y')}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("hospital-user")),
                                             # These linebreaks are here to make the banner big enough to
