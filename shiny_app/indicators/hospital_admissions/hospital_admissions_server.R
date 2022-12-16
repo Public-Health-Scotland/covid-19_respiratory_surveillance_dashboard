@@ -1,9 +1,9 @@
 
 ###########################
-### HOSPITAL ADMISSIONS ###
+### HOSPITAL ADMISSIONS ### ----
 ###########################
 
-### DAILY ADMISSIONS ###
+### DAILY ADMISSIONS ### ----
 
 # Table
 output$hospital_admissions_table <- renderDataTable({
@@ -15,7 +15,7 @@ output$hospital_admissions_table <- renderDataTable({
                                   as.character(AdmissionDate))) %>%
     select(AdmissionDate, TotalInfections, SevenDayAverage) %>%
     dplyr::rename(`Date` = AdmissionDate,
-                  `Number of Admissions` = TotalInfections,
+                  `Number of admissions` = TotalInfections,
                   `7 day average` = SevenDayAverage) %>%
     make_table(add_separator_cols = c(2),
                add_separator_cols_1dp = c(3))
@@ -25,23 +25,21 @@ output$hospital_admissions_table <- renderDataTable({
 output$hospital_admissions_plot <- renderPlotly({
   Admissions %>%
     make_hospital_admissions_plot()
-  
+
 })
 
 
-### WEEKLY ADMISSIONS BY SIMD ###
+### WEEKLY ADMISSIONS BY SIMD ### ----
 
 # Table
 output$hospital_admissions_simd_table <- renderDataTable({
   Admissions_SimdTrend %>%
     arrange(desc(WeekEnding)) %>%
-    mutate(WeekEnding = convert_opendata_date(WeekEnding),
-           WeekEnding = ifelse(ProvisionalOrStable == "Provisional",
-                                  paste0(WeekEnding, "p"),
-                                  as.character(WeekEnding))) %>%
-    select(WeekEnding, SIMD, NumberOfAdmissions) %>%
-    dplyr::rename(`Week Ending` = WeekEnding,
-                  `Number of Admissions` = NumberOfAdmissions) %>%
+    mutate(WeekEnding = convert_opendata_date(WeekEnding)) %>%
+    select(WeekEnding, SIMD, NumberOfAdmissions, ProvisionalOrStable) %>%
+    dplyr::rename(`Week ending` = WeekEnding,
+                  `Number of admissions` = NumberOfAdmissions,
+                  `Provisional or stable` = ProvisionalOrStable) %>%
     make_table(add_separator_cols = c(3))
 })
 
@@ -50,11 +48,11 @@ output$hospital_admissions_simd_table <- renderDataTable({
 output$hospital_admissions_simd_plot<- renderPlotly({
   Admissions_SimdTrend %>%
     make_hospital_admissions_simd_plot()
-  
+
 })
 
 
-### LENGTH OF STAY ###
+### LENGTH OF STAY ### ----
 
 # Table
 output$hospital_admissions_los_table <- renderDataTable({
@@ -63,10 +61,10 @@ output$hospital_admissions_los_table <- renderDataTable({
     mutate(AdmissionWeekEnding = convert_opendata_date(AdmissionWeekEnding),
            ProportionOfAdmissions = ProportionOfAdmissions*100) %>%
     select(AdmissionWeekEnding, AgeGroup, LengthOfStay, ProportionOfAdmissions) %>%
-    dplyr::rename(`Week Ending` = AdmissionWeekEnding,
-                  `Age Group` = AgeGroup,
-                  `Length of Stay` = LengthOfStay,
-                  `Percentage of Age Group` = ProportionOfAdmissions) %>%
+    dplyr::rename(`Week ending` = AdmissionWeekEnding,
+                  `Age group` = AgeGroup,
+                  `Length of stay` = LengthOfStay,
+                  `Percentage of age group` = ProportionOfAdmissions) %>%
     make_table(add_percentage_cols = c(4))
 })
 
@@ -75,11 +73,11 @@ output$hospital_admissions_los_table <- renderDataTable({
 output$hospital_admissions_los_plot<- renderPlotly({
   Length_of_Stay %>%
     make_hospital_admissions_los_plot()
-  
+
 })
 
 ########################################
-### HOSPITAL ADMISSIONS BY ETHNICITY ###
+### HOSPITAL ADMISSIONS BY ETHNICITY ### ----
 ########################################
 
 # TABLE
@@ -88,7 +86,7 @@ output$hospital_admissions_ethnicity_table <- renderDataTable({
     arrange(desc(MonthBegining)) %>%
     mutate(MonthBegining = convert_opendata_date(MonthBegining)) %>%
     select(MonthBegining, EthnicGroup, Admissions, Percentage) %>%
-    dplyr::rename(`Month Beginning` = MonthBegining,
+    dplyr::rename(`Month beginning` = MonthBegining,
                   `Ethnic group` = EthnicGroup) %>%
     mutate(Admissions = ifelse(is.na(Admissions), "*", as.character(Admissions)),
            Percentage = ifelse(is.na(Percentage), "*", as.character(Percentage))) %>%
@@ -102,22 +100,22 @@ output$hospital_admissions_ethnicity_plot<- renderPlotly({
   Ethnicity_Chart %>%
     mutate(month_begining = convert_opendata_date(month_begining)) %>%
     make_hospital_admissions_ethnicity_plot()
-  
+
 })
 
 # Plot: Percentage
-output$hospital_admissions_ethnicity_perc_plot<- renderPlotly({
+output$hospital_admissions_ethnicity_perc_plot <- renderPlotly({
   Ethnicity_Chart %>%
     mutate(month_begining = convert_opendata_date(month_begining)) %>%
     make_hospital_admissions_ethnicity_perc_plot()
-  
+
 })
 
 ######################
-### ICU ADMISSIONS ###
+### ICU ADMISSIONS ### ----
 ######################
 
-# DAILY ADMISSIONS #
+# DAILY ADMISSIONS # ----
 
 # Table
 output$icu_admissions_table <- renderDataTable({
@@ -126,7 +124,7 @@ output$icu_admissions_table <- renderDataTable({
     mutate(DateFirstICUAdmission = convert_opendata_date(DateFirstICUAdmission)) %>%
     select(DateFirstICUAdmission, NewCovidAdmissionsPerDay, SevenDayAverage) %>%
     dplyr::rename(`Date` = DateFirstICUAdmission,
-                  `Number of ICU Admissions` = NewCovidAdmissionsPerDay,
+                  `Number of ICU admissions` = NewCovidAdmissionsPerDay,
                   `7 day average` = SevenDayAverage) %>%
     make_table(add_separator_cols = c(2),
                add_separator_cols_1dp = c(3))
@@ -136,5 +134,5 @@ output$icu_admissions_table <- renderDataTable({
 output$icu_admissions_plot<- renderPlotly({
   ICU %>%
     make_icu_admissions_plot()
-  
+
 })
