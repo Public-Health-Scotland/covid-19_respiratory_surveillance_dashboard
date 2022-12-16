@@ -5,41 +5,41 @@
 
 # Daily Hospital Admissions plot
 make_hospital_admissions_plot <- function(data){
-  
+
   # Wrangle Data
   data <- data %>%
     arrange(desc(AdmissionDate)) %>%
     mutate(AdmissionDate = convert_opendata_date(AdmissionDate))
-  
+
   # Provisional data
   prov_data <- data %>%
     filter(ProvisionalFlag == 1) %>%
     select(AdmissionDate, TotalInfections, SevenDayAverage)
-  
+
   # Remainder of the data
   non_prov_data <- data %>%
     filter(ProvisionalFlag == 0) %>%
     select(AdmissionDate, TotalInfections, SevenDayAverage)
-  
+
   # Create axis titles
   yaxis_title <- "Number of admissions"
   xaxis_title <- ""
-  
+
   #Modifying standard layout
   yaxis_plots[["title"]] <- yaxis_title
   xaxis_plots[["title"]] <- xaxis_title
-  
+
   #Text for tooltip
   tooltip_trend <- c(paste0("Date: ", format(non_prov_data$AdmissionDate, "%d %b %y"),
                             "<br>", "Admissions: ", non_prov_data$TotalInfections,
                             "<br>", "7 Day Average: ", format(non_prov_data$SevenDayAverage, nsmall=0, digits=3)))
-  
+
   # Text for tooltip (provisional data)
   tooltip_trend_prov <- c(paste0("Provisional data: ",
                                  "<br>", "Date: ", format(prov_data$AdmissionDate, "%d %b %y"),
                                  "<br>", "Admissions: ", prov_data$TotalInfections,
                                  "<br>", "7 Day Average: ", format(prov_data$SevenDayAverage, nsmall=0, digits=3)))
-  
+
   #Creating time trend plot
   p <- plot_ly(non_prov_data, x = ~AdmissionDate) %>%
     add_lines(y = ~TotalInfections, line = list(color = '#0078D4', width=0.8),
@@ -54,7 +54,7 @@ make_hospital_admissions_plot <- function(data){
            legend = list(x = 100, y = 0.5)) %>% #position of legend
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
-  
+
   # Add in provisional data
   p %<>% add_lines(data=prov_data, x=~AdmissionDate, y=~TotalInfections, line=list(color="#5c6164", width=0.8),
                    text = tooltip_trend_prov, hoverinfo = "text",
@@ -62,7 +62,7 @@ make_hospital_admissions_plot <- function(data){
     add_lines(data=prov_data, y=~SevenDayAverage, line=list(color="#434343"),
               text = tooltip_trend_prov, hoverinfo = "text",
               name = "7 day average (provisional)")
-  
+
   # Add in vertical lines
   p %<>% add_segments(x = "2022-01-06", xend = "2022-01-06",
                y = 0,
@@ -74,23 +74,33 @@ make_hospital_admissions_plot <- function(data){
                yend = max(data[["TotalInfections"]]),
                name = c("Change in testing policy on 1 May"),
                line = list(color = phs_colours("phs-teal"), width = 3))
-  
+
+  p %<>% layout(margin = list(b = 80, t = 5),
+                yaxis = yaxis_plots, xaxis = xaxis_plots,
+                legend = list(x = 100, y = 0.5),
+                paper_bgcolor = phs_colours("phs-liberty-10"),
+                plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+
   return(p)
-  
+
 }
 
 # Weekly Admissions by SIMD plot
 make_hospital_admissions_simd_plot <- function(data){
-  
+
   data <- Admissions_SimdTrend
-  
+
   data %<>%
     arrange(desc(WeekEnding)) %>%
     mutate(WeekEnding = convert_opendata_date(WeekEnding))
-  
+
   yaxis_plots[["title"]] <- "Number of admissions"
   xaxis_plots[["title"]] <- "Week ending"
-  
+
   p <- plot_ly(data) %>%
     add_trace(x = ~WeekEnding, y = ~NumberOfAdmissions, split = ~SIMD, text=~SIMD,
               type="scatter", mode="lines",
@@ -103,19 +113,23 @@ make_hospital_admissions_simd_plot <- function(data){
     ) %>%
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5)) %>%
-    config(displaylogo = F, displayModeBar = TRUE,
-           modeBarButtonsToRemove = bttn_remove )
-  
-  
-  
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+
+
+
   return(p)
-  
+
 }
 
 # Hospital Admissions LOS plot
 make_hospital_admissions_los_plot <- function(data){
-  
+
   table <- data %>%
     arrange(desc(AdmissionWeekEnding)) %>%
     mutate(AdmissionWeekEnding = convert_opendata_date(AdmissionWeekEnding),
@@ -129,7 +143,7 @@ make_hospital_admissions_los_plot <- function(data){
     filter(`Age Group` == input$los_age) %>%
     mutate(`Length of Stay` = factor(`Length of Stay`,
                                      levels = c("1 day or less", "2-3 days", "4-5 days",
-                                                "6-7 days", "8+ days"))) 
+                                                "6-7 days", "8+ days")))
 
   tooltip_trend <- paste0("Week Ending: ", format(table$`Week Ending`, "%d %b %y"), "<br>",
                         "Length of Stay: ", table$`Length of Stay`, "<br>",
@@ -152,10 +166,12 @@ make_hospital_admissions_los_plot <- function(data){
     layout(barmode = "stack",
            yaxis = list(title = 'Percentage of Admissions',
                         ticksuffix = "%"),
-           xaxis = list(title = 'Admission Date by Week Ending')) %>%
+           xaxis = list(title = 'Admission Date by Week Ending'),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
-  
+
 }
 
 ######################
@@ -164,26 +180,26 @@ make_hospital_admissions_los_plot <- function(data){
 
 # Daily ICU admissions plot
 make_icu_admissions_plot <- function(data){
-  
+
   # Wrangle Data
   data <- data %>%
     arrange(desc(DateFirstICUAdmission)) %>%
     mutate(DateFirstICUAdmission = convert_opendata_date(DateFirstICUAdmission)) %>%
     select(DateFirstICUAdmission, NewCovidAdmissionsPerDay, SevenDayAverage)
-  
+
   # Create axis titles
   yaxis_title <- "Number of ICU admissions"
   xaxis_title <- ""
-  
+
   #Modifying standard layout
   yaxis_plots[["title"]] <- yaxis_title
   xaxis_plots[["title"]] <- xaxis_title
-  
+
   #Text for tooltip
   tooltip_trend <- c(paste0("Date: ", format(data$DateFirstICUAdmission, "%d %b %y"),
                             "<br>", "ICU Admissions: ", data$NewCovidAdmissionsPerDay,
                             "<br>", "7 Day Average: ", format(data$SevenDayAverage, nsmall=0, digits=3)))
-  
+
 
   #Creating time trend plot
   p <- plot_ly(data, x = ~DateFirstICUAdmission) %>%
@@ -196,12 +212,14 @@ make_icu_admissions_plot <- function(data){
     #Layout
     layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5)) %>% #position of legend
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
-  
+
   return(p)
-  
+
 }
 
 ########################################
@@ -210,15 +228,15 @@ make_icu_admissions_plot <- function(data){
 
 # Hospital Admissions by Ethnicity Plot
 make_hospital_admissions_ethnicity_plot <- function(data){
-  
+
   yaxis_title <- "COVID-19 Admissions"
-  
+
   yaxis_plots[["title"]] <- yaxis_title
-  
+
   # Star out any NAs for tooltip trend
   data2 <- data %>%
     mutate(across(.cols = starts_with(c("admissions", "percentage")), ~ ifelse(is.na(.), "*", as.character(.))))
-  
+
   #Text for tooltip
   tooltip_trend <- c(paste0("Month: ", format(data2$month_begining, "%b %Y"),
                             "<br>",yaxis_title, " - White: ", data2$admissions_white, " (", data2$percentage_white,"%)",
@@ -228,7 +246,7 @@ make_hospital_admissions_ethnicity_plot <- function(data){
                             "<br>",yaxis_title, " - Asian/Asian Scottish/Asian British: ", data2$admissions_asian_asian_scottish_or_asian_british," (", data2$percentage_asian_asian_scottish_or_asian_british,"%)",
                             "<br>",yaxis_title, " - Other: ", data2$admissions_other," (", data2$percentage_other,"%)",
                             "<br>",yaxis_title, " - Unknown: ", data2$admissions_unknown," (", data2$percentage_unknown,"%)"))
-  
+
   #Creating time trend plot
   plot_ly(data = data, x = ~month_begining) %>%
     add_lines(y = ~data$admissions_white, line = list(color = phs_colors("phs-purple")),
@@ -255,22 +273,24 @@ make_hospital_admissions_ethnicity_plot <- function(data){
     #Layout
     layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5)) %>% #position of legend
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button
-    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )  
+    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
 }
 
 # Hospital Admissions by Ethnicity (Percentage) Plot
 make_hospital_admissions_ethnicity_perc_plot <- function(data){
-  
+
   yaxis_title <- "% of COVID-19 Admissions"
-  
+
   yaxis_plots[["title"]] <- yaxis_title
-  
+
   # Star out any NAs for tooltip trend
   data2 <- data %>%
     mutate(across(.cols = starts_with(c("admissions", "percentage")), ~ ifelse(is.na(.), "*", as.character(.))))
-  
+
   #Text for tooltip
   tooltip_trend <- c(paste0("Month: ", format(data2$month_begining, "%b %Y"),
                             "<br>COVID-19 Admissions -  White: ", data2$admissions_white, " (", data2$percentage_white,"%)",
@@ -280,7 +300,7 @@ make_hospital_admissions_ethnicity_perc_plot <- function(data){
                             "<br>COVID-19 Admissions -  Asian/Asian Scottish/Asian British: ", data2$admissions_asian_asian_scottish_or_asian_british," (", data2$percentage_asian_asian_scottish_or_asian_british,"%)",
                             "<br>COVID-19 Admissions -  Other: ", data2$admissions_other," (", data2$percentage_other,"%)",
                             "<br>COVID-19 Admissions -  Unknown: ", data2$admissions_unknown," (", data2$percentage_unknown,"%)"))
-  
+
   #Creating time trend plot
   plot_ly(data = data, x = ~month_begining) %>%
     add_lines(y = ~data$percentage_white, line = list(color = phs_colors("phs-purple")),
@@ -307,9 +327,11 @@ make_hospital_admissions_ethnicity_perc_plot <- function(data){
     #Layout
     layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5)) %>% #position of legend
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
-  
+
 }
 
