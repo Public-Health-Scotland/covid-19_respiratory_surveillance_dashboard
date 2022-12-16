@@ -96,11 +96,7 @@ tagList(
                                              h3("Admissions to hospital 'with' COVID-19 by ethnicity"),
                                              withSpinner(
                                                plotlyOutput("hospital_admissions_ethnicity_plot")
-                                               ) #,
-                                           #  h3("Admissions to hospital 'with' COVID-19 by ethnicity - Percentage"),
-                                          #   withSpinner(
-                                          #     plotlyOutput("hospital_admissions_ethnicity_perc_plot")
-                                            #)
+                                               )
                                           )
                                               ),
                                   tabPanel("Data",
