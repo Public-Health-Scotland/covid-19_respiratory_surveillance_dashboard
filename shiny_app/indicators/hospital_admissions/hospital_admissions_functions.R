@@ -29,6 +29,10 @@ make_hospital_admissions_plot <- function(data){
   yaxis_plots[["title"]] <- yaxis_title
   xaxis_plots[["title"]] <- xaxis_title
 
+  # Adding slider
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
   #Text for tooltip
   tooltip_trend <- c(paste0("Date: ", format(non_prov_data$AdmissionDate, "%d %b %y"),
                             "<br>", "Admissions: ", non_prov_data$TotalInfections,
@@ -99,6 +103,10 @@ make_hospital_admissions_simd_plot <- function(data){
   yaxis_plots[["title"]] <- "Number of admissions"
   xaxis_plots[["title"]] <- "Week ending"
 
+  # Adding slider
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
   p <- plot_ly(data) %>%
     add_trace(x = ~WeekEnding, y = ~NumberOfAdmissions, split = ~SIMD, text=~SIMD,
               type="scatter", mode="lines",
@@ -149,6 +157,10 @@ make_hospital_admissions_los_plot <- function(data){
   yaxis_plots[["title"]] <- 'Percentage of Admissions'
   yaxis_plots[["ticksuffix"]] <- "%"
 
+  # Adding slider
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
   p <- table %>%
     plot_ly(x = ~`Week Ending`,
             y = ~Percent,
@@ -193,6 +205,10 @@ make_icu_admissions_plot <- function(data){
   yaxis_plots[["title"]] <- yaxis_title
   xaxis_plots[["title"]] <- xaxis_title
 
+  # Adding slider
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
   #Text for tooltip
   tooltip_trend <- c(paste0("Date: ", format(data$DateFirstICUAdmission, "%d %b %y"),
                             "<br>", "ICU Admissions: ", data$NewCovidAdmissionsPerDay,
@@ -230,6 +246,10 @@ make_hospital_admissions_ethnicity_plot <- function(data){
   yaxis_title <- "COVID-19 Admissions"
 
   yaxis_plots[["title"]] <- yaxis_title
+
+  # Adding slider
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
 
   # Star out any NAs for tooltip trend
   data2 <- data %>%
@@ -284,6 +304,10 @@ make_hospital_admissions_ethnicity_perc_plot <- function(data){
   yaxis_title <- "% of COVID-19 Admissions"
 
   yaxis_plots[["title"]] <- yaxis_title
+
+  # Adding slider
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
 
   # Star out any NAs for tooltip trend
   data2 <- data %>%
