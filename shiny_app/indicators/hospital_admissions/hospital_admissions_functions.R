@@ -156,9 +156,9 @@ make_hospital_admissions_los_plot <- function(data){
             type = 'bar',
             colors = paste(phsstyles::phs_palettes$`main-blues`),
             text = tooltip_trend,
-            hoverinfo = "text"#,
-           # marker = list(line = list(width=.5,
-          #                            color = 'rgb(0,0,0)'))
+            hoverinfo = "text",
+            marker = list(line = list(width=.5,
+                                      color = 'rgb(0,0,0)'))
           ) %>%
     layout(barmode = "stack",
            yaxis = yaxis_plots,

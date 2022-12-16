@@ -9,14 +9,12 @@
 output$hospital_admissions_table <- renderDataTable({
   Admissions %>%
     arrange(desc(AdmissionDate)) %>%
-    mutate(AdmissionDate = convert_opendata_date(AdmissionDate),
-           AdmissionDate = ifelse(ProvisionalFlag == 1,
-                                  paste0(AdmissionDate, "p"),
-                                  as.character(AdmissionDate))) %>%
-    select(AdmissionDate, TotalInfections, SevenDayAverage) %>%
+    mutate(AdmissionDate = convert_opendata_date(AdmissionDate)) %>%
+    select(AdmissionDate, TotalInfections, SevenDayAverage, ProvisionalFlag) %>%
     dplyr::rename(`Date` = AdmissionDate,
                   `Number of admissions` = TotalInfections,
-                  `7 day average` = SevenDayAverage) %>%
+                  `7 day average` = SevenDayAverage,
+                  `Stable or provisional` = ProvisionalFlag) %>%
     make_table(add_separator_cols = c(2),
                add_separator_cols_1dp = c(3))
 })
@@ -64,8 +62,9 @@ output$hospital_admissions_los_table <- renderDataTable({
     dplyr::rename(`Week ending` = AdmissionWeekEnding,
                   `Age group` = AgeGroup,
                   `Length of stay` = LengthOfStay,
-                  `Percentage of age group` = ProportionOfAdmissions) %>%
-    make_table(add_percentage_cols = c(4))
+                  `Percentage of age group in length of stay category` = ProportionOfAdmissions) %>%
+    make_table(add_percentage_cols = c(4),
+               maxrows = 15)
 })
 
 
