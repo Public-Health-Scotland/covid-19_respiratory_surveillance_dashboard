@@ -25,7 +25,7 @@ tagList(
             h2("Hospital occupancy"),
             infoBoxOutput("occupancy_infobox", width=NULL),
             bsPopover("occupancy_infobox", "title", "This is some content blah blah blah",
-                      placement = "bottom", trigger = "hover",
+                      placement = "top", trigger = "hover",
                       options = list(container = "body")),
             infoBoxOutput("icu_occupancy_infobox", width=NULL),
             bsPopover("icu_occupancy_infobox", "title", "This is some content blah blah blah",
