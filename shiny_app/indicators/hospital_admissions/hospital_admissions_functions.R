@@ -32,55 +32,53 @@ make_hospital_admissions_plot <- function(data){
   #Text for tooltip
   tooltip_trend <- c(paste0("Date: ", format(non_prov_data$AdmissionDate, "%d %b %y"),
                             "<br>", "Admissions: ", non_prov_data$TotalInfections,
-                            "<br>", "7 Day Average: ", format(non_prov_data$SevenDayAverage, nsmall=0, digits=3)))
+                            "<br>", "7 day average: ", format(non_prov_data$SevenDayAverage, nsmall=0, digits=3)))
 
   # Text for tooltip (provisional data)
   tooltip_trend_prov <- c(paste0("Provisional data: ",
                                  "<br>", "Date: ", format(prov_data$AdmissionDate, "%d %b %y"),
                                  "<br>", "Admissions: ", prov_data$TotalInfections,
-                                 "<br>", "7 Day Average: ", format(prov_data$SevenDayAverage, nsmall=0, digits=3)))
+                                 "<br>", "7 day average: ", format(prov_data$SevenDayAverage, nsmall=0, digits=3)))
 
   #Creating time trend plot
   p <- plot_ly(non_prov_data, x = ~AdmissionDate) %>%
-    add_lines(y = ~TotalInfections, line = list(color = '#0078D4', width=0.8),
+    add_lines(y = ~TotalInfections,
+              line = list(color = phs_colours("phs-blue-30")),
               text = tooltip_trend, hoverinfo = "text",
-              name = "Count") %>%
-    add_lines(y = ~SevenDayAverage, line = list(color = '#000000'),
+              name = "Daily hospital admissions") %>%
+    add_lines(y = ~SevenDayAverage,
+              line = list(color = phs_colours("phs-blue")),
               text = tooltip_trend, hoverinfo = "text",
               name = "7 day average") %>%
-    #Layout
-    layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
-           yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5)) %>% #position of legend
-    # leaving only save plot button
-    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
 
-  # Add in provisional data
-  p %<>% add_lines(data=prov_data, x=~AdmissionDate, y=~TotalInfections, line=list(color="#5c6164", width=0.8),
-                   text = tooltip_trend_prov, hoverinfo = "text",
-                   name = "Count (provisional)") %>%
-    add_lines(data=prov_data, y=~SevenDayAverage, line=list(color="#434343"),
+     # Add in provisional data
+    add_lines(data = prov_data,
+               x = ~AdmissionDate,
+               y = ~TotalInfections,
+               line = list(color = phs_colours("phs-graphite-10")),
+               text = tooltip_trend_prov, hoverinfo = "text",
+               name = "Daily hospital admissions (provisional)") %>%
+    add_lines(data = prov_data,
+              y = ~SevenDayAverage,
+              line=list(color = phs_colours("phs-graphite")),
               text = tooltip_trend_prov, hoverinfo = "text",
-              name = "7 day average (provisional)")
+              name = "7 day average (provisional)") %>%
 
   # Add in vertical lines
-  p %<>% add_segments(x = "2022-01-06", xend = "2022-01-06",
-               y = 0,
-               yend = max(data[["TotalInfections"]]),
-               name = c("From 5 Jan cases include PCR + LFD"),
-               line = list(color = phs_colours("phs-magenta"), width = 3)) %>%
-         add_segments(x = "2022-05-01", xend = "2022-05-01",
-               y = 0,
-               yend = max(data[["TotalInfections"]]),
-               name = c("Change in testing policy on 1 May"),
-               line = list(color = phs_colours("phs-teal"), width = 3))
-
-  p %<>% layout(margin = list(b = 80, t = 5),
+    # Adding vertical lines for notes on chart
+    add_lines_and_notes(dataframe = data,
+                        ycol = "TotalInfections",
+                        xs= c("2022-01-06", "2022-05-01"),
+                        notes=c("From 5 Jan cases  include PCR + LFD",
+                                "Change in testing policy on 1 May"),
+                        colors=c(phs_colours("phs-rust"),
+                                 phs_colours("phs-purple"))) %>%
+  # Add layout and config
+    layout(margin = list(b = 80, t = 5),
                 yaxis = yaxis_plots, xaxis = xaxis_plots,
                 legend = list(x = 100, y = 0.5),
                 paper_bgcolor = phs_colours("phs-liberty-10"),
                 plot_bgcolor = phs_colours("phs-liberty-10")) %>%
-
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
 
