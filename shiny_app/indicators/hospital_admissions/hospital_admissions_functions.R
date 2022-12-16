@@ -166,7 +166,7 @@ make_hospital_admissions_los_plot <- function(data){
             y = ~Percent,
             color = ~`Length of Stay`,
             type = 'bar',
-            colors = paste(phsstyles::phs_palettes$`main-blues`),
+            colors = paste(phs_palettes$`main-blues`),
             text = tooltip_trend,
             hoverinfo = "text",
             marker = list(line = list(width=.5,
@@ -243,59 +243,42 @@ make_icu_admissions_plot <- function(data){
 # Hospital Admissions by Ethnicity Plot
 make_hospital_admissions_ethnicity_plot <- function(data){
 
-  yaxis_title <- "COVID-19 Admissions"
 
-  yaxis_plots[["title"]] <- yaxis_title
+  yaxis_plots[["title"]] <- "COVID-19 Admissions"
 
   # Adding slider
   xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
 
-  # Star out any NAs for tooltip trend
-  data2 <- data %>%
-    mutate(across(.cols = starts_with(c("admissions", "percentage")), ~ ifelse(is.na(.), "*", as.character(.))))
-
-  #Text for tooltip
-  tooltip_trend <- c(paste0("Month: ", format(data2$month_begining, "%b %Y"),
-                            "<br>",yaxis_title, " - White: ", data2$admissions_white, " (", data2$percentage_white,"%)",
-                            "<br>",yaxis_title, " - Black/Caribbean: ", data2$admissions_caribbean_or_black," (", data2$percentage_caribbean_or_black,"%)",
-                            "<br>",yaxis_title, " - Mixed/Multiple Ethnic Groups: ", data2$admissions_mixed_or_multiple_ethnic_groups," (", data2$percentage_mixed_or_multiple_ethnic_groups,"%)",
-                            "<br>",yaxis_title, " - African: ", data2$admissions_african," (", data2$percentage_african,"%)",
-                            "<br>",yaxis_title, " - Asian/Asian Scottish/Asian British: ", data2$admissions_asian_asian_scottish_or_asian_british," (", data2$percentage_asian_asian_scottish_or_asian_british,"%)",
-                            "<br>",yaxis_title, " - Other: ", data2$admissions_other," (", data2$percentage_other,"%)",
-                            "<br>",yaxis_title, " - Unknown: ", data2$admissions_unknown," (", data2$percentage_unknown,"%)"))
 
   #Creating time trend plot
-  plot_ly(data = data, x = ~month_begining) %>%
-    add_lines(y = ~data$admissions_white, line = list(color = phs_colors("phs-purple")),
-              text = tooltip_trend, hoverinfo="text",
-              name = "White") %>%
-    add_lines(y = ~data$admissions_caribbean_or_black, line = list(color = phs_colors("phs-magenta")),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "Black/Caribbean") %>%
-    add_lines(y = ~data$admissions_mixed_or_multiple_ethnic_groups, line = list(color = phs_colors("phs-teal")),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "Mixed/Multiple Ethnic Groups") %>%
-    add_lines(y = ~data$admissions_african, line = list(color = phs_colors("phs-rust")),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "African") %>%
-    add_lines(y = ~data$admissions_asian_asian_scottish_or_asian_british, line = list(color = phs_colors("phs-green")),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "Asian/Asian Scottish/Asian British") %>%
-    add_lines(y = ~data$admissions_other, line = list(color = phs_colors("phs-liberty")),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "Other") %>%
-    add_lines(y = ~data$admissions_unknown, line = list(color = phs_colors("phs-blue")),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "Unknown") %>%
+  plot_ly(data = data #, x = ~MonthBegining, type = "bar"
+          #text = paste0("<b>Month beginning<\b>: ", format(~MonthBegining, "%b %Y") ,"\n",
+          #              "<b>Ethnic group<\b>: ", ~EthnicGroup, "\n",
+          #              "<b>Hospital admissions<\b>: ", ~Admissions)
+         # hoverinfo = "text",
+          ) %>%
+    add_trace(x = ~MonthBegining,
+              y = ~Admissions,
+              color = ~EthnicGroup,
+              colors = phs_colours(c("phs-graphite",
+                                     "phs-purple",
+                                     "phs-teal",
+                                     "phs-blue",
+                                     "phs-green",
+                                     "phs-magenta",
+                                     "phs-rust")),
+              type = "bar") %>%
     #Layout
     layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
            legend = list(x = 100, y = 0.5),
+           barmode = "stack",
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button
-    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
+    config(displaylogo = F, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove )
 }
 
 # Hospital Admissions by Ethnicity (Percentage) Plot

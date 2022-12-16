@@ -92,17 +92,16 @@ tagList(
                                    h4(strong("These data will next be updated in March 2023.")),
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
-                                           tagList(h5("Click on legend to select or deselect categories:"),
-                                                   h5("\U2022 Single click on an item in the legend to remove it from the plot"),
-                                                   h5("\U2022 Double click on an item in the legend to view only that line"),
-                                             br(),
-                                             h3("Admissions to hospital 'with' COVID-19 by ethnicity - Cases"),
+                                           tagList(
+                                             h3("Admissions to hospital 'with' COVID-19 by ethnicity"),
                                              withSpinner(
                                                plotlyOutput("hospital_admissions_ethnicity_plot")
-                                               ),
-                                             h3("Admissions to hospital 'with' COVID-19 by ethnicity - Percentage"),
-                                             withSpinner(
-                                               plotlyOutput("hospital_admissions_ethnicity_perc_plot")))
+                                               ) #,
+                                           #  h3("Admissions to hospital 'with' COVID-19 by ethnicity - Percentage"),
+                                          #   withSpinner(
+                                          #     plotlyOutput("hospital_admissions_ethnicity_perc_plot")
+                                            #)
+                                          )
                                               ),
                                   tabPanel("Data",
                                            withSpinner(

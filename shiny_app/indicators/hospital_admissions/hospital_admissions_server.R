@@ -83,12 +83,21 @@ output$hospital_admissions_los_plot<- renderPlotly({
 output$hospital_admissions_ethnicity_table <- renderDataTable({
   Ethnicity %>%
     arrange(desc(MonthBegining)) %>%
-    mutate(MonthBegining = convert_opendata_date(MonthBegining)) %>%
+    mutate(MonthBegining = convert_opendata_date(MonthBegining),
+           Admissions = ifelse(is.na(Admissions), "*", as.character(Admissions)),
+           Percentage = ifelse(is.na(Percentage), "*", as.character(Percentage)),
+           EthnicGroup = factor(EthnicGroup,
+                                levels = c("African",
+                                           "Asian, Asian Scottish or Asian British",
+                                           "Caribbean or Black",
+                                           "White",
+                                           "Mixed or Multiple Ethnic Groups",
+                                           "Other",
+                                           "Unknown"))) %>%
     select(MonthBegining, EthnicGroup, Admissions, Percentage) %>%
     dplyr::rename(`Month beginning` = MonthBegining,
-                  `Ethnic group` = EthnicGroup) %>%
-    mutate(Admissions = ifelse(is.na(Admissions), "*", as.character(Admissions)),
-           Percentage = ifelse(is.na(Percentage), "*", as.character(Percentage))) %>%
+                  `Ethnic group` = EthnicGroup,
+                  `Percentage of admissions in ethnic group` = Percentage) %>%
     make_table(add_separator_cols = c(3),
                add_percentage_cols = c(4),
                maxrows = 7)
@@ -96,8 +105,16 @@ output$hospital_admissions_ethnicity_table <- renderDataTable({
 
 # Plot: Numbers
 output$hospital_admissions_ethnicity_plot<- renderPlotly({
-  Ethnicity_Chart %>%
-    mutate(month_begining = convert_opendata_date(month_begining)) %>%
+  Ethnicity %>%
+    mutate(MonthBegining = convert_opendata_date(MonthBegining),
+           EthnicGroup = factor(EthnicGroup,
+                                levels = c("African",
+                                           "Asian, Asian Scottish or Asian British",
+                                           "Caribbean or Black",
+                                           "White",
+                                           "Mixed or Multiple Ethnic Groups",
+                                           "Other",
+                                           "Unknown"))) %>%
     make_hospital_admissions_ethnicity_plot()
 
 })
