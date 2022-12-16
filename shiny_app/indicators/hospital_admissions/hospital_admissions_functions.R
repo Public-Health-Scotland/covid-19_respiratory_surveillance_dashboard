@@ -184,57 +184,6 @@ make_hospital_admissions_los_plot <- function(data){
     return(p)
 }
 
-######################
-### ICU ADMISSIONS ###
-######################
-
-# Daily ICU admissions plot
-make_icu_admissions_plot <- function(data){
-
-  # Wrangle Data
-  data <- data %>%
-    arrange(desc(DateFirstICUAdmission)) %>%
-    mutate(DateFirstICUAdmission = convert_opendata_date(DateFirstICUAdmission)) %>%
-    select(DateFirstICUAdmission, NewCovidAdmissionsPerDay, SevenDayAverage)
-
-  # Create axis titles
-  yaxis_title <- "Number of ICU admissions"
-  xaxis_title <- ""
-
-  #Modifying standard layout
-  yaxis_plots[["title"]] <- yaxis_title
-  xaxis_plots[["title"]] <- xaxis_title
-
-  # Adding slider
-  xaxis_plots[["rangeslider"]] <- list(type = "date")
-  yaxis_plots[["fixedrange"]] <- FALSE
-
-  #Text for tooltip
-  tooltip_trend <- c(paste0("Date: ", format(data$DateFirstICUAdmission, "%d %b %y"),
-                            "<br>", "ICU Admissions: ", data$NewCovidAdmissionsPerDay,
-                            "<br>", "7 Day Average: ", format(data$SevenDayAverage, nsmall=0, digits=3)))
-
-
-  #Creating time trend plot
-  p <- plot_ly(data, x = ~DateFirstICUAdmission) %>%
-    add_lines(y = ~NewCovidAdmissionsPerDay, line = list(color = '#0078D4', width=0.8),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "Count") %>%
-    add_lines(y = ~SevenDayAverage, line = list(color = '#000000'),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "7 day average") %>%
-    #Layout
-    layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
-           yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5),
-           paper_bgcolor = phs_colours("phs-liberty-10"),
-           plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
-    # leaving only save plot button
-    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
-
-  return(p)
-
-}
 
 ########################################
 ### HOSPITAL ADMISSIONS BY ETHNICITY ###
@@ -281,3 +230,52 @@ make_hospital_admissions_ethnicity_plot <- function(data){
            modeBarButtonsToRemove = bttn_remove )
 }
 
+######################
+### ICU ADMISSIONS ###
+######################
+
+# Daily ICU admissions plot
+make_icu_admissions_plot <- function(data){
+
+  # Wrangle Data
+  data <- data %>%
+    arrange(desc(DateFirstICUAdmission)) %>%
+    mutate(DateFirstICUAdmission = convert_opendata_date(DateFirstICUAdmission)) %>%
+    select(DateFirstICUAdmission, NewCovidAdmissionsPerDay, SevenDayAverage)
+
+  yaxis_plots[["title"]] <- "Number of ICU admissions"
+  xaxis_plots[["title"]] <- "Date of admission"
+
+  # Adding slider
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
+  #Text for tooltip
+  tooltip_trend <- c(paste0("Date: ", format(data$DateFirstICUAdmission, "%d %b %y"),
+                            "<br>", "ICU admissions: ", data$NewCovidAdmissionsPerDay,
+                            "<br>", "7 Day average: ", format(data$SevenDayAverage, nsmall=0, digits=3)))
+
+
+  #Creating time trend plot
+  p <- plot_ly(data,
+               x = ~DateFirstICUAdmission) %>%
+    add_lines(y = ~NewCovidAdmissionsPerDay,
+              line = list(color = phs_colours("phs-blue-30")),
+              text = tooltip_trend, hoverinfo = "text",
+              name = "ICU admissions") %>%
+    add_lines(y = ~SevenDayAverage,
+              line = list(color = phs_colours("phs-blue")),
+              text = tooltip_trend, hoverinfo = "text",
+              name = "7 day average") %>%
+    #Layout
+    layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
+    # leaving only save plot button
+    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
+
+  return(p)
+
+}
