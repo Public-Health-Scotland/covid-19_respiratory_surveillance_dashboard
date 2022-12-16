@@ -6,7 +6,7 @@ tagList(
   fluidRow(width = 12,
            tabBox(width = NULL,
                   type = "pills",
-                  tabPanel("Hospital Admissions",
+                  tabPanel("Hospital admissions",
                            tagList(h3("Number of COVID-19 admissions to hospital"),
                                    tags$div(class = "headline",
                                             h3(glue("Figures from week ending {Admissions_AgeBD %>% tail(1) %>%
@@ -87,7 +87,7 @@ tagList(
 
                            ),
 
-                  tabPanel("Hospital Admissions by Ethnicity",
+                  tabPanel("Hospital admissions by ethnicity",
                            tagList(h3("Admissions to hospital 'with' COVID-19 by ethnicity"),
                                    h4(strong("These data will next be updated in March 2023.")),
                            tabBox(width = NULL, type = "pills",
@@ -114,7 +114,7 @@ tagList(
                            ), # tabpanel
 
 
-                  tabPanel("ICU Admissions",
+                  tabPanel("ICU admissions",
                            tagList(h3("Number of COVID-19 admissions to ICU"),
                                    tags$div(class = "headline",
                                             h3(glue("Figures from week ending {ICU %>% tail(1) %>%
