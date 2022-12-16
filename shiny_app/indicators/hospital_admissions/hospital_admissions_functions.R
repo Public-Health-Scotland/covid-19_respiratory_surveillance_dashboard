@@ -118,9 +118,6 @@ make_hospital_admissions_simd_plot <- function(data){
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
 
-
-
-
   return(p)
 
 }
@@ -140,36 +137,39 @@ make_hospital_admissions_los_plot <- function(data){
   table = table %>%
     filter(`Age Group` == input$los_age) %>%
     mutate(`Length of Stay` = factor(`Length of Stay`,
-                                     levels = c("1 day or less", "2-3 days", "4-5 days",
+                                     levels = c("1 day or less",
+                                                "2-3 days", "4-5 days",
                                                 "6-7 days", "8+ days")))
 
-  tooltip_trend <- paste0("Week Ending: ", format(table$`Week Ending`, "%d %b %y"), "<br>",
-                        "Length of Stay: ", table$`Length of Stay`, "<br>",
+  tooltip_trend <- paste0("Week ending: ", format(table$`Week Ending`, "%d %b %y"), "<br>",
+                        "Length of stay: ", table$`Length of Stay`, "<br>",
                         "Percent: ", round(table$Percent, 1), "%")
 
-  table %>%
+  xaxis_plots[["title"]] <- 'Admission date by Week Ending'
+  yaxis_plots[["title"]] <- 'Percentage of Admissions'
+  yaxis_plots[["ticksuffix"]] <- "%"
+
+  p <- table %>%
     plot_ly(x = ~`Week Ending`,
             y = ~Percent,
             color = ~`Length of Stay`,
             type = 'bar',
-            colors = c(phs_colours("phs-graphite"),
-                       phs_colours("phs-green"),
-                       phs_colours("phs-purple"),
-                       phs_colours("phs-magenta"),
-                       phs_colours("phs-blue")),
+            colors = paste(phsstyles::phs_palettes$`main-blues`),
             text = tooltip_trend,
-            hoverinfo = "text",
-            marker = list(line = list(width=.5,
-                                      color = 'rgb(0,0,0)'))) %>%
+            hoverinfo = "text"#,
+           # marker = list(line = list(width=.5,
+          #                            color = 'rgb(0,0,0)'))
+          ) %>%
     layout(barmode = "stack",
-           yaxis = list(title = 'Percentage of Admissions',
-                        ticksuffix = "%"),
-           xaxis = list(title = 'Admission Date by Week Ending'),
+           yaxis = yaxis_plots,
+           xaxis = xaxis_plots,
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     # leaving only save plot button
-    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
+    config(displaylogo = F, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove )
 
+    return(p)
 }
 
 ######################
