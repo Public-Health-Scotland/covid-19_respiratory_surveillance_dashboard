@@ -32,9 +32,13 @@ tagList(
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
-                                           tagList(plotlyOutput("hospital_admissions_plot"))),
+                                           tagList(
+                                             withSpinner(plotlyOutput("hospital_admissions_plot")))
+                                           ),
                                   tabPanel("Data",
-                                           tagList(dataTableOutput("hospital_admissions_table")))
+                                           tagList(
+                                             withSpinner(dataTableOutput("hospital_admissions_table")))
+                                           )
 
                            ),
 
@@ -42,9 +46,17 @@ tagList(
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
-                                           tagList(plotlyOutput("hospital_admissions_simd_plot"))),
+                                           tagList(
+                                             withSpinner(
+                                               plotlyOutput("hospital_admissions_simd_plot"))
+                                            )
+                                           ),
                                   tabPanel("Data",
-                                           tagList(dataTableOutput("hospital_admissions_simd_table")))
+                                           tagList(
+                                             withSpinner(
+                                               dataTableOutput("hospital_admissions_simd_table"))
+                                            )
+                                           )
 
                            ),
 
@@ -61,11 +73,16 @@ tagList(
                                                              .$AgeGroup %>%
                                                              unique()},
                                                          selected = "All Ages"),
-                                                    plotlyOutput("hospital_admissions_los_plot"),
+                                                    withSpinner(
+                                                      plotlyOutput("hospital_admissions_los_plot")
+                                                      ),
                                                    linebreaks(3))),
                                   tabPanel("Data",
-                                           tagList(dataTableOutput("hospital_admissions_los_table")))
-
+                                           tagList(
+                                             withSpinner(
+                                               dataTableOutput("hospital_admissions_los_table"))
+                                            )
+                                           )
                            )
 
                            ),
@@ -80,11 +97,21 @@ tagList(
                                                    h5("\U2022 Double click on an item in the legend to view only that line"),
                                              br(),
                                              h3("Admissions to hospital 'with' COVID-19 by ethnicity - Cases"),
-                                             plotlyOutput("hospital_admissions_ethnicity_plot"),
+                                             withSpinner(
+                                               plotlyOutput("hospital_admissions_ethnicity_plot")
+                                               ),
                                              h3("Admissions to hospital 'with' COVID-19 by ethnicity - Percentage"),
-                                             plotlyOutput("hospital_admissions_ethnicity_perc_plot"))),
+                                             withSpinner(
+                                               plotlyOutput("hospital_admissions_ethnicity_perc_plot")))
+                                              ),
                                   tabPanel("Data",
-                                           dataTableOutput("hospital_admissions_ethnicity_table"))))),
+                                           withSpinner(
+                                               dataTableOutput("hospital_admissions_ethnicity_table")
+                                               )
+                                  ) # tabpanel
+                                           ) # tabbox
+                           ) # taglist
+                           ), # tabpanel
 
 
                   tabPanel("ICU Admissions",
@@ -114,9 +141,18 @@ tagList(
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
-                                           tagList(plotlyOutput("icu_admissions_plot"))),
+                                           tagList(
+                                             withSpinner(
+                                               plotlyOutput("icu_admissions_plot"))
+                                             )
+                                           ),
                                   tabPanel("Data",
-                                           tagList(dataTableOutput("icu_admissions_table")))
+                                           tagList(
+                                             withSpinner(
+                                               dataTableOutput("icu_admissions_table")
+                                               )
+                                           )
+                                      ) # tabpanel
 
                            ))
            )
