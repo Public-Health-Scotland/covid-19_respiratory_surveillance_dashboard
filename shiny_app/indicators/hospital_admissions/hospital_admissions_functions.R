@@ -111,8 +111,8 @@ make_hospital_admissions_simd_plot <- function(data){
     add_trace(x = ~WeekEnding, y = ~NumberOfAdmissions, split = ~SIMD, text=~SIMD,
               type="scatter", mode="lines",
               color=~SIMD,
-              colors=phs_colours(c("phs-blue", "phs-liberty-30", "phs-liberty-30",
-                                   "phs-liberty-30", "phs-green")),
+              colors=phs_colours(c("phs-rust", "phs-liberty-30", "phs-liberty-30",
+                                   "phs-liberty-30", "phs-blue")),
               hovertemplate = paste0('<b>Week ending</b>: %{x}<br>',
                                      '<b>SIMD quintile</b>: %{text}<br>',
                                      '<b>Number of admissions</b>: %{y}')
