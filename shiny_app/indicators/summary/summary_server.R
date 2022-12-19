@@ -1,13 +1,13 @@
 output$admissions_infobox <- renderInfoBox({
   infoBox(title="Admissions",
-          value= admissions_headline,
+          value= admissions_headlines[[1]],
           subtitle = "Weekly total",
           icon = icon_no_warning_fn("hospital"),
           color = "green")})
 
 output$icu_infobox <- renderInfoBox({
   infoBox(title="ICU admissions",
-          value= ICU_headline,
+          value= icu_headlines[[1]],
           subtitle = "Weekly total",
           icon = icon_no_warning_fn("heart-pulse"),
           color = "green")

@@ -16,33 +16,20 @@ tagList(
                                    tags$div(class = "headline",
                                             h3("Admissions from last three weeks"),
 
-                                            valueBox(value = {Admissions_AgeBD %>% tail(12) %>%
-                                                filter(AgeGroup == "Total") %>%
-                                                .$TotalInfections %>%
-                                                format(big.mark = ",")},
-                                                subtitle = glue("Week ending {Admissions_AgeBD %>% tail(1) %>%
-                                                    .$WeekOfAdmission %>%
-                                                    format('%d %b %y')} - provisional"),
+                                            valueBox(value = {admissions_headlines[[1]]},
+                                                subtitle = glue("Week ending {names(admissions_headlines)[[1]]} - provisional"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {Admissions_AgeBD%>% tail(24) %>% head(12) %>%
-                                                filter(AgeGroup == "Total") %>%
-                                                .$TotalInfections %>%
+                                            valueBox(value = {admissions_headlines[[2]] %>%
                                                 format(big.mark = ",")},
-                                                subtitle = glue("Week ending {Admissions_AgeBD %>% tail(24) %>% head(1) %>%
-                                                    .$WeekOfAdmission %>%
-                                                    format('%d %b %y')}"),
+                                                subtitle = glue("Week ending {names(admissions_headlines)[[2]]}"),
                                                 color = "blue",
-                                                icon = icon_no_warning_fn("hospital-user")),
-                                            valueBox(value = {Admissions_AgeBD%>% tail(36) %>% head(12) %>%
-                                                filter(AgeGroup == "Total") %>%
-                                                .$TotalInfections %>%
+                                                icon = icon_no_warning_fn("calendar-week")),
+                                            valueBox(value = {admissions_headlines[[3]] %>%
                                                 format(big.mark = ",")},
-                                                subtitle = glue("Week ending {Admissions_AgeBD %>% tail(36) %>% head(1) %>%
-                                                    .$WeekOfAdmission %>%
-                                                    format('%d %b %y')}"),
+                                                subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
                                                 color = "blue",
-                                                icon = icon_no_warning_fn("hospital-user")),
+                                                icon = icon_no_warning_fn("calendar-week")),
                                             # These linebreaks are here to make the banner big enough to
                                             # include all the valueBoxes
                                             linebreaks(6))),
@@ -131,23 +118,20 @@ tagList(
                   tabPanel("ICU admissions",
                            tagList(h3("Number of COVID-19 admissions to ICU"),
                                    tags$div(class = "headline",
-                                            h3(glue("Figures from week ending {ICU %>% tail(1) %>%
-                                                    .$DateFirstICUAdmission %>%
-                                                    convert_opendata_date() %>%
-                                                    format('%d %b %y')}")),
-                                            valueBox(value = {ICU %>% tail(7) %>%
-                                                .$NewCovidAdmissionsPerDay %>%
-                                                sum() %>%
-                                                format(big.mark = ",")},
-                                                subtitle = "Latest 7 day total",
+                                            h3("ICU admissions from last three weeks"),
+                                            valueBox(value = {icu_headlines[[1]]},
+                                                subtitle = glue("Week ending {names(icu_headlines)[[1]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {ICU_AgeSex %>% tail(1) %>%
-                                                .$CovidAdmissionsToICU %>%
-                                                format(big.mark = ",")},
-                                                subtitle = "Cumulative total",
+                                            valueBox(value = {icu_headlines[[2]]},
+                                                subtitle = glue("Week ending {names(icu_headlines)[[2]]}"),
                                                 color = "blue",
-                                                icon = icon_no_warning_fn("bed-pulse")),
+                                                icon = icon_no_warning_fn("calendar-week")),
+                                            valueBox(value = {icu_headlines[[3]] %>%
+                                                format(big.mark = ",")},
+                                                subtitle = glue("Week ending {names(icu_headlines)[[3]]}"),
+                                                color = "blue",
+                                                icon = icon_no_warning_fn("calendar-week")),
                                             # These linebreaks are here to make the banner big enough to
                                             # include all the valueBoxes
                                             linebreaks(6))),
