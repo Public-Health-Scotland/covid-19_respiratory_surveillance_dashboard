@@ -20,11 +20,12 @@ hblookup <- list("NHS Ayrshire and Arran" = "S08000015",
                  "NHS Western Isles" = "S08000028",
                  "NHS Orkney, Shetland, and Western Isles"= "GR0800001",
                  "Scotland" = "S92000003",
-                 "Unknown"=  "")
+                 "Other"=  "")
 
 i_occupancy <- read_all_excel_sheets(glue("{input_data}/Hospital-ICU Daily Numbers_{report_date}.xlsx"))
 
 ###Hospital
+
 g_occupancy_hospital_healthboard <- i_occupancy$Data %>%
   clean_names() %>%
   rename(HospitalOccupancy = total_number_of_confirmed_c19_inpatients_in_hospital_at_8am_yesterday_new_measure,
@@ -37,14 +38,8 @@ g_occupancy_hospital_healthboard <- i_occupancy$Data %>%
          #ICUOccupancy28OrLess = as.numeric(ICUOccupancy28OrLess),
          #ICUOccupancy28OrMore = as.numeric(ICUOccupancy28OrMore),
          #Date = as.Date(as.POSIXct(Date-1, 'GMT')),
-         Date = format(as.Date(Date-1), "%Y%m%d"),
-         HealthBoard = str_replace(HealthBoard, "&", "and")) %>%
-  group_by(HealthBoard) %>%
-  mutate(SevenDayAverage = zoo::rollmean(HospitalOccupancy, k = 7, fill = NA, align="right"),
-         SevenDayAverageQF = ifelse(is.na(SevenDayAverage), "z", "")) %>%
-  ungroup() %>%
-  filter(substr(HealthBoard,1,3) == "NHS") %>%
-  select(Date, HealthBoard, HospitalOccupancy, SevenDayAverage, SevenDayAverageQF)
+         Date = format(as.Date(Date-1), "%Y%m%d"), #-1 as number is for "8am yesterday"
+         HealthBoard = str_replace(HealthBoard, "&", "and"))
 
 
 
@@ -55,63 +50,65 @@ g_occupancy_hospital_scotland <- g_occupancy_hospital_healthboard %>%
             #ICUOccupancy28OrMore = sum(ICUOccupancy28OrMore,na.rm=T)) %>%
   ungroup() %>%
   mutate(HealthBoard = "Scotland",
-         HealthBoardQF = "d",
-         SevenDayAverage = zoo::rollmean(HospitalOccupancy, k = 7, fill = NA, align="right"),
-         SevenDayAverageQF = ifelse(is.na(SevenDayAverage), "z", ""))
+         HealthBoardQF = "d")
 
 
 
 g_occupancy_hospital <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland) %>%
+  group_by(HealthBoard) %>%
+  mutate(SevenDayAverage = round_half_up(zoo::rollmean(HospitalOccupancy, k = 7, fill = NA, align="right"), 2),
+         SevenDayAverageQF = ifelse(is.na(SevenDayAverage), ":", ""),
+         SevenDayAverageQF = ifelse(Date <= 20200912 , "z", SevenDayAverageQF),
+         HospitalOccupancyQF = ifelse(is.na(HospitalOccupancy), ":", "")) %>%
+  ungroup() %>%
+  #filter(substr(HealthBoard,1,3) == "NHS") %>%
   arrange(Date) %>%
-  select(Date, HealthBoard, HealthBoardQF, HospitalOccupancy, SevenDayAverage, SevenDayAverageQF) %>%
-  mutate(HealthBoard = unlist(hblookup[HealthBoard]))
+  select(Date, HealthBoard, HealthBoardQF, HospitalOccupancy, HospitalOccupancyQF, SevenDayAverage, SevenDayAverageQF) %>%
+  mutate(HealthBoard = ifelse(substr(HealthBoard,1,1)=="Z", "Other", HealthBoard),
+         HealthBoard = unlist(hblookup[HealthBoard]),
+         HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF))
 
 write.csv(g_occupancy_hospital, glue(output_folder, "Occupancy_Hospital.csv"), row.names = FALSE)
 
 ###ICU
 g_occupancy_ICU_healthboard <- i_occupancy$Data %>%
   clean_names() %>%
-  rename(ICUOccupancy28OrLess = total_number_of_confirmed_c19_inpatients_in_icu_28_days_or_less_at_8am_yesterday_new_measure,
-         ICUOccupancy28OrMore = total_number_of_confirmed_c19_inpatients_in_icu_greater_than_28_days_at_8am_yesterday_measure_as_of_20_01_21,
+  rename(`28 days or less` = total_number_of_confirmed_c19_inpatients_in_icu_28_days_or_less_at_8am_yesterday_new_measure,
+         `greater than 28 days` = total_number_of_confirmed_c19_inpatients_in_icu_greater_than_28_days_at_8am_yesterday_measure_as_of_20_01_21,
          Date = date,
          HealthBoard = health_board) %>%
   filter(Date >= "2020-09-08" & Date <= report_date-2) %>% # filter to sunday date
-  mutate(ICUOccupancy28OrLess = as.numeric(ICUOccupancy28OrLess),
-         ICUOccupancy28OrMore = as.numeric(ICUOccupancy28OrMore),
+  select(Date, HealthBoard, `28 days or less`, `greater than 28 days`) %>%
+  pivot_longer(cols=names(.)[!(names(.) %in% c("Date", "HealthBoard"))],
+               names_to = "ICULengthOfStay", values_to="ICUOccupancy") %>%
+  mutate(ICUOccupancy = as.numeric(ICUOccupancy),
          #Date = as.Date(as.POSIXct(Date-1, 'GMT')),
          Date = format(as.Date(Date-1), "%Y%m%d"),
-         HealthBoard = str_replace(HealthBoard, "&", "and")) %>%
-  group_by(HealthBoard) %>%
-  mutate(SevenDayAverage28OrLess = zoo::rollmean(ICUOccupancy28OrLess, k = 7, fill = NA, align="right"),
-         SevenDayAverage28OrLessQF = ifelse(is.na(SevenDayAverage28OrLess), "z", ""),
-         SevenDayAverage28OrMore = zoo::rollmean(ICUOccupancy28OrMore, k = 7, fill = NA, align="right"),
-         SevenDayAverage28OrMoreQF = ifelse(is.na(SevenDayAverage28OrMore), "z", "")) %>%
-  ungroup() %>%
-  filter(substr(HealthBoard,1,3) == "NHS") %>%
-  select(Date, HealthBoard, ICUOccupancy28OrLess, ICUOccupancy28OrMore, SevenDayAverage28OrLess,
-         SevenDayAverage28OrLessQF, SevenDayAverage28OrMore, SevenDayAverage28OrMoreQF)
-
+         HealthBoard = str_replace(HealthBoard, "&", "and"))
 
 
 g_occupancy_ICU_scotland <- g_occupancy_ICU_healthboard %>%
-  group_by(Date) %>%
-  summarise(ICUOccupancy28OrLess = sum(ICUOccupancy28OrLess,na.rm=T),
-            ICUOccupancy28OrMore = sum(ICUOccupancy28OrMore,na.rm=T)) %>%
+  group_by(Date, ICULengthOfStay) %>%
+  summarise(ICUOccupancy = sum(ICUOccupancy,na.rm=T)) %>%
   ungroup() %>%
   mutate(HealthBoard = "Scotland",
          HealthBoardQF = "d",
-         SevenDayAverage28OrLess = zoo::rollmean(ICUOccupancy28OrLess, k = 7, fill = NA, align="right"),
-         SevenDayAverage28OrLessQF = ifelse(is.na(SevenDayAverage28OrLess), "z", ""),
-         SevenDayAverage28OrMore = zoo::rollmean(ICUOccupancy28OrMore, k = 7, fill = NA, align="right"),
-         SevenDayAverage28OrMoreQF = ifelse(is.na(SevenDayAverage28OrMore), "z", ""))
+         ICUOccupancy = ifelse(((Date <= 20210118) & (ICULengthOfStay == "greater than 28 days")),NA, ICUOccupancy))
 
 
 
 g_occupancy_ICU <- bind_rows(g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland) %>%
+  group_by(HealthBoard, ICULengthOfStay) %>%
+  mutate(SevenDayAverage = round_half_up(zoo::rollmean(ICUOccupancy, k = 7, fill = NA, align="right"),2),
+         SevenDayAverageQF = ifelse(is.na(SevenDayAverage), ":", ""),
+         SevenDayAverageQF = ifelse(Date <= 20200912 , "z", SevenDayAverageQF),
+         ICUOccupancyQF = ifelse(is.na(ICUOccupancy), ":", "")) %>%
+  ungroup() %>%
+  select(Date, HealthBoard, HealthBoardQF, ICULengthOfStay, ICUOccupancy, ICUOccupancyQF, SevenDayAverage, SevenDayAverageQF) %>%
   arrange(Date) %>%
-  select(Date, HealthBoard, ICUOccupancy28OrLess, ICUOccupancy28OrMore, SevenDayAverage28OrLess,
-         SevenDayAverage28OrLessQF, SevenDayAverage28OrMore, SevenDayAverage28OrMoreQF) %>%
-  mutate(HealthBoard = unlist(hblookup[HealthBoard]))
+  mutate(HealthBoard = ifelse(substr(HealthBoard,1,1)=="Z", "Other", HealthBoard),
+         HealthBoard = unlist(hblookup[HealthBoard]),
+         HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF))
 
 write.csv(g_occupancy_ICU, glue(output_folder, "Occupancy_ICU.csv"), row.names = FALSE)
 
