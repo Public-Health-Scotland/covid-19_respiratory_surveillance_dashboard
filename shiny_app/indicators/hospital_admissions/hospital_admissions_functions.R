@@ -59,7 +59,7 @@ make_hospital_admissions_plot <- function(data){
     add_lines(data = prov_data,
                x = ~AdmissionDate,
                y = ~TotalInfections,
-               line = list(color = phs_colours("phs-graphite-10")),
+               line = list(color = phs_colours("phs-graphite-50")),
                text = tooltip_trend_prov, hoverinfo = "text",
                name = "Daily hospital admissions (provisional)") %>%
     add_lines(data = prov_data,
