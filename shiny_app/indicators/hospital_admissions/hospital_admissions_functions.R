@@ -205,7 +205,8 @@ make_hospital_admissions_ethnicity_plot <- function(data){
           text = ~paste0("<b>Month beginning</b>: ", format(MonthBegining, "%b %Y") ,"\n",
                         "<b>Ethnic group</b>: ", EthnicGroup, "\n",
                         "<b>Hospital admissions</b>: ", format(Admissions, big.mark=",")),
-          hovertemplate = "%{text}"
+          hovertemplate = "%{text}",
+          textposition = "none"
           ) %>%
     add_trace(x = ~MonthBegining,
               y = ~Admissions,
