@@ -1,8 +1,7 @@
-make_occupancy_plots <- function(data, healthboard, occupancy) {
+make_occupancy_plots <- function(data, occupancy) {
 
   data %<>%
-    mutate(Date = convert_opendata_date(Date)) %>%
-    filter(HealthBoard == healthboard)
+    mutate(Date = convert_opendata_date(Date))
 
   xaxis_plots[["title"]] <- "Date"
 

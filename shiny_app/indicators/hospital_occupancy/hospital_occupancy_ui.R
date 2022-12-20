@@ -25,11 +25,6 @@ tagList(
                    ), # tagList
            linebreaks(5)), # fluidRow
 
-  fluidRow(width = 12,
-           selectizeInput("occupancy_healthboard",
-                          label = "Select location for plots",
-                          choices = unique(Occupancy_Hospital$HealthBoard),
-                          selected = "S92000003")), #fluidrow
 
   fluidRow(width = 12,
            tabBox(width = NULL,
