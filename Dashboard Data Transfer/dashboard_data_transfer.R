@@ -104,3 +104,6 @@ source("Transfer Scripts/transfer_r_number.R")
 #### Wastewater
 source("Transfer Scripts/transfer_wastewater.R")
 
+### Occupancy
+source("Transfer Scripts/transfer_occupancy.R")
+
