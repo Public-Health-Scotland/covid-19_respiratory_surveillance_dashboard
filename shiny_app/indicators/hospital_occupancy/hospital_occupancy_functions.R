@@ -17,47 +17,34 @@ make_occupancy_plots <- function(data, occupancy) {
 
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
+                 colors = phs_colours("phs-blue"),
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
                                 "<b>Number of People in hospital</b>: ", format(HospitalOccupancy, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
 
-  } else if(occupancy == "icu-less") {
+  } else if(occupancy == "icu") {
 
     data %<>%
-      filter(ICULengthOfStay == "28 days or less") %>%
       mutate(y_axis = ICUOccupancy)
 
-    yaxis_plots[["title"]] <- "Number of people in icu (28 days or less)"
+    yaxis_plots[["title"]] <- "Number of people in ICU"
 
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
+                 color = ~ICULengthOfStay,
+                 colors = phs_colours(c("phs-blue", "phs-rust")),
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in ICU (28 days or less)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
+                                "<b>Length of stay in ICU</b>: ", ICULengthOfStay, "\n",
+                                "<b>Number of People in ICU</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
-
-  } else if(occupancy == "icu-more") {
-
-    data %<>%
-      filter(ICULengthOfStay == "greater than 28 days") %>%
-      mutate(y_axis = ICUOccupancy)
-
-    yaxis_plots[["title"]] <- "Number of people in icu (more than 28 days)"
-
-    p <- plot_ly(data, x = ~Date,
-                 textposition = "none",
-                 text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in ICU (more than 28 days)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
-                 hovertemplate = "%{text}",
-                 height = 500)
-
   }
 
   p <- p %>%
     add_trace(y = ~y_axis,
-              type = 'scatter', mode = 'lines',
-              line = list(color = phs_colours("phs-blue")))  %>%
+              type = 'scatter', mode = 'lines') %>%
+              #line = list(color = phs_colours("phs-blue")))  %>%
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
            legend = list(x = 100, y = 0.5),

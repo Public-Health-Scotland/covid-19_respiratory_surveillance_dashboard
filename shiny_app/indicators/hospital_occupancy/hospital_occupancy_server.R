@@ -37,17 +37,13 @@ output$hospital_occupancy_plot <- renderPlotly({
 
 })
 
-output$icu_occupancy_less_28_plot <- renderPlotly({
+output$icu_occupancy_plot <- renderPlotly({
 
-  make_occupancy_plots(Occupancy_ICU, occupancy = "icu-less")
-
-})
-
-output$icu_occupancy_more_28_plot <- renderPlotly({
-
-  make_occupancy_plots(Occupancy_ICU, occupancy = "icu-more")
+  make_occupancy_plots(Occupancy_ICU, occupancy = "icu")
 
 })
+
+
 
 
 

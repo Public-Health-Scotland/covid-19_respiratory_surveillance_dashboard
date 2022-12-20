@@ -35,17 +35,12 @@ tagList(
                                    ) # taglist
                            ), # tabpanel
 
-                  tabPanel("ICU occupancy (28 days or less)",
-                           tagList(h3("Number of patients with covid in ICU (28 days or less)"),
-                                   withSpinner(plotlyOutput("icu_occupancy_less_28_plot"))
+                  tabPanel("ICU occupancy",
+                           tagList(h3("Number of patients with covid in ICU"),
+                                   withSpinner(plotlyOutput("icu_occupancy_plot"))
                                    ) # taglist
                            ), # tabpanel
 
-                  tabPanel("ICU occupancy (greater than 28 days)",
-                           tagList(h3("Number of patients with covid in ICU (greater than 28 days)"),
-                                   withSpinner(plotlyOutput("icu_occupancy_more_28_plot"))
-                                   ) # taglist
-                           ), # tabpanel
 
                   tabPanel("Hospital occupancy data",
                            tagList(h3("Number of patients with covid in hospital data"),
