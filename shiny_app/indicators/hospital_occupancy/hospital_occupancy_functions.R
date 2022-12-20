@@ -47,7 +47,7 @@ make_occupancy_plots <- function(data, occupancy) {
               #line = list(color = phs_colours("phs-blue")))  %>%
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5),
+           legend = list(x = 100, y = 0.5, title =list(text = "Length of stay in ICU", size = 12)),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
 

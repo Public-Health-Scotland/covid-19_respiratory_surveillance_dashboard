@@ -1,7 +1,7 @@
 tagList(
 
   fluidRow(width = 12,
-           h1("Hospital Occupancy"),
+           h1("Hospital occupancy"),
            linebreaks(2)),
 
   fluidRow(tagList(tags$div(class = "headline",
@@ -9,53 +9,68 @@ tagList(
                                                     .$Date %>% convert_opendata_date() %>%format('%d %b %y')}")),
                             valueBox(value = {Occupancy_Hospital %>% tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with covid in hospital in Scotland",
+                                subtitle = "7 day average number of patients with COVID-19 in hospital in Scotland",
                                 color = "blue",
                                 icon = icon_no_warning_fn("hospital")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with covid in ICU for 28 days or less in Scotland",
+                                subtitle = "7 day average number of patients with COVID-19 in ICU for 28 days or less in Scotland",
                                 color = "blue",
                                 icon = icon_no_warning_fn("bed")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with covid in ICU for more than 28 days in Scotland",
+                                subtitle = "7 day average number of patients with COVID-19 in ICU for more than 28 days in Scotland",
                                 color = "blue",
-                                icon = icon_no_warning_fn("bed-pulse")))
+                                icon = icon_no_warning_fn("bed-pulse")),
+                            # These linebreaks are here to make the banner big enough to
+                            # include all the valueBoxes
+                            linebreaks(7))
                    ), # tagList
-           linebreaks(5)), # fluidRow
+           linebreaks(1)), # fluidRow
 
 
   fluidRow(width = 12,
            tabBox(width = NULL,
+                  height = 650,
                   type = "pills",
-                  tabPanel("Hospital occupancy",
-                           tagList(h3("Number of patients with covid in hospital"),
+                  tabPanel("Plot",
+                           tagList(h3("Number of patients with COVID-19 in hospital"),
                                    withSpinner(plotlyOutput("hospital_occupancy_plot"))
                                    ) # taglist
                            ), # tabpanel
 
-                  tabPanel("ICU occupancy",
-                           tagList(h3("Number of patients with covid in ICU"),
-                                   withSpinner(plotlyOutput("icu_occupancy_plot"))
-                                   ) # taglist
-                           ), # tabpanel
 
-
-                  tabPanel("Hospital occupancy data",
-                           tagList(h3("Number of patients with covid in hospital data"),
+                  tabPanel("Data",
+                           tagList(h3("Number of patients with COVID-19 in hospital data"),
                                    withSpinner(dataTableOutput("hospital_occupancy_table"))
                                    ) # taglist
-                           ), # tabpanel
+                           ) # tabpanel
+                  ) #tabbox
 
-                  tabPanel("ICU occupancy data",
-                           tagList(h3("Number of patients with covid in ICU data"),
+          ), # fluid row
+
+  fluidRow(height = "50px", br()),
+
+  fluidRow(width = 12,
+           tabBox(width = NULL,
+                  height = 650,
+                  type = "pills",
+                  tabPanel("Plot",
+                           tagList(h3("Number of patients with COVID-19 in ICU"),
+                                   withSpinner(plotlyOutput("icu_occupancy_plot"))
+                           ) # taglist
+                  ), # tabpanel
+
+                  tabPanel("Data",
+                           tagList(h3("Number of patients with COVID-19 in ICU data"),
                                    withSpinner(dataTableOutput("ICU_occupancy_table"))
                            ) # taglist
                   ) # tabpanel
-                  ) #tabbox
+           ) #tabbox
 
-          ) # fluid row
+  ), # fluid row
+
+  fluidRow(height = "50px", br())
 
 ) # taglist
 

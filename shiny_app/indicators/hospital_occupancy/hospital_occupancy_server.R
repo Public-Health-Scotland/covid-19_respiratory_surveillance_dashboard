@@ -11,7 +11,7 @@ output$hospital_occupancy_table <- renderDataTable({
     make_table(.,
                             add_separator_cols=NULL, # Column indices to add thousand separators to
                             add_percentage_cols = NULL, # with % symbol and 2dp
-                            maxrows=14,
+                            maxrows=10,
                             order_by_firstcol="desc")
 
 })
@@ -26,7 +26,7 @@ output$ICU_occupancy_table <- renderDataTable({
     make_table(.,
                             add_separator_cols=NULL, # Column indices to add thousand separators to
                             add_percentage_cols = NULL, # with % symbol and 2dp
-                            maxrows=14,
+                            maxrows=10,
                             order_by_firstcol="desc")
 
 })
