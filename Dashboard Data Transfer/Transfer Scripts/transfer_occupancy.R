@@ -42,7 +42,6 @@ g_occupancy_hospital_healthboard <- i_occupancy$Data %>%
          HealthBoard = str_replace(HealthBoard, "&", "and"))
 
 
-
 g_occupancy_hospital_scotland <- g_occupancy_hospital_healthboard %>%
   group_by(Date) %>%
   summarise(HospitalOccupancy = sum(HospitalOccupancy,na.rm=T)) %>%
@@ -66,7 +65,8 @@ g_occupancy_hospital <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_
   select(Date, HealthBoard, HealthBoardQF, HospitalOccupancy, HospitalOccupancyQF, SevenDayAverage, SevenDayAverageQF) %>%
   mutate(HealthBoard = ifelse(substr(HealthBoard,1,1)=="Z", "Other", HealthBoard),
          HealthBoard = unlist(hblookup[HealthBoard]),
-         HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF))
+         HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF)) %>%
+  filter(HealthBoard == "S92000003") #for disclosure reasons temporarily filtering for Scotland only
 
 write.csv(g_occupancy_hospital, glue(output_folder, "Occupancy_Hospital.csv"), row.names = FALSE)
 
@@ -108,11 +108,14 @@ g_occupancy_ICU <- bind_rows(g_occupancy_ICU_healthboard, g_occupancy_ICU_scotla
   arrange(Date) %>%
   mutate(HealthBoard = ifelse(substr(HealthBoard,1,1)=="Z", "Other", HealthBoard),
          HealthBoard = unlist(hblookup[HealthBoard]),
-         HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF))
+         HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF)) %>%
+  filter(HealthBoard == "S92000003") #for disclosure reasons temporarily filtering for Scotland only
 
 write.csv(g_occupancy_ICU, glue(output_folder, "Occupancy_ICU.csv"), row.names = FALSE)
 
 rm(i_occupancy, g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland, g_occupancy_hospital,
    g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland, g_occupancy_ICU)
+
+
 
 
