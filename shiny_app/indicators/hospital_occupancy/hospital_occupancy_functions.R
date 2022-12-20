@@ -19,7 +19,7 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in hospital</b>: ", format(HospitalOccupancy, big.mark=","), "\n"),
+                                "<b>Number of people in hospital</b>: ", format(HospitalOccupancy, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
 
@@ -34,7 +34,7 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in ICU (28 days or less)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
+                                "<b>Number of people in ICU (28 days or less)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
 
@@ -44,12 +44,13 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
       filter(ICULengthOfStay == "greater than 28 days") %>%
       mutate(y_axis = ICUOccupancy)
 
+
     yaxis_plots[["title"]] <- "Number of people in icu (more than 28 days)"
 
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in ICU (more than 28 days)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
+                                "<b>Number of people in ICU (more than 28 days)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
 
@@ -71,5 +72,5 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
 }
 
 
-test <- make_occupancy_plots(Occupancy_Hospital, healthboard = "S92000003", occupancy = "hospital")
-test
+
+
