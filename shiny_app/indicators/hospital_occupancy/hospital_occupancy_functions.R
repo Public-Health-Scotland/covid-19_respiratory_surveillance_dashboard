@@ -72,3 +72,4 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
 
 
 
+
