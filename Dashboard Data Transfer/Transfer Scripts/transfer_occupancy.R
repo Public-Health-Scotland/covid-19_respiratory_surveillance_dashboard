@@ -42,7 +42,6 @@ g_occupancy_hospital_healthboard <- i_occupancy$Data %>%
          HealthBoard = str_replace(HealthBoard, "&", "and"))
 
 
-
 g_occupancy_hospital_scotland <- g_occupancy_hospital_healthboard %>%
   group_by(Date) %>%
   summarise(HospitalOccupancy = sum(HospitalOccupancy,na.rm=T)) %>%
