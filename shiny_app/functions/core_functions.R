@@ -171,3 +171,35 @@ convert_date_to_month <- function(date){
   return(date)
 }
 
+
+get_threeweek_admissions_figures <- function(df,            # data frame to get figures from
+                                             sumcol,        # string - column name to sum week from
+                                             datecol,       # string - date column name
+                                             weeksize = 7){ # Number of days to sum over
+
+  df[[datecol]] <- convert_opendata_date(df[[datecol]])
+
+  out_1 <- df %>% tail(weeksize)
+  out_2 <- df %>% tail(2*weeksize) %>% head(weeksize)
+  out_3 <- df %>% tail(3*weeksize) %>% head(weeksize)
+
+  dates <- purrr::map(list(out_1, out_2, out_3), ~ format(max(.[[datecol]]), "%d %b %y"))
+
+  out_tot <- list()
+
+  #Checking we have full week data ending on a Sunday
+  for (out in list(out_1, out_2, out_3)){
+    stopifnot(lubridate::wday(max(out[[datecol]]), week_start = 1, label = TRUE, abbr = FALSE) == "Sunday")
+    stopifnot(lubridate::wday(min(out[[datecol]]), week_start = 1, label = TRUE, abbr = FALSE) == "Monday")
+    out <- out[[sumcol]] %>% sum(na.rm=TRUE) %>% format(big.mark=",")
+    out_tot <- append(out_tot, out)
+  }
+
+  names(out_tot) <- dates
+
+
+  return(out_tot)
+
+
+}
+

@@ -51,27 +51,5 @@ vaccine_wastage_month <- {Vaccine_Wastage %>% tail(1) %>%
 
 #Creating variable for latest week for headlines
 
-admissions_headline <- Admissions %>%
-  tail(7) %>%
-  mutate(AdmissionDate = convert_opendata_date(AdmissionDate))
-
-#Checking we have full week data ending on a Sunday
-stopifnot(lubridate::wday(max(admissions_headline$AdmissionDate), week_start = 1, label = TRUE, abbr = FALSE) == "Sunday")
-stopifnot(lubridate::wday(min(admissions_headline$AdmissionDate), week_start = 1, label = TRUE, abbr = FALSE) == "Monday")
-
-admissions_headline %<>%
-  .$TotalInfections %>%
-  sum()
-
-
-ICU_headline <- ICU %>%
-  tail(7) %>%
-  mutate(DateFirstICUAdmission = convert_opendata_date(DateFirstICUAdmission))
-
-#Checking we have full week data ending on a Sunday
-stopifnot(lubridate::wday(max(ICU_headline$DateFirstICUAdmission), week_start = 1, label = TRUE, abbr = FALSE) == "Sunday")
-stopifnot(lubridate::wday(min(ICU_headline$DateFirstICUAdmission), week_start = 1, label = TRUE, abbr = FALSE) == "Monday")
-
-ICU_headline %<>%
-  .$NewCovidAdmissionsPerDay %>%
-  sum()
+admissions_headlines <- get_threeweek_admissions_figures(df = Admissions, sumcol = "TotalInfections", datecol="AdmissionDate")
+icu_headlines <- get_threeweek_admissions_figures(df = ICU, sumcol = "NewCovidAdmissionsPerDay", datecol="DateFirstICUAdmission")
