@@ -1,7 +1,8 @@
 make_occupancy_plots <- function(data, healthboard, occupancy) {
 
   data %<>%
-    filter(LocationName == healthboard)
+    mutate(Date = convert_opendata_date(Date)) %>%
+    filter(HealthBoard == healthboard)
 
   xaxis_plots[["title"]] <- "Date"
 
@@ -25,28 +26,30 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
   } else if(occupancy == "icu-less") {
 
     data %<>%
-      mutate(y_axis = ICUOccupancy28OrLess)
+      filter(ICULengthOfStay == "28 days or less") %>%
+      mutate(y_axis = ICUOccupancy)
 
     yaxis_plots[["title"]] <- "Number of people in icu (28 days or less)"
 
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in ICU (28 days or less)</b>: ", format(ICUOccupancy28OrLess, big.mark=","), "\n"),
+                                "<b>Number of People in ICU (28 days or less)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
 
   } else if(occupancy == "icu-more") {
 
     data %<>%
-      mutate(y_axis = ICUOccupancy28OrMore)
+      filter(ICULengthOfStay == "greater than 28 days") %>%
+      mutate(y_axis = ICUOccupancy)
 
     yaxis_plots[["title"]] <- "Number of people in icu (more than 28 days)"
 
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in ICU (more than 28 days)</b>: ", format(ICUOccupancy28OrMore, big.mark=","), "\n"),
+                                "<b>Number of People in ICU (more than 28 days)</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
 
@@ -68,5 +71,5 @@ make_occupancy_plots <- function(data, healthboard, occupancy) {
 }
 
 
-test <- make_occupancy_plots(Occupancy, healthboard = "Scotland", occupancy = "hospital")
+test <- make_occupancy_plots(Occupancy_Hospital, healthboard = "S92000003", occupancy = "hospital")
 test

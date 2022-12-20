@@ -5,21 +5,21 @@ tagList(
            linebreaks(2)),
 
   fluidRow(tagList(tags$div(class = "headline",
-                            h3(glue("Figures from week ending {Occupancy %>% tail(1) %>%
-                                                    .$Date %>%  format('%d %b %y')}")),
-                            valueBox(value = {Occupancy %>% tail(1) %>%
-                                .$HospitalOccupancy},
-                                subtitle = "Number of patients with covid in hospital in Scotland",
+                            h3(glue("Figures from week ending {Occupancy_Hospital %>% tail(1) %>%
+                                                    .$Date %>% convert_opendata_date() %>%format('%d %b %y')}")),
+                            valueBox(value = {Occupancy_Hospital %>% tail(1) %>%
+                                .$SevenDayAverage},
+                                subtitle = "7 day average number of patients with covid in hospital in Scotland",
                                 color = "blue",
                                 icon = icon_no_warning_fn("hospital")),
-                            valueBox(value = {Occupancy %>% tail(1) %>%
-                                .$ICUOccupancy28OrLess},
-                                subtitle = "Number of patients with covid in ICU for 28 days or less in Scotland",
+                            valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
+                                .$SevenDayAverage},
+                                subtitle = "7 day average number of patients with covid in ICU for 28 days or less in Scotland",
                                 color = "blue",
                                 icon = icon_no_warning_fn("bed")),
-                            valueBox(value = {Occupancy %>% tail(1) %>%
-                                .$ICUOccupancy28OrMore},
-                                subtitle = "Number of patients with covid in ICU for more than 28 days in Scotland",
+                            valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
+                                .$SevenDayAverage},
+                                subtitle = "7 day average number of patients with covid in ICU for more than 28 days in Scotland",
                                 color = "blue",
                                 icon = icon_no_warning_fn("bed-pulse")))
                    ), # tagList
@@ -28,35 +28,41 @@ tagList(
   fluidRow(width = 12,
            selectizeInput("occupancy_healthboard",
                           label = "Select location for plots",
-                          choices = unique(Occupancy$LocationName),
-                          selected = "Scotland")), #fluidrow
+                          choices = unique(Occupancy_Hospital$HealthBoard),
+                          selected = "S92000003")), #fluidrow
 
   fluidRow(width = 12,
            tabBox(width = NULL,
                   type = "pills",
-                  tabPanel("Hospital Occupancy",
+                  tabPanel("Hospital occupancy",
                            tagList(h3("Number of patients with covid in hospital"),
                                    withSpinner(plotlyOutput("hospital_occupancy_plot"))
                                    ) # taglist
                            ), # tabpanel
 
-                  tabPanel("ICU Occupancy (28 days or less)",
+                  tabPanel("ICU occupancy (28 days or less)",
                            tagList(h3("Number of patients with covid in ICU (28 days or less)"),
                                    withSpinner(plotlyOutput("icu_occupancy_less_28_plot"))
                                    ) # taglist
                            ), # tabpanel
 
-                  tabPanel("ICU Occupancy (28 days or more)",
-                           tagList(h3("Number of patients with covid in ICU (more than 28 days)"),
+                  tabPanel("ICU occupancy (greater than 28 days)",
+                           tagList(h3("Number of patients with covid in ICU (greater than 28 days)"),
                                    withSpinner(plotlyOutput("icu_occupancy_more_28_plot"))
                                    ) # taglist
                            ), # tabpanel
 
-                  tabPanel("Data",
-                           tagList(h3("Number of patients with covid in hospital and ICU data"),
-                                   withSpinner(dataTableOutput("occupancy_table"))
+                  tabPanel("Hospital occupancy data",
+                           tagList(h3("Number of patients with covid in hospital data"),
+                                   withSpinner(dataTableOutput("hospital_occupancy_table"))
                                    ) # taglist
-                           ) # tabpanel
+                           ), # tabpanel
+
+                  tabPanel("ICU occupancy data",
+                           tagList(h3("Number of patients with covid in ICU data"),
+                                   withSpinner(dataTableOutput("ICU_occupancy_table"))
+                           ) # taglist
+                  ) # tabpanel
                   ) #tabbox
 
           ) # fluid row
