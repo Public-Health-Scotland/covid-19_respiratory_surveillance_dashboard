@@ -24,11 +24,15 @@ tagList(
           tagList(
             h2("Hospital occupancy"),
             infoBoxOutput("occupancy_infobox", width=NULL),
-            bsPopover("occupancy_infobox", "title", "This is some content blah blah blah",
+            bsPopover("occupancy_infobox", "Number of patients in hospital with COVID-19", "This is some content blah blah blah",
                       placement = "top", trigger = "hover",
                       options = list(container = "body")),
-            infoBoxOutput("icu_occupancy_infobox", width=NULL),
-            bsPopover("icu_occupancy_infobox", "title", "This is some content blah blah blah",
+            infoBoxOutput("icu_less_occupancy_infobox", width=NULL),
+            bsPopover("icu_less_occupancy_infobox", "Number of patients in ICU with COVID-19 (28 days or less)", "This is some content blah blah blah",
+                      placement = "top", trigger = "hover",
+                      options = list(container = "body")),
+            infoBoxOutput("icu_more_occupancy_infobox", width=NULL),
+            bsPopover("icu_more_occupancy_infobox", "Number of patients in ICU with COVID-19 (greater than 28 days)", "This is some content blah blah blah",
                       placement = "top", trigger = "hover",
                       options = list(container = "body"))
           )),
