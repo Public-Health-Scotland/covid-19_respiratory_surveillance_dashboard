@@ -26,9 +26,9 @@ make_occupancy_plots <- function(data, occupancy) {
   } else if(occupancy == "icu") {
 
     data %<>%
-      mutate(y_axis = ICUOccupancy)
+      mutate(y_axis = SevenDayAverage)
 
-    yaxis_plots[["title"]] <- "Number of people in ICU"
+    yaxis_plots[["title"]] <- "7 day average number of people in ICU"
 
     p <- plot_ly(data, x = ~Date,
                  textposition = "none",
@@ -36,7 +36,7 @@ make_occupancy_plots <- function(data, occupancy) {
                  colors = phs_colours(c("phs-blue", "phs-rust")),
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
                                 "<b>Length of stay in ICU</b>: ", ICULengthOfStay, "\n",
-                                "<b>Number of People in ICU</b>: ", format(ICUOccupancy, big.mark=","), "\n"),
+                                "<b>7 day average number of People in ICU</b>: ", format(SevenDayAverage, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)
   }
