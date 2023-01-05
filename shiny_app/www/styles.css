@@ -673,13 +673,13 @@ a > .info-box {
 .popover-title{
   background-color: var(--phs-blue);
   color: white;
-  width: 500px;
+  width: 400px;
 }
 
 .popover-content{
   background-color: var(--phs-blue-10);
   color: var(--phs-blue);
-  width: 500px;
+  width: 400px;
 
 }
 
