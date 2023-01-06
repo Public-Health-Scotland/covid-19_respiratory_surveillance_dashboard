@@ -34,6 +34,13 @@ ons_cases_modal <- altTextServer("ons_cases_modal",
                                  title = "Estimated COVID-19 infection rate",
                                  content = "This plot shows the ONS covid infection ...")
 
+r_number_modal <- altTextServer("r_number_modal",
+                                      title = "Estimated COVID-19 R number",
+                                      content = "This plot shows ...")
+
+wastewater_modal <- altTextServer("wastewater_modal",
+                                title = "Seven day average trend in wastewater COVID-19",
+                                content = "This plot shows ...")
 
 reported_cases_modal <- altTextServer("reported_cases_modal",
                                       title = "Reported COVID-19 cases",

@@ -60,6 +60,7 @@ tagList(
                             linebreaks(6)
                             ), #div
                             fluidRow(height="300px", width =12, linebreaks(3)),
+                            altTextUI("r_number_modal"),
                             withSpinner(plotlyOutput("r_number_plot")))),
            tabPanel("Wastewater",
                     tagList(h3("Seven day average trend in wastewater COVID-19"),
@@ -78,6 +79,7 @@ tagList(
                             linebreaks(6)
                             ), #div
                             fluidRow(height="300px", width =12, linebreaks(3)),
+                            altTextUI("wastewater_modal"),
                             withSpinner(plotlyOutput("wastewater_plot"))))
         ) #tabBox
   ), # fluid row
