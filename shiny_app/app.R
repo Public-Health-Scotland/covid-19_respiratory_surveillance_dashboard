@@ -18,6 +18,7 @@ ui <- fluidPage(
 tagList(
 # Specify language for accessibility
 tags$html(lang="en"),
+tags$head(tags$script(src="javascript.js")),
 # Specify most recent fontawesome library - change version as needed
 tags$style("@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);"),
 navbarPage(
