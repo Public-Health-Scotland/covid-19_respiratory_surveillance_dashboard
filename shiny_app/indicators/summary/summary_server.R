@@ -24,15 +24,26 @@ output$los_infobox <- renderInfoBox({
 
 output$occupancy_infobox <- renderInfoBox({
   infoBox(title="Hospital beds occupied",
-          value= "tbc",
+          value= {Occupancy_Hospital %>% tail(1) %>%
+                                .$SevenDayAverage},
+          subtitle = "7 day average",
+          icon = icon_no_warning_fn("hospital"),
+          color = "fuchsia")
+})
+
+output$icu_less_occupancy_infobox <- renderInfoBox({
+  infoBox(title="ICU beds occupied (28 days or less)",
+          value= {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
+              .$SevenDayAverage},
           subtitle = "7 day average",
           icon = icon_no_warning_fn("bed"),
           color = "fuchsia")
 })
 
-output$icu_occupancy_infobox <- renderInfoBox({
-  infoBox(title="ICU beds occupied",
-          value= "tbc",
+output$icu_more_occupancy_infobox <- renderInfoBox({
+  infoBox(title="ICU beds occupied (greater than 28 days)",
+          value= {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
+              .$SevenDayAverage},
           subtitle = "7 day average",
           icon = icon_no_warning_fn("bed-pulse"),
           color = "fuchsia")
