@@ -11,7 +11,7 @@
 source("setup.R")
 
 # Getting UI for modals for alt text
-source(file.path("alt-text/alt_text_modals_ui.R"), local = TRUE)$value
+source(file.path("modules/alt-text/alt_text_modals_ui.R"), local = TRUE)$value
 
 # UI
 ui <- fluidPage(
@@ -26,7 +26,7 @@ navbarPage(
     id = "intabset", # id used for jumping between tabs
     title = div(
         tags$a(img(src = "phs-logo.png", height = 40,
-                   alt="Go to Public Health Scotland (external site)"),
+                   alt ="Go to Public Health Scotland (external site)"),
                href = "https://www.publichealthscotland.scot/",
                target = "_blank"), # PHS logo links to PHS website
     style = "position: relative; top: -5px;"),
@@ -133,7 +133,7 @@ server <- function(input, output, session) {
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
   source(file.path("functions/plot_functions.R"), local = TRUE)$value
-  source(file.path("alt-text/alt_text_modals_server.R"), local = TRUE)$value
+  source(file.path("modules/alt-text/alt_text_modals_server.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
