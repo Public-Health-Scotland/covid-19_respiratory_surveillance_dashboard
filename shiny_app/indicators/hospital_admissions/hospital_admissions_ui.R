@@ -39,6 +39,8 @@ tagList(
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
                                            tagList(
+                                             linebreaks(1),
+                                             altTextUI("hospital_admissions_modal"),
                                              withSpinner(plotlyOutput("hospital_admissions_plot")))
                                            ),
                                   tabPanel("Data",
@@ -53,6 +55,8 @@ tagList(
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
                                            tagList(
+                                             linebreaks(1),
+                                             altTextUI("hospital_admissions_simd_modal"),
                                              withSpinner(
                                                plotlyOutput("hospital_admissions_simd_plot"))
                                             )
@@ -79,6 +83,7 @@ tagList(
                                                              .$AgeGroup %>%
                                                              unique()},
                                                          selected = "All Ages"),
+                                                   altTextUI("hospital_admissions_los_modal"),
                                                     withSpinner(
                                                       plotlyOutput("hospital_admissions_los_plot")
                                                       ),
@@ -100,6 +105,7 @@ tagList(
                                   tabPanel("Plot",
                                            tagList(
                                              h3("Admissions to hospital 'with' COVID-19 by ethnicity"),
+                                             altTextUI("hospital_admissions_ethnicity_modal"),
                                              withSpinner(
                                                plotlyOutput("hospital_admissions_ethnicity_plot")
                                                )
@@ -140,6 +146,8 @@ tagList(
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
                                            tagList(
+                                             linebreaks(1),
+                                             altTextUI("icu_admissions_modal"),
                                              withSpinner(
                                                plotlyOutput("icu_admissions_plot"))
                                              )
