@@ -80,7 +80,7 @@ make_hospital_admissions_plot <- function(data){
   # Add layout and config
     layout(margin = list(b = 80, t = 5),
                 yaxis = yaxis_plots, xaxis = xaxis_plots,
-                legend = list(x = 0, y = -0.5, orientation = 'h'),
+           legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'),
                 paper_bgcolor = phs_colours("phs-liberty-10"),
                 plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     config(displaylogo = FALSE, displayModeBar = TRUE,
@@ -117,9 +117,9 @@ make_hospital_admissions_simd_plot <- function(data){
                                      '<b>SIMD quintile</b>: %{text}<br>',
                                      '<b>Number of admissions</b>: %{y}')
     ) %>%
-    layout(margin = list(b = 80, t = 5),
+    layout(margin = list(b = 100, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 0, y = -0.5, orientation = 'h'),
+           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
 
@@ -175,7 +175,7 @@ make_hospital_admissions_los_plot <- function(data){
     layout(barmode = "stack",
            yaxis = yaxis_plots,
            xaxis = xaxis_plots,
-           legend = list(x = 0, y = -0.5, orientation = 'h'),
+           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     # leaving only save plot button
@@ -221,9 +221,9 @@ make_hospital_admissions_ethnicity_plot <- function(data){
                                      "phs-rust")),
               type = "bar") %>%
     #Layout
-    layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
+    layout(margin = list(b = 100, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 0, y = -0.5, orientation = 'h'),
+           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.8, orientation = 'h'),
            barmode = "stack",
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
@@ -272,7 +272,7 @@ make_icu_admissions_plot <- function(data){
     #Layout
     layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 0, y = -0.5, orientation = 'h'),
+           legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button

@@ -23,7 +23,7 @@ make_occupancy_plots <- function(data, occupancy) {
                                 "<b>7 day average number of people in hospital</b>: ", format(SevenDayAverage, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)%>%
-      layout(legend = list(x = 0, y = -0.5, orientation = 'h')) %>%
+      layout(legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h')) %>%
 
       add_lines(y = ~HospitalOccupancy,
                 line = list(color = phs_colours("phs-blue-30")),
@@ -52,7 +52,7 @@ make_occupancy_plots <- function(data, occupancy) {
                  hovertemplate = "%{text}",
                  height = 500) %>%
       add_trace(type = 'scatter', mode = 'lines') %>%
-      layout(legend = list(x = 0, y = -0.5, orientation = 'h'))
+      layout(legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'))
   }
 
   p <- p %>%
