@@ -10,15 +10,20 @@ altTextServer <- function(id, title, content) {
         h3(title),
         p(content),
         size = "l",
-        easyClose = TRUE, fade=TRUE, footer = modalButton("Close (Esc)")
+        easyClose = TRUE,
+        fade = TRUE,
+        footer = actionButton(session$ns("close"), label = "Close")
       )
 
       observeEvent(input$alttext, { showModal(modal) })
+      observeEvent(input$close, { removeModal() })
+
 
     }
   )
 
 }
+
 
 # To make a new alt text button create an alt text server object here and then
 # add corresponding ui component where you want the button to appear
@@ -52,6 +57,22 @@ hospital_admissions_ethnicity_modal <- altTextServer("hospital_admissions_ethnic
 
 icu_admissions_modal <- altTextServer("icu_admissions_modal",
                                        title = "Daily number of COVID-19 ICU admissions",
+                                       content = "This plot shows ... ")
+
+hospital_occupancy_modal <- altTextServer("hospital_occupancy_modal",
+                                      title = "Number of patients with COVID-19 in hospital",
+                                      content = "This plot shows ... ")
+
+icu_occupancy_modal <- altTextServer("icu_occupancy_modal",
+                                      title = "Number of patients with COVID-19 in ICU",
+                                      content = "This plot shows ... ")
+
+vaccine_wastage_modal <- altTextServer("vaccine_wastage_modal",
+                                     title = "COVID-19 vaccine wastage",
+                                     content = "This plot shows ... ")
+
+vaccine_wastage_reason_modal <- altTextServer("vaccine_wastage_reason_modal",
+                                       title = "Reasons for COVID-19 vaccine wastage",
                                        content = "This plot shows ... ")
 
 

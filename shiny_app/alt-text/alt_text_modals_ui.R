@@ -1,6 +1,8 @@
 ####################### Modals UI #######################
 
+
 altTextUI <- function(id) {
+
   ns <- NS(id)
 
   actionButton(ns("alttext"),
@@ -8,3 +10,4 @@ altTextUI <- function(id) {
                icon = icon_no_warning_fn('chart-simple'))
 
 }
+
