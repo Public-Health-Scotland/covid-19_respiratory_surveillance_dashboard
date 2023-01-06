@@ -130,6 +130,7 @@ output$r_number_infobox <- renderInfoBox({
                                          strong("For more information, see Metadata. Click again to close.")))),
           value= glue("{R_Number %>% tail(1) %>% .$LowerBound}",
                       " - {R_Number %>% tail(1) %>% .$UpperBound}"),
+          subtitle = "Range",
           icon = icon_no_warning_fn("r"),
           color = "red")
 })
