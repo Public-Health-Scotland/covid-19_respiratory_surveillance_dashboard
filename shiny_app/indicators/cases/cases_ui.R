@@ -37,7 +37,9 @@ tagList(
                                      # include all the valueBoxes
                                      linebreaks(6)),
                             fluidRow(height="300px", width=12, linebreaks(3)),
-                            withSpinner(plotlyOutput("ons_cases_plot")))),
+                            altTextUI("ons_cases_modal"),
+                            withSpinner(plotlyOutput("ons_cases_plot"))
+                            )),
            tabPanel("R number",
                     tagList(h3("Estimated COVID-19 R number"),
                             tags$div(class = "headline",
@@ -88,6 +90,7 @@ tagList(
              type = "pills",
             tabPanel("Plot",
                       tagList(h3("Reported COVID-19 cases"),
+                                 altTextUI("reported_cases_modal"),
                                  withSpinner(plotlyOutput("reported_cases_plot")))),
             tabPanel("Data",
                       tagList(h3("Reported COVID-19 cases data"),
