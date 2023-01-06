@@ -24,11 +24,15 @@ tagList(
           tagList(
             h2("Hospital occupancy"),
             infoBoxOutput("occupancy_infobox", width=NULL),
-            bsPopover("occupancy_infobox", "title", "This is some content blah blah blah",
+            bsPopover("occupancy_infobox", "Number of patients in hospital with COVID-19", paste("Average number of patients in hospital with recently confirmed COVID-19, identified by their first positive LFD test (from 5 January 2022) or PCR test. This measure includes patients who first tested positive in hospital or in the 14 days before admission. Patients stop being included after 28 days in hospital (or 28 days after first testing positive if this is after admission).", strong("For more information, see Metadata.")),
                       placement = "top", trigger = "hover",
                       options = list(container = "body")),
-            infoBoxOutput("icu_occupancy_infobox", width=NULL),
-            bsPopover("icu_occupancy_infobox", "title", "This is some content blah blah blah",
+            infoBoxOutput("icu_less_occupancy_infobox", width=NULL),
+            bsPopover("icu_less_occupancy_infobox", "Number of patients in ICU with COVID-19 (28 days or less)", paste("Average number of ICU patients by SARS-CoV-2 PCR status and the clinical diagnosis on ICU admission that have been in ICU for 28 days or less. Most ICU SARS-CoV-2 inpatients have a non-COVID-19 or unknown clinical diagnosis, and those with a clinical diagnosis of COVID-19 remain low.", strong("For more information, see Metadata.")),
+                      placement = "top", trigger = "hover",
+                      options = list(container = "body")),
+            infoBoxOutput("icu_more_occupancy_infobox", width=NULL),
+            bsPopover("icu_more_occupancy_infobox", "Number of patients in ICU with COVID-19 (greater than 28 days)", paste("Average number of ICU patients by SARS-CoV-2 PCR status and the clinical diagnosis on ICU admission that have been in ICU for greater than 28 days. Most ICU SARS-CoV-2 inpatients have a non-COVID-19 or unknown clinical diagnosis, and those with a clinical diagnosis of COVID-19 remain low.", strong("For more information, see Metadata.")),
                       placement = "top", trigger = "hover",
                       options = list(container = "body"))
           )),

@@ -3,10 +3,11 @@
 output$hospital_occupancy_table <- renderDataTable({
   Occupancy_Hospital %>%
     mutate(Date = convert_opendata_date(Date)) %>%
-    dplyr::rename(`Hospital Occupancy` = HospitalOccupancy) %>%
+    dplyr::rename(`Hospital occupancy` = HospitalOccupancy,
+                  `7 day average` = SevenDayAverage) %>%
                   #`ICU Occupancy (28 days or less)` = ICUOccupancy28OrLess,
                   #`ICU Occupancy (greater than 28 days)` = ICUOccupancy28OrMore) %>%
-    select(Date,`Hospital Occupancy`, SevenDayAverage) %>%  #`ICU Occupancy (28 days or less)`, `ICU Occupancy (greater than 28 days)`) %>%
+    select(Date,`Hospital occupancy`, `7 day average`) %>%  #`ICU Occupancy (28 days or less)`, `ICU Occupancy (greater than 28 days)`) %>%
     #arrange(Date, desc(Geography)) %>%
     make_table(.,
                             add_separator_cols=NULL, # Column indices to add thousand separators to
@@ -20,9 +21,10 @@ output$hospital_occupancy_table <- renderDataTable({
 output$ICU_occupancy_table <- renderDataTable({
   Occupancy_ICU %>%
     mutate(Date = convert_opendata_date(Date)) %>%
-    dplyr::rename(`ICU Occupancy` = ICUOccupancy,
-    `ICU length of stay` = ICULengthOfStay) %>%
-    select(Date, `ICU length of stay`, `ICU Occupancy`, SevenDayAverage) %>%
+    dplyr::rename(`ICU occupancy` = ICUOccupancy,
+    `ICU length of stay` = ICULengthOfStay,
+    `7 day average` = SevenDayAverage) %>%
+    select(Date, `ICU length of stay`, `ICU occupancy`, `7 day average`) %>%
     make_table(.,
                             add_separator_cols=NULL, # Column indices to add thousand separators to
                             add_percentage_cols = NULL, # with % symbol and 2dp

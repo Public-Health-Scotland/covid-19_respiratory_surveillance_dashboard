@@ -1,6 +1,10 @@
 tagList(
-
   fluidRow(width = 12,
+           actionButton("jump_to_metadata_hospital_occupancy",
+                        label = "Metadata",
+                        class = "metadata-btn",
+                        icon = icon_no_warning_fn("file-pen")
+                        ),
            h1("Hospital occupancy"),
            linebreaks(2)),
 
@@ -9,17 +13,17 @@ tagList(
                                                     .$Date %>% convert_opendata_date() %>%format('%d %b %y')}")),
                             valueBox(value = {Occupancy_Hospital %>% tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in hospital in Scotland",
+                                subtitle = "7 day average number of patients with COVID-19 in hospital",
                                 color = "blue",
                                 icon = icon_no_warning_fn("hospital")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in ICU for 28 days or less in Scotland",
+                                subtitle = "7 day average number of patients with COVID-19 in ICU for 28 days or less",
                                 color = "blue",
                                 icon = icon_no_warning_fn("bed")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in ICU for more than 28 days in Scotland",
+                                subtitle = "7 day average number of patients with COVID-19 in ICU for more than 28 days",
                                 color = "blue",
                                 icon = icon_no_warning_fn("bed-pulse")),
                             # These linebreaks are here to make the banner big enough to
@@ -58,9 +62,10 @@ tagList(
                   height = 650,
                   type = "pills",
                   tabPanel("Plot",
-                           tagList(h3("Number of patients with COVID-19 in ICU"),
+                           tagList(h3("7 day average number of patients with COVID-19 in ICU"),
                                    linebreaks(1),
                                    altTextUI("icu_occupancy_modal"),
+
                                    withSpinner(plotlyOutput("icu_occupancy_plot"))
                            ) # taglist
                   ), # tabpanel
