@@ -48,14 +48,14 @@ tagList(
              h3("Download data "),
              downloadButton("data_download_output",
                             "Download data"),
-             tabBox(width=NULL, type="pills", side="right", height="800px",
+             tabBox(width=NULL, type="pills", side="right",
 
                     tabPanel("Data summary",
                              tagList(
 
                                h3("Summary of data to download: "),
                                linebreaks(1),
-                               verbatimTextOutput("data_download_summary")
+                               dataTableOutput("data_download_summary_table")
 
 
                              ) # taglist
