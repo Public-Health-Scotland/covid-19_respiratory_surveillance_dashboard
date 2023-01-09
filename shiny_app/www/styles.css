@@ -197,6 +197,23 @@ th, td {
   right:50px;
 }
 
+.summary-btn, .summary-btn:hover, .summary-btn:focus, .summary-btn:active:focus, .sumamry-btn:active, .summary-btn:checked {
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
+  font-weight: bold;
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  box-shadow: 0px 0px 0px 0px;
+  position: absolute;
+  right: 20px;
+}
+
+
+
+
+
 
 
 
@@ -602,7 +619,7 @@ color:white;
   border-bottom-left-radius: 2px;
   display: block;
   float: left;
-  height: 100px;
+  height: 115px;
   width: 90px;
   text-align: center;
   font-size: 45px;
@@ -664,26 +681,25 @@ a > .info-box {
 .info-box-number.bg-red { color: var(--phs-rust);   }
 */
 
-
+/*
 .popover {
   max-width: 100%;
 }
 
-
+*/
 .popover-title{
   background-color: var(--phs-blue);
   color: white;
-  width: 500px;
 }
 
 .popover-content{
   background-color: var(--phs-blue-10);
   color: var(--phs-blue);
-  width: 500px;
-
+  border-radius: 0px 0px 5px 5px;
 }
 
-
+/*
 .tooltip {
   width: 500px;
 }
+*/
