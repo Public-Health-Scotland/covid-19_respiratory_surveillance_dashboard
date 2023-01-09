@@ -10,7 +10,7 @@ hospital_admissions_download_choices <- list(
   "Length of stay of COVID-19 hospital admissions" = "Length_of_Stay",
   "Daily COVID-19 admissions to ICU" = "ICU",
   "Quarterly COVID-19 hospital admissions by ethnicity" = "Ethnicity",
-  "Weekly hospital admissions by SIMD" = "SIMD_trend"
+  "Weekly hospital admissions by SIMD" = "Admissions_SimdTrend"
                                           )
 hospital_occupancy_download_choices <- list(
   "Daily COVID-19 hospital occupancy" = "Occupancy_Hospital",
