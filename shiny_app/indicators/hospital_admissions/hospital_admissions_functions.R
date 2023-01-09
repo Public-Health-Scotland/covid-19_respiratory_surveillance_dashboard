@@ -153,8 +153,8 @@ make_hospital_admissions_los_plot <- function(data){
                         "Length of stay: ", table$`Length of Stay`, "<br>",
                         "Percent: ", round(table$Percent, 1), "%")
 
-  xaxis_plots[["title"]] <- 'Admission date by Week Ending'
-  yaxis_plots[["title"]] <- 'Percentage of Admissions'
+  xaxis_plots[["title"]] <- 'Admission date by week ending'
+  yaxis_plots[["title"]] <- 'Percentage of admissions'
   yaxis_plots[["ticksuffix"]] <- "%"
 
   # Adding slider
@@ -193,7 +193,7 @@ make_hospital_admissions_los_plot <- function(data){
 make_hospital_admissions_ethnicity_plot <- function(data){
 
 
-  yaxis_plots[["title"]] <- "COVID-19 Admissions"
+  yaxis_plots[["title"]] <- "COVID-19 admissions"
 
   # Adding slider
   xaxis_plots[["rangeslider"]] <- list(type = "date")
