@@ -32,7 +32,6 @@ copy_to_shiny_data <- function(csv, startloc){
 }
 
 # Copy all csv files in processed_data to shiny_data as rds files
-# Not copying march files across as only June needed
 files =  list.files(path=output_folder)
 purrr::walk(files, copy_to_shiny_data, startloc = output_folder)
 
