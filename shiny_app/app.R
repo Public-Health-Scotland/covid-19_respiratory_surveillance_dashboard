@@ -11,15 +11,23 @@
 source("setup.R")
 source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 
+# Getting UI for modals for alt text
+source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
+
 # UI
 ui <- fluidPage(
 tagList(
+# Specify language for accessibility
+tags$html(lang="en"),
+# External file with javascript code for bespoke functionality
+tags$head(tags$script(src="javascript.js")),
 # Specify most recent fontawesome library - change version as needed
 tags$style("@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);"),
 navbarPage(
     id = "intabset", # id used for jumping between tabs
     title = div(
-        tags$a(img(src = "phs-logo.png", height = 40),
+        tags$a(img(src = "phs-logo.png", height = 40,
+                   alt ="Go to Public Health Scotland (external site)"),
                href = "https://www.publichealthscotland.scot/",
                target = "_blank"), # PHS logo links to PHS website
     style = "position: relative; top: -5px;"),
@@ -126,6 +134,7 @@ server <- function(input, output, session) {
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
   source(file.path("functions/plot_functions.R"), local = TRUE)$value
+  source(file.path("modules/alt_text/alt_text_modals_server.R"), local = TRUE)$value
   source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value

@@ -37,7 +37,9 @@ tagList(
                                      # include all the valueBoxes
                                      linebreaks(6)),
                             fluidRow(height="300px", width=12, linebreaks(3)),
-                            withSpinner(plotlyOutput("ons_cases_plot")))),
+                            altTextUI("ons_cases_modal"),
+                            withSpinner(plotlyOutput("ons_cases_plot"))
+                            )),
            tabPanel("R number",
                     tagList(h3("Estimated COVID-19 R number"),
                             tags$div(class = "headline",
@@ -58,6 +60,7 @@ tagList(
                             linebreaks(6)
                             ), #div
                             fluidRow(height="300px", width =12, linebreaks(3)),
+                            altTextUI("r_number_modal"),
                             withSpinner(plotlyOutput("r_number_plot")))),
            tabPanel("Wastewater",
                     tagList(h3("Seven day average trend in wastewater COVID-19"),
@@ -76,6 +79,7 @@ tagList(
                             linebreaks(6)
                             ), #div
                             fluidRow(height="300px", width =12, linebreaks(3)),
+                            altTextUI("wastewater_modal"),
                             withSpinner(plotlyOutput("wastewater_plot"))))
         ) #tabBox
   ), # fluid row
@@ -88,6 +92,7 @@ tagList(
              type = "pills",
             tabPanel("Plot",
                       tagList(h3("Reported COVID-19 cases"),
+                                 altTextUI("reported_cases_modal"),
                                  withSpinner(plotlyOutput("reported_cases_plot")))),
             tabPanel("Data",
                       tagList(h3("Reported COVID-19 cases data"),
