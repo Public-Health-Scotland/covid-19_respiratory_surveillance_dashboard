@@ -40,7 +40,7 @@ make_reported_cases_plot <- function(data){
 
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5),
+           legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
 
