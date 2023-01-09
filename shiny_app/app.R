@@ -9,6 +9,7 @@
 
 # Get packages
 source("setup.R")
+source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 
 # UI
 ui <- fluidPage(
@@ -125,6 +126,7 @@ server <- function(input, output, session) {
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
   source(file.path("functions/plot_functions.R"), local = TRUE)$value
+  source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
