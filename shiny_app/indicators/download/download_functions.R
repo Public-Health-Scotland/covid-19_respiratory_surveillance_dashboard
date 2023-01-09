@@ -1,5 +1,9 @@
 
 # Get corresponding data dictionary ----
+# i.e. provide "Admissions" and it will give you
+# the Admissions_Dictionary object.
+# If no such object is loaded, returns "No summary available"
+# to the shiny app
 get_data_dictionary <- function(dataname){
 
   dictionary_name <- dataname %>%
