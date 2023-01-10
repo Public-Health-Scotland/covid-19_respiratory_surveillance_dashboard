@@ -18,3 +18,9 @@ $(document).on('hide.bs.modal', (x) => {
 $(document).on('shown.bs.popover', (x) => {
   $(".popover:not(:last)").popover("hide");
 });
+
+// Fixes bug with bootstrap where you need to double click
+// to re-see a popover you've previously closed
+$(document).on('hidden.bs.popover', function (e) {
+    $(e.target).data("bs.popover").inState.click = false;
+});
