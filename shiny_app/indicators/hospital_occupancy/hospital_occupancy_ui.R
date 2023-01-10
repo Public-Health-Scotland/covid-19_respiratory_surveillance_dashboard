@@ -18,12 +18,12 @@ tagList(
                                 icon = icon_no_warning_fn("hospital")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in Intensive Care Units (ICU) for 28 days or less",
+                                subtitle = "7 day average number of patients with COVID-19 in ICU for 28 days or less",
                                 color = "blue",
                                 icon = icon_no_warning_fn("bed")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in Intensive Care Units (ICU) for more than 28 days",
+                                subtitle = "7 day average number of patients with COVID-19 in ICU for more than 28 days",
                                 color = "blue",
                                 icon = icon_no_warning_fn("bed-pulse")),
                             # These linebreaks are here to make the banner big enough to

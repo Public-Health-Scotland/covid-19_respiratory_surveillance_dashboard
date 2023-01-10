@@ -124,7 +124,7 @@ tagList(
                   tabPanel("ICU admissions",
                            tagList(h3("Number of COVID-19 admissions to Intensive Care Units (ICU)"),
                                    tags$div(class = "headline",
-                                            h3("Intensive Care Unit (ICU) admissions from last three weeks"),
+                                            h3("ICU admissions from last three weeks"),
                                             valueBox(value = {icu_headlines[[1]]},
                                                 subtitle = glue("Week ending {names(icu_headlines)[[1]]}"),
                                                 color = "blue",
