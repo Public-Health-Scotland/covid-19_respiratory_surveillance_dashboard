@@ -122,9 +122,9 @@ tagList(
 
 
                   tabPanel("ICU admissions",
-                           tagList(h3("Number of COVID-19 admissions to ICU"),
+                           tagList(h3("Number of COVID-19 admissions to Intensive Care Units (ICU)"),
                                    tags$div(class = "headline",
-                                            h3("ICU admissions from last three weeks"),
+                                            h3("Intensive Care Unit (ICU) admissions from last three weeks"),
                                             valueBox(value = {icu_headlines[[1]]},
                                                 subtitle = glue("Week ending {names(icu_headlines)[[1]]}"),
                                                 color = "blue",
@@ -141,7 +141,7 @@ tagList(
                                             # These linebreaks are here to make the banner big enough to
                                             # include all the valueBoxes
                                             linebreaks(6))),
-                           tagList(h3("Daily number of COVID-19 ICU admissions")),
+                           tagList(h3("Daily number of COVID-19 admissions to Intensive Care Units (ICU)")),
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
