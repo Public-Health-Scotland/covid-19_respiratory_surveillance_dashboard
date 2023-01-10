@@ -1,12 +1,14 @@
 
-summaryButtonUI <- function(id, title, content, placement = "left"){
+summaryButtonUI <- function(id, title, content, placement = "left",
+                            label = "",
+                            icon = "question", class = "summary-btn"){
 
   ns <- NS(id)
 
   popify(bsButton(ns("click"),
-                  class = "summary-btn",
-                  label = "",
-                  icon = icon("question"),
+                  class = class,
+                  label = label,
+                  icon = icon(icon),
                   size = "extra-small"),
          title,
          content,
@@ -16,3 +18,18 @@ summaryButtonUI <- function(id, title, content, placement = "left"){
 
 
 }
+
+plotInfoButtonUI <- function(id, placement = "right") {
+  ns <- NS(id)
+
+  summaryButtonUI(ns("plotinfo"),
+                  title = "How to interact with the plot",
+                  content = paste("Some text here.<br><br>",
+                                  strong("For more information, see Metadata. Click again to close.")),
+                  placement = placement,
+                  label = "Using the plot",
+                  icon = "circle-info",
+                  class = "plotinfo-btn"
+                  )
+}
+
