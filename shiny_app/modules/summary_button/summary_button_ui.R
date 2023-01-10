@@ -1,4 +1,5 @@
 
+# ? Buttons for summary tab
 summaryButtonUI <- function(id, title, content, placement = "left",
                             label = "",
                             icon = "question", class = "summary-btn"){
@@ -19,6 +20,7 @@ summaryButtonUI <- function(id, title, content, placement = "left",
 
 }
 
+# Buttons that go next to plots for how to interact with the plot
 plotInfoButtonUI <- function(id, placement = "right") {
   ns <- NS(id)
 

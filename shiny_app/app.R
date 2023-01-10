@@ -9,8 +9,9 @@
 
 # Get packages
 source("setup.R")
-source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 
+# Getting summary buttons and plot info buttons
+source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 # Getting UI for modals for alt text
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 
