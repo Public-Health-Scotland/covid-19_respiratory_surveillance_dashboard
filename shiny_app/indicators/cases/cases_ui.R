@@ -10,7 +10,7 @@ tagList(
 
   fluidRow(width = 12,
     tabBox(width = NULL,
-           height = 900,
+           height = NULL,
            type = "pills",
            tabPanel("Estimated infections",
                     tagList(h3("Estimated COVID-19 infection rate"),
@@ -36,9 +36,12 @@ tagList(
                                      # These linebreaks are here to make the banner big enough to
                                      # include all the valueBoxes
                                      linebreaks(6)),
-                            fluidRow(height="300px", width=12, linebreaks(3)),
+                            fluidRow(
+                              width=12, linebreaks(3)),
                             altTextUI("ons_cases_modal"),
-                            withSpinner(plotlyOutput("ons_cases_plot"))
+                            withSpinner(plotlyOutput("ons_cases_plot")),
+                            fluidRow(
+                              width=12, linebreaks(5))
                             )),
            tabPanel("R number",
                     tagList(h3("Estimated COVID-19 R number"),
@@ -59,9 +62,12 @@ tagList(
                             # include all the valueBoxes
                             linebreaks(6)
                             ), #div
-                            fluidRow(height="300px", width =12, linebreaks(3)),
+                            fluidRow(
+                                     width =12, linebreaks(3)),
                             altTextUI("r_number_modal"),
-                            withSpinner(plotlyOutput("r_number_plot")))),
+                            withSpinner(plotlyOutput("r_number_plot"))),
+                    fluidRow(
+                      width=12, linebreaks(5))),
            tabPanel("Wastewater",
                     tagList(h3("Seven day average trend in wastewater COVID-19"),
                             tags$div(class = "headline",
@@ -78,28 +84,34 @@ tagList(
                             # include all the valueBoxes
                             linebreaks(6)
                             ), #div
-                            fluidRow(height="300px", width =12, linebreaks(3)),
+                            fluidRow(
+                                     width =12, linebreaks(3)),
                             altTextUI("wastewater_modal"),
-                            withSpinner(plotlyOutput("wastewater_plot"))))
+                            withSpinner(plotlyOutput("wastewater_plot"))),
+                    fluidRow(
+                      width=12, linebreaks(5)))
         ) #tabBox
   ), # fluid row
 
-  fluidRow(height="50px", width =12, br()),
+  fluidRow(
+    width =12, br()),
 
   fluidRow(width = 12,
       tabBox(width = NULL,
-             height = 750,
              type = "pills",
             tabPanel("Plot",
                       tagList(h3("Reported COVID-19 cases"),
                                  altTextUI("reported_cases_modal"),
-                                 withSpinner(plotlyOutput("reported_cases_plot")))),
+                                 withSpinner(plotlyOutput("reported_cases_plot")),
+                              fluidRow(
+                                width=12, linebreaks(5)))),
             tabPanel("Data",
                       tagList(h3("Reported COVID-19 cases data"),
                               withSpinner(dataTableOutput("reported_cases_table")))))
   ), #fluidrow
 
   # Padding out the bottom of the page
-  fluidRow(height="200px", width=12, linebreaks(5))
+  fluidRow(
+    width=12, linebreaks(5))
 
 )#taglist
