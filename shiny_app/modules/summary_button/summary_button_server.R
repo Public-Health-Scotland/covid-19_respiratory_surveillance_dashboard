@@ -4,13 +4,10 @@ summaryButtonServer <- function(id, title, content){
   moduleServer(id,
                function(input,output,session){
 
-
+               # server currently does nothing
 
                })
 
 
 }
 
-# icu_popover <- summaryButtonServer("icu", "hi", "hi")
-#
-# admissions_popover <- summaryButtonServer("admissions", "hi", "hi")
