@@ -35,13 +35,13 @@ tagList(
 
   fluidRow(width = 12,
            tabBox(width = NULL,
-                  height = 650,
                   type = "pills",
                   tabPanel("Plot",
                            tagList(h3("Number of patients with COVID-19 in hospital"),
                                    linebreaks(1),
                                    altTextUI("hospital_occupancy_modal"),
-                                   withSpinner(plotlyOutput("hospital_occupancy_plot"))
+                                   withSpinner(plotlyOutput("hospital_occupancy_plot")),
+                                   linebreaks(4)
                                    ) # taglist
                            ), # tabpanel
 
@@ -55,18 +55,19 @@ tagList(
 
           ), # fluid row
 
-  fluidRow(height = "50px", br()),
+  fluidRow(
+           br()),
 
   fluidRow(width = 12,
            tabBox(width = NULL,
-                  height = 650,
                   type = "pills",
                   tabPanel("Plot",
                            tagList(h3("7 day average number of patients with COVID-19 in ICU"),
                                    linebreaks(1),
                                    altTextUI("icu_occupancy_modal"),
 
-                                   withSpinner(plotlyOutput("icu_occupancy_plot"))
+                                   withSpinner(plotlyOutput("icu_occupancy_plot")),
+                                   linebreaks(4)
                            ) # taglist
                   ), # tabpanel
 
@@ -79,7 +80,8 @@ tagList(
 
   ), # fluid row
 
-  fluidRow(height = "50px", br())
+  fluidRow(
+           br())
 
 ) # taglist
 
