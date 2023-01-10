@@ -15,7 +15,7 @@
 
 ## Developing the R shiny app
 
-## Data transfer layout
+### Data transfer layout
 
 * `Dashboard Data Transfer` contains the data transfer code. This is for transferring data from mixed inputs to open data format ready for use in the app.
 
