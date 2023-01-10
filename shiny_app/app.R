@@ -33,6 +33,7 @@ navbarPage(
     style = "position: relative; top: -5px;"),
     windowTitle = "COVID-19 Dashboard",# Title for browser tab
     header = tags$head(includeCSS("www/styles.css"),  # CSS stylesheet
+                     #  includeHTML("www/google-analytics.html"), #Including Google analytics
     tags$link(rel = "shortcut icon", href = "favicon_phs.ico") # Icon for browser tab
 ),
 ##############################################.
