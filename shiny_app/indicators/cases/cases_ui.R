@@ -39,7 +39,6 @@ tagList(
                             fluidRow(
                               width=12, linebreaks(3)),
                             altTextUI("ons_cases_modal"),
-                            plotInfoButtonUI("ons_cases_plotinfo"),
                             withSpinner(plotlyOutput("ons_cases_plot")),
                             fluidRow(
                               width=12, linebreaks(5))
