@@ -3,7 +3,8 @@ tagList(
            linebreaks(1)),
   fluidRow(
     tagList(
-      box(height=600, status = "info",
+      box(
+          status = "info",
           tagList(
             h2("Hospital admissions"),
 
@@ -11,25 +12,29 @@ tagList(
 
             infoBoxOutput("icu_infobox", width=NULL),
 
-            infoBoxOutput("los_infobox", width=NULL)
+            infoBoxOutput("los_infobox", width=NULL),
+
+            linebreaks(1)
 
           )),
 
 
-      box(height=600, status = "info",
+      box(
+          status = "info",
           tagList(
             h2("Hospital occupancy"),
             infoBoxOutput("occupancy_infobox", width=NULL),
 
             infoBoxOutput("icu_less_occupancy_infobox", width=NULL),
 
-            infoBoxOutput("icu_more_occupancy_infobox", width=NULL)
+            infoBoxOutput("icu_more_occupancy_infobox", width=NULL),
+
+            linebreaks(1)
 
           )),
 
-
-      linebreaks(10),
-      box(height=600, status = "info",
+      box(
+          status = "info",
           tagList(
             h2("Cases"),
             infoBoxOutput("ons_infobox", width=NULL),
@@ -38,24 +43,29 @@ tagList(
 
             infoBoxOutput("wastewater_infobox", width=NULL),
 
-            infoBoxOutput("reported_cases_infobox", width=NULL)
+            infoBoxOutput("reported_cases_infobox", width=NULL),
+
+            linebreaks(1)
 
           )),
 
 
-      box(height=600, status = "info",
+      box(
+          status = "info",
           tagList(
             h2("Vaccine wastage"),
             infoBoxOutput("doses_wasted_infobox", width=NULL),
 
             infoBoxOutput("doses_administered_infobox", width=NULL),
 
-            infoBoxOutput("percent_wasted_infobox", width=NULL)
+            infoBoxOutput("percent_wasted_infobox", width=NULL),
+
+            linebreaks(1)
 
           )),
       # Padding out the bottom of the page
 
-      fluidRow(column(12, height="5000px", linebreaks(5)))
+      fluidRow(column(12, linebreaks(5)))
     ) # taglist
 )# fluidRow
 )
