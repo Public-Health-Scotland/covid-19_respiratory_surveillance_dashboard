@@ -26,7 +26,16 @@ plotInfoButtonUI <- function(id, placement = "right") {
 
   summaryButtonUI(ns("plotinfo"),
                   title = "How to interact with the plot",
-                  content = paste("Some text here.<br><br>",
+                  content = paste("<ul>",
+                                  "<li>Move the cursor over the data points the see the data values</li>",
+                                  "<li>Hold down cursor, drag to size and release to zoom in on part of the plot</li>",
+                                  "<li>Alter the x axis by dragging the vertical white bars on the left and right of the bottom panel</li>",
+                                  "<li>Click the home button in the top right to reset the axes</li>",
+                                  "<li>Single click on legend items to remove that trace</li>",
+                                  "<li>Double click on legend items to isolate that trace</li>",
+                                  "<li>Double click on the legend to restore all traces</li>",
+                                  "<li>Click the camera icon in the top right to download the plot as a png</li>",
+                                  "</ul>",
                                   strong("For more information, see Metadata. Click again to close.")),
                   placement = placement,
                   label = "Using the plot",
@@ -34,4 +43,6 @@ plotInfoButtonUI <- function(id, placement = "right") {
                   class = "plotinfo-btn"
                   )
 }
+
+
 
