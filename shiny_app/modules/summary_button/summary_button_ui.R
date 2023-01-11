@@ -36,7 +36,7 @@ plotInfoButtonUI <- function(id, placement = "right") {
                                   "<li>Double click on the legend to restore all traces</li>",
                                   "<li>Click the camera icon in the top right to download the plot as a png</li>",
                                   "</ul>",
-                                  strong("For more information, see Metadata. Click again to close.")),
+                                  strong("Click again to close.")),
                   placement = placement,
                   label = "Using the plot",
                   icon = "circle-info",
