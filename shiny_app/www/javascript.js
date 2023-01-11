@@ -6,12 +6,12 @@ $(document).on('shown.bs.modal', (x) => {
   $(".popover").popover("hide");
   // With no more specific selector focus is given
   // to the last button on the page which is the modal button
-  $('button').focus();
+  $('.modal-footer > .btn').focus();
 
 });
 
 $(document).on('hide.bs.modal', (x) => {
-  $('button').focus();
+  $('.modal-footer > .btn').focus();
 });
 
 
