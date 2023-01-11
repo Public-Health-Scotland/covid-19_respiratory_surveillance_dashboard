@@ -21,12 +21,12 @@ yaxis_plots <- list(title = FALSE, rangemode="tozero", size = 4,
 
 # Buttons to remove from plotly plots
 bttn_remove <-  list(
-                     #'select2d',
+                     'select2d',
                      'lasso2d',
                      'zoomIn2d',
                      'zoomOut2d',
                      'autoScale2d',
-                     #'toggleSpikelines',
+                     'toggleSpikelines',
                      'hoverCompareCartesian',
                      'hoverClosestCartesian'
                   )
