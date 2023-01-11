@@ -2,6 +2,7 @@
 // Ensures that when a modal opens keyboard focus is given to the
 // close button in the modal - accessibility
 $(document).on('shown.bs.modal', (x) => {
+  // Hide popovers when a modal comes up so they don't overlap
   $(".popover").popover("hide");
   // With no more specific selector focus is given
   // to the last button on the page which is the modal button
