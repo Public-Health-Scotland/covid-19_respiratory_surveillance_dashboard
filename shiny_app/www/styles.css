@@ -108,14 +108,7 @@ th, td {
    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
-.btn:hover
-{
-  background-color: var(--phs-blue-50);
-  color: white;
-  font-weight: bold;
-}
-
-.btn
+.btn, .btn:hover
 {
   background-color: var(--phs-blue-10);
   color: var(--phs-blue);
@@ -124,30 +117,22 @@ th, td {
 
 .btn:focus
 {
-   background-color: var(--phs-blue);
-   color: white;
+   background-color: var(--phs-blue-10);
+   color: var(--phs-blue);
    font-weight: bold;
    padding:10px;
    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
-.btn:active:focus
+.btn:active:focus, .btn:focus, .btn:checked
 {
-   background-color: var(--phs-blue);
-   color: white;
+   background-color: var(--phs-blue-10);
+   color: var(--phs-blue);
    font-weight: bold;
    padding:10px;
    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
-.btn:checked
-{
-   background-color: var(--phs-blue);
-   color: white;
-   font-weight: bold;
-   padding:10px;
-   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
-}
 
 
 /*https://codepen.io/JavaScriptJunkie/pen/pPRooV*/
@@ -422,8 +407,9 @@ color:white;
 
 .nav-pills> li > a:hover
 {
-  background-color: var(--phs-blue-50);
-  color: white;
+  box-shadow: 2px;
+  background-color: var(--phs-blue-10);
+  color: var(--phs-blue);
   font-weight: bold;
 }
 
