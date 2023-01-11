@@ -10,8 +10,8 @@
       --phs-purple-80: #655E9D;
       --phs-purple-30: #C5C3DA;
 
-      --phs-blue: #0078D4;
-      --phs-blue-80: #3393DD;
+      --phs-blue: rgba(1, 0, 104, 1);
+      --phs-blue-80: rgba(1, 0, 104, 0.8);
       --phs-blue-50: #80BCEA;
       --phs-blue-30: #B3D7F2;
       --phs-blue-10: #E6F2FB;
@@ -42,7 +42,7 @@
 
 /* Setting header colour */
   h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-    color: var(--phs-purple);
+    color: var(--phs-blue);
     font-weight: bold;
   }
 /* Body styles */
@@ -71,24 +71,24 @@ td{
     padding: 5px; box-shadow: none; }
 
 /* Navigation bar following PHS colour scheme */
-  .navbar-default {color: var(--white); background-color: var(--phs-purple); border-radius: 5px 5px 5px 5px;}
-.navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--phs-purple); background-color: var(--white)}
+  .navbar-default {color: var(--white); background-color: var(--phs-blue); border-radius: 5px 5px 5px 5px;}
+.navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--phs-blue); background-color: var(--white)}
 .navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px; font-weight: bold;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
-  color: var(--white);
-  background-color: var(--phs-purple-80);
+  color: var(--phs-blue);
+  background-color: var(--phs-blue-10);
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: var(--white);     background-color: var(--phs-purple-80);}
+  color: var(--white);     background-color: var(--phs-blue-80);}
 
 /* Style hyperlinks */
-  .externallink {color: var(--phs-purple); font-weight: bold;}
+  .externallink {color: var(--phs-blue); font-weight: bold;}
 .externallink:hover {color: var(--phs-blue-50);}
 
 /* Border tables - th, td puts within the table as well */
-  .border-table{border:1px solid var(--phs-purple);}
+  .border-table{border:1px solid var(--phs-blue);}
 th, td {
-  border: 1px solid var(--phs-purple-30);
+  border: 1px solid var(--phs-blue-30);
   padding-right: 1px;
 }
 .container-fluid {
@@ -164,30 +164,33 @@ th, td {
 
     /*Button shape & animation*/
     border-radius: border-rounded;
-    border: 0px solid var(--phs-purple);
+    border: 0px solid var(--phs-blue);
     margin: 5px;
     width:  250px;
     height: 50px;
     background-size: 100% auto;
-    color: white;
+    color: var(--phs-blue);
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
-    background-image: linear-gradient(to right, var(--phs-blue-30) 0%, var(--phs-blue-80) 40%,
-    var(--phs-blue) 100%);
+   /* background-image: linear-gradient(to right, var(--phs-blue-30) 0%, var(--phs-blue-80) 40%,
+    var(--phs-blue) 100%); */
+    background-color: var(--phs-blue-10);
     background-position: right center;
 }
 
 .special_button > .btn:hover {
     background-position: right center;
-    background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);
-    box-shadow: 0 4px 15px 0 var(--phs-purple);
+    /*background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);*/
+    background-color: var(--phs-blue);
+    color: var(--phs-blue-10);
+    box-shadow: 0 4px 10px 0 var(--phs-blue);
 }
 
 .special_button > .btn:focus:active {
     outline: none;
-    color: white;
-    background-color: white;
-    background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);
-    box-shadow: 0 8px 20px 0 var(--phs-purple);
+    background-color: var(--phs-blue);
+    color: var(--phs-blue-10);
+    /*background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);*/
+    box-shadow: 0 8px 15px 0 var(--phs-blue);
 }
 
 
@@ -226,21 +229,21 @@ th, td {
 /* Radio button */
 .radiobtn{background-color:var(--phs-blue);
   color: white;
-  border: 2px solid var(--phs-purple);
+  border: 2px solid var(--phs-blue);
   font-size: 20px;
   font-weight: bold;
 }
 
-.radiobtn:focus{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+.radiobtn:focus{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.radiobtn:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+.radiobtn:active{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-/*.radiobtn:focus:active{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+/*.radiobtn:focus:active{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}*/
-.radiobtn:checked{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+.radiobtn:checked{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
 
-.radiobtn:hover{color:var(--phs-purple);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
+.radiobtn:hover{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
 
 /* SIDE BAR SELECTORS */
 
@@ -344,11 +347,11 @@ color:white;
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: bold;
-    color: var(--phs-purple);
+    color: var(--phs-blue);
   }
 /* Links */
   a {
-    color: var(--phs-purple);
+    color: var(--phs-blue);
     text-decoration: none;
   }
 
@@ -399,7 +402,7 @@ color:white;
 
   .table > .tbody > tr.active th,
 .table > .tbody > tr.active td{
-  background-color: var(--phs-purple);
+  background-color: var(--phs-blue);
   color: var(--phs-blue);
 }
 
@@ -413,7 +416,7 @@ color:white;
    color: white;
    font-weight: bold;
    padding:10px;
-   box-shadow: 0 8px 8px var(--phs-purple-50);
+   box-shadow: 0 8px 8px var(--phs-blue-50);
 
 }
 
@@ -447,20 +450,20 @@ color:white;
      border: 100px;
      border-color: var(--phs-blue);
      border-radius: 5px 5px 5px 5px;
-     box-shadow: 0 8px 8px var(--phs-purple-30)
+     box-shadow: 0 8px 8px var(--phs-blue-30)
 }
 
 /* box */
 .box {
   background-color: var(--phs-liberty-10);
   border-radius: 5px 5px 5px 5px;
-  box-shadow: 0 8px 8px var(--phs-purple-30)
+  box-shadow: 0 8px 8px var(--phs-blue-30)
 }
 
 /* boxes for summary page*/
 .box-info {
    background-color: var(--phs-blue-10);
-   box-shadow: 0 8px 8px var(--phs-purple-30)
+   box-shadow: 0 8px 8px var(--phs-blue-30)
 }
 
 
@@ -468,7 +471,7 @@ color:white;
 .headline {
   border-radius: 10px;
   background-color: var(--phs-blue-10);
-  box-shadow: 0 8px 8px var(--phs-purple-30) ;
+  box-shadow: 0 8px 8px var(--phs-blue-30) ;
 
 }
 
@@ -555,6 +558,7 @@ color:white;
   }
   .small-box .icon {
     display: none;
+    color: white;
   }
   .small-box p {
     font-size: 12px;
@@ -567,7 +571,8 @@ color:white;
   bottom: 5px;
   right: 5px;
   font-size: 70px;
-  color: rgba(0, 0, 0, 0.15);
+  color: white;
+  /*color: rgba(0, 0, 0, 0.15);*/
 }
 
 /* Hack to get the colours we want on shinydashboard varBox */
@@ -584,6 +589,7 @@ color:white;
 
 .small-box.bg-teal { background-color:var(--phs-teal); !important; color:#000000 !important; }
 
+.small-box.bg-red { background-color:var(--phs-rust); !important; color:#000000 !important; }
 
 /*
  * Comes from https://github.com/rstudio/shinydashboard/blob/main/inst/AdminLTE/AdminLTE.css

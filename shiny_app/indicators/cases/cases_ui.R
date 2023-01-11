@@ -21,17 +21,17 @@ tagList(
                                      valueBox(value = {ONS %>% tail(1) %>%
                                          .$EstimatedRatio},
                                          subtitle = "Estimated prevalence",
-                                         color = "blue",
+                                         color = "purple",
                                          icon = icon_no_warning_fn("viruses")),
                                      valueBox(value = {ONS %>% tail(1) %>%
                                          .$LowerCIRatio},
                                          subtitle = "Lower 95% confidence interval",
-                                         color = "blue",
+                                         color = "purple",
                                          icon = icon_no_warning_fn("arrows-down-to-line")),
                                      valueBox(value = {ONS %>% tail(1) %>%
                                          .$UpperCIRatio},
                                          subtitle = "Upper 95% confidence interval",
-                                         color = "blue",
+                                         color = "purple",
                                          icon = icon_no_warning_fn("arrows-up-to-line")),
                                      # These linebreaks are here to make the banner big enough to
                                      # include all the valueBoxes
@@ -51,12 +51,12 @@ tagList(
                                      valueBox(value = {R_Number %>% tail(1) %>%
                                          .$LowerBound},
                                          subtitle = "Lower R number estimate",
-                                         color = "blue",
+                                         color = "purple",
                                          icon = icon_no_warning_fn("arrows-down-to-line")),
                                      valueBox(value = {R_Number %>% tail(1) %>%
                                          .$UpperBound},
                                          subtitle = "Upper R number estimate",
-                                         color = "blue",
+                                         color = "purple",
                                          icon = icon_no_warning_fn("arrows-up-to-line")),
                             # These linebreaks are here to make the banner big enough to
                             # include all the valueBoxes
@@ -78,7 +78,7 @@ tagList(
                                          signif(3) %>%
                                          paste("Mgc/p/d")},
                                          subtitle = "COVID-19 wastewater level",
-                                         color = "blue",
+                                         color = "purple",
                                          icon = icon_no_warning_fn("faucet-drip")),
                             # These linebreaks are here to make the banner big enough to
                             # include all the valueBoxes

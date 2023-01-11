@@ -47,11 +47,11 @@ make_hospital_admissions_plot <- function(data){
   #Creating time trend plot
   p <- plot_ly(non_prov_data, x = ~AdmissionDate) %>%
     add_lines(y = ~TotalInfections,
-              line = list(color = phs_colours("phs-blue-30")),
+              line = list(color = phs_colours("phs-rust-30")),
               text = tooltip_trend, hoverinfo = "text",
               name = "Daily hospital admissions") %>%
     add_lines(y = ~SevenDayAverage,
-              line = list(color = phs_colours("phs-blue")),
+              line = list(color = phs_colours("phs-rust")),
               text = tooltip_trend, hoverinfo = "text",
               name = "7 day average") %>%
 
@@ -75,7 +75,7 @@ make_hospital_admissions_plot <- function(data){
                         xs= c("2022-01-06", "2022-05-01"),
                         notes=c("From 5 Jan cases  include PCR + LFD",
                                 "Change in testing policy on 1 May"),
-                        colors=c(phs_colours("phs-rust"),
+                        colors=c(phs_colours("phs-teal"),
                                  phs_colours("phs-purple"))) %>%
   # Add layout and config
     layout(margin = list(b = 80, t = 5),
@@ -112,7 +112,7 @@ make_hospital_admissions_simd_plot <- function(data){
               type="scatter", mode="lines",
               color=~SIMD,
               colors=phs_colours(c("phs-rust", "phs-liberty-30", "phs-liberty-30",
-                                   "phs-liberty-30", "phs-blue")),
+                                   "phs-liberty-30", "phs-purple")),
               hovertemplate = paste0('<b>Week ending</b>: %{x}<br>',
                                      '<b>SIMD quintile</b>: %{text}<br>',
                                      '<b>Number of admissions</b>: %{y}')
@@ -166,7 +166,7 @@ make_hospital_admissions_los_plot <- function(data){
             y = ~Percent,
             color = ~`Length of Stay`,
             type = 'bar',
-            colors = paste(phs_palettes$`main-blues`),
+            colors = paste(phs_palettes$`supporting-rusts`),
             text = tooltip_trend,
             hoverinfo = "text",
             marker = list(line = list(width=.5,
@@ -212,13 +212,13 @@ make_hospital_admissions_ethnicity_plot <- function(data){
     add_trace(x = ~MonthBegining,
               y = ~Admissions,
               color = ~EthnicGroup,
-              colors = phs_colours(c("phs-graphite",
+              colors = phs_colours(c("phs-blue",
                                      "phs-purple",
                                      "phs-teal",
-                                     "phs-blue",
-                                     "phs-green",
+                                     "phs-rust",
+                                     "phs-graphite",
                                      "phs-magenta",
-                                     "phs-rust")),
+                                     "phs-green")),
               type = "bar") %>%
     #Layout
     layout(margin = list(b = 100, t = 5), #to avoid labels getting cut out
@@ -262,11 +262,11 @@ make_icu_admissions_plot <- function(data){
   p <- plot_ly(data,
                x = ~DateFirstICUAdmission) %>%
     add_lines(y = ~NewCovidAdmissionsPerDay,
-              line = list(color = phs_colours("phs-blue-30")),
+              line = list(color = phs_colours("phs-rust-30")),
               text = tooltip_trend, hoverinfo = "text",
               name = "ICU admissions") %>%
     add_lines(y = ~SevenDayAverage,
-              line = list(color = phs_colours("phs-blue")),
+              line = list(color = phs_colours("phs-rust")),
               text = tooltip_trend, hoverinfo = "text",
               name = "7 day average") %>%
     #Layout
