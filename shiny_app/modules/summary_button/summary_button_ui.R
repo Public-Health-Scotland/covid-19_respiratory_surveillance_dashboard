@@ -2,7 +2,7 @@
 # ? Buttons for summary tab
 summaryButtonUI <- function(id, title, content, placement = "left",
                             label = "",
-                            icon = "question", class = "summary-btn"){
+                            icon = "circle-info", class = "summary-btn"){
 
   ns <- NS(id)
 
@@ -39,7 +39,6 @@ plotInfoButtonUI <- function(id, placement = "right") {
                                   strong("Click again to close.")),
                   placement = placement,
                   label = "Using the plot",
-                  icon = "circle-info",
                   class = "plotinfo-btn"
                   )
 }
