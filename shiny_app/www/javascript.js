@@ -26,3 +26,17 @@ $(document).on('shown.bs.popover', (x) => {
 $(document).on('hidden.bs.popover', (x) => {
     $(x.target).data("bs.popover").inState.click = false;
 });
+
+
+// Hiding popovers when you change the tab
+$(document).on('hide.bs.tab', (x) => {
+   $(".popover").popover("hide");
+});
+
+$(document).on('show.bs.tab', (x) => {
+  console.log("show bs tab");
+   $(".popover").popover("hide");
+});
+
+
+
