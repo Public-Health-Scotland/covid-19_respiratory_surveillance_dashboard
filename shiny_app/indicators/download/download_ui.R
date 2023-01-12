@@ -57,7 +57,7 @@ tagList(
 
                                h3("Summary of data to download: "),
                                linebreaks(1),
-                               dataTableOutput("data_download_summary_table")
+                               withSpinner(dataTableOutput("data_download_summary_table"))
 
 
                              ) # taglist
@@ -67,7 +67,7 @@ tagList(
 
                                h3("Preview of data to download (first 10 rows): "),
                                linebreaks(1),
-                               dataTableOutput("data_download_table")
+                               withSpinner(dataTableOutput("data_download_table"))
 
                              ))
 

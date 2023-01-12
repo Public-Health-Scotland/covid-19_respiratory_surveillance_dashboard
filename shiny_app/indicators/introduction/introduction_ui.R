@@ -7,7 +7,7 @@ sidebarLayout(
   mainPanel(width = 8,
             # About
             conditionalPanel(
-              condition= 'input.home_select == "about"',
+              condition= "input.home_select == 'about'",
                 tagList(h3(tags$b("COVID-19 in Scotland")),
                         p("text here"),
                        tags$div(class = "special_button",
@@ -16,8 +16,8 @@ sidebarLayout(
                                                 actionButton("jump_to_hospital_admissions", "Hospital admissions"),
                                                 actionButton("jump_to_hospital_occupancy", "Hospital occupancy"),
                                                 actionButton("jump_to_vaccines", "Vaccine wastage"),
-                                               actionButton("jump_to_metadata", "Metadata"),
-                                               actionButton("jump_to_download", "Download data")
+                                                actionButton("jump_to_metadata", "Metadata"),
+                                                actionButton("jump_to_download", "Download data")
 
                        )#div
                 )# tagList
@@ -25,7 +25,7 @@ sidebarLayout(
 
             # Using the dashboard
             conditionalPanel(
-              condition= 'input.home_select == "use"',
+              condition= "input.home_select == 'use'",
               tagList(h3(tags$b("Using the dashboard")),
                       p("There are tabs across the top for the each topic area within the dashboard....."),
                       p("Note that some numbers may not sum to the total as disclosure control methods have been applied
@@ -48,7 +48,7 @@ sidebarLayout(
 
             # Further information
             conditionalPanel(
-              condition= 'input.home_select == "info"',
+              condition= "input.home_select == 'info'",
               tagList(h3(tags$b("Further sources of information")),
                       p(tags$li("You can access the code used to produce this tool in this ",
                                 tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), ".")),
@@ -62,7 +62,7 @@ sidebarLayout(
 
             # Accessibility
             conditionalPanel(
-              condition= 'input.home_select == "accessibility"',
+              condition= "input.home_select == 'accessibility'",
               tagList(h3(tags$b("Accessibility")),
                       p("This website is run by ", tags$a(href="https://www.publichealthscotland.scot/",
                                                           "Public Health Scotland", target="_blank"),
