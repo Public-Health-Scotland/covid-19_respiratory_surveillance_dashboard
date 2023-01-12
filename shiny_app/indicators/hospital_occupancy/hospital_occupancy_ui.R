@@ -62,7 +62,7 @@ tagList(
            tabBox(width = NULL,
                   type = "pills",
                   tabPanel("Plot",
-                           tagList(h3("7 day average number of patients with COVID-19 in ICU"),
+                           tagList(h3("7 day average number of patients with COVID-19 in Intensive Care Units (ICU)"),
                                    linebreaks(1),
                                    altTextUI("icu_occupancy_modal"),
 
@@ -72,7 +72,7 @@ tagList(
                   ), # tabpanel
 
                   tabPanel("Data",
-                           tagList(h3("Number of patients with COVID-19 in ICU data"),
+                           tagList(h3("Number of patients with COVID-19 in Intensive Care Units (ICU) data"),
                                    withSpinner(dataTableOutput("ICU_occupancy_table"))
                            ) # taglist
                   ) # tabpanel

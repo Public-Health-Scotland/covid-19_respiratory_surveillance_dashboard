@@ -202,7 +202,7 @@ tagList(h1("Metadata"),
                                      not be included in this figure. Patients who have been in hospital for more than 28 days and still being treated for COVID-19 will stop being
                                      included in this figure after 28 days."),
                                    p("All patients in hospital, including in intensive care, and community, mental health and long stay hospitals are included in this figure."),
-                                   p(strong("Source:")),
+                                   p(strong("Source: NHS Boards")),
                                    br(),
 
                                    # ICU occupancy ----
@@ -219,7 +219,7 @@ tagList(h1("Metadata"),
                                      tags$a("Scottish Intensive Care Society Audit Group COVID-19 report",
                                             href = "https://publichealthscotland.scot/publications/show-all-releases?id=20581"),
                                             "for more information."),
-                                   p(strong("Source:"))),
+                                   p(strong("Source: NHS Boards"))),
 
 
                    #### VACCINE WASTAGE PANEL ----

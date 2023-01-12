@@ -9,8 +9,9 @@
 
 # Get packages
 source("setup.R")
-source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 
+# Getting summary buttons and plot info buttons
+source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 # Getting UI for modals for alt text
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 
@@ -33,6 +34,7 @@ navbarPage(
     style = "position: relative; top: -5px;"),
     windowTitle = "COVID-19 Dashboard",# Title for browser tab
     header = tags$head(includeCSS("www/styles.css"),  # CSS stylesheet
+                     #  includeHTML("www/google-analytics.html"), #Including Google analytics
     tags$link(rel = "shortcut icon", href = "favicon_phs.ico") # Icon for browser tab
 ),
 ##############################################.
