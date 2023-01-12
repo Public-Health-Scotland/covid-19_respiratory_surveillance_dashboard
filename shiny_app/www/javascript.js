@@ -1,4 +1,7 @@
-// Javascript code supporting R shiny app
+// Javascript code supporting R shiny app //
+// -------------------------------------- //
+
+
 // Ensures that when a modal opens keyboard focus is given to the
 // close button in the modal - accessibility
 $(document).on('shown.bs.modal', (x) => {
@@ -24,7 +27,17 @@ $(document).on('shown.bs.popover', (x) => {
 // Fixes bug with bootstrap where you need to double click
 // to re-see a popover you've previously closed
 $(document).on('hidden.bs.popover', (x) => {
-    $(x.target).data("bs.popover").inState.click = false;
+// Conditional panels on introduction page also trigger hidden.bs.popover when they close
+// If we set inState.click = false for these then they stop rendering properly
+// To make sure we only deal with the summary page buttons, first check that the class
+// of the target which calls the event includes 'summary-btn'. Also need additional check
+// that target class is not undefined which allows us to ignore cases where the intro
+// page conditional panels trigger the event
+  if($(x.target).attr("class") !== undefined){
+    if($(x.target).attr("class").includes("summary-btn")){
+      $(x.target).data("bs.popover").inState = { click: false, hover: false, focus: false };
+    }
+  }
 });
 
 
@@ -34,7 +47,6 @@ $(document).on('hide.bs.tab', (x) => {
 });
 
 $(document).on('show.bs.tab', (x) => {
-  console.log("show bs tab");
    $(".popover").popover("hide");
 });
 
