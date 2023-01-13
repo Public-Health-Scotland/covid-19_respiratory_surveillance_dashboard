@@ -24,16 +24,16 @@ tagList(h1("Metadata"),
                                      there may not be a true difference between two estimates."),
                                    br(),
 
-                                   # R number ----
-                                   h4("R number"),
-                                   p("The reproduction (R) number is the average number of secondary infections produced by a single infected person.
-                                     The R number is a useful measure in assessing if the epidemic is growing or shrinking. If R is greater than one the epidemic is growing,
-                                     if R is less than one the epidemic is shrinking. The higher the R is above one, the more people an infectious person is likely to further infect."),
-                                   p("Please note that R lags by two or three weeks."),
-                                   p(strong("Source:",
-                                     tags$a("COVID-19 Modelling the Epidemic",
-                                            href="https://www.gov.scot/collections/coronavirus-covid-19-modelling-the-epidemic/"))),
-                                   br(),
+                                   # # R number ----
+                                   # h4("R number"),
+                                   # p("The reproduction (R) number is the average number of secondary infections produced by a single infected person.
+                                   #   The R number is a useful measure in assessing if the epidemic is growing or shrinking. If R is greater than one the epidemic is growing,
+                                   #   if R is less than one the epidemic is shrinking. The higher the R is above one, the more people an infectious person is likely to further infect."),
+                                   # p("Please note that R lags by two or three weeks."),
+                                   # p(strong("Source:",
+                                   #   tags$a("COVID-19 Modelling the Epidemic",
+                                   #          href="https://www.gov.scot/collections/coronavirus-covid-19-modelling-the-epidemic/"))),
+                                   # br(),
 
                                    # Wastewater ----
                                    h4("Wastewater"),
