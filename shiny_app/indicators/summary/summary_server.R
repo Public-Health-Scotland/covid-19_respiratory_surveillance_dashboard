@@ -119,21 +119,20 @@ output$ons_infobox <- renderInfoBox({
           color = "purple")
 })
 
-
-output$r_number_infobox <- renderInfoBox({
-  infoBox(title=h5("R number",
-                   summaryButtonUI("r_number",
-                                   "The reproduction (R) number",
-                                   paste("This is the average number of secondary infections produced by a single infected person,",
-                                         "estimated to be within this range. If R is greater than one the epidemic is growing, if R is less",
-                                         "than one the epidemic is shrinking.<br><br>",
-                                         strong("For more information, see Metadata. Click again to close.")))),
-          value= glue("{R_Number %>% tail(1) %>% .$LowerBound}",
-                      " - {R_Number %>% tail(1) %>% .$UpperBound}"),
-          subtitle = "Range",
-          icon = icon_no_warning_fn("r"),
-          color = "purple")
-})
+# output$r_number_infobox <- renderInfoBox({
+#   infoBox(title=h5("R number",
+#                    summaryButtonUI("r_number",
+#                                    "The reproduction (R) number",
+#                                    paste("This is the average number of secondary infections produced by a single infected person,",
+#                                          "estimated to be within this range. If R is greater than one the epidemic is growing, if R is less",
+#                                          "than one the epidemic is shrinking.<br><br>",
+#                                          strong("For more information, see Metadata. Click again to close.")))),
+#           value= glue("{R_Number %>% tail(1) %>% .$LowerBound}",
+#                       " - {R_Number %>% tail(1) %>% .$UpperBound}"),
+#           subtitle = "Range",
+#           icon = icon_no_warning_fn("r"),
+#           color = "purple")
+# })
 
 
 output$wastewater_infobox <- renderInfoBox({

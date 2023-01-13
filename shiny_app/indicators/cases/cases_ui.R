@@ -43,31 +43,31 @@ tagList(
                             fluidRow(
                               width=12, linebreaks(5))
                             )),
-           tabPanel("R number",
-                    tagList(h3("Estimated COVID-19 R number"),
-                            tags$div(class = "headline",
-                                     h3(glue("Figures from reporting date {R_Number %>% tail(1) %>%
-                .$Date %>% convert_opendata_date() %>% format('%d %b %y')}")),
-                                     valueBox(value = {R_Number %>% tail(1) %>%
-                                         .$LowerBound},
-                                         subtitle = "Lower R number estimate",
-                                         color = "purple",
-                                         icon = icon_no_warning_fn("arrows-down-to-line")),
-                                     valueBox(value = {R_Number %>% tail(1) %>%
-                                         .$UpperBound},
-                                         subtitle = "Upper R number estimate",
-                                         color = "purple",
-                                         icon = icon_no_warning_fn("arrows-up-to-line")),
-                            # These linebreaks are here to make the banner big enough to
-                            # include all the valueBoxes
-                            linebreaks(6)
-                            ), #div
-                            fluidRow(
-                                     width =12, linebreaks(3)),
-                            altTextUI("r_number_modal"),
-                            withSpinner(plotlyOutput("r_number_plot"))),
-                    fluidRow(
-                      width=12, linebreaks(5))),
+           # tabPanel("R number",
+           #          tagList(h3("Estimated COVID-19 R number"),
+           #                  tags$div(class = "headline",
+           #                           h3(glue("Figures from reporting date {R_Number %>% tail(1) %>%
+           #      .$Date %>% convert_opendata_date() %>% format('%d %b %y')}")),
+           #                           valueBox(value = {R_Number %>% tail(1) %>%
+           #                               .$LowerBound},
+           #                               subtitle = "Lower R number estimate",
+           #                               color = "purple",
+           #                               icon = icon_no_warning_fn("arrows-down-to-line")),
+           #                           valueBox(value = {R_Number %>% tail(1) %>%
+           #                               .$UpperBound},
+           #                               subtitle = "Upper R number estimate",
+           #                               color = "purple",
+           #                               icon = icon_no_warning_fn("arrows-up-to-line")),
+           #                  # These linebreaks are here to make the banner big enough to
+           #                  # include all the valueBoxes
+           #                  linebreaks(6)
+           #                  ), #div
+           #                  fluidRow(
+           #                           width =12, linebreaks(3)),
+           #                  altTextUI("r_number_modal"),
+           #                  withSpinner(plotlyOutput("r_number_plot"))),
+           #          fluidRow(
+           #            width=12, linebreaks(5))),
            tabPanel("Wastewater",
                     tagList(h3("Seven day average trend in wastewater COVID-19"),
                             tags$div(class = "headline",
