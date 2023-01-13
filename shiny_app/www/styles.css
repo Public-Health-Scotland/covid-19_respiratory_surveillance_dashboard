@@ -10,8 +10,8 @@
       --phs-purple-80: #655E9D;
       --phs-purple-30: #C5C3DA;
 
-      --phs-blue: rgba(1, 0, 104, 1);
-      --phs-blue-80: rgba(1, 0, 104, 0.8);
+      --phs-blue: #010068;        /* Not actually PHS blue - accessibility */
+      --phs-blue-80: #01006899;
       --phs-blue-50: #80BCEA;
       --phs-blue-30: #B3D7F2;
       --phs-blue-10: #E6F2FB;
@@ -79,7 +79,7 @@ td{
   background-color: var(--phs-blue-10);
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: var(--white);     background-color: var(--phs-blue-80);}
+  color: var(--phs-blue);     background-color: var(--phs-blue-30);}
 
 /* Style hyperlinks */
   .externallink {color: var(--phs-blue); font-weight: bold;}
@@ -408,7 +408,7 @@ color:white;
 .nav-pills> li > a:hover
 {
   box-shadow: 2px;
-  background-color: var(--phs-blue-10);
+  background-color: var(--phs-blue-30);
   color: var(--phs-blue);
   font-weight: bold;
 }
