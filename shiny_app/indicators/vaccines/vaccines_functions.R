@@ -20,14 +20,14 @@ make_vaccine_wastage_plot <- function(data){
                marker = list(color = phs_colours("phs-blue-80"),
                              line = list(width=.5,
                                          color = 'rgb(0,0,0)'),
-                             pattern = list(shape = "/",
-                                            bgcolor = phs_colours("phs-blue-10"),
-                                            solidity = "0.8")),
+                             pattern = list(shape = "")),
                hovertemplate = "%{text}")%>%
 
     add_trace(y = ~NumberOfDosesWasted, name = 'Doses wasted',
               marker = list(color = phs_colors("phs-rust"),
-                            pattern = list(shape = ""))) %>%
+                            pattern = list(shape = "/",
+                                           bgcolor = phs_colours("phs-rust-10"),
+                                           solidity = "0.8"))) %>%
 
     # Adding vertical lines for notes on chart
     add_lines_and_notes(dataframe = data,

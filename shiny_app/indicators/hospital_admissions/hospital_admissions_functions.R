@@ -191,19 +191,19 @@ make_hospital_admissions_los_plot <- function(data){
   # The following code creates patterns and sets white background
   # for alternate bars.
   
-  p <- plotly_build(p)
-
-  p$x$data[[1]]$marker$pattern$shape <- ""
-  p$x$data[[2]]$marker$pattern$shape <- "/"
-  p$x$data[[3]]$marker$pattern$shape <- ""
-  p$x$data[[4]]$marker$pattern$shape <- "\\"
-  p$x$data[[5]]$marker$pattern$shape <- ""
-
-  p$x$data[[1]]$marker$pattern$bgcolor <- ""
-  p$x$data[[2]]$marker$pattern$bgcolor <- "white"
-  p$x$data[[3]]$marker$pattern$bgcolor <- ""
-  p$x$data[[4]]$marker$pattern$bgcolor <- "white"
-  p$x$data[[5]]$marker$pattern$bgcolor <- ""
+  # p <- plotly_build(p)
+  # 
+  # p$x$data[[1]]$marker$pattern$shape <- ""
+  # p$x$data[[2]]$marker$pattern$shape <- "/"
+  # p$x$data[[3]]$marker$pattern$shape <- ""
+  # p$x$data[[4]]$marker$pattern$shape <- "\\"
+  # p$x$data[[5]]$marker$pattern$shape <- ""
+  # 
+  # p$x$data[[1]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[2]]$marker$pattern$bgcolor <- "white"
+  # p$x$data[[3]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[4]]$marker$pattern$bgcolor <- "white"
+  # p$x$data[[5]]$marker$pattern$bgcolor <- ""
 
   return(p)
   
@@ -262,23 +262,23 @@ make_hospital_admissions_ethnicity_plot <- function(data){
   # The following code creates patterns and sets background colour
   # for alternate bars.
   
-  p <- plotly_build(p)
-  
-  p$x$data[[1]]$marker$pattern$shape <- ""
-  p$x$data[[2]]$marker$pattern$shape <- "x"
-  p$x$data[[3]]$marker$pattern$shape <- ""
-  p$x$data[[4]]$marker$pattern$shape <- "/"
-  p$x$data[[5]]$marker$pattern$shape <- ""
-  p$x$data[[6]]$marker$pattern$shape <- "\\"
-  p$x$data[[7]]$marker$pattern$shape <- ""
-  
-  p$x$data[[1]]$marker$pattern$bgcolor <- ""
-  p$x$data[[2]]$marker$pattern$bgcolor <- phs_colors("phs-purple-10")
-  p$x$data[[3]]$marker$pattern$bgcolor <- ""
-  p$x$data[[4]]$marker$pattern$bgcolor <- phs_colors("phs-blue-10")
-  p$x$data[[5]]$marker$pattern$bgcolor <- ""
-  p$x$data[[6]]$marker$pattern$bgcolor <- phs_colors("phs-magenta-10")
-  p$x$data[[7]]$marker$pattern$bgcolor <- ""
+  # p <- plotly_build(p)
+  # 
+  # p$x$data[[1]]$marker$pattern$shape <- ""
+  # p$x$data[[2]]$marker$pattern$shape <- "x"
+  # p$x$data[[3]]$marker$pattern$shape <- ""
+  # p$x$data[[4]]$marker$pattern$shape <- "/"
+  # p$x$data[[5]]$marker$pattern$shape <- ""
+  # p$x$data[[6]]$marker$pattern$shape <- "\\"
+  # p$x$data[[7]]$marker$pattern$shape <- ""
+  # 
+  # p$x$data[[1]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[2]]$marker$pattern$bgcolor <- phs_colors("phs-purple-10")
+  # p$x$data[[3]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[4]]$marker$pattern$bgcolor <- phs_colors("phs-blue-10")
+  # p$x$data[[5]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[6]]$marker$pattern$bgcolor <- phs_colors("phs-magenta-10")
+  # p$x$data[[7]]$marker$pattern$bgcolor <- ""
   
   return(p)
   
