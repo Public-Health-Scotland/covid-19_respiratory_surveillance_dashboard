@@ -24,16 +24,16 @@ tagList(h1("Metadata"),
                                      there may not be a true difference between two estimates."),
                                    br(),
 
-                                   # R number ----
-                                   h4("R number"),
-                                   p("The reproduction (R) number is the average number of secondary infections produced by a single infected person.
-                                     The R number is a useful measure in assessing if the epidemic is growing or shrinking. If R is greater than one the epidemic is growing,
-                                     if R is less than one the epidemic is shrinking. The higher the R is above one, the more people an infectious person is likely to further infect."),
-                                   p("Please note that R lags by two or three weeks."),
-                                   p(strong("Source:",
-                                     tags$a("COVID-19 Modelling the Epidemic",
-                                            href="https://www.gov.scot/collections/coronavirus-covid-19-modelling-the-epidemic/"))),
-                                   br(),
+                                   # # R number ----
+                                   # h4("R number"),
+                                   # p("The reproduction (R) number is the average number of secondary infections produced by a single infected person.
+                                   #   The R number is a useful measure in assessing if the epidemic is growing or shrinking. If R is greater than one the epidemic is growing,
+                                   #   if R is less than one the epidemic is shrinking. The higher the R is above one, the more people an infectious person is likely to further infect."),
+                                   # p("Please note that R lags by two or three weeks."),
+                                   # p(strong("Source:",
+                                   #   tags$a("COVID-19 Modelling the Epidemic",
+                                   #          href="https://www.gov.scot/collections/coronavirus-covid-19-modelling-the-epidemic/"))),
+                                   # br(),
 
                                    # Wastewater ----
                                    h4("Wastewater"),
@@ -237,7 +237,42 @@ tagList(h1("Metadata"),
                                    tags$li("The vaccine wastage form is populated by health board clinicians which can impact the timeliness and accuracy of the data."),
                                    tags$li("Data excludes GP practice information and wastage from clinical trials."),
                                    tags$li("Excess stock is defined: Where a vaccination team reach the end of an allotted shift or job, and have surplus vaccines that cannot be returned to stock,
-                                           or used before it expires. This includes any unused doses in opened vials at the end of a clinic."))
-                   )
+                                           or used before it expires. This includes any unused doses in opened vials at the end of a clinic.")),
+
+  #### GLOSSARY PANEL ----
+  bsCollapsePanel("Glossary",
+
+                  # Confidence interval ----
+                  h4("Confidence interval"),
+                  p("A confidence interval gives an indication of the degree of uncertainty of an estimate, showing the precision of a sample estimate.
+                   The 95% confidence intervals are calculated so that if we repeated the study many times, 95% of the time the true unknown value would lie
+                   between the lower and upper confidence limits. A wider interval indicates more uncertainty in the estimate. Overlapping confidence intervals
+                   indicate that there may not be a true difference between two estimates."),
+                  br(),
+
+                  #Median Length of Stay ----
+                  h4("Median length of stay"),
+                  p("This a measure of the typical length of stay experienced by patients being admitted to hospital with COVID-19.
+                    One simple way of explaining this statistic is that approximately half of patients treated had a stay less than the figure shown and half had a stay greater than this."),
+                  br(),
+
+                  #SIMD ----
+                  h4("Scottish Index of Multiple Deprivation (SIMD)"),
+                  p("People have been allocated to different levels of deprivation based on the small area (data zone) in which they live and the",
+                    tags$a("Scottish Index of Multiple Deprivation (SIMD) (external website)",
+                           href = "https://simd.scot/#/simd2020/BTTTFTT/9/-4.0000/55.9000/"),
+                    "score for that area. SIMD scores are based on data for
+                    38 indicators covering seven topic areas: income, employment, health, education, skills and training, housing, geographic access, and crime."),
+                  p("The SIMD identifies deprived areas, not deprived individuals."),
+                  p("In this tool we have presented results for people living in different SIMD ‘quintiles’. To produce quintiles,
+                    data zones are ranked by their SIMD score then the areas each containing a fifth (20%) of the overall population of Scotland are identified.
+                    People living in the most and least deprived areas that each contain a fifth of the population are assigned to SIMD quintile 1 and 5 respectively."),
+                  br(),
+
+                  #Seven day average ----
+                  h4("Seven day average"),
+                  p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations.")
+
+))
 
 )#tagList

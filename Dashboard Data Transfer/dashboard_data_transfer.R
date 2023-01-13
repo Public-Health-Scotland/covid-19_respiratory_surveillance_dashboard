@@ -98,9 +98,6 @@ source("Transfer Scripts/transfer_ons.R")
 #### Care Homes
 source("Transfer Scripts/transfer_carehomes.R")
 
-#### R Number
-source("Transfer Scripts/transfer_r_number.R")
-
 #### Wastewater
 source("Transfer Scripts/transfer_wastewater.R")
 

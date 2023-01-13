@@ -16,19 +16,19 @@ tagList(
                .$NumberOfDosesAdministered %>%
                format(big.mark = ",")},
                subtitle = "Doses administered",
-               color = "blue",
+               color = "teal",
                icon = icon_no_warning_fn("syringe")),
            valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$NumberOfDosesWasted %>%
                format(big.mark = ",")},
                subtitle = "Doses wasted",
-               color = "blue",
+               color = "teal",
                icon = icon_no_warning_fn("dumpster")),
            valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$PercentageWasted %>%
                paste0("%")},
                subtitle = "Percent wasted",
-               color = "blue",
+               color = "teal",
                icon = icon_no_warning_fn("percent")),
            # These linebreaks are here to make the banner big enough to
            # include all the valueBoxes

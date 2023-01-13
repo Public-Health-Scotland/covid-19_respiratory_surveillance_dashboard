@@ -39,7 +39,7 @@ tagList(
             h2("Cases"),
             infoBoxOutput("ons_infobox", width=NULL),
 
-            infoBoxOutput("r_number_infobox", width=NULL),
+            # infoBoxOutput("r_number_infobox", width=NULL),
 
             infoBoxOutput("wastewater_infobox", width=NULL),
 
