@@ -3,6 +3,7 @@
 
       --white: #ffffff;
       --black: #000000;
+      --navy: #010068;
 
       --phs-purple: #3F3685;
       --phs-purple-10: #ECEBF3;
@@ -10,8 +11,8 @@
       --phs-purple-80: #655E9D;
       --phs-purple-30: #C5C3DA;
 
-      --phs-blue: #010068;        /* Not actually PHS blue - accessibility */
-      --phs-blue-80: #01006899;
+      --phs-blue: #0078D4;
+      --phs-blue-80: #3393DD;
       --phs-blue-50: #80BCEA;
       --phs-blue-30: #B3D7F2;
       --phs-blue-10: #E6F2FB;
@@ -42,7 +43,7 @@
 
 /* Setting header colour */
   h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-    color: var(--phs-blue);
+    color: var(--navy);
     font-weight: bold;
   }
 /* Body styles */
@@ -55,7 +56,7 @@
   }
 
 th{
-  background-color:var(--phs-blue);
+  background-color:var(--navy);
   color:var(--white);
   font-weight: bold;
   padding: 5px;
@@ -67,26 +68,26 @@ td{
 
 
 /* Style sidebars/well panels */
-  .well {background-color:var(--white); border: 0 solid var(--phs-blue);
+  .well {background-color:var(--white); border: 0 solid var(--navy);
     padding: 5px; box-shadow: none; }
 
 /* Navigation bar following PHS colour scheme */
-  .navbar-default {color: var(--white); background-color: var(--phs-blue); border-radius: 5px 5px 5px 5px;}
-.navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--phs-blue); background-color: var(--white)}
+  .navbar-default {color: var(--white); background-color: var(--navy); border-radius: 5px 5px 5px 5px;}
+.navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--navy); background-color: var(--white)}
 .navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px; font-weight: bold;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
-  color: var(--phs-blue);
+  color: var(--navy);
   background-color: var(--phs-blue-10);
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: var(--phs-blue);     background-color: var(--phs-blue-30);}
+  color: var(--navy);     background-color: var(--phs-blue-30);}
 
 /* Style hyperlinks */
-  .externallink {color: var(--phs-blue); font-weight: bold;}
+  .externallink {color: var(--navy); font-weight: bold;}
 .externallink:hover {color: var(--phs-blue-50);}
 
 /* Border tables - th, td puts within the table as well */
-  .border-table{border:1px solid var(--phs-blue);}
+  .border-table{border:1px solid var(--navy);}
 th, td {
   border: 1px solid var(--phs-blue-30);
   padding-right: 1px;
@@ -101,7 +102,7 @@ th, td {
 /* Button styles */
 .btn:active
 {
-   background-color: var(--phs-blue);
+   background-color: var(--navy);
    color: white;
    font-weight: bold;
    padding:10px;
@@ -111,14 +112,14 @@ th, td {
 .btn, .btn:hover
 {
   background-color: var(--phs-blue-10);
-  color: var(--phs-blue);
+  color: var(--navy);
   font-weight: bold;
 }
 
 .btn:focus
 {
    background-color: var(--phs-blue-10);
-   color: var(--phs-blue);
+   color: var(--navy);
    font-weight: bold;
    padding:10px;
    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
@@ -127,7 +128,7 @@ th, td {
 .btn:active:focus, .btn:focus, .btn:checked
 {
    background-color: var(--phs-blue-10);
-   color: var(--phs-blue);
+   color: var(--navy);
    font-weight: bold;
    padding:10px;
    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
@@ -149,33 +150,33 @@ th, td {
 
     /*Button shape & animation*/
     border-radius: border-rounded;
-    border: 0px solid var(--phs-blue);
+    border: 0px solid var(--navy);
     margin: 5px;
     width:  250px;
     height: 50px;
     background-size: 100% auto;
-    color: var(--phs-blue);
+    color: var(--navy);
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
    /* background-image: linear-gradient(to right, var(--phs-blue-30) 0%, var(--phs-blue-80) 40%,
-    var(--phs-blue) 100%); */
+    var(--navy) 100%); */
     background-color: var(--phs-blue-10);
     background-position: right center;
 }
 
 .special_button > .btn:hover {
     background-position: right center;
-    /*background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);*/
-    background-color: var(--phs-blue);
+    /*background-image: linear-gradient(to right, var(--navy) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);*/
+    background-color: var(--navy);
     color: var(--phs-blue-10);
-    box-shadow: 0 4px 10px 0 var(--phs-blue);
+    box-shadow: 0 4px 10px 0 var(--navy);
 }
 
 .special_button > .btn:focus:active {
     outline: none;
-    background-color: var(--phs-blue);
+    background-color: var(--navy);
     color: var(--phs-blue-10);
-    /*background-image: linear-gradient(to right, var(--phs-blue) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);*/
-    box-shadow: 0 8px 15px 0 var(--phs-blue);
+    /*background-image: linear-gradient(to right, var(--navy) 0%, var(--phs-blue-80) 40%, var(--phs-blue-30) 100%);*/
+    box-shadow: 0 8px 15px 0 var(--navy);
 }
 
 
@@ -187,7 +188,7 @@ th, td {
 
 .summary-btn, .summary-btn:hover, .summary-btn:focus, .summary-btn:active:focus, .sumamry-btn:active, .summary-btn:checked {
   background-color: var(--phs-blue-10);
-  color: var(--phs-blue);
+  color: var(--navy);
   font-weight: bold;
   padding: 1px 5px;
   font-size: 12px;
@@ -201,7 +202,7 @@ th, td {
 
 .plotinfo-btn, .plotinfo-btn:hover, .plotinfo-btn:focus, .plotinfo-btn:active:focus, .plotinfo:active, .plotinfo:checked {
   background-color: var(--phs-blue-10);
-  color: var(--phs-blue);
+  color: var(--navy);
   border-radius: 3px;
   padding: 5px;
   font-size: 14px;
@@ -212,23 +213,23 @@ th, td {
 
 
 /* Radio button */
-.radiobtn{background-color:var(--phs-blue);
+.radiobtn{background-color:var(--navy);
   color: white;
-  border: 2px solid var(--phs-blue);
+  border: 2px solid var(--navy);
   font-size: 20px;
   font-weight: bold;
 }
 
-.radiobtn:focus{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+.radiobtn:focus{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-.radiobtn:active{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+.radiobtn:active{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
-/*.radiobtn:focus:active{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+/*.radiobtn:focus:active{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}*/
-.radiobtn:checked{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+.radiobtn:checked{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
 
-.radiobtn:hover{color:var(--phs-blue);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
+.radiobtn:hover{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
 
 /* SIDE BAR SELECTORS */
 
@@ -237,7 +238,7 @@ th, td {
 /* Changes the background colours of the buttons to match PHS colours, and adds rounded corners */
 
 .btn-home {
-  color:var(--phs-blue);
+  color:var(--navy);
   font-weight: bold;
   background-color:var(--phs-blue-10);
   border-color:white;
@@ -256,7 +257,7 @@ th, td {
 
   font-weight: bold;
 
-  background-color:var(--phs-blue);
+  background-color:var(--navy);
 
   border-color:white;
 
@@ -274,7 +275,7 @@ th, td {
 
 color:white;
 
-  background-color:var(--phs-blue);
+  background-color:var(--navy);
 
   border-color:white;
 
@@ -289,7 +290,7 @@ color:white;
 .btn-home.active, .btn-home:active, .open>.dropdown-toggle.btn-home {
   color:white;
   font-weight: bold;
-  background-color:var(--phs-blue);
+  background-color:var(--navy);
   border-color:white;
 }
 
@@ -300,13 +301,13 @@ color:white;
 .btn-home:hover:focus:active {
   color:white;
   font-weight: bold;
-  background-color:var(--phs-blue);
+  background-color:var(--navy);
   border-color:white;
 }
 
 
 .btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default {
-    color: var(--phs-blue) !Important ;
+    color: var(--navy) !Important ;
     background-color: var(--phs-blue-10) !Important ;
     border-color: white !Important ;
     font-weight:bold;
@@ -314,7 +315,7 @@ color:white;
 }
 
 .btn-default.active.focus, .btn-default:active:focus, .open>.dropdown-toggle.btn-default {
-    color: var(--phs-blue) !Important ;
+    color: var(--navy) !Important ;
     background-color: var(--phs-blue-10) !Important ;
     border-color: white !Important ;
     font-weight:bold;
@@ -332,17 +333,17 @@ color:white;
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: bold;
-    color: var(--phs-blue);
+    color: var(--navy);
   }
 /* Links */
   a {
-    color: var(--phs-blue);
+    color: var(--navy);
     text-decoration: none;
   }
 
 /* Dropdown menu */
   .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-  background-color: var(--phs-blue);
+  background-color: var(--navy);
    color: white;
    font-weight: bold;
    padding:10px;
@@ -355,7 +356,7 @@ color:white;
   .pagination > li > a
 {
   background-color: var(--phs-blue-10);
-  color: var(--phs-blue);
+  color: var(--navy);
   transition: background-color .3s;
 }
 
@@ -372,8 +373,8 @@ color:white;
 .pagination > .active > a
 {
   color: white;
-  background-color: var(--phs-blue) !Important;
-  border: solid 1px var(--phs-blue) !Important;
+  background-color: var(--navy) !Important;
+  border: solid 1px var(--navy) !Important;
 
 }
 
@@ -387,8 +388,8 @@ color:white;
 
   .table > .tbody > tr.active th,
 .table > .tbody > tr.active td{
-  background-color: var(--phs-blue);
-  color: var(--phs-blue);
+  background-color: var(--navy);
+  color: var(--navy);
 }
 
 /*
@@ -397,7 +398,7 @@ color:white;
 .nav-pills>li.active > a:focus,
 .nav-pills>li.active> a
 {
-   background-color: var(--phs-blue);
+   background-color: var(--navy);
    color: white;
    font-weight: bold;
    padding:10px;
@@ -409,14 +410,14 @@ color:white;
 {
   box-shadow: 2px;
   background-color: var(--phs-blue-30);
-  color: var(--phs-blue);
+  color: var(--navy);
   font-weight: bold;
 }
 
 .nav-pills> li > a
 {
   background-color: var(--phs-blue-10);
-  color: var(--phs-blue);
+  color: var(--navy);
   font-weight: bold;
 }
 
@@ -425,7 +426,7 @@ color:white;
 .panel-heading
 {
   background-color: var(--phs-blue-10) !Important;
-  color: var(--phs-blue) !Important;
+  color: var(--navy) !Important;
   font-weight: bold !Important;
 }
 
@@ -434,7 +435,7 @@ color:white;
 .nav-tabs-custom {
      background-color: var(--phs-liberty-10);
      border: 100px;
-     border-color: var(--phs-blue);
+     border-color: var(--navy);
      border-radius: 5px 5px 5px 5px;
      box-shadow: 0 8px 8px var(--phs-blue-30)
 }
@@ -462,7 +463,7 @@ color:white;
 }
 
 .headline h3 {
-  color: var(--phs-blue);
+  color: var(--navy);
   font-weight: bold;
   font-size: 30px;
 }
@@ -686,13 +687,13 @@ a > .info-box {
 
 */
 .popover-title{
-  background-color: var(--phs-blue);
+  background-color: var(--navy);
   color: white;
 }
 
 .popover-content{
   background-color: var(--phs-blue-10);
-  color: var(--phs-blue);
+  color: var(--navy);
   border-radius: 0px 0px 5px 5px;
 }
 
