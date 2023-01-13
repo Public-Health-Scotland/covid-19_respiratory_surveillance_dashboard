@@ -12,7 +12,7 @@ output$admissions_infobox <- renderInfoBox({
           value= admissions_headlines[[1]],
           subtitle = "Weekly total",
           icon = icon_no_warning_fn("hospital"),
-          color = "red")})
+          color = "blue")})
 
 
 
@@ -26,7 +26,7 @@ output$icu_infobox <- renderInfoBox({
           value= icu_headlines[[1]],
           subtitle = "Weekly total",
           icon = icon_no_warning_fn("heart-pulse"),
-          color = "red")
+          color = "blue")
 })
 
 
@@ -44,7 +44,7 @@ output$los_infobox <- renderInfoBox({
                         .$MedianLengthOfStay %>%round_half_up(1)} days"),
           subtitle = "Median",
           icon = icon_no_warning_fn("clock"),
-          color = "red")
+          color = "blue")
 })
 
 

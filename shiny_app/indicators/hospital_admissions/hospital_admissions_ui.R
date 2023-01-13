@@ -18,17 +18,17 @@ tagList(
 
                                             valueBox(value = {admissions_headlines[[1]]},
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[1]]} - provisional"),
-                                                color = "red",
+                                                color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {admissions_headlines[[2]] %>%
                                                 format(big.mark = ",")},
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[2]]}"),
-                                                color = "red",
+                                                color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {admissions_headlines[[3]] %>%
                                                 format(big.mark = ",")},
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
-                                                color = "red",
+                                                color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # These linebreaks are here to make the banner big enough to
                                             # include all the valueBoxes
@@ -127,16 +127,16 @@ tagList(
                                             h3("ICU admissions from last three weeks"),
                                             valueBox(value = {icu_headlines[[1]]},
                                                 subtitle = glue("Week ending {names(icu_headlines)[[1]]}"),
-                                                color = "red",
+                                                color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {icu_headlines[[2]]},
                                                 subtitle = glue("Week ending {names(icu_headlines)[[2]]}"),
-                                                color = "red",
+                                                color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {icu_headlines[[3]] %>%
                                                 format(big.mark = ",")},
                                                 subtitle = glue("Week ending {names(icu_headlines)[[3]]}"),
-                                                color = "red",
+                                                color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # These linebreaks are here to make the banner big enough to
                                             # include all the valueBoxes
