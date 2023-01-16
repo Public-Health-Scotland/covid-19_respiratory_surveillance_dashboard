@@ -17,10 +17,7 @@ make_vaccine_wastage_plot <- function(data){
                               "<b>Doses wasted</b>: ", format(NumberOfDosesWasted, big.mark=","), "\n",
                               "<b>Percentage wasted</b>: ", PercentageWasted, "%\n"),
                name = 'Doses administered',
-               marker = list(color = phs_colours("phs-teal-80"),
-                             line = list(width=.5,
-                                         color = 'rgb(0,0,0)'),
-                             pattern = list(shape = "")),
+               marker = list(color = phs_colours("phs-teal-80")),
                hovertemplate = "%{text}")%>%
 
     add_trace(y = ~NumberOfDosesWasted, name = 'Doses wasted',
