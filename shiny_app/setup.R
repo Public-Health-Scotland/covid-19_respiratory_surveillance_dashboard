@@ -5,7 +5,8 @@ if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
 if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Scotland/phsstyles")}
 
 pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT,
-               shinydashboard, shinyBS, shinyWidgets, glue, stringr, janitor, fontawesome)
+               shinydashboard, shinyBS, shinyWidgets, glue, stringr, janitor,
+               fontawesome, shinymanager)
 
 # Load core functions ----
 source("functions/core_functions.R")

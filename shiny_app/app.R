@@ -7,6 +7,9 @@
 ##########################################################
 
 
+# Get credentials for securing app ----
+credentials <- readRDS("credentials.rds")
+
 # Get packages
 source("setup.R")
 
@@ -16,7 +19,7 @@ source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$va
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 
 # UI
-ui <- fluidPage(
+ui <- secure_app( fluidPage(
 tagList(
 # Specify language for accessibility
 tags$html(lang="en"),
@@ -127,11 +130,21 @@ tabPanel(title = "Download data",
 ) # navbar
 ) # taglist
 ) # ui fluidpage
+) # secureapp
 
 # ----------------------------------------------
 # Server
 
 server <- function(input, output, session) {
+
+  # Shinymanager Auth
+  res_auth <- secure_server(
+    check_credentials = check_credentials(credentials)
+  )
+
+  output$auth_output <- renderPrint({
+    reactiveValuesToList(res_auth)
+  })
 
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
