@@ -55,3 +55,7 @@ admissions_headlines <- get_threeweek_admissions_figures(df = Admissions, sumcol
 icu_headlines <- get_threeweek_admissions_figures(df = ICU, sumcol = "NewCovidAdmissionsPerDay", datecol="DateFirstICUAdmission")
 los_date_end <- Admissions %>% tail(1) %>% .$AdmissionDate %>% convert_opendata_date() %>% {.-7}
 los_date_start <- los_date_end-28
+los_median_max <- Length_of_Stay_Median %>%
+  filter(MedianLengthOfStay == max(MedianLengthOfStay))
+los_median_min <- Length_of_Stay_Median %>%
+  filter(MedianLengthOfStay == min(MedianLengthOfStay))
