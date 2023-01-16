@@ -1,11 +1,12 @@
 tagList(
   div(
 
-    fluidRow(width=12, height="50px", br()),
+    fluidRow(width=12,
+             br()),
 
     # Filters and toggles
     fluidRow(width=12,
-             box(width=NULL, height="250px",
+             box(width=NULL,
                  tagList(
                    p(strong("Follow the steps below to generate the dataset to download.")),
                    radioButtons("download_indicator",
@@ -41,21 +42,22 @@ tagList(
              ) # box
     ), # fluidrow
 
-    fluidRow(width=12, height="5px", br()),
+    fluidRow(width=12,
+             br()),
 
     # Data download area
     fluidRow(width=12,
              h3("Download data "),
              downloadButton("data_download_output",
                             "Download data"),
-             tabBox(width=NULL, type="pills", side="right", height="800px",
+             tabBox(width=NULL, type="pills", side="right",
 
                     tabPanel("Data summary",
                              tagList(
 
                                h3("Summary of data to download: "),
                                linebreaks(1),
-                               verbatimTextOutput("data_download_summary")
+                               withSpinner(dataTableOutput("data_download_summary_table"))
 
 
                              ) # taglist
@@ -65,7 +67,7 @@ tagList(
 
                                h3("Preview of data to download (first 10 rows): "),
                                linebreaks(1),
-                               dataTableOutput("data_download_table")
+                               withSpinner(dataTableOutput("data_download_table"))
 
                              ))
 
@@ -73,7 +75,8 @@ tagList(
 
     ), # fluidrow
 
-    fluidRow(width=12, height="50px", br())
+    fluidRow(width=12,
+             br())
 
   ) # div
 ) # tagList

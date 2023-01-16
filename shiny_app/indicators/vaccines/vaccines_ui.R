@@ -16,19 +16,19 @@ tagList(
                .$NumberOfDosesAdministered %>%
                format(big.mark = ",")},
                subtitle = "Doses administered",
-               color = "blue",
+               color = "teal",
                icon = icon_no_warning_fn("syringe")),
            valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$NumberOfDosesWasted %>%
                format(big.mark = ",")},
                subtitle = "Doses wasted",
-               color = "blue",
+               color = "teal",
                icon = icon_no_warning_fn("dumpster")),
            valueBox(value = {Vaccine_Wastage %>% tail(1) %>%
                .$PercentageWasted %>%
                paste0("%")},
                subtitle = "Percent wasted",
-               color = "blue",
+               color = "teal",
                icon = icon_no_warning_fn("percent")),
            # These linebreaks are here to make the banner big enough to
            # include all the valueBoxes
@@ -41,6 +41,8 @@ tagList(
          type = "pills",
          tabPanel("Plot",
                   tagList(h3("COVID-19 vaccine wastage"),
+                          linebreaks(1),
+                          altTextUI("vaccine_wastage_modal"),
                           withSpinner(plotlyOutput("vaccine_wastage_plot")))),
          tabPanel("Data",
                   tagList(h3("COVID-19 vaccine wastage data"),
@@ -51,6 +53,8 @@ tagList(
   fluidRow(box(width = NULL,
            tagList(
            h3("Reasons for wastage"),
+          # linebreaks(1),
+           altTextUI("vaccine_wastage_reason_modal"),
            column(width = 6,
                   withSpinner(plotlyOutput("vaccine_wastage_reason_plot"))),
            column(width = 6,

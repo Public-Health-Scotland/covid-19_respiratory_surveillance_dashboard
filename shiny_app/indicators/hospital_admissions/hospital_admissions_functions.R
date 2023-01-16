@@ -77,12 +77,12 @@ make_hospital_admissions_plot <- function(data){
                         xs= c("2022-01-06", "2022-05-01"),
                         notes=c("From 5 Jan cases  include PCR + LFD",
                                 "Change in testing policy on 1 May"),
-                        colors=c(phs_colours("phs-rust"),
+                        colors=c(phs_colours("phs-teal"),
                                  phs_colours("phs-purple"))) %>%
   # Add layout and config
     layout(margin = list(b = 80, t = 5),
                 yaxis = yaxis_plots, xaxis = xaxis_plots,
-                legend = list(x = 100, y = 0.5),
+           legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'),
                 paper_bgcolor = phs_colours("phs-liberty-10"),
                 plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     config(displaylogo = FALSE, displayModeBar = TRUE,
@@ -121,9 +121,9 @@ make_hospital_admissions_simd_plot <- function(data){
                                      '<b>SIMD quintile</b>: %{text}<br>',
                                      '<b>Number of admissions</b>: %{y}')
     ) %>%
-    layout(margin = list(b = 80, t = 5),
+    layout(margin = list(b = 100, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5),
+           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
 
@@ -136,7 +136,7 @@ make_hospital_admissions_simd_plot <- function(data){
 
 # Hospital Admissions LOS plot
 make_hospital_admissions_los_plot <- function(data){
-  
+
   table <- data %>%
     arrange(desc(AdmissionWeekEnding)) %>%
     mutate(AdmissionWeekEnding = convert_opendata_date(AdmissionWeekEnding),
@@ -157,8 +157,8 @@ make_hospital_admissions_los_plot <- function(data){
                         "Length of stay: ", table$`Length of Stay`, "<br>",
                         "Percent: ", round(table$Percent, 1), "%")
 
-  xaxis_plots[["title"]] <- 'Admission date by Week Ending'
-  yaxis_plots[["title"]] <- 'Percentage of Admissions'
+  xaxis_plots[["title"]] <- 'Admission date by week ending'
+  yaxis_plots[["title"]] <- 'Percentage of admissions'
   yaxis_plots[["ticksuffix"]] <- "%"
 
   # Adding slider
@@ -182,23 +182,24 @@ make_hospital_admissions_los_plot <- function(data){
     layout(barmode = "stack",
            yaxis = yaxis_plots,
            xaxis = xaxis_plots,
+           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove )
-  
+
   # The following code creates patterns and sets white background
   # for alternate bars.
-  
+
   # p <- plotly_build(p)
-  # 
+  #
   # p$x$data[[1]]$marker$pattern$shape <- ""
   # p$x$data[[2]]$marker$pattern$shape <- "/"
   # p$x$data[[3]]$marker$pattern$shape <- ""
   # p$x$data[[4]]$marker$pattern$shape <- "\\"
   # p$x$data[[5]]$marker$pattern$shape <- ""
-  # 
+  #
   # p$x$data[[1]]$marker$pattern$bgcolor <- ""
   # p$x$data[[2]]$marker$pattern$bgcolor <- "white"
   # p$x$data[[3]]$marker$pattern$bgcolor <- ""
@@ -206,7 +207,7 @@ make_hospital_admissions_los_plot <- function(data){
   # p$x$data[[5]]$marker$pattern$bgcolor <- ""
 
   return(p)
-  
+
 }
 
 
@@ -216,8 +217,8 @@ make_hospital_admissions_los_plot <- function(data){
 
 # Hospital Admissions by Ethnicity Plot
 make_hospital_admissions_ethnicity_plot <- function(data){
-  
-  yaxis_plots[["title"]] <- "COVID-19 Admissions"
+
+  yaxis_plots[["title"]] <- "COVID-19 admissions"
 
   # Adding slider
   xaxis_plots[["rangeslider"]] <- list(type = "date")
@@ -249,21 +250,21 @@ make_hospital_admissions_ethnicity_plot <- function(data){
                                            bgcolor = "",
                                            solidity = "0.8"))) %>%
     #Layout
-    layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
+    layout(margin = list(b = 100, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5),
+           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.8, orientation = 'h'),
            barmode = "stack",
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove )
-  
+
   # The following code creates patterns and sets background colour
   # for alternate bars.
-  
+
   # p <- plotly_build(p)
-  # 
+  #
   # p$x$data[[1]]$marker$pattern$shape <- ""
   # p$x$data[[2]]$marker$pattern$shape <- "x"
   # p$x$data[[3]]$marker$pattern$shape <- ""
@@ -271,7 +272,7 @@ make_hospital_admissions_ethnicity_plot <- function(data){
   # p$x$data[[5]]$marker$pattern$shape <- ""
   # p$x$data[[6]]$marker$pattern$shape <- "\\"
   # p$x$data[[7]]$marker$pattern$shape <- ""
-  # 
+  #
   # p$x$data[[1]]$marker$pattern$bgcolor <- ""
   # p$x$data[[2]]$marker$pattern$bgcolor <- phs_colors("phs-purple-10")
   # p$x$data[[3]]$marker$pattern$bgcolor <- ""
@@ -279,9 +280,9 @@ make_hospital_admissions_ethnicity_plot <- function(data){
   # p$x$data[[5]]$marker$pattern$bgcolor <- ""
   # p$x$data[[6]]$marker$pattern$bgcolor <- phs_colors("phs-magenta-10")
   # p$x$data[[7]]$marker$pattern$bgcolor <- ""
-  
+
   return(p)
-  
+
 }
 
 ######################
@@ -325,7 +326,7 @@ make_icu_admissions_plot <- function(data){
     #Layout
     layout(margin = list(b = 80, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(x = 100, y = 0.5),
+           legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button

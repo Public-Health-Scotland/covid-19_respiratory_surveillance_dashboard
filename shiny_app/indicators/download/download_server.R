@@ -1,23 +1,24 @@
 # Data download choices
 
 cases_download_choices <- list(
-  "Daily COVID-19 reported cases" = Cases,
-  "ONS infection survey cases estimates" = ONS
+  "Daily COVID-19 reported cases" = "Cases",
+  "ONS infection survey cases estimates" = "ONS"
   )
 hospital_admissions_download_choices <- list(
-  "Daily COVID-19 hospital admissions" = Admissions,
-  "Weekly COVID-19 hospital admissions by age group" = Admissions_AgeBD,
-  "Length of stay of COVID-19 hospital admissions" = Length_of_Stay,
-  "Daily COVID-19 admissions to ICU" = ICU,
-  "Quarterly COVID-19 hospital admissions by ethnicity" = Ethnicity #,
- # "Weekly hospital admissions by SIMD" = SIMD_trend
+  "Daily COVID-19 hospital admissions" = "Admissions",
+  "Weekly COVID-19 hospital admissions by age group" = "Admissions_AgeBD",
+  "Length of stay of COVID-19 hospital admissions" = "Length_of_Stay",
+  "Daily COVID-19 admissions to ICU" = "ICU",
+  "Quarterly COVID-19 hospital admissions by ethnicity" = "Ethnicity",
+  "Weekly hospital admissions by SIMD" = "Admissions_SimdTrend"
                                           )
 hospital_occupancy_download_choices <- list(
-
+  "Daily COVID-19 hospital occupancy" = "Occupancy_Hospital",
+  "Daily COVID-19 ICU occupancy" = "Occupancy_ICU"
 )
 vaccines_download_choices <- list(
-  "Monthly vaccines administered and wasted" = Vaccine_Wastage,
-  "Reason for vaccine wastage in latest month" = Vaccine_Wastage_Reason
+  "Monthly vaccines administered and wasted" = "Vaccine_Wastage",
+  "Reason for vaccine wastage in latest month" = "Vaccine_Wastage_Reason"
 )
 
 choices_list <- list("COVID-19 cases" = names(cases_download_choices),
@@ -59,7 +60,7 @@ output$data_download_output <- downloadHandler(
   content = function(file) {
 
     if(input$download_filetype == ".csv"){
-      write.csv(chosen_dataset(),
+      write.csv({chosen_dataset() %>% get()},
                 file,
                 row.names=FALSE)
     } else if (input$download_filetype == ".xlsx"){
@@ -70,12 +71,14 @@ output$data_download_output <- downloadHandler(
 
   })
 
-output$data_download_summary <- renderPrint({
-  chosen_dataset() %>% summary()
+output$data_download_summary_table <- renderDataTable({
+  chosen_dataset() %>%
+    get_data_dictionary() %>%
+    make_table()
 })
 
 output$data_download_table <- renderDataTable({
-  chosen_dataset() %>% head(10) %>% make_table()
+  chosen_dataset() %>% get() %>% head(10) %>% make_table()
 })
 
 
