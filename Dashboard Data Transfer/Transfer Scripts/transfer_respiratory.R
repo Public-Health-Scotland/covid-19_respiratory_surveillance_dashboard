@@ -3,19 +3,12 @@
 
 ##### Respiratory
 
-## adding respiratory data to input data folder.
-## This can be commented out once we have a proper process in place for adding the flu data to test and protect warehouse
-respiratory_input_data_path <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Flu-NonFlu"
-flu_data_files = list.files(path=respiratory_input_data_path, recursive=TRUE, full.names=TRUE)
-
-purrr::walk(flu_data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
-
 ## inputting respiratory data
-i_respiratory_scotland_agg <- read.csv(paste0(input_data, "/scotland_agg.csv"))
-i_respiratory_agegp_sex_agg <- read.csv(paste0(input_data, "/agegp_sex_agg.csv"))
-i_respiratory_agegp_agg <- read.csv(paste0(input_data, "/agegp_agg.csv"))
-i_respiratory_sex_agg <- read.csv(paste0(input_data, "/sex_agg.csv"))
-i_respiratory_hb_agg <- read.csv(paste0(input_data, "/hb_agg.csv"))
+i_respiratory_scotland_agg <- read_csv_with_options(paste0(input_data, "/scotland_agg.csv"))
+i_respiratory_agegp_sex_agg <- read_csv_with_options(paste0(input_data, "/agegp_sex_agg.csv"))
+i_respiratory_agegp_agg <- read_csv_with_options(paste0(input_data, "/agegp_agg.csv"))
+i_respiratory_sex_agg <- read_csv_with_options(paste0(input_data, "/sex_agg.csv"))
+i_respiratory_hb_agg <- read_csv_with_options(paste0(input_data, "/hb_agg.csv"))
 
 ##  create dictionaries so we can make new column names with meaningful data for user
 flu <- c("fluaorb", "h1n1", "typea", "typeah3", "typeb", "unknowna")
