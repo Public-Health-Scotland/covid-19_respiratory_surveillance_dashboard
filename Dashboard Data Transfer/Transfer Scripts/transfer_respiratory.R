@@ -11,12 +11,13 @@ get_resp_year <- function(w, s){
   return(year)
 }
 
-## inputting respiratory data
-i_respiratory_scotland_agg <- read_csv_with_options(paste0(input_data, "/scotland_agg.csv"))
-i_respiratory_agegp_sex_agg <- read_csv_with_options(paste0(input_data, "/agegp_sex_agg.csv"))
-i_respiratory_agegp_agg <- read_csv_with_options(paste0(input_data, "/agegp_agg.csv"))
-i_respiratory_sex_agg <- read_csv_with_options(paste0(input_data, "/sex_agg.csv"))
-i_respiratory_hb_agg <- read_csv_with_options(paste0(input_data, "/hb_agg.csv"))
+filenames <- c("scotland_agg", "agegp_sex_agg", "agegp_agg", "sex_agg", "hb_agg")
+
+## Getting respiratory data
+for (filename in filenames){
+  assign(glue("i_respiratory_{filename}"), read_csv_with_options(glue("{input_data}/{filename}.csv")))
+}
+
 
 ##  create dictionaries so we can make new column names with meaningful data for user
 flu <- c("fluaorb", "h1n1", "typea", "typeah3", "typeb", "unknowna")
@@ -63,12 +64,12 @@ scotland_agg <- i_respiratory_scotland_agg %>%
          HBName = "Scotland")
 
 scot_flu_total = scotland_agg %>%
-  filter(flu_nonflu == "flu") %>%
-  filter(pathogen != "typea") %>%
+  filter(flu_nonflu == "flu",
+         pathogen != "typea") %>%
   group_by(season, week, weekord, date, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
-         pathogen = "total",
+  mutate(rate = round_half_up((count/pop)*100000, 1),
+         pathogen = "Total",
          organism = "Total",
          total_number_flag = 1,
          HBName = "Scotland",
@@ -79,7 +80,7 @@ scot_non_flu_total = scotland_agg %>%
   filter(flu_nonflu == "nonflu") %>%
   group_by(season, week, weekord, date, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total",
          organism = "Total",
          total_number_flag = 1,
@@ -99,7 +100,7 @@ agegp_sex_flu_total <- agegp_sex_agg %>%
   filter(flu_nonflu == "flu") %>%
   group_by(season, week, weekord, date, agegp, sex, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total",
          organism = "Total",
          scotland_by_age_sex_flag = 1,
@@ -107,11 +108,11 @@ agegp_sex_flu_total <- agegp_sex_agg %>%
          rateQF = "d")
 
 agegp_sex_non_flu_total <- agegp_sex_agg %>%
-  filter(flu_nonflu == "nonflu") %>%
-  filter(pathogen != "typea") %>%
+  filter(flu_nonflu == "nonflu",
+         pathogen != "typea") %>%
   group_by(season, week, weekord, date, agegp, sex, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total",
          organism = "Total",
          scotland_by_age_sex_flag = 1,
@@ -130,7 +131,7 @@ agegp_flu_total <- agegp_agg %>%
   filter(pathogen != "typea") %>%
   group_by(season, week, weekord, date, agegp, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total_flu",
          organism = "Total",
          scotland_by_age_flag = 1,
@@ -141,7 +142,7 @@ agegp_non_flu_total <- agegp_agg %>%
   filter(flu_nonflu == "nonflu") %>%
   group_by(season, week, weekord, date, agegp, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total_nonflu",
          organism = "Total",
          scotland_by_age_flag = 1,
@@ -161,7 +162,7 @@ sex_flu_total <- sex_agg %>%
   filter(pathogen != "typea") %>%
   group_by(season, week, weekord, date, sex, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total",
          organism = "Total",
          scotland_by_sex_flag = 1,
@@ -172,7 +173,7 @@ sex_non_flu_total <- sex_agg %>%
   filter(flu_nonflu == "nonflu") %>%
   group_by(season, week, weekord, date, sex, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total",
          organism = "Total",
          scotland_by_sex_flag = 1,
@@ -194,7 +195,7 @@ hb_flu_total = hb_agg %>%
   filter(pathogen != "typea") %>%
   group_by(season, week, weekord, date, HealthBoard, HBName, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total",
          organism = "Total",
          hb_flag = 1,
@@ -205,7 +206,7 @@ hb_non_flu_total = hb_agg %>%
   filter(flu_nonflu == "nonflu") %>%
   group_by(season, week, weekord, date, HealthBoard, HBName, pop, measure, flu_nonflu) %>%
   summarise(count = sum(count)) %>%
-  mutate(rate = round((count/pop)*100000, 1),
+  mutate(rate = round_half_up((count/pop)*100000, 1),
          pathogen = "total",
          organism = "Total",
          hb_flag = 1,
@@ -231,9 +232,7 @@ all_data <- bind_rows(
   mutate(count = as.numeric(count),
          agegp = factor(agegp, levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
 
-g_resp_data <- all_data
-
-g_resp_data %<>%
+g_resp_data <- all_data %>%
   dplyr::rename(Season = season,
                 Pathogen = pathogen,
                 Week = week,
@@ -259,7 +258,7 @@ g_resp_data %<>%
 
 #### Create Summary Table
 
-sequence = c("PreviousWeek","PreviousWeek", "ThisWeek","ThisWeek")
+sequence = c("PreviousWeek", "PreviousWeek", "ThisWeek", "ThisWeek")
 
 g_resp_summary <- bind_rows(
 
@@ -329,11 +328,11 @@ colnames_match <- c(scot_colnames_match, hb_colnames_match, sex_colnames_match, 
 
 if(FALSE %in% colnames_match) {
 
-  print("column names do not match")
+  message("column names do not match")
 
 } else {
 
-  print("column names match")
+  message("column names match")
 
 }
 
