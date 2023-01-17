@@ -43,10 +43,10 @@ tagList(
                   tagList(h3("COVID-19 vaccine wastage"),
                           linebreaks(1),
                           altTextUI("vaccine_wastage_modal"),
-                          withSpinner(plotlyOutput("vaccine_wastage_plot")))),
+                          withNavySpinner(plotlyOutput("vaccine_wastage_plot")))),
          tabPanel("Data",
                   tagList(h3("COVID-19 vaccine wastage data"),
-                          withSpinner(dataTableOutput("vaccine_wastage_table"))))),
+                          withNavySpinner(dataTableOutput("vaccine_wastage_table"))))),
 
   #fluidRow(height = "25px", linebreaks(1)),
 
@@ -56,9 +56,9 @@ tagList(
           # linebreaks(1),
            altTextUI("vaccine_wastage_reason_modal"),
            column(width = 6,
-                  withSpinner(plotlyOutput("vaccine_wastage_reason_plot"))),
+                  withNavySpinner(plotlyOutput("vaccine_wastage_reason_plot"))),
            column(width = 6,
-                  withSpinner(dataTableOutput("vaccine_wastage_reason_table"))),
+                  withNavySpinner(dataTableOutput("vaccine_wastage_reason_table"))),
            linebreaks(13))))
 
 
