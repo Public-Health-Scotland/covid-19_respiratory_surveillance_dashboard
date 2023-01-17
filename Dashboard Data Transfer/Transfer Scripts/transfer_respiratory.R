@@ -82,20 +82,10 @@ scot_non_flu_total = scotland_agg %>%
          rateQF = "d")
 
 agegp_sex_agg <- i_respiratory_agegp_sex_agg %>%
-  mutate(year = case_when(season == "2016/17" & weekord < 14 ~ 2016,
-                          season == "2016/17" & weekord >= 14 ~ 2017,
-                          season == "2017/18" & weekord < 14 ~ 2017,
-                          season == "2017/18" & weekord >= 14 ~ 2018,
-                          season == "2018/19" & weekord < 14 ~ 2018,
-                          season == "2018/19" & weekord >= 14 ~ 2019,
-                          season == "2019/20" & weekord < 14 ~ 2019,
-                          season == "2019/20" & weekord >= 14 ~ 2020,
-                          season == "2020/21" & weekord < 15 ~ 2020,
-                          season == "2020/21" & weekord >= 15 ~ 2021,
-                          season == "2021/22" & weekord < 14 ~ 2021,
-                          season == "2021/22" & weekord >= 14 ~ 2022,
-                          season == "2022/23" & weekord < 14 ~ 2022,
-                          season == "2023/23" & weekord >= 14 ~ 2023)) %>%
+  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
+                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
+  )
+  )%>%
   mutate(date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu"),
@@ -126,20 +116,10 @@ agegp_sex_non_flu_total <- agegp_sex_agg %>%
          rateQF = "d")
 
 agegp_agg <- i_respiratory_agegp_agg %>%
-  mutate(year = case_when(season == "2016/17" & weekord < 14 ~ 2016,
-                          season == "2016/17" & weekord >= 14 ~ 2017,
-                          season == "2017/18" & weekord < 14 ~ 2017,
-                          season == "2017/18" & weekord >= 14 ~ 2018,
-                          season == "2018/19" & weekord < 14 ~ 2018,
-                          season == "2018/19" & weekord >= 14 ~ 2019,
-                          season == "2019/20" & weekord < 14 ~ 2019,
-                          season == "2019/20" & weekord >= 14 ~ 2020,
-                          season == "2020/21" & weekord < 15 ~ 2020,
-                          season == "2020/21" & weekord >= 15 ~ 2021,
-                          season == "2021/22" & weekord < 14 ~ 2021,
-                          season == "2021/22" & weekord >= 14 ~ 2022,
-                          season == "2022/23" & weekord < 14 ~ 2022,
-                          season == "2023/23" & weekord >= 14 ~ 2023)) %>%
+  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
+                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
+  )
+  )%>%
   mutate(date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu")) %>%
@@ -169,20 +149,10 @@ agegp_non_flu_total <- agegp_agg %>%
          rateQF = "d")
 
 sex_agg <- i_respiratory_sex_agg %>%
-  mutate(year = case_when(season == "2016/17" & weekord < 14 ~ 2016,
-                          season == "2016/17" & weekord >= 14 ~ 2017,
-                          season == "2017/18" & weekord < 14 ~ 2017,
-                          season == "2017/18" & weekord >= 14 ~ 2018,
-                          season == "2018/19" & weekord < 14 ~ 2018,
-                          season == "2018/19" & weekord >= 14 ~ 2019,
-                          season == "2019/20" & weekord < 14 ~ 2019,
-                          season == "2019/20" & weekord >= 14 ~ 2020,
-                          season == "2020/21" & weekord < 15 ~ 2020,
-                          season == "2020/21" & weekord >= 15 ~ 2021,
-                          season == "2021/22" & weekord < 14 ~ 2021,
-                          season == "2021/22" & weekord >= 14 ~ 2022,
-                          season == "2022/23" & weekord < 14 ~ 2022,
-                          season == "2023/23" & weekord >= 14 ~ 2023)) %>%
+  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
+                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
+  )
+  )%>%
   mutate(date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu"),
@@ -213,20 +183,10 @@ sex_non_flu_total <- sex_agg %>%
          rateQF = "d")
 
 hb_agg <- i_respiratory_hb_agg %>%
-  mutate(year = case_when(season == "2016/17" & weekord < 14 ~ 2016,
-                          season == "2016/17" & weekord >= 14 ~ 2017,
-                          season == "2017/18" & weekord < 14 ~ 2017,
-                          season == "2017/18" & weekord >= 14 ~ 2018,
-                          season == "2018/19" & weekord < 14 ~ 2018,
-                          season == "2018/19" & weekord >= 14 ~ 2019,
-                          season == "2019/20" & weekord < 14 ~ 2019,
-                          season == "2019/20" & weekord >= 14 ~ 2020,
-                          season == "2020/21" & weekord < 15 ~ 2020,
-                          season == "2020/21" & weekord >= 15 ~ 2021,
-                          season == "2021/22" & weekord < 14 ~ 2021,
-                          season == "2021/22" & weekord >= 14 ~ 2022,
-                          season == "2022/23" & weekord < 14 ~ 2022,
-                          season == "2023/23" & weekord >= 14 ~ 2023)) %>%
+  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
+                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
+  )
+  )%>%
   mutate(date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu")) %>%
