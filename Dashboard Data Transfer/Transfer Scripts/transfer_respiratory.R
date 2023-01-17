@@ -3,18 +3,6 @@
 
 ##### Respiratory
 
-library(dplyr)
-library(janitor)
-library(stringr)
-library(lubridate)
-library(readr)
-library(readxl)
-library(tidyr)
-library(magrittr)
-library(rgdal)
-library(MMWRweek)
-
-
 ## adding respiratory data to input data folder.
 ## This can be commented out once we have a proper process in place for adding the flu data to test and protect warehouse
 respiratory_input_data_path <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Flu-NonFlu"
