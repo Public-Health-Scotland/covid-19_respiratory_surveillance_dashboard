@@ -123,7 +123,7 @@ for(filename in filenames) {
 }
 
 
-all_data <- bind_rows(
+g_resp_data <- bind_rows(
   scotland_agg,
   agegp_sex_agg,
   agegp_agg,
@@ -140,9 +140,8 @@ all_data <- bind_rows(
   agegp_sex_flu_total,
   hb_flu_total) %>%
   mutate(count = as.numeric(count),
-         agegp = factor(agegp, levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
-
-g_resp_data <- all_data %>%
+         agegp = factor(agegp,
+                        levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+"))) %>%
   dplyr::rename(Season = season,
                 Pathogen = pathogen,
                 Week = week,
@@ -236,6 +235,7 @@ agegp_sex_colnames_match <- agegp_sex_colnames %in% names(i_respiratory_agegp_se
 
 colnames_match <- c(scot_colnames_match, hb_colnames_match, sex_colnames_match, agegp_colnames_match, agegp_sex_colnames_match)
 
+
 if(FALSE %in% colnames_match) {
 
   message("column names do not match")
@@ -246,8 +246,11 @@ if(FALSE %in% colnames_match) {
 
 }
 
+# Halting code if the column names don't match
+stopifnot(!(FALSE %in% colnames_match))
 
-# this function checks that the data sent to us is adds up and is the same as last week.
+
+# this function checks that the data sent to us adds up and is the same as last week.
 # inputs:
 # data = this week's data
 # measure = the aggregated data (Scotland, Healthboard, Sex, Age, Age Sex)
