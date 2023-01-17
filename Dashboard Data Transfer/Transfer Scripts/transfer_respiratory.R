@@ -215,7 +215,13 @@ g_resp_summary <- bind_rows(
     mutate(Breakdown = Healthboard) %>%
     select(Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
     mutate(SummaryMeasure = "Healthboard_Total")
-)
+) %>% select(
+  Date, DateThisWeek, DatePreviousWeek,
+  Breakdown, FluOrNonFlu,
+  Count, CountThisWeek, CountPreviousWeek,  CountQF,
+  Rate, RateThisWeek, RatePreviousWeek, RateQF,
+  Difference, PercentageDifference, ChangeFactor,
+  SummaryMeasure)
 
 # Checks on aggregated data
 source("Transfer Scripts/respiratory_checks.R")
