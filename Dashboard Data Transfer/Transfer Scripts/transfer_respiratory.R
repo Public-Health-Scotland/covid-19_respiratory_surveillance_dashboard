@@ -168,31 +168,36 @@ g_resp_data <- bind_rows(
 #### Create Summary Table
 
 sequence = c("PreviousWeek", "PreviousWeek", "ThisWeek", "ThisWeek")
+# get total flu and non-flu cases
+g_resp_summary_totals <- g_resp_data %>%
+  filter(total_number_flag == 1) %>%
+  arrange(Date) %>%
+  tail(4) %>%
+  mutate(Breakdown = "Scotland Total") %>%
+  bind_cols(., sequence) %>%
+  rename(ReportingWeek = "...30") %>%
+  select(ReportingWeek, Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
+  pivot_wider(., names_from = c("ReportingWeek"), values_from = c("Count", "Date", "Rate")) %>%
+  dplyr::rename(CountPreviousWeek = Count_PreviousWeek,
+                CountThisWeek = Count_ThisWeek,
+                RatePreviousWeek = Rate_PreviousWeek,
+                RateThisWeek = Rate_ThisWeek,
+                DatePreviousWeek = Date_PreviousWeek,
+                DateThisWeek = Date_ThisWeek) %>%
+  mutate(Difference = CountThisWeek-CountPreviousWeek,
+         PercentageDifference = round((Difference/CountPreviousWeek)*100, 0),
+         ChangeFactor = case_when(PercentageDifference < 0 ~ "decrease",
+                                  PercentageDifference > 0 ~ "increase",
+                                  PercentageDifference == 0 ~ "no change")) %>%
+  mutate(SummaryMeasure = "Scotland_Total") %>% select(
+    DateThisWeek, DatePreviousWeek,
+    Breakdown, FluOrNonFlu,
+    CountThisWeek, CountPreviousWeek,  CountQF,
+    RateThisWeek, RatePreviousWeek, RateQF,
+    Difference, PercentageDifference, ChangeFactor,
+    SummaryMeasure)
 
 g_resp_summary <- bind_rows(
-
-  # get total flu and non-flu cases
-  g_resp_data %>%
-    filter(total_number_flag == 1) %>%
-    arrange(Date) %>%
-    tail(4) %>%
-    mutate(Breakdown = "Scotland Total") %>%
-    bind_cols(., sequence) %>%
-    rename(ReportingWeek = "...30") %>%
-    select(ReportingWeek, Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
-    pivot_wider(., names_from = c("ReportingWeek"), values_from = c("Count", "Date", "Rate")) %>%
-    dplyr::rename(CountPreviousWeek = Count_PreviousWeek,
-                  CountThisWeek = Count_ThisWeek,
-                  RatePreviousWeek = Rate_PreviousWeek,
-                  RateThisWeek = Rate_ThisWeek,
-                  DatePreviousWeek = Date_PreviousWeek,
-                  DateThisWeek = Date_ThisWeek) %>%
-    mutate(Difference = CountThisWeek-CountPreviousWeek,
-           PercentageDifference = round((Difference/CountPreviousWeek)*100, 0),
-           ChangeFactor = case_when(PercentageDifference < 0 ~ "decrease",
-                                    PercentageDifference > 0 ~ "increase",
-                                    PercentageDifference == 0 ~ "no change")) %>%
-    mutate(SummaryMeasure = "Scotland_Total"),
 
   g_resp_data %>%
     filter(scotland_by_organism_flag == 1) %>%
@@ -216,11 +221,10 @@ g_resp_summary <- bind_rows(
     select(Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
     mutate(SummaryMeasure = "Healthboard_Total")
 ) %>% select(
-  Date, DateThisWeek, DatePreviousWeek,
+  Date,
   Breakdown, FluOrNonFlu,
-  Count, CountThisWeek, CountPreviousWeek,  CountQF,
-  Rate, RateThisWeek, RatePreviousWeek, RateQF,
-  Difference, PercentageDifference, ChangeFactor,
+  Count,  CountQF,
+  Rate, RateQF,
   SummaryMeasure)
 
 # Checks on aggregated data
@@ -228,10 +232,13 @@ source("Transfer Scripts/respiratory_checks.R")
 
 # Output
 write_csv(g_resp_data, glue(output_folder, "Respiratory_AllData.csv"))
+write_csv(g_resp_summary_totals, glue(output_folder, "Respiratory_Summary_Totals.csv"))
 write_csv(g_resp_summary, glue(output_folder, "Respiratory_Summary.csv"))
 
+
 # remove all data
-rm(i_respiratory_scotland_agg, i_respiratory_agegp_agg, i_respiratory_agegp_sex_agg, i_respiratory_sex_agg, i_respiratory_hb_agg)
+rm(i_respiratory_scotland_agg, i_respiratory_agegp_agg,
+   i_respiratory_agegp_sex_agg, i_respiratory_sex_agg, i_respiratory_hb_agg)
 rm(scotland_agg, hb_agg, sex_agg, agegp_agg, agegp_sex_agg, scotland_non_flu_total,
    agegp_non_flu_total,
    sex_non_flu_total,
@@ -251,7 +258,7 @@ rm(hb_checks_this_week, agegp_checks_this_week, sex_checks_this_week, agegp_sex_
    agegp_colnames_match,
    agegp_sex_colnames_match)
 
-rm(g_resp_data, g_resp_summary)
+rm(g_resp_data, g_resp_summary, g_resp_summary_totals)
 
 
 
