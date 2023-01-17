@@ -23,20 +23,20 @@ for (filename in filenames){
 flu <- c("fluaorb", "h1n1", "typea", "typeah3", "typeb", "unknowna")
 nonflu <- c("adeno", "coron", "hmpv", "mpn", "para", "rhino", "rsv")
 
-healthboards <- c("AA" = "NHS Ayrshire and Arran",
-                  "BR" = "NHS Borders",
-                  "DG" = "NHS Dumfries and Galloway",
-                  "FF" = "NHS Fife",
-                  "FV" = "NHS Forth Valley",
-                  "GC" = "NHS Greater Glasgow and Clyde",
-                  "GR" = "NHS Grampian",
-                  "HG" = "NHS Highland",
-                  "LN" = "NHS Lanarkshire",
-                  "LO" = "NHS Lothian",
-                  "OR" = "NHS Orkney",
-                  "SH" = "NHS Shetland",
-                  "TY" = "NHS Tayside",
-                  "WI" = "NHS Western Isles")
+healthboards <- c("AA" = "S08000015",
+                  "BR" = "S08000016",
+                  "DG" = "S08000017",
+                  "FF" = "S08000029",
+                  "FV" = "S08000019",
+                  "GC" = "S08000031",
+                  "GR" = "S08000020",
+                  "HG" = "S08000022",
+                  "LN" = "S08000032",
+                  "LO" = "S08000024",
+                  "OR" = "S08000025",
+                  "SH" = "S08000026",
+                  "TY" = "S08000030",
+                  "WI" = "S08000028")
 
 organism <- c("fluaorb" = "Influenza - Type A or B",
               "h1n1" = "Influenza - Type A(H1N1)pdm09",
