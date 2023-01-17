@@ -226,20 +226,20 @@ write_csv(g_resp_summary, glue(output_folder, "Respiratory_Summary.csv"))
 
 # remove all data
 rm(i_respiratory_scotland_agg, i_respiratory_agegp_agg, i_respiratory_agegp_sex_agg, i_respiratory_sex_agg, i_respiratory_hb_agg)
-rm(scotland_agg, hb_agg, sex_agg, agegp_agg, agegp_sex_agg, scot_non_flu_total,
+rm(scotland_agg, hb_agg, sex_agg, agegp_agg, agegp_sex_agg, scotland_non_flu_total,
    agegp_non_flu_total,
    sex_non_flu_total,
    agegp_sex_non_flu_total,
    hb_non_flu_total,
-   scot_flu_total,
+   scotland_flu_total,
    agegp_flu_total,
    sex_flu_total,
    agegp_sex_flu_total,
    hb_flu_total)
 rm(hb_checks_this_week, agegp_checks_this_week, sex_checks_this_week, agegp_sex_checks_this_week,
    scotland_checks_prev_week, hb_checks_prev_week, agegp_checks_prev_week, sex_checks_prev_week, agegp_sex_checks_prev_week,
-   scot_colnames, hb_colnames, sex_colnames, agegp_colnames, agegp_sex_colnames,
-   scot_colnames_match,
+   scotland_colnames, hb_colnames, sex_colnames, agegp_colnames, agegp_sex_colnames,
+   scotland_colnames_match,
    hb_colnames_match,
    sex_colnames_match,
    agegp_colnames_match,
