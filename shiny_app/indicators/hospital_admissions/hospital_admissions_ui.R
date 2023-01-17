@@ -70,7 +70,25 @@ tagList(
 
                            ),
 
-                           tagList(h3("Length of stay of acute COVID-19 hospital admissions")),
+                           tagList(h3("Length of stay of acute COVID-19 hospital admissions"),
+                                   tags$div(class = "headline",
+                                            h3(glue("Median length of stay of acute COVID-19 hospital admissions for 4 week period {los_date_start %>% format('%d %b %y')} to {los_date_end%>% format('%d %b %y')} ")),
+
+                                            valueBox(value = glue("{Length_of_Stay_Median %>% filter(AgeGroup == 'All Ages') %>%
+                                                .$MedianLengthOfStay %>%round_half_up(1)} days"),
+                                                     subtitle = glue("All ages"),
+                                                     color = "blue",
+                                                     icon = icon_no_warning_fn("clock")),
+                                            valueBox(value = glue("{los_median_min$MedianLengthOfStay %>% round_half_up(1)} days"),
+                                                subtitle = glue("{los_median_min$AgeGroup} (shortest stay)"),
+                                                color = "blue",
+                                                icon = icon_no_warning_fn("clock")),
+                                            valueBox(value = glue("{los_median_max$MedianLengthOfStay %>% round_half_up(1)} days"),
+                                                subtitle = glue("{los_median_max$AgeGroup} (longest stay)"),
+                                                color = "blue",
+                                                icon = icon_no_warning_fn("clock")),
+                                            linebreaks(6))),
+                           br(),
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
