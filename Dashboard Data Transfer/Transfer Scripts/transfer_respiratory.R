@@ -13,32 +13,42 @@ i_respiratory_hb_agg <- read_csv_with_options(paste0(input_data, "/hb_agg.csv"))
 ##  create dictionaries so we can make new column names with meaningful data for user
 flu <- c("fluaorb", "h1n1", "typea", "typeah3", "typeb", "unknowna")
 nonflu <- c("adeno", "coron", "hmpv", "mpn", "para", "rhino", "rsv")
-healthboards <- c("AA" = "NHS Ayrshire and Arran", "BR" = "NHS Borders", "DG" = "NHS Dumfries and Galloway",
-                  "FF" = "NHS Fife", "FV" = "NHS Forth Valley", "GC" = "NHS Greater Glasgow and Clyde", "GR" = "NHS Grampian", "HG" = "NHS Highland",
-                  "LN" = "NHS Lanarkshire", "LO" = "NHS Lothian", "OR" = "NHS Orkney", "SH" = "NHS Shetland", "TY" = "NHS Tayside",
+
+healthboards <- c("AA" = "NHS Ayrshire and Arran",
+                  "BR" = "NHS Borders",
+                  "DG" = "NHS Dumfries and Galloway",
+                  "FF" = "NHS Fife",
+                  "FV" = "NHS Forth Valley",
+                  "GC" = "NHS Greater Glasgow and Clyde",
+                  "GR" = "NHS Grampian",
+                  "HG" = "NHS Highland",
+                  "LN" = "NHS Lanarkshire",
+                  "LO" = "NHS Lothian",
+                  "OR" = "NHS Orkney",
+                  "SH" = "NHS Shetland",
+                  "TY" = "NHS Tayside",
                   "WI" = "NHS Western Isles")
-organism <- c("fluaorb" = "Influenza - Type A or B", "h1n1" = "Influenza - Type A(H1N1)pdm09", "typea" = "Influenza - Type A (any subtype)",
-              "typeah3" = "Influenza - Type A(H3)", "typeb" = "Influenza - Type B",
+
+organism <- c("fluaorb" = "Influenza - Type A or B",
+              "h1n1" = "Influenza - Type A(H1N1)pdm09",
+              "typea" = "Influenza - Type A (any subtype)",
+              "typeah3" = "Influenza - Type A(H3)",
+              "typeb" = "Influenza - Type B",
               "unknowna" = "Influenza - Type A (not subtyped)",
-              "adeno" = "Adenovirus", "coron" = "Seasonal coronavirus (Non-SARS-CoV-2)", "hmpv" = "Human metapneumovirus", "mpn" = "Mycoplasma pneumoniae",
-              "para" = "Parainfluenza virus", "rhino" = "Rhinovirus", "rsv" = "Respiratory syncytial virus")
+              "adeno" = "Adenovirus",
+              "coron" = "Seasonal coronavirus (Non-SARS-CoV-2)",
+              "hmpv" = "Human metapneumovirus",
+              "mpn" = "Mycoplasma pneumoniae",
+              "para" = "Parainfluenza virus",
+              "rhino" = "Rhinovirus",
+              "rsv" = "Respiratory syncytial virus")
 
 ## get totals and create flags for the data
 scotland_agg <- i_respiratory_scotland_agg %>%
-  mutate(year = case_when(season == "2016/17" & weekord < 14 ~ 2016,
-                          season == "2016/17" & weekord >= 14 ~ 2017,
-                          season == "2017/18" & weekord < 14 ~ 2017,
-                          season == "2017/18" & weekord >= 14 ~ 2018,
-                          season == "2018/19" & weekord < 14 ~ 2018,
-                          season == "2018/19" & weekord >= 14 ~ 2019,
-                          season == "2019/20" & weekord < 14 ~ 2019,
-                          season == "2019/20" & weekord >= 14 ~ 2020,
-                          season == "2020/21" & weekord < 15 ~ 2020,
-                          season == "2020/21" & weekord >= 15 ~ 2021,
-                          season == "2021/22" & weekord < 14 ~ 2021,
-                          season == "2021/22" & weekord >= 14 ~ 2022,
-                          season == "2022/23" & weekord < 14 ~ 2022,
-                          season == "2023/23" & weekord >= 14 ~ 2023)) %>%
+  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
+                           weekord >= 14 ~ paste0("20", substr(season, 6, 7))
+                           )
+         )%>%
   mutate(date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu")) %>%
