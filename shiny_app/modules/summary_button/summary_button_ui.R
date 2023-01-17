@@ -15,7 +15,7 @@ summaryButtonUI <- function(id, title, content, placement = "left",
          content,
          placement = placement,
          trigger = "click",
-         options = list(container = "body"))
+         options = list(id = "summary-popover", container = "body"))
 
 
 }
@@ -27,14 +27,14 @@ plotInfoButtonUI <- function(id, placement = "right") {
   summaryButtonUI(ns("plotinfo"),
                   title = "How to interact with the plot",
                   content = paste("<ul>",
-                                  "<li>Move the cursor over the data points the see the data values</li>",
-                                  "<li>Hold down cursor, drag to size and release to zoom in on part of the plot</li>",
-                                  "<li>Alter the x axis by dragging the vertical white bars on the left and right of the bottom panel</li>",
+                                  "<li>Move the cursor over the data points to see the data values</li>",
+                                  "<li>Zoom into the plot by holding down the cursor and dragging to select the region</li>",
+                                  "<li>Alter the x axis range by dragging the vertical white bars on the left and right of the bottom panel</li>",
                                   "<li>Click the home button in the top right to reset the axes</li>",
-                                  "<li>Single click on legend items to remove that trace</li>",
-                                  "<li>Double click on legend items to isolate that trace</li>",
+                                  "<li>Single click on legend variables to remove the corresponding trace</li>",
+                                  "<li>Double click on legend variables to isolate the corresponding trace</li>",
                                   "<li>Double click on the legend to restore all traces</li>",
-                                  "<li>Click the camera icon in the top right to download the plot as a png</li>",
+                                  "<li>Click the camera icon in the top right to download the plot as a png file</li>",
                                   "</ul>",
                                   strong("Click again to close.")),
                   placement = placement,

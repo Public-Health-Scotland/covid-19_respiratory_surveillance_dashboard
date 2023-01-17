@@ -27,11 +27,11 @@ tags$style("@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css)
 navbarPage(
     id = "intabset", # id used for jumping between tabs
     title = div(
-        tags$a(img(src = "phs-logo.png", height = 40,
+        tags$a(img(src = "white-logo.png", height = 40,
                    alt ="Go to Public Health Scotland (external site)"),
                href = "https://www.publichealthscotland.scot/",
                target = "_blank"), # PHS logo links to PHS website
-    style = "position: relative; top: -5px;"),
+    style = "position: relative; top: -10px;"),
     windowTitle = "COVID-19 Dashboard",# Title for browser tab
     header = tags$head(includeCSS("www/styles.css"),  # CSS stylesheet
                      #  includeHTML("www/google-analytics.html"), #Including Google analytics

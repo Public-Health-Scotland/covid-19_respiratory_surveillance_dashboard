@@ -75,7 +75,7 @@ make_hospital_admissions_plot <- function(data){
                         xs= c("2022-01-06", "2022-05-01"),
                         notes=c("From 5 Jan cases  include PCR + LFD",
                                 "Change in testing policy on 1 May"),
-                        colors=c(phs_colours("phs-rust"),
+                        colors=c(phs_colours("phs-teal"),
                                  phs_colours("phs-purple"))) %>%
   # Add layout and config
     layout(margin = list(b = 80, t = 5),

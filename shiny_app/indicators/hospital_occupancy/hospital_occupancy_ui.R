@@ -9,22 +9,22 @@ tagList(
            linebreaks(2)),
 
   fluidRow(tagList(tags$div(class = "headline",
-                            h3(glue("Figures from week ending {Occupancy_Hospital %>% tail(1) %>%
+                            h3(glue("7 day average patients with COVID-19 from week ending {Occupancy_Hospital %>% tail(1) %>%
                                                     .$Date %>% convert_opendata_date() %>%format('%d %b %y')}")),
                             valueBox(value = {Occupancy_Hospital %>% tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in hospital",
-                                color = "blue",
+                                subtitle = "in hospital",
+                                color = "fuchsia",
                                 icon = icon_no_warning_fn("hospital")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in ICU for 28 days or less",
-                                color = "blue",
+                                subtitle = "in ICU for 28 days or less",
+                                color = "fuchsia",
                                 icon = icon_no_warning_fn("bed")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
                                 .$SevenDayAverage},
-                                subtitle = "7 day average number of patients with COVID-19 in ICU for more than 28 days",
-                                color = "blue",
+                                subtitle = "in ICU for more than 28 days",
+                                color = "fuchsia",
                                 icon = icon_no_warning_fn("bed-pulse")),
                             # These linebreaks are here to make the banner big enough to
                             # include all the valueBoxes
