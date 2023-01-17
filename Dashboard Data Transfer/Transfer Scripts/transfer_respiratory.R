@@ -54,7 +54,7 @@ organism <- c("fluaorb" = "Influenza - Type A or B",
 
 for(filename in filenames) {
 
-  #  e.g. scotland_agg, agegp_sex_agg, ...
+  # 1.  e.g. scotland_agg, agegp_sex_agg, ...
   df1 <- get(glue("i_respiratory_{filename}_agg")) %>%
     mutate(year = get_resp_year(weekord, season),
            date = MMWRweek2Date(year, week)) %>%
@@ -83,132 +83,45 @@ for(filename in filenames) {
 
   assign(glue("{filename}_agg"), df1)
 
-  # e.g. scotland_flu_total, agegp_sex_flu_total, ...
-  #df2 <-
+  # 2. scotland flu and non-flu totals
+  df2 <- df1 %>%
+    group_by(season, week, weekord, date, pop, measure, flu_nonflu) %>%
+    summarise(count = sum(count)) %>%
+    mutate(rate = round_half_up((count/pop)*100000, 1),
+           pathogen = "Total",
+           organism = "Total",
+           countQF = "d",
+           rateQF = "d")
+
+  if(filename == "scotland"){
+    df2 %<>% mutate(total_number_flag = 1,
+                    HBName = "Scotland")
+  } else if (filename == "agegp_sex") {
+    df2 %<>% mutate(scotland_by_age_sex_flag = 1)
+  } else if (filename == "agegp"){
+    df2 %<>% mutate(scotland_by_age_flag = 1)
+
+  } else if (filename == "sex") {
+    df2 %<>% mutate(scotland_by_sex_flag = 1)
+  } else if (filename == "hb") {
+    df2 %<>% mutate( hb_flag = 1)
+  }
+
+  # 3. scotland_flu_total, ...
+
+  df3 <- df2 %>% filter(flu_nonflu == "flu",
+                        pathogen != "typea")
+
+  df4 <- df2 %>% filter(flu_nonflu == "nonflu")
+
+
+  assign(glue("{filename}_flu_total"), df3)
+  assign(glue("{filename}_non_flu_total"), df4)
+
+
+
 }
 
-
-scot_flu_total = scotland_agg %>%
-  filter(flu_nonflu == "flu",
-         pathogen != "typea") %>%
-  group_by(season, week, weekord, date, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "Total",
-         organism = "Total",
-         total_number_flag = 1,
-         HBName = "Scotland",
-         countQF = "d",
-         rateQF = "d")
-
-scot_non_flu_total = scotland_agg %>%
-  filter(flu_nonflu == "nonflu") %>%
-  group_by(season, week, weekord, date, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total",
-         organism = "Total",
-         total_number_flag = 1,
-         HBName = "Scotland",
-         countQF = "d",
-         rateQF = "d")
-
-
-agegp_sex_flu_total <- agegp_sex_agg %>%
-  filter(flu_nonflu == "flu") %>%
-  group_by(season, week, weekord, date, agegp, sex, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total",
-         organism = "Total",
-         scotland_by_age_sex_flag = 1,
-         countQF = "d",
-         rateQF = "d")
-
-agegp_sex_non_flu_total <- agegp_sex_agg %>%
-  filter(flu_nonflu == "nonflu",
-         pathogen != "typea") %>%
-  group_by(season, week, weekord, date, agegp, sex, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total",
-         organism = "Total",
-         scotland_by_age_sex_flag = 1,
-         countQF = "d",
-         rateQF = "d")
-
-agegp_flu_total <- agegp_agg %>%
-  filter(flu_nonflu == "flu") %>%
-  filter(pathogen != "typea") %>%
-  group_by(season, week, weekord, date, agegp, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total_flu",
-         organism = "Total",
-         scotland_by_age_flag = 1,
-         countQF = "d",
-         rateQF = "d")
-
-agegp_non_flu_total <- agegp_agg %>%
-  filter(flu_nonflu == "nonflu") %>%
-  group_by(season, week, weekord, date, agegp, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total_nonflu",
-         organism = "Total",
-         scotland_by_age_flag = 1,
-         countQF = "d",
-         rateQF = "d")
-
-
-
-sex_flu_total <- sex_agg %>%
-  filter(flu_nonflu == "flu") %>%
-  filter(pathogen != "typea") %>%
-  group_by(season, week, weekord, date, sex, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total",
-         organism = "Total",
-         scotland_by_sex_flag = 1,
-         countQF = "d",
-         rateQF = "d")
-
-sex_non_flu_total <- sex_agg %>%
-  filter(flu_nonflu == "nonflu") %>%
-  group_by(season, week, weekord, date, sex, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total",
-         organism = "Total",
-         scotland_by_sex_flag = 1,
-         countQF = "d",
-         rateQF = "d")
-
-
-
-hb_flu_total = hb_agg %>%
-  filter(flu_nonflu == "flu") %>%
-  filter(pathogen != "typea") %>%
-  group_by(season, week, weekord, date, HealthBoard, HBName, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total",
-         organism = "Total",
-         hb_flag = 1,
-         countQF = "d",
-         rateQF = "d")
-
-hb_non_flu_total = hb_agg %>%
-  filter(flu_nonflu == "nonflu") %>%
-  group_by(season, week, weekord, date, HealthBoard, HBName, pop, measure, flu_nonflu) %>%
-  summarise(count = sum(count)) %>%
-  mutate(rate = round_half_up((count/pop)*100000, 1),
-         pathogen = "total",
-         organism = "Total",
-         hb_flag = 1,
-         countQF = "d",
-         rateQF = "d")
 
 all_data <- bind_rows(
   scotland_agg,
@@ -216,12 +129,12 @@ all_data <- bind_rows(
   agegp_agg,
   sex_agg,
   hb_agg,
-  scot_non_flu_total,
+  scotland_non_flu_total,
   agegp_non_flu_total,
   sex_non_flu_total,
   agegp_sex_non_flu_total,
   hb_non_flu_total,
-  scot_flu_total,
+  scotland_flu_total,
   agegp_flu_total,
   sex_flu_total,
   agegp_sex_flu_total,
