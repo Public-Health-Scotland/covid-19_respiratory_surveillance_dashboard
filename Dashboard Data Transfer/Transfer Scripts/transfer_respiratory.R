@@ -3,6 +3,14 @@
 
 ##### Respiratory
 
+get_resp_year <- function(w, s){
+  year <- case_when(w < 14 ~ paste0("20", substr(s, 3, 4)),
+                    w >= 14 ~ paste0("20", substr(s, 6, 7)) ) %>%
+                      as.numeric()
+
+  return(year)
+}
+
 ## inputting respiratory data
 i_respiratory_scotland_agg <- read_csv_with_options(paste0(input_data, "/scotland_agg.csv"))
 i_respiratory_agegp_sex_agg <- read_csv_with_options(paste0(input_data, "/agegp_sex_agg.csv"))
@@ -45,13 +53,11 @@ organism <- c("fluaorb" = "Influenza - Type A or B",
 
 ## get totals and create flags for the data
 scotland_agg <- i_respiratory_scotland_agg %>%
-  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
-                           weekord >= 14 ~ paste0("20", substr(season, 6, 7))
-                           )
-         )%>%
-  mutate(date = MMWRweek2Date(year, week)) %>%
+  mutate(year = get_resp_year(weekord, season),
+         date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
-                                pathogen %in% nonflu ~ "nonflu")) %>%
+                                pathogen %in% nonflu ~ "nonflu",
+                                TRUE ~ NA_character_)) %>%
   mutate(scotland_by_organism_flag = 1,
          organism = recode(pathogen, !!!organism, .default = NA_character_),
          HBName = "Scotland")
@@ -82,11 +88,8 @@ scot_non_flu_total = scotland_agg %>%
          rateQF = "d")
 
 agegp_sex_agg <- i_respiratory_agegp_sex_agg %>%
-  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
-                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
-  )
-  )%>%
-  mutate(date = MMWRweek2Date(year, week)) %>%
+  mutate(year = get_resp_year(weekord, season),
+         date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu"),
          scotland_by_organism_age_sex_flag = 1,
@@ -116,11 +119,8 @@ agegp_sex_non_flu_total <- agegp_sex_agg %>%
          rateQF = "d")
 
 agegp_agg <- i_respiratory_agegp_agg %>%
-  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
-                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
-  )
-  )%>%
-  mutate(date = MMWRweek2Date(year, week)) %>%
+  mutate(year = get_resp_year(weekord, season),
+         date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu")) %>%
   mutate(scotland_by_organism_age_flag = 1)
@@ -149,11 +149,8 @@ agegp_non_flu_total <- agegp_agg %>%
          rateQF = "d")
 
 sex_agg <- i_respiratory_sex_agg %>%
-  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
-                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
-  )
-  )%>%
-  mutate(date = MMWRweek2Date(year, week)) %>%
+  mutate(year = get_resp_year(weekord, season),
+         date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu"),
          scotland_by_organism_sex_flag = 1,
@@ -183,11 +180,8 @@ sex_non_flu_total <- sex_agg %>%
          rateQF = "d")
 
 hb_agg <- i_respiratory_hb_agg %>%
-  mutate(year = case_when(weekord < 14 ~ paste0("20", substr(season, 3, 4)),
-                          weekord >= 14 ~ paste0("20", substr(season, 6, 7))
-  )
-  )%>%
-  mutate(date = MMWRweek2Date(year, week)) %>%
+  mutate(year = get_resp_year(weekord, season),
+         date = MMWRweek2Date(year, week)) %>%
   mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                 pathogen %in% nonflu ~ "nonflu")) %>%
   mutate(HBName = recode(HealthBoard, !!!healthboards, .default = NA_character_),

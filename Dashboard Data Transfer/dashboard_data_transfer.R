@@ -7,7 +7,7 @@
 if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
 if (!pacman::p_isinstalled("friendlyloader")){pacman::p_install_gh("RosalynLP/friendlyloader")}
 
-pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate,
+pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate, MMWRweek,
                janitor, stringr, data.table, stats, zoo, tidyr, readxl, readr, friendlyloader)
 
 # Setting permisisons for files outputted
