@@ -31,6 +31,7 @@ make_occupancy_plots <- function(data, occupancy) {
 
       add_lines(y = ~SevenDayAverage, name = '7 day average',
                 line = list(color = phs_colours("phs-magenta"),
+                            dash = "dash",
                             width = 2))
 
 
@@ -50,7 +51,9 @@ make_occupancy_plots <- function(data, occupancy) {
                                 "<b>Length of stay in ICU</b>: ", ICULengthOfStay, "\n",
                                 "<b>7 day average number of People in ICU</b>: ", format(SevenDayAverage, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
-                 height = 500) %>%
+                 height = 500,
+                 linetype = ~ICULengthOfStay,
+                 linetypes = c("dash", "solid")) %>%
       add_trace(type = 'scatter', mode = 'lines') %>%
       layout(legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'))
   }

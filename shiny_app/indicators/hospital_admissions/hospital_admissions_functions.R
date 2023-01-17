@@ -51,7 +51,8 @@ make_hospital_admissions_plot <- function(data){
               text = tooltip_trend, hoverinfo = "text",
               name = "Daily hospital admissions") %>%
     add_lines(y = ~SevenDayAverage,
-              line = list(color = phs_colours("phs-blue")),
+              line = list(color = phs_colours("phs-blue"),
+                          dash = "dash"),
               text = tooltip_trend, hoverinfo = "text",
               name = "7 day average") %>%
 
@@ -64,7 +65,8 @@ make_hospital_admissions_plot <- function(data){
                name = "Daily hospital admissions (provisional)") %>%
     add_lines(data = prov_data,
               y = ~SevenDayAverage,
-              line=list(color = phs_colours("phs-graphite")),
+              line=list(color = phs_colours("phs-graphite"),
+                        dash = "dash"),
               text = tooltip_trend_prov, hoverinfo = "text",
               name = "7 day average (provisional)") %>%
 
@@ -113,6 +115,8 @@ make_hospital_admissions_simd_plot <- function(data){
               color=~SIMD,
               colors=phs_colours(c("phs-rust", "phs-liberty-30", "phs-liberty-30",
                                    "phs-liberty-30", "phs-blue")),
+              linetype = ~SIMD,
+              linetypes = c("dash", "solid", "solid", "solid", "dot"),
               hovertemplate = paste0('<b>Week ending</b>: %{x}<br>',
                                      '<b>SIMD quintile</b>: %{text}<br>',
                                      '<b>Number of admissions</b>: %{y}')
@@ -182,7 +186,34 @@ make_hospital_admissions_los_plot <- function(data){
     config(displaylogo = F, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove )
 
-    return(p)
+  # The following code creates patterns and sets white background
+  # for alternate bars.
+
+  # p <- plotly_build(p)
+  # 
+  # # Assign pattern to each bar
+  # p$x$data[[1]]$marker$pattern$shape <- ""
+  # p$x$data[[2]]$marker$pattern$shape <- "/"
+  # p$x$data[[3]]$marker$pattern$shape <- ""
+  # p$x$data[[4]]$marker$pattern$shape <- "\\"
+  # p$x$data[[5]]$marker$pattern$shape <- ""
+  # 
+  # # Assign background colour to each bar
+  # p$x$data[[1]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[2]]$marker$pattern$bgcolor <- "white"
+  # p$x$data[[3]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[4]]$marker$pattern$bgcolor <- "white"
+  # p$x$data[[5]]$marker$pattern$bgcolor <- ""
+  # 
+  # # Assign solidity to each bar
+  # p$x$data[[1]]$marker$pattern$solidity <- ""
+  # p$x$data[[2]]$marker$pattern$solidity <- "0.8"
+  # p$x$data[[3]]$marker$pattern$solidity <- ""
+  # p$x$data[[4]]$marker$pattern$solidity <- "0.8"
+  # p$x$data[[5]]$marker$pattern$solidity <- ""
+
+  return(p)
+
 }
 
 
@@ -193,7 +224,6 @@ make_hospital_admissions_los_plot <- function(data){
 # Hospital Admissions by Ethnicity Plot
 make_hospital_admissions_ethnicity_plot <- function(data){
 
-
   yaxis_plots[["title"]] <- "COVID-19 admissions"
 
   # Adding slider
@@ -202,7 +232,7 @@ make_hospital_admissions_ethnicity_plot <- function(data){
 
 
   #Creating time trend plot
-  plot_ly(data = data,
+  p <- plot_ly(data = data,
           text = ~paste0("<b>Month beginning</b>: ", format(MonthBegining, "%b %Y") ,"\n",
                         "<b>Ethnic group</b>: ", EthnicGroup, "\n",
                         "<b>Hospital admissions</b>: ", format(Admissions, big.mark=",")),
@@ -219,7 +249,9 @@ make_hospital_admissions_ethnicity_plot <- function(data){
                                      "phs-green",
                                      "phs-magenta",
                                      "phs-rust")),
-              type = "bar") %>%
+              type = "bar",
+              marker = list(line = list(width=.5,
+                                        color = 'rgb(0,0,0)'))) %>%
     #Layout
     layout(margin = list(b = 100, t = 5), #to avoid labels getting cut out
            yaxis = yaxis_plots, xaxis = xaxis_plots,
@@ -230,6 +262,41 @@ make_hospital_admissions_ethnicity_plot <- function(data){
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove )
+
+  # The following code creates patterns and sets background colour
+  # for alternate bars.
+
+  # p <- plotly_build(p)
+  # 
+  # # Assign pattern to each bar
+  # p$x$data[[1]]$marker$pattern$shape <- ""
+  # p$x$data[[2]]$marker$pattern$shape <- "x"
+  # p$x$data[[3]]$marker$pattern$shape <- ""
+  # p$x$data[[4]]$marker$pattern$shape <- "/"
+  # p$x$data[[5]]$marker$pattern$shape <- ""
+  # p$x$data[[6]]$marker$pattern$shape <- "\\"
+  # p$x$data[[7]]$marker$pattern$shape <- ""
+  # 
+  # # Assign background colour to each bar
+  # p$x$data[[1]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[2]]$marker$pattern$bgcolor <- phs_colors("phs-purple-10")
+  # p$x$data[[3]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[4]]$marker$pattern$bgcolor <- phs_colors("phs-blue-10")
+  # p$x$data[[5]]$marker$pattern$bgcolor <- ""
+  # p$x$data[[6]]$marker$pattern$bgcolor <- phs_colors("phs-magenta-10")
+  # p$x$data[[7]]$marker$pattern$bgcolor <- ""
+  # 
+  # # Assign solidity to each bar
+  # p$x$data[[1]]$marker$pattern$solidity <- ""
+  # p$x$data[[2]]$marker$pattern$solidity <- "0.8"
+  # p$x$data[[3]]$marker$pattern$solidity <- ""
+  # p$x$data[[4]]$marker$pattern$solidity <- "0.8"
+  # p$x$data[[5]]$marker$pattern$solidity <- ""
+  # p$x$data[[6]]$marker$pattern$solidity <- "0.8"
+  # p$x$data[[7]]$marker$pattern$solidity <- ""
+
+  return(p)
+
 }
 
 ######################
@@ -266,7 +333,8 @@ make_icu_admissions_plot <- function(data){
               text = tooltip_trend, hoverinfo = "text",
               name = "ICU admissions") %>%
     add_lines(y = ~SevenDayAverage,
-              line = list(color = phs_colours("phs-blue")),
+              line = list(color = phs_colours("phs-blue"),
+                          dash = "dash"),
               text = tooltip_trend, hoverinfo = "text",
               name = "7 day average") %>%
     #Layout
