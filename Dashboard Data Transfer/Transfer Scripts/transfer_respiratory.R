@@ -65,19 +65,23 @@ for(filename in filenames) {
   if(filename == "scotland"){
     df1 %<>% mutate(scotland_by_organism_flag = 1,
                     organism = recode(pathogen, !!!organism, .default = NA_character_),
-                    HBName = "Scotland")
+                    HBName = "Scotland",
+                    breakdown = "Scotland")
   } else if (filename == "agegp_sex") {
     df1 %<>% mutate(scotland_by_organism_age_sex_flag = 1,
-                    organism = recode(pathogen, !!!organism, .default = NA_character_))
+                    organism = recode(pathogen, !!!organism, .default = NA_character_),
+                    breakdown = paste0(agegp,"_",sex))
   } else if (filename == "agegp"){
-    df1 %<>% mutate(scotland_by_organism_age_flag = 1)
-
+    df1 %<>% mutate(scotland_by_organism_age_flag = 1,
+                    breakdown = agegp)
   } else if (filename == "sex") {
     df1 %<>% mutate(scotland_by_organism_sex_flag = 1,
-                    organism = recode(pathogen, !!!organism, .default = NA_character_))
+                    organism = recode(pathogen, !!!organism, .default = NA_character_),
+                    breakdown = sex)
   } else if (filename == "hb") {
     df1 %<>% mutate(organism_by_hb_flag = 1,
-                    organism = recode(pathogen, !!!organism, .default = NA_character_)) %>%
+                    organism = recode(pathogen, !!!organism, .default = NA_character_),
+                    breakdown = HealthBoard) %>%
       filter(!is.na(HealthBoard))
   }
 
@@ -85,7 +89,8 @@ for(filename in filenames) {
 
   # 2. scotland flu and non-flu totals
   df2 <- df1 %>%
-    group_by(season, week, weekord, date, pop, measure, flu_nonflu) %>%
+    filter(pathogen != "typea") %>%
+    group_by(season, week, weekord, date, pop, measure, breakdown, flu_nonflu) %>%
     summarise(count = sum(count)) %>%
     mutate(rate = round_half_up((count/pop)*100000, 1),
            pathogen = "Total",
@@ -100,17 +105,17 @@ for(filename in filenames) {
     df2 %<>% mutate(scotland_by_age_sex_flag = 1)
   } else if (filename == "agegp"){
     df2 %<>% mutate(scotland_by_age_flag = 1)
-
   } else if (filename == "sex") {
     df2 %<>% mutate(scotland_by_sex_flag = 1)
   } else if (filename == "hb") {
     df2 %<>% mutate( hb_flag = 1)
   }
 
+
+
   # 3. scotland_flu_total, ...
 
-  df3 <- df2 %>% filter(flu_nonflu == "flu",
-                        pathogen != "typea")
+  df3 <- df2 %>% filter(flu_nonflu == "flu")
 
   df4 <- df2 %>% filter(flu_nonflu == "nonflu")
 
@@ -154,14 +159,15 @@ g_resp_data <- bind_rows(
                 Date = date,
                 FluOrNonFlu = flu_nonflu,
                 Organism = organism,
+                BreakDown = breakdown,
                 Healthboard = HBName,
                 AgeGroup = agegp,
                 Sex = sex,
                 HealthboardCode = HealthBoard,
                 CountQF = countQF,
                 RateQF = rateQF) %>%
-  select(Season, Date, Week, Year, Weekord, Measure, FluOrNonFlu, Organism, Healthboard, AgeGroup, Sex, Count, CountQF, Rate, RateQF, Population,
-         Pathogen, HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
+  select(Season, Date, Week, Year, Weekord, Measure, FluOrNonFlu, Organism, BreakDown, Healthboard, AgeGroup, Sex, Count, CountQF, Rate, RateQF,
+         Population,Pathogen, HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
          scotland_by_organism_flag, scotland_by_organism_age_sex_flag, scotland_by_organism_age_flag, scotland_by_organism_sex_flag,
          organism_by_hb_flag)
 
