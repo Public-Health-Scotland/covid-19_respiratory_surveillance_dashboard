@@ -3,7 +3,7 @@
 summaryButtonUI <- function(id, title, content, placement = "left",
                             # If no label for the button is provided, add screen reader text
                             # explaining the purpose of the button
-                            label = HTML(glue("<p class='sr-only'>Click button for more information</p>")),
+                            label = HTML(glue("<label class='sr-only'>Click button for more information</label>")),
                             icon = "circle-info", class = "summary-btn"){
 
   ns <- NS(id)
