@@ -40,7 +40,7 @@ tagList(
                            tagList(h3("Number of patients with COVID-19 in hospital"),
                                    linebreaks(1),
                                    altTextUI("hospital_occupancy_modal"),
-                                   withSpinner(plotlyOutput("hospital_occupancy_plot")),
+                                   withNavySpinner(plotlyOutput("hospital_occupancy_plot")),
                                    linebreaks(4)
                                    ) # taglist
                            ), # tabpanel
@@ -48,7 +48,7 @@ tagList(
 
                   tabPanel("Data",
                            tagList(h3("Number of patients with COVID-19 in hospital data"),
-                                   withSpinner(dataTableOutput("hospital_occupancy_table"))
+                                   withNavySpinner(dataTableOutput("hospital_occupancy_table"))
                                    ) # taglist
                            ) # tabpanel
                   ) #tabbox
@@ -66,14 +66,14 @@ tagList(
                                    linebreaks(1),
                                    altTextUI("icu_occupancy_modal"),
 
-                                   withSpinner(plotlyOutput("icu_occupancy_plot")),
+                                   withNavySpinner(plotlyOutput("icu_occupancy_plot")),
                                    linebreaks(4)
                            ) # taglist
                   ), # tabpanel
 
                   tabPanel("Data",
                            tagList(h3("Number of patients with COVID-19 in Intensive Care Units (ICU) data"),
-                                   withSpinner(dataTableOutput("ICU_occupancy_table"))
+                                   withNavySpinner(dataTableOutput("ICU_occupancy_table"))
                            ) # taglist
                   ) # tabpanel
            ) #tabbox

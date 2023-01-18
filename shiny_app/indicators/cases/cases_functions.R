@@ -25,6 +25,7 @@ make_reported_cases_plot <- function(data){
 
     add_lines(y = ~SevenDayAverage, name = '7 day average',
               line = list(color = phs_colours("phs-purple"),
+                          dash = "dash",
                           width = 2)) %>%
 
 

@@ -8,6 +8,10 @@ icon_no_warning_fn = function(icon_name) {
   icon(icon_name, verify_fa=FALSE)
 }
 
+withNavySpinner <- function(out){
+  withSpinner(out, color = navy)
+}
+
 ## Function to format a given entry in a table ----
 format_entry <- function(x, dp=0, perc=F){
   # x (numeric, char): entry
