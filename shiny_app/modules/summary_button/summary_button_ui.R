@@ -1,7 +1,9 @@
 
 # ? Buttons for summary tab
 summaryButtonUI <- function(id, title, content, placement = "left",
-                            label = "",
+                            # If no label for the button is provided, add screen reader text
+                            # explaining the purpose of the button
+                            label = HTML(glue("<p class='sr-only'>Click button for more information</p>")),
                             icon = "circle-info", class = "summary-btn"){
 
   ns <- NS(id)
@@ -15,8 +17,8 @@ summaryButtonUI <- function(id, title, content, placement = "left",
          content,
          placement = placement,
          trigger = "click",
-         options = list(id = "summary-popover", container = "body"))
-
+         options = list(id = "summary-popover", container = "body")
+         )
 
 }
 
