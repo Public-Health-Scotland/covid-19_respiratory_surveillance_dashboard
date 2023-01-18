@@ -644,9 +644,11 @@ color:white;
 .info-box-text {
   display: block;
   font-size: 14px;
-  white-space: nowrap;
+  max-width: 80%;
+  text-transform: none !Important;
+ /* white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;*/
 }
 .info-box-text {
   text-transform: uppercase;
@@ -703,3 +705,15 @@ a > .info-box {
   width: 500px;
 }
 */
+
+
+.sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
