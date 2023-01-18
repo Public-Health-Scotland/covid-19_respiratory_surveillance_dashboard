@@ -17,18 +17,20 @@ make_vaccine_wastage_plot <- function(data){
                               "<b>Doses wasted</b>: ", format(NumberOfDosesWasted, big.mark=","), "\n",
                               "<b>Percentage wasted</b>: ", PercentageWasted, "%\n"),
                name = 'Doses administered',
-               marker = list(color = phs_colours("phs-blue-80")),
+               marker = list(color = phs_colours("phs-teal-80")),
                hovertemplate = "%{text}")%>%
 
     add_trace(y = ~NumberOfDosesWasted, name = 'Doses wasted',
-              marker = list(color = phs_colors("phs-rust"))) %>%
-
+              marker = list(color = phs_colors("phs-purple"),
+                            pattern = list(shape = "/",
+                                           bgcolor = phs_colours("phs-purple-10"),
+                                           solidity = "0.8"))) %>%
     # Adding vertical lines for notes on chart
     add_lines_and_notes(dataframe = data,
                         ycol = c("TotalDoses"),
                         xs= c("2021-12-01"),
                         notes=c("Before Dec 21 doses 1 & 2 only"),
-                        colors= c(phs_colours("phs-purple"))) %>%
+                        colors= "black") %>%
 
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
@@ -62,7 +64,7 @@ make_vaccine_wastage_reason_plot <- function(data){
                text = ~paste0("<b>Reason for wastage</b>: ", ReasonForWastage, "\n",
                               "<b>Percentage</b>: ", ReasonForWastagePc, "%\n"),
                name = 'Reason for wastage',
-               marker = list(color = phs_colours("phs-blue-80")),
+               marker = list(color = phs_colours("phs-teal-80")),
                hovertemplate = "%{text}") %>%
 
     layout(margin = list(b = 80, t = 5),

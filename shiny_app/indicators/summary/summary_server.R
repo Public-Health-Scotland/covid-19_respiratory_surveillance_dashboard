@@ -12,7 +12,7 @@ output$admissions_infobox <- renderInfoBox({
           value= admissions_headlines[[1]],
           subtitle = "Weekly total",
           icon = icon_no_warning_fn("hospital"),
-          color = "green")})
+          color = "blue")})
 
 
 
@@ -26,7 +26,7 @@ output$icu_infobox <- renderInfoBox({
           value= icu_headlines[[1]],
           subtitle = "Weekly total",
           icon = icon_no_warning_fn("heart-pulse"),
-          color = "green")
+          color = "blue")
 })
 
 
@@ -44,7 +44,7 @@ output$los_infobox <- renderInfoBox({
                         .$MedianLengthOfStay %>%round_half_up(1)} days"),
           subtitle = "Median",
           icon = icon_no_warning_fn("clock"),
-          color = "green")
+          color = "blue")
 })
 
 
@@ -116,9 +116,8 @@ output$ons_infobox <- renderInfoBox({
                           " to {ONS %>% tail(1) %>% .$UpperCIRatio}",
                           " (95% CI)"),
           icon = icon_no_warning_fn("viruses"),
-          color = "red")
+          color = "purple")
 })
-
 
 # output$r_number_infobox <- renderInfoBox({
 #   infoBox(title=h5("R number",
@@ -132,7 +131,7 @@ output$ons_infobox <- renderInfoBox({
 #                       " - {R_Number %>% tail(1) %>% .$UpperBound}"),
 #           subtitle = "Range",
 #           icon = icon_no_warning_fn("r"),
-#           color = "red")
+#           color = "purple")
 # })
 
 
@@ -146,7 +145,7 @@ output$wastewater_infobox <- renderInfoBox({
               signif(3) %>% paste("Mgc/p/d")},
           subtitle = "7 day average",
           icon = icon_no_warning_fn("faucet-drip"),
-          color = "red")
+          color = "purple")
 })
 
 
@@ -161,7 +160,7 @@ output$reported_cases_infobox <- renderInfoBox({
               round_half_up(0) %>% format(big.mark=",")},
           subtitle = "7 day average",
           icon = icon_no_warning_fn("lungs-virus"),
-          color = "red")
+          color = "purple")
 })
 
 

@@ -8,6 +8,10 @@ icon_no_warning_fn = function(icon_name) {
   icon(icon_name, verify_fa=FALSE)
 }
 
+withNavySpinner <- function(out){
+  withSpinner(out, color = navy)
+}
+
 ## Function to format a given entry in a table ----
 format_entry <- function(x, dp=0, perc=F){
   # x (numeric, char): entry
@@ -79,7 +83,7 @@ make_table <- function(input_data_table,
                                      scrollX = TRUE,
                                      initComplete = JS(
                                        "function(settings, json) {",
-                                       "$(this.api().table().header()).css({'background-color': '#0078D4', 'color': 'white'});",
+                                       "$(this.api().table().header()).css({'background-color': 'rgba(1, 0, 104, 1)', 'color': 'white'});",
                                        "}"), # Make header phs-blue
                                      order = tab_order),
 
@@ -135,7 +139,7 @@ make_byboard_data_table <- function(input_data_table,
                                      autoWidth = TRUE,
                                      initComplete = JS(
                                        "function(settings, json) {",
-                                       "$(this.api().table().header()).css({'background-color': '#3F3685', 'color': 'white'});",
+                                       "$(this.api().table().header()).css({'background-color': 'rgba(1, 0, 104, 1)', 'color': 'white'});",
                                        "}") # Make header phs-purple
                       ),
                       filter = "top",
