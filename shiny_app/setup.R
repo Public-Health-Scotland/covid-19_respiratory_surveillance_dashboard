@@ -19,6 +19,8 @@ yaxis_plots <- list(title = FALSE, rangemode="tozero", size = 4,
                     fixedrange = FALSE, tickfont = list(size=14),
                     titlefont = list(size=14))
 
+navy <- "#010068"
+
 # Buttons to remove from plotly plots
 bttn_remove <-  list(
                      'select2d',

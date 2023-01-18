@@ -8,11 +8,17 @@ tagList(
           tagList(
             h2("Hospital admissions"),
 
-            infoBoxOutput("admissions_infobox", width = NULL),
+            withNavySpinner(
+              infoBoxOutput("admissions_infobox", width = NULL)
+              ),
 
-            infoBoxOutput("icu_infobox", width=NULL),
+            withNavySpinner(
+              infoBoxOutput("icu_infobox", width=NULL)
+              ),
 
-            infoBoxOutput("los_infobox", width=NULL),
+            withNavySpinner(
+              infoBoxOutput("los_infobox", width=NULL)
+              ),
 
             linebreaks(1)
 
@@ -23,11 +29,18 @@ tagList(
           status = "info",
           tagList(
             h2("Hospital occupancy"),
-            infoBoxOutput("occupancy_infobox", width=NULL),
 
-            infoBoxOutput("icu_less_occupancy_infobox", width=NULL),
+            withNavySpinner(
+              infoBoxOutput("occupancy_infobox", width=NULL)
+              ),
 
-            infoBoxOutput("icu_more_occupancy_infobox", width=NULL),
+            withNavySpinner(
+              infoBoxOutput("icu_less_occupancy_infobox", width=NULL)
+              ),
+
+            withNavySpinner(
+              infoBoxOutput("icu_more_occupancy_infobox", width=NULL)
+              ),
 
             linebreaks(1)
 
@@ -37,13 +50,23 @@ tagList(
           status = "info",
           tagList(
             h2("Cases"),
-            infoBoxOutput("ons_infobox", width=NULL),
 
-            # infoBoxOutput("r_number_infobox", width=NULL),
 
-            infoBoxOutput("wastewater_infobox", width=NULL),
+            withNavySpinner(
+              infoBoxOutput("ons_infobox", width=NULL)
+              ),
 
-            infoBoxOutput("reported_cases_infobox", width=NULL),
+            # withNavySpinner(
+            #  infoBoxOutput("r_number_infobox", width=NULL)
+            #  ),
+
+            withNavySpinner(
+              infoBoxOutput("wastewater_infobox", width=NULL)
+              ),
+
+            withNavySpinner(
+              infoBoxOutput("reported_cases_infobox", width=NULL)
+              ),
 
             linebreaks(1)
 
@@ -54,11 +77,19 @@ tagList(
           status = "info",
           tagList(
             h2("Vaccine wastage"),
-            infoBoxOutput("doses_wasted_infobox", width=NULL),
 
-            infoBoxOutput("doses_administered_infobox", width=NULL),
 
-            infoBoxOutput("percent_wasted_infobox", width=NULL),
+            withNavySpinner(
+              infoBoxOutput("doses_wasted_infobox", width=NULL)
+              ),
+
+            withNavySpinner(
+              infoBoxOutput("doses_administered_infobox", width=NULL)
+              ),
+
+            withNavySpinner(
+              infoBoxOutput("percent_wasted_infobox", width=NULL)
+              ),
 
             linebreaks(1)
 

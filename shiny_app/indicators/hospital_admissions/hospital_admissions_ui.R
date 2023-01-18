@@ -41,11 +41,11 @@ tagList(
                                            tagList(
                                              linebreaks(1),
                                              altTextUI("hospital_admissions_modal"),
-                                             withSpinner(plotlyOutput("hospital_admissions_plot")))
+                                             withNavySpinner(plotlyOutput("hospital_admissions_plot")))
                                            ),
                                   tabPanel("Data",
                                            tagList(
-                                             withSpinner(dataTableOutput("hospital_admissions_table")))
+                                             withNavySpinner(dataTableOutput("hospital_admissions_table")))
                                            )
 
                            ),
@@ -57,13 +57,13 @@ tagList(
                                            tagList(
                                              linebreaks(1),
                                              altTextUI("hospital_admissions_simd_modal"),
-                                             withSpinner(
+                                             withNavySpinner(
                                                plotlyOutput("hospital_admissions_simd_plot"))
                                             )
                                            ),
                                   tabPanel("Data",
                                            tagList(
-                                             withSpinner(
+                                             withNavySpinner(
                                                dataTableOutput("hospital_admissions_simd_table"))
                                             )
                                            )
@@ -102,13 +102,13 @@ tagList(
                                                              unique()},
                                                          selected = "All Ages"),
                                                    altTextUI("hospital_admissions_los_modal"),
-                                                    withSpinner(
+                                                    withNavySpinner(
                                                       plotlyOutput("hospital_admissions_los_plot")
                                                       ),
                                                    linebreaks(3))),
                                   tabPanel("Data",
                                            tagList(
-                                             withSpinner(
+                                             withNavySpinner(
                                                dataTableOutput("hospital_admissions_los_table"))
                                             )
                                            )
@@ -124,13 +124,13 @@ tagList(
                                            tagList(
                                              h3("Admissions to hospital 'with' COVID-19 by ethnicity"),
                                              altTextUI("hospital_admissions_ethnicity_modal"),
-                                             withSpinner(
+                                             withNavySpinner(
                                                plotlyOutput("hospital_admissions_ethnicity_plot")
                                                )
                                           )
                                               ),
                                   tabPanel("Data",
-                                           withSpinner(
+                                           withNavySpinner(
                                                dataTableOutput("hospital_admissions_ethnicity_table")
                                                )
                                   ) # tabpanel
@@ -166,13 +166,13 @@ tagList(
                                            tagList(
                                              linebreaks(1),
                                              altTextUI("icu_admissions_modal"),
-                                             withSpinner(
+                                             withNavySpinner(
                                                plotlyOutput("icu_admissions_plot"))
                                              )
                                            ),
                                   tabPanel("Data",
                                            tagList(
-                                             withSpinner(
+                                             withNavySpinner(
                                                dataTableOutput("icu_admissions_table")
                                                )
                                            )

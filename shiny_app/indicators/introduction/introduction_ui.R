@@ -11,25 +11,25 @@ sidebarLayout(
               # These have to be uiOutputs rather than just tagLists because otherwise
               # the ui loads before the conditional panel hides the info so for some
               # time at the beginning of the app all of the panels are visible
-              withSpinner(uiOutput("introduction_about"))
+              withNavySpinner(uiOutput("introduction_about"))
             ), # conditionalPanel
 
             # Using the dashboard
             conditionalPanel(
               condition= "input.home_select == 'use'",
-              withSpinner(uiOutput("introduction_use"))
+              withNavySpinner(uiOutput("introduction_use"))
                       ), # condtionalPanel
 
             # Further information
             conditionalPanel(
               condition= "input.home_select == 'info'",
-              withSpinner(uiOutput("introduction_info"))
+              withNavySpinner(uiOutput("introduction_info"))
             ), # conditionalPanel
 
             # Accessibility
             conditionalPanel(
               condition= "input.home_select == 'accessibility'",
-              withSpinner(uiOutput("introduction_accessibility"))
+              withNavySpinner(uiOutput("introduction_accessibility"))
             ) # conditonalPanel
                       ) # mainPanel
               ) # sidebarLayout

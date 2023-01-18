@@ -483,6 +483,7 @@ color:white;
 }
 .small-box > .inner {
   padding: 10px;
+  max-width: 60%;
 }
 .small-box > .small-box-footer {
   position: relative;
