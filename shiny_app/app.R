@@ -8,11 +8,13 @@
 
 # Keep this as TRUE for deploying to PRA. Only change to FALSE
 # for public deployment
-password_protect <- TRUE
+password_protect <- FALSE
 
 # Get packages
 source("setup.R")
 
+# Getting UI for metadata buttons
+source(file.path("modules/metadata_button/metadata_button_ui.R"), local = TRUE)$value
 # Getting summary buttons and plot info buttons
 source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 # Getting UI for modals for alt text
@@ -51,9 +53,9 @@ ui <- fluidPage(
 
       ), # tabpanel
       ##############################################.
-      # HEADLINE FIGURES ----
+      # AT A GLANCE ----
       ##############################################.
-      tabPanel(title = "Summary",
+      tabPanel(title = "At a glance",
                icon = icon_no_warning_fn("square-poll-vertical"),
                value = "summary",
 
@@ -143,6 +145,7 @@ server <- function(input, output, session) {
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
   source(file.path("functions/plot_functions.R"), local = TRUE)$value
+  source(file.path("modules/metadata_button/metadata_button_server.R"), local = TRUE)$value
   source(file.path("modules/alt_text/alt_text_modals_server.R"), local = TRUE)$value
   source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value

@@ -1,10 +1,6 @@
 tagList(
   fluidRow(width = 12,
-           actionButton("jump_to_metadata_hospital_admissions",
-                        label = "Metadata",
-                        class = "metadata-btn",
-                        icon = icon_no_warning_fn("file-pen")
-           ),
+           metadataButtonUI("hospital_admissions"),
            h1("COVID-19 hospital admissions"),
            linebreaks(2)),
 

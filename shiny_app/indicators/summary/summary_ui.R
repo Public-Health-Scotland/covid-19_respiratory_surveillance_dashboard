@@ -1,8 +1,37 @@
 tagList(
-  fluidRow(width=12, h1("COVID-19 in Scotland"),
+  fluidRow(width=12, h1("COVID-19 & respiratory surveillance in Scotland"),
            linebreaks(1)),
   fluidRow(
     tagList(
+      box(
+        status = "info",
+        tagList(
+          h2("COVID-19 cases"),
+          linebreaks(1),
+
+          h4(glue("Week ending {ONS %>% tail(1) %>% .$EndDate %>% convert_opendata_date() %>% as_dashboard_date()}")),
+          withNavySpinner(
+            infoBoxOutput("ons_infobox", width=NULL)
+          ),
+
+          # withNavySpinner(
+          #  infoBoxOutput("r_number_infobox", width=NULL)
+          #  ),
+
+          h4(glue("Week ending {Wastewater %>% tail(1) %>% .$Date %>% convert_opendata_date() %>% as_dashboard_date()}")),
+          withNavySpinner(
+            infoBoxOutput("wastewater_infobox", width=NULL)
+          ),
+
+          h4(glue("Week ending {Cases %>% tail(1) %>% .$Date %>% convert_opendata_date() %>% as_dashboard_date()}")),
+          withNavySpinner(
+            infoBoxOutput("reported_cases_infobox", width=NULL)
+          ),
+
+          linebreaks(1)
+
+        )),
+
       box(
           status = "info",
           tagList(
@@ -53,36 +82,6 @@ tagList(
             linebreaks(1)
 
           )),
-
-      box(
-          status = "info",
-          tagList(
-            h2("Cases"),
-            linebreaks(1),
-
-            h4(glue("Week ending {ONS %>% tail(1) %>% .$EndDate %>% convert_opendata_date() %>% as_dashboard_date()}")),
-            withNavySpinner(
-              infoBoxOutput("ons_infobox", width=NULL)
-              ),
-
-            # withNavySpinner(
-            #  infoBoxOutput("r_number_infobox", width=NULL)
-            #  ),
-
-            h4(glue("Week ending {Wastewater %>% tail(1) %>% .$Date %>% convert_opendata_date() %>% as_dashboard_date()}")),
-            withNavySpinner(
-              infoBoxOutput("wastewater_infobox", width=NULL)
-              ),
-
-            h4(glue("Week ending {Cases %>% tail(1) %>% .$Date %>% convert_opendata_date() %>% as_dashboard_date()}")),
-            withNavySpinner(
-              infoBoxOutput("reported_cases_infobox", width=NULL)
-              ),
-
-            linebreaks(1)
-
-          )),
-
 
       box(
           status = "info",
