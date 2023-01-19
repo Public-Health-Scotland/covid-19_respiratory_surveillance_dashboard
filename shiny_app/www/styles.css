@@ -186,6 +186,20 @@ th, td {
   right:50px;
 }
 
+.jump-to-tab-btn {
+  position:absolute;
+  top:30px;
+  right:20px;
+  background-color: var(--navy);
+  color: white;
+}
+
+/* Stop summary page headings overlapping 'go to tab' buttons*/
+.box-body > h2 {
+  max-width: 65%;
+}
+
+
 .summary-btn, .summary-btn:hover, .summary-btn:focus, .summary-btn:active:focus, .sumamry-btn:active, .summary-btn:checked {
   background-color: var(--phs-blue-10);
   color: var(--navy);
@@ -716,3 +730,5 @@ a > .info-box {
         clip: rect(0, 0, 0, 0);
         border: 0;
       }
+
+

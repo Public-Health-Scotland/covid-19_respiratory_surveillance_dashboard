@@ -8,9 +8,9 @@ jumpToTabButtonUI <- function(id,
   ns <- NS(id)
 
   actionButton(ns("jump_to_tab"),
-               label = glue("Jump to {location_pretty}"),
+               label = glue("Go to tab"),
                class = "jump-to-tab-btn",
-               icon = icon_no_warning_fn("file-pen")
+               icon = icon_no_warning_fn("paper-plane")
   )
 
 }
