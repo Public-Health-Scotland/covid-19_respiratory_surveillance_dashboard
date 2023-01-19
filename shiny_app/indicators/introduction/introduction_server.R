@@ -11,18 +11,100 @@ observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", sel
 
 
 output$introduction_about <- renderUI({
-  tagList(h3(tags$b("COVID-19 in Scotland")),
-          p("text here"),
-          tags$div(class = "special_button",
-                   actionButton("jump_to_summary", "Summary"),
-                   actionButton("jump_to_cases", "Cases"),
-                   actionButton("jump_to_hospital_admissions", "Hospital admissions"),
-                   actionButton("jump_to_hospital_occupancy", "Hospital occupancy"),
-                   actionButton("jump_to_vaccines", "Vaccine wastage"),
-                   actionButton("jump_to_metadata", "Metadata"),
-                   actionButton("jump_to_download", "Download data")
+  tagList(h3(tags$b("COVID-19 & Respiratory Surveillance in Scotland")),
+          p("Surveillance of COVID-19 and respiratory infection is a key public health activity.
+            The spectrum of respiratory illnesses vary from asymptomatic illness to mild/moderate symptoms
+            to severe complications including death. There is no single respiratory surveillance component
+            that can describe the onset, severity and impact of respiratory infections."),
+          p("This dashboard consolidates existing COVID-19 dashboards into a single product and summarises
+            the current COVID-19 and respiratory data in Scotland, presenting statistics on infection levels
+            and key healthcare indicators."),
+          p("All covid rules and restrictions have been lifted in Scotland, but the virus has not gone away.
+            We all need to play our part in protecting ourselves and others. You can do this by following
+            NHS Inform Website advice on: ", tags$a(href = "https://www.gov.scot/coronavirus-covid-19/",
+                                                    "https://www.gov.scot/coronavirus-covid-19/.")),
 
-          )#div
+
+          br(),
+
+          # tags$li("Overview of headline COVID-19 and respiratory surveillance indicators."),
+          # tags$div(class = "special_button",
+          #          actionButton("jump_to_summary", "Summary")),
+          #
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_summary", "Summary"))),
+            column(8, p("Overview of headline COVID-19 and respiratory surveillance indicators."))),
+          br(),
+
+          # tags$li("Latest information on the number and rate of estimated infection levels in Scotland."),
+          # tags$div(class = "special_button",
+          #          actionButton("jump_to_cases", "Cases")),
+          #
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_cases", "Cases"))),
+            column(8, p("Latest information on the number and rate of estimated infection levels in Scotland."))),
+          br(),
+
+
+          # tags$li("Latest information on acute COVID-19 hospital admissions."),
+          # tags$div(class = "special_button",
+          #          actionButton("jump_to_hospital_admissions", "Hospital admissions")),
+          # br(),
+
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_hospital_admissions", "Hospital admissions"))),
+            column(8, p("Latest information on acute COVID-19 hospital admissions."))),
+          br(),
+
+          # tags$li("Latest information on the number of patients in hospital with COVID-19."),
+          # tags$div(class = "special_button",
+          #          actionButton("jump_to_hospital_occupancy", "Hospital occupancy")),
+          # br(),
+
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_hospital_occupancy", "Hospital occupancy"))),
+            column(8, p("Latest information on the number of patients in hospital with COVID-19."))),
+          br(),
+
+
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                   actionButton("jump_to_vaccines", "Vaccine wastage"))),
+            column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
+
+          br(),
+
+          # tags$li("Metadata."),
+          # tags$div(class = "special_button",
+          #          actionButton("jump_to_metadata", "Metadata")),
+          # br(),
+
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_metadata", "Metadata"))),
+            column(8, p("Metadata."))),
+
+          br(),
+
+          # tags$li("Ability to filter and download selected indicators."),
+          # tags$div(class = "special_button",
+          #          actionButton("jump_to_download", "Download data")),
+
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_download", "Download data"))),
+            column(8, p("Ability to filter and download selected indicators."))),
+
+          br(),
+
+          fluidRow(column(12, linebreaks(5))),
+
+          glue("Last updated: {lubridate::today()}" )
+
   )# tagList
 })
 
@@ -63,15 +145,16 @@ output$introduction_use <- renderUI({
           ) #tagList
 })
 
-output$introduction_info <- renderUI({
-  tagList(h3(tags$b("Further sources of information")),
-          p(tags$li("You can access the code used to produce this tool in this ",
-                    tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), ".")),
+output$introduction_contact <- renderUI({
+  tagList(h3(tags$b("Contact us")),
+  p("Please contact the ", tags$a(href="mailto:phs.Covid19Data&Analytics@phs.scot", "Covid-19 Data & Analytics team"),
+    "if you have any questions about the data in this dashboard."),
 
+  p(tags$b("Further sources of information")),
+     p(tags$li("You can access the code used to produce this tool in this ",
+               tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), ".")
+       )
 
-          p(tags$b("Contact us")),
-          p("Please contact the ", tags$a(href="mailto:phs.Covid19Data&Analytics@phs.scot", "Covid-19 Data & Analytics team"),
-            "if you have any questions about the data in this dashboard.")
   ) # tagList
 
 })
@@ -117,5 +200,11 @@ output$introduction_accessibility <- renderUI({
           p(tags$b("Preparation of this accessibility statement")),
           p("This statement was prepared on 13 January 2023. It was last reviewed on 13 January 2023.")
   ) # tagList
+})
+
+output$introduction_open_data <- renderUI({
+  tagList(h3("Open data")
+  ) # tagList
+
 })
 
