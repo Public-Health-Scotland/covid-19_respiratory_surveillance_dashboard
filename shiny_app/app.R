@@ -1,6 +1,7 @@
 ##########################################################
 # COVID-19 Dashboard
-# Original author(s): C19
+# Original author(s): C19 Data & Analytics Team
+# Contact: PHS.Covid19Data&Analytics@phs.scot
 # Original date: 2022-11-30
 # Written/run on RStudio server 1.1.463 and R 3.6.1
 # Description of content
