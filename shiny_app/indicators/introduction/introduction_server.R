@@ -101,10 +101,6 @@ output$introduction_about <- renderUI({
 
           br(),
 
-          fluidRow(column(12, linebreaks(5))),
-
-          glue("Last updated: {lubridate::today()}" )
-
   )# tagList
 })
 
