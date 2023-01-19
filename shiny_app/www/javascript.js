@@ -3,6 +3,13 @@
 
 $( document ).ready( () => {
 
+  // Making sure navbar doesn't overlap content
+  // Add padding at the top of the page which is 12px bigger
+  // than the navbar height
+  var navHeight = $(".navbar").height();
+  console.log(navHeight);
+  $("body").css({paddingTop: (navHeight+12)+'px'});
+
 
   // Ensures that when a modal opens keyboard focus is given to the
   // close button in the modal - accessibility
