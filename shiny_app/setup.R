@@ -48,8 +48,9 @@ bttn_remove <-  list(
 
 home_list<- c("About"= "about",
               "Using the dashboard"= "use",
-              "Further information"= "info",
-              "Accessibility"= "accessibility")
+              "Contact us"= "contact",
+              "Accessibility"= "accessibility",
+              "Open data" = "open_data")
 
 # LOAD IN DATA ----
 
