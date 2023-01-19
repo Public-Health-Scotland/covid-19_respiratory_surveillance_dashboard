@@ -23,6 +23,8 @@ source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 # UI
 ui <- fluidPage(
   tagList(
+    # For go to top chevrons on scroll down
+    use_gotop(),
     # Specify language for accessibility
     tags$html(lang="en"),
     # External file with javascript code for bespoke functionality
