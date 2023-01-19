@@ -212,21 +212,19 @@ output$percent_wasted_infobox <- renderInfoBox({
 })
 
 #### Buttons linking to different tabs ----
-observeEvent(input$jump_to_metadata_cases,
-             {updateTabsetPanel(session, "intabset", selected = "metadata")
-               updateCollapse(session, "notes_collapse", open = "Cases")})
+observeEvent(input$jump_to_cases_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "cases")})
 
-observeEvent(input$jump_to_metadata_vaccines,
-             {updateTabsetPanel(session, "intabset", selected = "metadata")
-               updateCollapse(session, "notes_collapse", open = "Vaccine wastage")})
+observeEvent(input$jump_to_hospital_admissions_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
 
-observeEvent(input$jump_to_metadata_hospital_admissions,
-             {updateTabsetPanel(session, "intabset", selected = "metadata")
-               updateCollapse(session, "notes_collapse", open = "Hospital admissions")})
+observeEvent(input$jump_to_hospital_occupancy_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
 
-observeEvent(input$jump_to_metadata_hospital_occupancy,
-             {updateTabsetPanel(session, "intabset", selected = "metadata")
-               updateCollapse(session, "notes_collapse", open = "Hospital occupancy")})
+observeEvent(input$jump_to_vaccines_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "vaccines")})
+
+
 
 
 

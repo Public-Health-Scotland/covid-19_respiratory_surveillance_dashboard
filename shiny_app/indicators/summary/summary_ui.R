@@ -7,6 +7,7 @@ tagList(
         status = "info",
         tagList(
           h2("COVID-19 cases"),
+          jumpToTabButtonUI("cases_from_summary", location_pretty = "cases"),
           linebreaks(1),
 
           h4(glue("Week ending {ONS %>% tail(1) %>% .$EndDate %>% convert_opendata_date() %>% as_dashboard_date()}")),
@@ -36,6 +37,7 @@ tagList(
           status = "info",
           tagList(
             h2("Hospital admissions"),
+            jumpToTabButtonUI("hospital_admissions_from_summary", location_pretty = "hospital admissions"),
             linebreaks(1),
 
             h4(glue("Week ending {names(admissions_headlines[1])}")),
@@ -62,6 +64,7 @@ tagList(
           status = "info",
           tagList(
             h2("Hospital occupancy"),
+            jumpToTabButtonUI("hospital_occupancy_from_summary", location_pretty = "hospital occupancy"),
             linebreaks(1),
 
             h4(glue("Week ending {Occupancy_Hospital %>% tail(1) %>% .$Date %>% convert_opendata_date() %>% as_dashboard_date()}")),
@@ -87,6 +90,7 @@ tagList(
           status = "info",
           tagList(
             h2("Vaccine wastage"),
+            jumpToTabButtonUI("vaccines_from_summary", location_pretty = "vaccine wastage"),
             linebreaks(1),
 
             h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),

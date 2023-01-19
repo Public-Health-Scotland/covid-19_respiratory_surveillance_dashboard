@@ -13,11 +13,10 @@ password_protect <- FALSE
 # Get packages
 source("setup.R")
 
-# Getting UI for metadata buttons
+# Getting UI for modules
 source(file.path("modules/metadata_button/metadata_button_ui.R"), local = TRUE)$value
-# Getting summary buttons and plot info buttons
 source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
-# Getting UI for modals for alt text
+source(file.path("modules/jump_to_tab_button/jump_to_tab_button_ui.R"), local = TRUE)$value
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 
 # UI
@@ -142,12 +141,15 @@ server <- function(input, output, session) {
     source(file.path("password_protect/password_protect_server.R"), local = TRUE)$value
   }
 
-  # Get functions
-  source(file.path("functions/core_functions.R"), local = TRUE)$value
-  source(file.path("functions/plot_functions.R"), local = TRUE)$value
+  # Get modules
   source(file.path("modules/metadata_button/metadata_button_server.R"), local = TRUE)$value
   source(file.path("modules/alt_text/alt_text_modals_server.R"), local = TRUE)$value
   source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
+  source(file.path("modules/jump_to_tab_button/jump_to_tab_button_server.R"), local = TRUE)$value
+
+  # Get functions
+  source(file.path("functions/core_functions.R"), local = TRUE)$value
+  source(file.path("functions/plot_functions.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
