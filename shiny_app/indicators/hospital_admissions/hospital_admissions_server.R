@@ -29,6 +29,25 @@ output$hospital_admissions_plot <- renderPlotly({
 
 ### WEEKLY ADMISSIONS BY SIMD ### ----
 
+## Modal to explain what SIMD is
+simd_modal <- modalDialog(
+  h3("What is Scottish Index of Multiple Deprivation (SIMD)?"),
+  p("People have been allocated to different levels of deprivation based on the small area (data zone) in which they live and the",
+                    tags$a("Scottish Index of Multiple Deprivation (SIMD) (external website)",
+                           href = "https://simd.scot/#/simd2020/BTTTFTT/9/-4.0000/55.9000/"),
+      "score for that area. SIMD scores are based on data for
+                    38 indicators covering seven topic areas: income, employment, health, education, skills and training, housing, geographic access, and crime."),
+  p("The SIMD identifies deprived areas, not deprived individuals."),
+  p("In this tool we have presented results for people living in different SIMD ‘quintiles’. To produce quintiles,
+                    data zones are ranked by their SIMD score then the areas each containing a fifth (20%) of the overall population of Scotland are identified.
+                    People living in the most and least deprived areas that each contain a fifth of the population are assigned to SIMD quintile 1 and 5 respectively."),
+  size = "l",
+  easyClose = TRUE, fade=TRUE, footer = modalButton("Close (Esc)")
+)
+
+### Modal links
+observeEvent(input$btn_modal_simd, { showModal(simd_modal) })
+
 # Table
 output$hospital_admissions_simd_table <- renderDataTable({
   Admissions_SimdTrend %>%
