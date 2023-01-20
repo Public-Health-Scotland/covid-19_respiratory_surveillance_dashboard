@@ -27,16 +27,16 @@ tagList(
                                options = pickerOptions(
                                  showTick = TRUE)
                    ),
-                   pickerInput("download_filetype",
+                   radioButtons("download_filetype",
                                "3. Choose file type   ",
                                choices = c(".csv", ".xlsx"),
                                selected = ".csv",
-                               inline = TRUE,
-                               multiple = FALSE,
-                               width = "100%",
-                               options = pickerOptions(
-                                 showTick = TRUE)
-                   )
+                               inline = TRUE)
+                   #             multiple = FALSE,
+                   #             width = "100%",
+                   #             options = pickerOptions(
+                   #               showTick = TRUE)
+                   # )
 
                  )
              ) # box
