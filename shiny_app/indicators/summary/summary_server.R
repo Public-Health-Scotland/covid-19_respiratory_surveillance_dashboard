@@ -2,7 +2,7 @@
 #### Cases ----
 
 output$ons_infobox <- renderInfoBox({
-  infoBox(title=h5("Estimated prevalence",
+  infoBox(title=h5("Estimated prevalence (Office for National Statistics)",
                    summaryButtonUI("ons",
                                    "COVID-19 infection survey (ONS) estimated prevalence",
                                    paste("An estimate of how many people test positive for COVID-19 at a given point.",
