@@ -239,6 +239,11 @@ tagList(h1("Metadata"),
                                    tags$li("Excess stock is defined: Where a vaccination team reach the end of an allotted shift or job, and have surplus vaccines that cannot be returned to stock,
                                            or used before it expires. This includes any unused doses in opened vials at the end of a clinic.")),
 
+             #### RESPIRATORY PANEL
+             bsCollapsePanel("Respiratory",
+
+                             h4("Respiratory illnesses")),
+
   #### GLOSSARY PANEL ----
   bsCollapsePanel("Glossary",
 

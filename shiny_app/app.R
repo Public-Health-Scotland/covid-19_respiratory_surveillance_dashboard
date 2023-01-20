@@ -101,6 +101,20 @@ tabPanel(title = "Vaccine wastage",
       source(file.path("indicators/vaccines/vaccines_ui.R"), local = TRUE)$value
 
 ), # tabpanel
+
+##############################################.
+# RESPIRATORY ----
+##############################################.
+tabPanel(title = "Respiratory Illnesses",
+         # Look at https://fontawesome.com/search?m=free for icons
+         icon = icon_no_warning_fn("virus"),
+         value = "respiratory",
+
+         source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
+
+), # tabpanel
+
+
 ##############################################.
 # METADATA ----
 ##############################################.
@@ -144,6 +158,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/hospital_admissions/hospital_admissions_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_functions.R"), local = TRUE)$value
   source(file.path("indicators/vaccines/vaccines_functions.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory/respiratory_functions.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
 
@@ -154,6 +169,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
   source(file.path("indicators/vaccines/vaccines_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
 

@@ -61,3 +61,18 @@ los_median_max <- Length_of_Stay_Median %>%
   filter(MedianLengthOfStay == max(MedianLengthOfStay))
 los_median_min <- Length_of_Stay_Median %>%
   filter(MedianLengthOfStay == min(MedianLengthOfStay))
+
+
+# respiratory headline figures
+flu_icon_headline <- Respiratory_Summary_Totals %>%
+  mutate(icon = case_when(PercentageDifference > 0 ~ "arrow-up",
+                          PercentageDifference < 0 ~ "arrow-down",
+                          PercentageDifference == 0 ~ "equals"))
+
+# respiratory isoweeks
+this_week_iso <- isoweek(Respiratory_Summary_Totals$DateThisWeek[1])
+prev_week_iso <- isoweek(Respiratory_Summary_Totals$DatePreviousWeek[1])
+
+
+
+
