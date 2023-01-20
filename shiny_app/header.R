@@ -11,7 +11,7 @@ tags$head(# css scripts
           includeCSS("www/css/valueBox.css"), # valueBox for headline figures
           includeCSS("www/css/infoBox.css"), # infoBox for summary page boxes
           # External file with javascript code for bespoke functionality
-          tags$script(src="javascript.js"),
+          includeScript("www/javascript.js"),
           includeHTML("www/google-analytics.html"), #Including Google analytics
           tags$link(rel = "shortcut icon", href = "favicon_phs.ico") # Icon for browser tab
 )
