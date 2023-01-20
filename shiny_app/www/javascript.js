@@ -7,10 +7,10 @@ $( document ).ready( () => {
   // Add padding at the top of the page which is 12px bigger
   // than the navbar height
 
-  var padNavbar = function() {
+  function padNavbar() {
       var navHeight = $(".navbar").height();
       $("body").css({paddingTop: (navHeight+12)+'px'});
-  };
+  }
 
   padNavbar();
   // Do this again when the window is resized or navbar is opened/closed
