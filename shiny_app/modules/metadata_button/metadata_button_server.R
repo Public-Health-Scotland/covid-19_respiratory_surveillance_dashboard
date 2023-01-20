@@ -28,6 +28,12 @@ hospital_occupancy_metadata_button <- metadataButtonServer(id="hospital_occupanc
                                                            panel="Hospital occupancy",
                                                            parent = session)
 
-cases_metadata_button <- metadataButtonServer(id="vaccines",
+vaccines_metadata_button <- metadataButtonServer(id="vaccines",
                                               panel="Vaccine wastage",
                                               parent = session)
+
+
+download_metadata_button <- metadataButtonServer(id="download",
+                                                 panel="Cases",
+                                                 parent = session)
+

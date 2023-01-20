@@ -55,14 +55,14 @@
     background-color: var(--white);
   }
 
-th{
+th {
   background-color:var(--navy);
   color:var(--white);
   font-weight: bold;
   padding: 5px;
 }
 
-td{
+td {
   padding:5px;
 }
 
@@ -152,8 +152,6 @@ th, td {
 
 
 /*https://codepen.io/JavaScriptJunkie/pen/pPRooV*/
-
-
 /*Special buttons*/
  .special_button > .btn{
     /*display: block;*/
