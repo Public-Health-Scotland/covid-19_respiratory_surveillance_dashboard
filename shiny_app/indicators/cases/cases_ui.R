@@ -1,5 +1,6 @@
 tagList(
   fluidRow(width = 12,
+<<<<<<< HEAD
            actionButton("jump_to_metadata_cases",
                         label = "Metadata",
                         class = "metadata-btn",
@@ -8,6 +9,11 @@ tagList(
            h1("COVID-19 cases")),
            #linebreaks(2)),
 
+=======
+           metadataButtonUI("cases"),
+           h1("COVID-19 cases"),
+           linebreaks(2)),
+>>>>>>> origin
 
   fluidRow(width = 12,
            #box(width = NULL,

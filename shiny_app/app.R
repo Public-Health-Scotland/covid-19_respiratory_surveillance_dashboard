@@ -1,6 +1,7 @@
 ##########################################################
 # COVID-19 Dashboard
-# Original author(s): C19
+# Original author(s): C19 Data & Analytics Team
+# Contact: PHS.Covid19Data&Analytics@phs.scot
 # Original date: 2022-11-30
 # Written/run on RStudio server 1.1.463 and R 3.6.1
 # Description of content
@@ -8,27 +9,29 @@
 
 # Keep this as TRUE for deploying to PRA. Only change to FALSE
 # for public deployment
-password_protect <- TRUE
+password_protect <- FALSE
 
 # Get packages
 source("setup.R")
 
-# Getting summary buttons and plot info buttons
+# Getting UI for modules
+source(file.path("modules/metadata_button/metadata_button_ui.R"), local = TRUE)$value
 source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
-# Getting UI for modals for alt text
+source(file.path("modules/jump_to_tab_button/jump_to_tab_button_ui.R"), local = TRUE)$value
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 
 # UI
 ui <- fluidPage(
   tagList(
-    # Specify language for accessibility
-    tags$html(lang="en"),
-    # External file with javascript code for bespoke functionality
-    tags$head(tags$script(src="javascript.js")),
+    # For go to top chevrons on scroll down
+    use_gotop(),
     # Specify most recent fontawesome library - change version as needed
-    tags$style("@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);"),
     navbarPage(
       id = "intabset", # id used for jumping between tabs
+      position = "fixed-top",
+      collapsible = "true",
+      # Specify language for accessibility
+      lang = "en",
       title = div(
         tags$a(img(src = "white-logo.png", height = 40,
                    alt ="Go to Public Health Scotland (external site)"),
@@ -36,10 +39,7 @@ ui <- fluidPage(
                target = "_blank"), # PHS logo links to PHS website
         style = "position: relative; top: -10px;"),
       windowTitle = "COVID-19 Dashboard",# Title for browser tab
-      header = tags$head(includeCSS("www/styles.css"),  # CSS stylesheet
-                         includeHTML("www/google-analytics.html"), #Including Google analytics
-                         tags$link(rel = "shortcut icon", href = "favicon_phs.ico") # Icon for browser tab
-      ),
+      header = source(file.path("header.R"), local=TRUE)$value,
       ##############################################.
       # INTRO PAGE ----
       ##############################################.
@@ -51,9 +51,9 @@ ui <- fluidPage(
 
       ), # tabpanel
       ##############################################.
-      # HEADLINE FIGURES ----
+      # AT A GLANCE ----
       ##############################################.
-      tabPanel(title = "Summary",
+      tabPanel(title = "At a glance",
                icon = icon_no_warning_fn("square-poll-vertical"),
                value = "summary",
 
@@ -140,11 +140,15 @@ server <- function(input, output, session) {
     source(file.path("password_protect/password_protect_server.R"), local = TRUE)$value
   }
 
+  # Get modules
+  source(file.path("modules/metadata_button/metadata_button_server.R"), local = TRUE)$value
+  source(file.path("modules/alt_text/alt_text_modals_server.R"), local = TRUE)$value
+  source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
+  source(file.path("modules/jump_to_tab_button/jump_to_tab_button_server.R"), local = TRUE)$value
+
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
   source(file.path("functions/plot_functions.R"), local = TRUE)$value
-  source(file.path("modules/alt_text/alt_text_modals_server.R"), local = TRUE)$value
-  source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
