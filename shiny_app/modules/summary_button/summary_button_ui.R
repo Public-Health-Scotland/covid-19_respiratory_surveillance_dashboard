@@ -23,7 +23,7 @@ summaryButtonUI <- function(id, title, content, placement = "left",
 }
 
 # Buttons that go next to plots for how to interact with the plot
-plotInfoButtonUI <- function(id, placement = "right") {
+plotInfoButtonUI <- function(id, placement = "bottom") {
   ns <- NS(id)
 
   summaryButtonUI(ns("plotinfo"),
