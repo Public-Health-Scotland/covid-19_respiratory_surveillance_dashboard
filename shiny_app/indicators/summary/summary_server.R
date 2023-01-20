@@ -2,7 +2,9 @@
 #### Cases ----
 
 output$ons_infobox <- renderInfoBox({
-  infoBox(title=h5("Estimated prevalence (Office for National Statistics)",
+  infoBox(title=h5("Estimated prevalence", tags$a("(ONS - external link)",
+                                                  target = "_blank",
+                                                  href = "https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/bulletins/coronaviruscovid19infectionsurveypilot/previousReleases"),
                    summaryButtonUI("ons",
                                    "COVID-19 infection survey (ONS) estimated prevalence",
                                    paste("An estimate of how many people test positive for COVID-19 at a given point.",
@@ -75,7 +77,7 @@ output$admissions_infobox <- renderInfoBox({
                                                     strong("For more information, see Metadata. Click again to close.")))),
           value= admissions_headlines[[1]],
           subtitle = "Weekly total",
-          icon = icon_no_warning_fn("hospital"),
+          icon = icon_no_warning_fn("truck-medical"),
           color = "blue")})
 
 

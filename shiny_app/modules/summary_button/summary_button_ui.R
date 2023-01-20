@@ -17,7 +17,7 @@ summaryButtonUI <- function(id, title, content, placement = "left",
          content,
          placement = placement,
          trigger = "click",
-         options = list(id = "summary-popover", container = "body")
+         options = list(id = "summary-popover", container = "body", html = "true")
          )
 
 }
