@@ -115,3 +115,6 @@ source("Transfer Scripts/transfer_wastewater.R")
 #### Occupancy
 source("Transfer Scripts/transfer_occupancy.R")
 
+#### Respiratory
+source("Transfer Scripts/transfer_respiratory.R")
+
