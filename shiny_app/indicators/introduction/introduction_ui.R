@@ -12,8 +12,7 @@ sidebarLayout(
               # the ui loads before the conditional panel hides the info so for some
               # time at the beginning of the app all of the panels are visible
               withNavySpinner(uiOutput("introduction_about")),
-              glue("Last updated {lubridate::now()}") # change to today() for just the date and no time, but time allows us to test better
-
+              glue("Last updated: {deployment_date}")
             ), # conditionalPanel
 
             # Using the dashboard
