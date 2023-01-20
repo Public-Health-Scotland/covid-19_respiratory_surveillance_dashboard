@@ -25,8 +25,6 @@ ui <- fluidPage(
   tagList(
     # For go to top chevrons on scroll down
     use_gotop(),
-    # Specify language for accessibility
-    tags$html(lang="en"),
     # External file with javascript code for bespoke functionality
     tags$head(tags$script(src="javascript.js")),
     # Specify most recent fontawesome library - change version as needed
@@ -35,6 +33,8 @@ ui <- fluidPage(
       id = "intabset", # id used for jumping between tabs
       position = "fixed-top",
       collapsible = "true",
+      # Specify language for accessibility
+      lang = "en",
       title = div(
         tags$a(img(src = "white-logo.png", height = 40,
                    alt ="Go to Public Health Scotland (external site)"),
