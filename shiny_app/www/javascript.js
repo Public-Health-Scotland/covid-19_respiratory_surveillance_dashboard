@@ -9,17 +9,6 @@ $( document ).ready( () => {
   var navHeight = $(".navbar").height();
   $("body").css({paddingTop: (navHeight+12)+'px'});
 
-  // If mobile screen don't keep navbar on the top
- // $(window).resize( () => {
-  //  var window_width = $(window).width();
-  //  if( window_width <= 480 ){
-  //    $(".navbar").removeClass("navbar-fixed-top").addClass("navbar-static-top");
-  //  } else {
-  //    $(".navbar").removeClass("navbar-static-top").addClass("navbar-fixed-top");
-  //  }
-
-  //});
-
   // Ensures that when a modal opens keyboard focus is given to the
   // close button in the modal - accessibility
   $(document).on('shown.bs.modal', (x) => {
