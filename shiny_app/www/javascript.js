@@ -9,6 +9,13 @@ $( document ).ready( () => {
   var navHeight = $(".navbar").height();
   $("body").css({paddingTop: (navHeight+12)+'px'});
 
+  // Do this again when the window is resized
+  $(window).resize( () => {
+    var navHeight = $(".navbar").height();
+    $("body").css({paddingTop: (navHeight+12)+'px'});
+  });
+
+
   // Ensures that when a modal opens keyboard focus is given to the
   // close button in the modal - accessibility
   $(document).on('shown.bs.modal', (x) => {
