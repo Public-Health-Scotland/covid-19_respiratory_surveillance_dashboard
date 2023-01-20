@@ -2,7 +2,6 @@
 
 cases_download_choices <- list(
   "Daily COVID-19 reported cases" = "Cases",
-  "ONS infection survey cases estimates" = "ONS",
   "Seven day average of wastewater sample" = "Wastewater"
   )
 hospital_admissions_download_choices <- list(
