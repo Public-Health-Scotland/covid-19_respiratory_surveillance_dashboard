@@ -175,6 +175,10 @@ convert_date_to_month <- function(date){
   return(date)
 }
 
+as_dashboard_date <- function(date){
+  date <- format(as.Date(date), "%d %b %y")
+  return(date)
+}
 
 get_threeweek_admissions_figures <- function(df,            # data frame to get figures from
                                              sumcol,        # string - column name to sum week from

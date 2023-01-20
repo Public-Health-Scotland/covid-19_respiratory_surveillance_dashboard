@@ -1,11 +1,24 @@
 ####################### Setup #######################
 
-# Getting packages
-if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
-if (!pacman::p_isinstalled("phsstyles")){pacman::p_install_gh("Public-Health-Scotland/phsstyles")}
+# You need to make sure you have all these packages installed. Note that we can't include
+# a conditional install in the code due to a known rsconnect issue
+# (https://github.com/rstudio/rsconnect/issues/88)
+library(shiny)
+library(shinycssloaders)
+library(dplyr)
+library(magrittr)
+library(plotly)
+library(phsstyles)
+library(DT)
+library(shinydashboard)
+library(shinyBS)
+library(shinyWidgets)
+library(glue)
+library(stringr)
+library(janitor)
+library(fontawesome)
+library(shinymanager)
 
-pacman::p_load(shiny, shinycssloaders, dplyr, magrittr, plotly, phsstyles, DT,
-               shinydashboard, shinyBS, shinyWidgets, glue, stringr, janitor, fontawesome)
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -51,14 +64,25 @@ for (rds in rds_files){
 vaccine_wastage_month <- {Vaccine_Wastage %>% tail(1) %>%
     .$Month %>% convert_opendata_date() %>% convert_date_to_month()}
 
-#Creating variable for latest week for headlines
+# Creating variable for latest week for headlines
 
-admissions_headlines <- get_threeweek_admissions_figures(df = Admissions, sumcol = "TotalInfections", datecol="AdmissionDate")
-icu_headlines <- get_threeweek_admissions_figures(df = ICU, sumcol = "NewCovidAdmissionsPerDay", datecol="DateFirstICUAdmission")
+# Admissions and ICU
+admissions_headlines <- get_threeweek_admissions_figures(df = Admissions,
+                                                         sumcol = "TotalInfections",
+                                                         datecol="AdmissionDate")
+
+icu_headlines <- get_threeweek_admissions_figures(df = ICU,
+                                                  sumcol = "NewCovidAdmissionsPerDay",
+                                                  datecol="DateFirstICUAdmission")
+
+# LOS
 los_date_end <- Admissions %>% tail(1) %>% .$AdmissionDate %>% convert_opendata_date() %>% {.-7}
+
 los_date_start <- los_date_end-28
+
 los_median_max <- Length_of_Stay_Median %>%
   filter(MedianLengthOfStay == max(MedianLengthOfStay))
+
 los_median_min <- Length_of_Stay_Median %>%
   filter(MedianLengthOfStay == min(MedianLengthOfStay))
 
@@ -70,8 +94,8 @@ flu_icon_headline <- Respiratory_Summary_Totals %>%
                           PercentageDifference == 0 ~ "equals"))
 
 # respiratory isoweeks
-this_week_iso <- isoweek(Respiratory_Summary_Totals$DateThisWeek[1])
-prev_week_iso <- isoweek(Respiratory_Summary_Totals$DatePreviousWeek[1])
+this_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DateThisWeek[1])
+prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DatePreviousWeek[1])
 
 
 
