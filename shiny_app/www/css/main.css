@@ -1,4 +1,6 @@
 /* Central CSS styles used in the shiny app */
+@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);
+
   :root{
 
       --white: #ffffff;

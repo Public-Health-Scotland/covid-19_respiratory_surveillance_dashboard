@@ -26,7 +26,6 @@ ui <- fluidPage(
     # For go to top chevrons on scroll down
     use_gotop(),
     # Specify most recent fontawesome library - change version as needed
-    tags$style("@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);"),
     navbarPage(
       id = "intabset", # id used for jumping between tabs
       position = "fixed-top",
