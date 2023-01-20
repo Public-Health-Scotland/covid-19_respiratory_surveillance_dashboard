@@ -34,6 +34,8 @@ yaxis_plots <- list(title = FALSE, rangemode="tozero", size = 4,
 
 navy <- "#010068"
 
+#deployment_date <- lubridate::now() # change to today() for just the date and no time, but time allows us to test
+
 # Buttons to remove from plotly plots
 bttn_remove <-  list(
                      'select2d',
