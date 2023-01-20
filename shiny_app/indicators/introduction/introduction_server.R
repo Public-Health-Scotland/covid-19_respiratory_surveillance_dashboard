@@ -23,81 +23,60 @@ output$introduction_about <- renderUI({
             We all need to play our part in protecting ourselves and others. You can do this by following
             NHS Inform Website advice on: ", tags$a(href = "https://www.gov.scot/coronavirus-covid-19/",
                                                     "https://www.gov.scot/coronavirus-covid-19/.")),
-
-
           br(),
 
-          # tags$li("Overview of headline COVID-19 and respiratory surveillance indicators."),
-          # tags$div(class = "special_button",
-          #          actionButton("jump_to_summary", "Summary")),
-          #
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_summary", "Summary"))),
-            column(8, p("Overview of headline COVID-19 and respiratory surveillance indicators."))),
+            column(8, p("This section provides an overview of headline COVID-19 and Respiratory
+                        Surveillance indicators held within this dashboard."))),
           br(),
 
-          # tags$li("Latest information on the number and rate of estimated infection levels in Scotland."),
-          # tags$div(class = "special_button",
-          #          actionButton("jump_to_cases", "Cases")),
-          #
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_cases", "Cases"))),
-            column(8, p("Latest information on the number and rate of estimated infection levels in Scotland."))),
+            column(8, p("This section shows the latest information on the number and rate of
+                        estimated infection levels in Scotland."),
+                   p("The Office for National Statistics (ONS) COVID-19 Infection Survey is
+                     Scotland’s current best understanding of community population prevalence.
+                     Outbreaks and trends are also monitored by measuring concentrations of COVID-19 in wastewater.
+                     PHS also monitor the number of reported positive COVID-19 cases as this
+                     offers a valuable early insight into trends of infection rates in Scotland."))),
           br(),
-
-
-          # tags$li("Latest information on acute COVID-19 hospital admissions."),
-          # tags$div(class = "special_button",
-          #          actionButton("jump_to_hospital_admissions", "Hospital admissions")),
-          # br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_hospital_admissions", "Hospital admissions"))),
-            column(8, p("Latest information on acute COVID-19 hospital admissions."))),
+            column(8, p("Alongside the estimated infection levels and reported COVID-19 cases presented
+                        in this dashboard, PHS also monitor COVID-19 hospital admissions as it is a
+                        measure of severe disease and captures pressures facing NHS hospitals.
+                        The latest information on acute COVID-19 hospital admissions are detailed in this section."))),
           br(),
-
-          # tags$li("Latest information on the number of patients in hospital with COVID-19."),
-          # tags$div(class = "special_button",
-          #          actionButton("jump_to_hospital_occupancy", "Hospital occupancy")),
-          # br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_hospital_occupancy", "Hospital occupancy"))),
-            column(8, p("Latest information on the number of patients in hospital with COVID-19."))),
+            column(8, p("This section contains the latest information on the number of patients
+                        in hospital with COVID-19. This is an indicative measure of the pressure on hospitals,
+                        as these patients still require isolation from other patients for infection control purposes."))),
           br(),
-
 
           fluidRow(
             column(4,tags$div(class = "special_button",
                    actionButton("jump_to_vaccines", "Vaccine wastage"))),
             column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
-
           br(),
-
-          # tags$li("Metadata."),
-          # tags$div(class = "special_button",
-          #          actionButton("jump_to_metadata", "Metadata")),
-          # br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_metadata", "Metadata"))),
             column(8, p("Metadata."))),
-
           br(),
-
-          # tags$li("Ability to filter and download selected indicators."),
-          # tags$div(class = "special_button",
-          #          actionButton("jump_to_download", "Download data")),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_download", "Download data"))),
-            column(8, p("Ability to filter and download selected indicators."))),
+            column(8, p("Data pertaining to selected indicators presented in this dashboard can be filtered and downloaded. "))),
 
           br(),
 
