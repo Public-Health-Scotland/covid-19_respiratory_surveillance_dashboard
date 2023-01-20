@@ -88,7 +88,7 @@ tagList(
                                   tabPanel("Plot",
                                            tagList(h5("Use the drop-down menu to select an age group of interest."),
                                                    h5("Please note that in cases where there are no hospital admissions, there will be a gap in the chart."),
-                                                    pickerInput(inputId = "los_age", width = "100%",
+                                                    pickerInput(inputId = "los_age",
                                                          label = "Select Age Group",
                                                          choices = {Length_of_Stay %>%
                                                              arrange(AgeGroup) %>%
