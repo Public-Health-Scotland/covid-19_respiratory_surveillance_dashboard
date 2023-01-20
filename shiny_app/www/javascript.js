@@ -60,10 +60,20 @@ $( document ).ready( () => {
      $(".popover").popover("hide");
   });
 
-  $(document).on('show.bs.tab', (x) => {
+  // When going to new tab
+  $(document).on('shown.bs.tab', (x) => {
+    // Hide all popovers
      $(".popover").popover("hide");
-  });
+     // Fix plotly bug where if you change tabs before a plot has loaded the
+     // plot ends up squashed. Do this by resizing all plotly plots when going
+     // to a new tab
+     // Need two .tab-pane.active because of top navbar and inner tabs
+     var active_plots = $(".tab-pane.active .tab-pane.active .js-plotly-plot");
+     for (var i = 0; i < active_plots.length; i++) {
+        Plotly.relayout(active_plots[i].id, {autosize: true});
+     }
 
+  });
 
 
 });
