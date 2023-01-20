@@ -1,8 +1,11 @@
 tagList(
   div(
 
-    fluidRow(width=12,
-             br()),
+    fluidRow(width = 12,
+             metadataButtonUI("download"),
+             h1("Download data"),
+             linebreaks(2)),
+
 
     # Filters and toggles
     fluidRow(width=12,
@@ -23,20 +26,16 @@ tagList(
                                selected = NULL,
                                inline = TRUE,
                                multiple = FALSE,
-                               width = "100%",
                                options = pickerOptions(
                                  showTick = TRUE)
                    ),
+                   linebreaks(1),
                    radioButtons("download_filetype",
                                "3. Choose file type   ",
                                choices = c(".csv", ".xlsx"),
                                selected = ".csv",
-                               inline = TRUE)
-                   #             multiple = FALSE,
-                   #             width = "100%",
-                   #             options = pickerOptions(
-                   #               showTick = TRUE)
-                   # )
+                               inline = TRUE
+                   )
 
                  )
              ) # box

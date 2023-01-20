@@ -14,7 +14,7 @@ output$introduction_about <- renderUI({
   tagList(h3(tags$b("COVID-19 in Scotland")),
           p("text here"),
           tags$div(class = "special_button",
-                   actionButton("jump_to_summary", "Summary"),
+                   actionButton("jump_to_summary", "At a glance"),
                    actionButton("jump_to_cases", "Cases"),
                    actionButton("jump_to_hospital_admissions", "Hospital admissions"),
                    actionButton("jump_to_hospital_occupancy", "Hospital occupancy"),
@@ -28,7 +28,7 @@ output$introduction_about <- renderUI({
 
 output$introduction_use <- renderUI({
   tagList(h3(tags$b("Interacting with the dashboard")),
-          p("Click on tabs in the navigation bar at the top to view each topic. Click on 'Summary' to view the most recently available
+          p("Click on tabs in the navigation bar at the top to view each topic. Click on 'At a glance' to view the most recently available
             main statistics. Click on 'Metadata' to view notes about the data. Click on 'Download data' to download datasets as an Excel or CSV file."),
           br(),
           p(tags$b("Within each tab")),

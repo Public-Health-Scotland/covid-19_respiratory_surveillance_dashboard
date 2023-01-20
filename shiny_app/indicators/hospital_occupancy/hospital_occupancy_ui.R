@@ -1,10 +1,6 @@
 tagList(
   fluidRow(width = 12,
-           actionButton("jump_to_metadata_hospital_occupancy",
-                        label = "Metadata",
-                        class = "metadata-btn",
-                        icon = icon_no_warning_fn("file-pen")
-                        ),
+           metadataButtonUI("hospital_occupancy"),
            h1("Hospital occupancy"),
            linebreaks(2)),
 
