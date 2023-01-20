@@ -49,8 +49,9 @@ $( document ).ready( () => {
   // of the target which calls the event includes 'summary-btn'. Also need additional check
   // that target class is not undefined which allows us to ignore cases where the intro
   // page conditional panels trigger the event
-    if($(x.target).attr("class") !== undefined){
-      if($(x.target).attr("class").includes("summary-btn")){
+    var trigger_class = $(x.target).attr("class");
+    if(trigger_class !== undefined){
+      if(trigger_class.includes("summary-btn") | trigger_class.includes("plotinfo-btn")){
         $(x.target).data("bs.popover").inState = { click: false, hover: false, focus: false };
       }
     }
