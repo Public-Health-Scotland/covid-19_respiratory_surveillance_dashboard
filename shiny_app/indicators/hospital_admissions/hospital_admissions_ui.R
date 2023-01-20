@@ -12,29 +12,10 @@ tagList(
            tabBox(width = NULL,
                   type = "pills",
                   tabPanel("Hospital admissions",
-                           tagList(h3("Number of COVID-19 admissions to hospital"),
-                                   tags$div(class = "headline",
-                                            h3("Admissions from last three weeks"),
+                           tagList(h3("Daily number of COVID-19 admissions to hospital"),
 
-                                            valueBox(value = {admissions_headlines[[1]]},
-                                                subtitle = glue("Week ending {names(admissions_headlines)[[1]]} - provisional"),
-                                                color = "blue",
-                                                icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {admissions_headlines[[2]] %>%
-                                                format(big.mark = ",")},
-                                                subtitle = glue("Week ending {names(admissions_headlines)[[2]]}"),
-                                                color = "blue",
-                                                icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {admissions_headlines[[3]] %>%
-                                                format(big.mark = ",")},
-                                                subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
-                                                color = "blue",
-                                                icon = icon_no_warning_fn("calendar-week")),
-                                            # These linebreaks are here to make the banner big enough to
-                                            # include all the valueBoxes
-                                            linebreaks(6))),
 
-                           tagList(h3("Daily number of COVID-19 hospital admissions")),
+
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
@@ -51,12 +32,38 @@ tagList(
                            ),
 
                            tagList(h3("Weekly number of COVID-19 hospital admissions by deprivation category (SIMD)")),
+                           tags$div(class = "headline",
+                                    h3("Admissions from last three weeks"),
+
+                                    valueBox(value = {admissions_headlines[[1]]},
+                                             subtitle = glue("Week ending {names(admissions_headlines)[[1]]} - provisional"),
+                                             color = "blue",
+                                             icon = icon_no_warning_fn("calendar-week")),
+                                    valueBox(value = {admissions_headlines[[2]] %>%
+                                        format(big.mark = ",")},
+                                        subtitle = glue("Week ending {names(admissions_headlines)[[2]]}"),
+                                        color = "blue",
+                                        icon = icon_no_warning_fn("calendar-week")),
+                                    valueBox(value = {admissions_headlines[[3]] %>%
+                                        format(big.mark = ",")},
+                                        subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
+                                        color = "blue",
+                                        icon = icon_no_warning_fn("calendar-week")),
+                                    # These linebreaks are here to make the banner big enough to
+                                    # include all the valueBoxes
+                                    linebreaks(6))),
+                           br(),
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
                                            tagList(
                                              linebreaks(1),
                                              altTextUI("hospital_admissions_simd_modal"),
+                                             actionButton("btn_modal_simd",
+                                                          label = "What is SIMD?",
+                                                          class = "simd-btn",
+                                                          icon = icon_no_warning_fn("circle-question")
+                                             ),
                                              withNavySpinner(
                                                plotlyOutput("hospital_admissions_simd_plot"))
                                             )
@@ -80,11 +87,11 @@ tagList(
                                                      color = "blue",
                                                      icon = icon_no_warning_fn("clock")),
                                             valueBox(value = glue("{los_median_min$MedianLengthOfStay %>% round_half_up(1)} days"),
-                                                subtitle = glue("{los_median_min$AgeGroup} (shortest stay)"),
+                                                subtitle = glue("Shortest median stay ({los_median_min$AgeGroup})"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("clock")),
                                             valueBox(value = glue("{los_median_max$MedianLengthOfStay %>% round_half_up(1)} days"),
-                                                subtitle = glue("{los_median_max$AgeGroup} (longest stay)"),
+                                                subtitle = glue("Longest median stay ({los_median_max$AgeGroup})"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("clock")),
                                             linebreaks(6))),
@@ -117,12 +124,12 @@ tagList(
                            ),
 
                   tabPanel("Hospital admissions by ethnicity",
-                           tagList(h3("Admissions to hospital 'with' COVID-19 by ethnicity"),
+                           tagList(h3("Number of COVID-19 admissions to hospital by ethnicity"),
                                    h4(strong("These data will next be updated in March 2023.")),
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
                                            tagList(
-                                             h3("Admissions to hospital 'with' COVID-19 by ethnicity"),
+                                             linebreaks(1),
                                              altTextUI("hospital_admissions_ethnicity_modal"),
                                              withNavySpinner(
                                                plotlyOutput("hospital_admissions_ethnicity_plot")
