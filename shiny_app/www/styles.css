@@ -82,6 +82,21 @@ td{
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   color: var(--navy);     background-color: var(--phs-blue-30);}
 
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: var(--phs-blue-30);
+    border-color: white;
+
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: var(--navy);
+}
+
 /* Style hyperlinks */
   .externallink {color: var(--navy); font-weight: bold;}
 .externallink:hover {color: var(--phs-blue-50);}

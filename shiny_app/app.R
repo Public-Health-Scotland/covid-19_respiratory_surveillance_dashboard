@@ -34,6 +34,7 @@ ui <- fluidPage(
     navbarPage(
       id = "intabset", # id used for jumping between tabs
       position = "fixed-top",
+      collapsible = "true",
       title = div(
         tags$a(img(src = "white-logo.png", height = 40,
                    alt ="Go to Public Health Scotland (external site)"),

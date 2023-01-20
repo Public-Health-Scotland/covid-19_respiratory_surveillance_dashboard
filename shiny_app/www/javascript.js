@@ -7,9 +7,18 @@ $( document ).ready( () => {
   // Add padding at the top of the page which is 12px bigger
   // than the navbar height
   var navHeight = $(".navbar").height();
-  console.log(navHeight);
   $("body").css({paddingTop: (navHeight+12)+'px'});
 
+  // If mobile screen don't keep navbar on the top
+ // $(window).resize( () => {
+  //  var window_width = $(window).width();
+  //  if( window_width <= 480 ){
+  //    $(".navbar").removeClass("navbar-fixed-top").addClass("navbar-static-top");
+  //  } else {
+  //    $(".navbar").removeClass("navbar-static-top").addClass("navbar-fixed-top");
+  //  }
+
+  //});
 
   // Ensures that when a modal opens keyboard focus is given to the
   // close button in the modal - accessibility
