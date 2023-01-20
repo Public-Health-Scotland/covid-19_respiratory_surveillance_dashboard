@@ -12,8 +12,8 @@ tagList(
                                    tags$div(class = "headline",
                                             h3("Admissions from last three weeks"),
 
-                                            valueBox(value = {admissions_headlines[[1]]},
-                                                subtitle = glue("Week ending {names(admissions_headlines)[[1]]} - provisional"),
+                                            valueBox(value = glue("{admissions_headlines[[1]]}*"),
+                                                subtitle = glue("Week ending {names(admissions_headlines)[[1]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {admissions_headlines[[2]] %>%
@@ -26,9 +26,7 @@ tagList(
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            # These linebreaks are here to make the banner big enough to
-                                            # include all the valueBoxes
-                                            linebreaks(6))),
+                                            h4("* provisional figures"))),
 
                            tagList(h3("Daily number of COVID-19 hospital admissions")),
 
