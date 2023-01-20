@@ -1,0 +1,58 @@
+/* Tables */
+
+th, td {
+  border: 1px solid var(--phs-blue-30);
+  padding-right: 1px;
+  padding: 5px;
+}
+
+
+th {
+  background-color: var(--navy);
+  color: var(--white);
+  font-weight: bold;
+}
+
+
+/* Border tables*/
+.border-table{
+  border: 1px solid var(--navy);
+
+}
+
+/* Data table page selectors */
+.pagination > li > a {
+  background-color: var(--phs-blue-10);
+  color: var(--navy);
+  transition: background-color .3s;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+  color: white;
+  background-color: var(--phs-blue-50);
+  border-radius: 5px;
+}
+
+.pagination > .active > a
+{
+  color: white;
+  background-color: var(--navy) !Important;
+  border: solid 1px var(--navy) !Important;
+
+}
+
+.pagination > .active > a:hover
+{
+  background-color: var(--phs-blue-50) !Important;
+  border: solid 1px var(--phs-blue-50);
+}
+
+/* data table */
+.table > .tbody > tr.active th, .table > .tbody > tr.active td {
+  background-color: var(--navy);
+  color: var(--navy);
+}

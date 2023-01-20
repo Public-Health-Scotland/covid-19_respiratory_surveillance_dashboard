@@ -1,0 +1,42 @@
+/* Navbar and sidebar */
+
+/* Style sidebars/well panels */
+.well {background-color:var(--white); border: 0 solid var(--navy);
+    padding: 5px; box-shadow: none; }
+
+/* Navigation bar following PHS colour scheme */
+  .navbar-default {color: var(--white); background-color: var(--navy); border-radius: 5px 5px 5px 5px;}
+.navbar-default .navbar-brand, .navbar-default:hover .navbar-brand:hover, .navbar-brand {color: var(--navy); /*background-color: var(--white)*/}
+.navbar-default .navbar-nav > li > a {color: var(--white); border-radius: 5px 5px 0px 0px; font-weight: bold;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+  color: var(--navy);
+  background-color: var(--phs-blue-10);
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: var(--navy);     background-color: var(--phs-blue-30);}
+
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: var(--phs-blue-30);
+    border-color: white;
+
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: var(--navy);
+}
+
+
+
+/* notes panel */
+.panel-heading
+{
+  background-color: var(--phs-blue-10) !Important;
+  color: var(--navy) !Important;
+  font-weight: bold !Important;
+}
+

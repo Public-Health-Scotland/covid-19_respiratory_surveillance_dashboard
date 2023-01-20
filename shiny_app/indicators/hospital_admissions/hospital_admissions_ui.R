@@ -1,10 +1,6 @@
 tagList(
   fluidRow(width = 12,
-           actionButton("jump_to_metadata_hospital_admissions",
-                        label = "Metadata",
-                        class = "metadata-btn",
-                        icon = icon_no_warning_fn("file-pen")
-           ),
+           metadataButtonUI("hospital_admissions"),
            h1("COVID-19 hospital admissions"),
            linebreaks(2)),
 
@@ -16,8 +12,8 @@ tagList(
                                    tags$div(class = "headline",
                                             h3("Admissions from last three weeks"),
 
-                                            valueBox(value = {admissions_headlines[[1]]},
-                                                subtitle = glue("Week ending {names(admissions_headlines)[[1]]} - provisional"),
+                                            valueBox(value = glue("{admissions_headlines[[1]]}*"),
+                                                subtitle = glue("Week ending {names(admissions_headlines)[[1]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {admissions_headlines[[2]] %>%
@@ -30,9 +26,7 @@ tagList(
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            # These linebreaks are here to make the banner big enough to
-                                            # include all the valueBoxes
-                                            linebreaks(6))),
+                                            h4("* provisional figures"))),
 
                            tagList(h3("Daily number of COVID-19 hospital admissions")),
 
@@ -94,7 +88,7 @@ tagList(
                                   tabPanel("Plot",
                                            tagList(h5("Use the drop-down menu to select an age group of interest."),
                                                    h5("Please note that in cases where there are no hospital admissions, there will be a gap in the chart."),
-                                                    pickerInput(inputId = "los_age", width = "100%",
+                                                    pickerInput(inputId = "los_age",
                                                          label = "Select Age Group",
                                                          choices = {Length_of_Stay %>%
                                                              arrange(AgeGroup) %>%
