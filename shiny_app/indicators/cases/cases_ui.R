@@ -95,13 +95,13 @@ tagList(
     tabBox(width = NULL,
            type = "pills",
            tabPanel("Plot",
-                    tagList(h3("Seven day average trend in wastewater COVID-19"),
+                    tagList(linebreaks(1),
                             altTextUI("wastewater_modal"),
                             withNavySpinner(plotlyOutput("wastewater_plot")),
                             fluidRow(
                               width=12, linebreaks(5)))),
            tabPanel("Data",
-                    tagList(h3("Seven day average trend in wastewater COVID-19 data"),
+                    tagList(linebreaks(1),
                             withNavySpinner(dataTableOutput("wastewater_table")))))),
 
   fluidRow(
