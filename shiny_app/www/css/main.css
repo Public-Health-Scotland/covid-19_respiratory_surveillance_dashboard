@@ -1,0 +1,90 @@
+/* Central CSS styles used in the shiny app */
+@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);
+
+  :root{
+
+      --white: #ffffff;
+      --black: #000000;
+      --navy: #010068;
+
+      --phs-purple: #3F3685;
+      --phs-purple-10: #ECEBF3;
+      --phs-purple-50: #9F9BC2;
+      --phs-purple-80: #655E9D;
+      --phs-purple-30: #C5C3DA;
+
+      --phs-blue: #0078D4;
+      --phs-blue-80: #3393DD;
+      --phs-blue-50: #80BCEA;
+      --phs-blue-30: #B3D7F2;
+      --phs-blue-10: #E6F2FB;
+
+      --phs-green: #83BB26;
+      --phs-green-80: #9CC951;
+      --phs-green-50: #C1DD93;
+      --phs-green-30: #DAEBBE;
+      --phs-green-10: #F3F8E9;
+
+      --phs-graphite: #948DA3;
+
+      --phs-magenta: #9B4393;
+      --phs-magenta-30: #E1C7DF;
+
+      --phs-teal-30: #BCD9DA;
+      --phs-teal-50: #8FBFC2;
+      --phs-teal-80: #4B999D;
+      --phs-teal: #1E7F84;
+
+      --phs-liberty-10: #F0EFF3;
+      --phs-liberty-30: #D3CEDA;
+
+      --phs-rust: #C73918;
+
+      --light-grey: #ddd;
+  }
+
+/* Setting header colour */
+  h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    color: var(--navy);
+    font-weight: bold;
+  }
+/* Body styles */
+  body {
+    font-family: Arial;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--black);
+    background-color: var(--white);
+  }
+
+/* Links */
+  a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+/* Style hyperlinks */
+.externallink {color: var(--navy); font-weight: bold;}
+.externallink:hover {color: var(--phs-blue-50);}
+
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 20px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+/* Screen reader only class for accessibility -
+   hides content unless used by a screen reader */
+.sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+
+

@@ -1,0 +1,235 @@
+/* Button styles */
+
+.btn:active
+{
+   background-color: var(--navy);
+   color: white;
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn, .btn:hover
+{
+  background-color: var(--phs-blue-10);
+  color: var(--navy);
+  font-weight: bold;
+  white-space: normal;
+}
+
+.btn:focus
+{
+   background-color: var(--phs-blue-10);
+   color: var(--navy);
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active:focus, .btn:focus, .btn:checked
+{
+   background-color: var(--phs-blue-10);
+   color: var(--navy);
+   font-weight: bold;
+   padding:10px;
+   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+/*https://codepen.io/JavaScriptJunkie/pen/pPRooV*/
+/*Special buttons for intro page*/
+ .special_button > .btn{
+    /*display: block;*/
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+
+    /*Button shape & animation*/
+    border-radius: border-rounded;
+    border: 0px solid var(--navy);
+    margin: 5px;
+    width:  100%;
+    height: 100%;
+    height: 50px;
+    background-size: 100% auto;
+    color: var(--navy);
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    background-color: var(--phs-blue-10);
+    background-position: right center;
+}
+
+.special_button > .btn:hover {
+    background-position: right center;
+    background-color: var(--navy);
+    color: var(--phs-blue-10);
+    box-shadow: 0 4px 10px 0 var(--navy);
+}
+
+.special_button > .btn:focus:active {
+    outline: none;
+    background-color: var(--navy);
+    color: var(--phs-blue-10);
+    box-shadow: 0 8px 15px 0 var(--navy);
+}
+
+
+/* Metadata buttons */
+.metadata-btn {
+  position:absolute;
+  right:50px;
+}
+
+/* Jump to tab buttons e.g. summary page */
+.jump-to-tab-btn {
+  position:absolute;
+  top:30px;
+  right:20px;
+  background-color: var(--navy);
+  color: white;
+}
+
+/* Stop summary page headings overlapping 'jump to tab' buttons*/
+.box-body > h2 {
+  max-width: 65%;
+}
+
+/* Summay page info buttons */
+.summary-btn, .summary-btn:hover, .summary-btn:focus, .summary-btn:active:focus, .sumamry-btn:active, .summary-btn:checked {
+  background-color: var(--phs-blue-10);
+  color: var(--navy);
+  font-weight: bold;
+  padding: 1px 5px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 3px;
+  box-shadow: 0px 0px 0px 0px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+/* Plot info buttons */
+.plotinfo-btn, .plotinfo-btn:hover, .plotinfo-btn:focus, .plotinfo-btn:active:focus, .plotinfo:active, .plotinfo:checked {
+  background-color: var(--phs-blue-10);
+  color: var(--navy);
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 14px;
+  box-shadow: 0px 0px 0px 0px;
+}
+
+
+
+
+/* Radio button */
+.radiobtn{background-color:var(--navy);
+  color: white;
+  border: 2px solid var(--navy);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.radiobtn:focus{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+.radiobtn:active{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+/*.radiobtn:focus:active{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}*/
+.radiobtn:checked{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 8px 20px 0 rgba(0,0,0,0.19);}
+
+.radiobtn:hover{color:var(--navy);background-color:var(--phs-blue-80); border: 2px solid var(--phs-liberty); }
+
+/* SIDE BAR SELECTORS */
+
+
+
+/* Changes the background colours of the buttons to match PHS colours, and adds rounded corners */
+
+.btn-home {
+  color:var(--navy);
+  font-weight: bold;
+  background-color:var(--phs-blue-10);
+  border-color:white;
+  border-radius:10px;
+  padding:5px;
+  min-width:250px;
+}
+
+
+
+/* This changes the colour of the button when you hover over it */
+
+.btn-home:hover {
+
+  color:white;
+
+  font-weight: bold;
+
+  background-color:var(--navy);
+
+  border-color:white;
+
+
+
+}
+
+
+
+
+
+/* This defines the colour of the active (clicked) button */
+
+.btn-home.active:focus, .btn-home.active:hover {
+
+color:white;
+
+  background-color:var(--navy);
+
+  border-color:white;
+
+
+
+}
+
+
+
+/* This defines the colour of the button that is selected when you first go to the tab */
+
+.btn-home.active, .btn-home:active, .open>.dropdown-toggle.btn-home {
+  color:white;
+  font-weight: bold;
+  background-color:var(--navy);
+  border-color:white;
+}
+
+
+
+/* This defines the colour of the button in the instant it is clicked  */
+
+.btn-home:hover:focus:active {
+  color:white;
+  font-weight: bold;
+  background-color:var(--navy);
+  border-color:white;
+}
+
+
+.btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default {
+    color: var(--navy) !Important ;
+    background-color: var(--phs-blue-10) !Important ;
+    border-color: white !Important ;
+    font-weight:bold;
+    outline: 0px !Important;
+}
+
+.btn-default.active.focus, .btn-default:active:focus, .open>.dropdown-toggle.btn-default {
+    color: var(--navy) !Important ;
+    background-color: var(--phs-blue-10) !Important ;
+    border-color: white !Important ;
+    font-weight:bold;
+    outline: 0px !Important;
+}
+

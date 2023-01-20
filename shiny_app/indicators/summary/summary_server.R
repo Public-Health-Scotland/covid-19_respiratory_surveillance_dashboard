@@ -1,5 +1,71 @@
 
-#### Hospital Admissions ----
+#### Cases ----
+
+output$ons_infobox <- renderInfoBox({
+  infoBox(title=h5("Estimated prevalence", tags$a("(ONS - external link)",
+                                                  target = "_blank",
+                                                  href = "https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/bulletins/coronaviruscovid19infectionsurveypilot/previousReleases"),
+                   summaryButtonUI("ons",
+                                   "COVID-19 infection survey (ONS) estimated prevalence",
+                                   paste("An estimate of how many people test positive for COVID-19 at a given point.",
+                                         "A confidence interval gives an indication of the degree of uncertainty of an estimate, showing the precision",
+                                         "of a sample estimate. The 95% confidence intervals are calculated so that if we repeated the study many times,",
+                                         "95% of the time the true unknown value would lie between the lower and upper confidence limits<br><br>",
+                                         strong("For more information, see Metadata. Click again to close.")))),
+          value={ONS %>% tail(1) %>% .$EstimatedRatio},
+          subtitle = glue("{ONS %>% tail(1) %>% .$LowerCIRatio}",
+                          " to {ONS %>% tail(1) %>% .$UpperCIRatio}",
+                          " (95% CI)"),
+          icon = icon_no_warning_fn("viruses"),
+          color = "purple")
+})
+
+# output$r_number_infobox <- renderInfoBox({
+#   infoBox(title=h5("R number",
+#                    summaryButtonUI("r_number",
+#                                    "The reproduction (R) number",
+#                                    paste("This is the average number of secondary infections produced by a single infected person,",
+#                                          "estimated to be within this range. If R is greater than one the epidemic is growing, if R is less",
+#                                          "than one the epidemic is shrinking.<br><br>",
+#                                          strong("For more information, see Metadata. Click again to close.")))),
+#           value= glue("{R_Number %>% tail(1) %>% .$LowerBound}",
+#                       " - {R_Number %>% tail(1) %>% .$UpperBound}"),
+#           subtitle = "Range",
+#           icon = icon_no_warning_fn("r"),
+#           color = "purple")
+# })
+
+
+output$wastewater_infobox <- renderInfoBox({
+  infoBox(title=h5("Wastewater level",
+                   summaryButtonUI("wastewater",
+                                   "COVID-19 levels in wastewater",
+                                   paste("This is the seven day average level of COVID-19 in wastewater samples by Million gene copies per person per day.<br><br>",
+                                         strong("For more information, see Metadata. Click again to close.")))),
+          value= {Wastewater %>% tail(1) %>% .$WastewaterSevenDayAverageMgc %>%
+              signif(3) %>% paste("Mgc/p/d")},
+          subtitle = "7 day average",
+          icon = icon_no_warning_fn("faucet-drip"),
+          color = "purple")
+})
+
+
+output$reported_cases_infobox <- renderInfoBox({
+  infoBox(title=h5("Reported COVID-19 cases",
+                   summaryButtonUI("reported_cases_infobox",
+                                   "COVID-19 cases reported",
+                                   paste("This is the seven day average number of polymerase chain reaction (PCR) and lateral flow device (LFD)",
+                                         "positive test results recorded<br><br>",
+                                         strong("For more information, see Metadata. Click again to close.")))),
+          value= {Cases %>% tail(1) %>% .$SevenDayAverage %>%
+              round_half_up(0) %>% format(big.mark=",")},
+          subtitle = "7 day average",
+          icon = icon_no_warning_fn("pen-to-square"),
+          color = "purple")
+})
+
+
+#### Hospital admissions ----
 
 output$admissions_infobox <- renderInfoBox({
   infoBox(title=h5("Admissions", summaryButtonUI("admissions",
@@ -11,7 +77,7 @@ output$admissions_infobox <- renderInfoBox({
                                                     strong("For more information, see Metadata. Click again to close.")))),
           value= admissions_headlines[[1]],
           subtitle = "Weekly total",
-          icon = icon_no_warning_fn("hospital"),
+          icon = icon_no_warning_fn("truck-medical"),
           color = "blue")})
 
 
@@ -99,71 +165,6 @@ output$icu_more_occupancy_infobox <- renderInfoBox({
 })
 
 
-
-#### Cases ----
-
-output$ons_infobox <- renderInfoBox({
-  infoBox(title=h5("Estimated prevalence",
-                   summaryButtonUI("ons",
-                                   "COVID-19 infection survey (ONS) estimated prevalence",
-                                   paste("An estimate of how many people test positive for COVID-19 at a given point.",
-                                         "A confidence interval gives an indication of the degree of uncertainty of an estimate, showing the precision",
-                                         "of a sample estimate. The 95% confidence intervals are calculated so that if we repeated the study many times,",
-                                         "95% of the time the true unknown value would lie between the lower and upper confidence limits<br><br>",
-                                         strong("For more information, see Metadata. Click again to close.")))),
-          value={ONS %>% tail(1) %>% .$EstimatedRatio},
-          subtitle = glue("{ONS %>% tail(1) %>% .$LowerCIRatio}",
-                          " to {ONS %>% tail(1) %>% .$UpperCIRatio}",
-                          " (95% CI)"),
-          icon = icon_no_warning_fn("viruses"),
-          color = "purple")
-})
-
-# output$r_number_infobox <- renderInfoBox({
-#   infoBox(title=h5("R number",
-#                    summaryButtonUI("r_number",
-#                                    "The reproduction (R) number",
-#                                    paste("This is the average number of secondary infections produced by a single infected person,",
-#                                          "estimated to be within this range. If R is greater than one the epidemic is growing, if R is less",
-#                                          "than one the epidemic is shrinking.<br><br>",
-#                                          strong("For more information, see Metadata. Click again to close.")))),
-#           value= glue("{R_Number %>% tail(1) %>% .$LowerBound}",
-#                       " - {R_Number %>% tail(1) %>% .$UpperBound}"),
-#           subtitle = "Range",
-#           icon = icon_no_warning_fn("r"),
-#           color = "purple")
-# })
-
-
-output$wastewater_infobox <- renderInfoBox({
-  infoBox(title=h5("Wastewater level",
-                   summaryButtonUI("wastewater",
-                                   "COVID-19 levels in wastewater",
-                                   paste("This is the seven day average level of COVID-19 in wastewater samples by Million gene copies per person per day.<br><br>",
-                                         strong("For more information, see Metadata. Click again to close.")))),
-          value= {Wastewater %>% tail(1) %>% .$WastewaterSevenDayAverageMgc %>%
-              signif(3) %>% paste("Mgc/p/d")},
-          subtitle = "7 day average",
-          icon = icon_no_warning_fn("faucet-drip"),
-          color = "purple")
-})
-
-
-output$reported_cases_infobox <- renderInfoBox({
-  infoBox(title=h5("Reported cases",
-                   summaryButtonUI("reported_cases_infobox",
-                                   "COVID-19 cases reported",
-                                   paste("This is the seven day average number of polymerase chain reaction (PCR) and lateral flow device (LFD)",
-                                         "positive test results recorded<br><br>",
-                                         strong("For more information, see Metadata. Click again to close.")))),
-          value= {Cases %>% tail(1) %>% .$SevenDayAverage %>%
-              round_half_up(0) %>% format(big.mark=",")},
-          subtitle = "7 day average",
-          icon = icon_no_warning_fn("lungs-virus"),
-          color = "purple")
-})
-
-
 #### Vaccine wastage ----
 
 output$doses_wasted_infobox <- renderInfoBox({
@@ -211,6 +212,19 @@ output$percent_wasted_infobox <- renderInfoBox({
           icon = icon_no_warning_fn("percent"),
           color = "teal")
 })
+
+#### Buttons linking to different tabs ----
+observeEvent(input$jump_to_cases_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "cases")})
+
+observeEvent(input$jump_to_hospital_admissions_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
+
+observeEvent(input$jump_to_hospital_occupancy_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
+
+observeEvent(input$jump_to_vaccines_from_summary, {
+  updateTabsetPanel(session, "intabset", selected = "vaccines")})
 
 
 

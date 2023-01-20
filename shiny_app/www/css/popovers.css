@@ -1,0 +1,12 @@
+/* Popovers */
+
+.popover-title{
+  background-color: var(--navy);
+  color: white;
+}
+
+.popover-content{
+  background-color: var(--phs-blue-10);
+  color: var(--navy);
+  border-radius: 0px 0px 5px 5px;
+}

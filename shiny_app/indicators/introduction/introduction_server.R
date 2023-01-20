@@ -11,6 +11,7 @@ observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", sel
 
 
 output$introduction_about <- renderUI({
+
   tagList(h3(tags$b("COVID-19 & Respiratory Surveillance in Scotland")),
           p("Surveillance of COVID-19 and respiratory infection is a key public health activity.
             The spectrum of respiratory illnesses vary from asymptomatic illness to mild/moderate symptoms
@@ -80,12 +81,13 @@ output$introduction_about <- renderUI({
 
           br(),
 
+
   )# tagList
 })
 
 output$introduction_use <- renderUI({
   tagList(h3(tags$b("Interacting with the dashboard")),
-          p("Click on tabs in the navigation bar at the top to view each topic. Click on 'Summary' to view the most recently available
+          p("Click on tabs in the navigation bar at the top to view each topic. Click on 'At a glance' to view the most recently available
             main statistics. Click on 'Metadata' to view notes about the data. Click on 'Download data' to download datasets as an Excel or CSV file."),
           br(),
           p(tags$b("Within each tab")),

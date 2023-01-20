@@ -1,0 +1,133 @@
+
+/* Headline banner outside */
+.headline {
+  border-radius: 10px;
+  background-color: var(--phs-blue-10);
+  box-shadow: 0 8px 8px var(--phs-blue-30) ;
+
+}
+
+.headline h3 {
+  color: var(--navy);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+
+
+/*
+ For value boxes
+ Comes from https://github.com/rstudio/shinydashboard/blob/main/inst/AdminLTE/AdminLTE.css
+ * Component: Small Box
+ * --------------------
+ */
+.small-box {
+  border-radius: 10px;
+  position: relative;
+  display: block;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.small-box > .inner {
+  padding: 10px;
+  max-width: 60%;
+}
+
+.small-box > .small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 3px 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.small-box > .small-box-footer:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.small-box h3 {
+  color: white;
+  font-size: 38px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.small-box p {
+  color: white;
+  font-size: 20px;
+}
+
+.small-box p > small {
+  display: block;
+  color: #f9f9f9;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.small-box h3,
+.small-box p {
+  z-index: 5;
+}
+
+.small-box .icon {
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  z-index: 0;
+  font-size: 90px;
+  color: rgba(0, 0, 0, 0.15);
+}
+
+.small-box:hover {
+  text-decoration: none;
+  color: #f9f9f9;
+}
+
+.small-box:hover .icon {
+  font-size: 95px;
+}
+
+@media (max-width: 767px) {
+  .small-box {
+    text-align: center;
+  }
+  .small-box .icon {
+    display: none;
+    color: white;
+  }
+  .small-box p {
+    font-size: 12px;
+  }
+}
+
+.small-box .icon-large {
+  position: absolute;
+  top: auto;
+  bottom: 5px;
+  right: 5px;
+  font-size: 70px;
+  color: white;
+  /*color: rgba(0, 0, 0, 0.15);*/
+}
+
+/* Hack to get the colours we want on shinydashboard varBox */
+
+.small-box.bg-green { background-color:var(--phs-green); !important; color:#000000 !important; }
+.small-box.bg-purple { background-color:var(--phs-purple); !important; color:#000000 !important; }
+.small-box.bg-blue { background-color:var(--phs-blue); !important; color:#000000 !important; }
+.small-box.bg-fuchsia { background-color:var(--phs-magenta); !important; color:#000000 !important; }
+.small-box.bg-olive { background-color:var(--phs-graphite); !important; color:#000000 !important; }
+.small-box.bg-teal { background-color:var(--phs-teal); !important; color:#000000 !important; }
+.small-box.bg-red { background-color:var(--phs-rust); !important; color:#000000 !important; }
+

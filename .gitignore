@@ -6,6 +6,15 @@
 # 'data' folder #
 data/
 
+# App deployment script
+shiny_app/AppDeployment.R
+
+# rsconnect folder
+shiny_app/rsconnect/
+
+# Google analytics html
+shiny_app/www/google-analytics.html
+
 # Common text files that may contain data #
 *.[cC][sS][vV]
 *.[tT][xX][tT]
