@@ -6,15 +6,17 @@ $( document ).ready( () => {
   // Making sure navbar doesn't overlap content
   // Add padding at the top of the page which is 12px bigger
   // than the navbar height
-  var navHeight = $(".navbar").height();
-  $("body").css({paddingTop: (navHeight+12)+'px'});
 
-  // Do this again when the window is resized
-  $(window).resize( () => {
-    var navHeight = $(".navbar").height();
-    $("body").css({paddingTop: (navHeight+12)+'px'});
-  });
+  var padNavbar = function() {
+      var navHeight = $(".navbar").height();
+      $("body").css({paddingTop: (navHeight+12)+'px'});
+  };
 
+  padNavbar();
+  // Do this again when the window is resized or navbar is opened/closed
+  $(window).resize(padNavbar);
+  $('.collapse').on('shown.bs.collapse', padNavbar);
+  $('.collapse').on('hidden.bs.collapse', padNavbar);
 
   // Ensures that when a modal opens keyboard focus is given to the
   // close button in the modal - accessibility
@@ -63,7 +65,7 @@ $( document ).ready( () => {
   // When going to new tab
   $(document).on('shown.bs.tab', (x) => {
     // Hide all popovers
-     $(".popover").popover("hide");
+     //$(".popover").popover("hide");
      // Fix plotly bug where if you change tabs before a plot has loaded the
      // plot ends up squashed. Do this by resizing all plotly plots when going
      // to a new tab
