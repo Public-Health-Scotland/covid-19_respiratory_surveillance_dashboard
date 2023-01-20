@@ -5,15 +5,13 @@ tagList(
                         class = "metadata-btn",
                         icon = icon_no_warning_fn("file-pen")
                         ),
-           h1("COVID-19 cases"),
-           linebreaks(2)),
+           h1("COVID-19 cases")),
+           #linebreaks(2)),
+
 
   fluidRow(width = 12,
-    tabBox(width = NULL,
-           height = NULL,
-           type = "pills",
-           tabPanel("Estimated infections",
-                    tagList(h3("Estimated COVID-19 infection rate"),
+           #box(width = NULL,
+               tagList(h3("Estimated COVID-19 infection rate"),
                             h4("ONS covid infection survey"),
                             tags$div(class = "headline",
                                      h3(glue("Figures from week ending {ONS %>% tail(1) %>%
@@ -35,14 +33,20 @@ tagList(
                                          icon = icon_no_warning_fn("arrows-up-to-line")),
                                      # These linebreaks are here to make the banner big enough to
                                      # include all the valueBoxes
-                                     linebreaks(6)),
-                            fluidRow(
-                              width=12, linebreaks(3)),
-                            altTextUI("ons_cases_modal"),
-                            withNavySpinner(plotlyOutput("ons_cases_plot")),
-                            fluidRow(
-                              width=12, linebreaks(5))
-                            )),
+                                     linebreaks(6))),
+           linebreaks(1)),
+
+  fluidRow(width=12,
+           box(width = NULL,
+                  altTextUI("ons_cases_modal"),
+                  withNavySpinner(plotlyOutput("ons_cases_plot")),
+                  fluidRow(
+                  width=12, linebreaks(5))
+                  )),
+
+  fluidRow(
+    width =12, br()),
+
            # tabPanel("R number",
            #          tagList(h3("Estimated COVID-19 R number"),
            #                  tags$div(class = "headline",
@@ -68,33 +72,41 @@ tagList(
            #                  withNavySpinner(plotlyOutput("r_number_plot"))),
            #          fluidRow(
            #            width=12, linebreaks(5))),
-           tabPanel("Wastewater",
-                    tagList(h3("Seven day average trend in wastewater COVID-19"),
-                            tags$div(class = "headline",
-                                     h3(glue("Seven day average from week ending {Wastewater %>% tail(1) %>%
+
+
+
+  fluidRow(width = 12,
+                  tagList(h3("Seven day average trend in wastewater COVID-19"),
+                          tags$div(class = "headline",
+                                   h3(glue("Seven day average from week ending {Wastewater %>% tail(1) %>%
                 .$Date %>% convert_opendata_date() %>% format('%d %b %y')}")),
-                                     valueBox(value = {Wastewater %>% tail(1) %>%
-                                         .$WastewaterSevenDayAverageMgc %>%
-                                         signif(3) %>%
-                                         paste("Mgc/p/d")},
-                                         subtitle = "COVID-19 wastewater level",
-                                         color = "purple",
-                                         icon = icon_no_warning_fn("faucet-drip")),
-                            # These linebreaks are here to make the banner big enough to
-                            # include all the valueBoxes
-                            linebreaks(6)
-                            ), #div
-                            fluidRow(
-                                     width =12, linebreaks(3)),
-                            altTextUI("wastewater_modal"),
-                            withNavySpinner(plotlyOutput("wastewater_plot"))),
-                    fluidRow(
-                      width=12, linebreaks(5)))
-        ) #tabBox
-  ), # fluid row
+                                   valueBox(value = {Wastewater %>% tail(1) %>%
+                                       .$WastewaterSevenDayAverageMgc %>%
+                                       signif(3) %>%
+                                       paste("Mgc/p/d")},
+                                       subtitle = "COVID-19 wastewater level",
+                                       color = "purple",
+                                       icon = icon_no_warning_fn("faucet-drip")),
+                                   linebreaks(6))),
+           linebreaks(1)),
+
 
   fluidRow(
-    width =12, br()),
+    tabBox(width = NULL,
+           type = "pills",
+           tabPanel("Plot",
+                    tagList(h3("Seven day average trend in wastewater COVID-19"),
+                            altTextUI("wastewater_modal"),
+                            withNavySpinner(plotlyOutput("wastewater_plot")),
+                            fluidRow(
+                              width=12, linebreaks(5)))),
+           tabPanel("Data",
+                    tagList(h3("Seven day average trend in wastewater COVID-19 data"),
+                            withNavySpinner(dataTableOutput("wastewater_table")))))),
+
+  fluidRow(
+    width = 12, br()),
+
 
   fluidRow(width = 12,
       tabBox(width = NULL,
