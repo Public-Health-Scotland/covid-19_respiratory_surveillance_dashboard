@@ -1,0 +1,51 @@
+/* boxes and tab boxes */
+
+/* Tabset panels */
+.nav-pills>li.active > a:focus,
+.nav-pills>li.active> a
+{
+  background-color: var(--navy);
+  color: white;
+  font-weight: bold;
+  padding:10px;
+  box-shadow: 0 8px 8px var(--phs-blue-50);
+
+}
+
+.nav-pills> li > a:hover
+{
+  box-shadow: 2px;
+  background-color: var(--phs-blue-30);
+  color: var(--navy);
+  font-weight: bold;
+}
+
+.nav-pills> li > a
+{
+  background-color: var(--phs-blue-10);
+  color: var(--navy);
+  font-weight: bold;
+}
+
+
+/* tab box */
+.nav-tabs-custom {
+  background-color: var(--phs-liberty-10);
+  border: 100px;
+  border-color: var(--navy);
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 8px 8px var(--phs-blue-30)
+}
+
+/* box */
+.box {
+  background-color: var(--phs-liberty-10);
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 8px 8px var(--phs-blue-30)
+}
+
+/* boxes for summary page*/
+.box-info {
+   background-color: var(--phs-blue-10);
+   box-shadow: 0 8px 8px var(--phs-blue-30)
+}

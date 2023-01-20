@@ -25,8 +25,6 @@ ui <- fluidPage(
   tagList(
     # For go to top chevrons on scroll down
     use_gotop(),
-    # External file with javascript code for bespoke functionality
-    tags$head(tags$script(src="javascript.js")),
     # Specify most recent fontawesome library - change version as needed
     tags$style("@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);"),
     navbarPage(
@@ -42,11 +40,7 @@ ui <- fluidPage(
                target = "_blank"), # PHS logo links to PHS website
         style = "position: relative; top: -10px;"),
       windowTitle = "COVID-19 Dashboard",# Title for browser tab
-      header = tags$head(includeCSS("www/css/styles.css"),  # CSS stylesheet
-                         includeCSS("www/css/tables.css"),  # CSS stylesheet
-                         includeHTML("www/google-analytics.html"), #Including Google analytics
-                         tags$link(rel = "shortcut icon", href = "favicon_phs.ico") # Icon for browser tab
-      ),
+      header = source(file.path("header.R"), local=TRUE)$value,
       ##############################################.
       # INTRO PAGE ----
       ##############################################.
