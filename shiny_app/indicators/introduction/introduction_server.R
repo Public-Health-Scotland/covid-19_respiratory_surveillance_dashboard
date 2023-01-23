@@ -24,11 +24,14 @@ output$introduction_about <- renderUI({
             We all need to play our part in protecting ourselves and others. You can do this by following
             NHS Inform Website advice on: ", tags$a(href = "https://www.gov.scot/coronavirus-covid-19/",
                                                     "https://www.gov.scot/coronavirus-covid-19/.")),
+          p("Note that some numbers may not sum to the total as disclosure control methods have been applied
+            to the data in order to protect patient confidentiality."),
+          p(glue("This dashboard was last updated at {deployment_date}")),
           br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_summary", "Summary"))),
+                              actionButton("jump_to_summary", "At a glance"))),
             column(8, p("This section provides an overview of headline COVID-19 and Respiratory
                         Surveillance indicators held within this dashboard."))),
           br(),
@@ -79,7 +82,7 @@ output$introduction_about <- renderUI({
                               actionButton("jump_to_download", "Download data"))),
             column(8, p("Data pertaining to selected indicators presented in this dashboard can be filtered and downloaded. "))),
 
-          br(),
+          br()
 
 
   )# tagList
@@ -115,10 +118,6 @@ output$introduction_use <- renderUI({
           p(tags$li("You can view a data summary and a data preview before downloading")),
           p(tags$li("To download an image of any of the charts in the dashboard, click the camera icon in the top-right
                     corner of the chart and a png image file will automatically download.")),
-          br(),
-          p(tags$b("Disclosure")),
-          p("Note that some numbers may not sum to the total as disclosure control methods have been applied
-            to the data in order to protect patient confidentiality.")
           ) #tagList
 })
 

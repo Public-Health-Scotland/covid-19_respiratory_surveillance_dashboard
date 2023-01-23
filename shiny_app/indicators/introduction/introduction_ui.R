@@ -11,8 +11,7 @@ sidebarLayout(
               # These have to be uiOutputs rather than just tagLists because otherwise
               # the ui loads before the conditional panel hides the info so for some
               # time at the beginning of the app all of the panels are visible
-              withNavySpinner(uiOutput("introduction_about")),
-              glue("Last updated: {deployment_date}")
+              withNavySpinner(uiOutput("introduction_about"))
             ), # conditionalPanel
 
             # Using the dashboard
