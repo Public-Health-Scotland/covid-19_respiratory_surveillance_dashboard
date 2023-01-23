@@ -98,7 +98,6 @@ los_median_max <- Length_of_Stay_Median %>%
 los_median_min <- Length_of_Stay_Median %>%
   filter(MedianLengthOfStay == min(MedianLengthOfStay))
 
-
 # respiratory headline figures
 flu_icon_headline <- Respiratory_Summary_Totals %>%
   mutate(icon = case_when(PercentageDifference > 0 ~ "arrow-up",
@@ -106,8 +105,8 @@ flu_icon_headline <- Respiratory_Summary_Totals %>%
                           PercentageDifference == 0 ~ "equals"))
 
 # respiratory isoweeks
-this_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DateThisWeek[1])
-prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DatePreviousWeek[1])
+this_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$WeekBeginningThisWeek[1])
+prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$WeekBeginningPreviousWeek[1])
 
 
 

@@ -107,7 +107,7 @@ ui <- fluidPage(
       ##############################################.
       # RESPIRATORY ----
       ##############################################.
-      tabPanel(title = "Respiratory Illnesses",
+      tabPanel(title = "Respiratory illnesses",
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("virus"),
                value = "respiratory",

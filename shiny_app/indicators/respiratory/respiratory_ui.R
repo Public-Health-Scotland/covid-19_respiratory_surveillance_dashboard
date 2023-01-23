@@ -20,14 +20,14 @@ tagList(
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
                                                 .$CountThisWeek},
                                                      subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                                        .$DateThisWeek %>% format('%d %b %y')}"),
+                                                                        .$WeekBeginningThisWeek %>% format('%d %b %y')}"),
                                                      color = "purple",
                                                      icon = icon_no_warning_fn("calendar-week")),
                                             # previous week total number
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
                                                 .$CountPreviousWeek},
                                                 subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                                  .$DatePreviousWeek %>% format('%d %b %y')}"),
+                                                                  .$WeekBeginningPreviousWeek %>% format('%d %b %y')}"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # percentage difference between the previous weeks
@@ -59,14 +59,14 @@ tagList(
                                             fluidRow(valueBox(value = textOutput("respiratory_flu_headline_figures_subtype_count"),
                                                               subtitle = glue("of selected subtype influenza cases in Scotland during week
                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                              .$DateThisWeek %>% format('%d %b %y')})"),
+                                                              .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
                                                               color = "blue",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
                                                      valueBox(value = textOutput("respiratory_flu_headline_figures_healthboard_count"),
                                                               subtitle = glue("influenza cases in chosen healthboard during week
                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                               .$DateThisWeek %>% format('%d %b %y')})"),
+                                                               .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
                                                               color = "green",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
@@ -137,14 +137,14 @@ tagList(
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                                 .$CountThisWeek},
                                                 subtitle = glue("Figures from week {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                .$DateThisWeek %>% format('%d %b %y')})"),
+                                                                .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # previous week total number
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                                 .$CountPreviousWeek},
                                                 subtitle = glue("Figures from week {prev_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                .$DatePreviousWeek %>% format('%d %b %y')})"),
+                                                                .$WeekBeginningPreviousWeek %>% format('%d %b %y')})"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # percentage difference between the previous weeks
@@ -176,14 +176,14 @@ tagList(
                                             fluidRow(valueBox(value = textOutput("respiratory_nonflu_headline_figures_subtype_count"),
                                                               subtitle = glue("of selected subtype influenza cases in Scotland during week
                                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                              .$DateThisWeek %>% format('%d %b %y')})"),
+                                                                              .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
                                                               color = "blue",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
                                                      valueBox(value = textOutput("respiratory_nonflu_headline_figures_healthboard_count"),
                                                               subtitle = glue("non-influenza cases in chosen healthboard during week
                                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                              .$DateThisWeek %>% format('%d %b %y')})"),
+                                                                              .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
                                                               color = "green",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),

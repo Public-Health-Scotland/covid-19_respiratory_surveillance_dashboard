@@ -66,8 +66,8 @@ output$respiratory_flu_select_date <- renderUI ({
 
   selectizeInput("respiratory_flu_date",
                  label = "Select date",
-                 choices = unique(date_filtered$Date),
-                 selected = max(date_filtered$Date))
+                 choices = unique(date_filtered$WeekBeginning),
+                 selected = max(date_filtered$WeekBeginning))
 
 })
 
@@ -174,8 +174,8 @@ output$respiratory_nonflu_select_date <- renderUI ({
 
   selectizeInput("respiratory_nonflu_date",
                  label = "Select date",
-                 choices = unique(date_filtered$Date),
-                 selected = max(date_filtered$Date))
+                 choices = unique(date_filtered$WeekBeginning),
+                 selected = max(date_filtered$WeekBeginning))
 
 })
 
