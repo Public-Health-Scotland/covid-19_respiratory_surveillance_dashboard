@@ -9,12 +9,13 @@
 output$hospital_admissions_table <- renderDataTable({
   Admissions %>%
     arrange(desc(AdmissionDate)) %>%
-    mutate(AdmissionDate = convert_opendata_date(AdmissionDate)) %>%
+    mutate(AdmissionDate = convert_opendata_date(AdmissionDate),
+           ProvisionalFlag = recode(ProvisionalFlag, "1" = "p", "0" = "")) %>%
     select(AdmissionDate, TotalInfections, SevenDayAverage, ProvisionalFlag) %>%
     dplyr::rename(`Date` = AdmissionDate,
                   `Number of admissions` = TotalInfections,
                   `7 day average` = SevenDayAverage,
-                  `Stable or provisional` = ProvisionalFlag) %>%
+                  `Is data provisional(p)?` = ProvisionalFlag) %>%
     make_table(add_separator_cols = c(2),
                add_separator_cols_1dp = c(3))
 })
@@ -52,11 +53,12 @@ observeEvent(input$btn_modal_simd, { showModal(simd_modal) })
 output$hospital_admissions_simd_table <- renderDataTable({
   Admissions_SimdTrend %>%
     arrange(desc(WeekEnding)) %>%
-    mutate(WeekEnding = convert_opendata_date(WeekEnding)) %>%
-    select(WeekEnding, SIMD, NumberOfAdmissions, ProvisionalOrStable) %>%
+    mutate(WeekEnding = convert_opendata_date(WeekEnding),
+           ProvisionalFlag = recode(ProvisionalFlag, "1" = "p", "0" = "")) %>%
+    select(WeekEnding, SIMD, NumberOfAdmissions, ProvisionalFlag) %>%
     dplyr::rename(`Week ending` = WeekEnding,
                   `Number of admissions` = NumberOfAdmissions,
-                  `Provisional or stable` = ProvisionalOrStable) %>%
+                  `Is data provisional(p)?` = ProvisionalFlag) %>%
     make_table(add_separator_cols = c(3))
 })
 
