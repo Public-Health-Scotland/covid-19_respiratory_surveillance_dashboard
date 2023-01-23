@@ -5,14 +5,14 @@ tagList(
                         class = "metadata-btn",
                         icon = icon_no_warning_fn("file-pen")
            ),
-           h1("COVID-19 hospital admissions"),
+           h1("Acute COVID-19 hospital admissions"),
            linebreaks(2)),
 
   fluidRow(width = 12,
            tabBox(width = NULL,
                   type = "pills",
-                  tabPanel("Hospital admissions",
-                           tagList(h3("Daily number of COVID-19 admissions to hospital"),
+                  tabPanel("Acute hospital admissions",
+                           tagList(h3("Daily number of acute COVID-19 admissions to hospital"),
 
 
 
@@ -31,9 +31,9 @@ tagList(
 
                            ),
 
-                           tagList(h3("Weekly number of COVID-19 hospital admissions by deprivation category (SIMD)")),
+                           tagList(h3("Weekly number of acute COVID-19 hospital admissions by deprivation category (SIMD)")),
                            tags$div(class = "headline",
-                                    h3("Admissions from last three weeks"),
+                                    h3("Acute admissions from last three weeks"),
 
                                     valueBox(value = {admissions_headlines[[1]]},
                                              subtitle = glue("Week ending {names(admissions_headlines)[[1]]} - provisional"),
@@ -100,7 +100,7 @@ tagList(
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
                                            tagList(h5("Use the drop-down menu to select an age group of interest."),
-                                                   h5("Please note that in cases where there are no hospital admissions, there will be a gap in the chart."),
+                                                   h5("Please note that in cases where there are no acute hospital admissions, there will be a gap in the chart."),
                                                     pickerInput(inputId = "los_age", width = "100%",
                                                          label = "Select Age Group",
                                                          choices = {Length_of_Stay %>%
@@ -123,8 +123,8 @@ tagList(
 
                            ),
 
-                  tabPanel("Hospital admissions by ethnicity",
-                           tagList(h3("Number of COVID-19 admissions to hospital by ethnicity"),
+                  tabPanel("Acute hospital admissions by ethnicity",
+                           tagList(h3("Number of acute COVID-19 admissions to hospital by ethnicity"),
                                    h4(strong("These data will next be updated in March 2023.")),
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",

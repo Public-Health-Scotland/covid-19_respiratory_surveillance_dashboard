@@ -12,7 +12,7 @@ tagList(
                    radioButtons("download_indicator",
                                 "1. Select indicator ",
                                 choices = c("COVID-19 cases",
-                                            "COVID-19 hospital admissions",
+                                            "Acute COVID-19 hospital admissions",
                                             "COVID-19 hospital occupancy",
                                             "Vaccine wastage"),
                                 selected = "COVID-19 cases",
