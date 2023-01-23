@@ -51,14 +51,16 @@ tagList(
                                                                        choices = {Respiratory_Summary %>%
                                                                          filter(FluOrNonFlu == "flu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
                                                                          .$Breakdown %>% unique()},
-                                                                     selected = "Influenza - Type A or B")),
+                                                                     selected = "Influenza - Type A or B")
+                                                   ),
                                             column(6,
                                                    pickerInput("respiratory_flu_headline_healthboard",
                                                                   label = "Select a healthboard",
                                                                   choices = {Respiratory_Summary %>%
                                                                       filter(FluOrNonFlu == "flu" & SummaryMeasure == "Healthboard_Total") %>%
                                                                       .$Breakdown %>% unique() %>% phsmethods::match_area()}
-                                                               ), # pickerInput
+                                                               )  # pickerInput
+                                                   ), # column
                                             fluidRow(valueBox(value = textOutput("respiratory_flu_headline_figures_subtype_count"),
                                                               subtitle = glue("of selected subtype influenza cases in Scotland during week
                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
@@ -75,7 +77,6 @@ tagList(
                                                               width = 6),
                                                      linebreaks(8)
                                                      ) # fluidRow
-                                            ) # column
                                             ) # headline
                            ), # tagList
 
