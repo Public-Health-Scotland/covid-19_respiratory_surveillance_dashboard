@@ -154,6 +154,7 @@ g_resp_data <- bind_rows(
          agegp = factor(agegp,
                         levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+"))) %>%
   dplyr::rename(Count = count,
+                Season = season,
                 Measure = measure,
                 Population = pop,
                 Rate = rate,
@@ -166,7 +167,7 @@ g_resp_data <- bind_rows(
                 HealthboardCode = HealthboardCode,
                 CountQF = countQF,
                 RateQF = rateQF) %>%
-  select(WeekBeginning, FluOrNonFlu, Organism, Measure, AgeGroup, Sex, Count, CountQF, Population, Rate, RateQF,
+  select(Season, WeekBeginning, FluOrNonFlu, Organism, Measure, AgeGroup, Sex, Count, CountQF, Population, Rate, RateQF,
          HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
          scotland_by_organism_flag, scotland_by_organism_age_sex_flag, scotland_by_organism_age_flag, scotland_by_organism_sex_flag,
          organism_by_hb_flag)

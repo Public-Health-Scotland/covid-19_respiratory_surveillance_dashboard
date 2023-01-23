@@ -48,31 +48,22 @@ observeEvent(input$respiratory_flu_select_healthboard,
                                    label = "Select whether you would like to see flu rates or total number of cases",
                                    choices = c("Rate per 100,000"),
                                    selected = "Rate per 100,000"
+
                  )
 
                }
 
-             })
+             }
+)
 
-output$respiratory_flu_select_season <- renderUI ({
+observeEvent(input$respiratory_flu_season,
+             {
+               updatePickerInput(session, inputId = "respiratory_flu_date",
+                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_flu_season) %>%.$WeekBeginning %>% unique()},
+                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_flu_season) %>%.$WeekBeginning %>% max()})
 
-  selectizeInput("respiratory_flu_season",
-                 label = "Select a season",
-                 choices = c(unique({Respiratory_AllData %>% filter(FluOrNonFlu == "flu") %>% .$Season})),
-                 selected = "2022/23")
-})
-
-output$respiratory_flu_select_date <- renderUI ({
-
-  date_filtered <- Respiratory_AllData %>%
-    filter(Season == input$respiratory_flu_season)
-
-  selectizeInput("respiratory_flu_date",
-                 label = "Select date",
-                 choices = unique(date_filtered$WeekBeginning),
-                 selected = max(date_filtered$WeekBeginning))
-
-})
+             }
+)
 
 
 # make trend over time plot. Plot shows the rate/number of flu cases by subtype over time for the whole dataset.
@@ -140,47 +131,42 @@ output$respiratory_nonflu_headline_figures_healthboard_count <- renderText ({
 
 })
 
+# selecting input for seeing rate or number for plots
+# only show rates if healthboards are there but can show number of cases for scotland
+# Update dataset choices based off indicator choice
+observeEvent(input$respiratory_nonflu_select_healthboard,
+             {
 
-output$respiratory_nonflu_select_yaxis <- renderUI({
+               if(input$respiratory_nonflu_select_healthboard == "Scotland"){
 
-  if(input$respiratory_nonflu_select_healthboard == "Scotland") {
+                 updatePickerInput(session, inputId = "respiratory_nonflu_y_axis_plots",
+                                   label = "Select whether you would like to see flu rates or total number of cases",
+                                   choices = c("Number of cases", "Rate per 100,000"),
+                                   selected = "Number of cases"
+                 )
 
-    selectizeInput("respiratory_nonflu_y_axis_plots",
-                   label = "Select whether you would like to see flu rates or total number of cases",
-                   choices = c("Number of cases", "Rate per 100,000"),
-                   selected = "Number of cases")
+               } else {
 
-  } else if(input$respiratory_nonflu_select_healthboard != "Scotland") {
+                 updatePickerInput(session, inputId = "respiratory_nonflu_y_axis_plots",
+                                   label = "Select whether you would like to see flu rates or total number of cases",
+                                   choices = c("Rate per 100,000"),
+                                   selected = "Rate per 100,000"
 
-    selectizeInput("respiratory_nonflu_y_axis_plots",
-                   label = "",
-                   choices = c("Rate per 100,000"),
-                   selected = "Rate per 100,000")
+                 )
 
-  }
+               }
 
-})
+             }
+)
 
+observeEvent(input$respiratory_nonflu_season,
+             {
+               updatePickerInput(session, inputId = "respiratory_nonflu_date",
+                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_nonflu_season) %>%.$WeekBeginning %>% unique()},
+                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_nonflu_season) %>%.$WeekBeginning %>% max()})
 
-output$respiratory_nonflu_select_season <- renderUI ({
-
-  selectizeInput("respiratory_nonflu_season",
-                 label = "Select a season",
-                 choices = c(unique({Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu") %>% .$Season})),
-                 selected = "2022/23")
-})
-
-output$respiratory_nonflu_select_date <- renderUI ({
-
-  date_filtered <- Respiratory_AllData %>%
-    filter(Season == input$respiratory_nonflu_season)
-
-  selectizeInput("respiratory_nonflu_date",
-                 label = "Select date",
-                 choices = unique(date_filtered$WeekBeginning),
-                 selected = max(date_filtered$WeekBeginning))
-
-})
+             }
+)
 
 
 # make trend over time plot. Plot shows the rate/number of flu cases by subtype over time for the whole dataset.
