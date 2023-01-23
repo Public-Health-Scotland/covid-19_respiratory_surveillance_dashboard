@@ -98,24 +98,33 @@ tagList(
                               width=12, linebreaks(5)))),
            tabPanel("Data",
                     tagList(linebreaks(1),
-                            withNavySpinner(dataTableOutput("wastewater_table")))))),
+                            withNavySpinner(dataTableOutput("wastewater_table"))
+                            ) # tagList
+                    ) # tabPanel
+
+           ) # tabBox
+    ), # fluidRow
 
   fluidRow(
     width = 12, br()),
 
 
   fluidRow(width = 12,
+      tagList(h3("Reported COVID-19 cases"),
       tabBox(width = NULL,
              type = "pills",
             tabPanel("Plot",
-                      tagList(h3("Reported COVID-19 cases"),
-                                 altTextUI("reported_cases_modal"),
-                                 withNavySpinner(plotlyOutput("reported_cases_plot")),
+                      tagList(altTextUI("reported_cases_modal"),
+                              withNavySpinner(plotlyOutput("reported_cases_plot")),
                               fluidRow(
                                 width=12, linebreaks(5)))),
             tabPanel("Data",
-                      tagList(h3("Reported COVID-19 cases data"),
-                              withNavySpinner(dataTableOutput("reported_cases_table")))))
+                      tagList(
+                              withNavySpinner(dataTableOutput("reported_cases_table"))
+                              ) # tagList
+                     ) # tabPanel
+            ) # tabBox
+           ) # tagList
   ), #fluidrow
 
   # Padding out the bottom of the page
