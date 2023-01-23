@@ -1,11 +1,7 @@
 
 tagList(
   fluidRow(width = 12,
-           actionButton("jump_to_metadata_respiratory",
-                        label = "Metadata",
-                        class = "metadata-btn",
-                        icon = icon_no_warning_fn("file-pen")
-           ),
+           metadataButtonUI("respiratory"),
            h1("Other Respiratory Illnesses"),
            p("This is the epidemiological information on seasonal respiratory infection activity in Scotland (excluding COVID-19). "),
            linebreaks(2)),

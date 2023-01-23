@@ -32,6 +32,10 @@ vaccines_metadata_button <- metadataButtonServer(id="vaccines",
                                               panel="Vaccine wastage",
                                               parent = session)
 
+respiratory_metadata_button <- metadataButtonServer(id="respiratory",
+                                                    panel="Respiratory",
+                                                    parent = session)
+
 
 download_metadata_button <- metadataButtonServer(id="download",
                                                  panel="Cases",
