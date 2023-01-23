@@ -22,14 +22,20 @@ sidebarLayout(
 
             # Further information
             conditionalPanel(
-              condition= "input.home_select == 'info'",
-              withNavySpinner(uiOutput("introduction_info"))
+              condition= "input.home_select == 'contact'",
+              withNavySpinner(uiOutput("introduction_contact"))
             ), # conditionalPanel
 
             # Accessibility
             conditionalPanel(
               condition= "input.home_select == 'accessibility'",
               withNavySpinner(uiOutput("introduction_accessibility"))
+            ), # conditonalPanel
+
+            #Open data
+            conditionalPanel(
+              condition= "input.home_select == 'open_data'",
+              withNavySpinner(uiOutput("introduction_open_data"))
             ) # conditonalPanel
                       ) # mainPanel
               ) # sidebarLayout
