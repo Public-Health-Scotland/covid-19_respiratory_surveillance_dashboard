@@ -33,3 +33,12 @@ output$wastewater_plot <- renderPlotly({
     make_wastewater_plot()
 
 })
+
+output$wastewater_table <- renderDataTable({
+  Wastewater %>%
+    mutate(Date = convert_opendata_date(Date)) %>%
+           #WastewaterSevenDayAverageMgc = round_half_up(WastewaterSevenDayAverageMgc, 1)) %>%
+    dplyr::rename('7 day average (Mgc/p/d)' = WastewaterSevenDayAverageMgc) %>%
+    make_table(add_separator_cols_1dp = 2, order_by_firstcol = "desc")
+
+})
