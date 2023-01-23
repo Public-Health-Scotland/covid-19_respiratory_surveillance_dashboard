@@ -153,27 +153,21 @@ g_resp_data <- bind_rows(
   mutate(count = as.numeric(count),
          agegp = factor(agegp,
                         levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+"))) %>%
-  dplyr::rename(Season = season,
-                Pathogen = pathogen,
-                Week = week,
-                Weekord = weekord,
-                Count = count,
+  dplyr::rename(Count = count,
                 Measure = measure,
                 Population = pop,
                 Rate = rate,
-                Year = year,
-                Date = date,
+                WeekEnding = date,
                 FluOrNonFlu = flu_nonflu,
                 Organism = organism,
-                BreakDown = breakdown,
                 Healthboard = HealthBoard,
                 AgeGroup = agegp,
                 Sex = sex,
                 HealthboardCode = HealthboardCode,
                 CountQF = countQF,
                 RateQF = rateQF) %>%
-  select(Season, Date, Week, Year, Weekord, Measure, FluOrNonFlu, Organism, BreakDown, Healthboard, AgeGroup, Sex, Count, CountQF, Rate, RateQF,
-         Population,Pathogen, HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
+  select(WeekEnding, FluOrNonFlu, Organism, Measure, AgeGroup, Sex, Count, CountQF, Population, Rate, RateQF,
+         HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
          scotland_by_organism_flag, scotland_by_organism_age_sex_flag, scotland_by_organism_age_flag, scotland_by_organism_sex_flag,
          organism_by_hb_flag)
 
@@ -183,26 +177,26 @@ sequence = c("PreviousWeek", "PreviousWeek", "ThisWeek", "ThisWeek")
 # get total flu and non-flu cases
 g_resp_summary_totals <- g_resp_data %>%
   filter(total_number_flag == 1) %>%
-  arrange(Date) %>%
+  arrange(WeekEnding) %>%
   tail(4) %>%
   mutate(Breakdown = "Scotland Total") %>%
   bind_cols(., sequence) %>%
-  rename(ReportingWeek = "...31") %>%
-  select(ReportingWeek, Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
-  pivot_wider(., names_from = c("ReportingWeek"), values_from = c("Count", "Date", "Rate")) %>%
+  rename(ReportingWeek = names(.)[ncol(.)]) %>%
+  select(ReportingWeek, WeekEnding, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
+  pivot_wider(., names_from = c("ReportingWeek"), values_from = c("Count", "WeekEnding", "Rate")) %>%
   dplyr::rename(CountPreviousWeek = Count_PreviousWeek,
                 CountThisWeek = Count_ThisWeek,
                 RatePreviousWeek = Rate_PreviousWeek,
                 RateThisWeek = Rate_ThisWeek,
-                DatePreviousWeek = Date_PreviousWeek,
-                DateThisWeek = Date_ThisWeek) %>%
+                WeekEndingPreviousWeek = WeekEnding_PreviousWeek,
+                WeekEndingThisWeek = WeekEnding_ThisWeek) %>%
   mutate(Difference = CountThisWeek-CountPreviousWeek,
          PercentageDifference = round((Difference/CountPreviousWeek)*100, 0),
          ChangeFactor = case_when(PercentageDifference < 0 ~ "decrease",
                                   PercentageDifference > 0 ~ "increase",
                                   PercentageDifference == 0 ~ "no change")) %>%
   mutate(SummaryMeasure = "Scotland_Total") %>% select(
-    DateThisWeek, DatePreviousWeek,
+    WeekEndingThisWeek, WeekEndingPreviousWeek,
     Breakdown, FluOrNonFlu,
     CountThisWeek, CountPreviousWeek,  CountQF,
     RateThisWeek, RatePreviousWeek, RateQF,
@@ -213,27 +207,27 @@ g_resp_summary <- bind_rows(
 
   g_resp_data %>%
     filter(scotland_by_organism_flag == 1) %>%
-    arrange(desc(Date)) %>%
+    arrange(desc(WeekEnding)) %>%
     group_by(Organism) %>%
-    filter(Date == max(Date)) %>%
+    filter(WeekEnding == max(WeekEnding)) %>%
     ungroup() %>%
-    filter(Date == max(Date)) %>%
+    filter(WeekEnding == max(WeekEnding)) %>%
     mutate(Breakdown = Organism) %>%
-    select(Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
+    select(WeekEnding, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
     mutate(SummaryMeasure = "Scotland_by_Organism_Total"),
 
   g_resp_data %>%
     filter(hb_flag == 1) %>%
-    arrange(desc(Date)) %>%
+    arrange(desc(WeekEnding)) %>%
     group_by(HealthboardCode) %>%
-    filter(Date == max(Date)) %>%
+    filter(WeekEnding == max(WeekEnding)) %>%
     ungroup() %>%
-    filter(Date == max(Date)) %>%
+    filter(WeekEnding == max(WeekEnding)) %>%
     mutate(Breakdown = HealthboardCode) %>%
-    select(Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
+    select(WeekEnding, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
     mutate(SummaryMeasure = "Healthboard_Total")
 ) %>% select(
-  Date,
+  WeekEnding,
   Breakdown, FluOrNonFlu,
   Count,  CountQF,
   Rate, RateQF,
