@@ -74,10 +74,15 @@ tagList(
 
                            # select healthboard and rate/number for plots and data
                            fluidRow(
-                             column(6, selectizeInput("respiratory_flu_select_healthboard",
+                             column(6, pickerInput("respiratory_flu_select_healthboard",
                                                       label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
                                                       choices = c("Scotland", unique({Respiratory_AllData %>% filter(!is.na(HealthboardCode)) %>% .$HealthboardCode})))),
-                             column(6, uiOutput("respiratory_flu_select_yaxis"))),
+                             column(6, pickerInput("respiratory_flu_y_axis_plots",
+                                                   label = "Select whether you would like to see flu rates or total number of cases",
+                                                   choices = c("Number of cases", "Rate per 100,000"),
+                                                   selected = "Number of cases")
+                                    )
+                             ),
 
                            # plot and data for Influenza cases by subtype over time
                            tagList(h3("Influenza cases over time by subtype"),

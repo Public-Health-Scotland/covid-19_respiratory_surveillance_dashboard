@@ -22,7 +22,7 @@ output$respiratory_flu_headline_figures_healthboard_count <- renderText ({
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == "flu") %>%
-    filter(Breakdown == input$respiratory_flu_headline_healthboard)
+    filter(phsmethods::match_area(Breakdown) == input$respiratory_flu_headline_healthboard)
 
   organism_summary_total$Count
 
@@ -30,26 +30,29 @@ output$respiratory_flu_headline_figures_healthboard_count <- renderText ({
 
 # selecting input for seeing rate or number for plots
 # only show rates if healthboards are there but can show number of cases for scotland
+# Update dataset choices based off indicator choice
+observeEvent(input$respiratory_flu_select_healthboard,
+             {
 
-output$respiratory_flu_select_yaxis <- renderUI({
+               if(input$respiratory_flu_select_healthboard == "Scotland"){
 
-  if(input$respiratory_flu_select_healthboard == "Scotland") {
+                 updatePickerInput(session, inputId = "respiratory_flu_y_axis_plots",
+                                   label = "Select whether you would like to see flu rates or total number of cases",
+                                   choices = c("Number of cases", "Rate per 100,000"),
+                                   selected = "Number of cases"
+                 )
 
-    selectizeInput("respiratory_flu_y_axis_plots",
-                   label = "Select whether you would like to see flu rates or total number of cases",
-                   choices = c("Number of cases", "Rate per 100,000"),
-                   selected = "Number of cases")
+               } else {
 
-  } else if(input$respiratory_flu_select_healthboard != "Scotland") {
+                 updatePickerInput(session, inputId = "respiratory_flu_y_axis_plots",
+                                   label = "Select whether you would like to see flu rates or total number of cases",
+                                   choices = c("Rate per 100,000"),
+                                   selected = "Rate per 100,000"
+                 )
 
-    selectizeInput("respiratory_flu_y_axis_plots",
-                   label = "",
-                   choices = c("Rate per 100,000"),
-                   selected = "Rate per 100,000")
+               }
 
-  }
-
-})
+             })
 
 output$respiratory_flu_select_season <- renderUI ({
 
