@@ -130,10 +130,12 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
             y = ~y_axis,
             color = ~Season,
             type="scatter",
-            mode="lines+markers",
+            mode="lines",
             colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
     layout(yaxis = yaxis_plots,
-           xaxis = xaxis_plots) %>%
+           xaxis = xaxis_plots,
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
 
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
@@ -157,10 +159,12 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
             y = ~y_axis,
             color = ~Organism,
             type="scatter",
-            mode="lines+markers",
+            mode="lines",
             colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
     layout(yaxis = yaxis_plots,
-           xaxis = xaxis_plots) %>%
+           xaxis = xaxis_plots,
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
 
@@ -176,8 +180,8 @@ age_sex_plot <- function(data, breakdown, title = NULL) {
       plot_ly(x= ~AgeGroup,
               y= ~Rate,
               size = ~Rate,
-              colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite')),
-              marker = list(opacity = 0.5, sizemode = 'diameter'),
+              marker = list(opacity = 0.5, sizemode = 'diameter',
+                            color = phs_colours("phs-teal")),
               type = 'scatter',
               mode = 'markers') %>%
       layout(yaxis = list(title = "Rate per 100,000",
@@ -188,7 +192,9 @@ age_sex_plot <- function(data, breakdown, title = NULL) {
              xaxis = list(title = "Age Group",
                           tickfont = list(size=14),
                           titlefont = list(size=18)),
-             title = title)
+             title = title,
+             paper_bgcolor = phs_colours("phs-liberty-10"),
+             plot_bgcolor = phs_colours("phs-liberty-10"))
 
   } else if(breakdown == "Sex") {
 
@@ -208,7 +214,9 @@ age_sex_plot <- function(data, breakdown, title = NULL) {
              xaxis = list(title = "Sex",
                           tickfont = list(size=14),
                           titlefont = list(size=18)),
-             title = title)
+             title = title,
+             paper_bgcolor = phs_colours("phs-liberty-10"),
+             plot_bgcolor = phs_colours("phs-liberty-10"))
 
   } else if(breakdown == "Age + Sex") {
 
@@ -228,7 +236,9 @@ age_sex_plot <- function(data, breakdown, title = NULL) {
              xaxis = list(title = "Age group",
                           tickfont = list(size=14),
                           titlefont = list(size=18)),
-             title = title)
+             title = title,
+             paper_bgcolor = phs_colours("phs-liberty-10"),
+             plot_bgcolor = phs_colours("phs-liberty-10"))
 
 
   }
