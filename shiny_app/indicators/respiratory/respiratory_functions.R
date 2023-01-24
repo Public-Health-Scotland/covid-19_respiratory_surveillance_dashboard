@@ -17,7 +17,7 @@ respiratory_filter_by_healthboard = function(data, healthboard) {
 filter_by_organism = function(data, organism_input, healthboard) {
 
   data = data %>%
-    filter(BreakDown == healthboard)
+    respiratory_filter_by_healthboard(healthboard)
 
   if(organism_input == "Total" & healthboard == "Scotland") {
 

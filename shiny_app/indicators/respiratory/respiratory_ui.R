@@ -167,7 +167,6 @@ tagList(
                                           ), # tabbox
                                    linebreaks(2)
                                    ) # tagList
-                           )
                            ),
 
                   ###### NON FLU PANEL ############
@@ -303,6 +302,7 @@ tagList(
                                    ) # tabbox
                                    )
                            )
+  )
 
 
 )

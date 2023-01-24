@@ -156,6 +156,8 @@ g_resp_data <- bind_rows(
          HealthboardCode = ifelse(HealthBoard == "Scotland", "S92000003", HealthboardCode)) %>%
   dplyr::rename(Count = count,
                 Season = season,
+                Weekord = weekord,
+                Week = week,
                 Measure = measure,
                 Population = pop,
                 Rate = rate,
@@ -168,7 +170,7 @@ g_resp_data <- bind_rows(
                 HealthboardCode = HealthboardCode,
                 CountQF = countQF,
                 RateQF = rateQF) %>%
-  select(Season, WeekBeginning, FluOrNonFlu, Organism, Measure, AgeGroup, Sex, Count, CountQF, Population, Rate, RateQF,
+  select(Season, WeekBeginning, Weekord, Week, FluOrNonFlu, Organism, Measure, AgeGroup, Sex, Count, CountQF, Population, Rate, RateQF,
          HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
          scotland_by_organism_flag, scotland_by_organism_age_sex_flag, scotland_by_organism_age_flag, scotland_by_organism_sex_flag,
          organism_by_hb_flag)

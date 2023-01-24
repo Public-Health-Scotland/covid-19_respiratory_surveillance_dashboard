@@ -85,7 +85,8 @@ output$respiratory_flu_by_season_plot = renderPlotly({
   Respiratory_AllData %>%
     filter(FluOrNonFlu == "flu") %>%
     select_y_axis(., yaxis = input$respiratory_flu_y_axis_plots) %>%
-    filter_by_organism(., organism = input$respiratory_select_flu_subtype, healthboard = input$respiratory_flu_select_healthboard) %>%
+    filter_by_organism(., organism = input$respiratory_select_flu_subtype,
+                       healthboard = input$respiratory_flu_select_healthboard) %>%
     make_respiratory_trend_by_season_plot_function(., y_axis_title = input$respiratory_flu_y_axis_plots)
 
 })
