@@ -152,7 +152,8 @@ g_resp_data <- bind_rows(
   hb_flu_total) %>%
   mutate(count = as.numeric(count),
          agegp = factor(agegp,
-                        levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+"))) %>%
+                        levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")),
+         HealthboardCode = ifelse(HealthBoard == "Scotland", "S92000003", HealthboardCode)) %>%
   dplyr::rename(Count = count,
                 Season = season,
                 Measure = measure,

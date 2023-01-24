@@ -84,8 +84,8 @@ tagList(
                            fluidRow(
                              column(6, pickerInput("respiratory_flu_select_healthboard",
                                                       label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
-                                                      choices = c("Scotland", {Respiratory_AllData %>%
-                                                          filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique()})
+                                                      choices = {Respiratory_AllData %>%
+                                                          filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique() %>% phsmethods::match_area()}
                                                    ) # pickerInput
                                     ), # column
                              column(6, pickerInput("respiratory_flu_y_axis_plots",

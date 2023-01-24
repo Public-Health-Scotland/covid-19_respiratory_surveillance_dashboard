@@ -7,9 +7,7 @@
 respiratory_filter_by_healthboard = function(data, healthboard) {
 
   filtered_data = data %>%
-    filter(BreakDown == healthboard)
-
-
+    filter(phsmethods::match_area(HealthboardCode) == healthboard)
 
   return(filtered_data)
 
@@ -50,7 +48,7 @@ filter_by_organism = function(data, organism_input, healthboard) {
 filter_over_time_plot_function <- function(data, healthboard) {
 
   data = data %>%
-    filter(BreakDown == healthboard)
+    respiratory_filter_by_healthboard(healthboard)
 
   if(healthboard == "Scotland") {
 
@@ -146,6 +144,7 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
 
 # this plot makes a plot showing the rate/number of cases for each by each subtype
 make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
+
 
   xaxis_plots[["title"]] <- "Date"
   yaxis_plots[["title"]] <- y_axis_title
