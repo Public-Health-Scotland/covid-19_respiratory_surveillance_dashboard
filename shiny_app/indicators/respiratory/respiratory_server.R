@@ -10,9 +10,7 @@ output$respiratory_flu_headline_figures_subtype_count <- renderValueBox ({
     .$Count
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("of {input$respiratory_flu_headline_subtype} cases in Scotland during week",
-                           " {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                           .$DateThisWeek %>% format('%d %b %y')})"),
+           subtitle = glue("{input$respiratory_flu_headline_subtype} in Scotland"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
@@ -27,10 +25,7 @@ output$respiratory_flu_headline_figures_healthboard_count <- renderValueBox ({
     .$Count
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("influenza cases in {input$respiratory_flu_headline_healthboard} during week",
-                          " {this_week_iso} (beginning {Respiratory_Summary_Totals %>%
-                             filter(FluOrNonFlu == 'flu') %>%
-                             .$DateThisWeek %>% format('%d %b %y')})"),
+           subtitle = glue("influenza cases in {input$respiratory_flu_headline_healthboard}"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
@@ -125,9 +120,7 @@ output$respiratory_nonflu_headline_figures_subtype_count <- renderValueBox ({
     .$Count
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("of {input$respiratory_nonflu_headline_subtype} cases in Scotland during week",
-                           " {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                           .$DateThisWeek %>% format('%d %b %y')})"),
+           subtitle = glue("{input$respiratory_nonflu_headline_subtype} in Scotland"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
@@ -142,10 +135,7 @@ output$respiratory_nonflu_headline_figures_healthboard_count <- renderValueBox (
     .$Count
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("non-influenza cases in {input$respiratory_nonflu_headline_healthboard} during week",
-                           " {this_week_iso} (beginning {Respiratory_Summary_Totals %>%
-                           filter(FluOrNonFlu == 'flu') %>%
-                           .$DateThisWeek %>% format('%d %b %y')})"),
+           subtitle = glue("non-influenza cases in {input$respiratory_nonflu_headline_healthboard}"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
