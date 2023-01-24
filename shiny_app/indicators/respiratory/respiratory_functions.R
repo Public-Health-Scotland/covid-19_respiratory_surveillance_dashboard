@@ -116,6 +116,7 @@ select_y_axis <- function(data, yaxis) {
 # this plot makes a plot showing the rate/number of cases for each by each subtype
 make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
 
+  data %<>% arrange(Date)
 
   xaxis_plots[["title"]] <- "Date"
   yaxis_plots[["title"]] <- y_axis_title
