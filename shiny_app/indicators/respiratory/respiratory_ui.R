@@ -72,6 +72,9 @@ tagList(
                                             ) # headline
                            ), # tagList
 
+                           fluidRow(
+                             width=12, linebreaks(3)),
+
                            # select healthboard and rate/number for plots and data
                            fluidRow(
                              column(6, pickerInput("respiratory_flu_select_healthboard",
@@ -220,6 +223,9 @@ tagList(
                                             linebreaks(9)
                                    ) # headline
                                    ), # tagList
+
+                           fluidRow(
+                             width=12, linebreaks(5)),
 
                            # select healthboard and rate/number for plots and data
                            fluidRow(
