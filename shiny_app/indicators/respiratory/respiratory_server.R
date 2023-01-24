@@ -8,23 +8,38 @@ output$respiratory_flu_headline_figures_subtype <- renderText ({
 
 })
 
-output$respiratory_flu_headline_figures_subtype_count <- renderText ({
+output$respiratory_flu_headline_figures_subtype_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Scotland_by_Organism_Total") %>%
-    filter(Breakdown == input$respiratory_flu_headline_subtype)
+    filter(Breakdown == input$respiratory_flu_headline_subtype) %>%
+    .$Count
 
-  organism_summary_total$Count
+  valueBox(value = organism_summary_total,
+           subtitle = glue("of {input$respiratory_flu_headline_subtype} influenza cases in Scotland during week",
+                           " {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
+                           .$DateThisWeek %>% format('%d %b %y')})"),
+           color = "teal",
+           icon = icon_no_warning_fn("virus"),
+           width = NULL)
 
 })
 
-output$respiratory_flu_headline_figures_healthboard_count <- renderText ({
+output$respiratory_flu_headline_figures_healthboard_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == "flu") %>%
-    filter(phsmethods::match_area(Breakdown) == input$respiratory_flu_headline_healthboard)
+    filter(phsmethods::match_area(Breakdown) == input$respiratory_flu_headline_healthboard) %>%
+    .$Count
 
-  organism_summary_total$Count
+  valueBox(value = organism_summary_total,
+           subtitle = glue("influenza cases in {input$respiratory_flu_headline_healthboard} during week",
+                          " {this_week_iso} (beginning {Respiratory_Summary_Totals %>%
+                             filter(FluOrNonFlu == 'flu') %>%
+                             .$DateThisWeek %>% format('%d %b %y')})"),
+           color = "teal",
+           icon = icon_no_warning_fn("virus"),
+           width = NULL)
 
 })
 

@@ -61,20 +61,8 @@ tagList(
                                                                       .$Breakdown %>% unique() %>% phsmethods::match_area()}
                                                                )  # pickerInput
                                                    ), # column
-                                            fluidRow(valueBox(value = textOutput("respiratory_flu_headline_figures_subtype_count"),
-                                                              subtitle = glue("of selected subtype influenza cases in Scotland during week
-                                                              {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                              .$DateThisWeek %>% format('%d %b %y')})"),
-                                                              color = "teal",
-                                                              icon = icon_no_warning_fn("virus"),
-                                                              width = 6),
-                                                     valueBox(value = textOutput("respiratory_flu_headline_figures_healthboard_count"),
-                                                              subtitle = glue("influenza cases in chosen healthboard during week
-                                                              {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                               .$DateThisWeek %>% format('%d %b %y')})"),
-                                                              color = "teal",
-                                                              icon = icon_no_warning_fn("virus"),
-                                                              width = 6),
+                                            fluidRow(withNavySpinner(valueBoxOutput("respiratory_flu_headline_figures_subtype_count", width=6)),
+                                                     withNavySpinner(valueBoxOutput("respiratory_flu_headline_figures_healthboard_count", width=6)),
                                                      linebreaks(8)
                                                      ) # fluidRow
                                             ) # headline
