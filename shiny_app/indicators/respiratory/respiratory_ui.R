@@ -49,26 +49,29 @@ tagList(
                                                               .$DateThisWeek %>% format('%d %b %y')})")),
                                             linebreaks(1),
                                             column(6,
-                                                   pickerInput("respiratory_flu_headline_subtype",
-                                                                     label = "Select subtype",
-                                                                       choices = {Respiratory_Summary %>%
-                                                                         filter(FluOrNonFlu == "flu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
-                                                                         .$Breakdown %>% unique()},
-                                                                     selected = "Influenza - Type A or B")
+                                                   tagList(
+                                                     pickerInput("respiratory_flu_headline_subtype",
+                                                                       label = "Select subtype",
+                                                                         choices = {Respiratory_Summary %>%
+                                                                           filter(FluOrNonFlu == "flu" & SummaryMeasure == "Scotland_by_Organism_Total") %>% arrange(Breakdown) %>%
+                                                                           .$Breakdown %>% unique() %>% as.character()},
+                                                                       selected = "Influenza - Type A or B"),
+                                                     withNavySpinner(valueBoxOutput("respiratory_flu_headline_figures_subtype_count", width = NULL))
+                                                   )
                                                    ),
                                             column(6,
-                                                   pickerInput("respiratory_flu_headline_healthboard",
-                                                                  label = "Select a healthboard",
-                                                                  choices = {Respiratory_Summary %>%
-                                                                      filter(FluOrNonFlu == "flu" & SummaryMeasure == "Healthboard_Total") %>%
-                                                                      .$Breakdown %>% unique() %>% phsmethods::match_area()}
-                                                               )  # pickerInput
+                                                   tagList(
+                                                     pickerInput("respiratory_flu_headline_healthboard",
+                                                                    label = "Select a healthboard",
+                                                                    choices = {Respiratory_Summary %>%
+                                                                        filter(FluOrNonFlu == "flu" & SummaryMeasure == "Healthboard_Total") %>%
+                                                                        .$Breakdown %>% unique() %>% phsmethods::match_area()}
+                                                                 ),  # pickerInput
+                                                     withNavySpinner(valueBoxOutput("respiratory_flu_headline_figures_healthboard_count", width = NULL))
+                                                   ) # tagList
                                                    ), # column
-                                                        linebreaks(1),
 
-                                                        withNavySpinner(valueBoxOutput("respiratory_flu_headline_figures_subtype_count", width=6)),
-                                                        withNavySpinner(valueBoxOutput("respiratory_flu_headline_figures_healthboard_count", width=6)),
-                                                        linebreaks(9)
+                                                        linebreaks(10)
                                             ) # headline
                            ), # tagList
 
@@ -117,8 +120,8 @@ tagList(
                                                        column(6, pickerInput("respiratory_select_flu_subtype",
                                                                                 label = "Select which subtype you would like to see",
                                                                                 choices = {Respiratory_AllData %>%
-                                                                                    filter(FluOrNonFlu == "flu" & !is.na(Organism)) %>%
-                                                                                    .$Organism %>% unique()},
+                                                                                    filter(FluOrNonFlu == "flu" & !is.na(Organism)) %>% arrange(Organism) %>%
+                                                                                    .$Organism %>% unique() %>% as.character()},
                                                                                 selected = "Total") # pickerInput
                                                               ) # column
                                                        ), # fluidRow
@@ -199,30 +202,33 @@ tagList(
                                    tags$div(class = "headline",
                                             h3("Number of non-influenza cases by healthboard and subtype"),
                                             h4(glue("during week {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                              .$DateThisWeek %>% format('%d %b %y')})")),
+                                                    .$DateThisWeek %>% format('%d %b %y')})")),
                                             linebreaks(1),
                                             column(6,
-                                                   pickerInput("respiratory_nonflu_headline_subtype",
-                                                               label = "Select subtype",
-                                                               choices = {Respiratory_Summary %>%
-                                                                   filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
-                                                                   .$Breakdown %>% unique()},
-                                                               selected = "Adenovirus")
+                                                   tagList(
+                                                     pickerInput("respiratory_nonflu_headline_subtype",
+                                                                 label = "Select subtype",
+                                                                 choices = {Respiratory_Summary %>%
+                                                                     filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>% arrange(Breakdown) %>%
+                                                                     .$Breakdown %>% unique() %>% as.character()},
+                                                                 selected = "Adenovirus"),
+                                                     withNavySpinner(valueBoxOutput("respiratory_nonflu_headline_figures_subtype_count", width = NULL))
+                                                   )
                                             ),
                                             column(6,
-                                                   pickerInput("respiratory_nonflu_headline_healthboard",
-                                                               label = "Select a healthboard",
-                                                               choices = {Respiratory_Summary %>%
-                                                                   filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Healthboard_Total") %>%
-                                                                   .$Breakdown %>% unique() %>% phsmethods::match_area()}
-                                                   )  # pickerInput
+                                                   tagList(
+                                                     pickerInput("respiratory_nonflu_headline_healthboard",
+                                                                 label = "Select a healthboard",
+                                                                 choices = {Respiratory_Summary %>%
+                                                                     filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Healthboard_Total") %>%
+                                                                     .$Breakdown %>% unique() %>% phsmethods::match_area()}
+                                                     ),  # pickerInput
+                                                     withNavySpinner(valueBoxOutput("respiratory_nonflu_headline_figures_healthboard_count", width = NULL))
+                                                   ) # tagList
                                             ), # column
-                                            linebreaks(1),
 
-                                            withNavySpinner(valueBoxOutput("respiratory_nonflu_headline_figures_subtype_count", width=6)),
-                                            withNavySpinner(valueBoxOutput("respiratory_nonflu_headline_figures_healthboard_count", width=6)),
-                                            linebreaks(9)
-                                   ) # headline
+                                            linebreaks(10)
+                                            ) # headline
                                    ), # tagList
 
                            fluidRow(
