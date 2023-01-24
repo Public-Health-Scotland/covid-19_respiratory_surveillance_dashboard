@@ -18,7 +18,9 @@ library(stringr)
 library(janitor)
 library(fontawesome)
 library(shinymanager)
+library(gotop)
 
+deployment_date <- lubridate::now()
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -48,8 +50,18 @@ bttn_remove <-  list(
 
 home_list<- c("About"= "about",
               "Using the dashboard"= "use",
-              "Further information"= "info",
-              "Accessibility"= "accessibility")
+              "Contact us"= "contact",
+              "Accessibility"= "accessibility",
+              "Open data" = "open_data")
+
+# Go to top button
+gotop::use_gotop(
+  src = "fas fa-chevron-circle-up", # css class from Font Awesome
+  color = navy, # color
+  opacity = 0.8, # transparency
+  width = 50, # size
+  appear = 80 # number of pixels before appearance
+)
 
 # LOAD IN DATA ----
 

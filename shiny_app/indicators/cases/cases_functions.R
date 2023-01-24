@@ -33,7 +33,7 @@ make_reported_cases_plot <- function(data){
     add_lines_and_notes(dataframe = data,
                              ycol = "NumberCasesPerDay",
                              xs= c("2022-01-06", "2022-05-01"),
-                             notes=c("From 5 Jan cases  include PCR + LFD",
+                             notes=c("From 5 Jan cases include PCR + LFD",
                                      "Change in testing policy on 1 May"),
                              colors=c(phs_colours("phs-rust"),
                                       phs_colours("phs-teal"))) %>%
