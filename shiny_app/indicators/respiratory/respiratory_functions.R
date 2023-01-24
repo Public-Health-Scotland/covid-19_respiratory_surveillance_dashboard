@@ -6,8 +6,15 @@
 # filter data by healthboard
 respiratory_filter_by_healthboard = function(data, healthboard) {
 
-  filtered_data = data %>%
-    filter(phsmethods::match_area(HealthboardCode) == healthboard)
+  if (healthboard == "Scotland"){
+    filtered_data = data %>%
+      filter(Healthboard == "Scotland")
+  } else {
+
+    filtered_data = data %>%
+      filter(phsmethods::match_area(HealthboardCode) == healthboard)
+
+  }
 
   return(filtered_data)
 
@@ -106,6 +113,39 @@ select_y_axis <- function(data, yaxis) {
 # PLOTS -----
 #############################################.
 
+# this plot makes a plot showing the rate/number of cases for each by each subtype
+make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
+
+
+  xaxis_plots[["title"]] <- "Date"
+  yaxis_plots[["title"]] <- y_axis_title
+
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
+  fig = data %>%
+    plot_ly(x = ~Date,
+            y = ~y_axis,
+            color = ~Organism,
+            textposition = "none",
+            text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
+                           "<b>Health board</b>: ", phsmethods::match_area(HealthboardCode), "\n",
+                           "<b>Subtype</b>: ", Organism, "\n",
+                           "<b>", y_axis_title, "</b>: ", format(y_axis, big.mark=",")),
+            hovertemplate = "%{text}",
+            type="scatter",
+            mode="lines",
+            colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
+    layout(yaxis = yaxis_plots,
+           xaxis = xaxis_plots,
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+
+}
+
 # this plot shows the rate/number of flu cases over the different seasons (so can easily compare differences in flu cases by season)
 make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
 
@@ -114,7 +154,7 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
   week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
 
   data = data %>%
-    select(Season, Weekord, y_axis, Week) %>%
+    select(Season, Weekord, y_axis, Week, HealthboardCode) %>%
     arrange(Season, Weekord) %>%
     mutate(Week = as.character(Week),
            Week = factor(Week, levels = week_order))
@@ -123,11 +163,17 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
 
   xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
+  yaxis_plots[["title"]] <- y_axis_title
 
 
   fig = data %>%
     plot_ly(x = ~Week,
             y = ~y_axis,
+            textposition = "none",
+            text = ~paste0("<b>Isoweek</b>: ", Week, "\n",
+                           "<b>Health board</b>: ", phsmethods::match_area(HealthboardCode), "\n",
+                           "<b>", y_axis_title, "</b>: ", format(y_axis, big.mark=",")),
+            hovertemplate = "%{text}",
             color = ~Season,
             type="scatter",
             mode="lines",
@@ -144,35 +190,12 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
 }
 
 
-# this plot makes a plot showing the rate/number of cases for each by each subtype
-make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
-
-
-  xaxis_plots[["title"]] <- "Date"
-  yaxis_plots[["title"]] <- y_axis_title
-
-  xaxis_plots[["rangeslider"]] <- list(type = "date")
-  yaxis_plots[["fixedrange"]] <- FALSE
-
-  fig = data %>%
-    plot_ly(x = ~Date,
-            y = ~y_axis,
-            color = ~Organism,
-            type="scatter",
-            mode="lines",
-            colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
-    layout(yaxis = yaxis_plots,
-           xaxis = xaxis_plots,
-           paper_bgcolor = phs_colours("phs-liberty-10"),
-           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
-    config(displaylogo = FALSE, displayModeBar = TRUE,
-           modeBarButtonsToRemove = bttn_remove)
-
-
-}
-
 # creates a plot looking at age/sex breakdowns in scotland
-age_sex_plot <- function(data, breakdown, title = NULL) {
+make_age_sex_plot <- function(data, breakdown, title = NULL) {
+
+  data %<>%
+    mutate(AgeGroup = factor(AgeGroup,
+                             levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
 
   if(breakdown == "Age") {
 
@@ -180,8 +203,14 @@ age_sex_plot <- function(data, breakdown, title = NULL) {
       plot_ly(x= ~AgeGroup,
               y= ~Rate,
               size = ~Rate,
-              marker = list(opacity = 0.5, sizemode = 'diameter',
+              name = "Cases",
+              marker = list(opacity = 0.8, sizemode = 'diameter',
                             color = phs_colours("phs-teal")),
+              textposition = "none",
+              text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
+                             "<b>Age group</b>: ", AgeGroup, "\n",
+                             "<b>Rate per 100,000</b>: ", format(Rate, big.mark=",")),
+              hovertemplate = "%{text}",
               type = 'scatter',
               mode = 'markers') %>%
       layout(yaxis = list(title = "Rate per 100,000",
@@ -202,8 +231,13 @@ age_sex_plot <- function(data, breakdown, title = NULL) {
       plot_ly(x= ~Sex,
               y= ~Rate,
               color = ~Sex,
+              textposition = "none",
+              text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
+                             "<b>Sex</b>: ", Sex, "\n",
+                             "<b>Rate per 100,000</b>: ", format(Rate, big.mark=",")),
+              hovertemplate = "%{text}",
               type = 'bar',
-              colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
+              colors = phs_colours(c('phs-teal', 'phs-teal-50'))) %>%
       layout(yaxis = list(title = "Rate per 100,000",
                           tickfont = list(size=14),
                           titlefont = list(size=18),
@@ -225,7 +259,13 @@ age_sex_plot <- function(data, breakdown, title = NULL) {
               y= ~Rate,
               color = ~Sex,
               type = 'bar',
-              colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
+              textposition = "none",
+              text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
+                             "<b>Sex</b>: ", Sex, "\n",
+                             "<b>Age group</b>: ", AgeGroup, "\n",
+                             "<b>Rate per 100,000</b>: ", format(Rate, big.mark=",")),
+              hovertemplate = "%{text}",
+              colors = phs_colours(c("phs-teal", "phs-teal-50"))) %>%
       layout(yaxis = list(title = "Rate per 100,000",
                           tickfont = list(size=14),
                           titlefont = list(size=18),

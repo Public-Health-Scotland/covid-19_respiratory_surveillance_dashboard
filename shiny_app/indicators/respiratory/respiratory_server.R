@@ -99,7 +99,7 @@ output$respiratory_flu_age_sex_plot = renderPlotly({
     filter_by_sex_age(., season = input$respiratory_flu_season,
                       date = {input$respiratory_flu_date %>% as.Date(format="%d %b %y")},
                       breakdown = input$respiratory_flu_select_age_sex_breakdown) %>%
-    age_sex_plot(., breakdown = input$respiratory_flu_select_age_sex_breakdown)
+    make_age_sex_plot(., breakdown = input$respiratory_flu_select_age_sex_breakdown)
 
 })
 
@@ -203,7 +203,7 @@ output$respiratory_nonflu_age_sex_plot = renderPlotly({
     filter_by_sex_age(., season = input$respiratory_nonflu_season,
                       date = {input$respiratory_nonflu_date %>% as.Date(format="%d %b %y")},
                       breakdown = input$respiratory_nonflu_select_age_sex_breakdown) %>%
-    age_sex_plot(., breakdown = input$respiratory_nonflu_select_age_sex_breakdown)
+    make_age_sex_plot(., breakdown = input$respiratory_nonflu_select_age_sex_breakdown)
 
 })
 

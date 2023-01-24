@@ -84,8 +84,8 @@ tagList(
                            fluidRow(
                              column(6, pickerInput("respiratory_flu_select_healthboard",
                                                       label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
-                                                      choices = {Respiratory_AllData %>%
-                                                          filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique() %>% phsmethods::match_area()}
+                                                      choices = c("Scotland", {Respiratory_AllData %>%
+                                                          filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique() %>% phsmethods::match_area()})
                                                    ) # pickerInput
                                     ), # column
                              column(6, pickerInput("respiratory_flu_y_axis_plots",
@@ -164,8 +164,7 @@ tagList(
                                                      ) # tagList
                                                    ), # tabPanel
                                           tabPanel("Data")
-                                          ), # tabbox
-                                   linebreaks(2)
+                                          ) # tabbox
                                    ) # tagList
                            ),
 
@@ -297,12 +296,15 @@ tagList(
                                                      # altTextUI(""),
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_age_sex_plot")))),
                                           tabPanel("Data")),
-                                   linebreaks(2)
+                                   linebreaks(5)
                                    ) # tabPanel
                                    ) # tabbox
                                    )
                            )
-  )
+  ),
 
+  # Padding out the bottom of the page
+  fluidRow(
+    width=12, linebreaks(5))
 
 )
