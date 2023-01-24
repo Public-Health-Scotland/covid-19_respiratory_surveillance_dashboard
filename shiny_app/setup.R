@@ -105,8 +105,8 @@ flu_icon_headline <- Respiratory_Summary_Totals %>%
                           PercentageDifference == 0 ~ "equals"))
 
 # respiratory isoweeks
-this_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$WeekBeginningThisWeek[1])
-prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$WeekBeginningPreviousWeek[1])
+this_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DateThisWeek[1])
+prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DatePreviousWeek[1])
 
 
 

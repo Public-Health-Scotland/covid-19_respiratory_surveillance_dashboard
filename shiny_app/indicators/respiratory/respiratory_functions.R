@@ -66,10 +66,10 @@ filter_over_time_plot_function <- function(data, healthboard) {
 
 }
 
-filter_by_sex_age = function(data, season, weekno, breakdown) {
+filter_by_sex_age = function(data, season, date, breakdown) {
 
   filtered_data <- data %>%
-    filter(Season == season & WeekBeginning == weekno)
+    filter(Season == season & Date == date)
 
   if(breakdown == "Age") {
 
@@ -153,7 +153,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
   yaxis_plots[["fixedrange"]] <- FALSE
 
   fig = data %>%
-    plot_ly(x = ~WeekBeginning,
+    plot_ly(x = ~Date,
             y = ~y_axis,
             color = ~Organism,
             type="scatter",

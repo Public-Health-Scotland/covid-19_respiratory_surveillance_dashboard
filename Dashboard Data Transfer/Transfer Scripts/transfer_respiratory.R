@@ -2,22 +2,18 @@
 # Sourced from ../dashboard_data_transfer.R
 
 ##### Respiratory
-
 get_resp_year <- function(w, s){
   year <- case_when(w < 14 ~ paste0("20", substr(s, 3, 4)),
                     w >= 14 ~ paste0("20", substr(s, 6, 7)) ) %>%
-                      as.numeric()
-
+    as.numeric()
   return(year)
 }
-
 filenames <- c("scotland", "agegp_sex", "agegp", "sex", "hb")
 
 ## Getting respiratory data
 for (filename in filenames){
   assign(glue("i_respiratory_{filename}_agg"), read_csv_with_options(glue("{input_data}/{filename}_agg.csv")))
 }
-
 
 ##  create dictionaries so we can make new column names with meaningful data for user
 flu <- c("fluaorb", "h1n1", "typea", "typeah3", "typeb", "unknowna")
@@ -63,27 +59,37 @@ for(filename in filenames) {
                                   TRUE ~ NA_character_))
 
   if(filename == "scotland"){
+
     df1 %<>% mutate(scotland_by_organism_flag = 1,
                     organism = recode(pathogen, !!!organism, .default = NA_character_),
                     HealthBoard = "Scotland",
                     breakdown = "Scotland")
+
   } else if (filename == "agegp_sex") {
+
     df1 %<>% mutate(scotland_by_organism_age_sex_flag = 1,
                     organism = recode(pathogen, !!!organism, .default = NA_character_),
                     breakdown = paste0(agegp,"_",sex))
+
   } else if (filename == "agegp"){
+
     df1 %<>% mutate(scotland_by_organism_age_flag = 1,
                     breakdown = agegp)
+
   } else if (filename == "sex") {
+
     df1 %<>% mutate(scotland_by_organism_sex_flag = 1,
                     organism = recode(pathogen, !!!organism, .default = NA_character_),
                     breakdown = sex)
+
   } else if (filename == "hb") {
+
     df1 %<>% mutate(organism_by_hb_flag = 1,
                     organism = recode(pathogen, !!!organism, .default = NA_character_),
                     HealthboardCode = recode(HealthBoard, !!!healthboards, .default = NA_character_),
                     breakdown = HealthboardCode) %>%
       filter(!is.na(HealthBoard))
+
   }
 
   assign(glue("{filename}_agg"), df1)
@@ -100,39 +106,40 @@ for(filename in filenames) {
            rateQF = "d")
 
   if(filename == "scotland"){
+
     df2 %<>% mutate(total_number_flag = 1,
                     HealthBoard = "Scotland")
+
   } else if (filename == "agegp_sex") {
+
     df2 %<>% mutate(scotland_by_age_sex_flag = 1,
                     agegp = sub("_.*", "", breakdown),
                     sex = sub(".*_", "", breakdown))
+
   } else if (filename == "agegp"){
+
     df2 %<>% mutate(scotland_by_age_flag = 1,
                     agegp = breakdown)
+
   } else if (filename == "sex") {
+
     df2 %<>% mutate(scotland_by_sex_flag = 1,
                     sex = breakdown)
+
   } else if (filename == "hb") {
+
     df2 %<>% mutate( hb_flag = 1,
                      HealthboardCode = breakdown)
+
   }
-
-
-
   # 3. scotland_flu_total, ...
-
   df3 <- df2 %>% filter(flu_nonflu == "flu")
-
   df4 <- df2 %>% filter(flu_nonflu == "nonflu")
-
 
   assign(glue("{filename}_flu_total"), df3)
   assign(glue("{filename}_non_flu_total"), df4)
 
-
-
 }
-
 
 g_resp_data <- bind_rows(
   scotland_agg,
@@ -152,55 +159,58 @@ g_resp_data <- bind_rows(
   hb_flu_total) %>%
   mutate(count = as.numeric(count),
          agegp = factor(agegp,
-                        levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")),
-         HealthboardCode = ifelse(HealthBoard == "Scotland", "S92000003", HealthboardCode)) %>%
-  dplyr::rename(Count = count,
-                Season = season,
-                Weekord = weekord,
+                        levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+"))
+        ) %>%
+  dplyr::rename(Season = season,
+                Pathogen = pathogen,
                 Week = week,
+                Weekord = weekord,
+                Count = count,
                 Measure = measure,
                 Population = pop,
                 Rate = rate,
-                WeekBeginning = date,
+                Year = year,
+                Date = date,
                 FluOrNonFlu = flu_nonflu,
                 Organism = organism,
+                BreakDown = breakdown,
                 Healthboard = HealthBoard,
                 AgeGroup = agegp,
                 Sex = sex,
                 HealthboardCode = HealthboardCode,
                 CountQF = countQF,
                 RateQF = rateQF) %>%
-  select(Season, WeekBeginning, Weekord, Week, FluOrNonFlu, Organism, Measure, AgeGroup, Sex, Count, CountQF, Population, Rate, RateQF,
-         HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
+  select(Season, Date, Week, Year, Weekord, Measure, FluOrNonFlu, Organism, BreakDown, Healthboard, AgeGroup, Sex, Count, CountQF, Rate, RateQF,
+         Population,Pathogen, HealthboardCode, total_number_flag, scotland_by_age_flag, scotland_by_sex_flag, scotland_by_age_sex_flag, hb_flag,
          scotland_by_organism_flag, scotland_by_organism_age_sex_flag, scotland_by_organism_age_flag, scotland_by_organism_sex_flag,
          organism_by_hb_flag)
 
 #### Create Summary Table
-
 sequence = c("PreviousWeek", "PreviousWeek", "ThisWeek", "ThisWeek")
+
 # get total flu and non-flu cases
 g_resp_summary_totals <- g_resp_data %>%
   filter(total_number_flag == 1) %>%
-  arrange(WeekBeginning) %>%
+  arrange(Date) %>%
   tail(4) %>%
   mutate(Breakdown = "Scotland Total") %>%
   bind_cols(., sequence) %>%
-  rename(ReportingWeek = names(.)[ncol(.)]) %>%
-  select(ReportingWeek, WeekBeginning, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
-  pivot_wider(., names_from = c("ReportingWeek"), values_from = c("Count", "WeekBeginning", "Rate")) %>%
+  rename(ReportingWeek = "...31") %>%
+  select(ReportingWeek, Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
+  pivot_wider(., names_from = c("ReportingWeek"), values_from = c("Count", "Date", "Rate")) %>%
   dplyr::rename(CountPreviousWeek = Count_PreviousWeek,
                 CountThisWeek = Count_ThisWeek,
                 RatePreviousWeek = Rate_PreviousWeek,
                 RateThisWeek = Rate_ThisWeek,
-                WeekBeginningPreviousWeek = WeekBeginning_PreviousWeek,
-                WeekBeginningThisWeek = WeekBeginning_ThisWeek) %>%
+                DatePreviousWeek = Date_PreviousWeek,
+                DateThisWeek = Date_ThisWeek) %>%
   mutate(Difference = CountThisWeek-CountPreviousWeek,
          PercentageDifference = round((Difference/CountPreviousWeek)*100, 0),
          ChangeFactor = case_when(PercentageDifference < 0 ~ "decrease",
                                   PercentageDifference > 0 ~ "increase",
                                   PercentageDifference == 0 ~ "no change")) %>%
   mutate(SummaryMeasure = "Scotland_Total") %>% select(
-    WeekBeginningThisWeek, WeekBeginningPreviousWeek,
+    DateThisWeek, DatePreviousWeek,
     Breakdown, FluOrNonFlu,
     CountThisWeek, CountPreviousWeek,  CountQF,
     RateThisWeek, RatePreviousWeek, RateQF,
@@ -211,31 +221,34 @@ g_resp_summary <- bind_rows(
 
   g_resp_data %>%
     filter(scotland_by_organism_flag == 1) %>%
-    arrange(desc(WeekBeginning)) %>%
+    arrange(desc(Date)) %>%
     group_by(Organism) %>%
-    filter(WeekBeginning == max(WeekBeginning)) %>%
+    filter(Date == max(Date)) %>%
     ungroup() %>%
-    filter(WeekBeginning == max(WeekBeginning)) %>%
+    filter(Date == max(Date)) %>%
     mutate(Breakdown = Organism) %>%
-    select(WeekBeginning, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
+    select(Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
     mutate(SummaryMeasure = "Scotland_by_Organism_Total"),
 
   g_resp_data %>%
     filter(hb_flag == 1) %>%
-    arrange(desc(WeekBeginning)) %>%
+    arrange(desc(Date)) %>%
     group_by(HealthboardCode) %>%
-    filter(WeekBeginning == max(WeekBeginning)) %>%
+    filter(Date == max(Date)) %>%
     ungroup() %>%
-    filter(WeekBeginning == max(WeekBeginning)) %>%
+    filter(Date == max(Date)) %>%
     mutate(Breakdown = HealthboardCode) %>%
-    select(WeekBeginning, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
+    select(Date, Count, CountQF, Rate, RateQF, Breakdown, FluOrNonFlu) %>%
     mutate(SummaryMeasure = "Healthboard_Total")
+
 ) %>% select(
-  WeekBeginning,
+  Date,
   Breakdown, FluOrNonFlu,
   Count,  CountQF,
   Rate, RateQF,
   SummaryMeasure)
+
+g_resp_data %<>% mutate(HealthboardCode = ifelse(HealthBoard == "Scotland", "S92000003", HealthboardCode))
 
 # Checks on aggregated data
 source("Transfer Scripts/respiratory_checks.R")
@@ -244,7 +257,6 @@ source("Transfer Scripts/respiratory_checks.R")
 write_csv(g_resp_data, glue(output_folder, "Respiratory_AllData.csv"))
 write_csv(g_resp_summary_totals, glue(output_folder, "Respiratory_Summary_Totals.csv"))
 write_csv(g_resp_summary, glue(output_folder, "Respiratory_Summary.csv"))
-
 
 # remove all data
 rm(i_respiratory_scotland_agg, i_respiratory_agegp_agg,
@@ -267,13 +279,4 @@ rm(hb_checks_this_week, agegp_checks_this_week, sex_checks_this_week, agegp_sex_
    sex_colnames_match,
    agegp_colnames_match,
    agegp_sex_colnames_match)
-
 rm(g_resp_data, g_resp_summary, g_resp_summary_totals)
-
-
-
-
-
-
-
-

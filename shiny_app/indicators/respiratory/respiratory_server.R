@@ -59,8 +59,8 @@ observeEvent(input$respiratory_flu_select_healthboard,
 observeEvent(input$respiratory_flu_season,
              {
                updatePickerInput(session, inputId = "respiratory_flu_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_flu_season) %>%.$WeekBeginning %>% unique()},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_flu_season) %>%.$WeekBeginning %>% max()})
+                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_flu_season) %>% .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_flu_season) %>% .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
 
              }
 )
@@ -96,7 +96,9 @@ output$respiratory_flu_age_sex_plot = renderPlotly({
 
   Respiratory_AllData %>%
     filter(FluOrNonFlu == "flu") %>%
-    filter_by_sex_age(., season = input$respiratory_flu_season, weekno = input$respiratory_flu_date, breakdown = input$respiratory_flu_select_age_sex_breakdown) %>%
+    filter_by_sex_age(., season = input$respiratory_flu_season,
+                      date = {input$respiratory_flu_date %>% as.Date(format="%d %b %y")},
+                      breakdown = input$respiratory_flu_select_age_sex_breakdown) %>%
     age_sex_plot(., breakdown = input$respiratory_flu_select_age_sex_breakdown)
 
 })
@@ -163,12 +165,11 @@ observeEvent(input$respiratory_nonflu_select_healthboard,
 observeEvent(input$respiratory_nonflu_season,
              {
                updatePickerInput(session, inputId = "respiratory_nonflu_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_nonflu_season) %>%.$WeekBeginning %>% unique()},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_nonflu_season) %>%.$WeekBeginning %>% max()})
+                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_nonflu_season) %>% .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_nonflu_season) %>% .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
 
              }
 )
-
 
 # make trend over time plot. Plot shows the rate/number of flu cases by subtype over time for the whole dataset.
 output$respiratory_nonflu_over_time_plot <- renderPlotly({
@@ -199,10 +200,13 @@ output$respiratory_nonflu_age_sex_plot = renderPlotly({
 
   Respiratory_AllData %>%
     filter(FluOrNonFlu == "nonflu") %>%
-    filter_by_sex_age(., season = input$respiratory_nonflu_season, weekno = input$respiratory_nonflu_date, breakdown = input$respiratory_nonflu_select_age_sex_breakdown) %>%
+    filter_by_sex_age(., season = input$respiratory_nonflu_season,
+                      date = {input$respiratory_nonflu_date %>% as.Date(format="%d %b %y")},
+                      breakdown = input$respiratory_nonflu_select_age_sex_breakdown) %>%
     age_sex_plot(., breakdown = input$respiratory_nonflu_select_age_sex_breakdown)
 
 })
+
 
 
 

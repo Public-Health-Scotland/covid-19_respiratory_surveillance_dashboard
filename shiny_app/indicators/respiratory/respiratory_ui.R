@@ -21,14 +21,14 @@ tagList(
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
                                                 .$CountThisWeek},
                                                      subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                                        .$WeekBeginningThisWeek %>% format('%d %b %y')}"),
+                                                                        .$DateThisWeek %>% format('%d %b %y')}"),
                                                      color = "purple",
                                                      icon = icon_no_warning_fn("calendar-week")),
                                             # previous week total number
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
                                                 .$CountPreviousWeek},
                                                 subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                                  .$WeekBeginningPreviousWeek %>% format('%d %b %y')}"),
+                                                                  .$DatePreviousWeek %>% format('%d %b %y')}"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # percentage difference between the previous weeks
@@ -64,14 +64,14 @@ tagList(
                                             fluidRow(valueBox(value = textOutput("respiratory_flu_headline_figures_subtype_count"),
                                                               subtitle = glue("of selected subtype influenza cases in Scotland during week
                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                              .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
+                                                              .$DateThisWeek %>% format('%d %b %y')})"),
                                                               color = "blue",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
                                                      valueBox(value = textOutput("respiratory_flu_headline_figures_healthboard_count"),
                                                               subtitle = glue("influenza cases in chosen healthboard during week
                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                               .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
+                                                               .$DateThisWeek %>% format('%d %b %y')})"),
                                                               color = "green",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
@@ -150,8 +150,8 @@ tagList(
                                                               ),
                                                        column(4, pickerInput("respiratory_flu_date",
                                                                                 label = "Select date",
-                                                                                choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>%.$WeekBeginning %>% unique()},
-                                                                                selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%.$WeekBeginning %>% max()})
+                                                                                choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+                                                                                selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
                                                               ),
                                                        column(4, pickerInput("respiratory_flu_select_age_sex_breakdown",
                                                                                 label = "Select the plot breakdown",
@@ -178,14 +178,14 @@ tagList(
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                                 .$CountThisWeek},
                                                 subtitle = glue("Figures from week {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
+                                                                .$DateThisWeek %>% format('%d %b %y')})"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # previous week total number
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                                 .$CountPreviousWeek},
                                                 subtitle = glue("Figures from week {prev_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                .$WeekBeginningPreviousWeek %>% format('%d %b %y')})"),
+                                                                .$DatePreviousWeek %>% format('%d %b %y')})"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # percentage difference between the previous weeks
@@ -202,14 +202,14 @@ tagList(
                                    tags$div(class = "headline",
                                             h3("Number of non-influenza cases by healthboard and subtype"),
                                             column(6,
-                                                   selectizeInput("respiratory_nonflu_headline_subtype",
+                                                   pickerInput("respiratory_nonflu_headline_subtype",
                                                                   label = "Select subtype",
                                                                   choices = {Respiratory_Summary %>%
                                                                       filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
                                                                       .$Breakdown %>%  unique()},
                                                                   selected = "Adenovirus")),
                                             column(6,
-                                                   selectizeInput("respiratory_nonflu_headline_healthboard",
+                                                   pickerInput("respiratory_nonflu_headline_healthboard",
                                                                   label = "Select a healthboard",
                                                                   choices = {Respiratory_Summary %>%
                                                                       filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Healthboard_Total") %>%
@@ -217,14 +217,14 @@ tagList(
                                             fluidRow(valueBox(value = textOutput("respiratory_nonflu_headline_figures_subtype_count"),
                                                               subtitle = glue("of selected subtype influenza cases in Scotland during week
                                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                              .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
+                                                                              .$DateThisWeek %>% format('%d %b %y')})"),
                                                               color = "blue",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
                                                      valueBox(value = textOutput("respiratory_nonflu_headline_figures_healthboard_count"),
                                                               subtitle = glue("non-influenza cases in chosen healthboard during week
                                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                              .$WeekBeginningThisWeek %>% format('%d %b %y')})"),
+                                                                              .$DateThisWeek %>% format('%d %b %y')})"),
                                                               color = "green",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
@@ -232,7 +232,7 @@ tagList(
 
                            # select healthboard and rate/number for plots and data
                            fluidRow(
-                             column(6, selectizeInput("respiratory_nonflu_select_healthboard",
+                             column(6, pickerInput("respiratory_nonflu_select_healthboard",
                                                       label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
                                                       choices = c("Scotland", {Respiratory_AllData %>% filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique()}))),
                              column(6, pickerInput("respiratory_nonflu_y_axis_plots",
@@ -261,7 +261,7 @@ tagList(
                                                      linebreaks(1),
                                                      # adding selection for flu subtype
                                                      fluidRow(
-                                                       column(6, selectizeInput("respiratory_select_nonflu_subtype",
+                                                       column(6, pickerInput("respiratory_select_nonflu_subtype",
                                                                                 label = "Select which subtype you would like to see",
                                                                                 choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu" & !is.na(Organism)) %>% .$Organism %>% unique()},
                                                                                 selected = "Total"))),
@@ -283,12 +283,12 @@ tagList(
                                                                              choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu") %>% .$Season %>% unique()},
                                                                              selected = "2022/23")
                                                               ),
-                                                       column(4, selectizeInput("respiratory_nonflu_date",
+                                                       column(4, pickerInput("respiratory_nonflu_date",
                                                                                 label = "Select date",
-                                                                                choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>%.$WeekBeginning %>% unique()},
-                                                                                selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%.$WeekBeginning %>% max()})
+                                                                                choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% as.Date() %>% unique() },
+                                                                                selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% as.Date() %>% max()})
                                                               ),
-                                                       column(4, selectizeInput("respiratory_nonflu_select_age_sex_breakdown",
+                                                       column(4, pickerInput("respiratory_nonflu_select_age_sex_breakdown",
                                                                                 label = "Select the plot breakdown",
                                                                                 choices = c("Age", "Sex", "Age + Sex"),
                                                                                 selected = "Age")
