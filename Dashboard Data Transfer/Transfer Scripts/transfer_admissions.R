@@ -206,7 +206,11 @@ write.csv(g_adm_agegroup, glue(output_folder, "Admissions_AgeGrp.csv"), row.name
 
 g_simd_trend <- i_simd_trend %>%
   dplyr::rename(WeekEnding = date, NumberOfAdmissions = Total, SIMD = simd, ProvisionalOrStable = provisional) %>%
-  mutate(WeekEnding = format(as.Date(WeekEnding), "%Y%m%d"))
+  mutate(ProvisionalFlag = case_when(
+         WeekEnding > (report_date-10) ~ 1,
+        TRUE ~ 0),
+        WeekEnding = format(as.Date(WeekEnding), "%Y%m%d")) %>%
+  select(-(ProvisionalOrStable))
 
 write_csv(g_simd_trend, glue(output_folder, "Admissions_SimdTrend.csv"))
 

@@ -22,7 +22,7 @@ vaccines_download_choices <- list(
 )
 
 choices_list <- list("COVID-19 cases" = names(cases_download_choices),
-                     "COVID-19 hospital admissions" = names(hospital_admissions_download_choices),
+                     "Acute COVID-19 hospital admissions" = names(hospital_admissions_download_choices),
                      "COVID-19 hospital occupancy" = names(hospital_occupancy_download_choices),
                      "Vaccine wastage" = names(vaccines_download_choices))
 

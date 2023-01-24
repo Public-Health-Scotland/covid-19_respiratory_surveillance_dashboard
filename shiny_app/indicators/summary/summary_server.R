@@ -68,8 +68,8 @@ output$reported_cases_infobox <- renderInfoBox({
 #### Hospital admissions ----
 
 output$admissions_infobox <- renderInfoBox({
-  infoBox(title=h5("Admissions", summaryButtonUI("admissions",
-                                              "COVID-19 hospital admissions",
+  infoBox(title=h5("Acute admissions", summaryButtonUI("admissions",
+                                              "Acute COVID-19 hospital admissions",
                                               paste("An admission to hospital where the patient had a first positive PCR from 14 days prior to",
                                                     "admission up to two days following admission. This includes reinfections which are 90 days or",
                                                     "more since their last positive test. This only includes emergency admissions to medical or",
