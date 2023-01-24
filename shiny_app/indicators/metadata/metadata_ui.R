@@ -222,22 +222,22 @@ tagList(h1("Metadata"),
                                    p(strong("Source: NHS Boards"))),
 
 
-                   #### VACCINE WASTAGE PANEL ----
-                   bsCollapsePanel("Vaccine wastage",
-
-                                   # Vaccine wastage ----
-                                   h4("COVID-19 vaccine wastage"),
-                                   p("Given the scale of the Covid-19 vaccination programme, some vaccine wastage has been unavoidable for a variety of reasons including logistical issues,
-                                     storage failure and specific clinical situations."),
-                                   p("The initial planning assumption for the vaccination programme was that there would be around 5% vaccine wastage."),
-                                   p(strong("Source: NSS Service Now wastage form")),
-                                   br(),
-                                   p("Please note:"),
-                                   tags$li("Percent wasted is calculated as (Number of Doses Wasted x 100) / (Number of Doses Wasted + Administered)"),
-                                   tags$li("The vaccine wastage form is populated by health board clinicians which can impact the timeliness and accuracy of the data."),
-                                   tags$li("Data excludes GP practice information and wastage from clinical trials."),
-                                   tags$li("Excess stock is defined: Where a vaccination team reach the end of an allotted shift or job, and have surplus vaccines that cannot be returned to stock,
-                                           or used before it expires. This includes any unused doses in opened vials at the end of a clinic.")),
+                   # #### VACCINE WASTAGE PANEL ----
+                   # bsCollapsePanel("Vaccine wastage",
+                   #
+                   #                 # Vaccine wastage ----
+                   #                 h4("COVID-19 vaccine wastage"),
+                   #                 p("Given the scale of the Covid-19 vaccination programme, some vaccine wastage has been unavoidable for a variety of reasons including logistical issues,
+                   #                   storage failure and specific clinical situations."),
+                   #                 p("The initial planning assumption for the vaccination programme was that there would be around 5% vaccine wastage."),
+                   #                 p(strong("Source: NSS Service Now wastage form")),
+                   #                 br(),
+                   #                 p("Please note:"),
+                   #                 tags$li("Percent wasted is calculated as (Number of Doses Wasted x 100) / (Number of Doses Wasted + Administered)"),
+                   #                 tags$li("The vaccine wastage form is populated by health board clinicians which can impact the timeliness and accuracy of the data."),
+                   #                 tags$li("Data excludes GP practice information and wastage from clinical trials."),
+                   #                 tags$li("Excess stock is defined: Where a vaccination team reach the end of an allotted shift or job, and have surplus vaccines that cannot be returned to stock,
+                   #                         or used before it expires. This includes any unused doses in opened vials at the end of a clinic.")),
 
              #### RESPIRATORY PANEL
              bsCollapsePanel("Respiratory",
