@@ -26,7 +26,7 @@ output$introduction_about <- renderUI({
                                                     "https://www.gov.scot/coronavirus-covid-19/.")),
           p("Note that some numbers may not sum to the total as disclosure control methods have been applied
             to the data in order to protect patient confidentiality."),
-          p(glue("This dashboard was last updated at {deployment_date}")),
+          p(glue("This dashboard was last updated at {Deployment_Date}")),
           br(),
 
           fluidRow(

@@ -20,8 +20,6 @@ library(fontawesome)
 library(shinymanager)
 library(gotop)
 
-deployment_date <- lubridate::now()
-
 # Load core functions ----
 source("functions/core_functions.R")
 
