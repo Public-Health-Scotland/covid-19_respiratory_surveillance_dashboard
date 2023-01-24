@@ -2,12 +2,6 @@
 
 # headline figures
 
-output$respiratory_flu_headline_figures_subtype <- renderText ({
-
-  input$respiratory_flu_headline_subtype
-
-})
-
 output$respiratory_flu_headline_figures_subtype_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_Summary %>%
@@ -16,7 +10,7 @@ output$respiratory_flu_headline_figures_subtype_count <- renderValueBox ({
     .$Count
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("of {input$respiratory_flu_headline_subtype} influenza cases in Scotland during week",
+           subtitle = glue("of {input$respiratory_flu_headline_subtype} cases in Scotland during week",
                            " {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                            .$DateThisWeek %>% format('%d %b %y')})"),
            color = "teal",
@@ -123,31 +117,41 @@ output$respiratory_flu_age_sex_plot = renderPlotly({
 
 # headline figures
 
-output$respiratory_nonflu_headline_figures_subtype <- renderText ({
-
-  input$respiratory_nonflu_headline_subtype
-
-})
-
-output$respiratory_nonflu_headline_figures_subtype_count <- renderText ({
+output$respiratory_nonflu_headline_figures_subtype_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Scotland_by_Organism_Total") %>%
-    filter(Breakdown == input$respiratory_nonflu_headline_subtype)
+    filter(Breakdown == input$respiratory_nonflu_headline_subtype) %>%
+    .$Count
 
-  organism_summary_total$Count
+  valueBox(value = organism_summary_total,
+           subtitle = glue("of {input$respiratory_nonflu_headline_subtype} cases in Scotland during week",
+                           " {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
+                           .$DateThisWeek %>% format('%d %b %y')})"),
+           color = "teal",
+           icon = icon_no_warning_fn("virus"),
+           width = NULL)
 
-})
+  })
 
-output$respiratory_nonflu_headline_figures_healthboard_count <- renderText ({
+output$respiratory_nonflu_headline_figures_healthboard_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == "nonflu") %>%
-    filter(Breakdown == input$respiratory_nonflu_headline_healthboard)
+    filter(phsmethods::match_area(Breakdown) == input$respiratory_nonflu_headline_healthboard) %>%
+    .$Count
 
-  organism_summary_total$Count
+  valueBox(value = organism_summary_total,
+           subtitle = glue("non-influenza cases in {input$respiratory_nonflu_headline_healthboard} during week",
+                           " {this_week_iso} (beginning {Respiratory_Summary_Totals %>%
+                           filter(FluOrNonFlu == 'flu') %>%
+                           .$DateThisWeek %>% format('%d %b %y')})"),
+           color = "teal",
+           icon = icon_no_warning_fn("virus"),
+           width = NULL)
 
-})
+  })
+
 
 # selecting input for seeing rate or number for plots
 # only show rates if healthboards are there but can show number of cases for scotland
