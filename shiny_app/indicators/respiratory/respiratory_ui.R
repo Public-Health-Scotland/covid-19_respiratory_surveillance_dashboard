@@ -170,21 +170,22 @@ tagList(
 
                   ###### NON FLU PANEL ############
                   tabPanel("Non-influenza",
+                           # headline figures for non-influenza in the week in Scotland
                            tagList(h4("Number of non-influenza cases in Scotland"),
                                    tags$div(class = "headline",
                                             h3("Total number of non-influenza cases in Scotland over the last two weeks"),
                                             # this week total number
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                                 .$CountThisWeek},
-                                                subtitle = glue("Figures from week {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                .$DateThisWeek %>% format('%d %b %y')})"),
+                                                subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                                                                .$DateThisWeek %>% format('%d %b %y')}"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # previous week total number
                                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                                 .$CountPreviousWeek},
-                                                subtitle = glue("Figures from week {prev_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                                .$DatePreviousWeek %>% format('%d %b %y')})"),
+                                                subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                                                                .$DatePreviousWeek %>% format('%d %b %y')}"),
                                                 color = "purple",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             # percentage difference between the previous weeks
@@ -195,26 +196,30 @@ tagList(
                                                      color = "purple",
                                                      icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == "nonflu") %>%
                                                          .$icon})),
-                                            linebreaks(8)),
+                                            linebreaks(8)
+                                            ), # headline
 
                                    # headline figures for the week by subtype (scotland totals) and healthboard
                                    tags$div(class = "headline",
                                             h3("Number of non-influenza cases by healthboard and subtype"),
                                             column(6,
                                                    pickerInput("respiratory_nonflu_headline_subtype",
-                                                                  label = "Select subtype",
-                                                                  choices = {Respiratory_Summary %>%
-                                                                      filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
-                                                                      .$Breakdown %>%  unique()},
-                                                                  selected = "Adenovirus")),
+                                                               label = "Select subtype",
+                                                               choices = {Respiratory_Summary %>%
+                                                                   filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
+                                                                   .$Breakdown %>% unique()},
+                                                               selected = "Influenza - Type A or B")
+                                            ),
                                             column(6,
                                                    pickerInput("respiratory_nonflu_headline_healthboard",
-                                                                  label = "Select a healthboard",
-                                                                  choices = {Respiratory_Summary %>%
-                                                                      filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Healthboard_Total") %>%
-                                                                      .$Breakdown %>%  unique()})),
+                                                               label = "Select a healthboard",
+                                                               choices = {Respiratory_Summary %>%
+                                                                   filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Healthboard_Total") %>%
+                                                                   .$Breakdown %>% unique() %>% phsmethods::match_area()}
+                                                   )  # pickerInput
+                                            ), # column
                                             fluidRow(valueBox(value = textOutput("respiratory_nonflu_headline_figures_subtype_count"),
-                                                              subtitle = glue("of selected subtype influenza cases in Scotland during week
+                                                              subtitle = glue("of selected subtype non-influenza cases in Scotland during week
                                                                               {this_week_iso} (w/c {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
                                                                               .$DateThisWeek %>% format('%d %b %y')})"),
                                                               color = "blue",
@@ -227,19 +232,27 @@ tagList(
                                                               color = "green",
                                                               icon = icon_no_warning_fn("virus"),
                                                               width = 6),
-                                                     linebreaks(8)))),
+                                                     linebreaks(8)
+                                                     ) # fluidRow
+                                            ) # headline
+                                   ), # tagList
 
                            # select healthboard and rate/number for plots and data
                            fluidRow(
                              column(6, pickerInput("respiratory_nonflu_select_healthboard",
-                                                      label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
-                                                      choices = c("Scotland", {Respiratory_AllData %>% filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique()}))),
+                                                   label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
+                                                   choices = c("Scotland", {Respiratory_AllData %>%
+                                                       filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique() %>% phsmethods::match_area()})
+                             ) # pickerInput
+                             ), # column
                              column(6, pickerInput("respiratory_nonflu_y_axis_plots",
                                                    label = "Select whether you would like to see flu rates or total number of cases",
                                                    choices = c("Number of cases", "Rate per 100,000"),
-                                                   selected = "Number of cases")),
+                                                   selected = "Number of cases") # pickerInput
+                             ) # column
+                           ),
 
-                           # plot and data for Influenza cases by subtype over time
+                           # plot and data for Non-influenza cases by subtype over time
                            tagList(h3("Non-influenza cases over time by subtype"),
 
                                    tabBox(width = NULL,
@@ -249,7 +262,9 @@ tagList(
                                                      linebreaks(1),
                                                      # altTextUI(""),
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_over_time_plot")))),
-                                          tabPanel("Data"))),
+                                          tabPanel("Data")
+                                   ) # tabbox
+                           ), # taglist
 
                            tagList(h3("Non-influenza cases over time by season"),
 
@@ -261,14 +276,22 @@ tagList(
                                                      # adding selection for flu subtype
                                                      fluidRow(
                                                        column(6, pickerInput("respiratory_select_nonflu_subtype",
-                                                                                label = "Select which subtype you would like to see",
-                                                                                choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu" & !is.na(Organism)) %>% .$Organism %>% unique()},
-                                                                                selected = "Total"))),
+                                                                             label = "Select which subtype you would like to see",
+                                                                             choices = {Respiratory_AllData %>%
+                                                                                 filter(FluOrNonFlu == "nonflu" & !is.na(Organism)) %>%
+                                                                                 .$Organism %>% unique()},
+                                                                             selected = "Total") # pickerInput
+                                                       ) # column
+                                                     ), # fluidRow
                                                      # altTextUI(""),
-                                                     withNavySpinner(plotlyOutput("respiratory_nonflu_by_season_plot")))),
-                                          tabPanel("Data"))),
+                                                     withNavySpinner(plotlyOutput("respiratory_nonflu_by_season_plot"))
+                                                   ) # tagList
+                                          ), # tabPanel
+                                          tabPanel("Data")
+                                   ) # tabbox
+                           ), # tagList
 
-                           tagList(h3("Influenza cases by age and/or sex in Scotland"),
+                           tagList(h3("Non-influenza cases by age and/or sex in Scotland"),
 
                                    tabBox(width = NULL,
                                           type = "pills",
@@ -281,27 +304,28 @@ tagList(
                                                                              label = "Select a season",
                                                                              choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu") %>% .$Season %>% unique()},
                                                                              selected = "2022/23")
-                                                              ),
-                                                       column(4, pickerInput("respiratory_nonflu_date",
-                                                                                label = "Select date",
-                                                                                choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% as.Date() %>% unique() },
-                                                                                selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% as.Date() %>% max()})
-                                                              ),
-                                                       column(4, pickerInput("respiratory_nonflu_select_age_sex_breakdown",
-                                                                                label = "Select the plot breakdown",
-                                                                                choices = c("Age", "Sex", "Age + Sex"),
-                                                                                selected = "Age")
-                                                              )
                                                        ),
+                                                       column(4, pickerInput("respiratory_nonflu_date",
+                                                                             label = "Select date",
+                                                                             choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+                                                                             selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>% .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
+                                                       ),
+                                                       column(4, pickerInput("respiratory_nonflu_select_age_sex_breakdown",
+                                                                             label = "Select the plot breakdown",
+                                                                             choices = c("Age", "Sex", "Age + Sex"),
+                                                                             selected = "Age")
+                                                       )
+                                                     ),
                                                      # altTextUI(""),
-                                                     withNavySpinner(plotlyOutput("respiratory_nonflu_age_sex_plot")))),
-                                          tabPanel("Data")),
-                                   linebreaks(5)
-                                   ) # tabPanel
+                                                     withNavySpinner(plotlyOutput("respiratory_nonflu_age_sex_plot"))
+                                                   ) # tagList
+                                          ), # tabPanel
+                                          tabPanel("Data")
                                    ) # tabbox
-                                   )
-                           )
-  ),
+                           ) # tagList
+                           ) # tabpanel
+           ) # tabbox
+        ), # fluidrow
 
   # Padding out the bottom of the page
   fluidRow(
