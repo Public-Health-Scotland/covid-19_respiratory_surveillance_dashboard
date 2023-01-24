@@ -107,6 +107,19 @@ output$respiratory_flu_age_sex_plot = renderPlotly({
 
 })
 
+# Data tables
+
+output$respiratory_flu_over_time_table <- renderDataTable ({
+
+  Respiratory_AllData %>%
+    filter_over_time_plot_function(healthboard = input$respiratory_flu_select_healthboard) %>%
+    filter(FluOrNonFlu == "flu") %>%
+    filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
+    select(Date, Organism, Rate) %>%
+    make_table()
+
+})
+
 
 ####### NON FLU -----
 

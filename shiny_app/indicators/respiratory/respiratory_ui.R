@@ -100,7 +100,8 @@ tagList(
                                                      linebreaks(1),
                                                      # altTextUI(""),
                                                      withNavySpinner(plotlyOutput("respiratory_flu_over_time_plot")))),
-                                          tabPanel("Data")
+                                          tabPanel("Data",
+                                                   withNavySpinner(dataTableOutput("respiratory_flu_over_time_table")))
                                           ) # tabbox
                                    ), # taglist
 

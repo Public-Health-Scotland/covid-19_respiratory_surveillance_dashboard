@@ -96,6 +96,13 @@ los_median_max <- Length_of_Stay_Median %>%
 los_median_min <- Length_of_Stay_Median %>%
   filter(MedianLengthOfStay == min(MedianLengthOfStay))
 
+# Respiratory factor
+
+Respiratory_AllData %<>%
+  mutate(
+         AgeGroup = factor(AgeGroup,
+                           levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
+
 # respiratory headline figures
 flu_icon_headline <- Respiratory_Summary_Totals %>%
   mutate(icon = case_when(PercentageDifference > 0 ~ "arrow-up",

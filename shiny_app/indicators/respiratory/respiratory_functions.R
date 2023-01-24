@@ -193,10 +193,6 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
 # creates a plot looking at age/sex breakdowns in scotland
 make_age_sex_plot <- function(data, breakdown, title = NULL) {
 
-  data %<>%
-    mutate(AgeGroup = factor(AgeGroup,
-                             levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
-
   if(breakdown == "Age") {
 
     fig = data %>%
