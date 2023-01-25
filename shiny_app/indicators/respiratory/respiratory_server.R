@@ -10,7 +10,7 @@ output$respiratory_flu_headline_figures_subtype_count <- renderValueBox ({
     .$Count
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("{input$respiratory_flu_headline_subtype} in Scotland"),
+           subtitle = glue("cases of {input$respiratory_flu_headline_subtype} in Scotland"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
@@ -22,10 +22,10 @@ output$respiratory_flu_headline_figures_healthboard_count <- renderValueBox ({
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == "flu") %>%
     filter(phsmethods::match_area(Breakdown) == input$respiratory_flu_headline_healthboard) %>%
-    .$Count
+    .$Rate
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("influenza cases in {input$respiratory_flu_headline_healthboard}"),
+           subtitle = glue("cases per 10,000 people in {input$respiratory_flu_headline_healthboard}"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
@@ -133,7 +133,7 @@ output$respiratory_nonflu_headline_figures_subtype_count <- renderValueBox ({
     .$Count
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("{input$respiratory_nonflu_headline_subtype} in Scotland"),
+           subtitle = glue("cases of {input$respiratory_nonflu_headline_subtype} in Scotland"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
@@ -145,10 +145,10 @@ output$respiratory_nonflu_headline_figures_healthboard_count <- renderValueBox (
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == "nonflu") %>%
     filter(phsmethods::match_area(Breakdown) == input$respiratory_nonflu_headline_healthboard) %>%
-    .$Count
+    .$Rate
 
   valueBox(value = organism_summary_total,
-           subtitle = glue("non-influenza cases in {input$respiratory_nonflu_headline_healthboard}"),
+           subtitle = glue("cases per 10,000 people in {input$respiratory_nonflu_headline_healthboard}"),
            color = "teal",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
