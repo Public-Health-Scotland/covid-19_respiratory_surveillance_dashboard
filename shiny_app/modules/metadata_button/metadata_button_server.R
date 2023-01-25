@@ -34,10 +34,6 @@ metadataButtonServer(id="respiratory",
                     panel="Respiratory",
                     parent = session)
 
-#metadataButtonServer(id="vaccines",
-#                    panel="Vaccine wastage",
-#                    parent = session)
-
 metadataButtonServer(id="download",
                      panel="Cases",
                      parent = session)

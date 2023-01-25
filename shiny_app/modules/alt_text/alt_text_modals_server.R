@@ -294,39 +294,6 @@ altTextServer("respiratory_nonflu_age_sex_modal",
 
 
 
-# Vaccines ----
-
-# vaccine_wastage_modal <- altTextServer("vaccine_wastage_modal",
-#                                      title = "COVID-19 vaccine wastage",
-#                                      content = tags$ul(
-#                                        tags$li("This is a plot of the number of COVID-19 vaccine doses wasted."),
-#                                        tags$li("The x axis is the month."),
-#                                        tags$li("The y axis is the number of doses."),
-#                                        tags$li("The plot is a stacked bar chart: the bottom stack (blue) is the number",
-#                                                "of doses administered each month; the top stack (red) is the number",
-#                                                "of doses wasted each month."),
-#                                        tags$li("There is a vertical dotted line at Dec 2021 indicating that before",
-#                                                "Dec 2021 the plot refers to doses 1 and 2 only, but after 2021",
-#                                                "relevant later doses are included.")
-#                                        )
-#                                      )
-#
-# vaccine_wastage_reason_modal <- altTextServer("vaccine_wastage_reason_modal",
-#                                        title = "Reasons for COVID-19 vaccine wastage",
-#                                        content = tags$ul(
-#                                          tags$li("This is a plot of the reasons for COVID-19 vaccine wastage."),
-#                                          tags$li("The y axis is the reason for wastage."),
-#                                          tags$li("The x axis is the percentage of doses wasted which belong to that reason."),
-#                                          tags$li("The reasons for wastage are split into: excess stock; expired shelf life;",
-#                                                  "and other reasons."),
-#                                          tags$li("The plot is a bar chart."),
-#                                          tags$li("Excess stock is the biggest reason for wastage, followed by expired",
-#                                                  "shelf life, then other reasons. The corresponding data table contains",
-#                                                  "the exact figures.")
-#                                          )
-#                                        )
-
-
 
 
 

@@ -32,8 +32,3 @@ jumpToTabButtonServer(id="respiratory_from_summary",
                       location="respiratory",
                       parent = session)
 
-# jumpToTabButtonServer(id="vaccines_from_summary",
-#                       location="vaccines",
-#                       parent = session)
-
-

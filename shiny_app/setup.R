@@ -71,10 +71,6 @@ for (rds in rds_files){
   load_rds_file(rds)
 }
 
-
-vaccine_wastage_month <- {Vaccine_Wastage %>% tail(1) %>%
-    .$Month %>% convert_opendata_date() %>% convert_date_to_month()}
-
 # Creating variable for latest week for headlines
 
 # Admissions and ICU

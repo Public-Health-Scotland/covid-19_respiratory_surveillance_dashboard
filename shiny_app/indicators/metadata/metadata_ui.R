@@ -23,18 +23,6 @@ tagList(h1("Metadata"),
                                      the lower and upper confidence limits. A wider interval indicates more uncertainty in the estimate. Overlapping confidence intervals indicate that
                                      there may not be a true difference between two estimates."),
                                    br(),
-
-                                   # # R number ----
-                                   # h4("R number"),
-                                   # p("The reproduction (R) number is the average number of secondary infections produced by a single infected person.
-                                   #   The R number is a useful measure in assessing if the epidemic is growing or shrinking. If R is greater than one the epidemic is growing,
-                                   #   if R is less than one the epidemic is shrinking. The higher the R is above one, the more people an infectious person is likely to further infect."),
-                                   # p("Please note that R lags by two or three weeks."),
-                                   # p(strong("Source:",
-                                   #   tags$a("COVID-19 Modelling the Epidemic",
-                                   #          href="https://www.gov.scot/collections/coronavirus-covid-19-modelling-the-epidemic/"))),
-                                   # br(),
-
                                    # Wastewater ----
                                    h4("Wastewater"),
                                    p("In May 2020, the Scottish Environment Protection Agency (SEPA) began exploratory work to pinpoint fragments of coronavirus’
@@ -220,24 +208,6 @@ tagList(h1("Metadata"),
                                             href = "https://publichealthscotland.scot/publications/show-all-releases?id=20581"),
                                             "for more information."),
                                    p(strong("Source: NHS Boards"))),
-
-
-                   # #### VACCINE WASTAGE PANEL ----
-                   # bsCollapsePanel("Vaccine wastage",
-                   #
-                   #                 # Vaccine wastage ----
-                   #                 h4("COVID-19 vaccine wastage"),
-                   #                 p("Given the scale of the Covid-19 vaccination programme, some vaccine wastage has been unavoidable for a variety of reasons including logistical issues,
-                   #                   storage failure and specific clinical situations."),
-                   #                 p("The initial planning assumption for the vaccination programme was that there would be around 5% vaccine wastage."),
-                   #                 p(strong("Source: NSS Service Now wastage form")),
-                   #                 br(),
-                   #                 p("Please note:"),
-                   #                 tags$li("Percent wasted is calculated as (Number of Doses Wasted x 100) / (Number of Doses Wasted + Administered)"),
-                   #                 tags$li("The vaccine wastage form is populated by health board clinicians which can impact the timeliness and accuracy of the data."),
-                   #                 tags$li("Data excludes GP practice information and wastage from clinical trials."),
-                   #                 tags$li("Excess stock is defined: Where a vaccination team reach the end of an allotted shift or job, and have surplus vaccines that cannot be returned to stock,
-                   #                         or used before it expires. This includes any unused doses in opened vials at the end of a clinic.")),
 
              #### RESPIRATORY PANEL
              bsCollapsePanel("Respiratory",

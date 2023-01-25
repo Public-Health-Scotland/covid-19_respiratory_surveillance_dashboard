@@ -20,22 +20,6 @@ output$ons_infobox <- renderInfoBox({
           color = "purple")
 })
 
-# output$r_number_infobox <- renderInfoBox({
-#   infoBox(title=h5("R number",
-#                    summaryButtonUI("r_number",
-#                                    "The reproduction (R) number",
-#                                    paste("This is the average number of secondary infections produced by a single infected person,",
-#                                          "estimated to be within this range. If R is greater than one the epidemic is growing, if R is less",
-#                                          "than one the epidemic is shrinking.<br><br>",
-#                                          strong("For more information, see Metadata. Click again to close.")))),
-#           value= glue("{R_Number %>% tail(1) %>% .$LowerBound}",
-#                       " - {R_Number %>% tail(1) %>% .$UpperBound}"),
-#           subtitle = "Range",
-#           icon = icon_no_warning_fn("r"),
-#           color = "purple")
-# })
-
-
 output$wastewater_infobox <- renderInfoBox({
   infoBox(title=h5("Wastewater level",
                    summaryButtonUI("wastewater",
@@ -165,55 +149,6 @@ output$icu_more_occupancy_infobox <- renderInfoBox({
 })
 
 
-# #### Vaccine wastage ----
-#
-# output$doses_wasted_infobox <- renderInfoBox({
-#   infoBox(title=h5("Doses wasted",
-#                    summaryButtonUI("doses_wasted_infobox",
-#                                    "COVID-19 vaccine doses wasted",
-#                                    paste("This is the total number of vaccine doses which could not be administered and were therefore wasted",
-#                                          "in the latest month.<br><br>",
-#                                          strong("For more information, see Metadata. Click again to close.")))),
-#           value={Vaccine_Wastage %>% tail(1) %>%
-#               .$NumberOfDosesWasted %>%
-#               format(big.mark = ",")},
-#           subtitle = "Monthly total",
-#           icon = icon_no_warning_fn("dumpster"),
-#           color = "teal")
-# })
-#
-#
-# output$doses_administered_infobox <- renderInfoBox({
-#   infoBox(title=h5("Doses administered",
-#                    summaryButtonUI("doses_administered_infobox",
-#                                    "COVID-19 vaccine doses administered",
-#                                    paste("This is total number of doses administered (including all doses) in the latest month.<br><br>",
-#                                          strong("For more information, see Metadata. Click again to close.")))),
-#           value={Vaccine_Wastage %>% tail(1) %>%
-#               .$NumberOfDosesAdministered %>%
-#               format(big.mark = ",")},
-#           subtitle = "Monthly total",
-#           icon = icon_no_warning_fn("syringe"),
-#           color = "teal")
-# })
-#
-#
-# output$percent_wasted_infobox <- renderInfoBox({
-#   infoBox(title=h5("Percent wasted",
-#                    summaryButtonUI("percent_wasted_infobox",
-#                                    "Percentage of COVID-19 vaccine doses wasted",
-#                                    paste("This is the proportion of doses which were wasted out of the total number of doses which were either",
-#                                          "administered or wasted: (Number of Doses Wasted x 100) / (Number of Doses Wasted + Administered).<br><br>",
-#                                          strong("For more information, see Metadata. Click again to close.")))),
-#           value={Vaccine_Wastage %>% tail(1) %>%
-#               .$PercentageWasted %>%
-#               paste0("%")},
-#           subtitle = "Monthly %",
-#           icon = icon_no_warning_fn("percent"),
-#           color = "teal")
-# })
-
-
 #### Respiratory illnesses ----
 
 output$respiratory_flu_infobox <- renderInfoBox({
@@ -283,9 +218,6 @@ observeEvent(input$jump_to_hospital_admissions_from_summary, {
 
 observeEvent(input$jump_to_hospital_occupancy_from_summary, {
   updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
-
-# observeEvent(input$jump_to_vaccines_from_summary, {
-#   updateTabsetPanel(session, "intabset", selected = "vaccines")})
 
 observeEvent(input$jump_to_respiratory_from_summary, {
   updateTabsetPanel(session, "intabset", selected = "respiratory")})

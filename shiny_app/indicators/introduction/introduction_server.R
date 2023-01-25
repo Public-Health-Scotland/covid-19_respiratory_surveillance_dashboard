@@ -5,7 +5,6 @@ observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", sele
 observeEvent(input$jump_to_cases, {updateTabsetPanel(session, "intabset", selected = "cases")})
 observeEvent(input$jump_to_hospital_admissions, {updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
 observeEvent(input$jump_to_hospital_occupancy, {updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
-# observeEvent(input$jump_to_vaccines, {updateTabsetPanel(session, "intabset", selected = "vaccines")})
 observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "respiratory")})
 observeEvent(input$jump_to_metadata, {updateTabsetPanel(session, "intabset", selected = "metadata")})
 observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", selected = "download")})
@@ -65,12 +64,6 @@ output$introduction_about <- renderUI({
                         in hospital with COVID-19. This is an indicative measure of the pressure on hospitals,
                         as these patients still require isolation from other patients for infection control purposes."))),
           br(),
-
-          # fluidRow(
-          #   column(4,tags$div(class = "special_button",
-          #          actionButton("jump_to_vaccines", "Vaccine wastage"))),
-          #   column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
-          # br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",

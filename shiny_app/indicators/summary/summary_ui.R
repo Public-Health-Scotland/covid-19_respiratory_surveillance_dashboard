@@ -15,10 +15,6 @@ tagList(
             infoBoxOutput("ons_infobox", width=NULL)
           ),
 
-          # withNavySpinner(
-          #  infoBoxOutput("r_number_infobox", width=NULL)
-          #  ),
-
           h4(glue("Week ending {Wastewater %>% tail(1) %>% .$Date %>% convert_opendata_date() %>% as_dashboard_date()}")),
           withNavySpinner(
             infoBoxOutput("wastewater_infobox", width=NULL)
@@ -85,32 +81,6 @@ tagList(
             linebreaks(1)
 
           )),
-
-      # box(
-      #     status = "info",
-      #     tagList(
-      #       h2("Vaccine wastage"),
-      #       jumpToTabButtonUI("vaccines_from_summary", location_pretty = "vaccine wastage"),
-      #       linebreaks(1),
-      #
-      #       h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-      #       withNavySpinner(
-      #         infoBoxOutput("doses_wasted_infobox", width=NULL)
-      #         ),
-      #
-      #       h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-      #       withNavySpinner(
-      #         infoBoxOutput("doses_administered_infobox", width=NULL)
-      #         ),
-      #
-      #       h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-      #       withNavySpinner(
-      #         infoBoxOutput("percent_wasted_infobox", width=NULL)
-      #         ),
-      #
-      #       linebreaks(1)
-      #
-      #     )),
 
       box(
         status = "info",
