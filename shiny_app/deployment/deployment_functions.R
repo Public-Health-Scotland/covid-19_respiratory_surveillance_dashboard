@@ -3,10 +3,10 @@
 is_password_protected <- function(app_loc){
 
   # Read whether password protect is set to TRUE or not in file
-  protected <- grep("password_protect <-", read_lines(paste0(app_loc, "/app.R")),
+  protected <- grep("password_protect <-", readr::read_lines(paste0(app_loc, "/app.R")),
                     value=TRUE) %>%
-    grepl("TRUE|FALSE", .) %>%
-    as.logical()
+    # Is password_protect set to TRUE?
+    grepl("TRUE", .)
 
   return(protected)
 
