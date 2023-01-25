@@ -21,7 +21,11 @@ shiny_data_folder <- "shiny_app/data/"
 
 
 # Remove all files in shiny data folder
-purrr::walk(list.files(path=shiny_data_folder, full.names=TRUE), file.remove)
+purrr::walk(
+  {list.files(path=shiny_data_folder, full.names=TRUE, pattern="") %>%
+    stringr::str_subset(., "Deployment_Date.rds", negate = TRUE)
+    },
+  file.remove)
 
 # Load all processed data files and save out as rds
 copy_to_shiny_data <- function(csv, startloc){
