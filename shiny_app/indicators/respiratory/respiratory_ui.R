@@ -259,7 +259,8 @@ tagList(
                                                      linebreaks(1),
                                                      altTextUI("respiratory_nonflu_over_time_modal"),
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_over_time_plot")))),
-                                          tabPanel("Data")
+                                          tabPanel("Data",
+                                                   withNavySpinner(dataTableOutput("respiratory_nonflu_over_time_table")))
                                    ) # tabbox
                            ), # taglist
 

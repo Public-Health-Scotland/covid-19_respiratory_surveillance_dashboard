@@ -110,13 +110,33 @@ output$respiratory_flu_age_sex_plot = renderPlotly({
 # Data tables
 
 output$respiratory_flu_over_time_table <- renderDataTable ({
+  
+  if(input$respiratory_flu_select_healthboard == "Scotland"){
 
   Respiratory_AllData %>%
     filter_over_time_plot_function(healthboard = input$respiratory_flu_select_healthboard) %>%
     filter(FluOrNonFlu == "flu") %>%
     filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
-    select(Date, Organism, Rate) %>%
+    select(Date, Organism, Count, Rate) %>%
+    arrange(desc(Date), Organism) %>%
+    rename(`Week Ending` = Date,
+           `Number of cases` = Count,
+           `Rate per 100,000` = Rate) %>%
     make_table()
+    
+  } else{
+    
+    Respiratory_AllData %>%
+      filter_over_time_plot_function(healthboard = input$respiratory_flu_select_healthboard) %>%
+      filter(FluOrNonFlu == "flu") %>%
+      filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
+      select(Date, Organism, Rate) %>%
+      arrange(desc(Date), Organism) %>%
+      rename(`Week Ending` = Date,
+             `Rate per 100,000` = Rate) %>%
+      make_table() 
+    
+  }
 
 })
 
@@ -229,8 +249,37 @@ output$respiratory_nonflu_age_sex_plot = renderPlotly({
 
 })
 
-
-
+# Nonflu over time table
+output$respiratory_nonflu_over_time_table <- renderDataTable ({
+  
+  if(input$respiratory_nonflu_select_healthboard == "Scotland"){
+  
+  Respiratory_AllData %>%
+    filter_over_time_plot_function(healthboard = input$respiratory_nonflu_select_healthboard) %>%
+    filter(FluOrNonFlu == "nonflu") %>%
+    filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
+    select(Date, Organism, Count, Rate) %>%
+    arrange(desc(Date), Organism) %>%
+    rename(`Week Ending` = Date,
+           `Number of cases` = Count,
+           `Rate per 100,000` = Rate) %>%
+    make_table()
+    
+  } else{
+    
+    Respiratory_AllData %>%
+      filter_over_time_plot_function(healthboard = input$respiratory_nonflu_select_healthboard) %>%
+      filter(FluOrNonFlu == "nonflu") %>%
+      filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
+      select(Date, Organism, Rate) %>%
+      arrange(desc(Date), Organism) %>%
+      rename(`Week Ending` = Date,
+             `Rate per 100,000` = Rate) %>%
+      make_table()
+    
+  }
+  
+})
 
 
 
