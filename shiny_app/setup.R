@@ -101,7 +101,44 @@ los_median_min <- Length_of_Stay_Median %>%
 Respiratory_AllData %<>%
   mutate(
          AgeGroup = factor(AgeGroup,
-                           levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
+                           levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")
+                           )#,
+         # Organism = factor(Organism,
+         #                   levels = c("Influenza - Type A (any subtype)",
+         #                              "Influenza - Type A(H1N1)pdm09",
+         #                              "Influenza - Type A(H3)",
+         #                              "Influenza - Type A (not subtyped)",
+         #                              "Influenza - Type B",
+         #                              "Influenza - Type A or B",
+         #                              "Adenovirus",
+         #                              "Human metapneumovirus",
+         #                              "Mycoplasma pneumoniae",
+         #                              "Parainfluenza virus",
+         #                              "Respiratory syncytial virus",
+         #                              "Rhinovirus",
+         #                              "Seasonal coronavirus (Non-SARS-CoV-2)",
+         #                              "Total",
+         #                              NA_character_))
+         )
+
+# Respiratory_Summary %<>%
+#   mutate(Breakdown = factor(Breakdown,
+#                             levels = c("Influenza - Type A (any subtype)",
+#                                        "Influenza - Type A(H1N1)pdm09",
+#                                        "Influenza - Type A(H3)",
+#                                        "Influenza - Type A (not subtyped)",
+#                                        "Influenza - Type B",
+#                                        "Influenza - Type A or B",
+#                                        "Adenovirus",
+#                                        "Human metapneumovirus",
+#                                        "Mycoplasma pneumoniae",
+#                                        "Parainfluenza virus",
+#                                        "Respiratory syncytial virus",
+#                                        "Rhinovirus",
+#                                        "Seasonal coronavirus (Non-SARS-CoV-2)",
+#                                        NA_character_)
+#                             )
+#   )
 
 # respiratory headline figures
 flu_icon_headline <- Respiratory_Summary_Totals %>%
