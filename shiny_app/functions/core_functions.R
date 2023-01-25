@@ -12,6 +12,15 @@ withNavySpinner <- function(out){
   withSpinner(out, color = navy)
 }
 
+# Get health board name ----
+get_hb_name <- function(code){
+# e.g. converts HB code to "NHS Ayrshire and Arran"
+  ifelse(is.na(code),
+         NA_character_,
+         phsmethods::match_area(code) %>% paste("NHS", .)
+         )
+}
+
 ## Function to format a given entry in a table ----
 format_entry <- function(x, dp=0, perc=F){
   # x (numeric, char): entry

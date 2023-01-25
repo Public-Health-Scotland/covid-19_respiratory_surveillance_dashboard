@@ -248,7 +248,7 @@ g_resp_summary <- bind_rows(
   Rate, RateQF,
   SummaryMeasure)
 
-g_resp_data %<>% mutate(HealthboardCode = ifelse(HealthBoard == "Scotland", "S92000003", HealthboardCode))
+g_resp_data %<>% mutate(HealthboardCode = ifelse(Healthboard == "Scotland", "S92000003", HealthboardCode))
 
 # Checks on aggregated data
 source("Transfer Scripts/respiratory_checks.R")
