@@ -38,7 +38,7 @@ ui <- fluidPage(
                href = "https://www.publichealthscotland.scot/",
                target = "_blank"), # PHS logo links to PHS website
         style = "position: relative; top: -10px;"),
-      windowTitle = "COVID-19 Dashboard",# Title for browser tab
+      windowTitle = "COVID-19 & Respiratory Surveillance",# Title for browser tab
       header = source(file.path("header.R"), local=TRUE)$value,
       ##############################################.
       # INTRO PAGE ----
