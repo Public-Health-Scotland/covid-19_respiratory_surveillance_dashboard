@@ -139,6 +139,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
             colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
+           legend=list(title=list(text='<b> Subtype </b>')),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     config(displaylogo = FALSE, displayModeBar = TRUE,
