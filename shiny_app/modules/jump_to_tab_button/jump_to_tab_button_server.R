@@ -16,22 +16,24 @@ jumpToTabButtonServer <- function(id,
 
 }
 
-cases_from_summary <- jumpToTabButtonServer(id="cases_from_summary",
-                                            location="cases",
-                                            parent = session)
+jumpToTabButtonServer(id="cases_from_summary",
+                      location="cases",
+                      parent = session)
 
-hospital_admissions_from_summary <- jumpToTabButtonServer(id="hospital_admissions_from_summary",
-                                                          location="hospital_admissions",
-                                                          parent = session)
+jumpToTabButtonServer(id="hospital_admissions_from_summary",
+                      location="hospital_admissions",
+                      parent = session)
 
-hospital_occupancy_from_summary <- jumpToTabButtonServer(id="hospital_occupancy_from_summary",
-                                                          location="hospital_occupancy",
-                                                          parent = session)
+jumpToTabButtonServer(id="hospital_occupancy_from_summary",
+                      location="hospital_occupancy",
+                      parent = session)
 
-# vaccines_from_summary <- jumpToTabButtonServer(id="vaccines_from_summary",
-#                                                          location="vaccines",
-#                                                          parent = session)
+jumpToTabButtonServer(id="respiratory_from_summary",
+                      location="respiratory",
+                      parent = session)
 
-respiratory_from_summary <- jumpToTabButtonServer(id="respiratory_from_summary",
-                                               location="respiratory",
-                                               parent = session)
+# jumpToTabButtonServer(id="vaccines_from_summary",
+#                       location="vaccines",
+#                       parent = session)
+
+
