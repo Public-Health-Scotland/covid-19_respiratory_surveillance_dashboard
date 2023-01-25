@@ -28,7 +28,10 @@ hospital_occupancy_from_summary <- jumpToTabButtonServer(id="hospital_occupancy_
                                                           location="hospital_occupancy",
                                                           parent = session)
 
-vaccines_from_summary <- jumpToTabButtonServer(id="vaccines_from_summary",
-                                                         location="vaccines",
-                                                         parent = session)
+# vaccines_from_summary <- jumpToTabButtonServer(id="vaccines_from_summary",
+#                                                          location="vaccines",
+#                                                          parent = session)
 
+respiratory_from_summary <- jumpToTabButtonServer(id="respiratory_from_summary",
+                                               location="respiratory",
+                                               parent = session)

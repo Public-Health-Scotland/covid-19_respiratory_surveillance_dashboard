@@ -86,33 +86,73 @@ tagList(
 
           )),
 
+      # box(
+      #     status = "info",
+      #     tagList(
+      #       h2("Vaccine wastage"),
+      #       jumpToTabButtonUI("vaccines_from_summary", location_pretty = "vaccine wastage"),
+      #       linebreaks(1),
+      #
+      #       h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
+      #       withNavySpinner(
+      #         infoBoxOutput("doses_wasted_infobox", width=NULL)
+      #         ),
+      #
+      #       h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
+      #       withNavySpinner(
+      #         infoBoxOutput("doses_administered_infobox", width=NULL)
+      #         ),
+      #
+      #       h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
+      #       withNavySpinner(
+      #         infoBoxOutput("percent_wasted_infobox", width=NULL)
+      #         ),
+      #
+      #       linebreaks(1)
+      #
+      #     )),
+
       box(
-          status = "info",
-          tagList(
-            h2("Vaccine wastage"),
-            jumpToTabButtonUI("vaccines_from_summary", location_pretty = "vaccine wastage"),
-            linebreaks(1),
+        status = "info",
+        tagList(
+          h2("Respiratory illnesses"),
+          jumpToTabButtonUI("respiratory_from_summary", location_pretty = "respiratory"),
+          linebreaks(1),
 
-            h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-            withNavySpinner(
-              infoBoxOutput("doses_wasted_infobox", width=NULL)
-              ),
+          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
+                  .$DateThisWeek %>%
+                  as_dashboard_date()}")),
+          withNavySpinner(
+            infoBoxOutput("respiratory_flu_infobox", width=NULL)
+          ),
 
-            h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-            withNavySpinner(
-              infoBoxOutput("doses_administered_infobox", width=NULL)
-              ),
+          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
+                  .$DateThisWeek %>%
+                  as_dashboard_date()}")),
+          withNavySpinner(
+            infoBoxOutput("respiratory_flu_change_infobox", width=NULL)
+          ),
 
-            h4(glue("Month beginning {Vaccine_Wastage %>% tail(1) %>% .$Month %>% convert_opendata_date() %>% convert_date_to_month()}")),
-            withNavySpinner(
-              infoBoxOutput("percent_wasted_infobox", width=NULL)
-              ),
+          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                  .$DateThisWeek %>%
+                  as_dashboard_date()}")),
+          withNavySpinner(
+            infoBoxOutput("respiratory_nonflu_infobox", width=NULL)
+          ),
 
-            linebreaks(1)
+          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                  .$DateThisWeek %>%
+                  as_dashboard_date()}")),
+          withNavySpinner(
+            infoBoxOutput("respiratory_nonflu_change_infobox", width=NULL)
+          ),
 
-          )),
+          linebreaks(1)
+
+        )),
+
+
       # Padding out the bottom of the page
-
       fluidRow(column(12, linebreaks(5)))
     ) # taglist
 )# fluidRow

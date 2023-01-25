@@ -19,6 +19,7 @@ library(janitor)
 library(fontawesome)
 library(shinymanager)
 library(gotop)
+library(R.utils)
 
 # Load core functions ----
 source("functions/core_functions.R")

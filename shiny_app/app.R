@@ -93,16 +93,16 @@ ui <- fluidPage(
                source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
 
       ), # tabpanel
-      ##############################################.
-      # VACCINE WASTAGE ----
-      ##############################################.
-      tabPanel(title = "Vaccine wastage",
-               # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("syringe"),
-               value = "vaccines",
-
-               source(file.path("indicators/vaccines/vaccines_ui.R"), local = TRUE)$value
-      ), # tabpanel
+      # ##############################################.
+      # # VACCINE WASTAGE ----
+      # ##############################################.
+      # tabPanel(title = "Vaccine wastage",
+      #          # Look at https://fontawesome.com/search?m=free for icons
+      #          icon = icon_no_warning_fn("syringe"),
+      #          value = "vaccines",
+      #
+      #          source(file.path("indicators/vaccines/vaccines_ui.R"), local = TRUE)$value
+      # ), # tabpanel
 
       ##############################################.
       # RESPIRATORY ----
@@ -165,7 +165,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_functions.R"), local = TRUE)$value
-  source(file.path("indicators/vaccines/vaccines_functions.R"), local = TRUE)$value
+  # source(file.path("indicators/vaccines/vaccines_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory/respiratory_functions.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
@@ -176,7 +176,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/cases/cases_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
-  source(file.path("indicators/vaccines/vaccines_server.R"), local = TRUE)$value
+  # source(file.path("indicators/vaccines/vaccines_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
