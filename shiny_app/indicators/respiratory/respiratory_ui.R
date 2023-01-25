@@ -129,7 +129,8 @@ tagList(
                                                      withNavySpinner(plotlyOutput("respiratory_flu_by_season_plot"))
                                                      ) # tagList
                                                    ), # tabPanel
-                                          tabPanel("Data")
+                                          tabPanel("Data",
+                                                   withNavySpinner(dataTableOutput("respiratory_flu_by_season_table")))
                                           ) # tabbox
                                    ), # tagList
 
@@ -285,7 +286,8 @@ tagList(
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_by_season_plot"))
                                                    ) # tagList
                                           ), # tabPanel
-                                          tabPanel("Data")
+                                          tabPanel("Data",
+                                                   withNavySpinner(dataTableOutput("respiratory_nonflu_by_season_table")))
                                    ) # tabbox
                            ), # tagList
 

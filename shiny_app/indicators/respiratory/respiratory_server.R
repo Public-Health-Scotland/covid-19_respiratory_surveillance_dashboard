@@ -140,6 +140,34 @@ output$respiratory_flu_over_time_table <- renderDataTable ({
 
 })
 
+# Flu by season table
+output$respiratory_flu_by_season_table <- renderDataTable ({
+  
+  if(input$respiratory_flu_select_healthboard == "Scotland"){
+    
+    Respiratory_AllData %>%
+      filter_over_time_plot_function(healthboard = input$respiratory_flu_select_healthboard) %>%
+      filter(FluOrNonFlu == "flu") %>%
+      arrange(desc(Date), Organism) %>%
+      select(Season, Week, Organism, Count, Rate) %>%
+      rename(`Number of cases` = Count,
+             `Rate per 100,000` = Rate) %>%
+      make_table()
+    
+  } else{
+    
+    Respiratory_AllData %>%
+      filter_over_time_plot_function(healthboard = input$respiratory_flu_select_healthboard) %>%
+      filter(FluOrNonFlu == "flu") %>%
+      arrange(desc(Date), Organism) %>%
+      select(Season, Week, Organism, Rate) %>%
+      rename(`Rate per 100,000` = Rate) %>%
+      make_table()
+    
+  }
+  
+})
+
 
 ####### NON FLU -----
 
@@ -282,5 +310,31 @@ output$respiratory_nonflu_over_time_table <- renderDataTable ({
 })
 
 
-
+# NonFlu by season table
+output$respiratory_nonflu_by_season_table <- renderDataTable ({
+  
+  if(input$respiratory_nonflu_select_healthboard == "Scotland"){
+    
+    Respiratory_AllData %>%
+      filter_over_time_plot_function(healthboard = input$respiratory_nonflu_select_healthboard) %>%
+      filter(FluOrNonFlu == "nonflu") %>%
+      arrange(desc(Date), Organism) %>%
+      select(Season, Week, Organism, Count, Rate) %>%
+      rename(`Number of cases` = Count,
+             `Rate per 100,000` = Rate) %>%
+      make_table()
+    
+  } else{
+    
+    Respiratory_AllData %>%
+      filter_over_time_plot_function(healthboard = input$respiratory_nonflu_select_healthboard) %>%
+      filter(FluOrNonFlu == "nonflu") %>%
+      arrange(desc(Date), Organism) %>%
+      select(Season, Week, Organism, Rate) %>%
+      rename(`Rate per 100,000` = Rate) %>%
+      make_table()
+    
+  }
+  
+})
 
