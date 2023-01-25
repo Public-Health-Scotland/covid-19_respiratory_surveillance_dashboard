@@ -179,7 +179,7 @@ make_hospital_admissions_los_plot <- function(data){
     layout(barmode = "stack",
            yaxis = yaxis_plots,
            xaxis = xaxis_plots,
-           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h'),
+           legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h', traceorder = 'normal'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
     # leaving only save plot button
@@ -190,21 +190,21 @@ make_hospital_admissions_los_plot <- function(data){
   # for alternate bars.
 
   # p <- plotly_build(p)
-  # 
+  #
   # # Assign pattern to each bar
   # p$x$data[[1]]$marker$pattern$shape <- ""
   # p$x$data[[2]]$marker$pattern$shape <- "/"
   # p$x$data[[3]]$marker$pattern$shape <- ""
   # p$x$data[[4]]$marker$pattern$shape <- "\\"
   # p$x$data[[5]]$marker$pattern$shape <- ""
-  # 
+  #
   # # Assign background colour to each bar
   # p$x$data[[1]]$marker$pattern$bgcolor <- ""
   # p$x$data[[2]]$marker$pattern$bgcolor <- "white"
   # p$x$data[[3]]$marker$pattern$bgcolor <- ""
   # p$x$data[[4]]$marker$pattern$bgcolor <- "white"
   # p$x$data[[5]]$marker$pattern$bgcolor <- ""
-  # 
+  #
   # # Assign solidity to each bar
   # p$x$data[[1]]$marker$pattern$solidity <- ""
   # p$x$data[[2]]$marker$pattern$solidity <- "0.8"
@@ -267,7 +267,7 @@ make_hospital_admissions_ethnicity_plot <- function(data){
   # for alternate bars.
 
   # p <- plotly_build(p)
-  # 
+  #
   # # Assign pattern to each bar
   # p$x$data[[1]]$marker$pattern$shape <- ""
   # p$x$data[[2]]$marker$pattern$shape <- "x"
@@ -276,7 +276,7 @@ make_hospital_admissions_ethnicity_plot <- function(data){
   # p$x$data[[5]]$marker$pattern$shape <- ""
   # p$x$data[[6]]$marker$pattern$shape <- "\\"
   # p$x$data[[7]]$marker$pattern$shape <- ""
-  # 
+  #
   # # Assign background colour to each bar
   # p$x$data[[1]]$marker$pattern$bgcolor <- ""
   # p$x$data[[2]]$marker$pattern$bgcolor <- phs_colors("phs-purple-10")
@@ -285,7 +285,7 @@ make_hospital_admissions_ethnicity_plot <- function(data){
   # p$x$data[[5]]$marker$pattern$bgcolor <- ""
   # p$x$data[[6]]$marker$pattern$bgcolor <- phs_colors("phs-magenta-10")
   # p$x$data[[7]]$marker$pattern$bgcolor <- ""
-  # 
+  #
   # # Assign solidity to each bar
   # p$x$data[[1]]$marker$pattern$solidity <- ""
   # p$x$data[[2]]$marker$pattern$solidity <- "0.8"
