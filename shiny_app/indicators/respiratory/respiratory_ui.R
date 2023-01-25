@@ -101,7 +101,7 @@ tagList(
                                           tabPanel("Plot",
                                                    tagList(
                                                      linebreaks(1),
-                                                     # altTextUI(""),
+                                                     altTextUI("respiratory_flu_over_time_modal"),
                                                      withNavySpinner(plotlyOutput("respiratory_flu_over_time_plot")))),
                                           tabPanel("Data",
                                                    withNavySpinner(dataTableOutput("respiratory_flu_over_time_table")))
@@ -125,7 +125,7 @@ tagList(
                                                                                 selected = "Total") # pickerInput
                                                               ) # column
                                                        ), # fluidRow
-                                                     # altTextUI(""),
+                                                     altTextUI("respiratory_flu_by_season_modal"),
                                                      withNavySpinner(plotlyOutput("respiratory_flu_by_season_plot"))
                                                      ) # tagList
                                                    ), # tabPanel
@@ -158,7 +158,7 @@ tagList(
                                                                                 selected = "Age")
                                                               )
                                                        ),
-                                                     # altTextUI(""),
+                                                     altTextUI("respiratory_flu_age_sex_modal"),
                                                      withNavySpinner(plotlyOutput("respiratory_flu_age_sex_plot"))
                                                      ) # tagList
                                                    ), # tabPanel
@@ -257,7 +257,7 @@ tagList(
                                           tabPanel("Plot",
                                                    tagList(
                                                      linebreaks(1),
-                                                     # altTextUI(""),
+                                                     altTextUI("respiratory_nonflu_over_time_modal"),
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_over_time_plot")))),
                                           tabPanel("Data")
                                    ) # tabbox
@@ -280,7 +280,7 @@ tagList(
                                                                              selected = "Total") # pickerInput
                                                        ) # column
                                                      ), # fluidRow
-                                                     # altTextUI(""),
+                                                     altTextUI("respiratory_nonflu_by_season_modal"),
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_by_season_plot"))
                                                    ) # tagList
                                           ), # tabPanel
@@ -313,7 +313,7 @@ tagList(
                                                                              selected = "Age")
                                                        )
                                                      ),
-                                                     # altTextUI(""),
+                                                     altTextUI("respiratory_nonflu_age_sex_modal"),
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_age_sex_plot"))
                                                    ) # tagList
                                           ), # tabPanel

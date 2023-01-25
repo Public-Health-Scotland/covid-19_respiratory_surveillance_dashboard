@@ -194,7 +194,102 @@ altTextServer("icu_occupancy_modal",
 
 # Flu ----
 
-#altTextServer("respiratory_flu_over_time_modal")
+altTextServer("respiratory_flu_over_time_modal",
+              title = "Influenza cases over time by subtype",
+              content = tags$ul(
+                tags$li("This is a plot of the influenza cases in a given NHS health board",
+                        "over time."),
+                tags$li("The cases are presented as a rate, i.e. the number of people with",
+                        "influenza for every 10,000 people in that NHS health board."),
+                tags$li("For Scotland there is an option to view the absolute number of cases."),
+                tags$li("The x axis is the date, commencing 02 Oct 2016."),
+                tags$li("The y axis is either the rate of cases or the number of cases."),
+                tags$li("There is a trace for each subtype of Influenza."),
+                tags$li("The trend is that each winter there is a peak in cases.")
+              )
+)
+
+altTextServer("respiratory_flu_by_season_modal",
+              title = "Influenza cases over time by season",
+              content = tags$ul(
+                tags$li("This is a plot of the influenza cases for a given subtype",
+                        "over each influenza season."),
+                tags$li("There is a trace for each influenza season, starting in 2016/2017."),
+                tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
+                        "and the 52nd isoweek is the last week of the year."),
+                tags$li("The y axis is the rate of cases of the chosen influenza subtype in Scotland."),
+                tags$li("The trend is that each winter there is a peak in cases. The peak was",
+                        "highest in 2017/2018 at about 2,800 cases.")
+              )
+)
+
+altTextServer("respiratory_flu_age_sex_modal",
+              title = "Influenza cases by age and/or sex in Scotland",
+              content = tags$ul(
+                tags$li("This is a plot of the total influenza cases in Scotland."),
+                tags$li("The information is displayed for a selected influenza season and week."),
+                tags$li("One of three different plots is displayed depending on the breakdown",
+                        "selected: either Age; Sex; or Age + Sex."),
+                tags$li("All three plots show rate per 100,000 people on the y axis."),
+                tags$li("For the x axis the first plot shows age group, the second shows",
+                        "sex, and the third shows age group and sex."),
+                tags$li("The first plot (Age) is a bubble plot. This is a scatter plot",
+                        "where both the position and the area of the circle correspond",
+                        "to the rate per 100,000 people."),
+                tags$li("The second and third plots are bar charts where the left hand column",
+                        "corresponds to female (F) and the right hand column to male (M)."),
+                tags$li("The youngest and oldest groups have the highest rates of influenza.")
+              )
+)
+
+# Non-flu ----
+
+altTextServer("respiratory_nonflu_over_time_modal",
+              title = "Non-influenza cases over time by subtype",
+              content = tags$ul(
+                tags$li("This is a plot of the non-influenza cases in a given NHS health board",
+                        "over time."),
+                tags$li("The cases are presented as a rate, i.e. the number of people with",
+                        "non-influenza respiratory illness for every 10,000 people in that NHS health board."),
+                tags$li("For Scotland there is an option to view the absolute number of cases."),
+                tags$li("The x axis is the date, commencing 02 Oct 2016."),
+                tags$li("The y axis is either the rate of cases or the number of cases."),
+                tags$li("There is a trace for each subtype of respiratory illness."),
+                tags$li("The trend is that each winter there is a peak in cases.")
+              )
+)
+
+altTextServer("respiratory_nonflu_by_season_modal",
+              title = "Non-influenza cases over time by season",
+              content = tags$ul(
+                tags$li("This is a plot of the non-influenza cases for a given subtype",
+                        "over each season."),
+                tags$li("There is a trace for eachseason, starting in 2016/2017."),
+                tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
+                        "and the 52nd isoweek is the last week of the year."),
+                tags$li("The y axis is the rate of cases of the chosen respiratory illness subtype in Scotland."),
+                tags$li("The trend is that each winter there is a peak in cases.")
+              )
+)
+
+altTextServer("respiratory_nonflu_age_sex_modal",
+              title = "Non-influenza cases by age and/or sex in Scotland",
+              content = tags$ul(
+                tags$li("This is a plot of the total non-influenza cases in Scotland."),
+                tags$li("The information is displayed for a selected season and week."),
+                tags$li("One of three different plots is displayed depending on the breakdown",
+                        "selected: either Age; Sex; or Age + Sex."),
+                tags$li("All three plots show rate per 100,000 people on the y axis."),
+                tags$li("For the x axis the first plot shows age group, the second shows",
+                        "sex, and the third shows age group and sex."),
+                tags$li("The first plot (Age) is a bubble plot. This is a scatter plot",
+                        "where both the position and the area of the circle correspond",
+                        "to the rate per 100,000 people."),
+                tags$li("The second and third plots are bar charts where the left hand column",
+                        "corresponds to female (F) and the right hand column to male (M)."),
+                tags$li("The youngest and oldest groups have the highest rates of respiratory illness.")
+              )
+)
 
 
 
