@@ -21,7 +21,7 @@ output$respiratory_flu_headline_figures_healthboard_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == "flu") %>%
-    filter(phsmethods::match_area(Breakdown) == input$respiratory_flu_headline_healthboard) %>%
+    filter(get_hb_name(Breakdown) == input$respiratory_flu_headline_healthboard) %>%
     .$Rate
 
   valueBox(value = organism_summary_total,
@@ -144,7 +144,7 @@ output$respiratory_nonflu_headline_figures_healthboard_count <- renderValueBox (
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == "nonflu") %>%
-    filter(phsmethods::match_area(Breakdown) == input$respiratory_nonflu_headline_healthboard) %>%
+    filter(get_hb_name(Breakdown) == input$respiratory_nonflu_headline_healthboard) %>%
     .$Rate
 
   valueBox(value = organism_summary_total,

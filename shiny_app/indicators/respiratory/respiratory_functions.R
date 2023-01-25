@@ -12,7 +12,7 @@ respiratory_filter_by_healthboard = function(data, healthboard) {
   } else {
 
     filtered_data = data %>%
-      filter(phsmethods::match_area(HealthboardCode) == healthboard)
+      filter(get_hb_name(HealthboardCode) == healthboard)
 
   }
 
@@ -130,7 +130,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
             color = ~Organism,
             textposition = "none",
             text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                           "<b>Health board</b>: ", phsmethods::match_area(HealthboardCode), "\n",
+                           "<b>Health board</b>: ", get_hb_name(HealthboardCode), "\n",
                            "<b>Subtype</b>: ", Organism, "\n",
                            "<b>", y_axis_title, "</b>: ", format(y_axis, big.mark=",")),
             hovertemplate = "%{text}",
@@ -172,7 +172,7 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
             y = ~y_axis,
             textposition = "none",
             text = ~paste0("<b>Isoweek</b>: ", Week, "\n",
-                           "<b>Health board</b>: ", phsmethods::match_area(HealthboardCode), "\n",
+                           "<b>Health board</b>: ", get_hb_name(HealthboardCode), "\n",
                            "<b>", y_axis_title, "</b>: ", format(y_axis, big.mark=",")),
             hovertemplate = "%{text}",
             color = ~Season,
