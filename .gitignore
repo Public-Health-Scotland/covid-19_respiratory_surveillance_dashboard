@@ -6,8 +6,11 @@
 # 'data' folder #
 data/
 
-# App deployment script
-shiny_app/AppDeployment.R
+# Password protect
+shiny_app/password_protect
+
+# Deployment secrets
+shiny_app/deployment/deployment_secrets.R
 
 # rsconnect folder
 shiny_app/rsconnect/

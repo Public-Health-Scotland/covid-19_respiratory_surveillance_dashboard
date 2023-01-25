@@ -80,7 +80,6 @@ purrr::walk(data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TR
 flu_data_files = list.files(path=respiratory_input_data_path, recursive=TRUE, full.names=TRUE)
 purrr::walk(flu_data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
 
-
 ##### Cases
 source("Transfer Scripts/transfer_cases.R")
 
