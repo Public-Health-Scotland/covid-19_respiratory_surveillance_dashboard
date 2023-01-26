@@ -280,7 +280,7 @@ tagList(
                                                                              label = "Select which subtype you would like to see",
                                                                              choices = {Respiratory_AllData %>%
                                                                                  filter(FluOrNonFlu == "nonflu" & !is.na(Organism)) %>%
-                                                                                 .$Organism %>% unique()},
+                                                                                 .$Organism %>% unique() %>% as.character()},
                                                                              selected = "Total") # pickerInput
                                                        ) # column
                                                      ), # fluidRow
