@@ -65,7 +65,7 @@ tagList(
                                                                     label = "Select a healthboard",
                                                                     choices = {Respiratory_Summary %>%
                                                                         filter(FluOrNonFlu == "flu" & SummaryMeasure == "Healthboard_Total") %>%
-                                                                        .$Breakdown %>% unique() %>% get_hb_name()}
+                                                                        .$Breakdown %>% unique() %>% get_hb_name() %>% sort()}
                                                                  ),  # pickerInput
                                                      withNavySpinner(valueBoxOutput("respiratory_flu_headline_figures_healthboard_count", width = NULL))
                                                    ) # tagList
@@ -83,7 +83,8 @@ tagList(
                              column(6, pickerInput("respiratory_flu_select_healthboard",
                                                       label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
                                                       choices = c("Scotland", {Respiratory_AllData %>%
-                                                          filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique() %>% get_hb_name()})
+                                                          filter(!is.na(HealthboardCode)) %>%
+                                                          .$HealthboardCode %>% unique() %>% get_hb_name() %>% .[.!="NHS Scotland"]})
                                                    ) # pickerInput
                                     ), # column
                              column(6, pickerInput("respiratory_flu_y_axis_plots",
@@ -240,7 +241,8 @@ tagList(
                              column(6, pickerInput("respiratory_nonflu_select_healthboard",
                                                    label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
                                                    choices = c("Scotland", {Respiratory_AllData %>%
-                                                       filter(!is.na(HealthboardCode)) %>% .$HealthboardCode %>% unique() %>% get_hb_name()})
+                                                       filter(!is.na(HealthboardCode)) %>%
+                                                       .$HealthboardCode %>% unique() %>% get_hb_name() %>% .[.!="NHS Scotland"]})
                              ) # pickerInput
                              ), # column
                              column(6, pickerInput("respiratory_nonflu_y_axis_plots",
