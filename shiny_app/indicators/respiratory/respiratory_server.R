@@ -119,7 +119,8 @@ output$respiratory_flu_over_time_table <- renderDataTable ({
     filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
     select(Date, Organism, Count, Rate) %>%
     arrange(desc(Date), Organism) %>%
-    rename(`Week Ending` = Date,
+    rename(`Week ending` = Date,
+           `Subtype` = Organism,
            `Number of cases` = Count,
            `Rate per 100,000` = Rate) %>%
     make_table()
@@ -132,7 +133,8 @@ output$respiratory_flu_over_time_table <- renderDataTable ({
       filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
       select(Date, Organism, Rate) %>%
       arrange(desc(Date), Organism) %>%
-      rename(`Week Ending` = Date,
+      rename(`Week ending` = Date,
+             `Subtype` = Organism,
              `Rate per 100,000` = Rate) %>%
       make_table()
 
@@ -151,6 +153,7 @@ output$respiratory_flu_by_season_table <- renderDataTable ({
       arrange(desc(Date), Organism) %>%
       select(Season, Week, Organism, Count, Rate) %>%
       rename(`Number of cases` = Count,
+             `Subtype` = Organism,
              `Rate per 100,000` = Rate) %>%
       make_table()
 
@@ -161,13 +164,13 @@ output$respiratory_flu_by_season_table <- renderDataTable ({
       filter(FluOrNonFlu == "flu") %>%
       arrange(desc(Date), Organism) %>%
       select(Season, Week, Organism, Rate) %>%
-      rename(`Rate per 100,000` = Rate) %>%
+      rename(`Rate per 100,000` = Rate,
+             `Subtype` = Organism) %>%
       make_table()
 
   }
 
 })
-
 
 # Flu by age/sex/age and sex
 output$respiratory_flu_age_sex_table = renderDataTable({
@@ -177,8 +180,8 @@ output$respiratory_flu_age_sex_table = renderDataTable({
     filter(scotland_by_age_flag == 1) %>%
     mutate(Sex = "All") %>%
     select(Season, Date, AgeGroup, Sex, Rate) %>%
-    rename(`Week Ending` = Date,
-           `Age Group` = AgeGroup,
+    rename(`Week ending` = Date,
+           `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
   
   flu_sex <- Respiratory_AllData %>%
@@ -186,8 +189,8 @@ output$respiratory_flu_age_sex_table = renderDataTable({
     filter(scotland_by_sex_flag == 1) %>%
     mutate(AgeGroup = "All") %>%
     select(Season, Date, AgeGroup, Sex, Rate) %>%
-    rename(`Week Ending` = Date,
-           `Age Group` = AgeGroup,
+    rename(`Week ending` = Date,
+           `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
   
   flu_age_sex <- Respiratory_AllData %>%
@@ -195,10 +198,15 @@ output$respiratory_flu_age_sex_table = renderDataTable({
     filter(scotland_by_age_sex_flag == 1) %>%
     select(Season, Date, AgeGroup, Sex, Rate) %>%
     arrange(desc(Date), AgeGroup, Sex) %>%
-    rename(`Week Ending` = Date,
-           `Age Group` = AgeGroup,
+    rename(`Week ending` = Date,
+           `Age group` = AgeGroup,
            `Rate per 100,000` = Rate) %>%
     bind_rows(flu_age, flu_sex) %>%
+    mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
+           `Age group` = factor(`Age group`, levels =
+                                  c("All", "<1", "1-4", "5-14",
+                                    "15-44", "45-64", "65-74", "75+"))) %>%
+    arrange(desc(`Week ending`), `Age group`, Sex) %>%
     make_table()
   
 })
@@ -324,8 +332,9 @@ output$respiratory_nonflu_over_time_table <- renderDataTable ({
     filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
     select(Date, Organism, Count, Rate) %>%
     arrange(desc(Date), Organism) %>%
-    rename(`Week Ending` = Date,
+    rename(`Week ending` = Date,
            `Number of cases` = Count,
+           `Pathogen` = Organism,
            `Rate per 100,000` = Rate) %>%
     make_table()
 
@@ -337,7 +346,8 @@ output$respiratory_nonflu_over_time_table <- renderDataTable ({
       filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
       select(Date, Organism, Rate) %>%
       arrange(desc(Date), Organism) %>%
-      rename(`Week Ending` = Date,
+      rename(`Week ending` = Date,
+             `Pathogen` = Organism,
              `Rate per 100,000` = Rate) %>%
       make_table()
 
@@ -357,6 +367,7 @@ output$respiratory_nonflu_by_season_table <- renderDataTable ({
       arrange(desc(Date), Organism) %>%
       select(Season, Week, Organism, Count, Rate) %>%
       rename(`Number of cases` = Count,
+             `Pathogen` = Organism,
              `Rate per 100,000` = Rate) %>%
       make_table()
 
@@ -367,7 +378,8 @@ output$respiratory_nonflu_by_season_table <- renderDataTable ({
       filter(FluOrNonFlu == "nonflu") %>%
       arrange(desc(Date), Organism) %>%
       select(Season, Week, Organism, Rate) %>%
-      rename(`Rate per 100,000` = Rate) %>%
+      rename(`Rate per 100,000` = Rate,
+             `Pathogen` = Organism) %>%
       make_table()
 
   }
@@ -382,8 +394,8 @@ output$respiratory_nonflu_age_sex_table = renderDataTable({
     filter(scotland_by_age_flag == 1) %>%
     mutate(Sex = "All") %>%
     select(Season, Date, AgeGroup, Sex, Rate) %>%
-    rename(`Week Ending` = Date,
-           `Age Group` = AgeGroup,
+    rename(`Week ending` = Date,
+           `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
   
   nonflu_sex <- Respiratory_AllData %>%
@@ -391,8 +403,8 @@ output$respiratory_nonflu_age_sex_table = renderDataTable({
     filter(scotland_by_sex_flag == 1) %>%
     mutate(AgeGroup = "All") %>%
     select(Season, Date, AgeGroup, Sex, Rate) %>%
-    rename(`Week Ending` = Date,
-           `Age Group` = AgeGroup,
+    rename(`Week ending` = Date,
+           `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
   
   nonflu_age_sex <- Respiratory_AllData %>%
@@ -400,10 +412,15 @@ output$respiratory_nonflu_age_sex_table = renderDataTable({
     filter(scotland_by_age_sex_flag == 1) %>%
     select(Season, Date, AgeGroup, Sex, Rate) %>%
     arrange(desc(Date), AgeGroup, Sex) %>%
-    rename(`Week Ending` = Date,
-           `Age Group` = AgeGroup,
+    rename(`Week ending` = Date,
+           `Age group` = AgeGroup,
            `Rate per 100,000` = Rate) %>%
     bind_rows(nonflu_age, nonflu_sex) %>%
+    mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
+           `Age group` = factor(`Age group`, levels =
+                                  c("All", "<1", "1-4", "5-14",
+                                    "15-44", "45-64", "65-74", "75+"))) %>%
+    arrange(desc(`Week ending`), `Age group`, Sex) %>%
     make_table()
   
 })
