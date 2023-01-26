@@ -5,7 +5,7 @@ observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", sele
 observeEvent(input$jump_to_cases, {updateTabsetPanel(session, "intabset", selected = "cases")})
 observeEvent(input$jump_to_hospital_admissions, {updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
 observeEvent(input$jump_to_hospital_occupancy, {updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
-observeEvent(input$jump_to_vaccines, {updateTabsetPanel(session, "intabset", selected = "vaccines")})
+observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "respiratory")})
 observeEvent(input$jump_to_metadata, {updateTabsetPanel(session, "intabset", selected = "metadata")})
 observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", selected = "download")})
 
@@ -26,7 +26,7 @@ output$introduction_about <- renderUI({
                                                     "https://www.gov.scot/coronavirus-covid-19/.")),
           p("Note that some numbers may not sum to the total as disclosure control methods have been applied
             to the data in order to protect patient confidentiality."),
-          p(glue("This dashboard was last updated at {deployment_date}")),
+          p(glue("This dashboard was last updated on {Deployment_Date}")),
           br(),
 
           fluidRow(
@@ -67,9 +67,10 @@ output$introduction_about <- renderUI({
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                   actionButton("jump_to_vaccines", "Vaccine wastage"))),
+                              actionButton("jump_to_respiratory", "Respiratory illnesses"))),
             column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
           br(),
+
 
           fluidRow(
             column(4,tags$div(class = "special_button",

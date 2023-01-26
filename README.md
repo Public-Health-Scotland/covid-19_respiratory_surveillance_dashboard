@@ -11,7 +11,7 @@
 
 3. Run app from `shiny_app/app.R` to view app locally to check content.
 
-4. Obtain `shiny_app/AppDeployment.R` from colleagues. Edit the paths to point to your local `shiny_app` folder. Run to deploy the app.
+4. Obtain `shiny_app/deployment/deployment_secrets.R` from colleagues. Edit the paths to point to your local `shiny_app` folder. Run to deploy the app.
 
 ## Developing the R shiny app
 
@@ -43,6 +43,8 @@
   * `plot_functions.R` includes general plotting functions
   
 * `www` contains static images as well as additional css and javascript code
+
+* `deployment` contains code for deploying the app to shinyapps.io
 
 * `modules` contains sub-folders of shiny modules used by the app
 

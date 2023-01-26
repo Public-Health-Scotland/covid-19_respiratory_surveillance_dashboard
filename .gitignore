@@ -6,8 +6,8 @@
 # 'data' folder #
 data/
 
-# App deployment script
-shiny_app/AppDeployment.R
+# Deployment secrets
+shiny_app/deployment/deployment_secrets.R
 
 # rsconnect folder
 shiny_app/rsconnect/

@@ -19,8 +19,7 @@ library(janitor)
 library(fontawesome)
 library(shinymanager)
 library(gotop)
-
-deployment_date <- lubridate::now()
+library(R.utils)
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -72,9 +71,14 @@ for (rds in rds_files){
   load_rds_file(rds)
 }
 
-
-vaccine_wastage_month <- {Vaccine_Wastage %>% tail(1) %>%
-    .$Month %>% convert_opendata_date() %>% convert_date_to_month()}
+# If on shinyapps.io config::get()$online is TRUE, else FALSE
+if (config::get()$online){
+  # Whether to password protect the app - set in deployment script
+  # TRUE if deployed to PRA, FALSE if not
+  password_protect <- Password_Protect
+} else {
+  password_protect <- FALSE
+}
 
 # Creating variable for latest week for headlines
 
@@ -100,3 +104,53 @@ los_median_max <- Length_of_Stay_Median %>%
 
 los_median_min <- Length_of_Stay_Median %>%
   filter(MedianLengthOfStay == min(MedianLengthOfStay))
+
+# Respiratory factor
+resp_order <- c("Influenza - Type A (any subtype)",
+                "Influenza - Type A(H1N1)pdm09",
+                "Influenza - Type A(H3)",
+                "Influenza - Type A (not subtyped)",
+                "Influenza - Type B",
+                "Influenza - Type A or B",
+                "Adenovirus",
+                "Human metapneumovirus",
+                "Mycoplasma pneumoniae",
+                "Parainfluenza virus",
+                "Respiratory syncytial virus",
+                "Rhinovirus",
+                "Seasonal coronavirus (Non-SARS-CoV-2)",
+                "Total")
+
+Respiratory_AllData %<>%
+  mutate(
+         AgeGroup = factor(AgeGroup,
+                           levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")
+                           ),
+         Organism = factor(Organism,
+                           levels = resp_order
+          )
+         )
+
+resp_sum_order <- c(resp_order,
+                   unique(Respiratory_Summary$Breakdown)[!(
+                    unique(Respiratory_Summary$Breakdown) %in% resp_order)])
+
+# Duplicate of Respiratory_Summary where Breakdown col is a factor - needed for the
+# headline dropdown. Can't reassign to Respiratory_Summary for some reason
+# TODO: fix this!
+Respiratory_Summary_Factor <- Respiratory_Summary %>%
+  mutate(Breakdown = factor(Breakdown,levels = resp_sum_order)) %>% arrange(Breakdown)
+
+# respiratory headline figures
+flu_icon_headline <- Respiratory_Summary_Totals %>%
+  mutate(icon = case_when(PercentageDifference > 0 ~ "arrow-up",
+                          PercentageDifference < 0 ~ "arrow-down",
+                          PercentageDifference == 0 ~ "equals"))
+
+# respiratory isoweeks
+this_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DateThisWeek[1])
+prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DatePreviousWeek[1])
+
+
+
+

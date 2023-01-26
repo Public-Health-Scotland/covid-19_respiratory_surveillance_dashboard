@@ -7,10 +7,6 @@
 # Description of content
 ##########################################################
 
-# Keep this as TRUE for deploying to PRA. Only change to FALSE
-# for public deployment
-password_protect <- FALSE
-
 # Get packages
 source("setup.R")
 
@@ -38,7 +34,7 @@ ui <- fluidPage(
                href = "https://www.publichealthscotland.scot/",
                target = "_blank"), # PHS logo links to PHS website
         style = "position: relative; top: -10px;"),
-      windowTitle = "COVID-19 Dashboard",# Title for browser tab
+      windowTitle = "COVID-19 & Respiratory Surveillance",# Title for browser tab
       header = source(file.path("header.R"), local=TRUE)$value,
       ##############################################.
       # INTRO PAGE ----
@@ -94,16 +90,16 @@ ui <- fluidPage(
 
       ), # tabpanel
       ##############################################.
-      # VACCINE WASTAGE ----
+      # RESPIRATORY ----
       ##############################################.
-      tabPanel(title = "Vaccine wastage",
+      tabPanel(title = "Respiratory illnesses",
                # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("syringe"),
-               value = "vaccines",
+               icon = icon_no_warning_fn("virus"),
+               value = "respiratory",
 
-               source(file.path("indicators/vaccines/vaccines_ui.R"), local = TRUE)$value
+               source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
 
-      ), # tabpanel
+            ), # tabpanel
       ##############################################.
       # METADATA ----
       ##############################################.
@@ -154,7 +150,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_functions.R"), local = TRUE)$value
-  source(file.path("indicators/vaccines/vaccines_functions.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory/respiratory_functions.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
 
@@ -164,7 +160,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/cases/cases_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
-  source(file.path("indicators/vaccines/vaccines_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
 

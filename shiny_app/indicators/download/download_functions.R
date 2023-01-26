@@ -14,7 +14,7 @@ get_data_dictionary <- function(dataname){
     error = function(e) { dictionary <<- "could not find"}
   )
 
-  validate(
+  shiny::validate(
     need(is.data.frame(dictionary),
          "No summary available")
   )

@@ -1,0 +1,6 @@
+default:
+  online: false
+
+
+shinyapps:
+  online: true

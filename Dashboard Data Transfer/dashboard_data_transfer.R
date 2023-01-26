@@ -66,19 +66,8 @@ purrr::walk(list.files(path=input_data, full.names=TRUE), unlink, recursive=TRUE
 data_folder <- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/",
                     "Weekly Data Folders/{report_date}/Data")
 
-# This can be commented out once we have a proper process
-# in place for adding the flu data to test and protect warehouse
-respiratory_input_data_path <- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/",
-                    "Weekly Covid Dashboard/Flu-NonFlu")
-
 data_files = list.files(path=data_folder, recursive=TRUE, full.names=TRUE)
 purrr::walk(data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
-
-# Getting respiratory data files
-# This can be commented out once we have a proper process
-# in place for adding the flu data to test and protect warehouse
-flu_data_files = list.files(path=respiratory_input_data_path, recursive=TRUE, full.names=TRUE)
-purrr::walk(flu_data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
 
 
 ##### Cases
@@ -114,4 +103,7 @@ source("Transfer Scripts/transfer_wastewater.R")
 
 #### Occupancy
 source("Transfer Scripts/transfer_occupancy.R")
+
+#### Respiratory
+source("Transfer Scripts/transfer_respiratory.R")
 
