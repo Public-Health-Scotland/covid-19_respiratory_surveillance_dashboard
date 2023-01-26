@@ -224,7 +224,7 @@ tagList(
                                                                  label = "Select a healthboard",
                                                                  choices = {Respiratory_Summary %>%
                                                                      filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Healthboard_Total") %>%
-                                                                     .$Breakdown %>% unique() %>% get_hb_name()}
+                                                                     .$Breakdown %>% unique() %>% get_hb_name() %>% sort()}
                                                      ),  # pickerInput
                                                      withNavySpinner(valueBoxOutput("respiratory_nonflu_headline_figures_healthboard_count", width = NULL))
                                                    ) # tagList
