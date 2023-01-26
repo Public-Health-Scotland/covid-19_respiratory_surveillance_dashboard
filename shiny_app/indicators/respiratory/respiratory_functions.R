@@ -116,7 +116,21 @@ select_y_axis <- function(data, yaxis) {
 # this plot makes a plot showing the rate/number of cases for each by each subtype
 make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
 
-  data %<>% arrange(Date)
+  # Checking whether flu or non flu
+  if("Adenovirus" %in% data$Organism){
+    # nonflu
+    colours <- c(phs_colours(c("phs-blue", "phs-rust", "phs-magenta",
+                               "phs-green", "phs-teal", "phs-purple")), "black")
+    linestyles <- c("dashdot", "longdashdot", "dash", "longdash", "solid", "dot", "solid")
+  } else {
+    #flu
+    colours <- c(phs_colours(c("phs-purple", "phs-teal", "phs-green", "phs-rust")), "black")
+    linestyles <- c("solid", "solid", "solid", "dash", "dot")
+  }
+
+  data %<>% arrange(Date, Organism) %>%
+    # Need to apply factor again to drop out the levels not present in this selection
+    mutate(Organism = factor(Organism))
 
   xaxis_plots[["title"]] <- "Date"
   yaxis_plots[["title"]] <- y_axis_title
@@ -128,6 +142,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
     plot_ly(x = ~Date,
             y = ~y_axis,
             color = ~Organism,
+            linetype = ~Organism,
             textposition = "none",
             text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
                            "<b>Health board</b>: ", get_hb_name(HealthboardCode), "\n",
@@ -136,7 +151,9 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
             hovertemplate = "%{text}",
             type="scatter",
             mode="lines",
-            colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
+            linetypes = linestyles,
+            colors = colours
+            ) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            legend=list(title=list(text='<b> Subtype </b>')),
@@ -177,9 +194,12 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
                            "<b>", y_axis_title, "</b>: ", format(y_axis, big.mark=",")),
             hovertemplate = "%{text}",
             color = ~Season,
+            linetype = ~Season,
             type="scatter",
             mode="lines",
-            colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-blue', 'phs-green', 'phs-graphite'))) %>%
+            linetypes = c("solid", "dot", "dash", "longdash", "dashdot", "longdashdot", "solid"),
+            colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-rust',
+                                   'phs-blue', 'phs-green', 'phs-graphite'))) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            paper_bgcolor = phs_colours("phs-liberty-10"),
