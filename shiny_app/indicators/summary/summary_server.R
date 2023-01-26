@@ -160,7 +160,7 @@ output$respiratory_flu_infobox <- renderInfoBox({
               .$CountThisWeek %>%
               format(big.mark = ",")},
           subtitle = "Total",
-          icon = icon_no_warning_fn("head-side-virus"),
+          icon = icon_no_warning_fn("virus"),
           color = "teal")
 })
 
@@ -190,7 +190,7 @@ output$respiratory_nonflu_infobox <- renderInfoBox({
               .$CountThisWeek %>%
               format(big.mark = ",")},
           subtitle = "Total",
-          icon = icon_no_warning_fn("head-side-virus"),
+          icon = icon_no_warning_fn("head-side-cough"),
           color = "teal")
 })
 
