@@ -186,32 +186,6 @@ make_hospital_admissions_los_plot <- function(data){
     config(displaylogo = F, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove )
 
-  # The following code creates patterns and sets white background
-  # for alternate bars.
-
-  # p <- plotly_build(p)
-  # 
-  # # Assign pattern to each bar
-  # p$x$data[[1]]$marker$pattern$shape <- ""
-  # p$x$data[[2]]$marker$pattern$shape <- "/"
-  # p$x$data[[3]]$marker$pattern$shape <- ""
-  # p$x$data[[4]]$marker$pattern$shape <- "\\"
-  # p$x$data[[5]]$marker$pattern$shape <- ""
-  # 
-  # # Assign background colour to each bar
-  # p$x$data[[1]]$marker$pattern$bgcolor <- ""
-  # p$x$data[[2]]$marker$pattern$bgcolor <- "white"
-  # p$x$data[[3]]$marker$pattern$bgcolor <- ""
-  # p$x$data[[4]]$marker$pattern$bgcolor <- "white"
-  # p$x$data[[5]]$marker$pattern$bgcolor <- ""
-  # 
-  # # Assign solidity to each bar
-  # p$x$data[[1]]$marker$pattern$solidity <- ""
-  # p$x$data[[2]]$marker$pattern$solidity <- "0.8"
-  # p$x$data[[3]]$marker$pattern$solidity <- ""
-  # p$x$data[[4]]$marker$pattern$solidity <- "0.8"
-  # p$x$data[[5]]$marker$pattern$solidity <- ""
-
   return(p)
 
 }
@@ -263,37 +237,6 @@ make_hospital_admissions_ethnicity_plot <- function(data){
     config(displaylogo = F, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove )
 
-  # The following code creates patterns and sets background colour
-  # for alternate bars.
-
-  # p <- plotly_build(p)
-  # 
-  # # Assign pattern to each bar
-  # p$x$data[[1]]$marker$pattern$shape <- ""
-  # p$x$data[[2]]$marker$pattern$shape <- "x"
-  # p$x$data[[3]]$marker$pattern$shape <- ""
-  # p$x$data[[4]]$marker$pattern$shape <- "/"
-  # p$x$data[[5]]$marker$pattern$shape <- ""
-  # p$x$data[[6]]$marker$pattern$shape <- "\\"
-  # p$x$data[[7]]$marker$pattern$shape <- ""
-  # 
-  # # Assign background colour to each bar
-  # p$x$data[[1]]$marker$pattern$bgcolor <- ""
-  # p$x$data[[2]]$marker$pattern$bgcolor <- phs_colors("phs-purple-10")
-  # p$x$data[[3]]$marker$pattern$bgcolor <- ""
-  # p$x$data[[4]]$marker$pattern$bgcolor <- phs_colors("phs-blue-10")
-  # p$x$data[[5]]$marker$pattern$bgcolor <- ""
-  # p$x$data[[6]]$marker$pattern$bgcolor <- phs_colors("phs-magenta-10")
-  # p$x$data[[7]]$marker$pattern$bgcolor <- ""
-  # 
-  # # Assign solidity to each bar
-  # p$x$data[[1]]$marker$pattern$solidity <- ""
-  # p$x$data[[2]]$marker$pattern$solidity <- "0.8"
-  # p$x$data[[3]]$marker$pattern$solidity <- ""
-  # p$x$data[[4]]$marker$pattern$solidity <- "0.8"
-  # p$x$data[[5]]$marker$pattern$solidity <- ""
-  # p$x$data[[6]]$marker$pattern$solidity <- "0.8"
-  # p$x$data[[7]]$marker$pattern$solidity <- ""
 
   return(p)
 
