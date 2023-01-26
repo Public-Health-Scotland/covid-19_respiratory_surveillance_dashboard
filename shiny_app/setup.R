@@ -71,9 +71,14 @@ for (rds in rds_files){
   load_rds_file(rds)
 }
 
-# Whether to password protect the app - set in deployment script
-# TRUE if deployed to PRA, FALSE if not
-password_protect <- Password_Protect
+# If on shinyapps.io config::get()$online is TRUE, else FALSE
+if (config::get()$online){
+  # Whether to password protect the app - set in deployment script
+  # TRUE if deployed to PRA, FALSE if not
+  password_protect <- Password_Protect
+} else {
+  password_protect <- FALSE
+}
 
 # Creating variable for latest week for headlines
 
