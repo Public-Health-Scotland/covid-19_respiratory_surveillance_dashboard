@@ -219,7 +219,7 @@ output$respiratory_nonflu_headline_figures_subtype_count <- renderValueBox ({
   valueBox(value = organism_summary_total,
            subtitle = glue("cases of {input$respiratory_nonflu_headline_subtype} in Scotland"),
            color = "teal",
-           icon = icon_no_warning_fn("virus"),
+           icon = icon_no_warning_fn("head-side-cough"),
            width = NULL)
 
   })
