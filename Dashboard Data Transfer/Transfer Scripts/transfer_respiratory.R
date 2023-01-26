@@ -51,7 +51,7 @@ organism <- c("fluaorb" = "Influenza - Type A or B",
 for(filename in filenames) {
 
   # 1.  e.g. scotland_agg, agegp_sex_agg, ...
-  df1 <- get(glue("i_respiratory_{filename}_agg")) %>%
+  df1 <- base::get(glue("i_respiratory_{filename}_agg")) %>%
     mutate(year = get_resp_year(weekord, season),
            date = MMWRweek2Date(year, week)) %>%
     mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
