@@ -52,7 +52,7 @@ tagList(
                                                    tagList(
                                                      pickerInput("respiratory_flu_headline_subtype",
                                                                        label = "Select subtype",
-                                                                         choices = {Respiratory_Summary %>%
+                                                                         choices = {Respiratory_Summary_Factor %>%
                                                                            filter(FluOrNonFlu == "flu" & SummaryMeasure == "Scotland_by_Organism_Total") %>% arrange(Breakdown) %>%
                                                                            .$Breakdown %>% unique() %>% as.character()},
                                                                        selected = "Influenza - Type A or B"),
@@ -211,7 +211,7 @@ tagList(
                                                    tagList(
                                                      pickerInput("respiratory_nonflu_headline_subtype",
                                                                  label = "Select subtype",
-                                                                 choices = {Respiratory_Summary %>%
+                                                                 choices = {Respiratory_Summary_Factor %>%
                                                                      filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>% arrange(Breakdown) %>%
                                                                      .$Breakdown %>% unique() %>% as.character()},
                                                                  selected = "Adenovirus"),

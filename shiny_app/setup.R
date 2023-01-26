@@ -119,14 +119,13 @@ Respiratory_AllData %<>%
           )
          )
 
+resp_sum_order <- c(resp_order,
+                   unique(Respiratory_Summary$Breakdown)[!(
+                    unique(Respiratory_Summary$Breakdown) %in% resp_order)])
 
-# Respiratory_Summary %>%
-#   mutate(Breakdown = factor(Breakdown,
-#                             levels = c(resp_order,
-#                                        unique(Respiratory_Summary$Breakdown)[!(
-#                                          unique(Respiratory_Summary$Breakdown) %in% resp_order)])
-#                             )
-#   ) %>% arrange(Breakdown)
+
+Respiratory_Summary_Factor <- Respiratory_Summary %>%
+  mutate(Breakdown = factor(Breakdown,levels = resp_sum_order)) %>% arrange(Breakdown)
 
 # respiratory headline figures
 flu_icon_headline <- Respiratory_Summary_Totals %>%
