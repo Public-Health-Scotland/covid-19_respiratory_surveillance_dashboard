@@ -22,7 +22,7 @@ vaccines_download_choices <- list(
 )
 
 choices_list <- list("COVID-19 cases" = names(cases_download_choices),
-                     "COVID-19 hospital admissions" = names(hospital_admissions_download_choices),
+                     "Acute COVID-19 hospital admissions" = names(hospital_admissions_download_choices),
                      "COVID-19 hospital occupancy" = names(hospital_occupancy_download_choices),
                      "Vaccine wastage" = names(vaccines_download_choices))
 
@@ -82,7 +82,18 @@ output$data_download_table <- renderDataTable({
 })
 
 
-
+output$data_download_open_data_statement <- renderUI({
+  
+  ifelse(input$download_indicator %in% c("COVID-19 cases",
+                                         "COVID-19 hospital admissions",
+                                         "COVID-19 hospital occupancy",
+                                         "Vaccine wastage"),
+         tagList(p("This dataset follows the ", tags$a(href="https://www.opendata.nhs.scot/uploads/admin/PHS-Open-Data-Standards-Version-1.0.pdf",
+                                  "open data standards (external website)", 
+                                  target="_blank"),
+                   "set out by Public Health Scotland.")),
+         tagList(p("")))
+})
 
 
 

@@ -220,3 +220,32 @@ get_threeweek_admissions_figures <- function(df,            # data frame to get 
 
 }
 
+
+get_threeweek_occupancy_figures <- function(df,            # data frame to get figures from
+                                             datecol)       # string - date column name
+                                                    {
+
+  df[[datecol]] <- convert_opendata_date(df[[datecol]])
+
+  df[["wday"]] <- lubridate::wday(as.Date(df[[datecol]], format = "%Y-%m-%d"), week_start = 1, label = TRUE, abbr = FALSE)
+
+  df %<>%
+   # mutate(wday = lubridate::wday(as.Date(datecol, format = "%Y-%m-%d"), week_start = 1, label = TRUE, abbr = FALSE)) %>%
+    filter(wday == "Sunday")
+
+  out_1 <- df %>% tail(1)
+  out_2 <- df %>% tail(2) %>% head(1)
+  out_3 <- df %>% tail(3) %>% head(1)
+
+  out_tot <- list(out_1, out_2, out_3)
+
+  dates <- purrr::map(out_tot, ~ format(max(.[[datecol]]), "%d %b %y"))
+
+  names(out_tot) <- dates
+
+
+  return(out_tot)
+
+
+}
+

@@ -52,8 +52,8 @@ output$reported_cases_infobox <- renderInfoBox({
 #### Hospital admissions ----
 
 output$admissions_infobox <- renderInfoBox({
-  infoBox(title=h5("Admissions", summaryButtonUI("admissions",
-                                              "COVID-19 hospital admissions",
+  infoBox(title=h5("Acute admissions", summaryButtonUI("admissions",
+                                              "Acute COVID-19 hospital admissions",
                                               paste("An admission to hospital where the patient had a first positive PCR from 14 days prior to",
                                                     "admission up to two days following admission. This includes reinfections which are 90 days or",
                                                     "more since their last positive test. This only includes emergency admissions to medical or",
@@ -103,15 +103,14 @@ output$los_infobox <- renderInfoBox({
 output$occupancy_infobox <- renderInfoBox({
   infoBox(title=h5("Hospital beds occupied",
                    summaryButtonUI("occupancy",
-                                   "Number of patients in hospital with COVID-19",
+                                   "Number of inpatients in hospital with COVID-19",
                                    paste("Average number of patients in hospital with recently confirmed COVID-19, identified by their first positive",
                                          "LFD test (from 5 January 2022) or PCR test. This measure includes patients who first tested positive in hospital",
                                          "or in the 14 days before admission. Patients stop being included after 28 days in hospital",
                                          "(or 28 days after first testing positive if this is after admission).<br><br>",
                                          strong("For more information, see Metadata. Click again to close.")))),
-          value= {Occupancy_Hospital %>% tail(1) %>%
-                                .$SevenDayAverage},
-          subtitle = "7 day average",
+          value= {occupancy_headlines[[1]]$HospitalOccupancy},
+          subtitle = glue("Snapshot at 8am on {names(occupancy_headlines)[1]}"),
           icon = icon_no_warning_fn("hospital"),
           color = "fuchsia")
 })
