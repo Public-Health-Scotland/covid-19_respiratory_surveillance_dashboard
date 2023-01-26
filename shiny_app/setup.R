@@ -126,7 +126,9 @@ resp_sum_order <- c(resp_order,
                    unique(Respiratory_Summary$Breakdown)[!(
                     unique(Respiratory_Summary$Breakdown) %in% resp_order)])
 
-
+# Duplicate of Respiratory_Summary where Breakdown col is a factor - needed for the
+# headline dropdown. Can't reassign to Respiratory_Summary for some reason
+# TODO: fix this!
 Respiratory_Summary_Factor <- Respiratory_Summary %>%
   mutate(Breakdown = factor(Breakdown,levels = resp_sum_order)) %>% arrange(Breakdown)
 
