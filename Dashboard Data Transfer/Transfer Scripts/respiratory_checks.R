@@ -119,7 +119,7 @@ check_data <- function(data, measure = "Scotland", checks = "this week", prev_we
 
 
 # get previous week's file paths
-path_data_archive <- paste0(respiratory_input_data_path, "/Archive")
+path_data_archive <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Archive"
 
 scotland_agg_prev_week_file <- file.info(list.files(path_data_archive, pattern= ".*scotland_agg.*\\.csv$", full.names= T))
 scotland_agg_prev_week_file <- rownames(scotland_agg_prev_week_file)[which.max(scotland_agg_prev_week_file$mtime)]
