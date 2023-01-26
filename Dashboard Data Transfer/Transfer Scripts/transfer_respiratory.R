@@ -248,7 +248,9 @@ g_resp_summary <- bind_rows(
   Rate, RateQF,
   SummaryMeasure)
 
-g_resp_data %<>% mutate(HealthboardCode = ifelse(Healthboard == "Scotland", "S92000003", HealthboardCode))
+# Adding Scotland HB code for Scotland entries
+g_resp_data %<>% mutate(HealthboardCode = ifelse((!is.na(Healthboard) & Healthboard == "Scotland"),
+                                                 "S92000003", HealthboardCode))
 
 # Checks on aggregated data
 source("Transfer Scripts/respiratory_checks.R")
