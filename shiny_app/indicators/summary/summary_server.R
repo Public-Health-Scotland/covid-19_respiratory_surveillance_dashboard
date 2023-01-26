@@ -126,7 +126,7 @@ output$occupancy_infobox <- renderInfoBox({
                                          "(or 28 days after first testing positive if this is after admission).<br><br>",
                                          strong("For more information, see Metadata. Click again to close.")))),
           value= {occupancy_headlines[[1]]$HospitalOccupancy},
-          subtitle = "As at most recent available Sunday",
+          subtitle = glue("Snapshot at 8am on {names(occupancy_headlines)[1]}"),
           icon = icon_no_warning_fn("hospital"),
           color = "fuchsia")
 })

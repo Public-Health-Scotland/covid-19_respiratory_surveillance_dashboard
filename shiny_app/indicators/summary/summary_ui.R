@@ -67,7 +67,7 @@ tagList(
             jumpToTabButtonUI("hospital_occupancy_from_summary", location_pretty = "hospital occupancy"),
             linebreaks(1),
 
-            h4(glue("Week ending {Occupancy_Hospital %>% tail(1) %>% .$Date %>% convert_opendata_date() %>% as_dashboard_date()}")),
+            h4(glue("As at {names(occupancy_headlines)[1]}")),
             withNavySpinner(
               infoBoxOutput("occupancy_infobox", width=NULL)
               ),
