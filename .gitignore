@@ -6,9 +6,6 @@
 # 'data' folder #
 data/
 
-# Password protect
-shiny_app/password_protect
-
 # Deployment secrets
 shiny_app/deployment/deployment_secrets.R
 

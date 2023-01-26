@@ -1,32 +1,36 @@
 # Deployment functions
 
-is_password_protected <- function(app_loc){
+set_deployment_date <- function(){
 
-  # Read whether password protect is set to TRUE or not in file
-  protected <- grep("password_protect <-", readr::read_lines(paste0(app_loc, "/app.R")),
-                    value=TRUE) %>%
-    # Is password_protect set to TRUE?
-    grepl("TRUE", .)
+  Deployment_Date <- lubridate::today() %>% format("%d %B %Y")
+  saveRDS(Deployment_Date, paste0(app_loc, "/data/Deployment_Date.rds"))
 
-  return(protected)
+}
+
+password_protect <- function(protect = TRUE){
+
+  if(protect){
+    message("Password protecting app")
+  } else {
+    message("No password protection on app")
+  }
+
+  saveRDS(protect, paste0(app_loc, "/data/Password_Protect.rds"))
 
 }
 
 deploy <- function(app_loc, pra = TRUE){
 
-  protected <- is_password_protected(app_loc)
+  #protected <- is_password_protected(app_loc)
 
   if(pra) {
     app_name = "phs-respiratory-covid-19-pra"
-    if (!protected){
-      stop("Set password_protect to TRUE in app.R to deploy to PRA.")
-    }
+    password_protect(TRUE)
 
   } else {
     app_name = "phs-respiratory-covid-19"
-    if(protected){
-      stop("Set password_protect to FALSE in app.R to deploy to public app.")
-    }
+    password_protect(FALSE)
+
   }
 
   rsconnect::deployApp(appDir = app_loc,

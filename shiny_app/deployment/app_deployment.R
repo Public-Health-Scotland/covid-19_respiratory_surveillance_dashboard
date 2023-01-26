@@ -15,8 +15,7 @@ source("shiny_app/deployment/deployment_functions.R")
 source("shiny_app/deployment/deployment_secrets.R")
 
 # Set deployment date
-Deployment_Date <- lubridate::today() %>% format("%d %B %Y")
-saveRDS(Deployment_Date, paste0(app_loc, "/data/Deployment_Date.rds"))
+set_deployment_date()
 
 # This deploys the app
 deploy(app_loc, pra = pra)

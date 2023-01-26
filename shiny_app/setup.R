@@ -71,6 +71,10 @@ for (rds in rds_files){
   load_rds_file(rds)
 }
 
+# Whether to password protect the app - set in deployment script
+# TRUE if deployed to PRA, FALSE if not
+password_protect <- Password_Protect
+
 # Creating variable for latest week for headlines
 
 # Admissions and ICU

@@ -7,10 +7,6 @@
 # Description of content
 ##########################################################
 
-# Keep this as TRUE for deploying to PRA. Only change to FALSE
-# for public deployment
-password_protect <- FALSE
-
 # Get packages
 source("setup.R")
 

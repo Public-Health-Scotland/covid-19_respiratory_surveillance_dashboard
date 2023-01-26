@@ -23,7 +23,8 @@ shiny_data_folder <- "shiny_app/data/"
 # Remove all files in shiny data folder
 purrr::walk(
   {list.files(path=shiny_data_folder, full.names=TRUE, pattern="") %>%
-    stringr::str_subset(., "Deployment_Date.rds", negate = TRUE)
+    stringr::str_subset(., "Deployment_Date.rds", negate = TRUE) %>%
+    stringr::str_subset(., "Password_Protect.rds", negate = TRUE)
     },
   file.remove)
 
