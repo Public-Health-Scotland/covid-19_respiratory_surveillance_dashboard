@@ -163,7 +163,8 @@ tagList(
                                                      withNavySpinner(plotlyOutput("respiratory_flu_age_sex_plot"))
                                                      ) # tagList
                                                    ), # tabPanel
-                                          tabPanel("Data")
+                                          tabPanel("Data",
+                                                   withNavySpinner(dataTableOutput("respiratory_flu_age_sex_table")))
                                           ) # tabbox
                                    ) # tagList
                            ),
@@ -320,7 +321,8 @@ tagList(
                                                      withNavySpinner(plotlyOutput("respiratory_nonflu_age_sex_plot"))
                                                    ) # tagList
                                           ), # tabPanel
-                                          tabPanel("Data")
+                                          tabPanel("Data",
+                                                   withNavySpinner(dataTableOutput("respiratory_nonflu_age_sex_table")))
                                    ) # tabbox
                            ) # tagList
                            ) # tabpanel
