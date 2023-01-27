@@ -2,7 +2,7 @@
 
 
 # Module server ----
-respiratoryServer <- function(id) {
+respiratoryServer <- function(id, parent) {
 
   moduleServer(
     id,
@@ -18,14 +18,6 @@ respiratoryServer <- function(id) {
       } else {
         name_long = "non-influenza"
       }
-
-      metadataButtonServer(id="respiratory",
-                           panel="Respiratory",
-                           parent = session)
-
-      jumpToTabButtonServer(id="respiratory_from_summary",
-                            location="respiratory",
-                            parent = session)
 
 
       # Alt text ----
