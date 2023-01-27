@@ -16,19 +16,3 @@ jumpToTabButtonServer <- function(id,
 
 }
 
-jumpToTabButtonServer(id="cases_from_summary",
-                      location="cases",
-                      parent = session)
-
-jumpToTabButtonServer(id="hospital_admissions_from_summary",
-                      location="hospital_admissions",
-                      parent = session)
-
-jumpToTabButtonServer(id="hospital_occupancy_from_summary",
-                      location="hospital_occupancy",
-                      parent = session)
-
-jumpToTabButtonServer(id="respiratory_from_summary",
-                      location="respiratory",
-                      parent = session)
-

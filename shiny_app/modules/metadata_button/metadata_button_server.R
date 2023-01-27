@@ -18,23 +18,4 @@ metadataButtonServer <- function(id, panel, parent){
 
 }
 
-metadataButtonServer(id="cases",
-                    panel="Cases",
-                    parent = session)
-
-metadataButtonServer(id="hospital_admissions",
-                    panel="Hospital admissions",
-                    parent = session)
-
-metadataButtonServer(id="hospital_occupancy",
-                     panel="Hospital occupancy",
-                     parent = session)
-
-metadataButtonServer(id="respiratory",
-                    panel="Respiratory",
-                    parent = session)
-
-metadataButtonServer(id="download",
-                     panel="Cases",
-                     parent = session)
 
