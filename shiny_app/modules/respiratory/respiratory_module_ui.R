@@ -11,8 +11,10 @@ respiratoryUI <- function(id) {
 
   if(flu_or_nonflu == "flu"){
     name_long = "influenza"
+    strain_name = "subtype"
   } else {
     name_long = "non-influenza"
+    strain_name = "pathogen"
   }
 
   tabPanel(stringr::str_to_sentence(name_long),
@@ -47,14 +49,14 @@ respiratoryUI <- function(id) {
 
                    # headline figures for the week by subtype (scotland totals) and healthboard
                    tags$div(class = "headline",
-                            h3(glue("{stringr::str_to_title(name_long)} cases by healthboard and subtype")),
+                            h3(glue("{stringr::str_to_title(name_long)} cases by NHS Health Board and {strain_name}")),
                             h4(glue("during week {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                     .$DateThisWeek %>% format('%d %b %y')})")),
                             linebreaks(1),
                             column(6,
                                    tagList(
                                      pickerInput(ns("respiratory_headline_subtype"),
-                                                 label = "Select subtype",
+                                                 label = glue("Select {strain_name}"),
                                                  choices = {Respiratory_Summary_Factor %>%
                                                      filter(FluOrNonFlu == flu_or_nonflu & SummaryMeasure == "Scotland_by_Organism_Total") %>%
                                                       arrange(Breakdown) %>%
@@ -65,7 +67,7 @@ respiratoryUI <- function(id) {
                             column(6,
                                    tagList(
                                      pickerInput(ns("respiratory_headline_healthboard"),
-                                                 label = "Select a healthboard",
+                                                 label = "Select a NHS Health Board",
                                                  choices = {Respiratory_Summary %>%
                                                      filter(FluOrNonFlu == flu_or_nonflu & SummaryMeasure == "Healthboard_Total") %>%
                                                      .$Breakdown %>% unique() %>% get_hb_name() %>% sort()}
@@ -84,7 +86,7 @@ respiratoryUI <- function(id) {
            # select healthboard and rate/number for plots and data
            fluidRow(
              column(6, pickerInput(ns("respiratory_select_healthboard"),
-                                   label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
+                                   label = "Select whether you would like to see Scotland totals or choose a NHS Health Board",
                                    choices = c("Scotland", {Respiratory_AllData %>%
                                        filter(!is.na(HealthboardCode)) %>%
                                        .$HealthboardCode %>% unique() %>% get_hb_name() %>% .[.!="NHS Scotland"]})
@@ -98,7 +100,7 @@ respiratoryUI <- function(id) {
            ),
 
            # plot and data for cases by subtype over time
-           tagList(h3(glue("{stringr::str_to_title(name_long)} cases over time by subtype")),
+           tagList(h3(glue("{stringr::str_to_title(name_long)} cases over time by {strain_name}")),
 
                    tabBox(width = NULL,
                           type = "pills",
@@ -122,11 +124,10 @@ respiratoryUI <- function(id) {
                                      # adding selection forsubtype
                                      fluidRow(
                                        column(6, pickerInput(ns("respiratory_select_subtype"),
-                                                             label = "Select which subtype you would like to see",
+                                                             label = glue("Select which {strain_name} you would like to see"),
                                                              choices = {Respiratory_AllData %>%
                                                                  filter(FluOrNonFlu == flu_or_nonflu & !is.na(Organism)) %>% arrange(Organism) %>%
-                                                                 .$Organism %>% unique() %>% as.character()},
-                                                             selected = "Total") # pickerInput
+                                                                 filter(Organism != "Total") %>%.$Organism %>% unique() %>% as.character()}) # pickerInput
                                        ) # column
                                      ), # fluidRow
                                      altTextUI(ns("respiratory_by_season_modal")),
