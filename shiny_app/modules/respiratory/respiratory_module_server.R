@@ -1,7 +1,5 @@
 #### Respiratory module server ----
 
-
-# Module server ----
 respiratoryServer <- function(id) {
 
   moduleServer(
@@ -24,7 +22,7 @@ respiratoryServer <- function(id) {
                     title = glue("{str_to_title(name_long)} cases over time by subtype"),
                     content = tags$ul(
                       tags$li(glue("This is a plot of the {name_long} cases in a given NHS health board",
-                              "over time.")),
+                              " over time.")),
                       tags$li("The cases are presented as a rate, i.e. the number of people with",
                               glue("{name_long} for every 10,000 people in that NHS health board.")),
                       tags$li("For Scotland there is an option to view the absolute number of cases."),
@@ -39,7 +37,7 @@ respiratoryServer <- function(id) {
                     title =  glue("{str_to_title(name_long)} cases over time by season"),
                     content = tags$ul(
                       tags$li(glue("This is a plot of the {name_long} cases for a given subtype",
-                              "over each season.")),
+                              " over each season.")),
                       tags$li("There is a trace for each season, starting in 2016/2017."),
                       tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
                               "and the 52nd isoweek is the last week of the year."),
@@ -196,7 +194,7 @@ respiratoryServer <- function(id) {
                    `Rate per 100,000` = Rate) %>%
             make_table()
 
-        } else{
+        } else {
 
           Respiratory_AllData %>%
             filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
@@ -226,7 +224,7 @@ respiratoryServer <- function(id) {
                    `Rate per 100,000` = Rate) %>%
             make_table()
 
-        } else{
+        } else {
 
           Respiratory_AllData %>%
             filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%

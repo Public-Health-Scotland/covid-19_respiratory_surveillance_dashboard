@@ -105,7 +105,7 @@ respiratoryUI <- function(id) {
                           tabPanel("Plot",
                                    tagList(
                                      linebreaks(1),
-                                     altTextUI("respiratory_over_time_modal"),
+                                     altTextUI(ns("respiratory_over_time_modal")),
                                      withNavySpinner(plotlyOutput(ns("respiratory_over_time_plot"))))),
                           tabPanel("Data",
                                    withNavySpinner(dataTableOutput(ns("respiratory_over_time_table"))))
