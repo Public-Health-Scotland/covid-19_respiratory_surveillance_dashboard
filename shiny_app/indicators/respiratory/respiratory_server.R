@@ -155,7 +155,9 @@ output$respiratory_flu_by_season_table <- renderDataTable ({
       rename(`Number of cases` = Count,
              `Subtype` = Organism,
              `Rate per 100,000` = Rate) %>%
-      mutate(Week = as.character(Week)) %>%
+      mutate(Week = as.character(Week),
+             Week = factor(Week, levels = c(1:53)),
+             Season = factor(Season, levels = unique(Season))) %>%
       make_table()
 
   } else{
@@ -167,7 +169,9 @@ output$respiratory_flu_by_season_table <- renderDataTable ({
       select(Season, Week, Organism, Rate) %>%
       rename(`Rate per 100,000` = Rate,
              `Subtype` = Organism) %>%
-      mutate(Week = as.character(Week)) %>%
+      mutate(Week = as.character(Week),
+             Week = factor(Week, levels = c(1:53)),
+             Season = factor(Season, levels = unique(Season))) %>%
       make_table()
 
   }
@@ -378,7 +382,9 @@ output$respiratory_nonflu_by_season_table <- renderDataTable ({
       bind_rows(nonflu_season_total) %>%
       arrange(desc(Date), Organism) %>%
       select(-Date) %>%
-      mutate(Week = as.character(Week)) %>%
+      mutate(Week = as.character(Week),
+             Week = factor(Week, levels = c(1:53)),
+             Season = factor(Season, levels = unique(Season))) %>%
       rename(`Number of cases` = Count,
              `Pathogen` = Organism,
              `Rate per 100,000` = Rate) %>%
@@ -401,7 +407,9 @@ output$respiratory_nonflu_by_season_table <- renderDataTable ({
       bind_rows(nonflu_season_total) %>%
       arrange(desc(Date), Organism) %>%
       select(-Date) %>%
-      mutate(Week = as.character(Week)) %>%
+      mutate(Week = as.character(Week),
+             Week = factor(Week, levels = c(1:53)),
+             Season = factor(Season, levels = unique(Season))) %>%
       rename(`Rate per 100,000` = Rate,
              `Pathogen` = Organism) %>%
       make_table()
