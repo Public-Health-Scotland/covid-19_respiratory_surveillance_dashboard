@@ -30,8 +30,8 @@ respiratoryServer <- function(id) {
                       tags$li("For Scotland there is an option to view the absolute number of cases."),
                       tags$li("The x axis is the date, commencing 02 Oct 2016."),
                       tags$li("The y axis is either the rate of cases or the number of cases."),
-                      tags$li(glue("There is a trace for each {strain_name} of {name_long}.")),
-                      tags$li("The trend is that each winter there is a peak in cases.")
+                      tags$li(glue("There is a trace for each {strain_name} of {name_long}."))
+                      #tags$li("The trend is that each winter there is a peak in cases.")
                     )
       )
 
@@ -43,7 +43,7 @@ respiratoryServer <- function(id) {
                       tags$li("There is a trace for each season, starting in 2016/2017."),
                       tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
                               "and the 52nd isoweek is the last week of the year."),
-                      tags$li(("The y axis is the rate of cases of the chosen {name_long} {strain_name} in Scotland.")))
+                      tags$li(glue("The y axis is the rate of cases of the chosen {name_long} {strain_name} in Scotland.")))
                     #  tags$li("The trend is that each winter there is a peak in cases. The peak was",
                     #          "highest in 2017/2018 at about 2,800 cases.")
                    # )
