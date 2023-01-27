@@ -2,8 +2,7 @@
 tagList(
   fluidRow(width = 12,
            metadataButtonUI("respiratory"),
-           h1("Other respiratory illnesses"),
-           p("This is the epidemiological information on seasonal respiratory infection activity in Scotland (excluding COVID-19). "),
+           h1("Respiratory infection activity (excluding COVID-19)"),
            linebreaks(2)
            ), # fluidRow
 

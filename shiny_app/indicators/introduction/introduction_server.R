@@ -32,8 +32,8 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_summary", "At a glance"))),
-            column(8, p("This section provides an overview of headline COVID-19 and Respiratory
-                        Surveillance indicators held within this dashboard."))),
+            column(8, p("This section provides an overview of headline COVID-19 and respiratory
+                        surveillance indicators held within this dashboard."))),
           br(),
 
           fluidRow(
@@ -67,7 +67,7 @@ output$introduction_about <- renderUI({
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_respiratory", "Respiratory illnesses"))),
+                              actionButton("jump_to_respiratory", "Respiratory infection activity"))),
             column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
           br(),
 
@@ -189,7 +189,7 @@ output$introduction_open_data <- renderUI({
           p("The ", tags$a(href="https://www.opendata.nhs.scot",
                            "Scottish Health and Social Care Open Data platform (external website)", target="_blank"),
             "gives access to statistics and reference data for information and re-use. ",
-            "The platform is managed by Public Health Scotland. ", 
+            "The platform is managed by Public Health Scotland. ",
             "Data is released under the Open Government Licence."),
           p("You can download COVID-19 data presented in this dashboard from the ",
             tags$a(href="https://www.opendata.nhs.scot/dataset/covid-19-in-scotland",

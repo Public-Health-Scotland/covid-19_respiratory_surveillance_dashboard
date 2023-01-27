@@ -85,7 +85,7 @@ tagList(
       box(
         status = "info",
         tagList(
-          h2("Respiratory illnesses"),
+          h2("Respiratory infection activity"),
           jumpToTabButtonUI("respiratory_from_summary", location_pretty = "respiratory"),
           linebreaks(1),
 
