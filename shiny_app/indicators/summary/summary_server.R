@@ -160,7 +160,7 @@ output$respiratory_flu_infobox <- renderInfoBox({
               .$CountThisWeek %>%
               format(big.mark = ",")},
           subtitle = "Total",
-          icon = icon_no_warning_fn("head-side-virus"),
+          icon = icon_no_warning_fn("virus"),
           color = "teal")
 })
 
@@ -175,7 +175,8 @@ output$respiratory_flu_change_infobox <- renderInfoBox({
               .$PercentageDifference %>%
               format(big.mark = ",")}%"),
           subtitle = "Percentage change",
-          icon = icon_no_warning_fn("head-side-virus"),
+          icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == "flu") %>%
+              .$icon}),
           color = "teal")
 })
 
@@ -189,7 +190,7 @@ output$respiratory_nonflu_infobox <- renderInfoBox({
               .$CountThisWeek %>%
               format(big.mark = ",")},
           subtitle = "Total",
-          icon = icon_no_warning_fn("head-side-virus"),
+          icon = icon_no_warning_fn("head-side-cough"),
           color = "teal")
 })
 
@@ -204,7 +205,8 @@ output$respiratory_nonflu_change_infobox <- renderInfoBox({
               .$PercentageDifference %>%
                      format(big.mark = ",")}%"),
           subtitle = "Percentage change",
-          icon = icon_no_warning_fn("head-side-virus"),
+          icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == "nonflu") %>%
+              .$icon}),
           color = "teal")
 })
 
