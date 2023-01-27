@@ -15,6 +15,7 @@ source(file.path("modules/metadata_button/metadata_button_ui.R"), local = TRUE)$
 source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
 source(file.path("modules/jump_to_tab_button/jump_to_tab_button_ui.R"), local = TRUE)$value
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
+source(file.path("modules/respiratory/respiratory_module_ui.R"), local = TRUE)$value
 
 # UI
 ui <- fluidPage(
@@ -59,7 +60,7 @@ ui <- fluidPage(
       ##############################################.
       # CASES ----
       ##############################################.
-      tabPanel(title = "Cases",
+      tabPanel(title = "COVID-19 cases",
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("virus-covid"),
                value = "cases",
@@ -70,7 +71,7 @@ ui <- fluidPage(
       ##############################################.
       # ADMISSIONS ----
       ##############################################.
-      tabPanel(title = "Hospital admissions",
+      tabPanel(title = "COVID-19 hospital admissions",
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("hospital-user"),
                value = "hospital_admissions",
@@ -81,7 +82,7 @@ ui <- fluidPage(
       ##############################################.
       # OCCUPANCY ----
       ##############################################.
-      tabPanel(title = "Hospital occupancy",
+      tabPanel(title = "COVID-19 hospital occupancy",
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("bed-pulse"),
                value = "hospital_occupancy",
@@ -141,6 +142,7 @@ server <- function(input, output, session) {
   source(file.path("modules/alt_text/alt_text_modals_server.R"), local = TRUE)$value
   source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
   source(file.path("modules/jump_to_tab_button/jump_to_tab_button_server.R"), local = TRUE)$value
+  source(file.path("modules/respiratory/respiratory_module_server.R"), local = TRUE)$value
 
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
