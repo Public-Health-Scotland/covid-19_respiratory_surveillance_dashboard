@@ -10,16 +10,16 @@ respiratoryUI <- function(id) {
   stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
 
   if(flu_or_nonflu == "flu"){
-    flu_long = "influenza"
+    name_long = "influenza"
   } else {
-    flu_long = "non-influenza"
+    name_long = "non-influenza"
   }
 
-  tabPanel(stringr::str_to_sentence(flu_long),
+  tabPanel(stringr::str_to_sentence(name_long),
            # headline figures for the week in Scotland
-           tagList(h4(glue("Number of {flu_long} cases in Scotland")),
+           tagList(h4(glue("Number of {name_long} cases in Scotland")),
                    tags$div(class = "headline",
-                            h3(glue("Total number of {flu_long} cases in Scotland over the last two weeks")),
+                            h3(glue("Total number of {name_long} cases in Scotland over the last two weeks")),
                             # this week total number
                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                 .$CountThisWeek},
@@ -47,7 +47,7 @@ respiratoryUI <- function(id) {
 
                    # headline figures for the week by subtype (scotland totals) and healthboard
                    tags$div(class = "headline",
-                            h3(glue("{stringr::str_to_title(flu_long)} cases by healthboard and subtype")),
+                            h3(glue("{stringr::str_to_title(name_long)} cases by healthboard and subtype")),
                             h4(glue("during week {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                     .$DateThisWeek %>% format('%d %b %y')})")),
                             linebreaks(1),
@@ -98,7 +98,7 @@ respiratoryUI <- function(id) {
            ),
 
            # plot and data for cases by subtype over time
-           tagList(h3(glue("{stringr::str_to_title(flu_long)} cases over time by subtype")),
+           tagList(h3(glue("{stringr::str_to_title(name_long)} cases over time by subtype")),
 
                    tabBox(width = NULL,
                           type = "pills",
@@ -112,7 +112,7 @@ respiratoryUI <- function(id) {
                    ) # tabbox
            ), # taglist
 
-           tagList(h3(glue("{stringr::str_to_title(flu_long)} cases over time by season")),
+           tagList(h3(glue("{stringr::str_to_title(name_long)} cases over time by season")),
 
                    tabBox(width = NULL,
                           type = "pills",
@@ -138,7 +138,7 @@ respiratoryUI <- function(id) {
                    ) # tabbox
            ), # tagList
 
-           tagList(h3(glue("{stringr::str_to_title(flu_long)} cases by age and/or sex in Scotland")),
+           tagList(h3(glue("{stringr::str_to_title(name_long)} cases by age and/or sex in Scotland")),
 
                    tabBox(width = NULL,
                           type = "pills",
