@@ -51,19 +51,27 @@ altTextServer("ons_cases_modal",
 
 altTextServer("r_number_modal",
               title = "Estimated COVID-19 R number",
-              content = tags$ul(tags$li("point a"), tags$li("point b"), tags$li("point c")))
+              content = tags$ul(tags$li(""),
+                                tags$li(""),
+                                tags$li(""),
+                                tags$li("")))
 
 altTextServer("wastewater_modal",
               title = "Seven day average trend in wastewater COVID-19",
-              content = tags$ul(tags$li("point a"), tags$li("point b"), tags$li("point c")))
+              content = tags$ul(tags$li("This is a plot showing the running average trend in wastewater COVID-19."),
+                                tags$li("The x axis shows date of sample, starting from 28 May 2020."),
+                                tags$li("The y axis shows the wastewater viral level in million gene copies per person per day."),
+                                tags$li("There is one trace which shows the 7 day average of the watewater viral level."),
+                                tags$li("There have been peaks throughout the pandemic, notably in",
+                                        "Sep 2021, Dec 2021, Mar 2022 and Jun 2022")))
 
 altTextServer("reported_cases_modal",
               title = "Reported COVID-19 cases",
               content = tags$ul(tags$li("This is a plot of the number of reported COVID-19 cases each day."),
                                 tags$li("The x axis is the date"),
                                 tags$li("The y axis is the number of reported cases"),
-                                tags$li("There are two traces: a light blue trace which shows the number of reported cases each day;",
-                                        "and a dark blue trace overlayed which has the 7 day average of this."),
+                                tags$li("There are two traces: a light purple trace which shows the number of reported cases each day;",
+                                        "and a dark purple trace overlayed which has the 7 day average of this."),
                                 tags$li("There are two vertical lines: the first denotes that prior to 5 Jan 2022 ",
                                         "reported cases are PCR only, and since then they include PCR and LFD cases; ",
                                         "the second marks the change in testing policy on 1 May 2022."),
@@ -167,9 +175,9 @@ altTextServer("hospital_occupancy_modal",
                 tags$li("This is a plot of the number of patients with COVID-19 in hospital."),
                 tags$li("The x axis is the date, commencing 08 Sep 2020."),
                 tags$li("The y axis is the number of people with COVID-19 in hospital."),
-                tags$li("There are two traces: a light blue trace which shows the number of",
+                tags$li("There are two traces: a light pink trace which shows the number of",
                         "patients with COVID-19 in hospital each day;",
-                        "and a dark blue trace overlayed which has the 7 day average of this."),
+                        "and a dark pink trace overlayed which has the 7 day average of this."),
                 tags$li("There were peaks in COVID-19 occupancy in Nov 2020, Jan 2021, Jul 2021,",
                         "Sep 2021, Jan 2022, Apr 2022, Jul 2022 and Oct 2022.")
                 )
@@ -183,8 +191,8 @@ altTextServer("icu_occupancy_modal",
                tags$li("The x axis is the date, commencing 13 Sep 2020."),
                tags$li("The y axis is the 7 day average number of people in ICU."),
                tags$li("There are two traces broken down by length of stay in ICU:",
-                       "one for length of stay 28 days or less (blue; trace commences 13 Sep 2020);",
-                       "the other for length of stay greater than 28 days (red; trace commences 27 Jan 2021)."),
+                       "one for length of stay 28 days or less (pink; trace commences 13 Sep 2020);",
+                       "the other for length of stay greater than 28 days (purple; trace commences 27 Jan 2021)."),
                tags$li("Since Oct 2021 the overarching trend has been a decrease in the number of",
                        "patients with COVID-19 in ICU.")
                )
@@ -204,7 +212,10 @@ altTextServer("respiratory_flu_over_time_modal",
                 tags$li("For Scotland there is an option to view the absolute number of cases."),
                 tags$li("The x axis is the date, commencing 02 Oct 2016."),
                 tags$li("The y axis is either the rate of cases or the number of cases."),
-                tags$li("There is a trace for each subtype of Influenza."),
+                tags$li("There are five traces, one for each subtype of Influenza:",
+                        "purple for Influenza - Type A(H1N1); blue for Influenza - Type A(H3);",
+                        "green for Influenza - Type A (not subtyped); red for Influenza - Type B and",
+                        "black for Influenza - Type A or B"),
                 tags$li("The trend is that each winter there is a peak in cases.")
               )
 )
@@ -245,7 +256,7 @@ altTextServer("respiratory_flu_age_sex_modal",
 # Non-flu ----
 
 altTextServer("respiratory_nonflu_over_time_modal",
-              title = "Non-influenza cases over time by subtype",
+              title = "Non-influenza cases over time by pathogen",
               content = tags$ul(
                 tags$li("This is a plot of the non-influenza cases in a given NHS health board",
                         "over time."),
@@ -254,7 +265,7 @@ altTextServer("respiratory_nonflu_over_time_modal",
                 tags$li("For Scotland there is an option to view the absolute number of cases."),
                 tags$li("The x axis is the date, commencing 02 Oct 2016."),
                 tags$li("The y axis is either the rate of cases or the number of cases."),
-                tags$li("There is a trace for each subtype of respiratory illness."),
+                tags$li("There are seven traces, one for each pathogen of respiratory illness."),
                 tags$li("The trend is that each winter there is a peak in cases.")
               )
 )
@@ -262,7 +273,7 @@ altTextServer("respiratory_nonflu_over_time_modal",
 altTextServer("respiratory_nonflu_by_season_modal",
               title = "Non-influenza cases over time by season",
               content = tags$ul(
-                tags$li("This is a plot of the non-influenza cases for a given subtype",
+                tags$li("This is a plot of the non-influenza cases for a given pathogen",
                         "over each season."),
                 tags$li("There is a trace for eachseason, starting in 2016/2017."),
                 tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
