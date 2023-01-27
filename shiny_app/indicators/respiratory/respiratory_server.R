@@ -27,7 +27,7 @@ output$respiratory_flu_headline_figures_healthboard_count <- renderValueBox ({
   valueBox(value = organism_summary_total,
            subtitle = glue("influenza cases per 10,000 people in {input$respiratory_flu_headline_healthboard}"),
            color = "teal",
-           icon = icon_no_warning_fn("virus"),
+           icon = icon_no_warning_fn("house-medical"),
            width = NULL)
 
 })
@@ -180,7 +180,7 @@ output$respiratory_flu_by_season_table <- renderDataTable ({
 
 # Flu by age/sex/age and sex
 output$respiratory_flu_age_sex_table = renderDataTable({
-  
+
   flu_age <- Respiratory_AllData %>%
     filter(FluOrNonFlu == "flu") %>%
     filter(scotland_by_age_flag == 1) %>%
@@ -189,7 +189,7 @@ output$respiratory_flu_age_sex_table = renderDataTable({
     rename(`Week ending` = Date,
            `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
-  
+
   flu_sex <- Respiratory_AllData %>%
     filter(FluOrNonFlu == "flu") %>%
     filter(scotland_by_sex_flag == 1) %>%
@@ -198,7 +198,7 @@ output$respiratory_flu_age_sex_table = renderDataTable({
     rename(`Week ending` = Date,
            `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
-  
+
   flu_age_sex <- Respiratory_AllData %>%
     filter(FluOrNonFlu == "flu") %>%
     filter(scotland_by_age_sex_flag == 1) %>%
@@ -214,7 +214,7 @@ output$respiratory_flu_age_sex_table = renderDataTable({
                                     "15-44", "45-64", "65-74", "75+"))) %>%
     arrange(desc(`Week ending`), `Age group`, Sex) %>%
     make_table()
-  
+
 })
 
 
@@ -233,7 +233,7 @@ output$respiratory_nonflu_headline_figures_subtype_count <- renderValueBox ({
   valueBox(value = organism_summary_total,
            subtitle = glue("cases of {input$respiratory_nonflu_headline_subtype} in Scotland"),
            color = "teal",
-           icon = icon_no_warning_fn("virus"),
+           icon = icon_no_warning_fn("head-side-cough"),
            width = NULL)
 
   })
@@ -248,7 +248,7 @@ output$respiratory_nonflu_headline_figures_healthboard_count <- renderValueBox (
   valueBox(value = organism_summary_total,
            subtitle = glue("non-influenza cases per 10,000 people in {input$respiratory_nonflu_headline_healthboard}"),
            color = "teal",
-           icon = icon_no_warning_fn("virus"),
+           icon = icon_no_warning_fn("house-medical"),
            width = NULL)
 
   })
@@ -420,7 +420,7 @@ output$respiratory_nonflu_by_season_table <- renderDataTable ({
 
 # Flu by age/sex/age and sex
 output$respiratory_nonflu_age_sex_table = renderDataTable({
-  
+
   nonflu_age <- Respiratory_AllData %>%
     filter(FluOrNonFlu == "nonflu") %>%
     filter(scotland_by_age_flag == 1) %>%
@@ -429,7 +429,7 @@ output$respiratory_nonflu_age_sex_table = renderDataTable({
     rename(`Week ending` = Date,
            `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
-  
+
   nonflu_sex <- Respiratory_AllData %>%
     filter(FluOrNonFlu == "nonflu") %>%
     filter(scotland_by_sex_flag == 1) %>%
@@ -438,7 +438,7 @@ output$respiratory_nonflu_age_sex_table = renderDataTable({
     rename(`Week ending` = Date,
            `Age group` = AgeGroup,
            `Rate per 100,000` = Rate)
-  
+
   nonflu_age_sex <- Respiratory_AllData %>%
     filter(FluOrNonFlu == "nonflu") %>%
     filter(scotland_by_age_sex_flag == 1) %>%
@@ -454,7 +454,7 @@ output$respiratory_nonflu_age_sex_table = renderDataTable({
                                     "15-44", "45-64", "65-74", "75+"))) %>%
     arrange(desc(`Week ending`), `Age group`, Sex) %>%
     make_table()
-  
+
 })
 
 
