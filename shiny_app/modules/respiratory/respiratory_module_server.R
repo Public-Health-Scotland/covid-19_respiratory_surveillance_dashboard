@@ -2,7 +2,7 @@
 
 
 # Module server ----
-respiratoryServer <- function(id, parent) {
+respiratoryServer <- function(id) {
 
   moduleServer(
     id,
@@ -18,7 +18,6 @@ respiratoryServer <- function(id, parent) {
       } else {
         name_long = "non-influenza"
       }
-
 
       # Alt text ----
       altTextServer("respiratory_over_time_modal",
@@ -70,7 +69,7 @@ respiratoryServer <- function(id, parent) {
       )
 
 
-      # headline figures
+      # Headline figures ----
       output$respiratory_headline_figures_subtype_count <- renderValueBox ({
 
         organism_summary_total <- Respiratory_Summary %>%
@@ -101,6 +100,7 @@ respiratoryServer <- function(id, parent) {
 
       })
 
+      # Observe events ----
       # selecting input for seeing rate or number for plots
       # only show rates if healthboards are there but can show number of cases for scotland
       # Update dataset choices based off indicator choice
@@ -141,7 +141,9 @@ respiratoryServer <- function(id, parent) {
       )
 
 
-      # make trend over time plot. Plot shows the rate/number of flu cases by subtype over time for the whole dataset.
+      # Plots ----
+      # make trend over time plot.
+      # Plot shows the rate/number of flu cases by subtype over time for the whole dataset.
       output$respiratory_over_time_plot <- renderPlotly({
 
         Respiratory_AllData %>%
@@ -177,7 +179,7 @@ respiratoryServer <- function(id, parent) {
 
       })
 
-      # Data tables
+      # Data tables ----
 
       output$respiratory_over_time_table <- renderDataTable ({
 
