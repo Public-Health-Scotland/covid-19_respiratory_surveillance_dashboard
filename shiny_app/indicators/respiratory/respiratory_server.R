@@ -155,6 +155,7 @@ output$respiratory_flu_by_season_table <- renderDataTable ({
       rename(`Number of cases` = Count,
              `Subtype` = Organism,
              `Rate per 100,000` = Rate) %>%
+      mutate(Week = as.character(Week)) %>%
       make_table()
 
   } else{
@@ -166,6 +167,7 @@ output$respiratory_flu_by_season_table <- renderDataTable ({
       select(Season, Week, Organism, Rate) %>%
       rename(`Rate per 100,000` = Rate,
              `Subtype` = Organism) %>%
+      mutate(Week = as.character(Week)) %>%
       make_table()
 
   }
@@ -358,32 +360,54 @@ output$respiratory_nonflu_over_time_table <- renderDataTable ({
 
 # NonFlu by season table
 output$respiratory_nonflu_by_season_table <- renderDataTable ({
-
+  
   if(input$respiratory_nonflu_select_healthboard == "Scotland"){
-
-    Respiratory_AllData %>%
+    
+    nonflu_season_total <- Respiratory_AllData %>%
+      filter(FluOrNonFlu == "nonflu") %>%
+      filter(total_number_flag == 1) %>%
+      mutate(Organism == "Total") %>%
+      arrange(desc(Date), Organism) %>%
+      select(Season, Week, Organism, Count, Rate, Date)
+    
+    nonflu_season_subtype <- Respiratory_AllData %>%
       filter_over_time_plot_function(healthboard = input$respiratory_nonflu_select_healthboard) %>%
       filter(FluOrNonFlu == "nonflu") %>%
       arrange(desc(Date), Organism) %>%
-      select(Season, Week, Organism, Count, Rate) %>%
+      select(Season, Week, Organism, Count, Rate, Date) %>%
+      bind_rows(nonflu_season_total) %>%
+      arrange(desc(Date), Organism) %>%
+      select(-Date) %>%
+      mutate(Week = as.character(Week)) %>%
       rename(`Number of cases` = Count,
              `Pathogen` = Organism,
              `Rate per 100,000` = Rate) %>%
       make_table()
-
+    
   } else{
-
-    Respiratory_AllData %>%
+    
+    nonflu_season_total <- Respiratory_AllData %>%
+      filter(FluOrNonFlu == "nonflu") %>%
+      filter(hb_flag == 1) %>%
+      mutate(Organism == "Total") %>%
+      arrange(desc(Date), Organism) %>%
+      select(Season, Week, Organism, Rate, Date)
+    
+    nonflu_season_subtype <- Respiratory_AllData %>%
       filter_over_time_plot_function(healthboard = input$respiratory_nonflu_select_healthboard) %>%
       filter(FluOrNonFlu == "nonflu") %>%
       arrange(desc(Date), Organism) %>%
-      select(Season, Week, Organism, Rate) %>%
+      select(Season, Week, Organism, Rate, Date) %>%
+      bind_rows(nonflu_season_total) %>%
+      arrange(desc(Date), Organism) %>%
+      select(-Date) %>%
+      mutate(Week = as.character(Week)) %>%
       rename(`Rate per 100,000` = Rate,
              `Pathogen` = Organism) %>%
       make_table()
-
+    
   }
-
+  
 })
 
 # Flu by age/sex/age and sex
