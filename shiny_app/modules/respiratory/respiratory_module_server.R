@@ -189,12 +189,15 @@ respiratoryServer <- function(id) {
             filter(FluOrNonFlu == flu_or_nonflu) %>%
             filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
             select(Date, Organism, Count, Rate) %>%
+            # Re make this as a factor to remove unused levels
+            mutate(Organism = factor(Organism)) %>%
             arrange(desc(Date), Organism) %>%
             dplyr::rename("Week ending" = "Date",
                           !!quo_name(stringr::str_to_title(strain_name) ) :="Organism",
                           "Number of cases" = "Count",
                           "Rate per 100,000" ="Rate") %>%
-            make_table()
+            make_table(add_separator_cols = 3,
+                       filter_cols = 2)
 
         } else {
 
@@ -203,11 +206,14 @@ respiratoryServer <- function(id) {
             filter(FluOrNonFlu == flu_or_nonflu) %>%
             filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
             select(Date, Organism, Rate) %>%
+            # Re make this as a factor to remove unused levels
+            mutate(Organism = factor(Organism)) %>%
             arrange(desc(Date), Organism) %>%
             dplyr::rename("Week ending" = "Date",
                           !!quo_name(stringr::str_to_title(strain_name) ) :="Organism",
                           "Rate per 100,000" = "Rate") %>%
-            make_table()
+            make_table(add_separator_cols = 3,
+                       filter_cols = 2)
 
         }
 
@@ -229,7 +235,7 @@ respiratoryServer <- function(id) {
             mutate(Week = as.character(Week),
                    Week = factor(Week, levels = c(1:53)),
                    Season = factor(Season, levels = unique(Season))) %>%
-            make_table()
+            make_table(filter_cols = c(1,2,3))
 
         } else {
 
@@ -243,7 +249,7 @@ respiratoryServer <- function(id) {
             mutate(Week = as.character(Week),
                    Week = factor(Week, levels = c(1:53)),
                    Season = factor(Season, levels = unique(Season))) %>%
-            make_table()
+            make_table(filter_cols = c(1,2,3))
 
         }
 
@@ -258,6 +264,7 @@ respiratoryServer <- function(id) {
           filter(scotland_by_age_flag == 1) %>%
           mutate(Sex = "All") %>%
           select(Season, Date, AgeGroup, Sex, Rate) %>%
+          mutate(Season = factor(Season)) %>%
           dplyr::rename("Week ending" = "Date",
                         "Age group" = "AgeGroup",
                         "Rate per 100,000" = "Rate")
@@ -267,6 +274,7 @@ respiratoryServer <- function(id) {
           filter(scotland_by_sex_flag == 1) %>%
           mutate(AgeGroup = "All") %>%
           select(Season, Date, AgeGroup, Sex, Rate) %>%
+          mutate(Season = factor(Season)) %>%
           dplyr::rename("Week ending" = "Date",
                         "Age group" = "AgeGroup",
                         "Rate per 100,000" = "Rate")
@@ -275,6 +283,7 @@ respiratoryServer <- function(id) {
           filter(FluOrNonFlu == flu_or_nonflu) %>%
           filter(scotland_by_age_sex_flag == 1) %>%
           select(Season, Date, AgeGroup, Sex, Rate) %>%
+          mutate(Season = factor(Season)) %>%
           arrange(desc(Date), AgeGroup, Sex) %>%
           dplyr::rename("Week ending" = "Date",
                         "Age group" = "AgeGroup",
@@ -285,7 +294,7 @@ respiratoryServer <- function(id) {
                                         c("All", "<1", "1-4", "5-14",
                                           "15-44", "45-64", "65-74", "75+"))) %>%
           arrange(desc(`Week ending`), `Age group`, Sex) %>%
-          make_table()
+          make_table(filter_cols = c(1,3,4))
 
       })
 

@@ -52,26 +52,29 @@ output$hospital_occupancy_table <- renderDataTable({
     select(Date,`Hospital occupancy`, `7 day average`) %>%  #`ICU Occupancy (28 days or less)`, `ICU Occupancy (greater than 28 days)`) %>%
     #arrange(Date, desc(Geography)) %>%
     make_table(.,
-                            add_separator_cols=NULL, # Column indices to add thousand separators to
-                            add_percentage_cols = NULL, # with % symbol and 2dp
-                            maxrows=10,
-                            order_by_firstcol="desc")
+                add_separator_cols=NULL, # Column indices to add thousand separators to
+                add_percentage_cols = NULL, # with % symbol and 2dp
+                maxrows=10,
+                order_by_firstcol="desc"
+               )
 
 })
 
 # make data table with all the ICU occupancy data in it
 output$ICU_occupancy_table <- renderDataTable({
   Occupancy_ICU %>%
-    mutate(Date = convert_opendata_date(Date)) %>%
+    mutate(Date = convert_opendata_date(Date),
+           ICULengthOfStay = factor(ICULengthOfStay)) %>%
     dplyr::rename(`ICU occupancy` = ICUOccupancy,
     `ICU length of stay` = ICULengthOfStay,
     `7 day average` = SevenDayAverage) %>%
     select(Date, `ICU length of stay`, `ICU occupancy`, `7 day average`) %>%
     make_table(.,
-                            add_separator_cols=NULL, # Column indices to add thousand separators to
-                            add_percentage_cols = NULL, # with % symbol and 2dp
-                            maxrows=10,
-                            order_by_firstcol="desc")
+                add_separator_cols=NULL, # Column indices to add thousand separators to
+                add_percentage_cols = NULL, # with % symbol and 2dp
+                maxrows=10,
+                order_by_firstcol="desc",
+                filter_cols = 2)
 
 })
 
