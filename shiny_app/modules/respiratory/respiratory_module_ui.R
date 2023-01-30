@@ -25,14 +25,14 @@ respiratoryUI <- function(id) {
                             # this week total number
                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                 .$CountThisWeek},
-                                subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
+                                subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                                 .$DateThisWeek %>% format('%d %b %y')}"),
                                 color = "teal",
                                 icon = icon_no_warning_fn("calendar-week")),
                             # previous week total number
                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                 .$CountPreviousWeek},
-                                subtitle = glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
+                                subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                                 .$DatePreviousWeek %>% format('%d %b %y')}"),
                                 color = "teal",
                                 icon = icon_no_warning_fn("calendar-week")),
@@ -50,7 +50,7 @@ respiratoryUI <- function(id) {
                    # headline figures for the week by subtype (scotland totals) and healthboard
                    tags$div(class = "headline",
                             h3(glue("{stringr::str_to_title(name_long)} cases by NHS Health Board and {strain_name}")),
-                            h4(glue("during week {this_week_iso} (beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
+                            h4(glue("during week {this_week_iso} (ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                     .$DateThisWeek %>% format('%d %b %y')})")),
                             linebreaks(1),
                             column(6,
