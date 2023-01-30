@@ -4,7 +4,7 @@ tagList(h1("Metadata"),
   #### METADATA PANELS ----
   bsCollapse(id="notes_collapse", open = "Panel 1",
                    #### CASES PANEL ----
-                   bsCollapsePanel("Cases",
+                   bsCollapsePanel("COVID-19 cases",
                                    # Estimated infections ----
                                    h4("Estimated infections"),
                                    p("The Office for National Statistics (ONS) publish results from the COVID-19 Infection Survey which aims to estimate how many
@@ -67,7 +67,7 @@ tagList(h1("Metadata"),
 
 
                    ####  HOSPITAL ADMISSIONS PANEL ----
-                   bsCollapsePanel("Hospital admissions",
+                   bsCollapsePanel("COVID-19 hospital admissions",
 
                                    # Hospital admissions ----
                                    h4("Hospital admissions"),
@@ -176,7 +176,7 @@ tagList(h1("Metadata"),
 
 
                    #### HOSPITAL OCCUPANCY PANEL ----
-                   bsCollapsePanel("Hospital occupancy",
+                   bsCollapsePanel("COVID-19 hospital occupancy",
 
                                    #Hospital occupancy ----
                                    h4("Hospital occupancy (inpatients)"),
@@ -210,7 +210,7 @@ tagList(h1("Metadata"),
                                    p(strong("Source: NHS Boards"))),
 
              #### RESPIRATORY PANEL
-             bsCollapsePanel("Respiratory",
+             bsCollapsePanel("Respiratory infection activity",
 
                              h4("Influenza"),
                              p("Influenza (flu) is a contagious respiratory illness caused by influenza viruses. There are two main types of influenza virus: Types A and B."),

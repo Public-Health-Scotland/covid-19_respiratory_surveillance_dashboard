@@ -1,7 +1,7 @@
 
 
 metadataButtonServer(id="hospital_occupancy",
-                     panel="Hospital occupancy",
+                     panel="COVID-19 hospital occupancy",
                      parent = session)
 
 
