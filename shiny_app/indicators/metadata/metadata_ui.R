@@ -212,7 +212,20 @@ tagList(h1("Metadata"),
              #### RESPIRATORY PANEL
              bsCollapsePanel("Respiratory",
 
-                             h4("Respiratory illnesses")),
+                             h4("Influenza"),
+                             p("Influenza (flu) is a contagious respiratory illness caused by influenza viruses. There are two main types of influenza virus: Types A and B."),
+                             p("The influenza A and B viruses that routinely spread in people (human influenza viruses) are responsible for seasonal flu epidemics each year.
+                               Current subtypes of influenza A viruses found in people are influenza A(H1N1)pdm09 and influenza A(H3) viruses. Currently circulating influenza B
+                               viruses belong to one of two lineages: B/Yamagata and B/Victoria."),
+                             br(),
+
+                             h4("Non-influenza pathogens (excluding COVID-19)"),
+                             p("The key non-influenza respiratory pathogens include adenovirus, seasonal coronaviruses (non-SARS-CoV-2), human metapneumovirus (HMPV),
+                               human parainfluenza virus (HPIV), Mycoplasma pneumoniae, respiratory syncytial virus (RSV) and rhinovirus. These mostly cause mild upper respiratory tract symptoms,
+                               such as the common cold, but infection can sometimes lead to more severe lower respiratory tract complications, especially in young children,
+                               the elderly and those with weakened immune systems. Symptoms may also include a variety of non-respiratory presentations."),
+                             p("Data on COVID-19 are not presented in this section."),
+                             p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS)"))),
 
   #### GLOSSARY PANEL ----
   bsCollapsePanel("Glossary",
@@ -246,7 +259,13 @@ tagList(h1("Metadata"),
 
                   #Seven day average ----
                   h4("Seven day average"),
-                  p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations.")
+                  p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations."),
+                  br(),
+
+                  #Rate per 100,000 ----
+                  h4("Rate per 100,000"),
+                  p("Number of new laboratory positive test results expressed as a rate per 100,000 Scottish population (using the 2021 NRS mid-year population estimate)."),
+                  p("Virological data are dynamic, therefore, the incidence rate will change week to week as more data become available.")
 
 ))
 
