@@ -28,7 +28,7 @@ output$introduction_about <- renderUI({
             "We have carefully considered and assessed these risks, taking steps to reduce them as much as possible,",
             "and balancing them with the need to release useful information.",
             "We have been monitoring and reviewing our approach to how we release local-level information."),
-          p(glue("This dashboard was last updated on {Deployment_Date}")),
+          p(glue("This dashboard was last updated on {Deployment_Date}.")),
           br(),
 
           fluidRow(
