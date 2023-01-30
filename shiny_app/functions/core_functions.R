@@ -111,60 +111,6 @@ make_table <- function(input_data_table,
 
 }
 
-
-# Data table with breakdown by Health Board ----
-make_byboard_data_table <- function(input_data_table,
-                               board_name_column,  # Name of the column with board names e.g. "NHS Board"
-                               add_separator_cols=NULL, # Column indices to add thousand separators to
-                               add_percentage_cols = NULL, # with % symbol and 2dp
-                               rows_to_display=14,
-                               order_by_firstcol=NULL){ # Number of Boards + 1 for Scotland
-
-  if(!is.null(order_by_firstcol)){
-    tab_order <- list(list(0, order_by_firstcol))
-  } else {
-    tab_order <- NULL
-  }
-
-  # Remove the underscore from column names in the table
-  table_colnames  <-  gsub("_", " ", colnames(input_data_table))
-
-  # Add column formatting
-
-  for (i in add_separator_cols){
-    input_data_table[i] <- apply(input_data_table[i], MARGIN=1, FUN=format_entry)
-  }
-
-  for (i in add_percentage_cols){
-    input_data_table[i] <- apply(input_data_table[i], MARGIN=1, FUN=format_entry, dp=1, perc=T)
-  }
-
-  dt <- DT::datatable(input_data_table, style = 'bootstrap',
-                      class = 'table-bordered table-condensed',
-                      rownames = FALSE,
-                      options = list(pageLength = rows_to_display, # Health Boards and total
-                                     order = tab_order, # Most recent week first
-                                     dom = 'tip',
-                                     autoWidth = TRUE,
-                                     initComplete = JS(
-                                       "function(settings, json) {",
-                                       "$(this.api().table().header()).css({'background-color': 'rgba(1, 0, 104, 1)', 'color': 'white'});",
-                                       "}") # Make header phs-purple
-                      ),
-                      filter = "top",
-                      colnames = table_colnames) %>%
-    formatStyle(
-      board_name_column, target="row",
-      backgroundColor = styleEqual(c("Scotland", "Total", "All"),
-                                   c(phs_colours("phs-magenta"),phs_colours("phs-magenta"),phs_colours("phs-magenta"))), # highlight Scotland rows in phs-magenta
-      fontWeight = styleEqual(c("Scotland", "Total", "All"), c("bold", "bold", "bold")),
-      color = styleEqual(c("Scotland", "Total", "All"), c("white", "white", "white"))
-    )
-
-  return(dt)
-
-}
-
 # Load data from shiny_app/data ----
 load_rds_file <- function(rds){
   # Given a .rds file name in shiny_app/data
