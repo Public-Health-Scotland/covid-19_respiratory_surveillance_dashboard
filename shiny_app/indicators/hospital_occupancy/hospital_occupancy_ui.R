@@ -7,7 +7,7 @@ tagList(
 
 
   fluidRow(width = 12,
-           tagList(h3("Number of inpatients with COVID-19 in hospital"),
+           tagList(h2("Number of inpatients with COVID-19 in hospital"),
                 tags$div(class = "headline",
                                      h3(glue("Hospital occupancy (inpatients) on the Sunday of the latest three weeks available")),
                                      valueBox(value = {occupancy_headlines[[1]]$HospitalOccupancy},
@@ -52,9 +52,9 @@ tagList(
            br()),
 
   fluidRow(width = 12,
-           tagList(h3("7 day average number of patients with COVID-19 in Intensive Care Units (ICU)"),
+           tagList(h2("7 day average number of patients with COVID-19 in Intensive Care Units (ICU)"),
                    tags$div(class = "headline",
-                            h3(glue("7 day average number of patients with COVID-19 from week ending {Occupancy_Hospital %>% tail(1) %>%
+                            h3(glue("Figures from week ending {Occupancy_Hospital %>% tail(1) %>%
                                              .$Date %>% convert_opendata_date() %>%format('%d %b %y')}")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},

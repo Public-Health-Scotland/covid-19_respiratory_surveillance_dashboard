@@ -12,9 +12,9 @@ tagList(
            tabBox(width = NULL,
                   type = "pills",
                   tabPanel("Acute hospital admissions",
-                           tagList(h3("Daily number of acute COVID-19 admissions to hospital"),
+                           tagList(h2("Number of acute COVID-19 admissions to hospital"),
                                    tags$div(class = "headline",
-                                            h3("Acute admissions from last three weeks"),
+                                            h3("Weekly totals from last three weeks"),
 
                                             valueBox(value = glue("{admissions_headlines[[1]]}*"),
                                                      subtitle = glue("Week ending {names(admissions_headlines)[[1]]}"),
@@ -50,7 +50,7 @@ tagList(
 
                            ),
 
-                           tagList(h3("Weekly number of acute COVID-19 hospital admissions by deprivation category (SIMD)"))
+                           tagList(h2("Weekly number of acute COVID-19 hospital admissions by deprivation category (SIMD)"))
 
                            ),
                            br(),
@@ -78,7 +78,7 @@ tagList(
 
                            ),
 
-                           tagList(h3("Length of stay of acute COVID-19 hospital admissions"),
+                           tagList(h2("Length of stay of acute COVID-19 hospital admissions"),
                                    tags$div(class = "headline",
                                             h3(glue("Median length of stay of acute COVID-19 hospital admissions for 4 week period {los_date_start %>% format('%d %b %y')} to {los_date_end%>% format('%d %b %y')} ")),
 
@@ -126,9 +126,9 @@ tagList(
                            ),
 
                   tabPanel("ICU admissions",
-                           tagList(h3("Number of COVID-19 admissions to Intensive Care Units (ICU)"),
+                           tagList(h2("Number of COVID-19 admissions to Intensive Care Units (ICU)"),
                                    tags$div(class = "headline",
-                                            h3("ICU admissions from last three weeks"),
+                                            h3("Weekly totals from last three weeks"),
                                             valueBox(value = {icu_headlines[[1]]},
                                                      subtitle = glue("Week ending {names(icu_headlines)[[1]]}"),
                                                      color = "blue",
@@ -145,7 +145,8 @@ tagList(
                                             # These linebreaks are here to make the banner big enough to
                                             # include all the valueBoxes
                                             linebreaks(6))),
-                           tagList(h3("Daily number of COVID-19 admissions to Intensive Care Units (ICU)")),
+
+                           linebreaks(1),
 
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
@@ -167,7 +168,7 @@ tagList(
                            )),
 
                   tabPanel("Acute hospital admissions by ethnicity",
-                           tagList(h3("Number of acute COVID-19 admissions to hospital by ethnicity"),
+                           tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
                                    h4(strong("These data will next be updated in March 2023.")),
                            tabBox(width = NULL, type = "pills",
                                   tabPanel("Plot",
