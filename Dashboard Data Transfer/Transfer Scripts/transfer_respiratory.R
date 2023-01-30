@@ -102,7 +102,8 @@ for(filename in filenames) {
 
   # 2. scotland flu and non-flu totals
   df2 <- df1 %>%
-    filter(pathogen != "typea") %>%
+    filter(!pathogen %in% c("typea", "typeb", "h1n1", 
+                            "typeah3", "unknowna")) %>%
     group_by(season, week, weekord, date, pop, measure, breakdown, flu_nonflu) %>%
     summarise(count = sum(count)) %>%
     mutate(rate = round_half_up((count/pop)*100000, 1),
