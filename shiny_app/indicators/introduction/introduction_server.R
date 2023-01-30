@@ -24,21 +24,23 @@ output$introduction_about <- renderUI({
             We all need to play our part in protecting ourselves and others. You can do this by following
             NHS Inform Website advice on: ", tags$a(href = "https://www.gov.scot/coronavirus-covid-19/",
                                                     "https://www.gov.scot/coronavirus-covid-19/.")),
-          p("Note that some numbers may not sum to the total as disclosure control methods have been applied
-            to the data in order to protect patient confidentiality."),
-          p(glue("This dashboard was last updated on {Deployment_Date}")),
+          p("Please note that release of information involving small numbers carries a risk that individuals could be identified.",
+            "We have carefully considered and assessed these risks, taking steps to reduce them as much as possible,",
+            "and balancing them with the need to release useful information.",
+            "We have been monitoring and reviewing our approach to how we release local-level information."),
+          p(glue("This dashboard was last updated on {Deployment_Date}.")),
           br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_summary", "At a glance"))),
-            column(8, p("This section provides an overview of headline COVID-19 and Respiratory
-                        Surveillance indicators held within this dashboard."))),
+            column(8, p("This section provides an overview of headline COVID-19 and respiratory
+                        surveillance indicators held within this dashboard."))),
           br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_cases", "Cases"))),
+                              actionButton("jump_to_cases", "COVID-19 cases"))),
             column(8, p("This section shows the latest information on the number and rate of
                         estimated infection levels in Scotland."),
                    p("The Office for National Statistics (ONS) COVID-19 Infection Survey is
@@ -50,7 +52,7 @@ output$introduction_about <- renderUI({
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_hospital_admissions", "Hospital admissions"))),
+                              actionButton("jump_to_hospital_admissions", "COVID-19 hospital admissions"))),
             column(8, p("Alongside the estimated infection levels and reported COVID-19 cases presented
                         in this dashboard, PHS also monitor COVID-19 hospital admissions as it is a
                         measure of severe disease and captures pressures facing NHS hospitals.
@@ -59,7 +61,7 @@ output$introduction_about <- renderUI({
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_hospital_occupancy", "Hospital occupancy"))),
+                              actionButton("jump_to_hospital_occupancy", "COVID-19 hospital occupancy"))),
             column(8, p("This section contains the latest information on the number of patients
                         in hospital with COVID-19. This is an indicative measure of the pressure on hospitals,
                         as these patients still require isolation from other patients for infection control purposes."))),
@@ -67,7 +69,7 @@ output$introduction_about <- renderUI({
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_respiratory", "Respiratory illnesses"))),
+                              actionButton("jump_to_respiratory", "Respiratory infection activity"))),
             column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
           br(),
 
@@ -75,7 +77,8 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_metadata", "Metadata"))),
-            column(8, p("Metadata."))),
+            column(8, p("Information on the different indicators and their data sources.",
+                        "Also includes a glossary of technical terms."))),
           br(),
 
           fluidRow(
@@ -189,7 +192,7 @@ output$introduction_open_data <- renderUI({
           p("The ", tags$a(href="https://www.opendata.nhs.scot",
                            "Scottish Health and Social Care Open Data platform (external website)", target="_blank"),
             "gives access to statistics and reference data for information and re-use. ",
-            "The platform is managed by Public Health Scotland. ", 
+            "The platform is managed by Public Health Scotland. ",
             "Data is released under the Open Government Licence."),
           p("You can download COVID-19 data presented in this dashboard from the ",
             tags$a(href="https://www.opendata.nhs.scot/dataset/covid-19-in-scotland",

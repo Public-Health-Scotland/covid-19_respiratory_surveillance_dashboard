@@ -84,14 +84,14 @@ respiratoryUI <- function(id) {
            # select healthboard and rate/number for plots and data
            fluidRow(
              column(6, pickerInput(ns("respiratory_select_healthboard"),
-                                   label = "Select whether you would like to see Scotland totals or choose a NHS healthboard",
+                                   label = "Select geography (Scotland/NHS Health Board)",
                                    choices = c("Scotland", {Respiratory_AllData %>%
                                        filter(!is.na(HealthboardCode)) %>%
                                        .$HealthboardCode %>% unique() %>% get_hb_name() %>% .[.!="NHS Scotland"]})
              ) # pickerInput
              ), # column
              column(6, pickerInput(ns("respiratory_y_axis_plots"),
-                                   label = "Select whether you would like to see population rates or total number of cases",
+                                   label = "Select number of cases or rate in population",
                                    choices = c("Number of cases", "Rate per 100,000"),
                                    selected = "Number of cases") # pickerInput
              ) # column

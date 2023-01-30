@@ -1,7 +1,7 @@
 # Respiratory server ----
 
 metadataButtonServer(id="respiratory",
-                     panel="Respiratory",
+                     panel="Respiratory infection activity",
                      parent = session)
 
 jumpToTabButtonServer(id="respiratory_from_summary",

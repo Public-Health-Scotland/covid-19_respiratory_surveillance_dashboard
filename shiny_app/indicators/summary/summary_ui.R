@@ -32,7 +32,7 @@ tagList(
       box(
           status = "info",
           tagList(
-            h2("Hospital admissions"),
+            h2("COVID-19 hospital admissions"),
             jumpToTabButtonUI("hospital_admissions_from_summary", location_pretty = "hospital admissions"),
             linebreaks(1),
 
@@ -59,7 +59,7 @@ tagList(
       box(
           status = "info",
           tagList(
-            h2("Hospital occupancy"),
+            h2("COVID-19 hospital occupancy"),
             jumpToTabButtonUI("hospital_occupancy_from_summary", location_pretty = "hospital occupancy"),
             linebreaks(1),
 
@@ -85,7 +85,7 @@ tagList(
       box(
         status = "info",
         tagList(
-          h2("Respiratory illnesses"),
+          h2("Respiratory infection activity"),
           jumpToTabButtonUI("respiratory_from_summary", location_pretty = "respiratory"),
           linebreaks(1),
 

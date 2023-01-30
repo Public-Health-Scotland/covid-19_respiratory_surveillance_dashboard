@@ -110,7 +110,6 @@ respiratoryServer <- function(id) {
                      if(input$respiratory_select_healthboard == "Scotland"){
 
                        updatePickerInput(session, inputId = "respiratory_y_axis_plots",
-                                         label = "Select whether you would like to see population rates or total number of cases",
                                          choices = c("Number of cases", "Rate per 100,000"),
                                          selected = "Number of cases"
                        )
@@ -118,7 +117,6 @@ respiratoryServer <- function(id) {
                      } else {
 
                        updatePickerInput(session, inputId = "respiratory_y_axis_plots",
-                                         label = "Select whether you would like to see population rates or total number of cases",
                                          choices = c("Rate per 100,000"),
                                          selected = "Rate per 100,000"
 
