@@ -89,8 +89,18 @@ respiratoryServer <- function(id) {
 
         organism_summary_total <- Respiratory_Summary %>%
           filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == flu_or_nonflu) %>%
-          filter(get_hb_name(Breakdown) == input$respiratory_headline_healthboard) %>%
-          .$Rate
+          filter(get_hb_name(Breakdown) == input$respiratory_headline_healthboard) 
+        
+        if(nrow(organism_summary_total) == 0){
+         
+           organism_summary_total <- 0
+        
+        } else{
+            
+           organism_summary_total <- organism_summary_total %>%
+              .$Rate
+          
+        }
 
         valueBox(value = organism_summary_total,
                  subtitle = glue("{name_long} cases per 100,000 people in {input$respiratory_headline_healthboard}"),
