@@ -3,8 +3,8 @@
 
 ##### Respiratory
 get_resp_year <- function(w, s){
-  year <- case_when(w < 14 ~ paste0("20", substr(s, 3, 4)),
-                    w >= 14 ~ paste0("20", substr(s, 6, 7)) ) %>%
+  year <- case_when(w >= 1 & w <= 39 ~ paste0("20", substr(s, 6, 7)),
+                    w >= 40 ~ paste0("20", substr(s, 3, 4)) ) %>%
     as.numeric()
   return(year)
 }
@@ -52,8 +52,10 @@ for(filename in filenames) {
 
   # 1.  e.g. scotland_agg, agegp_sex_agg, ...
   df1 <- base::get(glue("i_respiratory_{filename}_agg")) %>%
-    mutate(year = get_resp_year(weekord, season),
-           date = MMWRweek2Date(year, week)) %>%
+    mutate(year = get_resp_year(week, season),
+           date = ISOweek2date(paste0(year, "-W", 
+                               str_pad(as.character(week), width = 2, 
+                                       side = "left", pad = "0"), "-7"))) %>%
     mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                   pathogen %in% nonflu ~ "nonflu",
                                   TRUE ~ NA_character_))
@@ -67,15 +69,19 @@ for(filename in filenames) {
 
   } else if (filename == "agegp_sex") {
 
-    df1 %<>% mutate(scotland_by_organism_age_sex_flag = 1,
+    df1 %<>% mutate(agegp = ifelse(agegp == "01-Apr", "1-4",
+                                   ifelse(agegp == "May-14", "5-14", agegp)),
+                    scotland_by_organism_age_sex_flag = 1,
                     organism = recode(pathogen, !!!organism, .default = NA_character_),
                     breakdown = paste0(agegp,"_",sex))
 
   } else if (filename == "agegp"){
 
-    df1 %<>% mutate(scotland_by_organism_age_flag = 1,
+    df1 %<>% mutate(agegp = ifelse(agegp == "01-Apr", "1-4",
+                                   ifelse(agegp == "May-14", "5-14", agegp)),
+                    scotland_by_organism_age_flag = 1,
                     breakdown = agegp)
-
+      
   } else if (filename == "sex") {
 
     df1 %<>% mutate(scotland_by_organism_sex_flag = 1,
