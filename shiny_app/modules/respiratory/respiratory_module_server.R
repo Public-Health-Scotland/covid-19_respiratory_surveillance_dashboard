@@ -231,6 +231,7 @@ respiratoryServer <- function(id) {
             mutate(Week = as.character(Week),
                    Week = factor(Week, levels = c(1:53)),
                    Season = factor(Season, levels = unique(Season))) %>%
+            dplyr::rename(`ISO week` = Week) %>%
             make_table()
 
         } else {
@@ -245,6 +246,7 @@ respiratoryServer <- function(id) {
             mutate(Week = as.character(Week),
                    Week = factor(Week, levels = c(1:53)),
                    Season = factor(Season, levels = unique(Season))) %>%
+            dplyr::rename(`ISO week` = Week) %>%
             make_table()
 
         }

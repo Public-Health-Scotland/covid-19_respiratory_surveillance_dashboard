@@ -137,7 +137,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
     # Need to apply factor again to drop out the levels not present in this selection
     mutate(Organism = factor(Organism))
 
-  xaxis_plots[["title"]] <- "Date"
+  xaxis_plots[["title"]] <- "Week ending"
   yaxis_plots[["title"]] <- y_axis_title
 
   xaxis_plots[["rangeslider"]] <- list(type = "date")
@@ -149,7 +149,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
             color = ~Organism,
             linetype = ~Organism,
             textposition = "none",
-            text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
+            text = ~paste0("<b>Week ending</b>: ", format(Date, "%d %b %y"), "\n",
                            "<b>Health board</b>: ", get_hb_name(HealthboardCode), "\n",
                            "<b>", legend_title_name, "</b>: ", Organism, "\n",
                            "<b>", y_axis_title, "</b>: ", format(y_axis, big.mark=",")),
@@ -183,7 +183,7 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
     mutate(Week = as.character(Week),
            Week = factor(Week, levels = week_order))
 
-  xaxis_plots[["title"]] <- "Isoweek"
+  xaxis_plots[["title"]] <- "ISO week"
 
   xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -194,7 +194,7 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
     plot_ly(x = ~Week,
             y = ~y_axis,
             textposition = "none",
-            text = ~paste0("<b>Isoweek</b>: ", Week, "\n",
+            text = ~paste0("<b>ISO week</b>: ", Week, "\n",
                            "<b>Health board</b>: ", get_hb_name(HealthboardCode), "\n",
                            "<b>", y_axis_title, "</b>: ", format(y_axis, big.mark=",")),
             hovertemplate = "%{text}",
