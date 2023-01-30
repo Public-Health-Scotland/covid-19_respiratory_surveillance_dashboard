@@ -12,7 +12,7 @@ respiratoryUI <- function(id) {
   if(flu_or_nonflu == "flu"){
     name_long = "influenza"
   } else {
-    name_long = "non-influenza"
+    name_long = "non-influenza*"
   }
 
   tabPanel(stringr::str_to_sentence(name_long),
