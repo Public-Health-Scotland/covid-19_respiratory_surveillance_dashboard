@@ -30,7 +30,7 @@ tagList(
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            h4("* provisional figures")
+                                            h4("* provisional figures (see glossary)")
                                             # These linebreaks are here to make the banner big enough to
                                             # include all the valueBoxes
                                    ),
