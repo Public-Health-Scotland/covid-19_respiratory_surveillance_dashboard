@@ -93,7 +93,7 @@ respiratoryServer <- function(id) {
           .$Rate
 
         valueBox(value = organism_summary_total,
-                 subtitle = glue("{name_long} cases per 10,000 people in {input$respiratory_headline_healthboard}"),
+                 subtitle = glue("{name_long} cases per 100,000 people in {input$respiratory_headline_healthboard}"),
                  color = "teal",
                  icon = icon_no_warning_fn("house-medical"),
                  width = NULL)
