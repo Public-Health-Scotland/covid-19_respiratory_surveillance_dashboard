@@ -244,6 +244,14 @@ tagList(h1("Metadata"),
                     One simple way of explaining this statistic is that approximately half of patients treated had a stay less than the figure shown and half had a stay greater than this."),
                   br(),
 
+                  #Provisional figures ----
+                  h4("Provisional figures"),
+                  p("Hospital admissions for the most recent week may be incomplete for some Boards and should be treated as provisional and interpreted with caution.
+                    Where no data are available at the time of publication, the number of admissions for the previous week will be rolled forward for affected Boards.
+                    Missing data will either be due to a board not submitting on time or there being zero COVID-19 admissions in the latest week. These provisional data
+                    will be refreshed the following week"),
+                  br(),
+
                   #SIMD ----
                   h4("Scottish Index of Multiple Deprivation (SIMD)"),
                   p("People have been allocated to different levels of deprivation based on the small area (data zone) in which they live and the",

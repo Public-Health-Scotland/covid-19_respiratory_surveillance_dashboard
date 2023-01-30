@@ -12,12 +12,12 @@ respiratoryUI <- function(id) {
   if(flu_or_nonflu == "flu"){
     name_long = "influenza"
   } else {
-    name_long = "non-influenza"
+    name_long = "non-influenza*"
   }
 
   tabPanel(stringr::str_to_sentence(name_long),
            # headline figures for the week in Scotland
-           tagList(h4(glue("Number of {name_long} cases in Scotland")),
+           tagList(h2(glue("Summary of {name_long} cases in Scotland")),
                    tags$div(class = "headline",
                             h3(glue("Total number of {name_long} cases in Scotland over the last two weeks")),
                             # this week total number
@@ -79,7 +79,10 @@ respiratoryUI <- function(id) {
                    ), # tagList
 
            fluidRow(
-             width=12, linebreaks(3)),
+             linebreaks(3)),
+
+
+           tagList(h2(glue("Trends of {name_long} cases in Scotland"))),
 
            # select healthboard and rate/number for plots and data
            fluidRow(
