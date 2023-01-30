@@ -77,6 +77,7 @@ tagList(
                   tabPanel("Plot",
                            tagList(linebreaks(1),
                                    altTextUI("icu_occupancy_modal"),
+                                   linebreaks(1),
                                    withNavySpinner(plotlyOutput("icu_occupancy_plot")),
                                    linebreaks(4)
                            ) # taglist
