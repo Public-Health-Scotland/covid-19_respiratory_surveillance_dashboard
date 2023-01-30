@@ -94,8 +94,12 @@ output$introduction_about <- renderUI({
 
 output$introduction_use <- renderUI({
   tagList(h3(tags$b("Interacting with the dashboard")),
-          p("Click on tabs in the navigation bar at the top to view each topic. Click on 'At a glance' to view the most recently available
-            main statistics. Click on 'Metadata' to view notes about the data. Click on 'Download data' to download datasets as an Excel or CSV file."),
+          p(tags$li("Click on tabs in the blue navigation bar at the top to view each section")),
+          p(tags$li("Click on 'At a glance' to view the most recently available main statistic.")),
+          p(tags$li("Click on 'COVID-19 cases', 'COVID-19 hospital admissions', 'COVID-19 hospital occupancy' or
+                    'Respiratory infection activity' to view each topic.")),
+          p(tags$li("Click on 'Metadata' to view notes about the data")),
+          p(tags$li("Click on 'Download data' to download datasets as an Excel or CSV file")),
           br(),
           p(tags$b("Within each tab")),
           p(tags$li("Click the 'Metadata' button to navigate to relevant notes")),
@@ -121,7 +125,7 @@ output$introduction_use <- renderUI({
           p(tags$li("On the 'Download data' tab you can select the dataset and file type you wish to download")),
           p(tags$li("You can view a data summary and a data preview before downloading")),
           p(tags$li("To download an image of any of the charts in the dashboard, click the camera icon in the top-right
-                    corner of the chart and a png image file will automatically download.")),
+                    corner of the chart and a png image file will automatically download."))
           ) #tagList
 })
 
@@ -131,9 +135,15 @@ output$introduction_contact <- renderUI({
     "if you have any questions about the data in this dashboard."),
 
   p(tags$b("Further sources of information")),
-     p(tags$li("You can access the code used to produce this tool in this ",
-               tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), ".")
-       )
+  p(tags$li("You can access the code used to produce this tool in this ",
+            tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), "."),
+    tags$li("New releases will be published at the same time as the Public Health Scotland",
+            tags$a(href = "https://www.publichealthscotland.scot/publications/weekly-national-respiratory-infection-and-covid-19-statistical-report/",
+                   "Weekly national respiratory infection and COVID-19 statistical report (external website)", target="_blank" ), ".")
+
+  ),
+  p()
+
 
   ) # tagList
 
@@ -144,7 +154,7 @@ output$introduction_accessibility <- renderUI({
           p("This website is run by ", tags$a(href="https://www.publichealthscotland.scot/",
                                               "Public Health Scotland", target="_blank"),
             ", Scotland's national organisation for public health. As a new organisation formed
-                                   on 1 April 2020, Public Health Scotland is currently reviewing its web estate. Public
+                                   on 01 April 2020, Public Health Scotland is currently reviewing its web estate. Public
                                    Health Scotland is committed to making its website accessible, in accordance with
                                    the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility
                                    Regulations 2018. This accessibility statement applies to the dashboard that accompanies
