@@ -114,7 +114,8 @@ tagList(
       tabBox(width = NULL,
              type = "pills",
             tabPanel("Plot",
-                      tagList(altTextUI("reported_cases_modal"),
+                      tagList(linebreaks(1),
+                              altTextUI("reported_cases_modal"),
                               withNavySpinner(plotlyOutput("reported_cases_plot")),
                               fluidRow(
                                 width=12, linebreaks(5)))),
