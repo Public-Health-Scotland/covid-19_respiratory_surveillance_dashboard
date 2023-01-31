@@ -2,8 +2,9 @@ tagList(
   fluidRow(width = 12,
 
            metadataButtonUI("cases"),
+           linebreaks(1),
            h1("COVID-19 cases"),
-           linebreaks(2)),
+           linebreaks(1)),
 
   fluidRow(width = 12,
                tagList(h2("Estimated COVID-19 infection rate"),
