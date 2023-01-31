@@ -146,7 +146,7 @@ respiratoryUI <- function(id) {
                                                              label = glue("Select which {strain_name} you would like to see"),
                                                              choices = {Respiratory_AllData %>%
                                                                  filter(FluOrNonFlu == flu_or_nonflu & !is.na(Organism)) %>% arrange(Organism) %>%
-                                                                 filter(Organism != "Total") %>%.$Organism %>% unique() %>% as.character()}) # pickerInput
+                                                                 filter(!(FluOrNonFlu == "flu" & Organism == "Total")) %>%.$Organism %>% unique() %>% as.character()}) # pickerInput
                                        ) # column
                                      ), # fluidRow
                                      altTextUI(ns("respiratory_by_season_modal")),
