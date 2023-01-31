@@ -73,7 +73,11 @@ $(document).ready( () => {
      for (var i = 0; i < active_plots.length; i++) {
         Plotly.relayout(active_plots[i].id, {autosize: true});
      }
-
+     // If tab is not Plot/Data, go to top of the page
+     var active_tab = $(event.target).text();
+     if (!(active_tab.includes("Plot") | active_tab.includes("Data"))) {
+        $(document).scrollTop(0);
+     }
   });
 
 
