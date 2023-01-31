@@ -53,8 +53,11 @@ tagList(
   fluidRow(width = 12,
            tagList(h2("7 day average number of patients with COVID-19 in Intensive Care Units (ICU)"),
                    tags$div(class = "headline",
-                            h3(glue("Figures from week ending {Occupancy_Hospital %>% tail(1) %>%
-                                             .$Date %>% convert_opendata_date() %>%format('%d %b %y')}")),
+                            h3(glue("Figures from week ending {Occupancy_Hospital %>%
+                                              mutate(Date = convert_opendata_date(Date)) %>%
+                                              filter(Date <= floor_date(today(), 'week')) %>%
+                                              tail(1) %>%
+                                             .$Date %>% format('%d %b %y')}")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},
                                 subtitle = "in ICU for 28 days or less",
