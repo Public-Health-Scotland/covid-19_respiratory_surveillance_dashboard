@@ -52,6 +52,7 @@ format_entry <- function(x, dp=0, perc=F){
 make_table <- function(input_data_table,
                        add_separator_cols = NULL, # with , separator and 0dp
                        add_separator_cols_1dp = NULL, # with , separator and 1dp
+                       add_separator_cols_2dp = NULL, # with , separator and 2dp,
                        add_percentage_cols = NULL, # with % symbol and 2dp
                        maxrows = 14, # max rows displayed on page
                        order_by_firstcol = NULL, # asc, desc or NULL
@@ -72,6 +73,10 @@ make_table <- function(input_data_table,
 
   for (i in add_separator_cols_1dp){
     input_data_table[i] <- apply(input_data_table[i], MARGIN=1, FUN=format_entry, dp=1)
+  }
+
+  for (i in add_separator_cols_2dp){
+    input_data_table[i] <- apply(input_data_table[i], MARGIN=1, FUN=format_entry, dp=2)
   }
 
   for (i in add_percentage_cols){
