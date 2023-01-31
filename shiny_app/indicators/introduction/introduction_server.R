@@ -140,9 +140,10 @@ output$introduction_use <- renderUI({
             tags$a(img(src = "intro_images/zoom_graph.png", height = 60,
                        alt ="Image of the zoom button on the graphs"))),
           p(tags$li("Click the pan button (four way arrows) in the top right of the charts to enable panning capabilites.
-                    Then alter the x axis range by dragging the vertical white bars on the left and right of the bottom panel"),
+                    Then move the chart around by holding down the cursor and dragging."),
             tags$a(img(src = "intro_images/pan_graph.png", height = 60,
                        alt ="Image of the pan button"))),
+          p(tags$li("Alter the x axis range by dragging the vertical white bars on the left and right of the bottom panel")),
           p(tags$li("Click the home button in the top right to reset the axes"),
             tags$a(img(src = "intro_images/home_graph.png", height = 50,
                        alt ="Image of the home button on the graphs used to reset the axes"))),
