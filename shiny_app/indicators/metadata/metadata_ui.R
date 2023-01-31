@@ -192,19 +192,19 @@ tagList(h1("Metadata"),
                                    br(),
 
                                    # ICU occupancy ----
-                                   h4("ICU occupancy"),
-                                   p("Clinical diagnosis of COVID-19 comprises patients admitted with a clinical diagnosis of confirmed or suspected COVID-19 disease recorded in WardWatcher
-                                     regardless of SARS-CoV-2 PCR test status. The clinical diagnosis is the main reason that the patient is admitted to ICU and is coded by ICU clinicians."),
-                                   p("SARS-CoV-2 PCR +ve with non-COVID-19/unknown diagnosis comprises patients with a positive SARS-CoV-2 PCR test who have been admitted with a non-COVID-19
-                                     clinical diagnosis or missing diagnosis recorded in WardWatcher at the time of data extraction. Less than 5% of all patients in this group have an unknown
-                                     diagnosis at the time of data extraction, although this proportion is likely to be higher in the most recent week."),
-                                   p("Non-COVID-19 clinical diagnosis comprises patients with a negative SARS-CoV-2 PCR test and who have been admitted with a non-COVID-19 clinical diagnosis
-                                     recorded in WardWatcher."),
-                                   p("Unknown clinical diagnosis comprises patients with a negative SARS-CoV-2 PCR test who are missing a clinical diagnosis recorded in WardWatcher at the
-                                     time of data extraction. Please see the most recent",
-                                     tags$a("Scottish Intensive Care Society Audit Group COVID-19 report",
-                                            href = "https://publichealthscotland.scot/publications/show-all-releases?id=20581"),
-                                            "for more information."),
+                                   h4("ICU occupancy (28 days or less)"),
+                                   p("COVID-19 confirmed ICU occupancy (28 days or less) have been identified as the following: This measure (available from 11 September 2020)
+                                     includes patients who first tested positive, within their current COVID-19 episode, in hospital or in the 14 days before admission.
+                                     Patients stop being included after 28 days in hospital (or 28 days after first testing positive if this is after admission).
+                                     COVID-19 episodes include both first infections and possible reinfections."),
+                                   br(),
+                                   h4("ICU occupancy (greater than 28 days)"),
+                                   p("COVID-19 confirmed ICU occupancy (greater than 28 days) are now identified as the following: This measure (available from 20 January)
+                                     includes long-stay COVID-19 patients who have been in ICU continuously for more than 28 days. This measure includes patients who first
+                                     tested positive, within their current COVID-19 episode, in hospital or in the 14 days before admission. Patients start being included
+                                     once they have exceeded 28 days in in ICU (or 28 days after first testing positive if this is after admission). Patients who have been
+                                     in hospital or ICU for 28 days or less are not included in this figure. COVID-19 episodes include both first infections and possible reinfections."),
+                                   br(),
                                    p(strong("Source: NHS Health Boards"))),
 
              #### RESPIRATORY PANEL
