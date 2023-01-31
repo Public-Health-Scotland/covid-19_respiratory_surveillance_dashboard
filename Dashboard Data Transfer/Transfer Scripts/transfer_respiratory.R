@@ -8,11 +8,18 @@ get_resp_year <- function(w, s){
     as.numeric()
   return(year)
 }
+
 filenames <- c("scotland", "agegp_sex", "agegp", "sex", "hb")
 
 ## Getting respiratory data
 for (filename in filenames){
-  assign(glue("i_respiratory_{filename}_agg"), read_csv_with_options(glue("{input_data}/{filename}_agg.csv")))
+  assign(glue("i_respiratory_{filename}_agg"),
+         read_csv_with_options(
+           match_base_filename(
+             glue("{input_data}/{filename}_agg.csv")
+             )
+           )
+         )
 }
 
 ##  create dictionaries so we can make new column names with meaningful data for user
@@ -53,8 +60,8 @@ for(filename in filenames) {
   # 1.  e.g. scotland_agg, agegp_sex_agg, ...
   df1 <- base::get(glue("i_respiratory_{filename}_agg")) %>%
     mutate(year = get_resp_year(week, season),
-           date = ISOweek2date(paste0(year, "-W", 
-                               str_pad(as.character(week), width = 2, 
+           date = ISOweek2date(paste0(year, "-W",
+                               str_pad(as.character(week), width = 2,
                                        side = "left", pad = "0"), "-7"))) %>%
     mutate(flu_nonflu = case_when(pathogen %in% flu ~ "flu",
                                   pathogen %in% nonflu ~ "nonflu",
@@ -81,7 +88,7 @@ for(filename in filenames) {
                                    ifelse(agegp == "May-14", "5-14", agegp)),
                     scotland_by_organism_age_flag = 1,
                     breakdown = agegp)
-      
+
   } else if (filename == "sex") {
 
     df1 %<>% mutate(scotland_by_organism_sex_flag = 1,
@@ -102,7 +109,7 @@ for(filename in filenames) {
 
   # 2. scotland flu and non-flu totals
   df2 <- df1 %>%
-    filter(!pathogen %in% c("typea", "typeb", "h1n1", 
+    filter(!pathogen %in% c("typea", "typeb", "h1n1",
                             "typeah3", "unknowna")) %>%
     group_by(season, week, weekord, date, pop, measure, breakdown, flu_nonflu) %>%
     summarise(count = sum(count)) %>%
