@@ -71,7 +71,7 @@ output$data_download_output <- downloadHandler(
     } else if (input$download_filetype == ".xlsx"){
       openxlsx::write.xlsx(chosen_dataset(), file)
     } else {
-      validate(TRUE, "Invalid download file type selected")
+      shiny::validate(TRUE, "Invalid download file type selected")
     }
 
   })

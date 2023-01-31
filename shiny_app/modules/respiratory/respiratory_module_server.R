@@ -30,8 +30,8 @@ respiratoryServer <- function(id) {
                       tags$li("For Scotland there is an option to view the absolute number of cases."),
                       tags$li("The x axis is the date, commencing 02 Oct 2016."),
                       tags$li("The y axis is either the rate of cases or the number of cases."),
-                      tags$li(glue("There is a trace for each {strain_name} of {name_long}.")),
-                      tags$li("The trend is that each winter there is a peak in cases.")
+                      tags$li(glue("There is a trace for each {strain_name} of {name_long}."))
+                      #tags$li("The trend is that each winter there is a peak in cases.")
                     )
       )
 
@@ -43,10 +43,10 @@ respiratoryServer <- function(id) {
                       tags$li("There is a trace for each season, starting in 2016/2017."),
                       tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
                               "and the 52nd isoweek is the last week of the year."),
-                      tags$li(("The y axis is the rate of cases of the chosen {name_long} {strain_name} in Scotland.")),
-                      tags$li("The trend is that each winter there is a peak in cases. The peak was",
-                              "highest in 2017/2018 at about 2,800 cases.")
-                    )
+                      tags$li(glue("The y axis is the rate of cases of the chosen {name_long} {strain_name} in Scotland.")))
+                    #  tags$li("The trend is that each winter there is a peak in cases. The peak was",
+                    #          "highest in 2017/2018 at about 2,800 cases.")
+                   # )
       )
 
       altTextServer("respiratory_age_sex_modal",
@@ -63,8 +63,8 @@ respiratoryServer <- function(id) {
                               "where both the position and the area of the circle correspond",
                               "to the rate per 100,000 people."),
                       tags$li("The second and third plots are bar charts where the left hand column",
-                              "corresponds to female (F) and the right hand column to male (M)."),
-                      tags$li("The youngest and oldest groups have the highest rates of illness.")
+                              "corresponds to female (F) and the right hand column to male (M).")
+                     # tags$li("The youngest and oldest groups have the highest rates of illness.")
                     )
       )
 
@@ -89,17 +89,17 @@ respiratoryServer <- function(id) {
 
         organism_summary_total <- Respiratory_Summary %>%
           filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == flu_or_nonflu) %>%
-          filter(get_hb_name(Breakdown) == input$respiratory_headline_healthboard) 
-        
+          filter(get_hb_name(Breakdown) == input$respiratory_headline_healthboard)
+
         if(nrow(organism_summary_total) == 0){
-         
+
            organism_summary_total <- 0
-        
+
         } else{
-            
+
            organism_summary_total <- organism_summary_total %>%
               .$Rate
-          
+
         }
 
         valueBox(value = organism_summary_total,
@@ -120,7 +120,6 @@ respiratoryServer <- function(id) {
                      if(input$respiratory_select_healthboard == "Scotland"){
 
                        updatePickerInput(session, inputId = "respiratory_y_axis_plots",
-                                         label = "Select whether you would like to see population rates or total number of cases",
                                          choices = c("Number of cases", "Rate per 100,000"),
                                          selected = "Number of cases"
                        )
@@ -128,7 +127,6 @@ respiratoryServer <- function(id) {
                      } else {
 
                        updatePickerInput(session, inputId = "respiratory_y_axis_plots",
-                                         label = "Select whether you would like to see population rates or total number of cases",
                                          choices = c("Rate per 100,000"),
                                          selected = "Rate per 100,000"
 
@@ -201,12 +199,15 @@ respiratoryServer <- function(id) {
             filter(FluOrNonFlu == flu_or_nonflu) %>%
             filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
             select(Date, Organism, Count, Rate) %>%
+            # Re make this as a factor to remove unused levels
+            mutate(Organism = factor(Organism)) %>%
             arrange(desc(Date), Organism) %>%
             dplyr::rename("Week ending" = "Date",
                           !!quo_name(stringr::str_to_title(strain_name) ) :="Organism",
                           "Number of cases" = "Count",
                           "Rate per 100,000" ="Rate") %>%
-            make_table()
+            make_table(add_separator_cols = 3,
+                       filter_cols = 2)
 
         } else {
 
@@ -215,11 +216,14 @@ respiratoryServer <- function(id) {
             filter(FluOrNonFlu == flu_or_nonflu) %>%
             filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
             select(Date, Organism, Rate) %>%
+            # Re make this as a factor to remove unused levels
+            mutate(Organism = factor(Organism)) %>%
             arrange(desc(Date), Organism) %>%
             dplyr::rename("Week ending" = "Date",
                           !!quo_name(stringr::str_to_title(strain_name) ) :="Organism",
                           "Rate per 100,000" = "Rate") %>%
-            make_table()
+            make_table(add_separator_cols = 3,
+                       filter_cols = 2)
 
         }
 
@@ -242,7 +246,7 @@ respiratoryServer <- function(id) {
                    Week = factor(Week, levels = c(1:53)),
                    Season = factor(Season, levels = unique(Season))) %>%
             dplyr::rename(`ISO week` = Week) %>%
-            make_table()
+            make_table(filter_cols = c(1,2,3))
 
         } else {
 
@@ -257,7 +261,7 @@ respiratoryServer <- function(id) {
                    Week = factor(Week, levels = c(1:53)),
                    Season = factor(Season, levels = unique(Season))) %>%
             dplyr::rename(`ISO week` = Week) %>%
-            make_table()
+            make_table(filter_cols = c(1,2,3))
 
         }
 
@@ -272,6 +276,7 @@ respiratoryServer <- function(id) {
           filter(scotland_by_age_flag == 1) %>%
           mutate(Sex = "All") %>%
           select(Season, Date, AgeGroup, Sex, Rate) %>%
+          mutate(Season = factor(Season)) %>%
           dplyr::rename("Week ending" = "Date",
                         "Age group" = "AgeGroup",
                         "Rate per 100,000" = "Rate")
@@ -281,6 +286,7 @@ respiratoryServer <- function(id) {
           filter(scotland_by_sex_flag == 1) %>%
           mutate(AgeGroup = "All") %>%
           select(Season, Date, AgeGroup, Sex, Rate) %>%
+          mutate(Season = factor(Season)) %>%
           dplyr::rename("Week ending" = "Date",
                         "Age group" = "AgeGroup",
                         "Rate per 100,000" = "Rate")
@@ -289,6 +295,7 @@ respiratoryServer <- function(id) {
           filter(FluOrNonFlu == flu_or_nonflu) %>%
           filter(scotland_by_age_sex_flag == 1) %>%
           select(Season, Date, AgeGroup, Sex, Rate) %>%
+          mutate(Season = factor(Season)) %>%
           arrange(desc(Date), AgeGroup, Sex) %>%
           dplyr::rename("Week ending" = "Date",
                         "Age group" = "AgeGroup",
@@ -299,7 +306,7 @@ respiratoryServer <- function(id) {
                                         c("All", "<1", "1-4", "5-14",
                                           "15-44", "45-64", "65-74", "75+"))) %>%
           arrange(desc(`Week ending`), `Age group`, Sex) %>%
-          make_table()
+          make_table(filter_cols = c(1,3,4))
 
       })
 

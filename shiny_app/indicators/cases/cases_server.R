@@ -1,6 +1,6 @@
 
 metadataButtonServer(id="cases",
-                     panel="Cases",
+                     panel="COVID-19 cases",
                      parent = session)
 
 jumpToTabButtonServer(id="cases_from_summary",
@@ -23,17 +23,24 @@ altTextServer("ons_cases_modal",
               )
 )
 
+
+
 altTextServer("wastewater_modal",
               title = "Seven day average trend in wastewater COVID-19",
-              content = tags$ul(tags$li("point a"), tags$li("point b"), tags$li("point c")))
+              content = tags$ul(tags$li("This is a plot showing the running average trend in wastewater COVID-19."),
+                                tags$li("The x axis shows date of sample, starting from 28 May 2020."),
+                                tags$li("The y axis shows the wastewater viral level in million gene copies per person per day."),
+                                tags$li("There is one trace which shows the 7 day average of the watewater viral level."),
+                                tags$li("There have been peaks throughout the pandemic, notably in",
+                                        "Sep 2021, Dec 2021, Mar 2022 and Jun 2022")))
 
 altTextServer("reported_cases_modal",
               title = "Reported COVID-19 cases",
               content = tags$ul(tags$li("This is a plot of the number of reported COVID-19 cases each day."),
                                 tags$li("The x axis is the date"),
                                 tags$li("The y axis is the number of reported cases"),
-                                tags$li("There are two traces: a light blue trace which shows the number of reported cases each day;",
-                                        "and a dark blue trace overlayed which has the 7 day average of this."),
+                                tags$li("There are two traces: a light purple trace which shows the number of reported cases each day;",
+                                        "and a dark purple trace overlayed which has the 7 day average of this."),
                                 tags$li("There are two vertical lines: the first denotes that prior to 5 Jan 2022 ",
                                         "reported cases are PCR only, and since then they include PCR and LFD cases; ",
                                         "the second marks the change in testing policy on 1 May 2022."),

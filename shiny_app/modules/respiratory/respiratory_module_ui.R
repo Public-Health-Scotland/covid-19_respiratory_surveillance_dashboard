@@ -19,7 +19,7 @@ respiratoryUI <- function(id) {
 
   tabPanel(stringr::str_to_sentence(name_long),
            # headline figures for the week in Scotland
-           tagList(h4(glue("Number of {name_long} cases in Scotland")),
+           tagList(h2(glue("Summary of {name_long} cases in Scotland")),
                    tags$div(class = "headline",
                             h3(glue("Total number of {name_long} cases in Scotland over the last two weeks")),
                             # this week total number
@@ -82,19 +82,22 @@ respiratoryUI <- function(id) {
                    ), # tagList
 
            fluidRow(
-             width=12, linebreaks(3)),
+             linebreaks(3)),
+
+
+           tagList(h2(glue("Trends of {name_long} cases in Scotland"))),
 
            # select healthboard and rate/number for plots and data
            fluidRow(
              column(6, pickerInput(ns("respiratory_select_healthboard"),
-                                   label = "Select whether you would like to see Scotland totals or choose a NHS Health Board",
+                                   label = "Select geography (Scotland/NHS Health Board)",
                                    choices = c("Scotland", {Respiratory_AllData %>%
                                        filter(!is.na(HealthboardCode)) %>%
                                        .$HealthboardCode %>% unique() %>% get_hb_name() %>% .[.!="NHS Scotland"]})
              ) # pickerInput
              ), # column
              column(6, pickerInput(ns("respiratory_y_axis_plots"),
-                                   label = "Select whether you would like to see population rates or total number of cases",
+                                   label = "Select number of cases or rate in population",
                                    choices = c("Number of cases", "Rate per 100,000"),
                                    selected = "Number of cases") # pickerInput
              ) # column
