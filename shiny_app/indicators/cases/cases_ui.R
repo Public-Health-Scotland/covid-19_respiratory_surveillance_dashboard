@@ -21,12 +21,12 @@ tagList(
                                          .$LowerCIRatio},
                                          subtitle = "Lower 95% confidence interval",
                                          color = "purple",
-                                         icon = icon_no_warning_fn("arrows-down-to-line")),
+                                         icon = icon_no_warning_fn("minus")),
                                      valueBox(value = {ONS %>% tail(1) %>%
                                          .$UpperCIRatio},
                                          subtitle = "Upper 95% confidence interval",
                                          color = "purple",
-                                         icon = icon_no_warning_fn("arrows-up-to-line")),
+                                         icon = icon_no_warning_fn("plus")),
                                      # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                                      )
