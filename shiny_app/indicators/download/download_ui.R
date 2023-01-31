@@ -2,10 +2,10 @@ tagList(
   div(
 
     fluidRow(width = 12,
+             linebreaks(1),
              metadataButtonUI("download"),
              h1("Download data"),
-             linebreaks(2)),
-
+             linebreaks(1)),
 
     # Filters and toggles
     fluidRow(width=12,

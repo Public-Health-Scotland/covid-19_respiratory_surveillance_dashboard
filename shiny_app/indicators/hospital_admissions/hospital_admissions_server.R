@@ -11,6 +11,13 @@ jumpToTabButtonServer(id="hospital_admissions_from_summary",
                       location="hospital_admissions",
                       parent = session)
 
+observeEvent(input$glossary,
+             {
+               updateTabsetPanel(session = session, "intabset", selected = "metadata")
+               updateCollapse(session = session, "notes_collapse", open = "Glossary")
+
+             })
+
 
 # Hospital admissions ----
 
