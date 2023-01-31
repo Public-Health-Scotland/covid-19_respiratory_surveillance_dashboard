@@ -99,10 +99,23 @@ respiratoryUI <- function(id) {
              ) # pickerInput
              ), # column
              column(6, pickerInput(ns("respiratory_y_axis_plots"),
-                                   label = "Select number of cases or rate in population",
+                                   label = p("Select number of cases or rate in population",
+                                             popify(bsButton("resp-cases-info",
+                                                             label = HTML(glue(
+                                                               "<label class='sr-only'>Click button for more information</label>")),
+                                                             icon = icon("circle-info"),
+                                                             size = "default"),
+                                                      title = "",
+                                                      content = paste("Number of cases are only available at ",
+                                                                      "Scotland level.", "<br>", "<br>",
+                                                                      strong("Click again to close.")),
+                                                      placement = "top",
+                                                      trigger = "click",
+                                                      options = list(id = "resp-cases-info",
+                                                                     container = "body", html = "true"))),
                                    choices = c("Number of cases", "Rate per 100,000"),
                                    selected = "Number of cases") # pickerInput
-             ) # column
+             )
            ),
 
            # plot and data for cases by subtype over time
