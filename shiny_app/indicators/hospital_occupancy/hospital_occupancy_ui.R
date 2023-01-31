@@ -23,7 +23,7 @@ tagList(
                                          color = "fuchsia",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # This text is hidden by css but helps pad the box at the bottom
-                                     p("hidden text for padding page"))),
+                                    h6("hidden text for padding page"))),
            linebreaks(1)),
 
   fluidRow(
@@ -66,7 +66,7 @@ tagList(
                                 color = "fuchsia",
                                 icon = icon_no_warning_fn("bed-pulse")),
                             # This text is hidden by css but helps pad the box at the bottom
-                            p("hidden text for padding page"))),
+                            h6("hidden text for padding page"))),
            linebreaks(1)),
 
   fluidRow(width = 12,

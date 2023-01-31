@@ -27,7 +27,7 @@ tagList(
                                          color = "purple",
                                          icon = icon_no_warning_fn("arrows-up-to-line")),
                                      # This text is hidden by css but helps pad the box at the bottom
-                                     p("hidden text for padding page")
+                                     h6("hidden text for padding page")
                                      )
                        ),
            linebreaks(1)),
@@ -56,7 +56,7 @@ tagList(
                                        color = "purple",
                                        icon = icon_no_warning_fn("faucet-drip")),
                                    # This text is hidden by css but helps pad the box at the bottom
-                                   p("hidden text for padding page"))),
+                                   h6("hidden text for padding page"))),
            linebreaks(1)),
 
 

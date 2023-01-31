@@ -27,7 +27,7 @@ tagList(
                color = "teal",
                icon = icon_no_warning_fn("percent")),
            # This text is hidden by css but helps pad the box at the bottom
-           p("hidden text for padding page")
+           h6("hidden text for padding page")
            ),
 
   fluidRow(height = "50px", br()),
