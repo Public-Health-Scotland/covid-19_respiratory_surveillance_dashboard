@@ -70,7 +70,7 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_respiratory", "Respiratory infection activity"))),
-            column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
+            column(8, p("Latest information on the number and rate of influenza and non-influenza cases in Scotland."))),
           br(),
 
 
