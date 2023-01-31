@@ -113,8 +113,7 @@ output$hospital_admissions_table <- renderDataTable({
                   `Number of admissions` = TotalInfections,
                   `7 day average` = SevenDayAverage,
                   `Is data provisional (p)?` = ProvisionalFlag) %>%
-    make_table(add_separator_cols = c(2),
-               add_separator_cols_1dp = c(3),
+    make_table(add_separator_cols = c(2,3),
                filter_cols = 4)
 })
 
@@ -215,8 +214,7 @@ output$icu_admissions_table <- renderDataTable({
     dplyr::rename(`Date` = DateFirstICUAdmission,
                   `Number of ICU admissions` = NewCovidAdmissionsPerDay,
                   `7 day average` = SevenDayAverage) %>%
-    make_table(add_separator_cols = c(2),
-               add_separator_cols_1dp = c(3))
+    make_table(add_separator_cols = c(2,3))
 })
 
 # Plot

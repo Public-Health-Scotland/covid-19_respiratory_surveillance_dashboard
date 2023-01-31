@@ -9,7 +9,7 @@ g_wastewater <- i_wastewater %>%
   dplyr::rename(Date = Date7DayEnding,
                 WastewaterSevenDayAverageMgc = WWAvgMgc) %>%
   mutate(Date = format(Date, "%Y%m%d"),
-         WastewaterSevenDayAverageMgc = round_half_up(WastewaterSevenDayAverageMgc,3))
+         WastewaterSevenDayAverageMgc = round_half_up(WastewaterSevenDayAverageMgc,2))
 
 
 write.csv(g_wastewater, glue(output_folder, "Wastewater.csv"), row.names = FALSE)

@@ -55,7 +55,7 @@ g_occupancy_hospital_scotland <- g_occupancy_hospital_healthboard %>%
 
 g_occupancy_hospital <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland) %>%
   group_by(HealthBoard) %>%
-  mutate(SevenDayAverage = round_half_up(zoo::rollmean(HospitalOccupancy, k = 7, fill = NA, align="right"), 1),
+  mutate(SevenDayAverage = round_half_up(zoo::rollmean(HospitalOccupancy, k = 7, fill = NA, align="right"),0),
          SevenDayAverageQF = ifelse(is.na(SevenDayAverage), ":", ""),
          SevenDayAverageQF = ifelse(Date <= 20200912 , "z", SevenDayAverageQF),
          HospitalOccupancyQF = ifelse(is.na(HospitalOccupancy), ":", "")) %>%
@@ -99,7 +99,7 @@ g_occupancy_ICU_scotland <- g_occupancy_ICU_healthboard %>%
 
 g_occupancy_ICU <- bind_rows(g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland) %>%
   group_by(HealthBoard, ICULengthOfStay) %>%
-  mutate(SevenDayAverage = round_half_up(zoo::rollmean(ICUOccupancy, k = 7, fill = NA, align="right"),1),
+  mutate(SevenDayAverage = round_half_up(zoo::rollmean(ICUOccupancy, k = 7, fill = NA, align="right"),0),
          SevenDayAverageQF = ifelse(is.na(SevenDayAverage), ":", ""),
          SevenDayAverageQF = ifelse(Date <= 20200912 , "z", SevenDayAverageQF),
          ICUOccupancyQF = ifelse(is.na(ICUOccupancy), ":", "")) %>%

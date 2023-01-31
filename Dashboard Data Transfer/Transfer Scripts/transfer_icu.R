@@ -12,9 +12,9 @@ g_icu <- i_icu_newpatient$Sheet1 %>%
   dplyr::rename(DateFirstICUAdmission = `Date of First ICU Admission`,
                 NewCovidAdmissionsPerDay = `Count of New COVID-19 Admissions per Day`,
                 SevenDayAverage = `7-Day Moving Average`) %>%
-  mutate(SevenDayAverageQF = ifelse(is.na(SevenDayAverage), "z", ""),
-         DateFirstICUAdmission = format(DateFirstICUAdmission, "%Y%m%d"),
-         SevenDayAverage = round_half_up(SevenDayAverage, 3))
+  mutate(SevenDayAverage = round_half_up(SevenDayAverage,0),
+         SevenDayAverageQF = ifelse(is.na(SevenDayAverage), "z", ""),
+         DateFirstICUAdmission = format(DateFirstICUAdmission, "%Y%m%d"))
 
 write.csv(g_icu, glue(output_folder, "ICU.csv"), row.names = FALSE)
 
@@ -69,7 +69,7 @@ for(agegroup in agegroups){
 g_icu_agesex %<>% arrange(factor(Sex, levels = c("Male", "Female", "Total"))) %>% select(-c(Population)) %>%
   mutate(SexQF = ifelse(Sex == "Total", "d", ""),
          AgeGroupQF = ifelse(AgeGroup == "Total", "d", ""),
-         RateCovidICUPer100000 = round_half_up(as.numeric(RateCovidICUPer100000), 3),
+         RateCovidICUPer100000 = round_half_up(as.numeric(RateCovidICUPer100000), 2),
          CovidAdmissionsToICU = as.numeric(CovidAdmissionsToICU)) %>%
   select(Sex, SexQF, AgeGroup, AgeGroupQF, CovidAdmissionsToICU, RateCovidICUPer100000)
 

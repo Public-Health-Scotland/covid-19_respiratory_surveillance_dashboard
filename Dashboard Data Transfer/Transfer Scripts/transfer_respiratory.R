@@ -113,7 +113,7 @@ for(filename in filenames) {
                             "typeah3", "unknowna")) %>%
     group_by(season, week, weekord, date, pop, measure, breakdown, flu_nonflu) %>%
     summarise(count = sum(count)) %>%
-    mutate(rate = round_half_up((count/pop)*100000, 1),
+    mutate(rate = round_half_up((count/pop)*100000, 2),
            pathogen = "Total",
            organism = "Total",
            countQF = "d",
@@ -267,7 +267,7 @@ g_resp_data %<>% mutate(HealthboardCode = ifelse((!is.na(Healthboard) & Healthbo
                                                  "S92000003", HealthboardCode))
 
 # Checks on aggregated data
-source("Transfer Scripts/respiratory_checks.R")
+#source("Transfer Scripts/respiratory_checks.R")
 
 # Output
 write_csv(g_resp_data, glue(output_folder, "Respiratory_AllData.csv"))
