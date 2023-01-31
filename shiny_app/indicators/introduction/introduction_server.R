@@ -70,7 +70,9 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_respiratory", "Respiratory infection activity"))),
-            column(8, p("Latest information on the number and rate of influenza and non-influenza cases in Scotland."))),
+            column(8, p("This section contains the epidemiological information on seasonal respiratory infection
+                        activity in Scotland. The spectrum of respiratory illnesses, caused by these infections,
+                        vary from asymptomatic illness to mild/moderate symptoms to severe complications including death."))),
           br(),
 
 
