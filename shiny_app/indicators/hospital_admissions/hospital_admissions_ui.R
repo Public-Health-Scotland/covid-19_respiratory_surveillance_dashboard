@@ -27,8 +27,14 @@ tagList(
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            h4("* provisional figures (see glossary)")
-                                   ),
+                                            h4("* provisional figures",
+                                               actionButton("glossary",
+                                                            label = "Go to glossary",
+                                                            icon = icon_no_warning_fn("paper-plane")
+                                                            ),
+                                               h6("hidden text for padding page")
+                                               )
+                                            ),
 
 
                            tabBox(width = NULL, type = "pills",
