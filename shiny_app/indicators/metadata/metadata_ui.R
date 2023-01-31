@@ -36,9 +36,7 @@ tagList(h1("Metadata"),
                                      especially when prevalence of COVID-19 is high. An average and standard deviation is taken for three samples. Household drainage water
                                      is mixed with water from other urban sources, meaning composite samples will contain rainwater which dilutes the sample. Therefore,
                                      this variability is accounted for by controlling for rainfall."),
-                                   p(strong("Source:",
-                                            tags$a("COVID-19 Modelling the Epidemic",
-                                                   href="https://www.gov.scot/collections/coronavirus-covid-19-modelling-the-epidemic/"))),
+                                   p(strong("Source: Biomathematics and Statistics Scotland (BioSS)")),
                                    br(),
 
                                    # Reported cases ----
@@ -190,7 +188,7 @@ tagList(h1("Metadata"),
                                      not be included in this figure. Patients who have been in hospital for more than 28 days and still being treated for COVID-19 will stop being
                                      included in this figure after 28 days."),
                                    p("All inpatients in hospital, including in intensive care, and community, mental health and long stay hospitals are included in this figure."),
-                                   p(strong("Source: NHS Boards")),
+                                   p(strong("Source: NHS Health Boards")),
                                    br(),
 
                                    # ICU occupancy ----
@@ -207,7 +205,7 @@ tagList(h1("Metadata"),
                                      tags$a("Scottish Intensive Care Society Audit Group COVID-19 report",
                                             href = "https://publichealthscotland.scot/publications/show-all-releases?id=20581"),
                                             "for more information."),
-                                   p(strong("Source: NHS Boards"))),
+                                   p(strong("Source: NHS Health Boards"))),
 
              #### RESPIRATORY PANEL
              bsCollapsePanel("Respiratory infection activity",
@@ -238,6 +236,13 @@ tagList(h1("Metadata"),
                    indicate that there may not be a true difference between two estimates."),
                   br(),
 
+                  # Isoweek ----
+                  h4("ISO week"),
+                  p("The ISO week date system is effectively a leap week calendar system that is part of the ISO 8601 date and time standard issued by the
+                    International Organization for Standardization (ISO). Week number according to the ISO-8601 standard, weeks starting on Monday.
+                    The first week of the year is the week that contains that year's first Thursday (='First 4-day week')"),
+                  br(),
+
                   #Median Length of Stay ----
                   h4("Median length of stay"),
                   p("This a measure of the typical length of stay experienced by patients being admitted to hospital with COVID-19.
@@ -251,6 +256,11 @@ tagList(h1("Metadata"),
                     Missing data will either be due to a board not submitting on time or there being zero COVID-19 admissions in the latest week. These provisional data
                     will be refreshed the following week"),
                   br(),
+
+                  #Rate per 100,000 ----
+                  h4("Rate per 100,000"),
+                  p("Number of new laboratory positive test results expressed as a rate per 100,000 Scottish population (using the 2021 NRS mid-year population estimate)."),
+                  p("Virological data are dynamic, therefore, the incidence rate will change week to week as more data become available."),
 
                   #SIMD ----
                   h4("Scottish Index of Multiple Deprivation (SIMD)"),
@@ -268,12 +278,9 @@ tagList(h1("Metadata"),
                   #Seven day average ----
                   h4("Seven day average"),
                   p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations."),
-                  br(),
+                  br()
 
-                  #Rate per 100,000 ----
-                  h4("Rate per 100,000"),
-                  p("Number of new laboratory positive test results expressed as a rate per 100,000 Scottish population (using the 2021 NRS mid-year population estimate)."),
-                  p("Virological data are dynamic, therefore, the incidence rate will change week to week as more data become available.")
+
 
 ))
 
