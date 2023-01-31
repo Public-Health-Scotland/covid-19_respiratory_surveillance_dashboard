@@ -31,8 +31,6 @@ tagList(
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             h4("* provisional figures (see glossary)")
-                                            # These linebreaks are here to make the banner big enough to
-                                            # include all the valueBoxes
                                    ),
 
 
@@ -95,7 +93,8 @@ tagList(
                                                 subtitle = glue("Longest median stay ({los_median_max$AgeGroup})"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("clock")),
-                                            linebreaks(6))),
+                                            # This text is hidden by css but helps pad the box at the bottom
+                                            h6("hidden text for padding page"))),
                            br(),
 
                            tabBox(width = NULL, type = "pills",
@@ -142,9 +141,8 @@ tagList(
                                                 subtitle = glue("Week ending {names(icu_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            # These linebreaks are here to make the banner big enough to
-                                            # include all the valueBoxes
-                                            linebreaks(6))),
+                                            # This text is hidden by css but helps pad the box at the bottom
+                                            h6("hidden text for padding page"))),
 
                            linebreaks(1),
 

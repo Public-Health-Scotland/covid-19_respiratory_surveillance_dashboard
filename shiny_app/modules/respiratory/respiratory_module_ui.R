@@ -44,7 +44,8 @@ respiratoryUI <- function(id) {
                                      color = "teal",
                                      icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                          .$icon})),
-                            linebreaks(7)
+                            # This text is hidden by css but helps pad the box at the bottom
+                            h6("hidden text for padding page")
                             ), # headline
 
                    # headline figures for the week by subtype (scotland totals) and healthboard
@@ -77,7 +78,8 @@ respiratoryUI <- function(id) {
                                    ) # tagList
                             ), # column
 
-                            linebreaks(10)
+                            # This text is hidden by css but helps pad the box at the bottom
+                            h6("hidden text for padding page")
                             ) # headline
                    ), # tagList
 

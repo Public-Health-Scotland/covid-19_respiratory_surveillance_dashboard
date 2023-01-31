@@ -121,7 +121,7 @@ output$introduction_use <- renderUI({
           p(tags$li("On the 'Download data' tab you can select the dataset and file type you wish to download")),
           p(tags$li("You can view a data summary and a data preview before downloading")),
           p(tags$li("To download an image of any of the charts in the dashboard, click the camera icon in the top-right
-                    corner of the chart and a png image file will automatically download.")),
+                    corner of the chart and a png image file will automatically download."))
           ) #tagList
 })
 
@@ -132,7 +132,7 @@ output$introduction_contact <- renderUI({
 
   p(tags$b("Further sources of information")),
      p(tags$li("You can access the code used to produce this tool in this ",
-               tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), ".")
+               tags$a(href="https://github.com/Public-Health-Scotland/covid-19_respiratory_surveillance_dashboard", "GitHub repository (external website)",  target="_blank"), ".")
        )
 
   ) # tagList
