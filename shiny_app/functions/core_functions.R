@@ -50,12 +50,13 @@ format_entry <- function(x, dp=0, perc=F){
 
 # Data table for Data tab ----
 make_table <- function(input_data_table,
-                          add_separator_cols = NULL, # with , separator and 0dp
-                          add_separator_cols_1dp = NULL, # with , separator and 1dp
-                          add_percentage_cols = NULL, # with % symbol and 2dp
-                          maxrows = 14, # max rows displayed on page
-                          order_by_firstcol = NULL, # asc, desc or NULL
-                          highlight_column = NULL # Column to highlight specific entries based off
+                       add_separator_cols = NULL, # with , separator and 0dp
+                       add_separator_cols_1dp = NULL, # with , separator and 1dp
+                       add_percentage_cols = NULL, # with % symbol and 2dp
+                       maxrows = 14, # max rows displayed on page
+                       order_by_firstcol = NULL, # asc, desc or NULL
+                       filter_cols = NULL, # columns to have filters for
+                       highlight_column = NULL # Column to highlight specific entries based off
 ){
 
 
@@ -77,6 +78,15 @@ make_table <- function(input_data_table,
     input_data_table[i] <- apply(input_data_table[i], MARGIN=1, FUN=format_entry, dp=1, perc=T)
   }
 
+  # Always filter date cols
+  date_cols <- which({purrr::map(input_data_table, class) %>% paste()} == "Date")
+  filter_cols <- union(filter_cols, date_cols)
+
+  # Getting columns not to filter based off columns to filter
+  # Shifting down by 1 as data table starts counting from 0 whereas we want
+  # to choose columns to filter by counting from 1 like in R
+  no_filter_cols <- seq(0, (ncol(input_data_table)-1)) %>% .[!(. %in% (filter_cols-1))]
+
   if(!is.null(order_by_firstcol)){
     tab_order <- list(list(0, order_by_firstcol))
   } else {
@@ -89,79 +99,27 @@ make_table <- function(input_data_table,
                       rownames = FALSE,
                       options = list(pageLength = maxrows,
                                      dom = 'tip',
+                                     columnDefs = list(list(searchable = FALSE,
+                                                            targets = no_filter_cols)),
+                                     ordering = FALSE,
                                      scrollX = TRUE,
                                      initComplete = JS(
                                        "function(settings, json) {",
                                        "$(this.api().table().header()).css({'background-color': 'rgba(1, 0, 104, 1)', 'color': 'white'});",
-                                       "}"), # Make header phs-blue
+                                       "}"), # Make header navy
                                      order = tab_order),
-
-                      filter = "top",
+                      filter = list(position="top", clear=TRUE, plain=FALSE),
                       colnames = table_colnames) %>%
     formatStyle(
       highlight_column, target="row",
       backgroundColor = styleEqual(c("Cumulative", "Total"),
-                                   c(phs_colours("phs-magenta"), phs_colours("phs-magenta"))),
+                                   c(phs_colours("phs-blue"), phs_colours("phs-blue"))),
       fontWeight = styleEqual(c("Cumulative", "Total"), c("bold", "bold")),
       color = styleEqual(c("Cumulative", "Total"), c("white", "white"))
     )
 
   return(dt)
 
-
-}
-
-
-# Data table with breakdown by Health Board ----
-make_byboard_data_table <- function(input_data_table,
-                               board_name_column,  # Name of the column with board names e.g. "NHS Board"
-                               add_separator_cols=NULL, # Column indices to add thousand separators to
-                               add_percentage_cols = NULL, # with % symbol and 2dp
-                               rows_to_display=14,
-                               order_by_firstcol=NULL){ # Number of Boards + 1 for Scotland
-
-  if(!is.null(order_by_firstcol)){
-    tab_order <- list(list(0, order_by_firstcol))
-  } else {
-    tab_order <- NULL
-  }
-
-  # Remove the underscore from column names in the table
-  table_colnames  <-  gsub("_", " ", colnames(input_data_table))
-
-  # Add column formatting
-
-  for (i in add_separator_cols){
-    input_data_table[i] <- apply(input_data_table[i], MARGIN=1, FUN=format_entry)
-  }
-
-  for (i in add_percentage_cols){
-    input_data_table[i] <- apply(input_data_table[i], MARGIN=1, FUN=format_entry, dp=1, perc=T)
-  }
-
-  dt <- DT::datatable(input_data_table, style = 'bootstrap',
-                      class = 'table-bordered table-condensed',
-                      rownames = FALSE,
-                      options = list(pageLength = rows_to_display, # Health Boards and total
-                                     order = tab_order, # Most recent week first
-                                     dom = 'tip',
-                                     autoWidth = TRUE,
-                                     initComplete = JS(
-                                       "function(settings, json) {",
-                                       "$(this.api().table().header()).css({'background-color': 'rgba(1, 0, 104, 1)', 'color': 'white'});",
-                                       "}") # Make header phs-purple
-                      ),
-                      filter = "top",
-                      colnames = table_colnames) %>%
-    formatStyle(
-      board_name_column, target="row",
-      backgroundColor = styleEqual(c("Scotland", "Total", "All"),
-                                   c(phs_colours("phs-magenta"),phs_colours("phs-magenta"),phs_colours("phs-magenta"))), # highlight Scotland rows in phs-magenta
-      fontWeight = styleEqual(c("Scotland", "Total", "All"), c("bold", "bold", "bold")),
-      color = styleEqual(c("Scotland", "Total", "All"), c("white", "white", "white"))
-    )
-
-  return(dt)
 
 }
 

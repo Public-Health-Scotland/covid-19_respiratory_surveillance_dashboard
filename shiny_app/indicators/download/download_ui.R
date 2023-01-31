@@ -2,10 +2,10 @@ tagList(
   div(
 
     fluidRow(width = 12,
+             linebreaks(1),
              metadataButtonUI("download"),
              h1("Download data"),
-             linebreaks(2)),
-
+             linebreaks(1)),
 
     # Filters and toggles
     fluidRow(width=12,
@@ -16,8 +16,7 @@ tagList(
                                 "1. Select indicator ",
                                 choices = c("COVID-19 cases",
                                             "Acute COVID-19 hospital admissions",
-                                            "COVID-19 hospital occupancy",
-                                            "Vaccine wastage"),
+                                            "COVID-19 hospital occupancy"),
                                 selected = "COVID-19 cases",
                                 inline = TRUE),
                    pickerInput("download_dataset",

@@ -180,8 +180,9 @@ output$introduction_contact <- renderUI({
     "if you have any questions about the data in this dashboard."),
 
   p(tags$b("Further sources of information")),
+
   p(tags$li("You can access the code used to produce this tool in this ",
-            tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), "."),
+            tags$a(href="https://github.com/Public-Health-Scotland/covid-19_respiratory_surveillance_dashboard", "GitHub repository (external website)",  target="_blank"), "."),
     tags$li("New releases will be published at the same time as the Public Health Scotland",
             tags$a(href = "https://www.publichealthscotland.scot/publications/weekly-national-respiratory-infection-and-covid-19-statistical-report/",
                    "Weekly national respiratory infection and COVID-19 statistical report (external website)", target="_blank" ), "."),
@@ -201,7 +202,6 @@ output$introduction_contact <- renderUI({
   ),
 
   p()
-
 
   ) # tagList
 

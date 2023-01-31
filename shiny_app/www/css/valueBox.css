@@ -10,9 +10,20 @@
 .headline h3 {
   color: var(--navy);
   font-weight: bold;
-  font-size: 30px;
+  font-size: 24px;
 }
 
+.headline h6 {
+  /* hidden text for padding */
+  color: var(--phs-blue-10);
+
+  /* Hide the text. */
+  text-indent: 100%;
+  width: 100%;
+  height: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
 
 
 /*

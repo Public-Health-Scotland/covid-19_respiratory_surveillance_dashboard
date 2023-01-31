@@ -1,7 +1,7 @@
 // Javascript code supporting R shiny app //
 // -------------------------------------- //
 
-$( document ).ready( () => {
+$(document).ready( () => {
 
   // Making sure navbar doesn't overlap content
   // Add padding at the top of the page which is 12px bigger
@@ -65,8 +65,6 @@ $( document ).ready( () => {
 
   // When going to new tab
   $(document).on('shown.bs.tab', (x) => {
-    // Hide all popovers
-     //$(".popover").popover("hide");
      // Fix plotly bug where if you change tabs before a plot has loaded the
      // plot ends up squashed. Do this by resizing all plotly plots when going
      // to a new tab
@@ -75,7 +73,11 @@ $( document ).ready( () => {
      for (var i = 0; i < active_plots.length; i++) {
         Plotly.relayout(active_plots[i].id, {autosize: true});
      }
-
+     // If tab is not Plot/Data, go to top of the page
+     var active_tab = $(event.target).text();
+     if (!(active_tab.includes("Plot") | active_tab.includes("Data"))) {
+        $(document).scrollTop(0);
+     }
   });
 
 

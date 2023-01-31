@@ -26,9 +26,8 @@ tagList(
                subtitle = "Percent wasted",
                color = "teal",
                icon = icon_no_warning_fn("percent")),
-           # These linebreaks are here to make the banner big enough to
-           # include all the valueBoxes
-           linebreaks(6)
+           # This text is hidden by css but helps pad the box at the bottom
+           h6("hidden text for padding page")
            ),
 
   fluidRow(height = "50px", br()),
