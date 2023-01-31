@@ -183,9 +183,22 @@ output$introduction_contact <- renderUI({
             tags$a(href="https://github.com/Public-Health-Scotland/covid-19_dashboard", "GitHub repository (external website)",  target="_blank"), "."),
     tags$li("New releases will be published at the same time as the Public Health Scotland",
             tags$a(href = "https://www.publichealthscotland.scot/publications/weekly-national-respiratory-infection-and-covid-19-statistical-report/",
-                   "Weekly national respiratory infection and COVID-19 statistical report (external website)", target="_blank" ), ".")
+                   "Weekly national respiratory infection and COVID-19 statistical report (external website)", target="_blank" ), "."),
+    tags$li("Information on the wider impacts on the health care system from COVID-19 are available on the",
+            tags$a(href = "https://scotland.shinyapps.io/phs-covid-wider-impact/",
+                   "Wider Impacts dashboard (external website)", target="_blank" ), "."),
+    tags$li("Information and support on a range of topics in regards to COVID-19 are available on the",
+            tags$a(href = "https://www.gov.scot/coronavirus-covid-19/",
+                   "Scottish Government website (external website)", target="_blank" ), "."),
+    tags$li("Information on deaths involving COVID-19 is available on the",
+            tags$a(href = "https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-and-monthly-data-on-births-and-deaths/deaths-involving-coronavirus-covid-19-in-scotland/",
+                   "National Records Scotland website (external website)", target="_blank" ), "."),
+    tags$li("Information from the World Health Organisation on COVID-19 is available on the",
+            tags$a(href = "https://covid19.who.int/",
+                   "WHO Coronovirus (COVID-19) dashboard (external website)", target="_blank" ), ".")
 
   ),
+
   p()
 
 
