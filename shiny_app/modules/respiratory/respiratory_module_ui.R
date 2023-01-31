@@ -100,7 +100,7 @@ respiratoryUI <- function(id) {
              ), # column
              column(6, pickerInput(ns("respiratory_y_axis_plots"),
                                    label = p("Select number of cases or rate in population",
-                                             popify(bsButton("resp-cases-info",
+                                             popify(bsButton(ns("resp-cases-info"),
                                                              label = HTML(glue(
                                                                "<label class='sr-only'>Click button for more information</label>")),
                                                              icon = icon("circle-info"),
