@@ -75,7 +75,7 @@ respiratoryServer <- function(id) {
         organism_summary_total <- Respiratory_Summary %>%
           filter(SummaryMeasure == "Scotland_by_Organism_Total") %>%
           filter(Breakdown == input$respiratory_headline_subtype) %>%
-          .$Count
+          .$Count %>% format(big.mark=",")
 
         valueBox(value = organism_summary_total,
                  subtitle = glue("cases of {input$respiratory_headline_subtype} in Scotland"),

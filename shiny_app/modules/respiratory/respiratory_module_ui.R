@@ -24,14 +24,14 @@ respiratoryUI <- function(id) {
                             h3(glue("Total number of {name_long} cases in Scotland over the last two weeks")),
                             # this week total number
                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-                                .$CountThisWeek},
+                                .$CountThisWeek %>% format(big.mark=",")},
                                 subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                                 .$DateThisWeek %>% format('%d %b %y')}"),
                                 color = "teal",
                                 icon = icon_no_warning_fn("calendar-week")),
                             # previous week total number
                             valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-                                .$CountPreviousWeek},
+                                .$CountPreviousWeek %>% format(big.mark=",")},
                                 subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
                                                 .$DatePreviousWeek %>% format('%d %b %y')}"),
                                 color = "teal",
