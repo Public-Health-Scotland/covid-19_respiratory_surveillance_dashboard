@@ -6,7 +6,6 @@ tagList(
            linebreaks(2)),
 
   fluidRow(width = 12,
-           #box(width = NULL,
                tagList(h2("Estimated COVID-19 infection rate"),
                             h4("ONS covid infection survey"),
                             tags$div(class = "headline",
@@ -27,9 +26,10 @@ tagList(
                                          subtitle = "Upper 95% confidence interval",
                                          color = "purple",
                                          icon = icon_no_warning_fn("arrows-up-to-line")),
-                                     # These linebreaks are here to make the banner big enough to
-                                     # include all the valueBoxes
-                                     linebreaks(6))),
+                                     # This text is hidden by css but helps pad the box at the bottom
+                                     p("hidden text for padding page")
+                                     )
+                       ),
            linebreaks(1)),
 
   fluidRow(width=12,
@@ -43,34 +43,6 @@ tagList(
   fluidRow(
     width =12, br()),
 
-           # tabPanel("R number",
-           #          tagList(h3("Estimated COVID-19 R number"),
-           #                  tags$div(class = "headline",
-           #                           h3(glue("Figures from reporting date {R_Number %>% tail(1) %>%
-           #      .$Date %>% convert_opendata_date() %>% format('%d %b %y')}")),
-           #                           valueBox(value = {R_Number %>% tail(1) %>%
-           #                               .$LowerBound},
-           #                               subtitle = "Lower R number estimate",
-           #                               color = "purple",
-           #                               icon = icon_no_warning_fn("arrows-down-to-line")),
-           #                           valueBox(value = {R_Number %>% tail(1) %>%
-           #                               .$UpperBound},
-           #                               subtitle = "Upper R number estimate",
-           #                               color = "purple",
-           #                               icon = icon_no_warning_fn("arrows-up-to-line")),
-           #                  # These linebreaks are here to make the banner big enough to
-           #                  # include all the valueBoxes
-           #                  linebreaks(6)
-           #                  ), #div
-           #                  fluidRow(
-           #                           width =12, linebreaks(3)),
-           #                  altTextUI("r_number_modal"),
-           #                  withNavySpinner(plotlyOutput("r_number_plot"))),
-           #          fluidRow(
-           #            width=12, linebreaks(5))),
-
-
-
   fluidRow(width = 12,
                   tagList(h2("Seven day average trend in wastewater COVID-19"),
                           tags$div(class = "headline",
@@ -83,7 +55,8 @@ tagList(
                                        subtitle = "COVID-19 wastewater level",
                                        color = "purple",
                                        icon = icon_no_warning_fn("faucet-drip")),
-                                   linebreaks(6))),
+                                   # This text is hidden by css but helps pad the box at the bottom
+                                   p("hidden text for padding page"))),
            linebreaks(1)),
 
 

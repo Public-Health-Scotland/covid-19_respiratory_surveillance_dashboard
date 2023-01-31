@@ -22,9 +22,8 @@ tagList(
                                          subtitle = glue("As at {names(occupancy_headlines)[[3]]}"),
                                          color = "fuchsia",
                                          icon = icon_no_warning_fn("calendar-week")),
-                                     # These linebreaks are here to make the banner big enough to
-                                     # include all the valueBoxes
-                                     linebreaks(7))),
+                                     # This text is hidden by css but helps pad the box at the bottom
+                                     p("hidden text for padding page"))),
            linebreaks(1)),
 
   fluidRow(
@@ -66,9 +65,8 @@ tagList(
                                 subtitle = "in ICU for more than 28 days",
                                 color = "fuchsia",
                                 icon = icon_no_warning_fn("bed-pulse")),
-                            # These linebreaks are here to make the banner big enough to
-                            # include all the valueBoxes
-                            linebreaks(7))),
+                            # This text is hidden by css but helps pad the box at the bottom
+                            p("hidden text for padding page"))),
            linebreaks(1)),
 
   fluidRow(width = 12,
