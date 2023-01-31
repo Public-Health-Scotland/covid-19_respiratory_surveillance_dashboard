@@ -50,12 +50,14 @@
   }
 /* Body styles */
   body {
+    min-height: 100%;
     font-family: Arial;
     font-size: 16px;
     line-height: 1.5;
     color: var(--black);
     background-color: var(--white);
   }
+
 
 /* Links */
   a {
