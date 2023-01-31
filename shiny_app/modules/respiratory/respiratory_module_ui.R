@@ -13,7 +13,7 @@ respiratoryUI <- function(id) {
     name_long = "influenza"
     strain_name = "subtype"
   } else {
-    name_long = "non-influenza"
+    name_long = "non-influenza*"
     strain_name = "pathogen"
   }
 
