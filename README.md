@@ -1,6 +1,6 @@
-# COVID-19 Dashboard
+# COVID-19 and Respiratory Surveillance Dashboard
 
-* This is a Public Health Scotland R shiny app available to the public [here (external link)]()
+* This is a Public Health Scotland R shiny app available to the public [here (external link)](https://scotland.shinyapps.io/phs-respiratory-covid-19/)
 * The data underlying the app can be found on the [PHS open data website (external link)](https://www.opendata.nhs.scot/)
 
 ## Deploying the R shiny app
@@ -11,7 +11,12 @@
 
 3. Run app from `shiny_app/app.R` to view app locally to check content.
 
-4. Obtain `shiny_app/deployment/deployment_secrets.R` from colleagues. Edit the paths to point to your local `shiny_app` folder. Run to deploy the app.
+4. Obtain `shiny_app/deployment/deployment_secrets.R` from colleagues. Edit the paths to point to your local `shiny_app` folder. 
+
+5. Go to `shiny_app/deployment/deploy_app.R` and set the `pra` flag to TRUE for deployment to password protected pre-release access site or FALSE for deployment to public site.
+
+6. Source the script to deploy the app.
+
 
 ## Developing the R shiny app
 
@@ -31,8 +36,6 @@
 * `app.R` is the main app file
 
 * `setup.R` contains the necessary packages and some settings. This is run once on deployment and not for every new user. It also loads all the data in `shiny_app/data`.
-
-* `AppDeployment.R` (not committed; obtain from colleagues) is for deploying the app
 
 * `data` contains all the data needed for the shiny app. It is populated using the `app_data_preparation.R` script
 
