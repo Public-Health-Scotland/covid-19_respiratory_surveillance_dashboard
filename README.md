@@ -1,4 +1,4 @@
-# COVID-19 and Respiratory Surveillance Dashboard
+# COVID-19 and Respiratory Surveillance in Scotland
 
 * This is a Public Health Scotland R shiny app available to the public [here (external link)](https://scotland.shinyapps.io/phs-respiratory-covid-19/)
 * The data underlying the app can be found on the [PHS open data website (external link)](https://www.opendata.nhs.scot/)
