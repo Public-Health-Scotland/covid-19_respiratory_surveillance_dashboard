@@ -217,7 +217,7 @@ tagList(h1("Metadata"),
                                viruses belong to one of two lineages: B/Yamagata and B/Victoria."),
                              br(),
 
-                             h4("Non-influenza pathogens (excluding COVID-19)"),
+                             h4("Other respiratory pathogens"),
                              p("The key non-influenza respiratory pathogens include adenovirus, seasonal coronaviruses (non-SARS-CoV-2), human metapneumovirus (HMPV),
                                human parainfluenza virus (HPIV), Mycoplasma pneumoniae, respiratory syncytial virus (RSV) and rhinovirus. These mostly cause mild upper respiratory tract symptoms,
                                such as the common cold, but infection can sometimes lead to more severe lower respiratory tract complications, especially in young children,

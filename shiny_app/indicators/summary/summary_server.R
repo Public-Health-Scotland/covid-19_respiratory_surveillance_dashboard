@@ -181,10 +181,10 @@ output$respiratory_flu_change_infobox <- renderInfoBox({
 })
 
 output$respiratory_nonflu_infobox <- renderInfoBox({
-  infoBox(title=h5("Non-influenza cases",
+  infoBox(title=h5("Other respiratory pathogen cases",
                    summaryButtonUI("respiratory_nonflu_infobox",
-                                   "Number of non-influenza cases",
-                                   paste("This is the total number of non-influenza cases across scotland in the latest week.<br><br>",
+                                   "Number of other respiratory pathogen cases",
+                                   paste("This is the total number of other respiratory pathogen cases across scotland in the latest week (excluding COVID-19).<br><br>",
                                          strong("For more information, see Metadata. Click again to close.")))),
           value={Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
               .$CountThisWeek %>%
@@ -196,10 +196,10 @@ output$respiratory_nonflu_infobox <- renderInfoBox({
 
 output$respiratory_nonflu_change_infobox <- renderInfoBox({
   infoBox(title=h5(glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                        .$ChangeFactor %>% capitalize()} in non-influenza cases"),
+                        .$ChangeFactor %>% capitalize()} in other respiratory pathogen cases"),
                    summaryButtonUI("respiratory_nonflu_change_infobox",
-                                   "Change in number of non-influenza cases",
-                                   paste("This is the percentage change of non-influenza cases across scotland compared to previously recorded data from the previous week.<br><br>",
+                                   "Change in number of other respiratory pathogen cases",
+                                   paste("This is the percentage change of other respiratory pathogen cases across scotland compared to previously recorded data from the previous week.<br><br>",
                                          strong("For more information, see Metadata. Click again to close.")))),
           value=glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
               .$PercentageDifference %>%

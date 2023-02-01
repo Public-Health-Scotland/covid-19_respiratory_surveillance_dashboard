@@ -89,28 +89,28 @@ tagList(
           jumpToTabButtonUI("respiratory_from_summary", location_pretty = "respiratory"),
           linebreaks(1),
 
-          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
+          h4(glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                   .$DateThisWeek %>%
                   as_dashboard_date()}")),
           withNavySpinner(
             infoBoxOutput("respiratory_flu_infobox", width=NULL)
           ),
 
-          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
+          h4(glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                   .$DateThisWeek %>%
                   as_dashboard_date()}")),
           withNavySpinner(
             infoBoxOutput("respiratory_flu_change_infobox", width=NULL)
           ),
 
-          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+          h4(glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
                   .$DateThisWeek %>%
                   as_dashboard_date()}")),
           withNavySpinner(
             infoBoxOutput("respiratory_nonflu_infobox", width=NULL)
           ),
 
-          h4(glue("Week beginning {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+          h4(glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
                   .$DateThisWeek %>%
                   as_dashboard_date()}")),
           withNavySpinner(
