@@ -1,8 +1,9 @@
 tagList(
   fluidRow(width = 12,
            metadataButtonUI("hospital_occupancy"),
+           linebreaks(1),
            h1("Hospital occupancy (inpatients)"),
-           linebreaks(2)),
+           linebreaks(1)),
 
 
 
@@ -10,15 +11,15 @@ tagList(
            tagList(h2("Number of inpatients with COVID-19 in hospital"),
                 tags$div(class = "headline",
                                      h3(glue("Hospital occupancy (inpatients) on the Sunday of the latest three weeks available")),
-                                     valueBox(value = {occupancy_headlines[[1]]$HospitalOccupancy},
+                                     valueBox(value = {occupancy_headlines[[1]]$HospitalOccupancy %>% format(big.mark=",")},
                                          subtitle = glue("As at {names(occupancy_headlines)[[1]]}"),
                                          color = "fuchsia",
                                          icon = icon_no_warning_fn("calendar-week")),
-                                     valueBox(value = {occupancy_headlines[[2]]$HospitalOccupancy},
+                                     valueBox(value = {occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")},
                                          subtitle = glue("As at {names(occupancy_headlines)[[2]]}"),
                                          color = "fuchsia",
                                          icon = icon_no_warning_fn("calendar-week")),
-                                     valueBox(value = {occupancy_headlines[[3]]$HospitalOccupancy},
+                                     valueBox(value = {occupancy_headlines[[3]]$HospitalOccupancy %>% format(big.mark=",")},
                                          subtitle = glue("As at {names(occupancy_headlines)[[3]]}"),
                                          color = "fuchsia",
                                          icon = icon_no_warning_fn("calendar-week")),
@@ -53,8 +54,11 @@ tagList(
   fluidRow(width = 12,
            tagList(h2("7 day average number of patients with COVID-19 in Intensive Care Units (ICU)"),
                    tags$div(class = "headline",
-                            h3(glue("Figures from week ending {Occupancy_Hospital %>% tail(1) %>%
-                                             .$Date %>% convert_opendata_date() %>%format('%d %b %y')}")),
+                            h3(glue("Figures from week ending {Occupancy_Hospital %>%
+                                              mutate(Date = convert_opendata_date(Date)) %>%
+                                              filter(Date <= floor_date(today(), 'week')) %>%
+                                              tail(1) %>%
+                                             .$Date %>% format('%d %b %y')}")),
                             valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},
                                 subtitle = "in ICU for 28 days or less",

@@ -45,11 +45,13 @@ altTextServer("icu_occupancy_modal",
 output$hospital_occupancy_table <- renderDataTable({
   Occupancy_Hospital %>%
     mutate(Date = convert_opendata_date(Date)) %>%
+    filter(Date <= floor_date(today(), "week")) %>%
     dplyr::rename(`Hospital occupancy` = HospitalOccupancy,
                   `7 day average` = SevenDayAverage) %>%
                   #`ICU Occupancy (28 days or less)` = ICUOccupancy28OrLess,
                   #`ICU Occupancy (greater than 28 days)` = ICUOccupancy28OrMore) %>%
     select(Date,`Hospital occupancy`, `7 day average`) %>%  #`ICU Occupancy (28 days or less)`, `ICU Occupancy (greater than 28 days)`) %>%
+    arrange(desc(Date)) %>%
     #arrange(Date, desc(Geography)) %>%
     make_table(.,
                 add_separator_cols=NULL, # Column indices to add thousand separators to
@@ -65,10 +67,12 @@ output$ICU_occupancy_table <- renderDataTable({
   Occupancy_ICU %>%
     mutate(Date = convert_opendata_date(Date),
            ICULengthOfStay = factor(ICULengthOfStay)) %>%
+    filter(Date <= floor_date(today(), "week")) %>%
     dplyr::rename(`ICU occupancy` = ICUOccupancy,
     `ICU length of stay` = ICULengthOfStay,
     `7 day average` = SevenDayAverage) %>%
     select(Date, `ICU length of stay`, `ICU occupancy`, `7 day average`) %>%
+    arrange(desc(Date)) %>%
     make_table(.,
                 add_separator_cols=NULL, # Column indices to add thousand separators to
                 add_percentage_cols = NULL, # with % symbol and 2dp

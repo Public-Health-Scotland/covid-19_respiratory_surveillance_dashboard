@@ -20,6 +20,7 @@ library(fontawesome)
 library(shinymanager)
 library(gotop)
 library(R.utils)
+library(lubridate)
 
 # Load core functions ----
 source("functions/core_functions.R")

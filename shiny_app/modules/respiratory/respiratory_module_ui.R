@@ -13,7 +13,7 @@ respiratoryUI <- function(id) {
     name_long = "influenza"
     strain_name = "subtype"
   } else {
-    name_long = "non-influenza"
+    name_long = "non-influenza*"
     strain_name = "pathogen"
   }
 
@@ -99,10 +99,23 @@ respiratoryUI <- function(id) {
              ) # pickerInput
              ), # column
              column(6, pickerInput(ns("respiratory_y_axis_plots"),
-                                   label = "Select number of cases or rate in population",
+                                   label = p("Select number of cases or rate in population",
+                                             popify(bsButton(ns("resp-cases-info"),
+                                                             label = HTML(glue(
+                                                               "<label class='sr-only'>Click button for more information</label>")),
+                                                             icon = icon("circle-info"),
+                                                             size = "default"),
+                                                      title = "",
+                                                      content = paste("Number of cases are only available at ",
+                                                                      "Scotland level.", "<br>", "<br>",
+                                                                      strong("Click again to close.")),
+                                                      placement = "top",
+                                                      trigger = "click",
+                                                      options = list(id = "resp-cases-info",
+                                                                     container = "body", html = "true"))),
                                    choices = c("Number of cases", "Rate per 100,000"),
                                    selected = "Number of cases") # pickerInput
-             ) # column
+             )
            ),
 
            # plot and data for cases by subtype over time
@@ -133,7 +146,7 @@ respiratoryUI <- function(id) {
                                                              label = glue("Select which {strain_name} you would like to see"),
                                                              choices = {Respiratory_AllData %>%
                                                                  filter(FluOrNonFlu == flu_or_nonflu & !is.na(Organism)) %>% arrange(Organism) %>%
-                                                                 filter(Organism != "Total") %>%.$Organism %>% unique() %>% as.character()}) # pickerInput
+                                                                 filter(!(FluOrNonFlu == "flu" & Organism == "Total")) %>%.$Organism %>% unique() %>% as.character()}) # pickerInput
                                        ) # column
                                      ), # fluidRow
                                      altTextUI(ns("respiratory_by_season_modal")),

@@ -2,8 +2,9 @@ tagList(
   fluidRow(width = 12,
 
            metadataButtonUI("cases"),
+           linebreaks(1),
            h1("COVID-19 cases"),
-           linebreaks(2)),
+           linebreaks(1)),
 
   fluidRow(width = 12,
                tagList(h2("Estimated COVID-19 infection rate"),
@@ -20,12 +21,12 @@ tagList(
                                          .$LowerCIRatio},
                                          subtitle = "Lower 95% confidence interval",
                                          color = "purple",
-                                         icon = icon_no_warning_fn("arrows-down-to-line")),
+                                         icon = icon_no_warning_fn("viruses")),
                                      valueBox(value = {ONS %>% tail(1) %>%
                                          .$UpperCIRatio},
                                          subtitle = "Upper 95% confidence interval",
                                          color = "purple",
-                                         icon = icon_no_warning_fn("arrows-up-to-line")),
+                                         icon = icon_no_warning_fn("viruses")),
                                      # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                                      )

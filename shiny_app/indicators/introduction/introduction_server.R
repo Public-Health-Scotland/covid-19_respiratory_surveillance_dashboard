@@ -70,7 +70,9 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_respiratory", "Respiratory infection activity"))),
-            column(8, p("Latest information on the number and rate of flu and non-flu cases in Scotland."))),
+            column(8, p("This section contains the epidemiological information on seasonal respiratory infection
+                        activity in Scotland. The spectrum of respiratory illnesses, caused by these infections,
+                        vary from asymptomatic illness to mild/moderate symptoms to severe complications including death."))),
           br(),
 
 
@@ -94,34 +96,86 @@ output$introduction_about <- renderUI({
 
 output$introduction_use <- renderUI({
   tagList(h3(tags$b("Interacting with the dashboard")),
-          p("Click on tabs in the navigation bar at the top to view each topic. Click on 'At a glance' to view the most recently available
-            main statistics. Click on 'Metadata' to view notes about the data. Click on 'Download data' to download datasets as an Excel or CSV file."),
+          p(tags$li("Click on tabs in the blue navigation bar at the top to view each section"),
+            tags$img(src = "intro_images/nav_bar.png", height = 50,
+                       alt ="Image of the a part of the navigation bar for reference")),
+          p(tags$li("Click on 'At a glance' to view the most recently available main statistic"),
+            tags$img(src = "intro_images/at_a_glance_tab.png", height = 50,
+                       alt ="Image of the 'At a glance' tab in the navigation bar")),
+          p(tags$li("Click on 'COVID-19 cases', 'COVID-19 hospital admissions', 'COVID-19 hospital occupancy' or
+                    'Respiratory infection activity' to view each topic"),
+            tags$img(src = "intro_images/cases.png", height = 50,
+                       alt ="Image of the 'COVID-19 cases' tab in the navigation bar"),
+            tags$img(src = "intro_images/admissions.png", height = 50,
+                       alt ="Image of the 'COVID-19 hospital admissions' tab in the navigation bar"),
+            tags$img(src = "intro_images/occupancy.png", height = 50,
+                       alt ="Image of the'COVID-19 hospital occupancy' tab in the navigation bar"),
+            tags$img(src = "intro_images/respiratory.png", height = 50,
+                       alt ="Image of the 'Respiratory infection activity' tab in the navigation bar")),
+          p(tags$li("Click on 'Metadata' to view notes about the data"),
+            tags$img(src = "intro_images/metadata_tab.png", height = 50,
+                       alt ="Image of the 'Metadata' tab in the navigation bar")),
+          p(tags$li("Click on 'Download data' to download datasets as an Excel or CSV file"),
+            tags$img(src = "intro_images/download_data_tab.png", height = 50,
+                       alt ="Image of the 'download data' tab in the navigation bar")),
           br(),
           p(tags$b("Within each tab")),
-          p(tags$li("Click the 'Metadata' button to navigate to relevant notes")),
-          p(tags$li("Click on the toggles to change the visible sub-topic")),
+          p(tags$li("Click the 'Metadata' button in each tab to navigate to corresponding notes"),
+            tags$img(src = "intro_images/metadata_btn.png", height = 50,
+                       alt ="Image of the metadata button")),
+          p(tags$li("Click on the toggles to change the visible sub-topic"),
+            "e.g.", tags$img(src = "intro_images/tab_toggles.png", height = 50,
+                       alt ="Image of the tab toggle options used in the tabs. This image shows an example of the toggles
+                       in the 'COVID-19 hospital admissions' tab")),
           p(tags$li("Summary banners display the most recently available headline figures")),
-          p(tags$li("Click 'Plot/Data' toggle to switch between chart and data table view")),
+          p(tags$li("Click 'Plot/Data' toggle to switch between chart and data table view"),
+            tags$img(src = "intro_images/plot_data_toggle.png", height = 60,
+                       alt ="Image of the plot and data toggle")),
           br(),
           p(tags$b("Interacting with the charts")),
-          p(tags$li("Click the 'Plot description' button for a summary of the plot content")),
-          p(tags$li("Move the cursor over the data points to see the data values")),
-          p(tags$li("Zoom into the plot by holding down the cursor and dragging to select the region")),
+          p(tags$li("Click the 'Plot description' button for a summary of the plot content"),
+            tags$img(src = "intro_images/plot_description.png", height = 50,
+                       alt ="Image of the plot description button")),
+          p(tags$li("Move the cursor over the data points in the charts to see the data values")),
+          p(tags$li("Click the magnifying glass in the top right of the charts to enable zoom capabilities.
+                    Then zoom into the plot by holding down the cursor and dragging to select the region"),
+            tags$a(img(src = "intro_images/zoom_graph.png", height = 60,
+                       alt ="Image of the zoom button on the graphs"))),
+          p(tags$li("Click the pan button (four way arrows) in the top right of the charts to enable panning capabilites.
+                    Then move the chart around by holding down the cursor and dragging"),
+            tags$img(src = "intro_images/pan_graph.png", height = 60,
+                       alt ="Image of the pan button")),
           p(tags$li("Alter the x axis range by dragging the vertical white bars on the left and right of the bottom panel")),
-          p(tags$li("Click the home button in the top right to reset the axes")),
+          p(tags$li("Click the home button in the top right to reset the axes"),
+            tags$img(src = "intro_images/home_graph.png", height = 50,
+                       alt ="Image of the home button on the graphs used to reset the axes")),
           p(tags$li("Single click on legend variables to remove the corresponding trace")),
           p(tags$li("Double click on legend variables to isolate the corresponding trace")),
           p(tags$li("Double click on the legend to restore all traces")),
-          p(tags$li("Click the camera icon in the top right to download the plot as a png file")),
+          p(tags$li("Click the camera icon in the top right to download the plot as a png file"),
+            tags$a(img(src = "intro_images/camera.png", height = 50,
+                       alt ="Image of the camera button on the graphs used to download the plot as a png file"))),
+          p(tags$li("Next to each chart click the 'Using the plot' button for a recap of the information in this section"),
+            tags$img(src = "intro_images/using_the_plot.png", height = 50,
+                       alt ="Image of the 'using the plot' button on the charts which when clicked,
+                       provides a recap of the 'ineracxting with the charts' section")),
           br(),
           p(tags$b("Downloading data")),
-          p(tags$li("Data can be downloaded in open data format from the 'Download data' tab as well as from the",
+          p(tags$li("Data can be downloaded in open data format from the 'Download data' tab by clicking the 'Download Data' button
+                    as well as from the",
                     tags$a(href="https://www.opendata.nhs.scot",
-                           "Scottish Health and Social Care Open Data platform (external website).", target="_blank"))),
+                           "Scottish Health and Social Care Open Data platform (external website)", target="_blank")),
+            tags$img(src = "intro_images/download_data.png", height = 50,
+                       alt ="Image of the download data button")
+            ),
           p(tags$li("On the 'Download data' tab you can select the dataset and file type you wish to download")),
-          p(tags$li("You can view a data summary and a data preview before downloading")),
+          p(tags$li("You can view a data summary and a data preview before downloading by click ing between the toggles"),
+            tags$img(src = "intro_images/summary_preview.png", height = 60,
+                       alt ="Image of the data summary and data preview toggle")),
           p(tags$li("To download an image of any of the charts in the dashboard, click the camera icon in the top-right
-                    corner of the chart and a png image file will automatically download."))
+                    corner of the chart and a png image file will automatically download"),
+            tags$img(src = "intro_images/camera.png", height = 50,
+                       alt ="Image of the camera button on the graphs used to download the plot as a png file"))
           ) #tagList
 })
 
@@ -131,9 +185,28 @@ output$introduction_contact <- renderUI({
     "if you have any questions about the data in this dashboard."),
 
   p(tags$b("Further sources of information")),
-     p(tags$li("You can access the code used to produce this tool in this ",
-               tags$a(href="https://github.com/Public-Health-Scotland/covid-19_respiratory_surveillance_dashboard", "GitHub repository (external website)",  target="_blank"), ".")
-       )
+
+  p(tags$li("You can access the code used to produce this tool in this ",
+            tags$a(href="https://github.com/Public-Health-Scotland/covid-19_respiratory_surveillance_dashboard", "GitHub repository (external website)",  target="_blank"), "."),
+    tags$li("New releases will be published at the same time as the Public Health Scotland",
+            tags$a(href = "https://www.publichealthscotland.scot/publications/weekly-national-respiratory-infection-and-covid-19-statistical-report/",
+                   "Weekly national respiratory infection and COVID-19 statistical report (external website)", target="_blank" ), "."),
+    tags$li("Information on the wider impacts on the health care system from COVID-19 are available on the",
+            tags$a(href = "https://scotland.shinyapps.io/phs-covid-wider-impact/",
+                   "Wider Impacts dashboard (external website)", target="_blank" ), "."),
+    tags$li("Information and support on a range of topics in regards to COVID-19 are available on the",
+            tags$a(href = "https://www.gov.scot/coronavirus-covid-19/",
+                   "Scottish Government website (external website)", target="_blank" ), "."),
+    tags$li("Information on deaths involving COVID-19 is available on the",
+            tags$a(href = "https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-and-monthly-data-on-births-and-deaths/deaths-involving-coronavirus-covid-19-in-scotland/",
+                   "National Records Scotland website (external website)", target="_blank" ), "."),
+    tags$li("Information from the World Health Organisation on COVID-19 is available on the",
+            tags$a(href = "https://covid19.who.int/",
+                   "WHO Coronovirus (COVID-19) dashboard (external website)", target="_blank" ), ".")
+
+  ),
+
+  p()
 
   ) # tagList
 
@@ -144,7 +217,7 @@ output$introduction_accessibility <- renderUI({
           p("This website is run by ", tags$a(href="https://www.publichealthscotland.scot/",
                                               "Public Health Scotland", target="_blank"),
             ", Scotland's national organisation for public health. As a new organisation formed
-                                   on 1 April 2020, Public Health Scotland is currently reviewing its web estate. Public
+                                   on 01 April 2020, Public Health Scotland is currently reviewing its web estate. Public
                                    Health Scotland is committed to making its website accessible, in accordance with
                                    the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility
                                    Regulations 2018. This accessibility statement applies to the dashboard that accompanies
