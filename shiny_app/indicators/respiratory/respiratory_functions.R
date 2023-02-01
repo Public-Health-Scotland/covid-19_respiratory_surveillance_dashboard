@@ -60,12 +60,14 @@ filter_over_time_plot_function <- function(data, healthboard) {
   if(healthboard == "Scotland") {
 
     filtered_data = data %>%
-      filter(scotland_by_organism_flag == 1)
+      filter(!(FluOrNonFlu == "flu" & Organism == "Total")) %>%
+      filter(scotland_by_organism_flag == 1 | Organism == "Total")
 
   } else if(healthboard != "Scotland") {
 
     filtered_data = data %>%
-      filter(organism_by_hb_flag == 1)
+      filter(!(FluOrNonFlu == "flu" & Organism == "Total")) %>%
+      filter(organism_by_hb_flag == 1 | Organism == "Total")
 
   }
 
