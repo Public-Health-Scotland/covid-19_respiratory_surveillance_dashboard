@@ -90,6 +90,7 @@ g_adm_agebd %<>%
          yes = -999, no = TotalInfections),
          TotalInfectionsQF = ifelse(TotalInfections == -999, "c", ""),
          TotalInfections = ifelse(TotalInfections == -999, NA, TotalInfections)) %>%
+  mutate(WeekOfAdmission = format(WeekOfAdmission, "%Y%m%d")) %>%
   select(WeekOfAdmission, AgeGroup, AgeGroupQF, TotalInfections, TotalInfectionsQF)
 
 write.csv(g_adm_agebd, glue(output_folder, "Admissions_AgeBD.csv"), row.names = FALSE)
