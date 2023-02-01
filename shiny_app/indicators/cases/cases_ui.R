@@ -8,7 +8,7 @@ tagList(
 
   fluidRow(width = 12,
                tagList(h2("Estimated COVID-19 infection rate"),
-                            h4("ONS covid infection survey"),
+                            h4("(ONS covid infection survey)"),
                             tags$div(class = "headline",
                                      h3(glue("Figures from week ending {ONS %>% tail(1) %>%
                 .$EndDate %>% convert_opendata_date() %>%  format('%d %b %y')}")),
