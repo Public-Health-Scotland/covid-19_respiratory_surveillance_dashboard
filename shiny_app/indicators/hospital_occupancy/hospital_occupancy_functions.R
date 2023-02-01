@@ -1,7 +1,8 @@
 make_occupancy_plots <- function(data, occupancy) {
 
   data %<>%
-    mutate(Date = convert_opendata_date(Date))
+    mutate(Date = convert_opendata_date(Date)) %>%
+    filter(Date <= floor_date(today(), "week"))
 
   xaxis_plots[["title"]] <- "Date"
 
