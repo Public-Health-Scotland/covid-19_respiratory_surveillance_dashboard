@@ -26,8 +26,7 @@ output$introduction_about <- renderUI({
                                                     "https://www.gov.scot/coronavirus-covid-19/.")),
           p("Please note that release of information involving small numbers carries a risk that individuals could be identified.",
             "We have carefully considered and assessed these risks, taking steps to reduce them as much as possible,",
-            "and balancing them with the need to release useful information.",
-            "We have been monitoring and reviewing our approach to how we release local-level information."),
+            "and balancing them with the need to release useful information."),
           p(glue("This dashboard was last updated on {Deployment_Date}.")),
           br(),
 
