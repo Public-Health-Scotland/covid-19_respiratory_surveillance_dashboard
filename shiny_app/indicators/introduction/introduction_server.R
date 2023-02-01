@@ -175,7 +175,9 @@ output$introduction_use <- renderUI({
           p(tags$li("To download an image of any of the charts in the dashboard, click the camera icon in the top-right
                     corner of the chart and a png image file will automatically download"),
             tags$img(src = "intro_images/camera.png", height = 50,
-                       alt ="Image of the camera button on the graphs used to download the plot as a png file"))
+                       alt ="Image of the camera button on the graphs used to download the plot as a png file")),
+          p(tags$li("Please note if you cannot see the full screen, try setting screen zoom to below 100%.
+                    We are aware of this occasionally being an issue and are working to resolve it."))
           ) #tagList
 })
 
