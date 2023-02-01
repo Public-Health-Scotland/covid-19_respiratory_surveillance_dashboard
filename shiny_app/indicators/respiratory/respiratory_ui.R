@@ -4,7 +4,7 @@ tagList(
            metadataButtonUI("respiratory"),
            linebreaks(1),
            h1("Respiratory infection activity (excluding COVID-19)"),
-           p("*Please note that 'non-influenza' refers to all respiratory",
+           p("*Please note that 'other respiratory pathogens' refers to all respiratory",
              " infections excluding influenza and COVID-19"),
            linebreaks(1)
            ), # fluidRow
