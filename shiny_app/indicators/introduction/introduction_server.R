@@ -157,7 +157,8 @@ output$introduction_use <- renderUI({
                        alt ="Image of the camera button on the graphs used to download the plot as a png file"))),
           p(tags$li("Next to each chart click the 'Using the plot' button for a recap of the information in this section"),
             tags$a(img(src = "intro_images/using_the_plot.png", height = 50,
-                       alt ="Image of the camera button on the graphs used to download the plot as a png file"))),
+                       alt ="Image of the 'using the plot' button on the charts which when clicked,
+                       provides a recap of the 'ineracxting with the charts' section"))),
           br(),
           p(tags$b("Downloading data")),
           p(tags$li("Data can be downloaded in open data format from the 'Download data' tab by clicking the 'Download Data' button
