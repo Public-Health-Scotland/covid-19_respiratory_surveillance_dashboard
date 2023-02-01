@@ -3,6 +3,14 @@
 * This is a Public Health Scotland R shiny app available to the public [here (external link)](https://scotland.shinyapps.io/phs-respiratory-covid-19/)
 * The data underlying the app can be found on the [PHS open data website (external link)](https://www.opendata.nhs.scot/)
 
+## Additional files needed to run the R shiny app
+
+* Various data files are required which can be found on [PHS open data website (external link)](https://www.opendata.nhs.scot/), although file names can differ. Contact [phs.covid19data&analytics@phs.scot](mailto:phs.covid19data&analytics@phs.scot) for further information
+* The following files must be obtained from colleagues:
+    * `shiny_app/www/google-analytics.html` 
+    * `shiny_app/deployment/deployment_secrets.R`
+    * `shiny_app/password_protect/credentials.rds`
+
 ## Deploying the R shiny app
 
 1. Navigate to `Dashboard Data Transfer/dashboard_data_transfer.R` and source. This prepares the data for use in the app.
