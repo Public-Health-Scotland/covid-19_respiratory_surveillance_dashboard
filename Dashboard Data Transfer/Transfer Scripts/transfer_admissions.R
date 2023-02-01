@@ -29,7 +29,7 @@ g_adm %<>%
                 TotalInfections = TestDIn,
                 FirstInfections = First_infection,
                 Reinfections = Reinfection) %>%
-  mutate(SevenDayAverage = round_half_up(zoo::rollmean(TotalInfections, k = 7, fill = NA, align="right"),3),
+  mutate(SevenDayAverage = round_half_up(zoo::rollmean(TotalInfections, k = 7, fill = NA, align="right"),0),
          SevenDayAverageQF = ifelse(is.na(SevenDayAverage), "z", ""),
          ProvisionalFlag = case_when(
          AdmissionDate > (report_date-10) ~ 1,
@@ -90,6 +90,7 @@ g_adm_agebd %<>%
          yes = -999, no = TotalInfections),
          TotalInfectionsQF = ifelse(TotalInfections == -999, "c", ""),
          TotalInfections = ifelse(TotalInfections == -999, NA, TotalInfections)) %>%
+  mutate(WeekOfAdmission = format(WeekOfAdmission, "%Y%m%d")) %>%
   select(WeekOfAdmission, AgeGroup, AgeGroupQF, TotalInfections, TotalInfectionsQF)
 
 write.csv(g_adm_agebd, glue(output_folder, "Admissions_AgeBD.csv"), row.names = FALSE)
@@ -151,7 +152,7 @@ g_adm_agesex$TotalInfections <- as.numeric(g_adm_agesex$TotalInfections)
 # Add population
 
 g_adm_agesex %<>% left_join(i_population, by=c("AgeGroup", "Sex")) %>%
-  mutate(TotalInfectionsPer100000 = round_half_up(100000*TotalInfections/PopNumber, 1)) %>%
+  mutate(TotalInfectionsPer100000 = round_half_up(100000*TotalInfections/PopNumber, 2)) %>%
   select(-c("PopNumber")) %>%
   arrange(factor(AgeGroup, levels= c("0-4", "5-14", "15-19", "20-24", "25-44","45-64", "65-74", "75-84", "85+", "Unknown"))) %>%
   arrange(factor(Sex, levels = c("Male", "Female", "Unknown"))) %>%
@@ -170,7 +171,7 @@ g_adm_simd <- i_chiadm %>%
   group_by(simd2020v2_sc_quintile) %>%
   summarise(TotalInfections = n()) %>%
   dplyr::rename(SIMD = simd2020v2_sc_quintile) %>%
-  mutate(TotalInfectionsPc = round_half_up(100*TotalInfections/sum(TotalInfections), 3),
+  mutate(TotalInfectionsPc = round_half_up(100*TotalInfections/sum(TotalInfections), 2),
          SIMD =as.character(SIMD),
          SIMD = recode(SIMD, "1" = "1 (most deprived)", "5" = "5 (least deprived)"),
          SIMD = ifelse(is.na(SIMD), "Unknown", SIMD))

@@ -12,7 +12,7 @@ g_los <- i_los %>%
                 LengthOfStay = los,
                 NumberOfAdmissions = n,
                 ProportionOfAdmissions = prop) %>%
-  mutate(ProportionOfAdmissions = round_half_up(ProportionOfAdmissions, 3),
+  mutate(ProportionOfAdmissions = round_half_up(ProportionOfAdmissions, 2),
          AdmissionWeekEnding = format(as.Date(AdmissionWeekEnding), "%Y%m%d"),
          AgeGroupQF = ifelse(AgeGroup == "All Ages", "d", ""),
          AgeGroup = factor(AgeGroup,
