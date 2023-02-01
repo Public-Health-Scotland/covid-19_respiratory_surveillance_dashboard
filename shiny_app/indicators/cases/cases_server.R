@@ -83,11 +83,6 @@ output$wastewater_table <- renderDataTable({
     mutate(Date = convert_opendata_date(Date)) %>%
            #WastewaterSevenDayAverageMgc = round_half_up(WastewaterSevenDayAverageMgc, 1)) %>%
     dplyr::rename('7 day average (Mgc/p/d)' = WastewaterSevenDayAverageMgc) %>%
-<<<<<<< HEAD
-    make_table(add_separator_cols_2dp = 2, order_by_firstcol = "desc")
-=======
     arrange(desc(Date)) %>%
-    make_table(add_separator_cols_1dp = 2, order_by_firstcol = "desc")
->>>>>>> master
-
+    make_table(add_separator_cols_2dp = 2, order_by_firstcol = "desc")
 })
