@@ -77,9 +77,9 @@ altTextServer("hospital_admissions_los_modal",
 )
 
 altTextServer("hospital_admissions_ethnicity_modal",
-              title = "Admissions to hospital 'with' COVID-19 by ethnicity",
+              title = "COVID-19 admissions to hospital by ethnicity",
               content = tags$ul(
-                tags$li("This is a plot of admissions to hospital 'with' COVID-19",
+                tags$li("This is a plot of COVID-19 admissions to hospital ",
                         "broken down by ethnic group."),
                 tags$li("The x axis is the month of admission to hospital."),
                 tags$li("The y axis is the number of admissions."),
