@@ -1,12 +1,9 @@
 tagList(
   fluidRow(width = 12,
-
-
-
-
            metadataButtonUI("hospital_admissions"),
+           linebreaks(1),
            h1("Acute COVID-19 hospital admissions"),
-           linebreaks(2)),
+           linebreaks(1)),
 
   fluidRow(width = 12,
            tabBox(width = NULL,
@@ -30,8 +27,14 @@ tagList(
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            h4("* provisional figures (see glossary)")
-                                   ),
+                                            h4("* provisional figures",
+                                               actionButton("glossary",
+                                                            label = "Go to glossary",
+                                                            icon = icon_no_warning_fn("paper-plane")
+                                                            ),
+                                               h6("hidden text for padding page")
+                                               )
+                                            ),
 
 
                            tabBox(width = NULL, type = "pills",
