@@ -54,7 +54,11 @@
 }
 
 
-/* Increase width at which navbar collapses for better viewing on mobile landscape */
+/*
+  Increase width at which navbar collapses for better viewing on mobile landscape
+  Change max-width argument to a different number of pixels to change the float breakpoint
+  https://stackoverflow.com/questions/27092929/where-to-edit-bootstrap-grid-float-breakpoint
+*/
 @media (max-width: 991px) {
     .navbar-header {
         float: none;
@@ -93,7 +97,7 @@
     }
 }
 
-/* notes panel */
+/* Notes panel */
 .panel-heading
 {
   background-color: var(--phs-blue-10) !Important;
