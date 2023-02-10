@@ -57,7 +57,7 @@ output$cases_cumulative_infobox <- renderInfoBox({
                                          strong("For more information, see Metadata. Click again to close.")))),
           value= {Cases %>% tail(1) %>% .$Cumulative %>% format(big.mark=",")},
           subtitle = "Total since beginning of pandemic",
-          icon = icon_no_warning_fn("calendar-days"),
+          icon = icon_no_warning_fn("pen-to-square"),
           color = "purple")
 })
 
@@ -78,7 +78,7 @@ output$admissions_infobox <- renderInfoBox({
 
 
 output$admissions_cumulative_infobox <- renderInfoBox({
-  infoBox(title=h5("Acute admissions", summaryButtonUI("admissions_cumulative",
+  infoBox(title=h5("Total acute admissions", summaryButtonUI("admissions_cumulative",
                                                        "Acute COVID-19 hospital admissions",
                                                        paste("An admission to hospital where the patient had a first positive PCR from 14 days prior to",
                                                              "admission up to two days following admission. This includes reinfections which are 90 days or",
@@ -87,7 +87,7 @@ output$admissions_cumulative_infobox <- renderInfoBox({
                                                              strong("For more information, see Metadata. Click again to close.")))),
           value= {Admissions %>% select(TotalInfections) %>% summarise(n=sum(TotalInfections) %>% format(big.mark=","))},
           subtitle = "Total since beginning of pandemic",
-          icon = icon_no_warning_fn("calendar-days"),
+          icon = icon_no_warning_fn("truck-medical"),
           color = "blue")})
 
 output$icu_infobox <- renderInfoBox({
@@ -104,7 +104,7 @@ output$icu_infobox <- renderInfoBox({
 })
 
 output$icu_cumulative_infobox <- renderInfoBox({
-  infoBox(title=h5("ICU admissions",
+  infoBox(title=h5("Total ICU admissions",
                    summaryButtonUI("icu_cumulative",
                                    "COVID-19 related ICU admissions",
                                    paste("A patient who has tested positive for COVID at any time in the 21 days prior to admission to ICU,",
@@ -112,7 +112,7 @@ output$icu_cumulative_infobox <- renderInfoBox({
                                          strong("For more information, see Metadata. Click again to close.")))),
           value= {ICU %>% select(NewCovidAdmissionsPerDay) %>% summarise(n=sum(NewCovidAdmissionsPerDay) %>% format(big.mark=","))},
           subtitle = "Total since beginning of pandemic",
-          icon = icon_no_warning_fn("calendar-days"),
+          icon = icon_no_warning_fn("heart-pulse"),
           color = "blue")
 })
 
