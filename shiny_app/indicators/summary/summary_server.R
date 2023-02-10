@@ -57,7 +57,7 @@ output$cases_cumulative_infobox <- renderInfoBox({
                                          strong("For more information, see Metadata. Click again to close.")))),
           value= {Cases %>% tail(1) %>% .$Cumulative %>% format(big.mark=",")},
           subtitle = "Total since beginning of pandemic",
-          icon = icon_no_warning_fn("timeline"),
+          icon = icon_no_warning_fn("calendar-days"),
           color = "purple")
 })
 
@@ -87,7 +87,7 @@ output$admissions_cumulative_infobox <- renderInfoBox({
                                                              strong("For more information, see Metadata. Click again to close.")))),
           value= {Admissions %>% select(TotalInfections) %>% summarise(n=sum(TotalInfections) %>% format(big.mark=","))},
           subtitle = "Total since beginning of pandemic",
-          icon = icon_no_warning_fn("timeline"),
+          icon = icon_no_warning_fn("calendar-days"),
           color = "blue")})
 
 output$icu_infobox <- renderInfoBox({
@@ -112,7 +112,7 @@ output$icu_cumulative_infobox <- renderInfoBox({
                                          strong("For more information, see Metadata. Click again to close.")))),
           value= {ICU %>% select(NewCovidAdmissionsPerDay) %>% summarise(n=sum(NewCovidAdmissionsPerDay) %>% format(big.mark=","))},
           subtitle = "Total since beginning of pandemic",
-          icon = icon_no_warning_fn("timeline"),
+          icon = icon_no_warning_fn("calendar-days"),
           color = "blue")
 })
 
