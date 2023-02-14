@@ -305,11 +305,12 @@ case_rates_scotland <- scotland_agg %>%
 
 # Weekly case rates by pathogen and HB
 case_rates_hb <- hb_agg %>%
+  filter(!is.na(HealthboardCode)) %>%
   mutate(WeekEnding = as.Date(date),
          WeekBeginning = as.Date(date) - 6,
          HB = HealthboardCode,
          HBQF = "",
-         HBName = get_hb_name(HealthboardCode),
+         HBName = paste0("NHS ", phsmethods::match_area(HealthboardCode)),
          Pathogen = organism,
          RatePer100000 = rate) %>%
   mutate(WeekEnding = gsub("-", "", as.character(WeekEnding)),
@@ -346,7 +347,8 @@ case_rates_age <- agegp_agg %>%
   mutate(WeekEnding = as.numeric(as.character(WeekEnding)),
          WeekBeginning = as.numeric(as.character(WeekBeginning))) %>%
   select(WeekBeginning, WeekEnding, AgeGroup, Pathogen, RatePer100000) %>%
-  arrange(WeekBeginning, WeekEnding, AgeGroup, Pathogen)
+  arrange(WeekBeginning, WeekEnding, AgeGroup, Pathogen) %>%
+  mutate(AgeGroup = paste0(AgeGroup, " years"))
 
 # Weekly case rates by pathogen and sex in Scotland
 case_rates_sex <- sex_agg %>%
@@ -377,7 +379,8 @@ case_rates_age_sex <- agegp_sex_agg %>%
   mutate(WeekEnding = as.numeric(as.character(WeekEnding)),
          WeekBeginning = as.numeric(as.character(WeekBeginning))) %>%
   select(WeekBeginning, WeekEnding, AgeGroup, Sex, Pathogen, RatePer100000) %>%
-  arrange(WeekBeginning, WeekEnding, AgeGroup, Sex, Pathogen) 
+  arrange(WeekBeginning, WeekEnding, AgeGroup, Sex, Pathogen) %>%
+  mutate(AgeGroup = paste0(AgeGroup, " years"))
 
 # Output
 write_csv(cases_scotland, glue(output_folder, "Respiratory_Scot.csv"))
