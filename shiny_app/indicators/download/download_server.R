@@ -25,14 +25,23 @@ vaccines_download_choices <- list(
   "Monthly vaccines administered and wasted" = "Vaccine_Wastage",
   "Reason for vaccine wastage in latest month" = "Vaccine_Wastage_Reason"
 )
+respiratory_download_choices <- list(
+  "Weekly cases by pathogen in Scotland" = "Respiratory_Scot",
+  "Weekly case rates by pathogen and NHS Health Board" = "Respiratory_HB",
+  "Weekly case rates by pathogen and age group in Scotland" = "Respiratory_Age",
+  "Weekly case rates by pathogen and sex in Scotland" = "Respiratory_Sex",
+  "Weekly case rates by pathogen, age group, and sex in Scotland" = "Respiratory_Age_Sex"
+)
 
 choices_list <- list("COVID-19 cases" = names(cases_download_choices),
                      "Acute COVID-19 hospital admissions" = names(hospital_admissions_download_choices),
                      "COVID-19 hospital occupancy" = names(hospital_occupancy_download_choices),
+                     "Respiratory infection activity" = names(respiratory_download_choices),
                      "Vaccine wastage" = names(vaccines_download_choices))
 
 all_data_list <- Reduce(append, list(cases_download_choices, hospital_admissions_download_choices,
-                                     hospital_occupancy_download_choices, vaccines_download_choices))
+                                     hospital_occupancy_download_choices, vaccines_download_choices,
+                                     respiratory_download_choices))
 
 # Update dataset choices based off indicator choice
 observeEvent(input$download_indicator,

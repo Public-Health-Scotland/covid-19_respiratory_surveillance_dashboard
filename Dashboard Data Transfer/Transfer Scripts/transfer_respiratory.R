@@ -274,6 +274,118 @@ write_csv(g_resp_data, glue(output_folder, "Respiratory_AllData.csv"))
 write_csv(g_resp_summary_totals, glue(output_folder, "Respiratory_Summary_Totals.csv"))
 write_csv(g_resp_summary, glue(output_folder, "Respiratory_Summary.csv"))
 
+# Create additional outputs for data download section
+# Weekly cases by pathogen in Scotland
+cases_scotland <- scotland_agg %>%
+  mutate(WeekEnding = as.Date(date),
+         WeekBeginning = as.Date(date) - 6,
+         NumberCasesPerWeek = count,
+         Pathogen = organism) %>%
+  mutate(WeekEnding = gsub("-", "", as.character(WeekEnding)),
+         WeekBeginning = gsub("-", "", as.character(WeekBeginning))) %>%
+  mutate(WeekEnding = as.numeric(as.character(WeekEnding)),
+         WeekBeginning = as.numeric(as.character(WeekBeginning))) %>%
+  select(WeekBeginning, WeekEnding, Pathogen, NumberCasesPerWeek) %>%
+  arrange(WeekBeginning, WeekEnding, Pathogen)
+
+# Weekly case rates by pathogen in Scotland
+case_rates_scotland <- scotland_agg %>%
+  mutate(WeekEnding = as.Date(date),
+         WeekBeginning = as.Date(date) - 6,
+         RatePer100000 = rate,
+         HB = "S92000003",
+         HBQF = "d",
+         HBName = "Scotland",
+         Pathogen = organism) %>%
+  mutate(WeekEnding = gsub("-", "", as.character(WeekEnding)),
+         WeekBeginning = gsub("-", "", as.character(WeekBeginning))) %>%
+  mutate(WeekEnding = as.numeric(as.character(WeekEnding)),
+         WeekBeginning = as.numeric(as.character(WeekBeginning))) %>%
+  select(WeekBeginning, WeekEnding, HB, HBQF, HBName, Pathogen, RatePer100000)
+
+# Weekly case rates by pathogen and HB
+case_rates_hb <- hb_agg %>%
+  mutate(WeekEnding = as.Date(date),
+         WeekBeginning = as.Date(date) - 6,
+         HB = HealthboardCode,
+         HBQF = "",
+         HBName = get_hb_name(HealthboardCode),
+         Pathogen = organism,
+         RatePer100000 = rate) %>%
+  mutate(WeekEnding = gsub("-", "", as.character(WeekEnding)),
+         WeekBeginning = gsub("-", "", as.character(WeekBeginning))) %>%
+  mutate(WeekEnding = as.numeric(WeekEnding),
+         WeekBeginning = as.numeric(WeekBeginning)) %>%
+  select(WeekBeginning, WeekEnding, HB, HBQF, HBName, Pathogen, RatePer100000) %>%
+  bind_rows(case_rates_scotland) %>%
+  arrange(WeekBeginning, WeekEnding, HB, Pathogen)
+
+# Weekly case rates by pathogen and age in Scotland
+case_rates_age <- agegp_agg %>%
+  mutate(WeekEnding = as.Date(date),
+         WeekBeginning = as.Date(date) - 6,
+         AgeGroup = factor(agegp, levels = c("<1", "1-4", "5-14", "15-44", 
+                                             "45-64", "65-74", "75+")),
+         RatePer100000 = rate,
+         Pathogen = recode(pathogen, 
+                           "fluaorb" = "Influenza - Type A or B",
+                           "h1n1" = "Influenza - Type A(H1N1)pdm09",
+                           "typea" = "Influenza - Type A (any subtype)",
+                           "typeah3" = "Influenza - Type A(H3)",
+                           "typeb" = "Influenza - Type B",
+                           "unknowna" = "Influenza - Type A (not subtyped)",
+                           "adeno" = "Adenovirus",
+                           "coron" = "Seasonal coronavirus (Non-SARS-CoV-2)",
+                           "hmpv" = "Human metapneumovirus",
+                           "mpn" = "Mycoplasma pneumoniae",
+                           "para" = "Parainfluenza virus",
+                           "rhino" = "Rhinovirus",
+                           "rsv" = "Respiratory syncytial virus")) %>%
+  mutate(WeekEnding = gsub("-", "", as.character(WeekEnding)),
+         WeekBeginning = gsub("-", "", as.character(WeekBeginning))) %>%
+  mutate(WeekEnding = as.numeric(as.character(WeekEnding)),
+         WeekBeginning = as.numeric(as.character(WeekBeginning))) %>%
+  select(WeekBeginning, WeekEnding, AgeGroup, Pathogen, RatePer100000) %>%
+  arrange(WeekBeginning, WeekEnding, AgeGroup, Pathogen)
+
+# Weekly case rates by pathogen and sex in Scotland
+case_rates_sex <- sex_agg %>%
+  mutate(WeekEnding = as.Date(date),
+         WeekBeginning = as.Date(date) - 6,
+         Sex = recode(sex, "F" = "Female", "M" = "Male"),
+         RatePer100000 = rate,
+         Pathogen = organism) %>%
+  mutate(WeekEnding = gsub("-", "", as.character(WeekEnding)),
+         WeekBeginning = gsub("-", "", as.character(WeekBeginning))) %>%
+  mutate(WeekEnding = as.numeric(as.character(WeekEnding)),
+         WeekBeginning = as.numeric(as.character(WeekBeginning))) %>%
+  select(WeekBeginning, WeekEnding, Sex, Pathogen, RatePer100000) %>%
+  arrange(WeekBeginning, WeekEnding, Sex, Pathogen)
+
+
+# Weekly case rates by pathogen, age, and sex in Scotland
+case_rates_age_sex <- agegp_sex_agg %>%
+  mutate(WeekEnding = as.Date(date),
+         WeekBeginning = as.Date(date) - 6,
+         AgeGroup = factor(agegp, levels = c("<1", "1-4", "5-14", "15-44", 
+                                             "45-64", "65-74", "75+")),
+         Sex = recode(sex, "F" = "Female", "M" = "Male"),
+         RatePer100000 = rate,
+         Pathogen = organism) %>%
+  mutate(WeekEnding = gsub("-", "", as.character(WeekEnding)),
+         WeekBeginning = gsub("-", "", as.character(WeekBeginning))) %>%
+  mutate(WeekEnding = as.numeric(as.character(WeekEnding)),
+         WeekBeginning = as.numeric(as.character(WeekBeginning))) %>%
+  select(WeekBeginning, WeekEnding, AgeGroup, Sex, Pathogen, RatePer100000) %>%
+  arrange(WeekBeginning, WeekEnding, AgeGroup, Sex, Pathogen) 
+
+# Output
+write_csv(cases_scotland, glue(output_folder, "Respiratory_Scot.csv"))
+write_csv(case_rates_hb, glue(output_folder, "Respiratory_HB.csv"))
+write_csv(case_rates_age, glue(output_folder, "Respiratory_Age.csv"))
+write_csv(case_rates_sex, glue(output_folder, "Respiratory_Sex.csv"))
+write_csv(case_rates_age_sex , glue(output_folder, "Respiratory_Age_Sex.csv"))
+
 # remove all data
 rm(i_respiratory_scotland_agg, i_respiratory_agegp_agg,
    i_respiratory_agegp_sex_agg, i_respiratory_sex_agg, i_respiratory_hb_agg)
@@ -296,3 +408,5 @@ rm(hb_checks_this_week, agegp_checks_this_week, sex_checks_this_week, agegp_sex_
    agegp_colnames_match,
    agegp_sex_colnames_match)
 rm(g_resp_data, g_resp_summary, g_resp_summary_totals)
+rm(cases_scotland, case_rates_scotland, case_rates_hb, case_rates_age,
+   case_rates_sex, case_rates_age_sex)
