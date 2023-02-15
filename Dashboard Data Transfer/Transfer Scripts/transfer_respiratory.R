@@ -274,9 +274,56 @@ write_csv(g_resp_data, glue(output_folder, "Respiratory_AllData.csv"))
 write_csv(g_resp_summary_totals, glue(output_folder, "Respiratory_Summary_Totals.csv"))
 write_csv(g_resp_summary, glue(output_folder, "Respiratory_Summary.csv"))
 
-# Create additional outputs for data download section
+### Create additional outputs for data download section ###
+
+# Function that creates template with all possible 
+# combinations of supplied variables
+create_template <- function(data, template_variables){
+  
+  for(i in 1:length(template_variables)){
+    
+    # Create empty list
+    empty_list <- list()
+    
+    # Get unique values of variable
+    df <- data %>%
+      select(template_variables[i]) %>%
+      unique()
+    
+    # Turn to vector and sort
+    vec <- sort(df[[template_variables[i]]])
+    
+    # Add to list
+    if(i == 1){
+      vecs <- c(empty_list, list(vec))
+    } else{
+      vecs <- c(vecs, list(vec))
+    }
+    
+  }
+  
+  # Create template
+  template <- expand.grid(vecs) 
+  
+  # Update variable names
+  colnames(template) <- template_variables
+  
+  # Tidy up template
+  template <- template %>%
+    arrange(across(everything()))
+}
+
+# Create templates
+cases_scotland_template <- create_template(scotland_agg, c("date", "organism"))
+case_rates_hb_template <- create_template(hb_agg, c("date", "HealthboardCode", "organism"))
+case_rates_age_template <- create_template(agegp_agg, c("date", "agegp", "pathogen"))
+case_rates_sex_template <- create_template(sex_agg, c("date", "sex", "organism"))
+case_rates_age_sex_template <- create_template(agegp_sex_agg, c("date", "agegp", "sex", "organism"))
+
 # Weekly cases by pathogen in Scotland
-cases_scotland <- scotland_agg %>%
+cases_scotland <- cases_scotland_template %>%
+  full_join(scotland_agg) %>%
+  mutate(count = ifelse(is.na(count), 0, count)) %>%
   mutate(WeekEnding = as.Date(date),
          WeekBeginning = as.Date(date) - 6,
          NumberCasesPerWeek = count,
@@ -289,7 +336,9 @@ cases_scotland <- scotland_agg %>%
   arrange(WeekBeginning, WeekEnding, Pathogen)
 
 # Weekly case rates by pathogen in Scotland
-case_rates_scotland <- scotland_agg %>%
+case_rates_scotland <- cases_scotland_template %>%
+  full_join(scotland_agg) %>%
+  mutate(rate = ifelse(is.na(rate), 0, rate)) %>%
   mutate(WeekEnding = as.Date(date),
          WeekBeginning = as.Date(date) - 6,
          RatePer100000 = rate,
@@ -304,7 +353,9 @@ case_rates_scotland <- scotland_agg %>%
   select(WeekBeginning, WeekEnding, HB, HBQF, HBName, Pathogen, RatePer100000)
 
 # Weekly case rates by pathogen and HB
-case_rates_hb <- hb_agg %>%
+case_rates_hb <- case_rates_hb_template %>%
+  full_join(hb_agg) %>%
+  mutate(rate = ifelse(is.na(rate), 0, rate)) %>%
   filter(!is.na(HealthboardCode)) %>%
   mutate(WeekEnding = as.Date(date),
          WeekBeginning = as.Date(date) - 6,
@@ -322,7 +373,9 @@ case_rates_hb <- hb_agg %>%
   arrange(WeekBeginning, WeekEnding, HB, Pathogen)
 
 # Weekly case rates by pathogen and age in Scotland
-case_rates_age <- agegp_agg %>%
+case_rates_age <- case_rates_age_template %>%
+  full_join(agegp_agg) %>%
+  mutate(rate = ifelse(is.na(rate), 0, rate)) %>%
   mutate(WeekEnding = as.Date(date),
          WeekBeginning = as.Date(date) - 6,
          AgeGroup = factor(agegp, levels = c("<1", "1-4", "5-14", "15-44", 
@@ -351,7 +404,9 @@ case_rates_age <- agegp_agg %>%
   mutate(AgeGroup = paste0(AgeGroup, " years"))
 
 # Weekly case rates by pathogen and sex in Scotland
-case_rates_sex <- sex_agg %>%
+case_rates_sex <- case_rates_sex_template %>%
+  full_join(sex_agg) %>%
+  mutate(rate = ifelse(is.na(rate), 0, rate)) %>%
   mutate(WeekEnding = as.Date(date),
          WeekBeginning = as.Date(date) - 6,
          Sex = recode(sex, "F" = "Female", "M" = "Male"),
@@ -364,9 +419,10 @@ case_rates_sex <- sex_agg %>%
   select(WeekBeginning, WeekEnding, Sex, Pathogen, RatePer100000) %>%
   arrange(WeekBeginning, WeekEnding, Sex, Pathogen)
 
-
 # Weekly case rates by pathogen, age, and sex in Scotland
-case_rates_age_sex <- agegp_sex_agg %>%
+case_rates_age_sex <- case_rates_age_sex_template %>%
+  full_join(agegp_sex_agg) %>%
+  mutate(rate = ifelse(is.na(rate), 0, rate)) %>%
   mutate(WeekEnding = as.Date(date),
          WeekBeginning = as.Date(date) - 6,
          AgeGroup = factor(agegp, levels = c("<1", "1-4", "5-14", "15-44", 
@@ -413,3 +469,5 @@ rm(hb_checks_this_week, agegp_checks_this_week, sex_checks_this_week, agegp_sex_
 rm(g_resp_data, g_resp_summary, g_resp_summary_totals)
 rm(cases_scotland, case_rates_scotland, case_rates_hb, case_rates_age,
    case_rates_sex, case_rates_age_sex)
+rm(cases_scotland_template, case_rates_hb_template, case_rates_sex_template,
+   case_rates_age_template, case_rates_age_sex_template)
