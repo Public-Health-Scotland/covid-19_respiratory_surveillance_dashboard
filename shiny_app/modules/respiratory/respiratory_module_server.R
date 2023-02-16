@@ -86,29 +86,22 @@ respiratoryServer <- function(id) {
       })
 
       output$respiratory_headline_figures_healthboard_count <- renderValueBox ({
-
-        organism_summary_total <- Respiratory_Summary %>%
-          filter(SummaryMeasure == "Healthboard_Total" & FluOrNonFlu == flu_or_nonflu) %>%
-          filter(get_hb_name(Breakdown) == input$respiratory_headline_healthboard)
-
-        if(nrow(organism_summary_total) == 0){
-
-           organism_summary_total <- 0
-
-        } else{
-
-           organism_summary_total <- organism_summary_total %>%
-              .$Rate
-
-        }
-
+        
+        organism_summary_total <- Respiratory_HB %>%
+          filter(HBName == input$respiratory_headline_healthboard) %>%
+          filter(Pathogen == input$respiratory_headline_subtype) %>%
+          tail(1) %>%
+          .$RatePer100000 %>% 
+          format(big.mark=",", nsmall = 1)
+        
         valueBox(value = organism_summary_total,
-                 subtitle = glue("{name_long} cases per 100,000 people in {input$respiratory_headline_healthboard}"),
+                 subtitle = glue("{input$respiratory_headline_subtype} cases per 100,000 people in {input$respiratory_headline_healthboard}"),
                  color = "teal",
                  icon = icon_no_warning_fn("house-medical"),
                  width = NULL)
-
+        
       })
+      
 
       # Observe events ----
       # selecting input for seeing rate or number for plots

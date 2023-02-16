@@ -69,10 +69,8 @@ respiratoryUI <- function(id) {
                                    tagList(
                                      pickerInput(ns("respiratory_headline_healthboard"),
                                                  label = "Select a NHS Health Board",
-                                                 choices = {Respiratory_AllData %>%
-                                                   filter(!is.na(HealthboardCode) &
-                                                            HealthboardCode != "S92000003") %>%
-                                                   .$HealthboardCode %>% unique() %>% get_hb_name() %>% sort()}
+                                                 choices = {Respiratory_HB %>%
+                                                   .$HBName %>% unique() %>% sort()}
                                      ),  # pickerInput
                                      withNavySpinner(valueBoxOutput(ns("respiratory_headline_figures_healthboard_count"), width = NULL))
                                    ) # tagList
