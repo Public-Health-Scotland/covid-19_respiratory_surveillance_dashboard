@@ -92,7 +92,7 @@ respiratoryServer <- function(id) {
           filter(Pathogen == input$respiratory_headline_subtype) %>%
           tail(1) %>%
           .$RatePer100000 %>% 
-          format(big.mark=",", nsmall = 1)
+          format(big.mark=",")
         
         valueBox(value = organism_summary_total,
                  subtitle = glue("{input$respiratory_headline_subtype} cases per 100,000 people in {input$respiratory_headline_healthboard}"),
