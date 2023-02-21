@@ -25,14 +25,23 @@ vaccines_download_choices <- list(
   "Monthly vaccines administered and wasted" = "Vaccine_Wastage",
   "Reason for vaccine wastage in latest month" = "Vaccine_Wastage_Reason"
 )
+respiratory_download_choices <- list(
+  "Weekly number of cases by pathogen and flu type in Scotland" = "Respiratory_Scot",
+  "Weekly rate per 100,000 by pathogen, flu type and NHS Health Board" = "Respiratory_HB",
+  "Weekly rate per 100,000 by pathogen, flu type and age group" = "Respiratory_Age",
+  "Weekly rate per 100,000 by pathogen, flu type and sex" = "Respiratory_Sex",
+  "Weekly rate per 100,000 by pathogen, flu type, age group and sex" = "Respiratory_Age_Sex"
+)
 
 choices_list <- list("COVID-19 cases" = names(cases_download_choices),
                      "Acute COVID-19 hospital admissions" = names(hospital_admissions_download_choices),
                      "COVID-19 hospital occupancy" = names(hospital_occupancy_download_choices),
+                     "Respiratory infection activity" = names(respiratory_download_choices),
                      "Vaccine wastage" = names(vaccines_download_choices))
 
 all_data_list <- Reduce(append, list(cases_download_choices, hospital_admissions_download_choices,
-                                     hospital_occupancy_download_choices, vaccines_download_choices))
+                                     hospital_occupancy_download_choices, vaccines_download_choices,
+                                     respiratory_download_choices))
 
 # Update dataset choices based off indicator choice
 observeEvent(input$download_indicator,
@@ -90,7 +99,7 @@ output$data_download_table <- renderDataTable({
 output$data_download_open_data_statement <- renderUI({
 
   ifelse(input$download_indicator %in% c("COVID-19 cases",
-                                         "COVID-19 hospital admissions",
+                                         "Acute COVID-19 hospital admissions",
                                          "COVID-19 hospital occupancy",
                                          "Vaccine wastage"),
          tagList(p("This dataset follows the ", tags$a(href="https://www.opendata.nhs.scot/uploads/admin/PHS-Open-Data-Standards-Version-1.0.pdf",
