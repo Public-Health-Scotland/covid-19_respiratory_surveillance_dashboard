@@ -2,6 +2,9 @@
 # Sourced from ../dashboard_data_transfer.R
 
 ##### Respiratory
+resp_od_output_folder <- paste0("/conf/linkage/output/Covid Daily Dashboard/", 
+                                "Tableau process/Open Data/Respiratory/")
+
 get_resp_year <- function(w, s){
   year <- case_when(w >= 1 & w <= 39 ~ paste0("20", substr(s, 6, 7)),
                     w >= 40 ~ paste0("20", substr(s, 3, 4)) ) %>%
@@ -444,6 +447,13 @@ write_csv(case_rates_hb, glue(output_folder, "Respiratory_HB.csv"))
 write_csv(case_rates_age, glue(output_folder, "Respiratory_Age.csv"))
 write_csv(case_rates_sex, glue(output_folder, "Respiratory_Sex.csv"))
 write_csv(case_rates_age_sex , glue(output_folder, "Respiratory_Age_Sex.csv"))
+
+# Output to Open Data folder
+write_csv(cases_scotland, glue(resp_od_output_folder, "Respiratory_Scot.csv"))
+write_csv(case_rates_hb, glue(resp_od_output_folder, "Respiratory_HB.csv"))
+write_csv(case_rates_age, glue(resp_od_output_folder, "Respiratory_Age.csv"))
+write_csv(case_rates_sex, glue(resp_od_output_folder, "Respiratory_Sex.csv"))
+write_csv(case_rates_age_sex , glue(resp_od_output_folder, "Respiratory_Age_Sex.csv"))
 
 # remove all data
 rm(i_respiratory_scotland_agg, i_respiratory_agegp_agg,
