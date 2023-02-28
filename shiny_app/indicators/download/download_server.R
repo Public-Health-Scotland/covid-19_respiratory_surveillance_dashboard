@@ -62,11 +62,11 @@ chosen_dataset <- reactive({
 
 # Download button
 output$data_download_output <- downloadHandler(
-  filename = function(){
+  file = function(){
     if(input$download_filetype == ".csv"){
-      glue("{input$download_indicator}.csv")
+      glue("{input$download_dataset}.csv")
     } else if (input$download_filetype == ".xlsx"){
-      glue("{input$download_indicator}.xlsx")
+      glue("{input$download_dataset}.xlsx")
     } else {
       "invalid"
     }
@@ -78,7 +78,7 @@ output$data_download_output <- downloadHandler(
                 file,
                 row.names=FALSE)
     } else if (input$download_filetype == ".xlsx"){
-      openxlsx::write.xlsx(chosen_dataset(), file)
+      openxlsx::write.xlsx({chosen_dataset() %>% get()}, file)
     } else {
       shiny::validate(TRUE, "Invalid download file type selected")
     }
