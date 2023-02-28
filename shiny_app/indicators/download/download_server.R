@@ -101,6 +101,7 @@ output$data_download_open_data_statement <- renderUI({
   ifelse(input$download_indicator %in% c("COVID-19 cases",
                                          "Acute COVID-19 hospital admissions",
                                          "COVID-19 hospital occupancy",
+                                         "Respiratory infection activity",
                                          "Vaccine wastage"),
          tagList(p("This dataset follows the ", tags$a(href="https://www.opendata.nhs.scot/uploads/admin/PHS-Open-Data-Standards-Version-1.0.pdf",
                                   "open data standards (external website)",
