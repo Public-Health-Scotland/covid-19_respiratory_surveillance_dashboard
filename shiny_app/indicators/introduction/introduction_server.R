@@ -271,6 +271,10 @@ output$introduction_open_data <- renderUI({
           p("You can download COVID-19 data presented in this dashboard from the ",
             tags$a(href="https://www.opendata.nhs.scot/dataset/covid-19-in-scotland",
             "COVID-19 Statistical Data in Scotland page (external website)", target="_blank"),
+            "."),
+          p("You can download Respiratory infection data presented in this dashboard from the ",
+            tags$a(href="https://www.opendata.nhs.scot/dataset/respiratory-infection-statistical-data-in-scotland",
+                   "Respiratory Infection Statistical Data in Scotland page (external website)", target="_blank"),
             ".")
   ) # tagList
 
