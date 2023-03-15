@@ -9,6 +9,9 @@ data/
 # Deployment secrets
 shiny_app/deployment/deployment_secrets.R
 
+# credentials_update script
+shiny_app/password_protect/credentials_update.R
+
 # rsconnect folder
 shiny_app/rsconnect/
 
