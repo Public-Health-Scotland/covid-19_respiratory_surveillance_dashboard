@@ -180,6 +180,7 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
   week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
 
   data = data %>%
+    filter(Week != "53") %>%
     select(Season, Weekord, y_axis, Week, HealthboardCode) %>%
     arrange(Season, Weekord) %>%
     mutate(Week = as.character(Week),
