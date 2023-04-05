@@ -9,10 +9,8 @@ tagList(
   fluidRow(width = 12,
                tagList(h2("Estimated COVID-19 infection rate"),
                             h4("(ONS covid infection survey)"),
-                            p("The Office for National Statistics (ONS) have paused the COVID-19 Infection Survey data collection",
-                              "and their final publication was published on 24 March 2023. As a result, these data will not be updated",
-                              "on this dashboard after 30 March 2023. For further information please see",
-                              tags$a(href="https://www.gov.uk/government/news/covid-19-infection-survey-participants-thanked-for-huge-contribution-to-pandemic-response", "Press Release (external website)",  target="_blank"), "."),
+                            p("The Office for National Statistics (ONS) published their",
+                              tags$a(href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/bulletins/coronaviruscovid19infectionsurveypilot/24march2023", "final COVID-19 Infection Survey report (external website)",  target="_blank"), " on 24 March 2023."),
                             tags$div(class = "headline",
                                      h3(glue("Figures from week ending {ONS %>% tail(1) %>%
                 .$EndDate %>% convert_opendata_date() %>%  format('%d %b %y')}")),
