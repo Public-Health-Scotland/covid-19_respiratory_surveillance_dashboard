@@ -29,7 +29,7 @@ ui <- fluidPage(
       collapsible = "true",
       # Specify language for accessibility
       #lang = "en",
-      tags$html(lang="en"),
+      #tags$html(lang="en"),
       title = div(
         tags$a(img(src = "white-logo.png", height = 40,
                    alt ="Go to Public Health Scotland (external site)"),
@@ -168,7 +168,10 @@ server <- function(input, output, session) {
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
 
 }
+#sets language right at the top of source (required this way for screen readers)
+attr(ui, "lang") = "en"
 
+#conditionally password protect app
 if (password_protect){ ui <- secure_app(ui) }
 
 
