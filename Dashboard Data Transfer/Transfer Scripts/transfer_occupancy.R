@@ -28,7 +28,7 @@ i_occupancy <- read_all_excel_sheets(glue("{input_data}/Hospital-ICU Daily Numbe
 
 g_occupancy_hospital_healthboard <- i_occupancy$Data %>%
   clean_names() %>%
-  rename(HospitalOccupancy = total_number_of_confirmed_c19_inpatients_in_hospital_at_8am_yesterday_new_measure,
+  rename(HospitalOccupancy = total_number_of_confirmed_c19_inpatients_in_hospital_at_8am_yesterday_new_measure_number_of_confirmed_c19_inpatients_in_hospital_10_days_at_8am_as_of_08_05_2023,
          #ICUOccupancy28OrLess = total_number_of_confirmed_c19_inpatients_in_icu_28_days_or_less_at_8am_yesterday_new_measure,
          #ICUOccupancy28OrMore = total_number_of_confirmed_c19_inpatients_in_icu_greater_than_28_days_at_8am_yesterday_measure_as_of_20_01_21,
          Date = date,
@@ -77,7 +77,7 @@ g_occupancy_ICU_healthboard <- i_occupancy$Data %>%
          `greater than 28 days` = total_number_of_confirmed_c19_inpatients_in_icu_greater_than_28_days_at_8am_yesterday_measure_as_of_20_01_21,
          Date = date,
          HealthBoard = health_board) %>%
-  filter(Date >= "2020-09-08" & Date <= report_date-2) %>% # filter to sunday date
+  filter(Date >= "2020-09-08" & Date <= "2023-05-08") %>% # filter to 8th May when reporting stopped
   select(Date, HealthBoard, `28 days or less`, `greater than 28 days`) %>%
   pivot_longer(cols=names(.)[!(names(.) %in% c("Date", "HealthBoard"))],
                names_to = "ICULengthOfStay", values_to="ICUOccupancy") %>%
