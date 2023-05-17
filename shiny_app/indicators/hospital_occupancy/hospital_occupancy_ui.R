@@ -54,25 +54,28 @@ tagList(
 
   fluidRow(width = 12,
            tagList(h2("7 day average number of patients with COVID-19 in Intensive Care Units (ICU)"),
-                   p("From 08 May 2023, manual data collections from NHS Boards on the number of patients in ICU paused. These data are no longer updated. "),
                    tags$div(class = "headline",
                             h3(glue("Figures from week ending {Occupancy_ICU %>%
                                               mutate(Date = convert_opendata_date(Date)) %>%
                                               filter(Date <= floor_date(today(), 'week')) %>%
                                               tail(1) %>%
                                              .$Date %>% format('%d %b %y')}")),
-                            valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
+                            fluidRow(column(12,valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
                                 .$SevenDayAverage},
                                 subtitle = "in ICU for 28 days or less",
                                 color = "fuchsia",
                                 icon = icon_no_warning_fn("bed")),
-                            valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
-                                .$SevenDayAverage},
-                                subtitle = "in ICU for more than 28 days",
-                                color = "fuchsia",
-                                icon = icon_no_warning_fn("bed-pulse")),
+                                valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
+                                    .$SevenDayAverage},
+                                    subtitle = "in ICU for more than 28 days",
+                                    color = "fuchsia",
+                                    icon = icon_no_warning_fn("bed-pulse")))),
                             # This text is hidden by css but helps pad the box at the bottom
-                            h6("hidden text for padding page"))),
+                            # h6("hidden text for padding page"),
+                            # linebreaks(6),
+                            p("From 08 May 2023, manual data collections from NHS Boards on the number of patients in ICU paused. These data are no longer updated. "),
+                            br()
+                   )),
            linebreaks(1)),
 
   fluidRow(width = 12,
@@ -100,5 +103,6 @@ tagList(
     br())
 
 ) # taglist
+
 
 
