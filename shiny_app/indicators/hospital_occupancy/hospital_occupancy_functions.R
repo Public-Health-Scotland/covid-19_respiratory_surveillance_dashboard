@@ -33,7 +33,13 @@ make_occupancy_plots <- function(data, occupancy) {
       add_lines(y = ~SevenDayAverage, name = '7 day average',
                 line = list(color = phs_colours("phs-magenta"),
                             dash = "dash",
-                            width = 2))
+                            width = 2)) %>%
+
+      add_lines_and_notes(dataframe = data,
+      ycol = "HospitalOccupancy",
+      xs= c("2023-05-08"),
+      notes=c("Change to inpatient definition from 08 May 2023 (max number 10 days)"),
+      colors=c(phs_colours("phs-purple")))
 
 
 
