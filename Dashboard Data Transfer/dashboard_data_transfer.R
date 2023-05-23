@@ -74,7 +74,7 @@ purrr::walk(data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TR
 source("Transfer Scripts/transfer_cases.R")
 
 ##### NRS Deaths
-source("Transfer Scripts/transfer_deaths.R")
+# source("Transfer Scripts/transfer_deaths.R")
 
 ##### Ethnicity
 # Updated quarterly
@@ -90,13 +90,13 @@ source("Transfer Scripts/transfer_admissions.R")
 source("Transfer Scripts/transfer_los.R")
 
 ##### Vaccine Wastage
-source("Transfer Scripts/transfer_vacc_wastage.R")
+# source("Transfer Scripts/transfer_vacc_wastage.R")
 
 ##### ONS
-source("Transfer Scripts/transfer_ons.R")
+# source("Transfer Scripts/transfer_ons.R")
 
 #### Care Homes
-source("Transfer Scripts/transfer_carehomes.R")
+# source("Transfer Scripts/transfer_carehomes.R")
 
 #### Wastewater
 source("Transfer Scripts/transfer_wastewater.R")

@@ -24,16 +24,19 @@ make_occupancy_plots <- function(data, occupancy) {
                                 "<b>7 day average number of people in hospital</b>: ", format(SevenDayAverage, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)%>%
-      layout(legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h')) %>%
-
       add_lines(y = ~HospitalOccupancy,
                 line = list(color = phs_colours("phs-magenta-30")),
                 name = 'Number of people in hospital') %>%
-
       add_lines(y = ~SevenDayAverage, name = '7 day average',
                 line = list(color = phs_colours("phs-magenta"),
                             dash = "dash",
-                            width = 2))
+                            width = 2)) %>%
+      add_lines_and_notes(dataframe = data,
+                          ycol = "HospitalOccupancy",
+                          xs= c("2023-05-08"),
+                          notes=c("Change to inpatient definition from 08 May 2023 (max number 10 days)"),
+                          colors=c(phs_colours("phs-purple"))) %>%
+      layout(legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'))
 
 
 
@@ -60,7 +63,7 @@ make_occupancy_plots <- function(data, occupancy) {
   }
 
   p <- p %>%
-     #add_trace(type = 'scatter', mode = 'lines') %>%
+    #add_trace(type = 'scatter', mode = 'lines') %>%
     #           line = list(color = phs_colours("phs-magenta")))  %>%
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,

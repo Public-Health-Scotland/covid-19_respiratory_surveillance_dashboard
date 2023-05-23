@@ -180,13 +180,13 @@ tagList(h1("Metadata"),
                                    h4("Hospital occupancy (inpatients)"),
                                    p("Number of inpatients in hospital with recently confirmed COVID-19, identified by their first positive LFD test (from 5 January 2022)
                                      or PCR test. This measure (available from 11 September 2020 and first published 15 September 2020) includes inpatients who first tested positive
-                                     in hospital or in the 14 days before admission. Patients stop being included after 28 days in hospital (or 28 days after first testing positive
+                                     in hospital or in the 14 days before admission. Patients stop being included after 10 days in hospital (or 10 days after first testing positive
                                      if this is after admission)."),
                                    p("This is based on the number of inpatients in beds at 8am the day prior to reporting, with the data extract taken at 8am on the day of
                                      reporting to allow 24 hours for test results to become available. If boards have not submitted by 8am on Monday, the most recent available
                                      data will be rolled over and used as a proxy for the missing dates. Where a patient has not yet received a positive test result they will
-                                     not be included in this figure. Patients who have been in hospital for more than 28 days and still being treated for COVID-19 will stop being
-                                     included in this figure after 28 days."),
+                                     not be included in this figure. Patients who have been in hospital for more than 10 days and still being treated for COVID-19 will stop being
+                                     included in this figure after 10 days."),
                                    p("All inpatients in hospital, including in intensive care, and community, mental health and long stay hospitals are included in this figure."),
                                    p(strong("Source: NHS Health Boards")),
                                    br(),

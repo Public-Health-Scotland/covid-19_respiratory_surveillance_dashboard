@@ -17,7 +17,7 @@ add_lines_and_notes <- function(p,           # plot to add lines to
                         hovertemplate = notes[i],
                         marker = list(size = 0, opacity = 0, color = colors[i]),
                         line = list(color = colors[i],
-                                    width = 1,
+                                    width = 2,
                                     dash = "dot")
     )
 
