@@ -3,7 +3,7 @@
 
 ##### Ethnicity
 
-i_ethnicity <- read_csv_with_options(glue(input_data, "/RAPID_Ethnicity_Jan23.csv"))
+i_ethnicity <- read_csv_with_options(glue(input_data, "/RAPID_Ethnicity_Apr23.csv"))
 
 ### a) Ethnicity
 
