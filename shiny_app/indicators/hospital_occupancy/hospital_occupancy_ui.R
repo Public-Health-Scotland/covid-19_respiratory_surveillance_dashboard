@@ -15,7 +15,7 @@ tagList(
                                      subtitle = glue("As at {names(occupancy_headlines)[[1]]}"),
                                      color = "fuchsia",
                                      icon = icon_no_warning_fn("calendar-week")),
-                            valueBox(value = {occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")},
+                            valueBox(value = glue("{occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")}*"),
                                      subtitle = glue("As at {names(occupancy_headlines)[[2]]}"),
                                      color = "fuchsia",
                                      icon = icon_no_warning_fn("calendar-week")),
