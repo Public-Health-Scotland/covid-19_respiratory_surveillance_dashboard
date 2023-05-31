@@ -131,19 +131,26 @@ tagList(
                            tagList(h2("Number of COVID-19 admissions to Intensive Care Units (ICU)"),
                                    tags$div(class = "headline",
                                             h3("Weekly totals from last three weeks"),
-                                            valueBox(value = {icu_headlines[[1]]},
+                                            valueBox(value = {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeek == "c",
+                                                                                                                       "*", NewCovidAdmissionsPerWeek)) %>%
+                                                filter(row_number() == nrow(ICU_weekly)) %>% .$NewCovidAdmissionsPerWeek},
                                                      subtitle = glue("Week ending {names(icu_headlines)[[1]]}"),
                                                      color = "blue",
                                                      icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {icu_headlines[[2]]},
+                                            valueBox(value = {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeek == "c",
+                                                                                                                       "*", NewCovidAdmissionsPerWeek)) %>%
+                                                filter(row_number() == nrow(ICU_weekly)-1) %>% .$NewCovidAdmissionsPerWeek},
                                                      subtitle = glue("Week ending {names(icu_headlines)[[2]]}"),
                                                      color = "blue",
                                                      icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {icu_headlines[[3]] %>%
-                                                format(big.mark = ",")},
+                                            valueBox(value = {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeek == "c",
+                                                                                                                       "*", NewCovidAdmissionsPerWeek)) %>%
+                                                filter(row_number() == nrow(ICU_weekly)-2) %>% .$NewCovidAdmissionsPerWeek},
                                                 subtitle = glue("Week ending {names(icu_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
+                                            h4(uiOutput("disclosure_statement")),
+                                            #h4("* indicates value has been suppressed according to PHS Statistical Disclosure Control Protocol"),
                                             # This text is hidden by css but helps pad the box at the bottom
                                             h6("hidden text for padding page"))),
 

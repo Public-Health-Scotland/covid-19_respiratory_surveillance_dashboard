@@ -13,7 +13,8 @@ hospital_admissions_download_choices <- list(
   "Daily COVID-19 hospital admissions" = "Admissions",
   "Weekly COVID-19 hospital admissions by age group" = "Admissions_AgeBD",
   "Length of stay of COVID-19 hospital admissions" = "Length_of_Stay",
-  "Daily COVID-19 admissions to ICU" = "ICU",
+  #"Daily COVID-19 admissions to ICU" = "ICU",
+  "Weekly COVID-19 admissions to ICU" = "ICU_weekly",
   "Quarterly COVID-19 hospital admissions by ethnicity" = "Ethnicity",
   "Weekly hospital admissions by SIMD" = "Admissions_SimdTrend"
                                           )

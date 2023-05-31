@@ -76,4 +76,28 @@ g_icu_agesex %<>% arrange(factor(Sex, levels = c("Male", "Female", "Total"))) %>
 
 write.csv(g_icu_agesex, glue(output_folder, "ICU_AgeSex.csv"), row.names = FALSE)
 
-rm(g_icu, g_icu_agesex, i_icu_cp_agesex_rate, i_icu_newpatient, agegroups)
+
+### c) ICU - Weekly
+
+g_icu_weekly <- i_icu_newpatient$Sheet1 %>%
+  dplyr::rename(DateFirstICUAdmission = `Date of First ICU Admission`,
+                NewCovidAdmissionsPerDay = `Count of New COVID-19 Admissions per Day`,
+                SevenDayAverage = `7-Day Moving Average`) %>%
+  mutate(WeekEndingFirstICUAdmission = ceiling_date(DateFirstICUAdmission,
+                                                    unit = "week", 
+                                                    change_on_boundary = F)) %>%
+  mutate(WeekEndingFirstICUAdmission = format(WeekEndingFirstICUAdmission, "%Y%m%d")) %>%
+  group_by(WeekEndingFirstICUAdmission) %>%
+  summarise(NewCovidAdmissionsPerWeek = sum(NewCovidAdmissionsPerDay)) %>%
+  ungroup()
+
+# Apply suppression
+g_icu_weekly <- g_icu_weekly %>%
+  mutate(NewCovidAdmissionsPerWeek = ifelse(
+    WeekEndingFirstICUAdmission >= "20230528" & NewCovidAdmissionsPerWeek < 5
+    & NewCovidAdmissionsPerWeek > 0, "c", NewCovidAdmissionsPerWeek))
+  
+
+write.csv(g_icu_weekly, glue(output_folder, "ICU_weekly.csv"), row.names = FALSE)
+
+rm(g_icu, g_icu_weekly, g_icu_agesex, i_icu_cp_agesex_rate, i_icu_newpatient, agegroups)
