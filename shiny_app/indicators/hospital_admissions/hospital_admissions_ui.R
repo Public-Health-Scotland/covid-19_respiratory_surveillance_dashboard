@@ -150,6 +150,7 @@ tagList(
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             h4(uiOutput("disclosure_statement")),
+                                            h4("Therefore, the latest week is not included in the chart below."),
                                             #h4("* indicates value has been suppressed according to PHS Statistical Disclosure Control Protocol"),
                                             # This text is hidden by css but helps pad the box at the bottom
                                             h6("hidden text for padding page"))),

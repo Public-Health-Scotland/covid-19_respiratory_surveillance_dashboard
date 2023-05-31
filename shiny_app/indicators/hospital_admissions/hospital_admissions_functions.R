@@ -310,7 +310,7 @@ make_icu_admissions_weekly_plot <- function(data){
   yaxis_plots[["fixedrange"]] <- FALSE
   
   #Text for tooltip
-  tooltip_trend <- c(paste0("Date: ", format(data$WeekEndingFirstICUAdmission, "%d %b %y"),
+  tooltip_trend <- c(paste0("Week ending: ", format(data$WeekEndingFirstICUAdmission, "%d %b %y"),
                             "<br>", "ICU admissions: ", data$NewCovidAdmissionsPerWeek))
   
   

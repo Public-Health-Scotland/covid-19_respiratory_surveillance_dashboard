@@ -256,9 +256,9 @@ output$icu_admissions_plot<- renderPlotly({
 
 output$disclosure_statement <- renderUI({
   
-  tagList(p("* indicates value has been suppressed according to ", 
+  tagList(p("* Statistical disclosure control has been applied according to ", 
             tags$a(href="https://publichealthscotland.scot/media/3219/1_statistical-disclosure-control-protocol.pdf",
-                                                       "PHS Statistical Disclosure Control Protocol (external website)",
+                                                       "PHS Statistical Disclosure Control Protocol (external website).",
                                                        target="_blank")))
 })
 
