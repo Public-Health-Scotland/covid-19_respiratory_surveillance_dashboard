@@ -98,7 +98,7 @@ output$icu_infobox <- renderInfoBox({
                                          "or who has tested positive from the date of admission up to and including the date of ICU discharge.<br><br>",
                                          "* Statistical disclosure control has been applied according to PHS Statistical Disclosure Control Protocol.<br><br>",
                                          strong("For more information, see Metadata. Click again to close.")))),
-          value= {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeek == "c",
+          value= {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeekQF == "c",
                                                                              "*", NewCovidAdmissionsPerWeek)) %>%
                                           filter(row_number() == nrow(ICU_weekly)) %>% 
                                           .$NewCovidAdmissionsPerWeek},

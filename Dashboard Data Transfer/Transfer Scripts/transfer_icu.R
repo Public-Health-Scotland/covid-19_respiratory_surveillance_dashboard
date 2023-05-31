@@ -93,9 +93,11 @@ g_icu_weekly <- i_icu_newpatient$Sheet1 %>%
 
 # Apply suppression
 g_icu_weekly <- g_icu_weekly %>%
-  mutate(NewCovidAdmissionsPerWeek = ifelse(
+  mutate(NewCovidAdmissionsPerWeekQF = ifelse(
     WeekEndingFirstICUAdmission >= "20230528" & NewCovidAdmissionsPerWeek < 5
-    & NewCovidAdmissionsPerWeek > 0, "c", NewCovidAdmissionsPerWeek))
+    & NewCovidAdmissionsPerWeek > 0, "c", "")) %>%
+  mutate(NewCovidAdmissionsPerWeek = ifelse(
+    NewCovidAdmissionsPerWeekQF == "c", "", NewCovidAdmissionsPerWeek))
   
 
 write.csv(g_icu_weekly, glue(output_folder, "ICU_weekly.csv"), row.names = FALSE)

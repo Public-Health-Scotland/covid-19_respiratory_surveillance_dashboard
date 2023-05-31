@@ -226,7 +226,7 @@ output$hospital_admissions_los_plot<- renderPlotly({
 # Table
 output$icu_admissions_table <- renderDataTable({
   ICU_weekly %>%
-    mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeek == "c",
+    mutate(NewCovidAdmissionsPerWeek = ifelse(is.na(NewCovidAdmissionsPerWeek),
                                               "*", NewCovidAdmissionsPerWeek)) %>%
     arrange(desc(WeekEndingFirstICUAdmission)) %>%
     mutate(WeekEndingFirstICUAdmission = convert_opendata_date(WeekEndingFirstICUAdmission)) %>%
@@ -247,9 +247,6 @@ output$icu_admissions_table <- renderDataTable({
 # Plot
 output$icu_admissions_plot<- renderPlotly({
   ICU_weekly %>%
-    mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeek == "c",
-                                              NA, NewCovidAdmissionsPerWeek)) %>%
-    mutate(NewCovidAdmissionsPerWeek = as.numeric(NewCovidAdmissionsPerWeek)) %>%
     make_icu_admissions_weekly_plot()
   
 })
