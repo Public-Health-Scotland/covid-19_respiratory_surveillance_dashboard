@@ -96,8 +96,12 @@ output$icu_infobox <- renderInfoBox({
                                    "COVID-19 related ICU admissions",
                                    paste("A patient who has tested positive for COVID at any time in the 21 days prior to admission to ICU,",
                                          "or who has tested positive from the date of admission up to and including the date of ICU discharge.<br><br>",
+                                         "* Statistical disclosure control has been applied according to PHS Statistical Disclosure Control Protocol.<br><br>",
                                          strong("For more information, see Metadata. Click again to close.")))),
-          value= icu_headlines[[1]],
+          value= {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(NewCovidAdmissionsPerWeekQF == "c",
+                                                                             "*", NewCovidAdmissionsPerWeek)) %>%
+                                          filter(row_number() == nrow(ICU_weekly)) %>% 
+                                          .$NewCovidAdmissionsPerWeek},
           subtitle = "Weekly total",
           icon = icon_no_warning_fn("heart-pulse"),
           color = "blue")
@@ -109,8 +113,10 @@ output$icu_cumulative_infobox <- renderInfoBox({
                                    "COVID-19 related ICU admissions",
                                    paste("A patient who has tested positive for COVID at any time in the 21 days prior to admission to ICU,",
                                          "or who has tested positive from the date of admission up to and including the date of ICU discharge.<br><br>",
+                                         "* Statistical disclosure control has been applied according to PHS Statistical Disclosure Control Protocol.<br><br>",
                                          strong("For more information, see Metadata. Click again to close.")))),
-          value= {ICU %>% select(NewCovidAdmissionsPerDay) %>% summarise(n=sum(NewCovidAdmissionsPerDay) %>% format(big.mark=","))},
+          #value= {ICU %>% select(NewCovidAdmissionsPerDay) %>% summarise(n=sum(NewCovidAdmissionsPerDay) %>% format(big.mark=","))},
+          value= {ICU %>% select(NewCovidAdmissionsPerDay) %>% summarise(n=sum(NewCovidAdmissionsPerDay)) %>% mutate(n = (round(n/5)*5) %>% format(big.mark=",")) %>% mutate(n = paste0(n, "*"))},
           subtitle = "Total since beginning of pandemic",
           icon = icon_no_warning_fn("heart-pulse"),
           color = "blue")

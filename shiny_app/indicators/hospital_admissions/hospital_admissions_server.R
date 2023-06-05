@@ -93,14 +93,13 @@ altTextServer("hospital_admissions_ethnicity_modal",
 )
 
 altTextServer("icu_admissions_modal",
-              title = "Daily number of COVID-19 ICU admissions",
+              title = "Weekly number of COVID-19 ICU admissions",
               content = tags$ul(
-                tags$li("This is a plot of the daily number of COVID-19 admissions to",
+                tags$li("This is a plot of the weekly number of COVID-19 admissions to",
                         "hospital intensive care units (ICU)."),
-                tags$li("The x axis is the date of admission, commencing 12 Mar 2020."),
+                tags$li("The x axis is the week ending of admission, commencing 12 Mar 2020."),
                 tags$li("The y axis is the number of ICU admissions."),
-                tags$li("There are two traces: a light blue trace which shows the number of ICU admissions each day;",
-                        "and a dark blue trace overlayed which has the 7 day average of this."),
+                tags$li("There is a dark blue trace which shows the number of ICU admissions each week."),
                 tags$li("There were large peaks in ICU admissions in Apr 2020, Jan 2021",
                         "and Sep 2021. Since then the overall trend has been a decline",
                         "in ICU admissions over time.")
@@ -212,24 +211,54 @@ output$hospital_admissions_los_plot<- renderPlotly({
 
 # DAILY ADMISSIONS # ----
 
+# # Table
+# output$icu_admissions_table <- renderDataTable({
+#   ICU %>%
+#     arrange(desc(DateFirstICUAdmission)) %>%
+#     mutate(DateFirstICUAdmission = convert_opendata_date(DateFirstICUAdmission)) %>%
+#     select(DateFirstICUAdmission, NewCovidAdmissionsPerDay, SevenDayAverage) %>%
+#     dplyr::rename(`Date` = DateFirstICUAdmission,
+#                   `Number of ICU admissions` = NewCovidAdmissionsPerDay,
+#                   `7 day average` = SevenDayAverage) %>%
+#     make_table(add_separator_cols = c(2,3))
+# })
+
 # Table
 output$icu_admissions_table <- renderDataTable({
-  ICU %>%
-    arrange(desc(DateFirstICUAdmission)) %>%
-    mutate(DateFirstICUAdmission = convert_opendata_date(DateFirstICUAdmission)) %>%
-    select(DateFirstICUAdmission, NewCovidAdmissionsPerDay, SevenDayAverage) %>%
-    dplyr::rename(`Date` = DateFirstICUAdmission,
-                  `Number of ICU admissions` = NewCovidAdmissionsPerDay,
-                  `7 day average` = SevenDayAverage) %>%
-    make_table(add_separator_cols = c(2,3))
+  ICU_weekly %>%
+    mutate(NewCovidAdmissionsPerWeek = ifelse(is.na(NewCovidAdmissionsPerWeek),
+                                              "*", NewCovidAdmissionsPerWeek)) %>%
+    arrange(desc(WeekEndingFirstICUAdmission)) %>%
+    mutate(WeekEndingFirstICUAdmission = convert_opendata_date(WeekEndingFirstICUAdmission)) %>%
+    select(WeekEndingFirstICUAdmission, NewCovidAdmissionsPerWeek) %>%
+    dplyr::rename(`Week Ending` = WeekEndingFirstICUAdmission,
+                  `Number of ICU admissions` = NewCovidAdmissionsPerWeek) %>%
+    make_table(add_separator_cols = c(2))
 })
+
+
+# # Plot
+# output$icu_admissions_plot<- renderPlotly({
+#   ICU %>%
+#     make_icu_admissions_plot()
+# 
+# })
 
 # Plot
 output$icu_admissions_plot<- renderPlotly({
-  ICU %>%
-    make_icu_admissions_plot()
-
+  ICU_weekly %>%
+    make_icu_admissions_weekly_plot()
+  
 })
+
+output$disclosure_statement <- renderUI({
+  
+  tagList(p("* Statistical disclosure control has been applied according to ", 
+            tags$a(href="https://publichealthscotland.scot/media/3219/1_statistical-disclosure-control-protocol.pdf",
+                                                       "PHS Statistical Disclosure Control Protocol (external website).",
+                                                       target="_blank")))
+})
+
 
 
 ########################################
