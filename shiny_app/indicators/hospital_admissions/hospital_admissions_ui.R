@@ -149,8 +149,9 @@ tagList(
                                                 subtitle = glue("Week ending {names(icu_headlines)[[3]]}"),
                                                 color = "blue",
                                                 icon = icon_no_warning_fn("calendar-week")),
-                                            h4(uiOutput("disclosure_statement")),
-                                            h4("Therefore, the latest week is not included in the chart below."),
+                                           #h4(uiOutput("disclosure_statement")),
+                                            #h4("Therefore, the latest week is not included in the chart below."),
+                                            h4("From 08 June 2023, these data are no longer updated and will be monitored internally by PHS as part of routine surveillance"),
                                             #h4("* indicates value has been suppressed according to PHS Statistical Disclosure Control Protocol"),
                                             # This text is hidden by css but helps pad the box at the bottom
                                             h6("hidden text for padding page"))),
