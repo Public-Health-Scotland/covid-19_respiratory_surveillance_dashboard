@@ -3,6 +3,11 @@
 
 $(document).ready( () => {
 
+  // Set tabindex = 0 for all elements to allow tabbing navigation
+  $('[tabindex]').each(function(i){
+    $(this).attr("tabindex", 0);
+  });
+
   // Making sure navbar doesn't overlap content
   // Add padding at the top of the page which is 12px bigger
   // than the navbar height
@@ -78,6 +83,11 @@ $(document).ready( () => {
      if (!(active_tab.includes("Plot") | active_tab.includes("Data"))) {
         $(document).scrollTop(0);
      }
+
+      // Set tabindex = 0 every time a tab is changed, due to bootsrap bslib library forcing to = -1, to allow tabbing navigation   https://github.com/rstudio/bslib/blob/e2de14ea9a8b6c4ef5299cc03e64b4c850391c66/inst/lib/bs-a11y-p/plugins/js/bootstrap-accessibility.js#LL240C1-L247C7
+     $('[tabindex]').each(function(i){
+        $(this).attr("tabindex", 0);
+     });
   });
 
 
