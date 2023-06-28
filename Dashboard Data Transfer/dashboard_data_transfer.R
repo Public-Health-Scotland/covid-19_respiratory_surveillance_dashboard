@@ -81,7 +81,7 @@ source("Transfer Scripts/transfer_cases.R")
 source("Transfer Scripts/transfer_ethnicity.R")
 
 ##### ICU
-source("Transfer Scripts/transfer_icu.R")
+# source("Transfer Scripts/transfer_icu.R")
 
 ##### Hosp Adms
 source("Transfer Scripts/transfer_admissions.R")

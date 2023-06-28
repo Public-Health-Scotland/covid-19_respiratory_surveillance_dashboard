@@ -69,7 +69,7 @@ tagList(h1("Metadata"),
 
                                    # Hospital admissions ----
                                    h4("Hospital admissions"),
-                                   p("COVID-19 hospital admissions are defined as: A patient’s first PCR or PCR confirmed test of the episode of infection
+                                   p("COVID-19 hospital admissions are defined as: A patient’s first PCR or LFD confirmed test of the episode of infection
                                      (including reinfections at 90 days or more after their last positive test) for COVID-19 up to 14 days prior to admission to hospital or within
                                      two days of admission. COVID-19 hospital admissions only include emergency admissions to medical or paediatric specialties,
                                      excluding emergency admissions for injuries."),
