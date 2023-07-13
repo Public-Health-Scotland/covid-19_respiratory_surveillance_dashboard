@@ -307,7 +307,7 @@ g_all_tests <- Geog_all_tests %>%
          TotalPillar1Tests	= Pillar1_tests_cumulative,
          TotalPillar2Tests = Pillar2_tests_cumulative,
          TotalLFDTests = LFD_tests_cumulative)%>%
-  mutate(Date=od_date)%>%
+  mutate(Date=od_date)%>% #Should this be od_Sunday as with weekly geog? filtering above is to OD_sunday
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
   select(Date, Geography, TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests)
 
@@ -618,9 +618,15 @@ g_weekly_hb <- g_cases_weekly %>%
   left_join(g_adms_weekly_all, by=c("week_ending", "Geography")) %>%
   select(-geography) %>%
   arrange(week_ending, Geography)%>%
-  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) # im  added to make consistent with OD output requirements
-
-write_csv(g_weekly_hb, glue(output_folder, "TEMP_weekly_HB.csv"))
+  mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%  # im  added to make consistent with OD output requirements
+  select(week_ending, Geography, GeographyQF, GeographyName,
+         PositiveTests, PositiveLFDOnlyTests, TotalTests, TotalLFDTests,
+         WeeklyPositiveCases, CumulativePositive, 
+         WeeklyPositivePCROnly, CumulativePositivePCROnly,
+         WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly, 
+         WeeklyPositivePCRAndLFD, CumulativePositivePCRAndLFD,
+         HospitalAdmissions)
+write_csv(g_weekly_hb, glue(output_folder, "TEMP_weekly_HB.csv"), na = "")  # im  added to make consistent with OD output requirements
 
 rm(g_weekly_hb)
 
@@ -631,9 +637,16 @@ g_weekly_la <- g_cases_weekly %>%
   left_join(g_all_tests_weekly, by=c("week_ending", "Geography")) %>%
   select(-geography) %>%
   arrange(week_ending, Geography)%>%
-  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) # im  added to make consistent with OD output requirements
+  mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%  # im  added to make consistent with OD output requirements
+  select(week_ending, Geography, GeographyQF, GeographyName,
+         PositiveTests, PositiveLFDOnlyTests, TotalTests, TotalLFDTests,
+         WeeklyPositiveCases, CumulativePositive, 
+         WeeklyPositivePCROnly, CumulativePositivePCROnly,
+         WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly, 
+         WeeklyPositivePCRAndLFD, CumulativePositivePCRAndLFD)
 
-write_csv(g_weekly_la, glue(output_folder, "TEMP_weekly_LA.csv"))
+write_csv(g_weekly_la, glue(output_folder, "TEMP_weekly_LA.csv"), na = "")# im  added to make consistent with OD output requirements
+
 
 rm(CA_lookup, HB_lookup, location_names, populations, SPD, i_combined_pcr_lfd_tests, pos_test_data, all_test_data,
    cases_data, g_weekly_la, g_cases_weekly, g_weekly_pos_tests,
