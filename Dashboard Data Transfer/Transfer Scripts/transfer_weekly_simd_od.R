@@ -199,6 +199,10 @@ g_simd_weekly_cases  <- df_simd %>%
 g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
   rename(Date= week_ending) %>% 
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
+
+
+write_csv(g_simd_weekly_cases_od, glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
+
   
 ##### End of script #######################################
 
