@@ -192,16 +192,17 @@ g_simd_weekly_cases  <- df_simd %>%
   mutate(CrudeRatePositive=(CumulativePositive/Pop)*100000) %>% 
   mutate(CrudeRatePositive=round_half_up(CrudeRatePositive)) %>% 
   mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d")) %>%
-  select(week_ending ,simd, PositiveLastSevendDays, 
+  mutate(Country="S92000003") %>% 
+  select(week_ending,Country, SIMDQuintile=simd, PositiveLastSevendDays, 
          CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
   
 #if not using admisions this version is ready for export
-g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
-  rename(Date= week_ending) %>% 
+g_simd_weekly_cases<-g_simd_weekly_cases %>% 
+  rename(Date= week_ending,) %>% 
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
 
 
-write_csv(g_simd_weekly_cases_od, glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
+write_csv(g_simd_weekly_cases , glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
 
   
 ##### End of script #######################################

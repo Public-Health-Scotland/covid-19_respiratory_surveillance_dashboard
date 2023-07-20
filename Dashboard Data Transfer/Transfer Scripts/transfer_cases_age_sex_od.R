@@ -11,10 +11,11 @@ od_sunday<- floor_date(today(), "week", 1) -1
 ##### create populations by age group #############################################
 
 # enter latest population year
-pop_year= 2021
+pop_year= 2021 # use to filter through entire script, only need to update 1 line when Pop ESt files updated
 
 gpd_base_path<-"/conf/linkage/output/lookups/Unicode/"
 
+# update when Pop Estimates updated
 base_hb_population <- readRDS(glue(gpd_base_path,"Populations/Estimates/HB2019_pop_est_5year_agegroups_1981_2021.rds"))%>% 
   mutate(sex=if_else(sex_name=="F", "Female", "Male"))
 
@@ -163,7 +164,7 @@ g_agegroup_60plus_sex_cases_cumulative<-g_cases_age_data  %>%
 
 #  4 cumulative by age and COMBINED SEX using age_group_scotland_60plus grouping
 g_agegroup_60plus_cases_cumulative<-g_agegroup_60plus_sex_cases_cumulative  %>% 
-  group_by(agegroup) %>% 
+  group_by(agegroup) %>%
   summarise(TotalPositive=sum(TotalPositive)) %>% 
   ungroup() %>% 
   #rename(agegroup=agegroup_scotland_60plus) %>%
@@ -199,6 +200,8 @@ g_age_sex_cases_cummulative<-bind_rows(g_agegroup_sex_cases_cumulative, g_agegro
          SexQF= if_else(Sex=="Total","d", ""),
          AgeGroupQF=if_else(SexQF=="d","d","") ) %>% 
  arrange(Sex, AgeGroup)%>% 
+  mutate(AgeGroup = recode(AgeGroup, "60+" = "60plus"),
+         AgeGroup = recode(AgeGroup, "85+" = "85plus"))%>% 
  select(Date, Country, Sex, SexQF, AgeGroup,AgeGroupQF,
         TotalPositive, CrudeRatePositive) 
 
@@ -216,7 +219,7 @@ rm(g_agegroup_sex_cases_cumulative, g_agegroup_cases_cumulative,
 Dates <- data.frame(SpecimenDate=seq(as.Date("2020-02-23"), as.Date(od_date-1), "week"))
 
 Agegroups<- data.frame(agegroup = c('0 to 14','15 to 19','20 to 24','25 to 44',
-                                    '45 to 64','65 to 74','75 to 84','85plus','0 to 59','60plus','Total'))%>%
+                                    '45 to 64','65 to 74','75 to 84','85+','0 to 59','60+','Total'))%>%
   mutate(agegroup=as.character(agegroup))
 Sex <- data.frame(sex = c('Female','Male','Total')) %>% 
   mutate(sex=as.character(sex))
@@ -308,16 +311,19 @@ g_cases_agegroup_weekly<-g_cases_age_data_weekly %>%
           mutate(Date= format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d"),
             Country="S92000003",
             SexQF= if_else(sex=="Total","d", ""),
-            AgeGroupQF=if_else(SexQF=="d","d","") ) %>% 
-     arrange(sex, agegroup)%>% 
-     select(Date, Country, Sex=sex, SexQF, AgeGroup=agegroup,AgeGroupQF,
+            AgeGroupQF=if_else(SexQF=="d","d","") ) %>%   
+     mutate(AgeGroup = recode(agegroup, "60+" = "60plus","85+" = "85plus"))%>% 
+     arrange(desc(Date), sex, agegroup)%>% 
+                select(Date, Country, Sex=sex, SexQF, AgeGroup, AgeGroupQF,
            PositiveLastSevenDays, CumulativePositive) 
    
-   
+ 
    _
-   # rm(g_cases_agegroup_sex_weekly, g_cases_agegroup_weekly,
-   #   g_agegroup_60plus_sex_cases_weekly, g_agegroup_60plus_cases_weekly,
-   #   g_total_age_sex_cases_weekly, g_total_age_total_sex_cases_weekly, df_agesex) 
+   rm(g_cases_agegroup_sex_weekly, g_cases_agegroup_weekly,
+     g_agegroup_60plus_sex_cases_weekly, g_agegroup_60plus_cases_weekly,
+     g_total_age_sex_cases_weekly, g_total_age_total_sex_cases_weekly, df_agesex) 
    
    write_csv(g_age_sex_cases_weekly_all, glue("{output_folder}TEMP_age_sex_weekly.csv"), na = "")
-   #
+   
+   
+   

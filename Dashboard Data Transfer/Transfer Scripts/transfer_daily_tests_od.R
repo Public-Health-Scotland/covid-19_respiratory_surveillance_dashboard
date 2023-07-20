@@ -42,8 +42,8 @@ od_suppression_date <- "2023-05-31"
 #bring in the most up to date version
  i_cases <- read_all_excel_sheets(glue(input_data, "Lab_Data_New_{format(report_date-2, format='%Y-%m-%d')}.xlsx"))
 
-# use until lab data new generated on a Tues
-i_cases <- read_all_excel_sheets(glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Data Folders/2023-06-28/Data/","Lab_Data_New_2023-06-27.xlsx"))
+# use until lab data new generated on a Tues. Need to change the dates to previous week's folder date  yahdeya
+#i_cases <- read_all_excel_sheets(glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Data Folders/2023-06-28/Data/","Lab_Data_New_2023-06-27.xlsx"))
 
 
 g_daily_cases_od <- i_cases$`Cumulative confirmed cases`
@@ -51,8 +51,6 @@ g_daily_cases_od <- i_cases$`Cumulative confirmed cases`
 g_daily_cases_od %<>%
   rename(DailyCases="Number of cases per day",
          CumulativeCases=Cumulative)
-
-
 
 #####  functions ########
 # work in progress to create function that will suppress all values < cset value
@@ -99,14 +97,8 @@ g_daily_raw <- i_combined_pcr_lfd_tests %>%
          derived_covid_case_type, episode_number_deduplicated, episode_derived_case_type)
 
 
-
-
-
-###### Cases data & positives #######################################
-
-#Read in cases data, match on local authority, simd and filter deduped
-g_cases_data <- g_daily_raw %>%
-  mutate(PostCode=str_replace_all(string=postcode, pattern=" ", repl=""))%>%
+##### Create  cases & test type by day  ##############################
+g_daily_cases<- g_daily_raw %>% 
   mutate(episode_number_deduplicated = replace_na(episode_number_deduplicated,0),
          flag_episode = ifelse(episode_number_deduplicated>0,1,0),
          flag_first_infection = ifelse(episode_number_deduplicated==1,1,0),
@@ -115,30 +107,48 @@ g_cases_data <- g_daily_raw %>%
   filter(!(reporting_health_board %in% c("UK (not resident in Scotland)",
                                          "Outside UK",NA))) %>%
   mutate(Date=as.Date(specimen_date)) %>% 
-  filter(Date <= as.Date(od_sunday))
+  filter(Date <= as.Date(od_sunday))%>%
+  group_by(Date)%>% 
+  summarise(daily_positive = sum(flag_episode)) %>% 
+  ungroup()
+
+
+###### Cases data & positives #######################################
+ #keep hold of this but not needed if using existing daily cases
+#Read in cases data, match on local authority, simd and filter deduped
+# g_cases_data <- g_daily_raw %>%
+#   mutate(PostCode=str_replace_all(string=postcode, pattern=" ", repl=""))%>%
+#   mutate(episode_number_deduplicated = replace_na(episode_number_deduplicated,0),
+#          flag_episode = ifelse(episode_number_deduplicated>0,1,0),
+#          flag_first_infection = ifelse(episode_number_deduplicated==1,1,0),
+#          flag_reinfection = ifelse(episode_number_deduplicated>1,1,0))%>%
+#   #filter(episode_number_deduplicated != 0) %>%
+#   filter(!(reporting_health_board %in% c("UK (not resident in Scotland)",
+#                                          "Outside UK",NA))) %>%
+#   mutate(Date=as.Date(specimen_date)) %>% 
+#   filter(Date <= as.Date(od_sunday))
 
 
 ##### make daily file #######################################
 g_scotland_test_type<- g_cases_data %>%
   group_by(Date,episode_derived_case_type)%>%
-  summarise(daily_positive = sum(flag_episode), first_infections = sum(flag_first_infection),
-            reinfections = sum(flag_reinfection))%>%
+  summarise(daily_positive = sum(flag_episode))%>%
   mutate(location_code="Scotland",sex="Total",agegroup="Total")%>%
   rename(test_type=episode_derived_case_type)
 
 g_scotland_pcr_test_type <- g_scotland_test_type %>%
   filter(test_type=="PCR POSITIVE CASE")%>%
-  select(-test_type, -first_infections, -reinfections)%>%
+  select(-test_type)%>%
   rename(PCROnly=daily_positive)
 
 g_scotland_lfd_test_type <- g_scotland_test_type %>%
   filter(test_type=="ANTIGEN POSITIVE CASE")%>%
-  select(-test_type, -first_infections, -reinfections)%>%
+  select(-test_type)%>%
   rename(LFDOnly=daily_positive)
 
 g_scotland_lfdpcr_test_type <- g_scotland_test_type %>%
   filter(test_type=="ANTIGEN AND PCR POSITIVE CASE")%>%
-  select(-test_type, -first_infections, -reinfections, )%>%
+  select(-test_type)%>%
   rename(LFDAndPCR =daily_positive, )
 
 g_daily_test_type<- g_scotland_pcr_test_type %>%
@@ -146,14 +156,13 @@ g_daily_test_type<- g_scotland_pcr_test_type %>%
   left_join(g_scotland_lfdpcr_test_type, by=c("Date","location_code", "sex", "agegroup")) %>% 
   select(-sex, -agegroup) %>%
   left_join(g_daily_cases_od, by="Date")  
+
 #work in progress to suppress values after a certain date. not clear yet if required for test types and cases
   # mutate(DailyCases= ifelse (Date > as.Date(od_suppression_date) & DailyCases <5, 0,LFDAndPCR),
   #        PCROnly= ifelse (Date > as.Date(od_suppression_date) & PCROnly <5, 0,LFDAndPCR),
   #        LFDOnly= ifelse (Date > as.Date(od_suppression_date) & LFDOnly <5, 0,LFDAndPCR),
   #        LFDAndPCR= ifelse (Date > as.Date(od_suppression_date) & LFDAndPCR <5, 0,LFDAndPCR)) %>%
 
-
-  
 #use this to add suppression columns before calculating cumulative values
 # g_daily_test_type <- g_daily_test_type %>% 
 #  group_by(location_code) %>% 
@@ -180,5 +189,5 @@ g_daily_test_type<- g_scotland_pcr_test_type %>%
  arrange(desc(Date) ) %>%
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
 
-
+  write_csv(g_daily_test_type_cumulative, glue("{output_folder}TEMPdaily_file.csv"), na = "")
 
