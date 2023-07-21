@@ -137,7 +137,7 @@ test_type_ca <- cases_data %>%
 
 Geog_all <- bind_rows(Geog, test_type_scotland, test_type_hb, test_type_ca)%>%
   left_join(populations,by=c("location_code"))%>%
-  mutate(crude_rate_positive=round_half_up((total_positive/Pop)*100000),0)%>% #  IM round to 0 d.p.
+  mutate(crude_rate_positive=round_half_up((total_positive/Pop)*100000),0)%>%
   filter(location_code!='NA')%>%
   mutate(Date=od_date)%>%
   left_join(location_names, by=c("location_code"))%>%
@@ -178,16 +178,16 @@ rm(Geog_all, Combined_geog, pcr_geog, lfd_geog, pcr_and_lfd_geog)
 
 g_total_cases <- Geog_all_cases %>%
   rename("TotalCases" = "total_positive") %>%
-  rename("TotalPCROnlyCases" = "pcr_positive") %>% #IM update to match required OD outputs
-  rename("TotalLFDOnlyCases" = "lfd_positive") %>% #IM update to match required OD outputs
-  rename("TotalLFDAndPCRCases" = "pcr_and_lfd_positive") %>% #IM update to match required OD outputs
+  rename("TotalPCROnlyCases" = "pcr_positive") %>%
+  rename("TotalLFDOnlyCases" = "lfd_positive") %>%
+  rename("TotalLFDAndPCRCases" = "pcr_and_lfd_positive") %>%
   rename("Geography" = "location_code") %>%
   rename("GeographyName" = "location_name") %>%
   rename("CrudeRatePositive" = "total_crude_rate_positive") %>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003")) %>%
   mutate(GeographyQF = if_else(Geography == "S92000003", "d", "")) %>%
   select(Date, Geography, GeographyQF, GeographyName, TotalCases, CrudeRatePositive,
-         TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases)%>% #IM update to match required OD outputs
+         TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases)%>%
   arrange(Geography)
 
 rm(Geog_all_cases)
@@ -262,7 +262,7 @@ g_pos_tests <- Geog_all_pos_tests %>%
          PositivePillar2Tests = pillar2_positive_tests,
          PositiveLFDOnlyTests = lfd_positive_tests)%>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
-  select(Date, Geography, PositiveTests, PositivePillar1Tests, PositivePillar2Tests, PositiveLFDOnlyTests) 
+  select(Date, Geography, PositiveTests, PositivePillar1Tests, PositivePillar2Tests, PositiveLFDOnlyTests)
 
 rm(Geog_all_pos_tests)
 
@@ -317,11 +317,11 @@ rm(Geog_all_tests)
 g_cumulative_geog <- g_total_cases %>%
   left_join(g_pos_tests, by=c("Date", "Geography")) %>%
   left_join(g_all_tests, by=c("Date", "Geography"))%>%
-  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) %>%  # im  added to make consistent with OD output requirements
-select(Date, Geography, GeographyQF,GeographyName, 
+  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) %>%
+select(Date, Geography, GeographyQF,GeographyName,
        TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
-       PositiveTests, PositivePillar1Tests, PositivePillar2Tests, PositiveLFDOnlyTests, 
-       TotalCases, CrudeRatePositive, TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases) # reordered so goes from tests, total tests, to cases
+       PositiveTests, PositivePillar1Tests, PositivePillar2Tests, PositiveLFDOnlyTests,
+       TotalCases, CrudeRatePositive, TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases)
 rm(g_total_cases, g_pos_tests, g_all_tests)
 
 #save out cumulative geography open data file
@@ -417,7 +417,7 @@ Geog_all_week <- Geog_week %>%
   mutate(geography=case_when(location_code=="Scotland"~"Scotland",
                              substr(location_code,1,3)=="S08"~ "Health Board",
                              substr(location_code,1,3)=="S12"~"Local Authority"))%>%
-  filter(week_ending<as.Date(od_sunday+1)) %>%  ##### this introduces an error added a plus one for now, but compare to my weekly as think I had something similar
+  filter(week_ending<=as.Date(od_sunday)) %>%
   select(week_ending, location_code, location_name, geography,
          total_weekly_positive, total_cumulative_positive, pcr_weekly_positive, pcr_cumulative_positive,
          lfd_weekly_positive, lfd_cumulative_positive, pcr_and_lfd_weekly_positive, pcr_and_lfd_cumulative_positive) %>%
@@ -618,15 +618,15 @@ g_weekly_hb <- g_cases_weekly %>%
   left_join(g_adms_weekly_all, by=c("week_ending", "Geography")) %>%
   select(-geography) %>%
   arrange(week_ending, Geography)%>%
-  mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%  # im  added to make consistent with OD output requirements
+  mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
          PositiveTests, PositiveLFDOnlyTests, TotalTests, TotalLFDTests,
-         WeeklyPositiveCases, CumulativePositive, 
+         WeeklyPositiveCases, CumulativePositive,
          WeeklyPositivePCROnly, CumulativePositivePCROnly,
-         WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly, 
+         WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly,
          WeeklyPositivePCRAndLFD, CumulativePositivePCRAndLFD,
          HospitalAdmissions)
-write_csv(g_weekly_hb, glue(output_folder, "TEMP_weekly_HB.csv"), na = "")  # im  added to make consistent with OD output requirements
+write_csv(g_weekly_hb, glue(output_folder, "TEMP_weekly_HB.csv"), na = "")
 
 rm(g_weekly_hb)
 
@@ -637,15 +637,15 @@ g_weekly_la <- g_cases_weekly %>%
   left_join(g_all_tests_weekly, by=c("week_ending", "Geography")) %>%
   select(-geography) %>%
   arrange(week_ending, Geography)%>%
-  mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%  # im  added to make consistent with OD output requirements
+  mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
          PositiveTests, PositiveLFDOnlyTests, TotalTests, TotalLFDTests,
-         WeeklyPositiveCases, CumulativePositive, 
+         WeeklyPositiveCases, CumulativePositive,
          WeeklyPositivePCROnly, CumulativePositivePCROnly,
-         WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly, 
+         WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly,
          WeeklyPositivePCRAndLFD, CumulativePositivePCRAndLFD)
 
-write_csv(g_weekly_la, glue(output_folder, "TEMP_weekly_LA.csv"), na = "")# im  added to make consistent with OD output requirements
+write_csv(g_weekly_la, glue(output_folder, "TEMP_weekly_LA.csv"), na = "")
 
 
 rm(CA_lookup, HB_lookup, location_names, populations, SPD, i_combined_pcr_lfd_tests, pos_test_data, all_test_data,
