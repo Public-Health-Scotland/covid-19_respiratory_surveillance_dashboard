@@ -20,7 +20,9 @@
 
 
 ##### lookups and values #######################################
- 
+
+# enter latest population year
+pop_year= 2021 # use to filter through entire script, only need to update 1 line when Pop ESt files updated
 
 # GPD base look_path
 gpd_base_path<-"/conf/linkage/output/lookups/Unicode/"
@@ -43,7 +45,7 @@ base_datazone_population <-  read_rds(glue(gpd_base_path,"Populations/Estimates/
 
 # Breaking down the population of each health board by SIMD quintile.
 pop_simd_hb <- base_datazone_population %>% 
-  filter(year == 2021) %>% 
+  filter(year == pop_year)  %>% 
   rename(simd= simd2020v2_sc_quintile,
          location_code = hb2019) %>%
   group_by(location_code, simd) %>% 
@@ -51,7 +53,7 @@ pop_simd_hb <- base_datazone_population %>%
 
 # Breaking down the population of each local authority by SIMD quintile.
 pop_simd_la <- base_datazone_population %>% 
-  filter(year == 2021) %>% 
+  filter(year == pop_year)  %>% 
   rename(simd = simd2020v2_sc_quintile,
          location_code = ca2019) %>%
   group_by(location_code, simd) %>% 
@@ -59,7 +61,7 @@ pop_simd_la <- base_datazone_population %>%
 
 # Breaking down the Scottish population by SIMD quintile
 pop_simd_scotland <- base_datazone_population %>% 
-  filter(year == 2021) %>% 
+  filter(year == pop_year)  %>% 
   rename(simd = simd2020v2_sc_quintile) %>% 
   mutate(location_code = "Scotland") %>% 
   group_by(location_code, simd) %>% 
@@ -80,12 +82,15 @@ od_date <- floor_date(today(), "week", 1) + 1
 od_sunday<- floor_date(today(), "week", 1) -1
 od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
 od_sunday_minus_14 <- today() - 17
-od_suppression_date <- "2023-05-31"
+# TBC
+# od_suppression_date <- "2023-05-31" 
 
 
 ##### SIMD trend dataframe #######################################
 
 # create df template containing 5 simd quintiles (plus unassinged) for each day post Dec 2019 until today
+# ensure date/simd quintile is included when there are no cases for that combination in a particular week
+
 Dates <- data.frame(SpecimenDate=seq(as.Date("2019/12/08"), as.Date(Sys.Date()), "day"))
 # #Location_codes <- read.csv("//conf/linkage/output/Covid Daily Dashboard/Tableau process/Lookups/location_codes.csv")%>%
 # #  mutate(location_code=as.character(location_code))
@@ -101,7 +106,7 @@ df_simd <- expand.grid(Date=unique(Dates$SpecimenDate) , simd=unique(SIMD$SIMD),
                        KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE) %>%
   mutate(location_code="Scotland", simd=as.character(simd))
 
-rm(Dates, SIMD, df_unassinged)
+rm(Dates, SIMD, df_unassinged) # remove building blocks
 
 
 
@@ -150,13 +155,14 @@ g_daily_raw<- i_combined_pcr_lfd_tests %>%
          derived_covid_case_type, episode_number_deduplicated, episode_derived_case_type)
 
 
-g_daily_geog_simd_test<- g_daily_raw %>%
+g_daily_geog_simd_cases<- g_daily_raw %>%
   mutate(PostCode=str_replace_all(string=postcode, pattern=" ", repl=""))%>%
   left_join(spd_simd_lookup,by="PostCode")%>%
   mutate(episode_number_deduplicated = replace_na(episode_number_deduplicated,0),
          flag_episode = ifelse(episode_number_deduplicated>0,1,0),
-         flag_first_infection = ifelse(episode_number_deduplicated==1,1,0),
-         flag_reinfection = ifelse(episode_number_deduplicated>1,1,0))%>%
+      #   flag_first_infection = ifelse(episode_number_deduplicated==1,1,0),
+      #   flag_reinfection = ifelse(episode_number_deduplicated>1,1,0)
+      )%>%
   filter(episode_number_deduplicated != 0) %>%
   filter(!(reporting_health_board %in% c("UK (not resident in Scotland)",
                                          "Outside UK",NA))) %>%
@@ -165,12 +171,14 @@ g_daily_geog_simd_test<- g_daily_raw %>%
   arrange(desc(Date)) %>% 
   mutate(location_code="Scotland") 
   
-g_simd_scotland_daily_cases <- g_daily_geog_simd_test %>%
+g_simd_scotland_daily_cases <- g_daily_geog_simd_cases %>%
   mutate(simd = replace(simd, is.na(simd), "Unknown")) %>% 
   group_by(Date,simd,location_code) %>%
   summarise(daily_positive = sum(flag_episode))
 
-##### #SIMD trend - Scotland only  #############################
+rm(spd_simd_lookup)
+
+##### #SIMD weekly - Scotland only  #############################
 
 g_simd_weekly_cases  <- df_simd %>%
   left_join(g_simd_scotland_daily_cases, by=c("Date","location_code","simd")) %>% 
@@ -197,14 +205,16 @@ g_simd_weekly_cases  <- df_simd %>%
          CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
   
 #if not using admisions this version is ready for export
-g_simd_weekly_cases<-g_simd_weekly_cases %>% 
+g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
   rename(Date= week_ending,) %>% 
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
 
 
-write_csv(g_simd_weekly_cases , glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
+write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
 
-  
+rm(df_simd, g_daily_geog_simd_cases, g_daily_raw, i_combined_pcr_lfd_tests,
+   g_simd_weekly_cases,g_simd_scotland_daily_cases, simd_populations)
+
 ##### End of script #######################################
 
 
