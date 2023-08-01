@@ -291,11 +291,11 @@ g_cases_agegroup_weekly<-g_cases_age_data_weekly %>%
   
 # 5 weekly  cases by combined age, both sexes
   g_total_age_sex_cases_weekly<-g_cases_age_data_weekly %>%
-     group_by(week_ending, sex) %>% 
+    group_by(week_ending, sex) %>% 
     summarise(PositiveLastSevenDays=sum(daily_positive)) %>% 
     ungroup() %>% 
     mutate(agegroup="Total") %>% 
-    group_by(agegroup) %>% 
+    group_by(agegroup, sex) %>% # grouping needed age group AND sex, was causing a male total error
     mutate(CumulativePositive=(cumsum(PositiveLastSevenDays))) %>% 
     ungroup 
   
@@ -335,6 +335,5 @@ g_cases_agegroup_weekly<-g_cases_age_data_weekly %>%
         
    
    write_csv(g_age_sex_cases_weekly_all_od, glue("{output_folder}TEMP_age_sex_weekly.csv"), na = "")
-   
    
    
