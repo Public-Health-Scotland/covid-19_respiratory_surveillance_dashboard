@@ -142,6 +142,7 @@ g_carehome_timeseries<-i_carehome_timeseries  %>%
          TotalQF = if_else(Total == "*", "c", ""),
          across(c(Resident, Staff, Total), function(x) if_else(x == "*", "", x)))%>%
   rename(WeekEnding="Week Ending") %>%
+  mutate(WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(WeekEnding, Resident, ResidentQF,
          Staff, StaffQF,Total, TotalQF)
 
