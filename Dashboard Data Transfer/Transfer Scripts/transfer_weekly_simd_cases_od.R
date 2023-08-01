@@ -188,12 +188,12 @@ g_simd_weekly_cases  <- df_simd %>%
   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
   ungroup() %>% 
   group_by(week_ending, simd) %>% 
-  mutate(PositiveLastSevendDays=sum(daily_positive)) %>% 
+  mutate(PositiveLastSevenDays=sum(daily_positive)) %>% 
   ungroup() %>%   
   select(-Date,-daily_positive) %>% 
   unique()%>% 
   group_by(simd) %>% 
-  mutate(CumulativePositive=(cumsum(PositiveLastSevendDays))) %>% 
+  mutate(CumulativePositive=(cumsum(PositiveLastSevenDays))) %>% 
   ungroup %>% 
   arrange(desc(week_ending), simd) %>% 
   left_join(simd_populations, by=c("location_code","simd")) %>% 
@@ -201,7 +201,7 @@ g_simd_weekly_cases  <- df_simd %>%
   mutate(CrudeRatePositive=round_half_up(CrudeRatePositive)) %>% 
   mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d")) %>%
   mutate(Country="S92000003") %>% 
-  select(week_ending,Country, SIMDQuintile=simd, PositiveLastSevendDays, 
+  select(week_ending,Country, SIMDQuintile=simd, PositiveLastSevenDays, 
          CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
   
 #if not using admisions this version is ready for export

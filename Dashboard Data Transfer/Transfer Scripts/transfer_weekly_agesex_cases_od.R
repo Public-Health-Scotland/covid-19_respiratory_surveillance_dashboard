@@ -192,7 +192,7 @@ g_total_age_total_sex_cases_cumulative<-g_total_age_sex_cases_cumulative  %>%
    left_join(pop_total_total, by=(c("agegroup", "sex", "location_code")))
 
 #combine all cumulative by aga-group and sex combinations and format for open data
-g_age_sex_cases_cummulative_od<-bind_rows(g_agegroup_sex_cases_cumulative, g_agegroup_cases_cumulative,
+g_age_sex_cases_cumulative_od<-bind_rows(g_agegroup_sex_cases_cumulative, g_agegroup_cases_cumulative,
                                g_agegroup_60plus_sex_cases_cumulative, g_agegroup_60plus_cases_cumulative,
                                g_total_age_sex_cases_cumulative,g_total_age_total_sex_cases_cumulative) %>% 
   rename(Sex=sex,
@@ -208,7 +208,7 @@ g_age_sex_cases_cummulative_od<-bind_rows(g_agegroup_sex_cases_cumulative, g_age
  select(Date, Country, Sex, SexQF, AgeGroup,AgeGroupQF,
         TotalPositive, CrudeRatePositive) 
 
-write_csv(g_age_sex_cases_cummulative_od, glue("{output_folder}TEMP_age_sex_cummulative.csv"), na = "")
+write_csv(g_age_sex_cases_cumulative_od, glue("{output_folder}TEMP_age_sex_cumulative.csv"), na = "")
 
 rm(g_agegroup_sex_cases_cumulative, g_agegroup_cases_cumulative,
    g_agegroup_60plus_sex_cases_cumulative, g_agegroup_60plus_cases_cumulative,
