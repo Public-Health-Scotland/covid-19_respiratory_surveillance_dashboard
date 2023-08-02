@@ -11,9 +11,7 @@ od_sunday<- floor_date(today(), "week", 1) -1
 ##### create populations by age group #############################################
 
 # enter latest population year
- # use to filter through entire script, only need to update 1 line when Pop ESt files updated
-
-pop_year= 2021
+pop_year= 2021# use to filter through entire script, only need to update 1 line when Pop Est files updated
 
 gpd_base_path<-"/conf/linkage/output/lookups/Unicode/"
 
@@ -93,10 +91,7 @@ g_cases_raw<- i_combined_pcr_lfd_tests %>%
          test_result_record_source, laboratory_code, pillar, flag_covid_case,
          derived_covid_case_type, episode_number_deduplicated, episode_derived_case_type) %>% 
   mutate(episode_number_deduplicated = replace_na(episode_number_deduplicated,0),
-         flag_episode = ifelse(episode_number_deduplicated>0,1,0),
-         # flag_first_infection = ifelse(episode_number_deduplicated==1,1,0),
-         # flag_reinfection = ifelse(episode_number_deduplicated>1,1,0)
-         )%>%
+         flag_episode = ifelse(episode_number_deduplicated>0,1,0))%>%
   #filter(episode_number_deduplicated != 0) %>%
   filter(!(reporting_health_board %in% c("UK (not resident in Scotland)",
                                          "Outside UK",NA))) %>%
@@ -295,7 +290,7 @@ g_cases_agegroup_weekly<-g_cases_age_data_weekly %>%
     summarise(PositiveLastSevenDays=sum(daily_positive)) %>% 
     ungroup() %>% 
     mutate(agegroup="Total") %>% 
-    group_by(agegroup, sex) %>% # grouping needed age group AND sex, was causing a male total error
+    group_by(agegroup, sex) %>% 
     mutate(CumulativePositive=(cumsum(PositiveLastSevenDays))) %>% 
     ungroup 
   

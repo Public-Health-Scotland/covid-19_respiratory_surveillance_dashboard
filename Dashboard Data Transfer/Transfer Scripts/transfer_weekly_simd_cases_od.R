@@ -92,8 +92,7 @@ od_sunday_minus_14 <- today() - 17
 # ensure date/simd quintile is included when there are no cases for that combination in a particular week
 
 Dates <- data.frame(SpecimenDate=seq(as.Date("2019/12/08"), as.Date(Sys.Date()), "day"))
-# #Location_codes <- read.csv("//conf/linkage/output/Covid Daily Dashboard/Tableau process/Lookups/location_codes.csv")%>%
-# #  mutate(location_code=as.character(location_code))
+
 SIMD <- data.frame(SIMD=seq(1,5,1)) %>% 
   mutate(SIMD=as.character(SIMD))
 
@@ -112,27 +111,27 @@ rm(Dates, SIMD, df_unassinged) # remove building blocks
 
 #### Functions ###########################################
 
-od_suppress_value <- function(data, col_name) {
-  
-  needs_suppressed = data[[col_name]] == "" | (data[[col_name]]<5)
-  
-  data %>% 
-    mutate(data[col_name] == if_else(
-      needs_suprressed, 0, data[col_name]
-    ))
-  
-}
-
-od_qualifiers <- function(data, col_name, symbol) {
-  
-  needs_symbol = data[[col_name]] == "" | is.na(data[[col_name]])
-  
-  data %>% 
-    mutate("{col_name}QF" := if_else(
-      needs_symbol, symbol, ""
-    ))
-  
-}
+# od_suppress_value <- function(data, col_name) {
+#   
+#   needs_suppressed = data[[col_name]] == "" | (data[[col_name]]<5)
+#   
+#   data %>% 
+#     mutate(data[col_name] == if_else(
+#       needs_suprressed, 0, data[col_name]
+#     ))
+#   
+# }
+# 
+# od_qualifiers <- function(data, col_name, symbol) {
+#   
+#   needs_symbol = data[[col_name]] == "" | is.na(data[[col_name]])
+#   
+#   data %>% 
+#     mutate("{col_name}QF" := if_else(
+#       needs_symbol, symbol, ""
+#     ))
+#   
+# }
 
 
 #### Cases ##############################
@@ -159,10 +158,7 @@ g_daily_geog_simd_cases<- g_daily_raw %>%
   mutate(PostCode=str_replace_all(string=postcode, pattern=" ", repl=""))%>%
   left_join(spd_simd_lookup,by="PostCode")%>%
   mutate(episode_number_deduplicated = replace_na(episode_number_deduplicated,0),
-         flag_episode = ifelse(episode_number_deduplicated>0,1,0),
-      #   flag_first_infection = ifelse(episode_number_deduplicated==1,1,0),
-      #   flag_reinfection = ifelse(episode_number_deduplicated>1,1,0)
-      )%>%
+         flag_episode = ifelse(episode_number_deduplicated>0,1,0))%>%
   filter(episode_number_deduplicated != 0) %>%
   filter(!(reporting_health_board %in% c("UK (not resident in Scotland)",
                                          "Outside UK",NA))) %>%
@@ -204,7 +200,7 @@ g_simd_weekly_cases  <- df_simd %>%
   select(week_ending,Country, SIMDQuintile=simd, PositiveLastSevenDays, 
          CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
   
-#if not using admisions this version is ready for export
+#if not using admissions this version is ready for export
 g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
   rename(Date= week_ending,) %>% 
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
@@ -306,57 +302,6 @@ rm(df_simd, g_daily_geog_simd_cases, g_daily_raw, i_combined_pcr_lfd_tests,
 #   arrange(week_ending, location_code) %>%
 #   rename(Geography = location_code, GeographyName = location_name)
 
-
-
-
-# simd_weekly_cases_v2<- g_daily_casess_geog_simd %>%
-#   mutate(simd = replace(simd, is.na(simd), "Unknown")) %>% 
-#   mutate_if(is.numeric, ~replace_na(., 0)) %>% 
-#   group_by(Date,simd)%>%
-#   summarise(daily_positive = sum(flag_episode))%>%
-#   mutate(location_code="Scotland") %>% 
-#   ungroup() %>% 
-#   filter(Date>as.Date("2020/02/27") & Date<as.Date(od_date-1)) %>% 
-#   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
-#   group_by(week_ending, simd) %>% 
-#   mutate(PositiveLastSevendDays=sum(daily_positive)) %>% 
-#   ungroup %>% 
-#   select(-Date,-daily_positive) %>% 
-#   unique() %>% 
-#   group_by(simd) %>% 
-#   mutate(CumulativePositive=cumsum(PositiveLastSevendDays)) %>% 
-#   ungroup %>% 
-#   arrange(desc(week_ending), simd) %>% 
-#   left_join(simd_populations, by=c("location_code","simd")) %>% 
-#   mutate(CrudeRatePositive=(CumulativePositive/Pop)*100000) %>% 
-#   mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d"))
-
-# 
-# 
-# 
-# simd_trend <- df_simd %>%
-#   left_join(simd_scotland_trend, by=c("Date","location_code","simd"))%>%
-#   mutate_if(is.numeric, ~replace_na(., 0))%>%
-#   arrange(simd, location_code, Date)%>%
-#   group_by(simd, location_code)%>%
-#   mutate(cumulative_positive=cumsum(daily_positive)) %>% #,
-#      #    first_infections_cumulative = cumsum(first_infections_daily),
-#       #   reinfections_cumulative = cumsum(reinfections_daily))%>%
-#   # mutate(percentage_reinfections_daily = 100*reinfections_daily/daily_positive,
-#   #        percentage_reinfections_cumulative = 100*reinfections_cumulative/cumulative_positive)%>%
-#    filter(cumulative_positive!=0)%>%
-#   left_join(simd_pop_lookup,by=c("location_code","simd"))%>%
-#   mutate(cumulative_crude_rate_positive=(cumulative_positive/Pop)*100000,
-#          daily_crude_rate_positive=(daily_positive/Pop)*100000)%>%
-#   mutate(location_name="Scotland", geography="Scotland")%>% 
-#   filter(Date>as.Date("2020/02/27") & Date<as.Date(od_date-1))%>% # check what original 2nd date filter  pointed to : Date<as.Date(yesterday)
-#   select(Date, location_code, location_name, geography, simd, Pop, daily_positive, cumulative_positive,
-#          daily_crude_rate_positive, cumulative_crude_rate_positive)
-#          #first_infections_daily,
-#          #first_infections_cumulative, 
-#          #reinfections_daily, 
-#          #reinfections_cumulative,
-#       #percentage_reinfections_daily, percentage_reinfections_cumulative)
 
 
 
