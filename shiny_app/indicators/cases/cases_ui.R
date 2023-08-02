@@ -48,6 +48,9 @@ tagList(
 
   fluidRow(width = 12,
            tagList(h2("Seven day average trend in wastewater COVID-19"),
+                   h4(glue("Please note, due to technical issues at BioSS, there is no ",
+                           "update for wastewater this week. The last available data is ",
+                           "week ending 07 July 2023.")),
                    tags$div(class = "headline",
                             h3(glue("Figure from week ending {Wastewater %>% tail(1) %>%
                 .$Date %>% convert_opendata_date() %>% format('%d %b %y')}")),
