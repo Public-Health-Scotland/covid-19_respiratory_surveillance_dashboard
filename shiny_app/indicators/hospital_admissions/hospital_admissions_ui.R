@@ -15,17 +15,17 @@ tagList(
 
                                             valueBox(value = glue("{admissions_headlines[[1]]}*"),
                                                      subtitle = glue("Week ending {names(admissions_headlines)[[1]]}"),
-                                                     color = "blue",
+                                                     color = "navy",
                                                      icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {admissions_headlines[[2]] %>%
                                                 format(big.mark = ",")},
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[2]]}"),
-                                                color = "blue",
+                                                color = "navy",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             valueBox(value = {admissions_headlines[[3]] %>%
                                                 format(big.mark = ",")},
                                                 subtitle = glue("Week ending {names(admissions_headlines)[[3]]}"),
-                                                color = "blue",
+                                                color = "navy",
                                                 icon = icon_no_warning_fn("calendar-week")),
                                             h4("* provisional figures",
                                                actionButton("glossary",
@@ -86,15 +86,15 @@ tagList(
                                             valueBox(value = glue("{Length_of_Stay_Median %>% filter(AgeGroup == 'All Ages') %>%
                                                 .$MedianLengthOfStay %>%round_half_up(1)} days"),
                                                      subtitle = glue("All ages"),
-                                                     color = "blue",
+                                                     color = "navy",
                                                      icon = icon_no_warning_fn("clock")),
                                             valueBox(value = glue("{los_median_min$MedianLengthOfStay %>% round_half_up(1)} days"),
                                                 subtitle = glue("Shortest median stay ({los_median_min$AgeGroup})"),
-                                                color = "blue",
+                                                color = "navy",
                                                 icon = icon_no_warning_fn("clock")),
                                             valueBox(value = glue("{los_median_max$MedianLengthOfStay %>% round_half_up(1)} days"),
                                                 subtitle = glue("Longest median stay ({los_median_max$AgeGroup})"),
-                                                color = "blue",
+                                                color = "navy",
                                                 icon = icon_no_warning_fn("clock")),
                                             # This text is hidden by css but helps pad the box at the bottom
                                             h6("hidden text for padding page"))),
@@ -126,56 +126,6 @@ tagList(
                            )
 
                            ),
-
-                  tabPanel("ICU admissions",
-                           tagList(h2("Number of COVID-19 admissions to Intensive Care Units (ICU)"),
-                                   tags$div(class = "headline",
-                                            h3("Weekly totals from last three weeks"),
-                                            valueBox(value = {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(is.na(NewCovidAdmissionsPerWeek),
-                                                                                                                       "*", NewCovidAdmissionsPerWeek)) %>%
-                                                filter(row_number() == nrow(ICU_weekly)) %>% .$NewCovidAdmissionsPerWeek},
-                                                     subtitle = glue("Week ending {names(icu_headlines)[[1]]}"),
-                                                     color = "blue",
-                                                     icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(is.na(NewCovidAdmissionsPerWeek),
-                                                                                                                       "*", NewCovidAdmissionsPerWeek)) %>%
-                                                filter(row_number() == nrow(ICU_weekly)-1) %>% .$NewCovidAdmissionsPerWeek},
-                                                     subtitle = glue("Week ending {names(icu_headlines)[[2]]}"),
-                                                     color = "blue",
-                                                     icon = icon_no_warning_fn("calendar-week")),
-                                            valueBox(value = {ICU_weekly %>% mutate(NewCovidAdmissionsPerWeek = ifelse(is.na(NewCovidAdmissionsPerWeek),
-                                                                                                                       "*", NewCovidAdmissionsPerWeek)) %>%
-                                                filter(row_number() == nrow(ICU_weekly)-2) %>% .$NewCovidAdmissionsPerWeek},
-                                                subtitle = glue("Week ending {names(icu_headlines)[[3]]}"),
-                                                color = "blue",
-                                                icon = icon_no_warning_fn("calendar-week")),
-                                           #h4(uiOutput("disclosure_statement")),
-                                            #h4("Therefore, the latest week is not included in the chart below."),
-                                            h4("From 08 June 2023, these data are no longer updated and will be monitored internally by PHS as part of routine surveillance"),
-                                            #h4("* indicates value has been suppressed according to PHS Statistical Disclosure Control Protocol"),
-                                            # This text is hidden by css but helps pad the box at the bottom
-                                            h6("hidden text for padding page"))),
-
-                           linebreaks(1),
-
-                           tabBox(width = NULL, type = "pills",
-                                  tabPanel("Plot",
-                                           tagList(
-                                             linebreaks(1),
-                                             altTextUI("icu_admissions_modal"),
-                                             withNavySpinner(
-                                               plotlyOutput("icu_admissions_plot"))
-                                           )
-                                  ),
-                                  tabPanel("Data",
-                                           tagList(
-                                             withNavySpinner(
-                                               dataTableOutput("icu_admissions_table")
-                                             )
-                                           )
-                                  ) # tabpanel
-
-                           )),
 
                   tabPanel("Acute hospital admissions by ethnicity",
                            tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),

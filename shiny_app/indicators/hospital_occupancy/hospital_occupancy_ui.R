@@ -12,18 +12,18 @@ tagList(
                    tags$div(class = "headline",
                             h3(glue("Hospital occupancy (inpatients) on the Sunday of the latest three weeks available")),
                             valueBox(#value = glue("{occupancy_headlines[[1]]$HospitalOccupancy %>% format(big.mark=",")}*"),
-                              value = {occupancy_headlines[[1]]$HospitalOccupancy %>% format(big.mark=",")},       
+                              value = {occupancy_headlines[[1]]$HospitalOccupancy %>% format(big.mark=",")},
                               subtitle = glue("As at {names(occupancy_headlines)[[1]]}"),
-                                     color = "fuchsia",
+                                     color = "navy",
                                      icon = icon_no_warning_fn("calendar-week")),
                             valueBox(#value = glue("{occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")}*"),
-                              value = {occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")},       
+                              value = {occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")},
                               subtitle = glue("As at {names(occupancy_headlines)[[2]]}"),
-                                     color = "fuchsia",
+                                     color = "navy",
                                      icon = icon_no_warning_fn("calendar-week")),
                             valueBox(value = {occupancy_headlines[[3]]$HospitalOccupancy %>% format(big.mark=",")},
                                      subtitle = glue("As at {names(occupancy_headlines)[[3]]}"),
-                                     color = "fuchsia",
+                                     color = "navy",
                                      icon = icon_no_warning_fn("calendar-week")),
                             h4("*Change to inpatient definition from 08 May 2023 (max number 10 days)"),
                             # This text is hidden by css but helps pad the box at the bottom
@@ -53,56 +53,6 @@ tagList(
 
   fluidRow(
     br()),
-
-  fluidRow(width = 12,
-           tagList(h2("7 day average number of patients with COVID-19 in Intensive Care Units (ICU)"),
-                   tags$div(class = "headline",
-                            h3(glue("Figures from week ending {Occupancy_ICU %>%
-                                              mutate(Date = convert_opendata_date(Date)) %>%
-                                              filter(Date <= floor_date(today(), 'week')) %>%
-                                              tail(1) %>%
-                                             .$Date %>% format('%d %b %y')}")),
-                            fluidRow(column(12,valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "28 days or less") %>%  tail(1) %>%
-                                .$SevenDayAverage},
-                                subtitle = "in ICU for 28 days or less",
-                                color = "fuchsia",
-                                icon = icon_no_warning_fn("bed")),
-                                valueBox(value = {Occupancy_ICU %>% filter(ICULengthOfStay == "greater than 28 days") %>%  tail(1) %>%
-                                    .$SevenDayAverage},
-                                    subtitle = "in ICU for more than 28 days",
-                                    color = "fuchsia",
-                                    icon = icon_no_warning_fn("bed-pulse")))),
-                            # This text is hidden by css but helps pad the box at the bottom
-                            # h6("hidden text for padding page"),
-                            # linebreaks(6),
-                            p("From 08 May 2023, manual data collections from NHS Boards on the number of patients in ICU paused. These data are no longer updated. "),
-                            br()
-                   )),
-           linebreaks(1)),
-
-  fluidRow(width = 12,
-           tabBox(width = NULL,
-                  type = "pills",
-                  tabPanel("Plot",
-                           tagList(linebreaks(1),
-                                   altTextUI("icu_occupancy_modal"),
-                                   linebreaks(1),
-                                   withNavySpinner(plotlyOutput("icu_occupancy_plot")),
-                                   linebreaks(4)
-                           ) # taglist
-                  ), # tabpanel
-
-                  tabPanel("Data",
-                           tagList(h3("Number of patients with COVID-19 in Intensive Care Units (ICU) data"),
-                                   withNavySpinner(dataTableOutput("ICU_occupancy_table"))
-                           ) # taglist
-                  ) # tabpanel
-           ) #tabbox
-
-  ), # fluid row
-
-  fluidRow(
-    br())
 
 ) # taglist
 
