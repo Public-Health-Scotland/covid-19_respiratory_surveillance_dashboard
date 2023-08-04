@@ -61,14 +61,14 @@ ui <- fluidPage(
       ##############################################.
       # CASES ----
       ##############################################.
-      tabPanel(title = "COVID-19 cases",
-               # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("virus-covid"),
-               value = "cases",
+ #     tabPanel(title = "COVID-19 cases",
+ #              # Look at https://fontawesome.com/search?m=free for icons
+ #              icon = icon_no_warning_fn("virus-covid"),
+ #              value = "cases",
 
-               source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value
+ #              source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value
 
-      ), # tabpanel
+ #     ), # tabpanel
       ##############################################.
       # ADMISSIONS ----
       ##############################################.
@@ -77,7 +77,7 @@ ui <- fluidPage(
                icon = icon_no_warning_fn("hospital-user"),
                value = "hospital_admissions",
 
-               source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
+        #       source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
 
       ), # tabpanel
       ##############################################.
@@ -88,7 +88,7 @@ ui <- fluidPage(
                icon = icon_no_warning_fn("bed-pulse"),
                value = "hospital_occupancy",
 
-               source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
+            #   source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
 
       ), # tabpanel
       ##############################################.
@@ -102,6 +102,51 @@ ui <- fluidPage(
                source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
 
             ), # tabpanel
+ ##############################################.
+ # RESPIRATORY PATHOGENS ----
+ ##############################################.
+ tabPanel(title ="Respiratory pathogens",
+          # Look at https://fontawesome.com/search?m=free for icons
+          icon = icon_no_warning_fn("virus"),
+          value = "repiratory_pathogens",
+          navlistPanel(widths = c(2,10), id = "respiratory_pathogens_panel", #icon = icon_no_warning_fn("spa")
+
+                       tabPanel(title = "COVID-19",
+                                value = "covid_19",
+                                br(),
+                                radioGroupButtons("covid19_select", status = "home",
+                                                  choices = c("Infection levels", "Hospital admissions", "Hospital occupancy", "Archive"),
+                                                  direction = "horizontal", justified = F),
+                                conditionalPanel(condition="input.covid19_select=='Infection levels'",
+                                                 source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value),
+                                conditionalPanel(condition="input.covid19_select=='Hospital admissions'",
+                                                 source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value),
+                                conditionalPanel(condition="input.covid19_select=='Hospital occupancy'",
+                                                 source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value),
+                                conditionalPanel(condition="input.covid19_select=='Archive'",
+                                                 source(file.path("indicators/Archive/archive_ui.R"), local = TRUE)$value)
+                       ),
+                       tabPanel(title = "Influenza",
+                                value = "influenza",
+                                h1("Influenza")),
+                       tabPanel(title = "RSV",
+                                value = "rsv",
+                                h1("RSV")),
+                       tabPanel(title = "Adenovirus",
+                                value = "adenovirus",
+                                h1("Adenovirus")),
+                       tabPanel(title = "HMPV",
+                                value = "hmpv",
+                                h1("HMPV")),
+                       tabPanel(title = "Parainfluenza",
+                                value = "parainfluenza",
+                                h1("Parainfluenza")),
+                       tabPanel(title = "Rhinovirus",
+                                value = "rhinovirus",
+                                h1("Rhinovirus"))
+          ) # navbarlistPanel
+          #
+ ),#tabPanel
       ##############################################.
       # METADATA ----
       ##############################################.
@@ -123,8 +168,7 @@ ui <- fluidPage(
 
                source(file.path("indicators/download/download_ui.R"), local = TRUE)$value
 
-      ) # tabpanel
-      #
+      ), # tabpanel
     ) # navbar
   ) # taglist
 ) # ui fluidpage
