@@ -25,10 +25,10 @@ make_occupancy_plots <- function(data, occupancy) {
                  hovertemplate = "%{text}",
                  height = 500)%>%
       add_lines(y = ~HospitalOccupancy,
-                line = list(color = phs_colours("phs-magenta-30")),
+                line = list(color = phs_colours("phs-blue-30")),
                 name = 'Number of people in hospital') %>%
       add_lines(y = ~SevenDayAverage, name = '7 day average',
-                line = list(color = phs_colours("phs-magenta"),
+                line = list(color = "navy",
                             dash = "dash",
                             width = 2)) %>%
       add_lines_and_notes(dataframe = data,
@@ -50,7 +50,7 @@ make_occupancy_plots <- function(data, occupancy) {
     p <- plot_ly(data, x = ~Date, y = ~y_axis,
                  textposition = "none",
                  color = ~ICULengthOfStay,
-                 colors = phs_colours(c("phs-magenta", "phs-purple")),
+                 colors = c(phs_colours("phs-blue"), "navy"),
                  text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
                                 "<b>Length of stay in ICU</b>: ", ICULengthOfStay, "\n",
                                 "<b>7 day average number of People in ICU</b>: ", format(SevenDayAverage, big.mark=","), "\n"),

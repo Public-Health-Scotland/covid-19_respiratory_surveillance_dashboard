@@ -141,4 +141,4 @@
 .small-box.bg-olive { background-color:var(--phs-graphite); !important; color:#000000 !important; }
 .small-box.bg-teal { background-color:var(--phs-teal); !important; color:#000000 !important; }
 .small-box.bg-red { background-color:var(--phs-rust); !important; color:#000000 !important; }
-
+.small-box.bg-navy { background-color:#010068; !important; color:#000000 !important; }

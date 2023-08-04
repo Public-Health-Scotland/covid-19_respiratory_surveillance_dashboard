@@ -51,7 +51,7 @@ make_hospital_admissions_plot <- function(data){
               text = tooltip_trend, hoverinfo = "text",
               name = "Daily hospital admissions") %>%
     add_lines(y = ~SevenDayAverage,
-              line = list(color = phs_colours("phs-blue"),
+              line = list(color = "navy",
                           dash = "dash"),
               text = tooltip_trend, hoverinfo = "text",
               name = "7 day average") %>%
@@ -275,7 +275,7 @@ make_icu_admissions_plot <- function(data){
               text = tooltip_trend, hoverinfo = "text",
               name = "ICU admissions") %>%
     add_lines(y = ~SevenDayAverage,
-              line = list(color = phs_colours("phs-blue"),
+              line = list(color = "navy",
                           dash = "dash"),
               text = tooltip_trend, hoverinfo = "text",
               name = "7 day average") %>%
@@ -295,30 +295,30 @@ make_icu_admissions_plot <- function(data){
 
 # Daily ICU admissions plot
 make_icu_admissions_weekly_plot <- function(data){
-  
+
   # Wrangle Data
   data <- data %>%
     arrange(desc(WeekEndingFirstICUAdmission)) %>%
     mutate(WeekEndingFirstICUAdmission = convert_opendata_date(WeekEndingFirstICUAdmission)) %>%
     select(WeekEndingFirstICUAdmission, NewCovidAdmissionsPerWeek)
-  
+
   yaxis_plots[["title"]] <- "Number of ICU admissions"
   xaxis_plots[["title"]] <- "Week ending of admission"
-  
+
   # Adding slider
   xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
-  
+
   #Text for tooltip
   tooltip_trend <- c(paste0("Week ending: ", format(data$WeekEndingFirstICUAdmission, "%d %b %y"),
                             "<br>", "ICU admissions: ", data$NewCovidAdmissionsPerWeek))
-  
-  
+
+
   #Creating time trend plot
   p <- plot_ly(data,
                x = ~WeekEndingFirstICUAdmission) %>%
     add_lines(y = ~NewCovidAdmissionsPerWeek,
-              line = list(color = phs_colours("phs-blue")),
+              line = list(color = "navy"),
               text = tooltip_trend, hoverinfo = "text",
               name = "ICU admissions") %>%
     #Layout
@@ -329,8 +329,8 @@ make_icu_admissions_weekly_plot <- function(data){
            plot_bgcolor = phs_colours("phs-liberty-10")) %>% #position of legend
     # leaving only save plot button
     config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )
-  
+
   return(p)
-  
+
 }
 
