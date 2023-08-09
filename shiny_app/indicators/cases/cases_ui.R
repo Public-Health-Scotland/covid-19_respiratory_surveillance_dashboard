@@ -48,9 +48,9 @@ tagList(
 
   fluidRow(width = 12,
            tagList(h2("Seven day average trend in wastewater COVID-19"),
-                   h4(glue("Please note, due to technical issues at BioSS, there is no ",
+                   p(tags$b(glue("Please note, due to technical issues at BioSS, there is no ",
                            "update for wastewater this week. The last available data is ",
-                           "week ending 07 July 2023.")),
+                           "week ending 07 July 2023."))),
                    tags$div(class = "headline",
                             h3(glue("Figure from week ending {Wastewater %>% tail(1) %>%
                 .$Date %>% convert_opendata_date() %>% format('%d %b %y')}")),
@@ -92,6 +92,9 @@ tagList(
 
   fluidRow(width = 12,
            tagList(h2("Reported COVID-19 cases"),
+                   p(tags$b(glue("Please note, due to data flow issues within the COVID testing IT infrastructure, ",
+                                 "impacting the COVID-19 PCR and LFD tests, cases and hospital admissions, there is ",
+                                 "no updated data available this week. "))),
                    tabBox(width = NULL,
                           type = "pills",
                           tabPanel("Plot",

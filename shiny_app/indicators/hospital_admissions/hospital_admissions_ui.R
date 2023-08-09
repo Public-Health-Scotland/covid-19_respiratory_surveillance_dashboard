@@ -3,7 +3,10 @@ tagList(
            metadataButtonUI("hospital_admissions"),
            linebreaks(1),
            h1("Acute COVID-19 hospital admissions"),
-           linebreaks(1)),
+           # linebreaks(1),
+           p(tags$b(glue("Please note, due to data flow issues within the COVID testing IT infrastructure, ",
+                         "impacting the COVID-19 PCR and LFD tests, cases and hospital admissions, there is ",
+                         "no updated data available this week. "))),),
 
   fluidRow(width = 12,
            tabBox(width = NULL,
