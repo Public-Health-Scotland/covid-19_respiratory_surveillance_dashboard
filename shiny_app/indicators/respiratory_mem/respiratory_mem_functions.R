@@ -170,7 +170,10 @@ create_mem_linechart <- function(data,
           xanchor="center",  
           yanchor="bottom" 
         )
-      ))
+      )) %>%
+    
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
   
   return(mem_linechart)
   
@@ -403,7 +406,9 @@ create_mem_heatmap <- function(data = df,
     nrows = 2,
     titleX = TRUE,
     titleY = TRUE # Display the Y-axis title for the subplot
-  )
+  ) %>%
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
   
   return(subplot_heatmap)
   
