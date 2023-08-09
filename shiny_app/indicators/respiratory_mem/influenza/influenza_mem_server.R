@@ -65,10 +65,10 @@ altTextServer("influenza_mem_modal",
                                 tags$li(glue("Activity levels for influenza based on MEM thresholds are represented by different coloured panels on the plot. ",
                                         "The activity levels and MEM thresholds for influenza are: ",
                                         "Baseline (< ", influenza_low_threshold, "), ",
-                                        "Low (", influenza_low_threshold, "-", influenza_moderate_threshold, "), ",
-                                        "Moderate (", influenza_moderate_threshold, "-", influenza_high_threshold, "), ",
-                                        "High (", influenza_high_threshold, "-", influenza_extraordinary_threshold, "), and ",
-                                        "Extraordinary (> ", influenza_extraordinary_threshold, ")."))))
+                                        "Low (", influenza_low_threshold, "-", influenza_moderate_threshold-0.01, "), ",
+                                        "Moderate (", influenza_moderate_threshold, "-", influenza_high_threshold-0.01, "), ",
+                                        "High (", influenza_high_threshold, "-", influenza_extraordinary_threshold-0.01, "), and ",
+                                        "Extraordinary (>= ", influenza_extraordinary_threshold, ")."))))
 
 altTextServer("influenza_mem_hb_modal",
               title = "Influenza incidence rate per 100,000 population by NHS Health Board",
