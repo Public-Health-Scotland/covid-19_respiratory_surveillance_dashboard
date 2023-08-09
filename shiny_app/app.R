@@ -128,7 +128,12 @@ ui <- fluidPage(
                        ),
                        tabPanel(title = "Influenza",
                                 value = "influenza",
-                                h1("Influenza")),
+                                br(),
+                                radioGroupButtons("influenza_select", status = "home",
+                                                  choices = c("Infection levels"),
+                                                  direction = "horizontal", justified = F),
+                                conditionalPanel(condition="input.influenza_select=='Infection levels'",
+                                                 source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value)),
                        tabPanel(title = "RSV",
                                 value = "rsv",
                                 h1("RSV")),
@@ -200,7 +205,8 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory/respiratory_functions.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
-
+  source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
+  
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_server.R"), local = TRUE)$value
@@ -210,6 +216,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
 
 }
 #sets language right at the top of source (required this way for screen readers)

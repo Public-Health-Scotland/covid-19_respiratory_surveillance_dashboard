@@ -21,6 +21,7 @@ library(shinymanager)
 library(gotop)
 library(R.utils)
 library(lubridate)
+library(png)
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -153,5 +154,31 @@ this_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DateThisWeek[1])
 prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DatePreviousWeek[1])
 
 
+
+#### Respiratory MEM ####
+
+# Static legend for MEM plots
+mem_legend <- readPNG("www/MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
+
+# Activity levels
+activity_levels <- c("Baseline", "Low", "Moderate", "High", "Extraordinary")
+
+# Colours for thresholds
+activity_level_colours <- c("#01A148", "#FFDE17", "#F36523", "#ED1D24", "#7D4192")
+
+# Colours for lines on line chart
+mem_line_colours <- c("#010101", "#A35000", "#00FF1A", "#004785","#00a2e5",
+                      "#376C31", "#FF0000")
+
+# Isoweeks from week 40 to 39
+mem_isoweeks <- c(40:52, 1:39)
+# Weeks in order from 1 to 52
+mem_week_order <- c(1:52)
+
+# Age groups
+mem_age_groups <- c("< 1", "1-4", "5-14", "15-44", "45-64", "65-74", 
+                    "75+", "All Ages")
+mem_age_groups_full <- c("< 1 years", "1-4 years", "5-14 years", "15-44 years", 
+                         "45-64 years", "65-74 years", "75+ years", "All Ages")
 
 
