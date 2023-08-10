@@ -508,7 +508,7 @@ g_weekly_pos_tests <- Geog_weekly_all_pos_tests %>%
          PositivePillar2Tests = pillar2_weekly_positive_tests,
          PositiveLFDOnlyTests = lfd_weekly_positive_tests)%>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
-  select(week_ending, Geography, PositiveTests, PositiveLFDOnlyTests)
+  select(week_ending, Geography, PositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDOnlyTests)
 
 rm(Geog_weekly_all_pos_tests)
 
@@ -555,7 +555,7 @@ g_all_tests_weekly <- Geog_weekly_all_tests %>%
          TotalLFDTests = LFD_tests_weekly)%>%
   mutate(Date=od_date)%>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
-  select(week_ending, Geography, TotalTests, TotalLFDTests)
+  select(week_ending, Geography, TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests)
 
 rm(Geog_weekly_all_tests)
 
@@ -620,7 +620,8 @@ g_weekly_hb <- g_cases_weekly %>%
   arrange(week_ending, Geography)%>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
-         PositiveTests, PositiveLFDOnlyTests, TotalTests, TotalLFDTests,
+         PositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDOnlyTests,
+         TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
          WeeklyPositiveCases, CumulativePositive,
          WeeklyPositivePCROnly, CumulativePositivePCROnly,
          WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly,
@@ -639,7 +640,8 @@ g_weekly_la <- g_cases_weekly %>%
   arrange(week_ending, Geography)%>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
-         PositiveTests, PositiveLFDOnlyTests, TotalTests, TotalLFDTests,
+         PositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDOnlyTests,
+         TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
          WeeklyPositiveCases, CumulativePositive,
          WeeklyPositivePCROnly, CumulativePositivePCROnly,
          WeeklyPositiveLFDOnly, CumulativePositiveLFDOnly,
