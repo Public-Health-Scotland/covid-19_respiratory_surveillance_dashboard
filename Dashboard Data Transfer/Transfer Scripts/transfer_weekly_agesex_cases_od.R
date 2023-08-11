@@ -75,7 +75,12 @@ pop_total_total<- pop_total_sex %>%
 
 ##### create cases outputs ###################
 
-i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds") )
+#i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds") )
+
+#
+i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_2023-08-01.rds") )
+
+
 
 g_cases_raw<- i_combined_pcr_lfd_tests %>% 
   mutate(Sex = case_when(is.na(subject_sex)~submitted_subject_sex,TRUE ~ subject_sex)) %>%
@@ -96,23 +101,23 @@ g_cases_raw<- i_combined_pcr_lfd_tests %>%
   filter(!(reporting_health_board %in% c("UK (not resident in Scotland)",
                                          "Outside UK",NA))) %>%
   mutate(Date=as.Date(specimen_date)) %>% 
-  filter(Date <= as.Date(od_sunday))
+  filter(Date <= as.Date(od_sunday)) 
 
 
-##### Create  cases by age groups ##############################
-g_cases_age_data <- g_cases_raw %>%
-  group_by(Date, age, Sex)%>% 
-  summarise(daily_positive = sum(flag_episode)) %>% 
-  ungroup()%>% 
-  mutate(agegroup = case_when(is.na(age) ~ "unknown",
+#### Create  cases by age groups ##############################
+g_cases_age_sex_all <- g_cases_raw %>%
+  group_by(Date, age, Sex)%>%
+  summarise(daily_positive = sum(flag_episode)) %>%
+  ungroup()%>%
+  mutate(agegroup = case_when(is.na(age) ~ "Unknown",
                               age >= 0 & age < 15 ~ '0 to 14',
                               age > 14 & age < 45 ~ '15 to 44',
                               age > 44 & age < 65 ~ '45 to 64',
                               age > 64 & age < 75 ~ '65 to 74',
                               age > 74 & age < 85 ~ '75 to 84',
                               age > 84 ~ '85+',
-                              TRUE ~ "unknown"),
-         agegroup_scotland = case_when(is.na(age) ~ "unknown",
+                              TRUE ~ "Unknown"),
+         agegroup_scotland = case_when(is.na(age) ~ "Unknown",
                                        age >= 0 & age < 15 ~ '0 to 14',
                                        age > 14 & age < 20 ~ '15 to 19',
                                        age > 19 & age < 25 ~ '20 to 24',
@@ -121,30 +126,51 @@ g_cases_age_data <- g_cases_raw %>%
                                        age > 64 & age < 75 ~ '65 to 74',
                                        age > 74 & age < 85 ~ '75 to 84',
                                        age > 84 ~ '85+',
-                                       TRUE ~ "unknown"),
-         agegroup_scotland_60plus = case_when(is.na(age) ~ "unknown",
+                                       TRUE ~ "Unknown"),
+         agegroup_scotland_60plus = case_when(is.na(age) ~ "Unknown",
                                               age >= 0 & age < 60 ~ '0 to 59',
                                               age > 59 ~ '60+',
-                                              TRUE ~ "unknown"),
-         sex=case_when(is.na(Sex)~"unknown", Sex=="NotSpecified"~"unknown",
-                       Sex=="Unknown"~"unknown",
-                       Sex=="U"~"unknown", Sex=="FEMALE"~"Female",
+                                              TRUE ~ "Unknown"),
+         sex=case_when(is.na(Sex)~"Unknown", Sex=="NotSpecified"~"Unknown",
+                       Sex=="Unknown"~"Unknown",
+                       Sex=="U"~"Unknown", Sex=="FEMALE"~"Female",
                        Sex=="MALE"~"Male",TRUE ~ Sex)) %>% 
-  filter(agegroup!='NA', agegroup!='unknown', sex!='NA', sex!='unknown') 
+  ungroup()
+
+
+unknown_age_check<-g_cases_age_sex_all %>% 
+  filter(agegroup=='Unknown') %>% 
+  summarise(TotalPositive=sum(daily_positive)) %>% 
+  ungroup() 
+
+unknown_sex_check<-g_cases_age_sex_all %>% 
+  filter(sex=='Unknown') %>% 
+  summarise(TotalPositive=sum(daily_positive)) %>% 
+  ungroup() 
+
+unknown_agesex_check <-g_cases_age_sex_all %>% 
+  filter(agegroup=='Unknown'| sex=='Unknown')%>% 
+  summarise(TotalPositive=sum(daily_positive)) %>% 
+  ungroup() 
+
+# g_known_age_sex <-g_cases_age_sex_all %>%
+# filter( agegroup!='Unknown', sex!='Unknown')
   
 
 ##############Cumulatives############################
 
 # 1 cumulative by age and sex using age_group_scotland grouping
-g_agegroup_sex_cases_cumulative<-g_cases_age_data  %>% 
+g_agegroup_sex_cumulative<-g_cases_age_sex_all  %>% 
   group_by(agegroup_scotland, sex) %>% 
   summarise(TotalPositive=sum(daily_positive)) %>% 
   ungroup() %>% 
   rename(agegroup=agegroup_scotland) %>% 
-  left_join(pop_agegroup_sex, by=(c("agegroup", "sex")))
+  arrange(agegroup, sex) %>% 
+    left_join(pop_agegroup_sex, by=(c("agegroup", "sex")))%>% 
+  mutate(location_code=("Scotland")) 
 
 #  2 cumulative by age and COMBINED SEX using age_group_scotland grouping
-g_agegroup_cases_cumulative<-g_agegroup_sex_cases_cumulative  %>% 
+g_agegroup_cumulative<-g_agegroup_sex_cumulative  %>% 
   group_by(agegroup) %>% 
   summarise(TotalPositive=sum(TotalPositive)) %>% 
   ungroup() %>% 
@@ -152,16 +178,22 @@ g_agegroup_cases_cumulative<-g_agegroup_sex_cases_cumulative  %>%
   mutate(sex="Total")%>% 
   left_join(pop_agegroup_total, by=(c("agegroup", "sex")))
 
+#1 & 2  combine age groups together
+g_agegroup_cumulative_combined <-bind_rows(g_agegroup_sex_cumulative,
+                                           g_agegroup_cumulative)
+
 #  3 cumulative by age and sex using age_group_scotland_60plus grouping
-g_agegroup_60plus_sex_cases_cumulative<-g_cases_age_data  %>% 
+g_60plus_sex_cumulative<-g_cases_age_sex_all %>% 
   group_by(agegroup_scotland_60plus, sex) %>% 
   summarise(TotalPositive=sum(daily_positive)) %>% 
   ungroup() %>% 
-  rename(agegroup=agegroup_scotland_60plus) %>% 
-  left_join(pop_60plus_sex, by=(c("agegroup", "sex")))
+ filter(agegroup_scotland_60plus!="Unknown") %>% #remove unknown age_group to avoid double count as these are captured in section 1
+ rename(agegroup=agegroup_scotland_60plus) %>% 
+ arrange(agegroup, sex)   %>% 
+  left_join(pop_60plus_sex, by=(c("agegroup", "sex"))) 
 
 #  4 cumulative by age and COMBINED SEX using age_group_scotland_60plus grouping
-g_agegroup_60plus_cases_cumulative<-g_agegroup_60plus_sex_cases_cumulative  %>% 
+g_60plus_cumulative<-g_60plus_sex_cumulative  %>% 
   group_by(agegroup) %>%
   summarise(TotalPositive=sum(TotalPositive)) %>% 
   ungroup() %>% 
@@ -169,16 +201,21 @@ g_agegroup_60plus_cases_cumulative<-g_agegroup_60plus_sex_cases_cumulative  %>%
   mutate(sex="Total")%>% 
   left_join(pop_60plus_total, by=(c("agegroup", "sex")))
 
+# 3 & 4 combine age groups together
+g_60_plus_cumulative_combined <-bind_rows(g_60plus_sex_cumulative,
+                                          g_60plus_cumulative)
 # 5 cumulative total cases by combined age, both sexes
-g_total_age_sex_cases_cumulative<-g_cases_age_data %>% 
+g_total_age_sex_cumulative<-g_cases_age_sex_all %>% 
   group_by(sex) %>% 
   summarise(TotalPositive=sum(daily_positive)) %>% 
   ungroup %>% 
-  mutate(agegroup="Total") %>% 
-  left_join(pop_total_sex, by=(c("agegroup", "sex")))
+  mutate(agegroup="Total")%>% 
+  arrange(agegroup, sex)   %>% 
+  left_join(pop_total_sex, by=(c("agegroup", "sex")))%>% 
+  mutate(location_code=("Scotland")) 
 
 # 6 cumulative total cases by combined age, combined sexes
-g_total_age_total_sex_cases_cumulative<-g_total_age_sex_cases_cumulative  %>%
+g_total_cumulative<-g_total_age_sex_cumulative  %>%
    group_by(location_code) %>%
   summarise(TotalPositive=sum(TotalPositive)) %>%
    ungroup() %>%
@@ -186,35 +223,45 @@ g_total_age_total_sex_cases_cumulative<-g_total_age_sex_cases_cumulative  %>%
           sex="Total") %>% 
    left_join(pop_total_total, by=(c("agegroup", "sex", "location_code")))
 
-#combine all cumulative by aga-group and sex combinations and format for open data
-g_age_sex_cases_cumulative_od<-bind_rows(g_agegroup_sex_cases_cumulative, g_agegroup_cases_cumulative,
-                               g_agegroup_60plus_sex_cases_cumulative, g_agegroup_60plus_cases_cumulative,
-                               g_total_age_sex_cases_cumulative,g_total_age_total_sex_cases_cumulative) %>% 
-  rename(Sex=sex,
-         AgeGroup=agegroup) %>% 
-  mutate(CrudeRatePositive=round_half_up((TotalPositive/pop)*100000),#  round to 0 d.p.
-         Date= format(strptime(od_sunday, format = "%Y-%m-%d"), "%Y%m%d"),
-         Country="S92000003",
-         SexQF= if_else(Sex=="Total","d", ""),
-         AgeGroupQF=if_else(SexQF=="d","d","") ) %>% 
- arrange(Sex, AgeGroup)%>% 
-  mutate(AgeGroup = recode(AgeGroup, "60+" = "60plus"),
-         AgeGroup = recode(AgeGroup, "85+" = "85plus"))%>% 
- select(Date, Country, Sex, SexQF, AgeGroup,AgeGroupQF,
-        TotalPositive, CrudeRatePositive) 
 
-write_csv(g_age_sex_cases_cumulative_od, glue("{output_folder}TEMP_age_sex_cumulative.csv"), na = "")
+#combine all cumulative by age-group and sex combinations and format for open data
+g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
+                                     g_60_plus_cumulative_combined,
+                                     g_total_age_sex_cumulative,
+                                     g_total_cumulative) %>%
+    rename(Sex = sex, AgeGroup = agegroup) %>%
+    mutate(
+    CrudeRatePositive = round_half_up((TotalPositive / pop) * 100000),#  round to 0 d.p.
+    Date = format(strptime(od_sunday, format = "%Y-%m-%d"), "%Y%m%d"),
+    Country = "S92000003",
+    SexQF = if_else(Sex == "Total"| Sex=="Unknown", "d", ""),
+    AgeGroupQF = if_else(AgeGroup == "Total"| AgeGroup=="Unknown", "d", "")  ) %>%
+    mutate(AgeGroup = recode(AgeGroup, "60+" = "60plus"),
+    AgeGroup = recode(AgeGroup, "85+" = "85plus")  ) %>%
+    select(Date, Country, Sex, SexQF,
+          AgeGroup,AgeGroupQF,TotalPositive,
+          CrudeRatePositive)
+    
+# checks#
+# The sum of  all cases in Table 1 (male/female/unknown sex )= total cases (table 6)
+# Table 2 all cases = total cases (table 6)
+# Table 4 60plus cases and cases from unknown age_check (df) = total cases (table 6)
 
-rm(g_agegroup_sex_cases_cumulative, g_agegroup_cases_cumulative,
-   g_agegroup_60plus_sex_cases_cumulative, g_agegroup_60plus_cases_cumulative,
-   g_total_age_sex_cases_cumulative,g_total_age_total_sex_cases_cumulative)
+ #remove intermediate dataframes   
+ rm(g_60plus_cumulative, g_agegroup_cumulative, g_total_age_sex_cumulative,g_total_cumulative,
+    g_60plus_sex_cumulative, g_agegroup_sex_cumulative, g_agegroup_cumulative_combined,
+    g_cases_age_sex_all, g_cases_raw,g_60_plus_cumulative_combined,
+    i_combined_pcr_lfd_tests, unknown_age_check, unknown_agesex_check, unknown_sex_check)
+#   
 
-# remove pop_lookups
+ # remove pop_lookups,
 rm(base_hb_population, pop_60plus_sex, pop_60plus_total,
    pop_agegroup_sex,pop_agegroup_total,
-   pop_total_sex, pop_total_total) 
+   pop_total_sex, pop_total_total)
 
+write_csv(g_age_sex_cumulative_od, glue("{output_folder}TEMP_age_sex_cumulative.csv"), na = "")
 
+#rinse and repeat but add weekly date split and remove pop elements for weekly equivalent
 ###### weekly cases by age and sex #########################################################
 
 # create age, sex, weekending  data frame template 
@@ -236,7 +283,7 @@ df_agesex <- expand.grid(week_ending=unique(Dates$SpecimenDate), location_code="
 rm(Dates,Agegroups, Sex) #remove building blocks
 
 # cases on a weekly basis 
-g_cases_age_data_weekly<-g_cases_age_data %>% 
+g_cases_age_data_weekly<-g_cases_age_sex_all %>% 
 filter(Date>as.Date("2020-02-27") & Date<as.Date(od_date-1)) %>% 
   group_by(Date) %>%
   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
