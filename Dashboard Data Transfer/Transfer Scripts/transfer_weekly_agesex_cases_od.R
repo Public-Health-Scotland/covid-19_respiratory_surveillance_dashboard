@@ -235,12 +235,13 @@ g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
     Date = format(strptime(od_sunday, format = "%Y-%m-%d"), "%Y%m%d"),
     Country = "S92000003",
     SexQF = if_else(Sex == "Total"| Sex=="Unknown", "d", ""),
-    AgeGroupQF = if_else(AgeGroup == "Total"| AgeGroup=="Unknown", "d", "")  ) %>%
-    mutate(AgeGroup = recode(AgeGroup, "60+" = "60plus"),
+    AgeGroupQF = if_else(AgeGroup == "Total"| AgeGroup=="Unknown", "d", "")  ,
+    CrudeRatePositiveQF= if_else(is.na(CrudeRatePositive),":", "d"), 
+    AgeGroup = recode(AgeGroup, "60+" = "60plus"),
     AgeGroup = recode(AgeGroup, "85+" = "85plus")  ) %>%
     select(Date, Country, Sex, SexQF,
           AgeGroup,AgeGroupQF,TotalPositive,
-          CrudeRatePositive)
+          CrudeRatePositive,CrudeRatePositiveQF)
     
 # checks#
 # The sum of  all cases in Table 1 (male/female/unknown sex )= total cases (table 6)
