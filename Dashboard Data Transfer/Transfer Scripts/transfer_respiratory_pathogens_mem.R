@@ -1,31 +1,9 @@
 # Dashboard data transfer for Respiratory Pathogens - MEM
 # Sourced from ../dashboard_data_transfer.R
 
-# Getting packages
-if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
-if (!pacman::p_isinstalled("friendlyloader")){pacman::p_install_gh("RosalynLP/friendlyloader")}
+##### Respiratory MEM
 
-pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate, ISOweek,
-               janitor, stringr, data.table, stats, zoo, tidyr, readxl, readr, friendlyloader)
-
-# Setting permisisons for files outputted
-Sys.umask("006")
-
-# Getting main script location for working directory
-#path_main_script_location = dirname(rstudioapi::getActiveDocumentContext()$path)
-
-#setwd(path_main_script_location)
-
-report_date <- floor_date(today(), "week", 1) + 2
-
-
-# Dashboard main folder is located one up from data transfer
-dashboard_folder <- "../"
-# Output to weekly dashboard data folder (shared)
-input_data <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Input/"
-output_folder <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/"
-
-
+# HB recoding
 healthboards <- c("AA" = "S08000015",
                   "BR" = "S08000016",
                   "DG" = "S08000017",
@@ -40,8 +18,6 @@ healthboards <- c("AA" = "S08000015",
                   "SH" = "S08000026",
                   "TY" = "S08000030",
                   "WI" = "S08000028")
-
-##### Respiratory MEM
 
 resp_od_output_folder <- paste0("/conf/linkage/output/Covid Daily Dashboard/", 
                                 "Tableau process/Open Data/Respiratory/")
@@ -75,6 +51,10 @@ for (filename1 in filenames1){
   for(filename2 in filenames2){
     
     df <- base::get(glue("i_respiratory_{filename1}_MEM_{filename2}_agg"))
+    
+    # Remove any instances where rate is NA
+    df <- df %>%
+      filter(!is.na(rate))
     
     # Update column names
     old_names <- names(df)
