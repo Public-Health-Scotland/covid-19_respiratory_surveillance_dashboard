@@ -134,9 +134,20 @@ ui <- fluidPage(
                                                   direction = "horizontal", justified = F),
                                 conditionalPanel(condition="input.influenza_select=='Infection levels'",
                                                  source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value)),
+                       # 
+                       # tabPanel(title = "RSV",
+                       #          value = "rsv",
+                       #          h1("RSV")),
+                       # 
                        tabPanel(title = "RSV",
                                 value = "rsv",
-                                h1("RSV")),
+                                br(),
+                                radioGroupButtons("rsv_select", status = "home",
+                                                  choices = c("Infection levels"),
+                                                  direction = "horizontal", justified = F),
+                                conditionalPanel(condition="input.influenza_select=='Infection levels'",
+                                                 source(file.path("indicators/respiratory_mem/rsv/rsv_mem_ui.R"), local = TRUE)$value)),
+                       
                        tabPanel(title = "Adenovirus",
                                 value = "adenovirus",
                                 h1("Adenovirus")),
@@ -228,7 +239,9 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
-  source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value  
+  source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
+
 
 }
 #sets language right at the top of source (required this way for screen readers)
