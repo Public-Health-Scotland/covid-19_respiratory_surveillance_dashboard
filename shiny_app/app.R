@@ -61,14 +61,14 @@ ui <- fluidPage(
       ##############################################.
       # CASES ----
       ##############################################.
- #     tabPanel(title = "COVID-19 cases",
- #              # Look at https://fontawesome.com/search?m=free for icons
- #              icon = icon_no_warning_fn("virus-covid"),
- #              value = "cases",
+      #     tabPanel(title = "COVID-19 cases",
+      #              # Look at https://fontawesome.com/search?m=free for icons
+      #              icon = icon_no_warning_fn("virus-covid"),
+      #              value = "cases",
 
- #              source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value
+      #              source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value
 
- #     ), # tabpanel
+      #     ), # tabpanel
       ##############################################.
       # ADMISSIONS ----
       ##############################################.
@@ -77,7 +77,7 @@ ui <- fluidPage(
                icon = icon_no_warning_fn("hospital-user"),
                value = "hospital_admissions",
 
-        #       source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
+               #       source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
 
       ), # tabpanel
       ##############################################.
@@ -88,7 +88,7 @@ ui <- fluidPage(
                icon = icon_no_warning_fn("bed-pulse"),
                value = "hospital_occupancy",
 
-            #   source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
+               #   source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
 
       ), # tabpanel
       ##############################################.
@@ -101,57 +101,62 @@ ui <- fluidPage(
 
                source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
 
-            ), # tabpanel
- ##############################################.
- # RESPIRATORY PATHOGENS ----
- ##############################################.
- tabPanel(title ="Respiratory pathogens",
-          # Look at https://fontawesome.com/search?m=free for icons
-          icon = icon_no_warning_fn("virus"),
-          value = "repiratory_pathogens",
-          navlistPanel(widths = c(2,10), id = "respiratory_pathogens_panel", #icon = icon_no_warning_fn("spa")
+      ), # tabpanel
+      ##############################################.
+      # RESPIRATORY PATHOGENS ----
+      ##############################################.
+      tabPanel(title ="Respiratory pathogens",
+               # Look at https://fontawesome.com/search?m=free for icons
+               icon = icon_no_warning_fn("virus"),
+               value = "repiratory_pathogens",
+               navlistPanel(widths = c(2,10), id = "respiratory_pathogens_panel", #icon = icon_no_warning_fn("spa")
 
-                       tabPanel(title = "COVID-19",
-                                value = "covid_19",
-                                br(),
-                                radioGroupButtons("covid19_select", status = "home",
-                                                  choices = c("Infection levels", "Hospital admissions", "Hospital occupancy", "Archive"),
-                                                  direction = "horizontal", justified = F),
-                                conditionalPanel(condition="input.covid19_select=='Infection levels'",
-                                                 source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value),
-                                conditionalPanel(condition="input.covid19_select=='Hospital admissions'",
-                                                 source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value),
-                                conditionalPanel(condition="input.covid19_select=='Hospital occupancy'",
-                                                 source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value),
-                                conditionalPanel(condition="input.covid19_select=='Archive'",
-                                                 source(file.path("indicators/Archive/archive_ui.R"), local = TRUE)$value)
-                       ),
-                       tabPanel(title = "Influenza",
-                                value = "influenza",
-                                br(),
-                                radioGroupButtons("influenza_select", status = "home",
-                                                  choices = c("Infection levels"),
-                                                  direction = "horizontal", justified = F),
-                                conditionalPanel(condition="input.influenza_select=='Infection levels'",
-                                                 source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value)),
-                       tabPanel(title = "RSV",
-                                value = "rsv",
-                                h1("RSV")),
-                       tabPanel(title = "Adenovirus",
-                                value = "adenovirus",
-                                h1("Adenovirus")),
-                       tabPanel(title = "HMPV",
-                                value = "hmpv",
-                                h1("HMPV")),
-                       tabPanel(title = "Parainfluenza",
-                                value = "parainfluenza",
-                                h1("Parainfluenza")),
-                       tabPanel(title = "Rhinovirus",
-                                value = "rhinovirus",
-                                h1("Rhinovirus"))
-          ) # navbarlistPanel
-          #
- ),#tabPanel
+                            tabPanel(title = "COVID-19",
+                                     value = "covid_19",
+                                     br(),
+                                     radioGroupButtons("covid19_select", status = "home",
+                                                       choices = c("Infection levels", "Hospital admissions", "Hospital occupancy", "Archive"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.covid19_select=='Infection levels'",
+                                                      source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value),
+                                     conditionalPanel(condition="input.covid19_select=='Hospital admissions'",
+                                                      source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value),
+                                     conditionalPanel(condition="input.covid19_select=='Hospital occupancy'",
+                                                      source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value),
+                                     conditionalPanel(condition="input.covid19_select=='Archive'",
+                                                      source(file.path("indicators/Archive/archive_ui.R"), local = TRUE)$value)
+                            ),
+                            tabPanel(title = "Influenza",
+                                     value = "influenza",
+                                     br(),
+                                     radioGroupButtons("influenza_select", status = "home",
+                                                       choices = c("Infection levels"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.influenza_select=='Infection levels'",
+                                                      source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value)),
+                            tabPanel(title = "RSV",
+                                     value = "rsv",
+                                     h1("RSV")),
+                            tabPanel(title = "Adenovirus",
+                                     value = "adenovirus",
+                                     h1("Adenovirus")),
+                            tabPanel(title = "HMPV",
+                                     value = "hmpv",
+                                     h1("HMPV")),
+                            tabPanel(title = "Parainfluenza",
+                                     value = "parainfluenza",
+                                     h1("Parainfluenza")),
+                            tabPanel(title = "Rhinovirus",
+                                     value = "rhinovirus",
+                                     br(),
+                                     radioGroupButtons("rhinovirus_select", status = "home",
+                                                       choices = c("Infection levels"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.rhinovirus_select=='Infection levels'",
+                                                      source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value))
+               ) # navbarlistPanel
+               #
+      ),#tabPanel
       ##############################################.
       # METADATA ----
       ##############################################.
@@ -206,7 +211,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
-  
+
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_server.R"), local = TRUE)$value
@@ -217,6 +222,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
 
 }
 #sets language right at the top of source (required this way for screen readers)
