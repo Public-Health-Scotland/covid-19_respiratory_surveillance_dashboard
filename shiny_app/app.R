@@ -139,7 +139,13 @@ ui <- fluidPage(
                                 h1("RSV")),
                        tabPanel(title = "Adenovirus",
                                 value = "adenovirus",
-                                h1("Adenovirus")),
+                                br(),
+                                radioGroupButtons("adenovirus_select", status = "home",
+                                                  choices = c("Infection levels"),
+                                                  direction = "horizontal", justified = F),
+                                conditionalPanel(condition="input.adenovirus_select=='Infection levels'",
+                                                 source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_ui.R"), local = TRUE)$value)
+                       ),
                        tabPanel(title = "HMPV",
                                 value = "hmpv",
                                 h1("HMPV")),
@@ -217,6 +223,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_server.R"), local = TRUE)$value
 
 }
 #sets language right at the top of source (required this way for screen readers)
