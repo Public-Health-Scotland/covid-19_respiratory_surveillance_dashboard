@@ -35,15 +35,13 @@ rm(rsv_cases_last_week, rsv_cases_prev_week)
 
 tagList(
   fluidRow(width = 12,
-           
            metadataButtonUI("respiratory_rsv_mem"),
            linebreaks(1),
            h1("RSV Incidence Rates"),
            linebreaks(1)),
 
 
-    fluidRow(
-      width = 12,
+    fluidRow(width = 12,
              tabPanel(stringr::str_to_sentence("influenza"),
                       # headline figures for the week in Scotland
                       tagList(h2(glue("Summary of RSV cases in Scotland")),
@@ -67,7 +65,6 @@ tagList(
                                         # This text is hidden by css but helps pad the box at the bottom
                                        h6("hidden text for padding page")
                                                                  )))), # headline
-
 
   fluidRow(width = 12,
            tagList(h2("RSV incidence rate per 100,000 population in Scotland"))),
