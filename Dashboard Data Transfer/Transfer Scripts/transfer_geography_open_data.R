@@ -187,7 +187,7 @@ g_total_cases <- Geog_all_cases %>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003")) %>%
   mutate(GeographyQF = if_else(Geography == "S92000003", "d", "")) %>%
   select(Date, Geography, GeographyQF, GeographyName, TotalCases, CrudeRatePositiveCases,
-         TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases)%>%
+         TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases, geography)%>%
   arrange(Geography)
 
 rm(Geog_all_cases)
@@ -321,13 +321,22 @@ g_cumulative_geog <- g_total_cases %>%
 select(Date, Geography, GeographyQF,GeographyName,
        TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
        TotalPositiveTests, PositivePillar1Tests, PositivePillar2Tests, PositiveLFDTests,
-       TotalCases, CrudeRatePositiveCases, TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases)
+       TotalCases, CrudeRatePositiveCases, TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases, geography)
 rm(g_total_cases, g_pos_tests, g_all_tests)
 
-#save out cumulative geography open data file
-write_csv(g_cumulative_geog, glue(output_folder, "TEMP_Geography_cumulative.csv"))
+g_cumulative_geog_hb <- g_cumulative_geog %>%
+  filter(!(geography == "Local Authority")) %>%
+  select(-geography)
 
-rm(g_cumulative_geog)
+g_cumulative_geog_la <- g_cumulative_geog %>%
+  filter(geography == "Local Authority") %>%
+  select(-geography)
+
+#save out cumulative geography open data file
+write_csv(g_cumulative_geog_hb, glue(output_folder, "TEMP_Geography_cumulative_hb.csv"))
+write_csv(g_cumulative_geog_la, glue(output_folder, "TEMP_Geography_cumulative_la.csv"))
+
+rm(g_cumulative_geog, g_cumulative_geog_hb, g_cumulative_geog_la)
 
 ##############Weekly############################
 
