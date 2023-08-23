@@ -1,3 +1,38 @@
+# create values for headline boxes
+rsv_cases_last_week<-Respiratory_Scot %>%
+  filter(Pathogen == "Respiratory syncytial virus") %>%
+  group_by(Pathogen) %>%
+  mutate(last_sunday= max(WeekEnding) )%>%
+  filter(WeekEnding==last_sunday)%>%
+  ungroup %>%
+  mutate(last_sunday= as.character(last_sunday)) %>%
+  mutate(last_sunday=as.Date(last_sunday, format = "%Y%m%d")) %>%
+  rename(rsv_cases_last_week=NumberCasesPerWeek)
+
+rsv_cases_prev_week<-Respiratory_Scot %>%
+  filter(Pathogen == "Respiratory syncytial virus") %>%
+  group_by(Pathogen) %>%
+  mutate(last_sunday_minus_7=max(WeekEnding-7)) %>%
+  filter(WeekEnding==last_sunday_minus_7)%>%
+  ungroup%>%
+  mutate(last_sunday_minus_7= as.character(last_sunday_minus_7)) %>%
+  mutate(last_sunday_minus_7=as.Date(last_sunday_minus_7, format = "%Y%m%d")) %>%
+  select(rsv_cases_prev_week=NumberCasesPerWeek, last_sunday_minus_7, Pathogen)
+
+
+rsv_cases_summary<-rsv_cases_last_week %>%
+  left_join(rsv_cases_prev_week, by=c("Pathogen")) %>%
+  mutate(PercentageDifference=round_half_up(rsv_cases_last_week-rsv_cases_prev_week)/rsv_cases_prev_week*100,
+         ChangeFactor = case_when(PercentageDifference < 0 ~ "decrease",
+                                  PercentageDifference > 0 ~ "increase",
+                                  PercentageDifference == 0 ~ "no change"),
+         icon= case_when(ChangeFactor == "decrease"~"arrow-down",
+                         ChangeFactor == "increase"~ "arrow-up",
+                         ChangeFactor == "no change"~"equals"))
+
+rm(rsv_cases_last_week, rsv_cases_prev_week)
+### 
+
 tagList(
   fluidRow(width = 12,
            
@@ -6,38 +41,34 @@ tagList(
            h1("RSV Incidence Rates"),
            linebreaks(1)),
 
-    fluidRow(width = 12,
+
+    fluidRow(
+      width = 12,
              tabPanel(stringr::str_to_sentence("influenza"),
                       # headline figures for the week in Scotland
-                      tagList(h2(glue("Summary of **Non-flu** cases in Scotland")),
+                      tagList(h2(glue("Summary of RSV cases in Scotland")),
                               tags$div(class = "headline",
-                                       h3(glue("Total number of **Non-flu** cases in Scotland over the last two weeks")),
+                                       h3(glue("Total number of RSV cases in Scotland over the last two weeks")),
                                        # this week total number
-                                       valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
-                                           .$CountThisWeek %>% format(big.mark=",")},
-                                           subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                .$DateThisWeek %>% format('%d %b %y')}"),
+                                       valueBox(value = {rsv_cases_summary %>% .$rsv_cases_last_week %>% format(big.mark=",")},
+                                           subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday%>% format('%d %b %y')}"),
                                            color = "teal",
                                            icon = icon_no_warning_fn("calendar-week")),
                                        # previous week total number
-                                       valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
-                                           .$CountPreviousWeek %>% format(big.mark=",")},
-                                           subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                .$DatePreviousWeek %>% format('%d %b %y')}"),
+                                        valueBox(value = {rsv_cases_summary %>% .$rsv_cases_prev_week %>% format(big.mark=",")},
+                                           subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday_minus_7%>% format('%d %b %y')}"),
                                            color = "teal",
                                            icon = icon_no_warning_fn("calendar-week")),
                                        # percentage difference between the previous weeks
-                                       valueBox(value = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                  .$PercentageDifference}%"),
-                                                subtitle = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                     .$ChangeFactor %>% str_to_sentence()} in the last week"),
-                                                color = "teal",
-                                                icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == 'nonflu') %>%
-                                                    .$icon})),
-                                       # This text is hidden by css but helps pad the box at the bottom
+                                       valueBox(value = glue("{rsv_cases_summary%>% .$PercentageDifference}%"),
+                                          subtitle = glue("{rsv_cases_summary %>%.$ChangeFactor %>%  str_to_sentence()} in the last week"),
+                                           color = "teal",
+                                           icon = icon_no_warning_fn({rsv_cases_summary %>%  .$icon})),
+                                        # This text is hidden by css but helps pad the box at the bottom
                                        h6("hidden text for padding page")
-                              )))), # headline
-    
+                                                                 )))), # headline
+
+
   fluidRow(width = 12,
            tagList(h2("RSV incidence rate per 100,000 population in Scotland"))),
   
