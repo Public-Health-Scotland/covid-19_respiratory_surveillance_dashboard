@@ -31,7 +31,7 @@ rsv_cases_summary<-rsv_cases_last_week %>%
                          ChangeFactor == "no change"~"equals"))
 
 rm(rsv_cases_last_week, rsv_cases_prev_week)
-### 
+###
 
 tagList(
   fluidRow(width = 12,
@@ -68,7 +68,7 @@ tagList(
 
   fluidRow(width = 12,
            tagList(h2("RSV incidence rate per 100,000 population in Scotland"))),
-  
+
   fluidRow(
     tabBox(width = NULL,
            type = "pills",
@@ -82,14 +82,14 @@ tagList(
                             withNavySpinner(dataTableOutput("rsv_mem_table"))
                     ) # tagList
            ) # tabPanel
-           
+
     ), # tabBox
     linebreaks(1)
   ), # fluidRow
-  
+
   fluidRow(width = 12,
            tagList(h2("RSV incidence rate per 100,000 population by NHS Health Board"))),
-  
+
   fluidRow(
     tabBox(width = NULL,
            type = "pills",
@@ -103,15 +103,15 @@ tagList(
                             withNavySpinner(dataTableOutput("rsv_mem_hb_table"))
                     ) # tagList
            ) # tabPanel
-           
+
     ), # tabBox
     linebreaks(1)
   ), # fluidRow
-  
-  
+
+
   fluidRow(width = 12,
            tagList(h2("RSV incidence rate per 100,000 population by age group"))),
-  
+
   fluidRow(
     tabBox(width = NULL,
            type = "pills",
@@ -122,13 +122,12 @@ tagList(
                     )),
            tabPanel("Data",
                     tagList(linebreaks(1),
-                            withNavySpinner(dataTableOutput("rsv_age_table"))
+                            withNavySpinner(dataTableOutput("rsv_mem_age_table"))
                     ) # tagList
            ) # tabPanel
-           
+
     ), # tabBox
     linebreaks(1)
   )#, # fluidRow
-  
+
 )
-                   
