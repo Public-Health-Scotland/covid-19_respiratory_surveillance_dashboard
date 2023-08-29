@@ -100,7 +100,6 @@ ui <- fluidPage(
                value = "respiratory",
 
                source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
-
               ), # tabpanel
       ##############################################.
       # RESPIRATORY PATHOGENS ----
@@ -134,16 +133,28 @@ ui <- fluidPage(
                                                        direction = "horizontal", justified = F),
                                      conditionalPanel(condition="input.influenza_select=='Infection levels'",
                                                       source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value)),
-                            tabPanel(title = "RSV",
-                                     value = "rsv",
-                                     h1("RSV")),
+                              tabPanel(title = "RSV",
+                                value = "rsv",
+                                br(),
+                                radioGroupButtons("rsv_select", status = "home",
+                                                  choices = c("Infection levels"),
+                                                  direction = "horizontal", justified = F),
+                                conditionalPanel(condition="input.influenza_select=='Infection levels'",
+                                                 source(file.path("indicators/respiratory_mem/rsv/rsv_mem_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Adenovirus",
                                      value = "adenovirus",
                                      h1("Adenovirus")),
-                            tabPanel(title = "HMPV",
-                                     value = "hmpv",
-                                     h1("HMPV")),
+                             tabPanel(title = "HMPV",
+                                value = "hmpv",
+                                br(),
+                                radioGroupButtons("hmpv_select", status = "home",
+                                                  choices = c("Infection levels"),
+                                                  direction = "horizontal", justified = F),
+                                conditionalPanel(condition="input.hmpv_select=='Infection levels'",
+                                                 source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Parainfluenza",
+
+            ), # tabpanel
                                 value = "parainfluenza",
                                 br(),
                                 radioGroupButtons("parainfluenza_select", status = "home",
@@ -229,6 +240,9 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
+
+  source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value  
+  source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
 
