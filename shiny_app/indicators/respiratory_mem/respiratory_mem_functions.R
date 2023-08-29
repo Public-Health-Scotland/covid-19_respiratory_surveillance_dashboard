@@ -72,7 +72,7 @@ create_mem_linechart <- function(data,
   low_max <- unique(data$MediumThreshold)
   moderate_max <- unique(data$HighThreshold)
   high_max <- unique(data$ExtraordinaryThreshold)
-  extraordinary_max <- roundUp(max(data$Value, na.rm = T))
+  extraordinary_max <- max(pretty(data$Value), na.rm = T)
   
   #Text for tooltip
   tooltip_trend <- c(paste0("Season: ", data$Season,
