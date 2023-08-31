@@ -176,7 +176,7 @@ rm(spd_simd_lookup)
 
 ##### #SIMD weekly - Scotland only  #############################
 
-g_simd_weekly_cases  <- df_simd %>%
+g_simd_weekly_cases_od  <- df_simd %>%
   left_join(g_simd_scotland_daily_cases, by=c("Date","location_code","simd")) %>% 
   mutate_if(is.numeric, ~replace_na(., 0)) %>% 
   filter(Date>as.Date("2020/02/27") & Date<as.Date(od_date-1)) %>% 
@@ -184,24 +184,21 @@ g_simd_weekly_cases  <- df_simd %>%
   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
   ungroup() %>% 
   group_by(week_ending, simd) %>% 
-  mutate(PositiveLastSevenDays=sum(daily_positive)) %>% 
+  mutate(WeeklyPositiveCases=sum(daily_positive)) %>% 
   ungroup() %>%   
   select(-Date,-daily_positive) %>% 
   unique()%>% 
   group_by(simd) %>% 
-  mutate(CumulativePositive=(cumsum(PositiveLastSevenDays))) %>% 
+  mutate(CumulativePositiveCases=(cumsum(WeeklyPositiveCases))) %>% 
   ungroup %>% 
-  arrange(desc(week_ending), simd) %>% 
+  arrange(week_ending, simd) %>% 
   left_join(simd_populations, by=c("location_code","simd")) %>% 
-  mutate(CrudeRatePositive=(CumulativePositive/Pop)*100000) %>% 
-  mutate(CrudeRatePositive=round_half_up(CrudeRatePositive)) %>% 
-  mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d")) %>%
+  mutate(CrudeRatePositiveCases=(CumulativePositiveCases/Pop)*100000) %>% 
+  mutate(CrudeRatePositiveCases=round_half_up(CrudeRatePositiveCases)) %>% 
+  mutate(CrudeRatePositiveCasesQF=if_else(is.na(CrudeRatePositiveCases),":","d")) %>%
   mutate(Country="S92000003") %>% 
-  select(week_ending,Country, SIMDQuintile=simd, PositiveLastSevenDays, 
-         CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
-  
-#if not using admissions this version is ready for export
-g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
+  select(week_ending,Country, SIMDQuintile=simd, WeeklyPositiveCases, 
+         CumulativePositiveCases, CrudeRatePositiveCases,CrudeRatePositiveCasesQF) %>% 
   rename(Date= week_ending,) %>% 
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
 

@@ -223,17 +223,18 @@ g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
                                      g_total_cumulative) %>%
     rename(Sex = sex, AgeGroup = agegroup) %>%
     mutate(
-    CrudeRatePositive = round_half_up((TotalPositive / pop) * 100000),#  round to 0 d.p.
+    CrudeRatePositiveCases = round_half_up((TotalPositive / pop) * 100000),#  round to 0 d.p.
     Date = format(strptime(od_sunday, format = "%Y-%m-%d"), "%Y%m%d"),
     Country = "S92000003",
     SexQF = if_else(Sex == "Total"| Sex=="Unknown", "d", ""),
     AgeGroupQF = if_else(AgeGroup == "Total"| AgeGroup=="Unknown", "d", "")  ,
-    CrudeRatePositiveQF= if_else(is.na(CrudeRatePositive),":", "d"), 
+    CrudeRatePositiveCasesQF= if_else(is.na(CrudeRatePositiveCases),":", "d"), 
     AgeGroup = recode(AgeGroup, "60+" = "60plus"),
     AgeGroup = recode(AgeGroup, "85+" = "85plus")  ) %>%
     select(Date, Country, Sex, SexQF,
-          AgeGroup,AgeGroupQF,TotalPositive,
-          CrudeRatePositive,CrudeRatePositiveQF)
+          AgeGroup,AgeGroupQF,
+          CumulativePositiveCases=TotalPositive,
+          CrudeRatePositiveCases,CrudeRatePositiveCasesQF)
     
 # checks#
 # The sum of  all cases in Table 1 (male/female/unknown sex )= total cases (table 6)
@@ -241,7 +242,7 @@ g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
 # Table 4 60plus cases and cases from unknown age_check (df) = total cases (table 6)
 
 # cumulative output
-write_csv(g_age_sex_cumulative_od, glue("{output_folder}TEMP_age_sex_cumulative.csv"), na = "")
+write_csv(g_age_sex_cumulative_od, glue("{output_folder}TEMP_age_sex_cumulative_v2.csv"), na = "")
 
 #remove intermediate cumulative dataframes   
 rm(g_agegroup_sex_cumulative, g_agegroup_cumulative, g_agegroup_cumulative_combined, #1, #2, #1 and #2 combined
@@ -350,7 +351,7 @@ g_cases_age_data_weekly<-g_cases_age_sex_all %>%
      left_join(g_weekly_combined, by =c("week_ending","agegroup","sex"), multiple="all")  %>% 
     mutate(PositiveLastSevenDays=if_else(is.na(PositiveLastSevenDays),0,PositiveLastSevenDays)) %>% 
     group_by(agegroup, sex) %>% 
-    mutate(CumulativePositive=(cumsum(PositiveLastSevenDays) ) ) %>% 
+    mutate(CumulativePositiveCases=(cumsum(PositiveLastSevenDays) ) ) %>% 
     ungroup() %>% 
     mutate(Date = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d"),
        Country = "S92000003",
@@ -359,7 +360,8 @@ g_cases_age_data_weekly<-g_cases_age_sex_all %>%
        agegroup = recode(agegroup, "60+" = "60plus"),
        agegroup = recode(agegroup, "85+" = "85plus") ) %>% 
     select(Date, Country, Sex=sex, SexQF, AgeGroup=agegroup, AgeGroupQF,
-           PositiveLastSevenDays, CumulativePositive)  
+           WeeklyPositiveCases= PositiveLastSevenDays, 
+           CumulativePositiveCases)  
 
 # Output# 
 write_csv(g_age_sex_weekly_od, glue("{output_folder}TEMP_age_sex_weekly_v2.csv"), na = "")
