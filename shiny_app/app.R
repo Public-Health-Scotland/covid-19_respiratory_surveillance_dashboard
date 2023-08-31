@@ -129,10 +129,12 @@ ui <- fluidPage(
                                      value = "influenza",
                                      br(),
                                      radioGroupButtons("influenza_select", status = "home",
-                                                       choices = c("Infection levels"),
+                                                       choices = c("Infection levels (all Influenza)", "Infection levels (by subtype)"),
                                                        direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.influenza_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.influenza_select=='Infection levels (all Influenza)'",
+                                                      source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value),
+                                     conditionalPanel(condition="input.influenza_select=='Infection levels (by subtype)'",
+                                                      source(file.path("indicators/respiratory_mem/influenza/influenza_subtype_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "RSV",
                                      value = "rsv",
                                      br(),
@@ -244,6 +246,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/influenza/influenza_subtype_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_server.R"), local = TRUE)$value
 
   source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value
