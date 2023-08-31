@@ -47,11 +47,11 @@ seasons <- seasons$Season
 
 
 altTextServer("nhs24_mem_modal",
-              title = "NHS24 calls incidence rate per 100,000 population",
-              content = tags$ul(tags$li("This is a plot showing the rate of NHS24 calls per 100,000 population in Scotland."),
+              title = "Percentage of NHS24 calls for respiratory symptoms",
+              content = tags$ul(tags$li("This is a plot showing the percentage of NHS24 calls for respiratory symptoms in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
-                                tags$li("The y axis shows the rate of NHS24 calls per 100,000 population."),
+                                tags$li("The y axis shows the percentage of NHS24 calls for respiratory symptoms."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
                                              seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", ",
                                              seasons[6], ", and ", seasons[7], ".")),
@@ -64,8 +64,8 @@ altTextServer("nhs24_mem_modal",
                                              "Extraordinary (>= ", nhs24_extraordinary_threshold, ")."))))
 
 altTextServer("nhs24_mem_hb_modal",
-              title = "NHS24 calls incidence rate per 100,000 population by NHS Health Board",
-              content = tags$ul(tags$li(glue("This is a plot showing the rate of NHS24 calls per 100,000 population by NHS Health Board for seasons ",
+              title = "Percentage of NHS24 calls for respiratory symptoms by NHS Health Board",
+              content = tags$ul(tags$li(glue("This is a plot showing the percentage of NHS24 calls for respiratory symptoms by NHS Health Board for seasons ",
                                              seasons[6], " and ", seasons[7], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
@@ -78,8 +78,8 @@ altTextServer("nhs24_mem_hb_modal",
 
 
 altTextServer("nhs24_mem_age_modal",
-              title = "NHS24 calls incidence rate per 100,000 population by age group",
-              content = tags$ul(tags$li(glue("This is a plot showing the rate of NHS24 calls infection per 100,000 population by age group for seasons ",
+              title = "Percentage of NHS24 calls for respiratory symptoms by age group",
+              content = tags$ul(tags$li(glue("This is a plot showing the percentage of NHS24 calls for respiratory symptoms by age group for seasons ",
                                              seasons[6], " and ", seasons[7], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
@@ -95,12 +95,12 @@ altTextServer("nhs24_mem_age_modal",
 output$nhs24_mem_table <- renderDataTable({
   Respiratory_NHS24_MEM_Scot %>%
     arrange(desc(WeekEnding)) %>%
-    select(Season, ISOWeek, RatePer100000, ActivityLevel) %>%
+    select(Season, ISOWeek, Percentage, ActivityLevel) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
-           `Rate per 100,000` = RatePer100000,
+           `Percentage of NHS24 Calls for Respiratory Symptoms` = Percentage,
            `Activity Level` = ActivityLevel) %>%
     make_table(add_separator_cols_2dp = c(3),
                filter_cols = c(1,2,4))
@@ -110,14 +110,14 @@ output$nhs24_mem_table <- renderDataTable({
 output$nhs24_mem_hb_table <- renderDataTable({
   Respiratory_NHS24_MEM_HB %>%
     arrange(desc(WeekEnding)) %>%
-    select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
+    select(Season, ISOWeek, HBName, Percentage, ActivityLevel) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            HBName = factor(HBName),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `NHS Health Board`= HBName,
-           `Rate per 100,000` = RatePer100000,
+           `Percentage of NHS24 Calls for Respiratory Symptoms` = Percentage,
            `Activity Level` = ActivityLevel) %>%
     make_table(add_separator_cols_2dp = c(4),
                filter_cols = c(1,2,3,5))
@@ -127,14 +127,14 @@ output$nhs24_mem_hb_table <- renderDataTable({
 output$nhs24_mem_age_table <- renderDataTable({
   Respiratory_NHS24_MEM_Age %>%
     arrange(desc(WeekEnding)) %>%
-    select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
+    select(Season, ISOWeek, AgeGroup, Percentage, ActivityLevel) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Age Group`= AgeGroup,
-           `Rate per 100,000` = RatePer100000,
+           `Percentage of NHS24 Calls for Respiratory Symptoms` = Percentage,
            `Activity Level` = ActivityLevel) %>%
     make_table(add_separator_cols_2dp = c(4),
                filter_cols = c(1,2,3,5))
@@ -144,7 +144,8 @@ output$nhs24_mem_age_table <- renderDataTable({
 # NHS24 MEM plot
 output$nhs24_mem_plot <- renderPlotly({
   Respiratory_NHS24_MEM_Scot %>%
-    create_mem_linechart()
+    create_mem_linechart(value_variable = "Percentage",
+                         y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
 
 })
 
@@ -152,7 +153,7 @@ output$nhs24_mem_plot <- renderPlotly({
 output$nhs24_mem_hb_plot <- renderPlotly({
   Respiratory_NHS24_MEM_HB %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
-    create_mem_heatmap(breakdown_variable = "HBCode")
+    create_mem_heatmap(breakdown_variable = "HBCode", value_variable = "Percentage")
 
 })
 
@@ -161,7 +162,7 @@ output$nhs24_mem_hb_plot <- renderPlotly({
 output$nhs24_mem_age_plot <- renderPlotly({
   Respiratory_NHS24_MEM_Age %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
-    create_mem_heatmap(breakdown_variable = "AgeGroup")
+    create_mem_heatmap(breakdown_variable = "AgeGroup", value_variable = "Percentage")
 
 })
 

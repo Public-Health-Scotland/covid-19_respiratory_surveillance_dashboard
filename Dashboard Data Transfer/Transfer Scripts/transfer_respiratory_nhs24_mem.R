@@ -75,7 +75,7 @@ for (filename1 in filenames1){
              ActivityLevel = factor(ActivityLevel, levels = c("Baseline", "Low",
                                                               "Moderate", "High", "Extraordinary"))) %>%
       rename(ISOWeek = Week,
-             RatePer100000 = Rate) %>%
+             Percentage = Rate) %>%
       select(-Date, -Measure)
 
     if(filename2 == "hb"){
@@ -84,7 +84,7 @@ for (filename1 in filenames1){
                HBName = paste0("NHS ", phsmethods::match_area(HB))) %>%
         rename(HBCode = Healthboard) %>%
         select(WeekBeginning, WeekEnding, Season, Year, ISOWeek, Weekord, HBCode,
-               HB, HBName, RatePer100000, ActivityLevel, everything())
+               HB, HBName, Percentage, ActivityLevel, everything())
 
     } else if(filename2 == "agegp"){
       df <- df %>%
@@ -101,11 +101,11 @@ for (filename1 in filenames1){
         )) %>%
         select(-Agegp) %>%
         select(WeekBeginning, WeekEnding, Season, Year, ISOWeek, Weekord,
-               AgeGroup, RatePer100000, ActivityLevel, everything())
+               AgeGroup, Percentage, ActivityLevel, everything())
     } else{
       df <- df %>%
         select(WeekBeginning, WeekEnding, Season, Year, ISOWeek, Weekord,
-               RatePer100000, ActivityLevel, everything())
+               Percentage, ActivityLevel, everything())
     }
 
     # Assign to new object
