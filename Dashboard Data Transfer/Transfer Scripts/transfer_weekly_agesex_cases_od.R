@@ -62,14 +62,14 @@ pop_total_total<- pop_total_sex %>%
   mutate(sex="Total")
 
 ##### wrangle input data for age and sex  #####
-
+# open data dates to read in combined file
+od_date <- floor_date(today(), "week", 1) + 1
+od_sunday<- floor_date(today(), "week", 1) -1
 i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds") )
 # development version if cases has not run
 #i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_2023-08-22.rds") )
 
-# open data dates to read in combined file
-od_date <- floor_date(today(), "week", 1) + 1
-od_sunday<- floor_date(today(), "week", 1) -1
+
 
 g_cases_raw<- i_combined_pcr_lfd_tests %>% 
   mutate(Sex = case_when(is.na(subject_sex)~submitted_subject_sex,TRUE ~ subject_sex)) %>%
@@ -245,8 +245,8 @@ g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
 write_csv(g_age_sex_cumulative_od, glue("{output_folder}TEMP_age_sex_cumulative_v2.csv"), na = "")
 
 #remove intermediate cumulative dataframes   
-rm(g_agegroup_sex_cumulative, g_agegroup_cumulative, g_agegroup_cumulative_combined, #1, #2, #1 and #2 combined
-   g_60plus_sex_cumulative, g_60_plus_cumulative_combined,g_60plus_cumulative, #3, #4, #3 and 4 combined
+rm(g_agegroup_sex_cumulative, g_agegroup_cumulative, g_agegroup_cumulative_combined, #1, #2, #1&#2 combined
+   g_60plus_sex_cumulative, g_60_plus_cumulative_combined,g_60plus_cumulative, #3, #4, #3&#4 combined
      g_total_age_sex_cumulative, g_total_cumulative ) #5 #6
    
 # remove pop_lookups,
