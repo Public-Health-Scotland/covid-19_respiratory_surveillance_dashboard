@@ -177,17 +177,17 @@ Geog_all_cases <- Combined_geog %>%
 rm(Geog_all, Combined_geog, pcr_geog, lfd_geog, pcr_and_lfd_geog)
 
 g_total_cases <- Geog_all_cases %>%
-  rename("TotalCases" = "total_positive") %>%
-  rename("TotalPCROnlyCases" = "pcr_positive") %>%
-  rename("TotalLFDOnlyCases" = "lfd_positive") %>%
-  rename("TotalLFDAndPCRCases" = "pcr_and_lfd_positive") %>%
+  rename("CumulativeCases" = "total_positive") %>%
+  rename("CumulativePCROnlyCases" = "pcr_positive") %>%
+  rename("CumulativeLFDOnlyCases" = "lfd_positive") %>%
+  rename("CumulativeLFDAndPCRCases" = "pcr_and_lfd_positive") %>%
   rename("Geography" = "location_code") %>%
   rename("GeographyName" = "location_name") %>%
   rename("CrudeRatePositiveCases" = "total_crude_rate_positive") %>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003")) %>%
   mutate(GeographyQF = if_else(Geography == "S92000003", "d", "")) %>%
-  select(Date, Geography, GeographyQF, GeographyName, TotalCases, CrudeRatePositiveCases,
-         TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases, geography)%>%
+  select(Date, Geography, GeographyQF, GeographyName, CumulativeCases, CrudeRatePositiveCases,
+         CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases, geography)%>%
   arrange(Geography)
 
 rm(Geog_all_cases)
@@ -257,12 +257,12 @@ rm(cumulatives_all, pillar1, pillar2, lfd_tests)
 
 g_pos_tests <- Geog_all_pos_tests %>%
   rename("Geography" = "location_code",
-         TotalPositiveTests = total_positive_tests,
-         PositivePillar1Tests	= pillar1_positive_tests,
-         PositivePillar2Tests = pillar2_positive_tests,
-         PositiveLFDTests = lfd_positive_tests)%>%
+         CumulativePositiveTests = total_positive_tests,
+         CumulativePositivePillar1Tests	= pillar1_positive_tests,
+         CumulativePositivePillar2Tests = pillar2_positive_tests,
+         CumulativePositiveLFDTests = lfd_positive_tests)%>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
-  select(Date, Geography, TotalPositiveTests, PositivePillar1Tests, PositivePillar2Tests, PositiveLFDTests)
+  select(Date, Geography, CumulativePositiveTests, CumulativePositivePillar1Tests, CumulativePositivePillar2Tests, CumulativePositiveLFDTests)
 
 rm(Geog_all_pos_tests)
 
@@ -303,13 +303,13 @@ rm(all_tests_scotland, all_tests_HB, all_tests_LA)
 
 g_all_tests <- Geog_all_tests %>%
   rename("Geography" = "location_code",
-         TotalTests = Total_tests_cumulative,
-         TotalPillar1Tests	= Pillar1_tests_cumulative,
-         TotalPillar2Tests = Pillar2_tests_cumulative,
-         TotalLFDTests = LFD_tests_cumulative)%>%
+         CumulativeTests = Total_tests_cumulative,
+         CumulativePillar1Tests	= Pillar1_tests_cumulative,
+         CumulativePillar2Tests = Pillar2_tests_cumulative,
+         CumulativeLFDTests = LFD_tests_cumulative)%>%
   mutate(Date=od_date)%>% #Should this be od_Sunday as with weekly geog? filtering above is to OD_sunday
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
-  select(Date, Geography, TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests)
+  select(Date, Geography, CumulativeTests, CumulativePillar1Tests, CumulativePillar2Tests, CumulativeLFDTests)
 
 rm(Geog_all_tests)
 
@@ -319,9 +319,9 @@ g_cumulative_geog <- g_total_cases %>%
   left_join(g_all_tests, by=c("Date", "Geography"))%>%
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) %>%
 select(Date, Geography, GeographyQF,GeographyName,
-       TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
-       TotalPositiveTests, PositivePillar1Tests, PositivePillar2Tests, PositiveLFDTests,
-       TotalCases, CrudeRatePositiveCases, TotalPCROnlyCases, TotalLFDOnlyCases, TotalLFDAndPCRCases, geography)
+       CumulativeTests, CumulativePillar1Tests, CumulativePillar2Tests, CumulativeLFDTests,
+       CumulativePositiveTests, CumulativePositivePillar1Tests, CumulativePositivePillar2Tests, CumulativePositiveLFDTests,
+       CumulativeCases, CrudeRatePositiveCases, CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases, geography)
 rm(g_total_cases, g_pos_tests, g_all_tests)
 
 g_cumulative_geog_hb <- g_cumulative_geog %>%
@@ -330,7 +330,8 @@ g_cumulative_geog_hb <- g_cumulative_geog %>%
 
 g_cumulative_geog_la <- g_cumulative_geog %>%
   filter(geography == "Local Authority") %>%
-  select(-geography)
+  select(-c("geography", "CumulativePillar1Tests", "CumulativePillar2Tests", "CumulativePositivePillar1Tests",
+            "CumulativePositivePillar2Tests"))
 
 #save out cumulative geography open data file
 write_csv(g_cumulative_geog_hb, glue(output_folder, "TEMP_Geography_cumulative_hb.csv"))
@@ -629,8 +630,8 @@ g_weekly_hb <- g_cases_weekly %>%
   arrange(week_ending, Geography)%>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
-         TotalPositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDTests,
          TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
+         TotalPositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDTests,
          WeeklyPositiveCases, CumulativePositiveCases,
          WeeklyPositivePCROnlyCases, CumulativePositivePCROnlyCases,
          WeeklyPositiveLFDOnlyCases, CumulativePositiveLFDOnlyCases,
@@ -649,8 +650,8 @@ g_weekly_la <- g_cases_weekly %>%
   arrange(week_ending, Geography)%>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
-         TotalPositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDTests,
-         TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
+         TotalTests, TotalLFDTests,
+         TotalPositiveTests, PositiveLFDTests,
          WeeklyPositiveCases, CumulativePositiveCases,
          WeeklyPositivePCROnlyCases, CumulativePositivePCROnlyCases,
          WeeklyPositiveLFDOnlyCases, CumulativePositiveLFDOnlyCases,
