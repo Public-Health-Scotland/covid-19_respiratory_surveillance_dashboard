@@ -414,7 +414,7 @@ create_euromomo_mem_heatmap <- function(data,
     layout(
       images = list(  
         list(  
-          source =  raster2uri(mem_legend),  
+          source =  raster2uri(euromomo_age_mem_legend),  
           xref = "paper",  
           yref = "paper",  
           x = 0.5,  

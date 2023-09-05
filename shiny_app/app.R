@@ -189,13 +189,13 @@ ui <- fluidPage(
                             
                             tabPanel(title = "Euromomo (all-cause excess mortality)",
                                      value = "euromomo",
-                                    #source(file.path("indicators/mortality/euromomo/euromomo_ui.R")))
-                                     br(),
-                                     radioGroupButtons("mortality_select", status = "home",
-                                                       choices = c("Euromomo"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.mortality_select=='Euromomo'",
-                                                      source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value))
+                                     source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
+                                     # br(),
+                                     # radioGroupButtons("mortality_select", status = "home",
+                                     #                   choices = c("Euromomo"),
+                                     #                   direction = "horizontal", justified = F),
+                                     # conditionalPanel(condition="input.mortality_select=='Euromomo'",
+                                     #                  source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value))
 
                ) # navbarlistPanel
                #

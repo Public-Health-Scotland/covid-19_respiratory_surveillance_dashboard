@@ -160,6 +160,9 @@ prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DatePreviousWeek[
 # Static legend for MEM plots
 mem_legend <- readPNG("www/MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
 
+# Static legend for Euromomo age MEM plots
+euromomo_age_mem_legend <- readPNG("www/Euromomo_age_MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
+
 # Activity levels
 activity_levels <- c("Baseline", "Low", "Moderate", "High", "Extraordinary")
 

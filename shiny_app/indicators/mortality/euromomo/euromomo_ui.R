@@ -3,7 +3,7 @@ tagList(
            
            metadataButtonUI("mortality_euromomo"),
            linebreaks(1),
-           h1("Euromomo (all-cause mortality)"),
+           h1("Euromomo (all-cause excess mortality)"),
            linebreaks(1)),
   
   fluidRow(width = 12,

@@ -66,14 +66,9 @@ altTextServer("euromomo_mem_age_modal",
                                              seasons[4], " compared to the previous season, ", seasons[3], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
-                                tags$li("The y axis shows the z-score."),
-                                tags$li(glue("Activity levels for all-cause excess mortality based on MEM thresholds are represented by different coloured panels on the plot. ",
-                                             "The activity levels and MEM thresholds for all-cause excess mortality are: ",
-                                             "Baseline (< ", euromomo_low_threshold, "), ",
-                                             "Low (", euromomo_low_threshold, "-", euromomo_moderate_threshold-0.01, "), ",
-                                             "Moderate (", euromomo_moderate_threshold, "-", euromomo_high_threshold-0.01, "), ",
-                                             "High (", euromomo_high_threshold, "-", euromomo_extraordinary_threshold-0.01, "), and ",
-                                             "Extraordinary (>= ", euromomo_extraordinary_threshold, ")."))))
+                                tags$li("The y axis shows the age group."),
+                                tags$li("Each cell is coloured according to the activity level: Baseline, Low, Moderate, High, or Extraordinary."),
+                                tags$li(glue("Data for the most recent weeks are incomplete and should be treated with caution."))))
 
 
 # altTextServer("influenza_mem_age_modal",
@@ -120,6 +115,7 @@ output$euromomo_mem_age_table <- renderDataTable({
     select(Season, ISOWeek, AgeGroup, ZScore, ActivityLevel, Provisional) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
+           AgeGroup = factor(AgeGroup, levels = euromomo_mem_age_groups_full),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Z-score` = ZScore,
@@ -128,26 +124,6 @@ output$euromomo_mem_age_table <- renderDataTable({
     make_table(add_separator_cols_2dp = c(4),
                filter_cols = c(1,2,3,5,6))
 })
-
-
-
-# # Influenza MEM by Age table
-# output$influenza_mem_age_table <- renderDataTable({
-#   Respiratory_Pathogens_MEM_Age %>%
-#     filter(Pathogen == "Influenza") %>%
-#     arrange(desc(WeekEnding)) %>%
-#     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
-#     mutate(Season = factor(Season),
-#            ISOWeek = factor(ISOWeek),
-#            AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
-#            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
-#     rename(`ISO Week` = ISOWeek,
-#            `Age Group`= AgeGroup,
-#            `Rate per 100,000` = RatePer100000,
-#            `Activity Level` = ActivityLevel) %>%
-#     make_table(add_separator_cols_2dp = c(4),
-#                filter_cols = c(1,2,3,5))
-# })
 
 
 # Influenza MEM plot
@@ -168,18 +144,6 @@ output$euromomo_mem_age_plot <- renderPlotly({
                        value_variable = "ZScore")
   
 })
-
-
-
-
-# # Influenza MEM by Age plot
-# output$influenza_mem_age_plot <- renderPlotly({
-#   Respiratory_Pathogens_MEM_Age %>%
-#     filter(Pathogen == "Influenza") %>%
-#     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
-#     create_mem_heatmap(breakdown_variable = "AgeGroup")
-#   
-# })
 
 
 
