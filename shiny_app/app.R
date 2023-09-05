@@ -141,7 +141,7 @@ ui <- fluidPage(
                                      radioGroupButtons("rsv_select", status = "home",
                                                        choices = c("Infection levels"),
                                                        direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.influenza_select=='Infection levels'",
+                                     conditionalPanel(condition="input.rsv_select=='Infection levels'",
                                                       source(file.path("indicators/respiratory_mem/rsv/rsv_mem_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Adenovirus",
                                      value = "adenovirus",
