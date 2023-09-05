@@ -38,6 +38,11 @@ tagList(
            metadataButtonUI("respiratory_rsv_mem"),
            linebreaks(1),
            h1("RSV Incidence Rates"),
+           p("Respiratory syncytial virus (RSV) is a virus that generally causes mild cold like",
+             "symptoms but may occasionally result in severe lower respiratory infection such as",
+             "bronchiolitis or pneumonia, particularly in infants and young children or in adults",
+             "with compromised cardiac, pulmonary, or immune systems. RSV has an annual seasonality",
+             "with peaks of activity in the winter months. Additional information can be found on the PHS page for RSV."),
            linebreaks(1)),
 
 
