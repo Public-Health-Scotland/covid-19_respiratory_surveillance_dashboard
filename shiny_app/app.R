@@ -177,6 +177,29 @@ ui <- fluidPage(
                ) # navbarlistPanel
                #
       ),#tabPanel
+      
+      ##############################################.
+      # MORTALITY ----
+      ##############################################.
+      tabPanel(title ="Mortality",
+               # Look at https://fontawesome.com/search?m=free for icons
+               icon = icon_no_warning_fn("virus"),
+               value = "mortality",
+               navlistPanel(widths = c(2,10), id = "mortality_panel", #icon = icon_no_warning_fn("spa")
+                            
+                            tabPanel(title = "Euromomo (all-cause excess mortality)",
+                                     value = "euromomo",
+                                    #source(file.path("indicators/mortality/euromomo/euromomo_ui.R")))
+                                     br(),
+                                     radioGroupButtons("mortality_select", status = "home",
+                                                       choices = c("Euromomo"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.mortality_select=='Euromomo'",
+                                                      source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value))
+
+               ) # navbarlistPanel
+               #
+      ),#tabPanel
 
 
       ##############################################.
@@ -233,7 +256,8 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
-
+  source(file.path("indicators/mortality/euromomo/euromomo_functions.R"), local = TRUE)$value
+  
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_server.R"), local = TRUE)$value
@@ -251,6 +275,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
 
+  source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 
 }
 #sets language right at the top of source (required this way for screen readers)
