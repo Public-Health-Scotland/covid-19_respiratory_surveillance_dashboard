@@ -43,7 +43,11 @@ df <- df %>%
                                                           "Moderate", "High", "Extraordinary"))) %>%
   rename(Year = Isoyear,
          ISOWeek = Isoweek,
-         ZScore = Zscore) %>%
+         ZScore = Zscore, 
+         LowThreshold = Epidemic, 
+         MediumThreshold = Medium, 
+         HighThreshold = High, 
+         ExtraordinaryThreshold = Veryhigh) %>%
   select(-Date) 
 
 # Derive week ord
