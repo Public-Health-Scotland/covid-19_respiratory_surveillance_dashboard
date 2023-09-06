@@ -181,22 +181,6 @@ ui <- fluidPage(
       ),#tabPanel
       
       ##############################################.
-      # MORTALITY ----
-      ##############################################.
-      tabPanel(title ="Mortality",
-               # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("virus"),
-               value = "mortality",
-               navlistPanel(widths = c(2,10), id = "mortality_panel", #icon = icon_no_warning_fn("spa")
-                            
-                            tabPanel(title = "All-Cause Excess Mortality (Euromomo)",
-                                     value = "euromomo",
-                                     source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
-               ) # navbarlistPanel
-               #
-      ),#tabPanel
-
-      ##############################################.
       # SYNDROMIC SURVEILLANCE ----
       ##############################################.
       tabPanel(title ="Syndromic surveillance",
@@ -225,6 +209,22 @@ ui <- fluidPage(
                #
       ),#tabPanel
 
+      ##############################################.
+      # MORTALITY ----
+      ##############################################.
+      tabPanel(title ="Mortality",
+               # Look at https://fontawesome.com/search?m=free for icons
+               icon = icon_no_warning_fn("virus"),
+               value = "mortality",
+               navlistPanel(widths = c(2,10), id = "mortality_panel", #icon = icon_no_warning_fn("spa")
+                            
+                            tabPanel(title = "All-Cause Excess Mortality (Euromomo)",
+                                     value = "euromomo",
+                                     source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
+               ) # navbarlistPanel
+               #
+      ),#tabPanel
+      
 
       ##############################################.
       # METADATA ----
