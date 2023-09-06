@@ -130,24 +130,6 @@ output$euromomo_mem_age_plot <- renderPlotly({
   
 })
 
-# Narrative
-output$euromomo_narrative <- renderUI({
-  
-  tagList(p("All-cause excess mortality is defined as a statistically significant increase ",
-            "in the number of deaths reported over the expected number for a given point in time. ",
-            "This calculation allows for a weekly variation in the number of deaths registered and ",
-            "takes account of deaths registered retrospectively. PHS use the European monitoring of ",
-            "excess mortality (", 
-            tags$a(href="https://www.euromomo.eu/", "Euromomo (external website)",
-                   target="_blank"),
-            ") system to estimate weekly all-cause excess mortality, which is presented as z-scores. ",
-            "This data is subject to adjustment by statistical methods to allow comparison between ",
-            "seasons, reporting delays, and public holidays. All-cause excess mortality is reported two ",
-            "weeks after the week of the occurrence of the deaths to allow for reporting delay. ",
-            "For more information, please refer to the ",
-            actionLink("jump_to_metadata_page", "Metadata"),
-            "section."))
-})
 
 observeEvent(input$jump_to_metadata_page, {updateTabsetPanel(session, "intabset", selected = "metadata")})
 
