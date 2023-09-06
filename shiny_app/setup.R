@@ -160,6 +160,9 @@ prev_week_iso <- lubridate::isoweek(Respiratory_Summary_Totals$DatePreviousWeek[
 # Static legend for MEM plots
 mem_legend <- readPNG("www/MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
 
+# Static legend for Euromomo age MEM plots
+euromomo_age_mem_legend <- readPNG("www/Euromomo_age_MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
+
 # Activity levels
 activity_levels <- c("Baseline", "Low", "Moderate", "High", "Extraordinary")
 
@@ -169,6 +172,9 @@ activity_level_colours <- c("#01A148", "#FFDE17", "#F36523", "#ED1D24", "#7D4192
 # Colours for lines on line chart
 mem_line_colours <- c("#010101", "#A35000", "#00FF1A", "#004785","#00a2e5",
                       "#376C31", "#FF0000")
+
+# Colours for lines on line chart
+euromomo_mem_line_colours <- c("#004785","#00a2e5", "#376C31", "#FF0000", "#FF0000")
 
 # Isoweeks from week 40 to 39
 mem_isoweeks <- c(40:52, 1:39)
@@ -180,5 +186,10 @@ mem_age_groups <- c("< 1", "1-4", "5-14", "15-44", "45-64", "65-74",
                     "75+", "All Ages")
 mem_age_groups_full <- c("< 1 years", "1-4 years", "5-14 years", "15-44 years", 
                          "45-64 years", "65-74 years", "75+ years", "All Ages")
+
+# Age groups
+euromomo_mem_age_groups <- c("0-4", "5-14", "15-64", "65+", "All Ages")
+euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years", 
+                                  "65+ years", "All Ages")
 
 

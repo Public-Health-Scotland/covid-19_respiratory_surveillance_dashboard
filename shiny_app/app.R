@@ -179,7 +179,7 @@ ui <- fluidPage(
                ) # navbarlistPanel
                #
       ),#tabPanel
-
+      
       ##############################################.
       # SYNDROMIC SURVEILLANCE ----
       ##############################################.
@@ -209,6 +209,22 @@ ui <- fluidPage(
                #
       ),#tabPanel
 
+      ##############################################.
+      # MORTALITY ----
+      ##############################################.
+      tabPanel(title ="Mortality",
+               # Look at https://fontawesome.com/search?m=free for icons
+               icon = icon_no_warning_fn("virus"),
+               value = "mortality",
+               navlistPanel(widths = c(2,10), id = "mortality_panel", #icon = icon_no_warning_fn("spa")
+                            
+                            tabPanel(title = "All-Cause Excess Mortality (Euromomo)",
+                                     value = "euromomo",
+                                     source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
+               ) # navbarlistPanel
+               #
+      ),#tabPanel
+      
 
       ##############################################.
       # METADATA ----
@@ -264,7 +280,8 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
-
+  source(file.path("indicators/mortality/euromomo/euromomo_functions.R"), local = TRUE)$value
+  
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_server.R"), local = TRUE)$value
@@ -282,6 +299,9 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
+
+
+  source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 
   source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_server.R"), local = TRUE)$value
   source(file.path("indicators/syndromic_surveillance/gp/gp_server.R"), local = TRUE)$value
