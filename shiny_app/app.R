@@ -129,10 +129,12 @@ ui <- fluidPage(
                                      value = "influenza",
                                      br(),
                                      radioGroupButtons("influenza_select", status = "home",
-                                                       choices = c("Infection levels"),
+                                                       choices = c("Infection levels (all Influenza)", "Infection levels (by subtype)"),
                                                        direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.influenza_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.influenza_select=='Infection levels (all Influenza)'",
+                                                      source(file.path("indicators/respiratory_mem/influenza/influenza_mem_ui.R"), local = TRUE)$value),
+                                     conditionalPanel(condition="input.influenza_select=='Infection levels (by subtype)'",
+                                                      source(file.path("indicators/respiratory_mem/influenza/influenza_subtype_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "RSV",
                                      value = "rsv",
                                      br(),
@@ -190,6 +192,35 @@ ui <- fluidPage(
                             tabPanel(title = "All-Cause Excess Mortality (Euromomo)",
                                      value = "euromomo",
                                      source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
+               ) # navbarlistPanel
+               #
+      ),#tabPanel
+
+      ##############################################.
+      # SYNDROMIC SURVEILLANCE ----
+      ##############################################.
+      tabPanel(title ="Syndromic surveillance",
+               # Look at https://fontawesome.com/search?m=free for icons
+               icon = icon_no_warning_fn("virus"),
+               value = "syndromic_surveillance",
+               navlistPanel(widths = c(2,10), id = "syndromic_surveillance_panel", #icon = icon_no_warning_fn("spa")
+
+                            tabPanel(title = "NHS24 calls",
+                                     value = "nhs24_calls",
+                                     br(),
+                                     radioGroupButtons("nhs24_calls_select", status = "home",
+                                                       choices = c("Infection levels"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.nhs24_calls_select=='Infection levels'",
+                                                      source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_ui.R"), local = TRUE)$value)),
+                            tabPanel(title = "GP consultations",
+                                     value = "gp_consultations",
+                                     br(),
+                                     radioGroupButtons("gp_consultations_select", status = "home",
+                                                       choices = c("Infection levels"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.gp_consultations_select=='Infection levels'",
+                                                      source(file.path("indicators/syndromic_surveillance/gp/gp_ui.R"), local = TRUE)$value))
                ) # navbarlistPanel
                #
       ),#tabPanel
@@ -261,6 +292,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/influenza/influenza_subtype_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_server.R"), local = TRUE)$value
 
   source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value
@@ -268,7 +300,12 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
 
+
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
+
+  source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_server.R"), local = TRUE)$value
+  source(file.path("indicators/syndromic_surveillance/gp/gp_server.R"), local = TRUE)$value
+
 
 }
 #sets language right at the top of source (required this way for screen readers)

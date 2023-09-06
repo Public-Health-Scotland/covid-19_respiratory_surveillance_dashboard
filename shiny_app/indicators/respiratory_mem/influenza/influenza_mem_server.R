@@ -178,5 +178,91 @@ output$influenza_mem_age_plot <- renderPlotly({
   
 })
 
+### Age and sex plot ###
+
+altTextServer("influenza_age_sex",
+              title = glue("Influenza cases by age and/or sex in Scotland"),
+              content = tags$ul(
+                tags$li(glue("This is a plot of the total influenza cases in Scotland.")),
+                tags$li("The information is displayed for a selected season and week."),
+                tags$li("One of three different plots is displayed depending on the breakdown",
+                        "selected: either Age; Sex; or Age + Sex."),
+                tags$li("All three plots show rate per 100,000 people on the y axis."),
+                tags$li("For the x axis the first plot shows age group, the second shows",
+                        "sex, and the third shows age group and sex."),
+                tags$li("The first plot (Age) is a bubble plot. This is a scatter plot",
+                        "where both the position and the area of the circle correspond",
+                        "to the rate per 100,000 people."),
+                tags$li("The second and third plots are bar charts where the left hand column",
+                        "corresponds to female (F) and the right hand column to male (M).")
+                # tags$li("The youngest and oldest groups have the highest rates of illness.")
+              )
+)
+
+# plot that shows the breakdown by age/sex/age and sex
+output$influenza_age_sex_plot = renderPlotly({
+  
+  Respiratory_AllData %>%
+    filter(FluOrNonFlu == "flu") %>%
+    filter_by_sex_age(., season = input$respiratory_season,
+                      date = {input$respiratory_date %>% as.Date(format="%d %b %y")},
+                      breakdown = input$respiratory_select_age_sex_breakdown) %>%
+    make_age_sex_plot(., breakdown = input$respiratory_select_age_sex_breakdown)
+  
+})
+
+# Flu by age/sex/age and sex
+output$influenza_age_sex_table = renderDataTable({
+  
+  flu_age <- Respiratory_AllData %>%
+    filter(FluOrNonFlu == "flu") %>%
+    filter(scotland_by_age_flag == 1) %>%
+    mutate(Sex = "All") %>%
+    select(Season, Date, AgeGroup, Sex, Rate) %>%
+    mutate(Season = factor(Season)) %>%
+    dplyr::rename("Week ending" = "Date",
+                  "Age group" = "AgeGroup",
+                  "Rate per 100,000" = "Rate")
+  
+  flu_sex <- Respiratory_AllData %>%
+    filter(FluOrNonFlu == "flu") %>%
+    filter(scotland_by_sex_flag == 1) %>%
+    mutate(AgeGroup = "All") %>%
+    select(Season, Date, AgeGroup, Sex, Rate) %>%
+    mutate(Season = factor(Season)) %>%
+    dplyr::rename("Week ending" = "Date",
+                  "Age group" = "AgeGroup",
+                  "Rate per 100,000" = "Rate")
+  
+  flu_age_sex <- Respiratory_AllData %>%
+    filter(FluOrNonFlu == "flu") %>%
+    filter(scotland_by_age_sex_flag == 1) %>%
+    select(Season, Date, AgeGroup, Sex, Rate) %>%
+    mutate(Season = factor(Season)) %>%
+    arrange(desc(Date), AgeGroup, Sex) %>%
+    dplyr::rename("Week ending" = "Date",
+                  "Age group" = "AgeGroup",
+                  "Rate per 100,000" = "Rate") %>%
+    bind_rows(flu_age, flu_sex) %>%
+    mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
+           `Age group` = factor(`Age group`, levels =
+                                  c("All", "<1", "1-4", "5-14",
+                                    "15-44", "45-64", "65-74", "75+"))) %>%
+    arrange(desc(`Week ending`), `Age group`, Sex) %>%
+    make_table(filter_cols = c(1,3,4))
+  
+})
+
+observeEvent(input$respiratory_season,
+             {
+               updatePickerInput(session, inputId = "respiratory_date",
+                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
+                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
+                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
+               
+             }
+)
+
 
 
