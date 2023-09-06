@@ -1,10 +1,6 @@
 
 metadataButtonServer(id="mortality_euromomo",
-                     panel="Euromomo (all-cause mortality)",
-                     parent = session)
-
-metadataButtonServer(id="respiratory_influenza_mem",
-                     panel="Respiratory infection activity",
+                     panel="All-Cause Excess Mortality (Euromomo)",
                      parent = session)
 
 # Low threshold
@@ -58,7 +54,8 @@ altTextServer("euromomo_mem_modal",
                                              "Low (", euromomo_low_threshold, "-", euromomo_moderate_threshold-0.01, "), ",
                                              "Moderate (", euromomo_moderate_threshold, "-", euromomo_high_threshold-0.01, "), ",
                                              "High (", euromomo_high_threshold, "-", euromomo_extraordinary_threshold-0.01, "), and ",
-                                             "Extraordinary (>= ", euromomo_extraordinary_threshold, ")."))))
+                                             "Extraordinary (>= ", euromomo_extraordinary_threshold, ").")),
+                                tags$li(glue("Data for the most recent weeks are incomplete and should be treated with caution."))))
 
 altTextServer("euromomo_mem_age_modal",
               title = "All-cause excess mortality (Euromomo) by age",
@@ -71,62 +68,50 @@ altTextServer("euromomo_mem_age_modal",
                                 tags$li(glue("Data for the most recent weeks are incomplete and should be treated with caution."))))
 
 
-# altTextServer("influenza_mem_age_modal",
-#               title = "Influenza incidence rate per 100,000 population by age group",
-#               content = tags$ul(tags$li(glue("This is a plot showing the rate of influenza infection per 100,000 population by age group for seasons ",
-#                                              seasons[6], " and ", seasons[7], ".")),
-#                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
-#                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
-#                                 tags$li("The y axis shows the age group."),
-#                                 tags$li("Each cell is coloured according to the activity level: Baseline, Low, Moderate, High, or Extraordinary."),
-#                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller age groups. ",
-#                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
-#                                         "to the population size; this has the effect of generating small or large incidence rates compared to age groups ",
-#                                         "with larger populations.")))
 
-
-# Influenza MEM table
+# Euromomo MEM table
 output$euromomo_mem_table <- renderDataTable({
   Respiratory_Euromomo %>%
     filter(AgeGroup == "All Ages") %>%
     filter(Season %in% seasons) %>%
-    mutate(Provisional = ifelse(ActivityLevelDelay == "Reporting delay",
-                                "p", "")) %>%
+    mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
+                                "Yes", "")) %>%
     arrange(desc(WeekEnding)) %>%
-    select(Season, ISOWeek, ZScore, ActivityLevel, Provisional) %>%
+    select(Season, ISOWeek, ZScore, ActivityLevel, ReportingDelay) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Z-score` = ZScore,
            `Activity Level` = ActivityLevel,
-           `Is data provisional (p)?` = Provisional) %>%
+           `Reporting delay?` = ReportingDelay) %>%
     make_table(add_separator_cols_2dp = c(3),
                filter_cols = c(1,2,4,5))
 })
 
-# Influenza MEM table
+# Euromomo age MEM table
 output$euromomo_mem_age_table <- renderDataTable({
   Respiratory_Euromomo %>%
     filter(Season %in% seasons[3:4]) %>%
-    mutate(Provisional = ifelse(ActivityLevelDelay == "Reporting delay",
-                                "p", "")) %>%
+    mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
+                                "Yes", "")) %>%
     arrange(desc(WeekEnding)) %>%
-    select(Season, ISOWeek, AgeGroup, ZScore, ActivityLevel, Provisional) %>%
+    select(Season, ISOWeek, AgeGroup, ZScore, ActivityLevel, ReportingDelay) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            AgeGroup = factor(AgeGroup, levels = euromomo_mem_age_groups_full),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Z-score` = ZScore,
+           `Age group` = AgeGroup,
            `Activity Level` = ActivityLevel,
-           `Is data provisional (p)?` = Provisional) %>%
+           `Reporting delay?` = ReportingDelay) %>%
     make_table(add_separator_cols_2dp = c(4),
                filter_cols = c(1,2,3,5,6))
 })
 
 
-# Influenza MEM plot
+# Euromomo MEM plot
 output$euromomo_mem_plot <- renderPlotly({
   Respiratory_Euromomo %>%
     filter(AgeGroup == "All Ages") %>%
@@ -134,7 +119,7 @@ output$euromomo_mem_plot <- renderPlotly({
   
 })
 
-# Influenza MEM plot
+# Euromomo age MEM plot
 output$euromomo_mem_age_plot <- renderPlotly({
   Respiratory_Euromomo %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels),
@@ -145,5 +130,24 @@ output$euromomo_mem_age_plot <- renderPlotly({
   
 })
 
+# Narrative
+output$euromomo_narrative <- renderUI({
+  
+  tagList(p("All-cause excess mortality is defined as a statistically significant increase ",
+            "in the number of deaths reported over the expected number for a given point in time. ",
+            "This calculation allows for a weekly variation in the number of deaths registered and ",
+            "takes account of deaths registered retrospectively. PHS use the European monitoring of ",
+            "excess mortality (", 
+            tags$a(href="https://www.euromomo.eu/", "Euromomo (external website)",
+                   target="_blank"),
+            ") system to estimate weekly all-cause excess mortality, which is presented as z-scores. ",
+            "This data is subject to adjustment by statistical methods to allow comparison between ",
+            "seasons, reporting delays, and public holidays. All-cause excess mortality is reported two ",
+            "weeks after the week of the occurrence of the deaths to allow for reporting delay. ",
+            "For more information, please refer to the ",
+            actionLink("jump_to_metadata_page", "Metadata"),
+            "section."))
+})
 
+observeEvent(input$jump_to_metadata_page, {updateTabsetPanel(session, "intabset", selected = "metadata")})
 

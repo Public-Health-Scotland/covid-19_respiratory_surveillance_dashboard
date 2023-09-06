@@ -3,11 +3,7 @@ create_euromomo_mem_linechart <- function(data,
                                           rate_dp = 2,
                                           seasons = NULL,
                                           value_variable = "ZScore",
-                                          y_axis_title = "Z-score",
-                                          reporting_delay = T) {
-  
-  # data <- Respiratory_Euromomo %>%
-  #   filter(AgeGroup == "All Ages")
+                                          y_axis_title = "Z-score") {
   
   # Add in a new row so that dashed line works
   new_row <- data %>%
@@ -45,16 +41,10 @@ create_euromomo_mem_linechart <- function(data,
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
   
-  # if(reporting_delay = T){
-  #   data = data %>%
-  #     mutate(Season = ifelse(ActivityLevelDelay == "Reporting delay",
-  #                            "Reporting delay", Season))
-  # }
-  
-  # Add in provisional marker
+  # Add in reporting delay marker
   data = data %>%
-    mutate(Provisional = ifelse(ActivityLevelDelay == "Reporting delay" & is.na(new_row),
-                                " (provisional) ", ""))
+    mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay" & is.na(new_row),
+                                " (reporting delay) ", ""))
   
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
@@ -76,22 +66,13 @@ create_euromomo_mem_linechart <- function(data,
   #Text for tooltip
   tooltip_trend <- c(paste0("Season: ", data$Season,
                             "<br>", "Week number: ", data$ISOWeek,
-                            "<br>", "Z-score: ", data$Value, data$Provisional,
-                            "<br>", "Activity level: ", data$ActivityLevel, data$Provisional))
+                            "<br>", "Z-score: ", data$Value, data$ReportingDelay,
+                            "<br>", "Activity level: ", data$ActivityLevel, data$ReportingDelay))
   
   # Update for reporting delay
   data = data %>%
     mutate(SeasonDelay = ifelse(ActivityLevelDelay == "Reporting delay",
                            "Reporting delay", Season))
-  # 
-  # # Add in a new row so that dashed line works
-  # new_row <- data %>%
-  #   tail(4) %>%
-  #   head(1) %>%
-  #   mutate(SeasonDelay = "Reporting delay",
-  #          Provisional = "")
-  # 
-  # data <- bind_rows(data, new_row)
   
   # Create plot
   mem_linechart = data %>%
@@ -204,11 +185,6 @@ create_euromomo_mem_heatmap <- function(data,
                                heatmap_seasons = NULL,
                                value_variable = "ZScore") {
   
-  data=Respiratory_Euromomo %>%
-    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels),
-           ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(activity_levels,
-                                                                      "Reporting delay")))
-  
   # Rename HB/Age variable
   # Rename value variable
   data <- data %>%
@@ -246,10 +222,10 @@ create_euromomo_mem_heatmap <- function(data,
   # Breakdown of data
   data_breakdown <- unique(sort(data$Breakdown))
   
-  # Add in provisional marker
+  # Add in reporting delay marker
   data = data %>%
-    mutate(Provisional = ifelse(ActivityLevelDelay == "Reporting delay",
-                                " (provisional) ", ""))
+    mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
+                                " (reporting delay) ", ""))
   
   # Data for previous season
   data_prev_season <- data %>%
@@ -274,8 +250,8 @@ create_euromomo_mem_heatmap <- function(data,
     hovertext = ~ paste0("Season: ", unique(data_prev_season$Season), "<br>",
                          "Week number: ", ISOWeek, "<br>", 
                          breakdown_hover, Breakdown_hover, "<br>",
-                         "Z-score: ", data$Value, data$Provisional, "<br>",
-                         "Activity level: ", data$ActivityLevel, data$Provisional),
+                         "Z-score: ", Value, ReportingDelay, "<br>",
+                         "Activity level: ", ActivityLevel, ReportingDelay),
     hoverinfo = "text"
   ) %>%
     layout(
@@ -353,8 +329,8 @@ create_euromomo_mem_heatmap <- function(data,
     hovertext = ~ paste0("Season: ", unique(data_curr_season$Season), "<br>",
                          "Week number: ", ISOWeek, "<br>", 
                          breakdown_hover, Breakdown_hover, "<br>",
-                         "Z-score: ", Value, Provisional, "<br>",
-                         "Activity level: ", ActivityLevel, Provisional),
+                         "Z-score: ", Value, ReportingDelay, "<br>",
+                         "Activity level: ", ActivityLevel, ReportingDelay),
     hoverinfo = "text"
   ) %>%
     layout(
