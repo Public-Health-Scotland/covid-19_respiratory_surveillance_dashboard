@@ -4,6 +4,12 @@ tagList(
            metadataButtonUI("gp_mem"),
            linebreaks(1),
            h1("GP Consultations for Influenza-Like Illness(ILI)"),
+           p("Influenza virus infections can cause a range of symptoms which are non-specific",
+             "and resemble the clinical presentation of a variety of other pathogens. A clinical",
+             "diagnosis is often referred as Influenza-like Illness (ILI) by General Practitioners",
+             "(GP). ILI consultation rates are used internationally as a key measure of influenza",
+             "activity in the community and is used to gauge the severity of influenza seasons each winter.",
+             "More information on the definition of ILI can be found…"),
            linebreaks(1)),
 
   fluidRow(width = 12,

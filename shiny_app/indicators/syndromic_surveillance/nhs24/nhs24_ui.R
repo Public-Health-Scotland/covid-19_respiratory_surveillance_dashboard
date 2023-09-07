@@ -4,6 +4,13 @@ tagList(
            metadataButtonUI("nhs24_mem"),
            linebreaks(1),
            h1("NHS24 Calls for Respiratory Symptoms"),
+           p("NHS24 is a telephone service operated by NHS Scotland to triage patients with an urgent,",
+             "but not life-threatening, need for medical attention. Trends in calls to NHS24, for",
+             "respiratory symptoms, are compared against historic data to assess activity levels of acute",
+             "respiratory illness in the community. As NHS24 is often patients first contact with the NHS,",
+             "increases in activity will be reported here before they are detected by other surveillance",
+             "systems, thus it can act as an early warning system for acute respiratory infections.",
+             "More information on NHS24 can be found…"),
            linebreaks(1)),
 
   fluidRow(width = 12,
