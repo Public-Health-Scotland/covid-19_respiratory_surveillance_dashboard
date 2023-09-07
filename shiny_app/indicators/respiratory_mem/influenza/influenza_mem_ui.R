@@ -1,11 +1,17 @@
 tagList(
   fluidRow(width = 12,
-           
+
            metadataButtonUI("respiratory_influenza_mem"),
            linebreaks(1),
            h1("Influenza Incidence Rates"),
+           p("Influenza, or flu, is a common infectious viral illness caused by influenza viruses.",
+             "Influenza can cause mild to severe illness with symptoms including fever (38°C or above),",
+             "cough, body aches, and fatigue. Influenza has a different presentation than the common",
+             "cold, with symptoms starting more suddenly, presenting more severely, and lasting longer.",
+             "Influenza can be caught all year round but is more common in the winter months.",
+             "Additional information can be found on the PHS page for influenza."),
            linebreaks(1)),
-  
+
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),
                     # headline figures for the week in Scotland
@@ -37,10 +43,10 @@ tagList(
                                      # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                             )))), # headline
-  
+
   fluidRow(width = 12,
            tagList(h2("Influenza incidence rate per 100,000 population in Scotland"))),
-  
+
   fluidRow(
     tabBox(width = NULL,
            type = "pills",
@@ -54,14 +60,14 @@ tagList(
                             withNavySpinner(dataTableOutput("influenza_mem_table"))
                     ) # tagList
            ) # tabPanel
-           
+
     ), # tabBox
     linebreaks(1)
   ), # fluidRow
-  
+
   fluidRow(width = 12,
            tagList(h2("Influenza incidence rate per 100,000 population by NHS Health Board"))),
-  
+
   fluidRow(
     tabBox(width = NULL,
            type = "pills",
@@ -75,15 +81,15 @@ tagList(
                             withNavySpinner(dataTableOutput("influenza_mem_hb_table"))
                     ) # tagList
            ) # tabPanel
-           
+
     ), # tabBox
     linebreaks(1)
   ), # fluidRow
-  
-  
+
+
   fluidRow(width = 12,
            tagList(h2("Influenza incidence rate per 100,000 population by age group"))),
-  
+
   fluidRow(
     tabBox(width = NULL,
            type = "pills",
@@ -97,14 +103,14 @@ tagList(
                             withNavySpinner(dataTableOutput("influenza_mem_age_table"))
                     ) # tagList
            ) # tabPanel
-           
+
     ), # tabBox
     linebreaks(1)
   ), # fluidRow
-  
+
   fluidRow(
     tagList(h2(glue("Influenza cases by age and/or sex in Scotland")),
-            
+
             tabBox(width = NULL,
                    type = "pills",
                    tabPanel("Plot",
@@ -141,6 +147,5 @@ tagList(
     ), # tagList
     linebreaks(1)
   )
-  
+
 )
-                   
