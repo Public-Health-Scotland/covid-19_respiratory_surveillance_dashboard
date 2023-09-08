@@ -628,6 +628,10 @@ g_weekly_hb <- g_cases_weekly %>%
   left_join(g_adms_weekly_all, by=c("week_ending", "Geography")) %>%
   select(-geography) %>%
   arrange(week_ending, Geography)%>%
+  mutate(TotalPositiveTests = replace(TotalPositiveTests, is.na(TotalPositiveTests), 0),
+         PositivePillar1Tests = replace(PositivePillar1Tests, is.na(PositivePillar1Tests), 0),
+         PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0),
+         HospitalAdmissions = replace(HospitalAdmissions, is.na(HospitalAdmissions), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
          TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
@@ -648,6 +652,9 @@ g_weekly_la <- g_cases_weekly %>%
   left_join(g_all_tests_weekly, by=c("week_ending", "Geography")) %>%
   select(-geography) %>%
   arrange(week_ending, Geography)%>%
+  mutate(TotalPositiveTests = replace(TotalPositiveTests, is.na(TotalPositiveTests), 0),
+         PositivePillar1Tests = replace(PositivePillar1Tests, is.na(PositivePillar1Tests), 0),
+         PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(week_ending, Geography, GeographyQF, GeographyName,
          TotalTests, TotalLFDTests,
