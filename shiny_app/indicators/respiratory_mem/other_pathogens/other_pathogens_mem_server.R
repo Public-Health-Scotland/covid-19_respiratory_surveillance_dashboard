@@ -1,58 +1,63 @@
-#### Respiratory module server ----
+# #### Respiratory module server ----
+# 
+# respiratoryServer <- function(id) {
+#   
+  # moduleServer(
+  #   id,
+  #   function(input, output, session) {
+  #     
+  #     flu_or_nonflu = id
+  #     
+  #     # Checking one of flu or nonflu is chosen
+  #     stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
+  #     
+  #     if(flu_or_nonflu == "flu"){
+  #       name_long = "influenza"
+  #       strain_name = "subtype"
+  #     } else {
+  #       name_long = "other respiratory pathogens*"
+  #       strain_name = "pathogen"
+  #     }
 
-respiratoryServer <- function(id) {
-  
-  moduleServer(
-    id,
-    function(input, output, session) {
-      
-      flu_or_nonflu = id
-      
-      # Checking one of flu or nonflu is chosen
-      stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
-      
-      if(flu_or_nonflu == "flu"){
-        name_long = "influenza"
-        strain_name = "subtype"
-      } else {
-        name_long = "other respiratory pathogens*"
-        strain_name = "pathogen"
-      }
+
+metadataButtonServer(id="other_pathogens_mem",
+                     panel="Respiratory infection activity",
+                     parent = session)
       
       # Alt text ----
-      altTextServer("respiratory_over_time_modal",
-                    title = glue("{str_to_title(name_long)} cases over time by {strain_name}"),
+      altTextServer("other_pathogens_over_time_modal",
+                    title = glue("Other respiratory pathogen* cases over time by pathogen"),
                     content = tags$ul(
-                      tags$li(glue("This is a plot of the {name_long} cases in a given NHS health board",
+                      tags$li(glue("This is a plot of the other respiratory pathogen* cases in a given NHS health board",
                                    " over time.")),
                       tags$li("The cases are presented as a rate, i.e. the number of people with",
                               glue("{name_long} for every 10,000 people in that NHS health board.")),
                       tags$li("For Scotland there is an option to view the absolute number of cases."),
                       tags$li("The x axis is the date, commencing 02 Oct 2016."),
                       tags$li("The y axis is either the rate of cases or the number of cases."),
-                      tags$li(glue("There is a trace for each {strain_name} of {name_long}."))
+                      tags$li(glue("There is a trace for each respiratory pathogen."))
                       #tags$li("The trend is that each winter there is a peak in cases.")
                     )
       )
       
-      altTextServer("respiratory_by_season_modal",
-                    title =  glue("{str_to_title(name_long)} cases over time by season"),
+      altTextServer("other_pathogens_by_season_modal",
+                    title =  glue("Other respiratory pathogen* cases over time by season"),
                     content = tags$ul(
-                      tags$li(glue("This is a plot of the {name_long} cases for a given {strain_name}",
+                      tags$li(glue("This is a plot of other respiratory pathogens* cases for a given pathogen",
                                    " over each season.")),
                       tags$li("There is a trace for each season, starting in 2016/2017."),
                       tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
                               "and the 52nd isoweek is the last week of the year."),
-                      tags$li(glue("The y axis is the rate of cases of the chosen {name_long} {strain_name} in Scotland.")))
+                      tags$li(glue("The y axis is the rate of cases of the chosen respiratory pathogen in Scotland.")))
                     #  tags$li("The trend is that each winter there is a peak in cases. The peak was",
                     #          "highest in 2017/2018 at about 2,800 cases.")
                     # )
       )
       
-      altTextServer("respiratory_age_sex_modal",
-                    title = glue("{str_to_title(name_long)} cases by age and/or sex in Scotland"),
+      altTextServer("other_pathogens_age_sex_modal",
+                    title = glue("Other respiratory pathogens* cases by age and/or sex in Scotland"),
                     content = tags$ul(
-                      tags$li(glue("This is a plot of the total {name_long} cases in Scotland.")),
+                      tags$li(glue("This is a plot of the total other respiratory pathogens* cases in Scotland.")),
                       tags$li("The information is displayed for a selected season and week."),
                       tags$li("One of three different plots is displayed depending on the breakdown",
                               "selected: either Age; Sex; or Age + Sex."),
@@ -78,7 +83,7 @@ respiratoryServer <- function(id) {
           .$Count %>% format(big.mark=",")
         
         valueBox(value = organism_summary_total,
-                 subtitle = glue("cases of {input$respiratory_headline_subtype} in Scotland"),
+                 subtitle = glue("cases of other respiratory pathogens* in Scotland"),
                  color = "teal",
                  icon = icon_no_warning_fn("virus"),
                  width = NULL)
@@ -303,7 +308,7 @@ respiratoryServer <- function(id) {
         
       })
       
-    }
-  )
-  
-}
+#     }
+#   )
+#   
+# }
