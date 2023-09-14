@@ -1,23 +1,23 @@
 # #### Respiratory module server ----
 # 
 # respiratoryServer <- function(id) {
-#   
-  # moduleServer(
-  #   id,
-  #   function(input, output, session) {
-  #     
-  #     flu_or_nonflu = id
-  #     
-  #     # Checking one of flu or nonflu is chosen
-  #     stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
-  #     
-  #     if(flu_or_nonflu == "flu"){
-  #       name_long = "influenza"
-  #       strain_name = "subtype"
-  #     } else {
-  #       name_long = "other respiratory pathogens*"
-  #       strain_name = "pathogen"
-  #     }
+# 
+# moduleServer(
+#   id,
+#   function(input, output, session) {
+# 
+#     flu_or_nonflu = id
+# 
+#     # Checking one of flu or nonflu is chosen
+#     stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
+# 
+#     if(flu_or_nonflu == "flu"){
+#       name_long = "influenza"
+#       strain_name = "subtype"
+#     } else {
+#       name_long = "other respiratory pathogens*"
+#       strain_name = "pathogen"
+#     }
 
 
 metadataButtonServer(id="other_pathogens_mem",

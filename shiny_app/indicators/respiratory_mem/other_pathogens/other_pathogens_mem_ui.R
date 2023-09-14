@@ -1,14 +1,14 @@
-#### Respiratory module UI ----
-# 
+# #### Respiratory module UI ----
+# # 
 # respiratoryUI <- function(id) {
-#   
+# 
 #   ns <- NS(id)
-#   
+# 
 #   flu_or_nonflu <- id
-#   
+# 
 #   # Checking one of flu or nonflu is chosen
 #   stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
-#   
+# 
 #   if(flu_or_nonflu == "flu"){
 #     name_long = "influenza"
 #     strain_name = "subtype"
@@ -17,95 +17,6 @@
 #     strain_name = "pathogen"
 #   }
 #   
-#   tagList(
-#     fluidRow(width = 12,
-#              metadataButtonUI("other_pathogens_mem"),
-#              linebreaks(1),
-#              h1("Respiratory infection activity (excluding COVID-19)"),
-#              p("*Please note that 'other respiratory pathogens' refers to all respiratory",
-#                " infections excluding influenza and COVID-19"),
-#              linebreaks(1)  ), # fluidRow
-#     
-#     fluidRow(width = 12,
-#              tabPanel(stringr::str_to_sentence("influenza"),
-#                       # headline figures for the week in Scotland
-#                       tagList(h2(glue("Summary of other pathogen* cases in Scotland")),
-#                               tags$div(class = "headline",
-#                                        h3(glue("Total number of other pathogen* cases in Scotland over the last two weeks")),
-#                                        # this week total number
-#                                        valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-#                                            .$CountThisWeek %>% format(big.mark=",")},
-#                                            subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-#                                                 .$DateThisWeek %>% format('%d %b %y')}"),
-#                                            color = "teal",
-#                                            icon = icon_no_warning_fn("calendar-week")),
-#                                        # previous week total number
-#                                        valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-#                                            .$CountPreviousWeek %>% format(big.mark=",")},
-#                                            subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-#                                                 .$DatePreviousWeek %>% format('%d %b %y')}"),
-#                                            color = "teal",
-#                                            icon = icon_no_warning_fn("calendar-week")),
-#                                        # percentage difference between the previous weeks
-#                                        valueBox(value = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-#                                                   .$PercentageDifference}%"),
-#                                                 subtitle = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-#                                                      .$ChangeFactor %>% str_to_sentence()} in the last week"),
-#                                                 color = "teal",
-#                                                 icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-#                                                     .$icon})),
-#                                        # This text is hidden by css but helps pad the box at the bottom
-#                                        h6("hidden text for padding page")
-#                               ) 
-#                       )))
-#     
-#   )
-#   
-#   
-#   fluidRow(width = 12,
-#            tabPanel(stringr::str_to_sentence("influenza"),
-#                     # headline figures for the week in Scotland
-#                     tagList(h2(glue("Summary of RSV cases in Scotland")),
-#                             tags$div(class = "headline",
-#                                      h3(glue("Total number of RSV cases in Scotland over the last two weeks")),
-#                                      # this week total number
-#                                      valueBox(value = {rsv_cases_summary %>% .$rsv_cases_last_week %>% format(big.mark=",")},
-#                                               subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday%>% format('%d %b %y')}"),
-#                                               color = "teal",
-#                                               icon = icon_no_warning_fn("calendar-week")),
-#                                      # previous week total number
-#                                      valueBox(value = {rsv_cases_summary %>% .$rsv_cases_prev_week %>% format(big.mark=",")},
-#                                               subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday_minus_7%>% format('%d %b %y')}"),
-#                                               color = "teal",
-#                                               icon = icon_no_warning_fn("calendar-week")),
-#                                      # percentage difference between the previous weeks
-#                                      valueBox(value = glue("{rsv_cases_summary%>% .$PercentageDifference}%"),
-#                                               subtitle = glue("{rsv_cases_summary %>%.$ChangeFactor %>%  str_to_sentence()} in the last week"),
-#                                               color = "teal",
-#                                               icon = icon_no_warning_fn({rsv_cases_summary %>%  .$icon})),
-#                                      # This text is hidden by css but helps pad the box at the bottom
-#                                      h6("hidden text for padding page")
-#                             )))), # headline
-#   
-# #   
-#   #### Respiratory module UI ----
-#   
-#   respiratoryUI <- function(id) {
-#     
-#     ns <- NS(id)
-#     
-#     flu_or_nonflu <- id
-#     
-#     # Checking one of flu or nonflu is chosen
-#     stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
-#     
-#     if(flu_or_nonflu == "flu"){
-#       name_long = "influenza"
-#       strain_name = "subtype"
-#     } else {
-#       name_long = "other respiratory pathogens*"
-#       strain_name = "pathogen"
-#     }
 
 tagList(
   fluidRow(width = 12,
@@ -126,61 +37,58 @@ tagList(
                                # this week total number
                                valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                    .$CountThisWeek %>% format(big.mark=",")},
-                           #        subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == nonflu) %>%
-                          #                       .$DateThisWeek %>% format('%d %b %y')}"),
-                                 subtitle = ("Week"),
+                                   subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                                                 .$DateThisWeek %>% format('%d %b %y')}"),
                                    color = "teal",
                                    icon = icon_no_warning_fn("calendar-week")),
                                # previous week total number
                                valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                    .$CountPreviousWeek %>% format(big.mark=",")},
-                           #        subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == nonflu) %>%
-                            #                     .$DatePreviousWeek %>% format('%d %b %y')}"),
-                           subtitle = ("Week 2"),
+                                   subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                                                .$DatePreviousWeek %>% format('%d %b %y')}"),
                                    color = "teal",
                                    icon = icon_no_warning_fn("calendar-week")),
                                # percentage difference between the previous weeks
-                                valueBox(value = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
+                                valueBox(value = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
                                                     .$PercentageDifference}%"),
-                              subtitle = ("Week"),
-                          #subtitle = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == nonflu) %>%
-                          # #                           .$ChangeFactor %>% str_to_sentence()} in the last week"),
+                          subtitle = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                                                     .$ChangeFactor %>% str_to_sentence()} in the last week"),
                                         color = "teal",
                                        icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == "nonflu") %>%
                                           .$icon})),
                                # This text is hidden by css but helps pad the box at the bottom
                                h6("hidden text for padding page")
-                      ))
-    #                , # headline
+                      )),
+    #                 # headline
     #
-    #                  # headline figures for the week by subtype (scotland totals) and healthboard
-    #                  tags$div(class = "headline",
-    #                           h3(glue("{stringr::str_to_sentence(name_long)} cases by NHS Health Board and {strain_name}")),
-    #                           h4(glue("during week {this_week_iso} (ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == flu_or_nonflu) %>%
-    #                                 .$DateThisWeek %>% format('%d %b %y')})")),
-    #                           linebreaks(1),
-    #                           column(6,
-    #                                  tagList(
-    #                                    pickerInput(ns("respiratory_headline_subtype"),
-    #                                                label = glue("Select {strain_name}"),
-    #                                                choices = {Respiratory_Summary_Factor %>%
-    #                                                    filter(FluOrNonFlu == flu_or_nonflu & SummaryMeasure == "Scotland_by_Organism_Total") %>%
-    #                                                    arrange(Breakdown) %>%
-    #                                                    .$Breakdown %>% unique() %>% as.character()}),
-    #                                    withNavySpinner(valueBoxOutput(ns("respiratory_headline_figures_subtype_count"), width = NULL))
-    #                                  )
-    #                           ),
-    #                           column(6,
-    #                                  tagList(
-    #                                    pickerInput(ns("respiratory_headline_healthboard"),
-    #                                                label = "Select a NHS Health Board",
-    #                                                choices = {Respiratory_HB %>%
-    #                                                    .$HBName %>% unique() %>% sort()}
-    #                                    ),  # pickerInput
-    #                                    withNavySpinner(valueBoxOutput(ns("respiratory_headline_figures_healthboard_count"), width = NULL))
-    #                                  ) # tagList
-    #                           ), # column
-    #
+                     # headline figures for the week by subtype (scotland totals) and healthboard
+                     tags$div(class = "headline",
+                               h3(glue("Other respirtatory pathogen* cases by NHS Health Board and pathogen")),
+                               h4(glue("during week {this_week_iso} (ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
+                                     .$DateThisWeek %>% format('%d %b %y')})")),
+                               linebreaks(1),
+                               column(6,
+                                      tagList(
+                                        pickerInput("other_pathogen_select"),
+                                                    label = glue("Select pathogen"),
+                                                    choices = {Respiratory_Summary_Factor %>%
+                                                        filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
+                                                        arrange(Breakdown) %>%
+                                                        .$Breakdown %>% unique() %>% as.character()}),
+                                        withNavySpinner(valueBoxOutput(ns("respiratory_headline_figures_subtype_count"), width = NULL))
+                                      )
+                               ),
+                               column(6,
+                                      tagList(
+                                        pickerInput("other_pathogen_healthboard_select"),
+                                                    label = "Select a NHS Health Board",
+                                                    choices = {Respiratory_HB %>%
+                                                        .$HBName %>% unique() %>% sort()}
+                                        ),  # pickerInput
+                                        withNavySpinner(valueBoxOutput(ns("respiratory_headline_figures_healthboard_count"), width = NULL))
+                                      ) # tagList
+                               ) # column
+    
     #                           # This text is hidden by css but helps pad the box at the bottom
     #                           h6("hidden text for padding page")
     #                  ) # headline
@@ -299,5 +207,5 @@ tagList(
     #          ) # tagList
     # )
     #
-#  }
+ #) }
 )
