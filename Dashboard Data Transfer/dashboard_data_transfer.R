@@ -124,3 +124,11 @@ source("Transfer Scripts/transfer_respiratory_gp_mem.R")
 #### Open Data Geography
 source("Transfer Scripts/transfer_geography_open_data.R")
 
+
+#### Influenza Hospital Admissions
+source("Transfer Scripts/transfer_flu_admissions.R")
+
+
+#### RSV Hospital Admissions
+source("Transfer Scripts/transfer_rsv_admissions.R")
+
