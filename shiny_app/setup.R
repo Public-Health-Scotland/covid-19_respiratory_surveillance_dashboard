@@ -22,6 +22,7 @@ library(gotop)
 library(R.utils)
 library(lubridate)
 library(png)
+library(tidyr)
 
 # Load core functions ----
 source("functions/core_functions.R")
@@ -182,14 +183,14 @@ mem_isoweeks <- c(40:52, 1:39)
 mem_week_order <- c(1:52)
 
 # Age groups
-mem_age_groups <- c("< 1", "1-4", "5-14", "15-44", "45-64", "65-74", 
+mem_age_groups <- c("< 1", "1-4", "5-14", "15-44", "45-64", "65-74",
                     "75+", "All Ages")
-mem_age_groups_full <- c("< 1 years", "1-4 years", "5-14 years", "15-44 years", 
+mem_age_groups_full <- c("< 1 years", "1-4 years", "5-14 years", "15-44 years",
                          "45-64 years", "65-74 years", "75+ years", "All Ages")
 
 # Age groups
 euromomo_mem_age_groups <- c("0-4", "5-14", "15-64", "65+", "All Ages")
-euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years", 
+euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years",
                                   "65+ years", "All Ages")
 
 
