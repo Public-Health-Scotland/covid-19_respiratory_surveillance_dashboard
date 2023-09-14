@@ -97,9 +97,20 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
 # Cases table
 output$cases_intro_table <- renderDataTable({
   cases_intro %>%
-    rename(`ISO Week` = ISOWeek,
-           `Rate per 100,000` = RatePer100000,
-           `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_2dp = c(3),
-               filter_cols = c(1,2,4))
+    rename(`Percentage Change` = PercentageChange) %>%
+    make_table(add_separator_cols_2dp = c(4))
+})
+
+# Hospital admissions table
+output$hosp_adms_intro_table <- renderDataTable({
+  covid_hosp_adms_intro %>%
+    rename(`Percentage Change` = PercentageChange) %>%
+    make_table(add_separator_cols_2dp = c(4))
+})
+
+# Inpatients table
+output$inpatients_intro_table <- renderDataTable({
+  covid_inpatients_intro %>%
+    rename(`Percentage Change` = PercentageChange) %>%
+    make_table(add_separator_cols_2dp = c(4))
 })
