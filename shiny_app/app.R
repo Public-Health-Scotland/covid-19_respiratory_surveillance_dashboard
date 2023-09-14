@@ -308,7 +308,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
-  #source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
   
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
