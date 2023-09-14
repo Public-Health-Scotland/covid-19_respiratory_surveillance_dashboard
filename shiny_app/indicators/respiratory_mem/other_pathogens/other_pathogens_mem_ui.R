@@ -27,7 +27,7 @@ tagList(
              " infections excluding influenza and COVID-19"),
            linebreaks(1)),
 
-  ) # fluidRow
+   # fluidRow
 
    tabPanel(stringr::str_to_sentence("influenza"),
             # headline figures for the week in Scotland
@@ -70,24 +70,25 @@ tagList(
                                column(6,
                                       tagList(
                                         pickerInput("other_pathogen_select"),
-                                                    label = glue("Select pathogen"),
+                                                    label = ("Select pathogen"),
                                                     choices = {Respiratory_Summary_Factor %>%
                                                         filter(FluOrNonFlu == "nonflu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
                                                         arrange(Breakdown) %>%
                                                         .$Breakdown %>% unique() %>% as.character()}),
-                                        withNavySpinner(valueBoxOutput(ns("respiratory_headline_figures_subtype_count"), width = NULL))
+                                        withNavySpinner(valueBoxOutput(("respiratory_headline_figures_subtype_count"), width = NULL))
                                       )
-                               ),
-                               column(6,
-                                      tagList(
-                                        pickerInput("other_pathogen_healthboard_select"),
-                                                    label = "Select a NHS Health Board",
-                                                    choices = {Respiratory_HB %>%
-                                                        .$HBName %>% unique() %>% sort()}
+                               )
+    #,
+                            #   column(6,
+                            #          tagList(
+                             #           pickerInput("other_pathogen_healthboard_select"),
+                            #                        label = "Select a NHS Health Board",
+                            #                        choices = {Respiratory_HB %>%
+                            #                            .$HBName %>% unique() %>% sort()}
                                         ),  # pickerInput
-                                        withNavySpinner(valueBoxOutput(ns("respiratory_headline_figures_healthboard_count"), width = NULL))
-                                      ) # tagList
-                               ) # column
+                            #            withNavySpinner(valueBoxOutput(("respiratory_headline_figures_healthboard_count"), width = NULL))
+                            #          ) # tagList
+                        #       ) # column
     
     #                           # This text is hidden by css but helps pad the box at the bottom
     #                           h6("hidden text for padding page")
