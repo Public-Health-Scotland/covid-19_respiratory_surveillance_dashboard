@@ -115,7 +115,7 @@ metadataButtonServer(id="other_pathogens_mem",
       
       observeEvent(input$respiratory_season,
                    {
-                     updatePickerInput(session, inputId = "respiratory_date",
+                     updatePickerInput(session, inputId = "other_pathogens_date",
                                        choices = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
                                            .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
                                        selected = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
@@ -153,12 +153,12 @@ metadataButtonServer(id="other_pathogens_mem",
                    }
       )
       
-      observeEvent(input$respiratory_season,
+      observeEvent(input$other_pathogens_season,
                    {
-                     updatePickerInput(session, inputId = "respiratory_date",
-                                       choices = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
+                     updatePickerInput(session, inputId = "other_pathogens_date",
+                                       choices = {Respiratory_AllData %>% filter(Season == input$other_pathogens_season) %>%
                                            .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                       selected = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
+                                       selected = {Respiratory_AllData %>% filter(Season == input$other_pathogens_season) %>%
                                            .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
                      
                    }

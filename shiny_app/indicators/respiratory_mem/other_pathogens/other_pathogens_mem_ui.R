@@ -168,7 +168,7 @@ fluidRow(
                             fluidRow(
                               column(4, pickerInput("other_pathogens_season",
                                                     label = "Select a season",
-                                                    choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "flu") %>%
+                                                    choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu") %>%
                                                         .$Season %>% unique()},
                                                     selected = "2022/23")
                               ),
