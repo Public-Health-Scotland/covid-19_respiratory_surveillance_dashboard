@@ -1,25 +1,3 @@
-# #### Respiratory module server ----
-# 
-# respiratoryServer <- function(id) {
-# 
-# moduleServer(
-#   id,
-#   function(input, output, session) {
-# 
-#     flu_or_nonflu = id
-# 
-#     # Checking one of flu or nonflu is chosen
-#     stopifnot(flu_or_nonflu %in% c("flu", "nonflu"))
-# 
-#     if(flu_or_nonflu == "flu"){
-#       name_long = "influenza"
-#       strain_name = "subtype"
-#     } else {
-#       name_long = "other respiratory pathogens*"
-#       strain_name = "pathogen"
-#     }
-
-
 metadataButtonServer(id="other_pathogens_mem",
                      panel="Respiratory infection activity",
                      parent = session)
@@ -31,7 +9,7 @@ metadataButtonServer(id="other_pathogens_mem",
                       tags$li(glue("This is a plot of the other respiratory pathogen* cases in a given NHS health board",
                                    " over time.")),
                       tags$li("The cases are presented as a rate, i.e. the number of people with",
-                              glue("other pathogens for every 10,000 people in that NHS health board.")),
+                              glue("other respiratory pathogens for every 10,000 people in that NHS health board.")),
                       tags$li("For Scotland there is an option to view the absolute number of cases."),
                       tags$li("The x axis is the date, commencing 02 Oct 2016."),
                       tags$li("The y axis is either the rate of cases or the number of cases."),
@@ -113,18 +91,18 @@ metadataButtonServer(id="other_pathogens_mem",
       # selecting input for seeing rate or number for plots
       # only show rates if healthboards are there but can show number of cases for scotland
       # Update dataset choices based off indicator choice
-      observeEvent(input$respiratory_select_healthboard,
+      observeEvent(input$other_pathogens_select_healthboard,
                    {
-                     if(input$respiratory_select_healthboard == "Scotland"){
+                     if(input$other_pathogens_select_healthboard == "Scotland"){
                        
-                       updatePickerInput(session, inputId = "respiratory_y_axis_plots",
+                       updatePickerInput(session, inputId = "other_pathogens_y_axis_plots",
                                          choices = c("Number of cases", "Rate per 100,000"),
                                          selected = "Number of cases"
                        )
                        
                      } else {
                        
-                       updatePickerInput(session, inputId = "respiratory_y_axis_plots",
+                       updatePickerInput(session, inputId = "other_pathogens_y_axis_plots",
                                          choices = c("Rate per 100,000"),
                                          selected = "Rate per 100,000"
                                          
@@ -152,19 +130,19 @@ metadataButtonServer(id="other_pathogens_mem",
       # selecting input for seeing rate or number for plots
       # only show rates if healthboards are there but can show number of cases for scotland
       # Update dataset choices based off indicator choice
-      observeEvent(input$respiratory_select_healthboard,
+      observeEvent(input$other_pathogens_select_healthboard,
                    {
                      
-                     if(input$respiratory_select_healthboard == "Scotland"){
+                     if(input$other_pathogens_select_healthboard == "Scotland"){
                        
-                       updatePickerInput(session, inputId = "respiratory_y_axis_plots",
+                       updatePickerInput(session, inputId = "other_pathogens_y_axis_plots",
                                          choices = c("Number of cases", "Rate per 100,000"),
                                          selected = "Number of cases"
                        )
                        
                      } else {
                        
-                       updatePickerInput(session, inputId = "respiratory_y_axis_plots",
+                       updatePickerInput(session, inputId = "other_pathogens_y_axis_plots",
                                          choices = c("Rate per 100,000"),
                                          selected = "Rate per 100,000"
                                          
@@ -195,47 +173,48 @@ metadataButtonServer(id="other_pathogens_mem",
       output$other_pathogens_over_time_plot <- renderPlotly({
         
         Respiratory_AllData %>%
-          filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
+          filter_over_time_plot_function(healthboard = input$other_pathogens_select_healthboard) %>%
           filter(FluOrNonFlu == "nonflu") %>%
           filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
-          select_y_axis(., yaxis = input$respiratory_y_axis_plots) %>%
-          make_respiratory_trend_over_time_plot(., y_axis_title = input$respiratory_y_axis_plots)
+          select_y_axis(., yaxis = input$other_pathogens_y_axis_plots) %>%
+          make_respiratory_trend_over_time_plot(., y_axis_title = input$other_pathogens_y_axis_plots)
         
       })
       
       
-      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other pathogen* cases over time ", 
-                                                              input$respiratory_select_healthboard))})
+      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other respiratory pathogen* cases over time ", 
+                                                              input$other_pathogens_select_healthboard))})
       
       # plot showing the number/rate of flu cases by season. Can filter by organism selected by the user
       output$other_pathogens_by_season_plot = renderPlotly({
         
         Respiratory_AllData %>%
           filter(FluOrNonFlu == "nonflu") %>%
-          select_y_axis(., yaxis = input$respiratory_y_axis_plots) %>%
-          filter_by_organism(., organism = input$respiratory_select_subtype,
-                             healthboard = input$respiratory_select_healthboard) %>%
-          make_respiratory_trend_by_season_plot_function(., y_axis_title = input$respiratory_y_axis_plots)
+          select_y_axis(., yaxis = input$other_pathogens_y_axis_plots) %>%
+          filter_by_organism(., organism = input$other_pathogens_select_subtype,
+                             healthboard = input$other_pathogens_select_healthboard) %>% #address
+          make_respiratory_trend_by_season_plot_function(., y_axis_title = input$other_pathogens_y_axis_plots)
         
       })
- 
-    
+      
+      
       # plot that shows the breakdown by age/sex/age and sex
-      output$other_pathogens_age_sex_plot = renderPlotly({
+      output$other_pathogens_by_age_sex_plot = renderPlotly({
         
         Respiratory_AllData %>%
-          filter(FluOrNonFlu == "nonflu") %>%
-          filter_by_sex_age(., season = input$respiratory_season,
-                            date = {input$respiratory_date %>% as.Date(format="%d %b %y")},
-                            breakdown = input$respiratory_select_age_sex_breakdown) %>%
-          make_age_sex_plot(., breakdown = input$respiratory_select_age_sex_breakdown)
+          filter(FluOrNonFlu == "nonflu") %>% 
+          filter_by_sex_age(., season = input$other_pathogens_season,
+                            date = {input$other_pathogens_date %>% as.Date(format="%d %b %y")},
+                            breakdown = input$other_pathogens_age_sex_breakdown) %>%
+          make_age_sex_plot(., breakdown = input$other_pathogens_age_sex_breakdown)
         
       })
+
+      output$other_pathogens_by_season_title <- renderUI({h3(glue("Other respiratory pathogen* cases over time by season in ", 
+                                                              input$other_pathogens_select_healthboard))})
       
-      output$other_pathogens_by_season_title <- renderUI({h3(glue("Other pathogen* cases over time by season in ", 
-                                                              input$respiratory_select_healthboard))})
-      
-      output$other_pathogens_by_age_sex_title <- renderUI({h3("Other pathogen* cases by age and/or sex in Scotland")})
+      output$other_pathogens_by_age_sex_title <- renderUI({h3(glue("Other respiratory pathogen* cases by age and/or sex in ", 
+                                                                  input$other_pathogens_select_healthboard))})
       
       # Data tables ----
       
@@ -245,7 +224,7 @@ metadataButtonServer(id="other_pathogens_mem",
         if(input$respiratory_select_healthboard == "Scotland"){
           
           Respiratory_AllData %>%
-            filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
+            filter_over_time_plot_function(healthboard = input$other_pathogens_select_healthboard) %>%
             filter(FluOrNonFlu == "nonflu") %>%
             filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
             select(Date, Organism, Count, Rate) %>%
@@ -262,7 +241,7 @@ metadataButtonServer(id="other_pathogens_mem",
         } else {
           
           Respiratory_AllData %>%
-            filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
+            filter_over_time_plot_function(healthboard = input$other_pathogens_select_healthboard) %>%
             filter(FluOrNonFlu == "nonflu") %>%
             filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
             select(Date, Organism, Rate) %>%
@@ -282,10 +261,10 @@ metadataButtonServer(id="other_pathogens_mem",
       # Flu by season table
       output$other_pathogens_by_season_table <- renderDataTable ({
         
-        if(input$respiratory_select_healthboard == "Scotland"){
+        if(input$other_pathogens_select_healthboard == "Scotland"){
           
           Respiratory_AllData %>%
-            filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
+            filter_over_time_plot_function(healthboard = input$other_pathogens_select_healthboard) %>%
             filter(FluOrNonFlu == "nonflu") %>%
             arrange(desc(Date), Organism) %>%
             select(Season, Week, Organism, Count, Rate) %>%
@@ -301,7 +280,7 @@ metadataButtonServer(id="other_pathogens_mem",
         } else {
           
           Respiratory_AllData %>%
-            filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
+            filter_over_time_plot_function(healthboard = input$other_pathogens_select_healthboard) %>%
             filter(FluOrNonFlu == "nonflu") %>%
             arrange(desc(Date), Organism) %>%
             select(Season, Week, Organism, Rate) %>%

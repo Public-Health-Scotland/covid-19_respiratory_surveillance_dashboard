@@ -82,14 +82,14 @@ fluidRow(width = 12,
          tagList(h2("Trends of other pathogen* cases in Scotland"))),
 
 fluidRow(width = 12,
-         column(6, pickerInput("respiratory_select_healthboard",
+         column(6, pickerInput("other_pathogens_select_healthboard",
                                label = "Select geography (Scotland/NHS Health Board)",
                                choices = c("Scotland", {Respiratory_AllData %>%
                                    filter(!is.na(HealthboardCode)) %>%
                                    .$HealthboardCode %>% unique() %>% get_hb_name() %>% .[.!="NHS Scotland"]})
          ) # pickerInput
          ), # column
-         column(6, pickerInput("respiratory_y_axis_plots",
+         column(6, pickerInput("other_pathogens_y_axis_plots",
                                label = p("Select number of cases or rate in population",
                                          popify(bsButton("resp-cases-info",
                                                          label = HTML(glue(
@@ -136,7 +136,7 @@ fluidRow(width = 12,
                                         linebreaks(1),
                                         # adding selection forsubtype
                                         fluidRow(
-                                          column(6, pickerInput(("respiratory_select_subtype"),
+                                          column(6, pickerInput(("other_pathogens_select_subtype"),
                                                                 label = glue("Select which pathogen you would like to see"),
                                                                 choices = {Respiratory_AllData %>%
                                                                     filter(FluOrNonFlu == "nonflu" & !is.na(Organism)) %>% arrange(Organism) %>%
@@ -166,20 +166,20 @@ fluidRow(
                             linebreaks(1),
                             # adding selection for flu subtype
                             fluidRow(
-                              column(4, pickerInput("respiratory_season",
+                              column(4, pickerInput("other_pathogens_season",
                                                     label = "Select a season",
-                                                    choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu") %>%
+                                                    choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "flu") %>%
                                                         .$Season %>% unique()},
                                                     selected = "2022/23")
                               ),
-                              column(4, pickerInput("respiratory_date",
+                              column(4, pickerInput("other_pathogens_date",
                                                     label = "Select date",
                                                     choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
                                                         .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
                                                     selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
                                                         .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
                               ),
-                              column(4, pickerInput("respiratory_select_age_sex_breakdown",
+                              column(4, pickerInput("other_pathogens_age_sex_breakdown",
                                                     label = "Select the plot breakdown",
                                                     choices = c("Age", "Sex", "Age + Sex"),
                                                     selected = "Age")
