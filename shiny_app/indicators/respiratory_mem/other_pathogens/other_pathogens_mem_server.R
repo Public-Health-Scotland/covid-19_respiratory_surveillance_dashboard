@@ -204,7 +204,7 @@ metadataButtonServer(id="other_pathogens_mem",
       })
       
       
-      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other pathogen* cases over time UI version", 
+      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other pathogen* cases over time ", 
                                                               input$respiratory_select_healthboard))})
       
       # plot showing the number/rate of flu cases by season. Can filter by organism selected by the user
@@ -219,8 +219,7 @@ metadataButtonServer(id="other_pathogens_mem",
         
       })
  
-      
-      
+    
       # plot that shows the breakdown by age/sex/age and sex
       output$other_pathogens_age_sex_plot = renderPlotly({
         
@@ -236,7 +235,7 @@ metadataButtonServer(id="other_pathogens_mem",
       output$other_pathogens_by_season_title <- renderUI({h3(glue("Other pathogen* cases over time by season in ", 
                                                               input$respiratory_select_healthboard))})
       
-      output$other_pathogens_by_agesex_title <- renderUI({h3("Other pathogen* cases by age and/or sex in Scotland")})
+      output$other_pathogens_by_age_sex_title <- renderUI({h3("Other pathogen* cases by age and/or sex in Scotland")})
       
       # Data tables ----
       

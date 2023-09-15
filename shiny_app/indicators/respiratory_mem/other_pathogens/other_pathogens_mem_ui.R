@@ -154,48 +154,10 @@ fluidRow(width = 12,
          linebreaks(1)
 ), # fluidRow
 
-###### age/sex#################
-
-# fluidRow(width = 12,
-#          tagList(uiOutput("other_pathogens_by_agesex_title"),
-#                       tabBox(width = NULL,
-#                              type = "pills",
-#                              tabPanel("Plot",
-#                                       tagList(
-#                                         linebreaks(1),
-#                                         # adding selection for flu subtype
-#                                         fluidRow(
-#                                           column(4, pickerInput("respiratory_season", #resolve
-#                                                                 label = "Select a season",
-#                                                                 choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "nonflu") %>%
-#                                                                     .$Season %>% unique()},
-#                                                                 selected = "2022/23")
-#                                           ),
-#                                           column(4, pickerInput("respiratory_date", # resolve
-#                                                                 label = "Select date",
-#                                                                 choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
-#                                                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-#                                                                 selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
-#                                                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-#                                           ),
-#                                           column(4, pickerInput("respiratory_select_age_sex_breakdown", #resolve
-#                                                                 label = "Select the plot breakdown",
-#                                                                 choices = c("Age", "Sex", "Age + Sex"),
-#                                                                 selected = "Age")
-#                                         )
-#                                         ),
-#                                         altTextUI("other_pathogens_age_sex"),
-#                                       withNavySpinner(plotlyOutput("other_pathogens_by_age_sex_plot")))
-#                                       ) # tagList
-#                              ), # tabPanel
-#                              tabPanel("Data",
-#                                       withNavySpinner(dataTableOutput("other_pathogens_age_sex_table"))))
-#         ), # tagList
-# linebreaks(1)
-# )
 
 fluidRow(
-  tagList(h2(glue("Influenza cases by age and/or sex in Scotland")),
+  tagList(tagList(uiOutput("other_pathogens_by_age_sex_title"),
+   # h2(glue("Influenza cases by age and/or sex in Scotland")),
           
           tabBox(width = NULL,
                  type = "pills",
@@ -234,4 +196,5 @@ fluidRow(
   linebreaks(1)
 )
 
+)
 )
