@@ -179,7 +179,7 @@ ui <- fluidPage(
                             ,
                             tabPanel(title = "Other respiratory pathogens",
                                      value = "other_pathogens",
-                                     br(),
+                                     br(), 
                                      radioGroupButtons("other_pathogens_select", status = "home",
                                                        choices = c("Infection levels"),
                                                        direction = "horizontal", justified = F),
@@ -187,7 +187,7 @@ ui <- fluidPage(
                                                       source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value))
                ) # navbarlistPanel
                #
-      ),#tabPanel
+      ),#tabPanel                                                         
       
       ##############################################.
       # SYNDROMIC SURVEILLANCE ----

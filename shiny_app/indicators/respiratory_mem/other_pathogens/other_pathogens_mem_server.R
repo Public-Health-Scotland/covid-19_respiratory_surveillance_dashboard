@@ -25,7 +25,7 @@ metadataButtonServer(id="other_pathogens_mem",
                      parent = session)
       
       # Alt text ----
-      altTextServer("other_pathogens_over_time_modal",
+      altTextServer("other_pathogens_over_time",
                     title = glue("Other respiratory pathogen* cases over time by pathogen"),
                     content = tags$ul(
                       tags$li(glue("This is a plot of the other respiratory pathogen* cases in a given NHS health board",
@@ -54,7 +54,7 @@ metadataButtonServer(id="other_pathogens_mem",
                     # )
       )
       
-      altTextServer("other_pathogens_age_sex_modal",
+      altTextServer("other_pathogens_age_sex",
                     title = glue("Other respiratory pathogens* cases by age and/or sex in Scotland"),
                     content = tags$ul(
                       tags$li(glue("This is a plot of the total other respiratory pathogens* cases in Scotland.")),
@@ -90,17 +90,17 @@ metadataButtonServer(id="other_pathogens_mem",
         
       })
 
-      output$respiratory_headline_figures_other_pathogen_healthboard_count <- renderValueBox ({
+      output$headline_figures_other_pathogen_healthboard_count <- renderValueBox ({
         
         organism_summary_total <- Respiratory_HB %>%
-          filter(HBName == input$respiratory_headline_healthboard) %>%
-          filter(Pathogen == input$respiratory_headline_pathogen) %>%
+          filter(HBName == input$other_headline_healthboard) %>%#changed this
+          filter(Pathogen == input$respiratory_headline_pathogen) %>% 
           tail(1) %>%
           .$RatePer100000 %>% 
           format(big.mark=",")
         
         valueBox(value = organism_summary_total,
-                 subtitle = glue("{input$respiratory_headline_pathogen} cases per 100,000 people in {input$respiratory_headline_healthboard}"),
+                 subtitle = glue("{input$respiratory_headline_pathogen} cases per 100,000 people in {input$other_headline_healthboard}"),
                  color = "teal",
                  icon = icon_no_warning_fn("house-medical"),
                  width = NULL)
@@ -115,7 +115,6 @@ metadataButtonServer(id="other_pathogens_mem",
       # Update dataset choices based off indicator choice
       observeEvent(input$respiratory_select_healthboard,
                    {
-                     
                      if(input$respiratory_select_healthboard == "Scotland"){
                        
                        updatePickerInput(session, inputId = "respiratory_y_axis_plots",
@@ -205,7 +204,7 @@ metadataButtonServer(id="other_pathogens_mem",
       })
       
       
-      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other pathogen* cases over time", 
+      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other pathogen* cases over time UI version", 
                                                               input$respiratory_select_healthboard))})
       
       # plot showing the number/rate of flu cases by season. Can filter by organism selected by the user
@@ -219,8 +218,7 @@ metadataButtonServer(id="other_pathogens_mem",
           make_respiratory_trend_by_season_plot_function(., y_axis_title = input$respiratory_y_axis_plots)
         
       })
-      
-
+ 
       
       
       # plot that shows the breakdown by age/sex/age and sex
@@ -363,7 +361,3 @@ metadataButtonServer(id="other_pathogens_mem",
         
       })
       
-#     }
-#   )
-#   
-# }
