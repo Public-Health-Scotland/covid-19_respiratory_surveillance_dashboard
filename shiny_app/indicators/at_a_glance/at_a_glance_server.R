@@ -1,8 +1,18 @@
 
 ### Setup data -----
 
-latest_week <- ceiling_date(today() - 14, unit = "week")
-previous_week <- ceiling_date(today() - 21, unit = "week")
+#latest_week <- ceiling_date(today() - 14, unit = "week")
+latest_week <- Cases %>%
+  tail(1) %>%
+  .$Date %>%
+  convert_opendata_date()
+
+#previous_week <- ceiling_date(today() - 21, unit = "week")
+previous_week <- Cases %>%
+  tail(8) %>% slice(1) %>%
+  .$Date %>%
+  convert_opendata_date()
+
 
 covid_cases_intro <- Cases %>%
   tail(14) %>%
