@@ -4,12 +4,12 @@ metadataButtonServer(id="other_pathogens_mem",
       
       # Alt text ----
       altTextServer("other_pathogens_over_time",
-                    title = glue("Other respiratory pathogen* cases over time by pathogen"),
+                    title = glue("Other respiratory pathogens* cases over time by pathogen"),
                     content = tags$ul(
-                      tags$li(glue("This is a plot of the other respiratory pathogen* cases in a given NHS health board",
+                      tags$li(glue("This is a plot of the other respiratory pathogens* cases in a given NHS health board",
                                    " over time.")),
                       tags$li("The cases are presented as a rate, i.e. the number of people with",
-                              glue("other respiratory pathogens for every 10,000 people in that NHS health board.")),
+                              glue("other respiratory pathogens* for every 10,000 people in that NHS health board.")),
                       tags$li("For Scotland there is an option to view the absolute number of cases."),
                       tags$li("The x axis is the date, commencing 02 Oct 2016."),
                       tags$li("The y axis is either the rate of cases or the number of cases."),
@@ -19,7 +19,7 @@ metadataButtonServer(id="other_pathogens_mem",
       )
       
       altTextServer("other_pathogens_by_season",
-                    title =  glue("Other respiratory pathogen* cases over time by season"),
+                    title =  glue("Other respiratory pathogens* cases over time by season"),
                     content = tags$ul(
                       tags$li(glue("This is a plot of other respiratory pathogens* cases for a given pathogen",
                                    " over each season.")),
@@ -182,7 +182,7 @@ metadataButtonServer(id="other_pathogens_mem",
       })
       
       
-      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other respiratory pathogen* cases over time ", 
+      output$other_pathogens_over_time_title <- renderUI({h3(glue("Other respiratory pathogens* cases over time ", 
                                                               input$other_pathogens_select_healthboard))})
       
       # plot showing the number/rate of flu cases by season. Can filter by organism selected by the user
@@ -210,11 +210,10 @@ metadataButtonServer(id="other_pathogens_mem",
         
       })
 
-      output$other_pathogens_by_season_title <- renderUI({h3(glue("Other respiratory pathogen* cases over time by season in ", 
+      output$other_pathogens_by_season_title <- renderUI({h3(glue("Other respiratory pathogens* cases over time by season in ", 
                                                               input$other_pathogens_select_healthboard))})
       
-      output$other_pathogens_by_age_sex_title <- renderUI({h3(glue("Other respiratory pathogen* cases by age and/or sex in ", 
-                                                                  input$other_pathogens_select_healthboard))})
+      output$other_pathogens_by_age_sex_title <- renderUI({h3("Other respiratory pathogens* cases by age and/or sex in Scotland")})
       
       # Data tables ----
       

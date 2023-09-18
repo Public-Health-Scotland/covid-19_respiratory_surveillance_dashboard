@@ -1,6 +1,6 @@
 tagList(
   fluidRow(width = 12,
-           metadataButtonUI("respiratory_rsv_mem"),
+           metadataButtonUI("other_pathogens_mem"),
            linebreaks(1),
            h1("Additional respiratory infection activity data on other respiratory pathogens*"),
            p("*Please note that 'other respiratory pathogens' refers to all respiratory",
@@ -11,9 +11,9 @@ tagList(
 ##########summary boxes ############
    tabPanel(stringr::str_to_sentence("influenza"),
             # headline figures for the week in Scotland
-            tagList(h2(glue("Summary of other pathogen* cases in Scotland")),
+            tagList(h2(glue("Summary of other pathogens* cases in Scotland")),
                     tags$div(class = "headline",
-                               h3(glue("Total number of other pathogen cases in Scotland over the last two weeks")),
+                               h3(glue("Total number of other pathogens* cases in Scotland over the last two weeks")),
                                # this week total number
                                valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "nonflu") %>%
                                    .$CountThisWeek %>% format(big.mark=",")},
@@ -43,7 +43,7 @@ tagList(
             # headline figures for the week by subtype (scotland totals) and healthboard
             
             tags$div(class = "headline",
-            h3(glue("Other respiratory pathogen* cases by NHS Health Board")),
+            h3(glue("Other respiratory pathogens* cases by NHS Health Board")),
             h4(glue("during week {this_week_iso} (ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
                                     .$DateThisWeek %>% format('%d %b %y')})")),
             linebreaks(1),
@@ -79,7 +79,7 @@ tagList(
 
 #tabbox
 fluidRow(width = 12,
-         tagList(h2("Trends of other pathogen* cases in Scotland"))),
+         tagList(h2("Trends of other pathogens* cases in Scotland"))),
 
 fluidRow(width = 12,
          column(6, pickerInput("other_pathogens_select_healthboard",
@@ -91,7 +91,7 @@ fluidRow(width = 12,
          ), # column
          column(6, pickerInput("other_pathogens_y_axis_plots",
                                label = p("Select number of cases or rate in population",
-                                         popify(bsButton("resp-cases-info",
+                                         popify(bsButton("other-cases-info",
                                                          label = HTML(glue(
                                                            "<label class='sr-only'>Click button for more information</label>")),
                                                          icon = icon("circle-info"),
@@ -102,7 +102,7 @@ fluidRow(width = 12,
                                                                 strong("Click again to close.")),
                                                 placement = "top",
                                                 trigger = "click",
-                                                options = list(id = "resp-cases-info",
+                                                options = list(id = "other-cases-info",
                                                                container = "body", html = "true"))),
                                choices = c("Number of cases", "Rate per 100,000"),
                                selected = "Number of cases") # pickerInput
