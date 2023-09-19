@@ -8,7 +8,7 @@ date_reference <-readRDS("/conf/C19_Test_and_Protect/Analyst Space/Calum (Analys
 
 i_influenza_admissions <- read_csv_with_options(match_base_filename(glue(input_data, "admissions_flu.csv")))
 
-g_influenza_admissions <- i_influenza %>%
+g_influenza_admissions <- i_influenza_admissions %>%
   dplyr::rename(Admissions = Frequency,
                 Date = date_plot) %>%
   mutate(date = as.Date(Date)) %>%
@@ -20,7 +20,20 @@ g_influenza_admissions <- i_influenza %>%
                 Year = year,
                 ISOWeek = ISOweek,
                 Season = flu_season) %>%
-  select(Date, Year, ISOWeek, Season, FluType, Admissions, RatePer100000)
+  select(Date, Year, ISOWeek, Season, FluType, Admissions)
+
+g_influenza_admissions_combined <- g_influenza_admissions %>%
+  group_by(Date, Year, ISOWeek, Season) %>%
+  summarise(Admissions = sum(Admissions)) %>%
+  ungroup() %>%
+  mutate(FluType = "Influenza A & B") %>%
+  select(Date, Year, ISOWeek, Season, FluType, Admissions)
+
+g_influenza_admissions <- g_influenza_admissions %>%
+  bind_rows(g_influenza_admissions_combined) %>%
+  arrange(Date)
+
+
 
 write.csv(g_influenza_admissions, glue(output_folder, "Influenza_admissions.csv"), row.names = FALSE)
 
