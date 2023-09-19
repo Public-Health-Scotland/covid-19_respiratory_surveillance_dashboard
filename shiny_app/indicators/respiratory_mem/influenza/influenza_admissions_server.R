@@ -1,5 +1,5 @@
 
-metadataButtonServer(id="respiratory_influenza_mem",
+metadataButtonServer(id="respiratory_influenza_admissions",
                      panel="Respiratory infection activity",
                      parent = session)
 
@@ -7,24 +7,24 @@ metadataButtonServer(id="respiratory_influenza_mem",
 
 # Recent weeks admissions
 
-influenza_admissions_recent_week <- Influenza_admissions %>% 
-  tail(4) %>% 
-  select(-Rate_per_100000) %>% 
+influenza_admissions_recent_week <- Influenza_admissions %>%
+  tail(4) %>%
+  #select(-Rate_per_100000) %>%
   pivot_wider(names_from = Flu_type_AB,
-              values_from = admissions) %>% 
-  clean_names %>% 
-  mutate(influenza_total_admissions = influenza_a + influenza_b) %>% 
+              values_from = admissions) %>%
+  clean_names %>%
+  mutate(influenza_total_admissions = influenza_a + influenza_b) %>%
   mutate(DateLastWeek = .$date_plot[1],
          DateThisWeek = .$date_plot[2],
          AdmissionsLastWeek = .$influenza_total_admissions[1],
          AdmissionsThisWeek = .$influenza_total_admissions[2],
-         PercentageDifference = round((AdmissionsThisWeek/AdmissionsLastWeek - 1)*100, digits = 2)) %>% 
+         PercentageDifference = round((AdmissionsThisWeek/AdmissionsLastWeek - 1)*100, digits = 2)) %>%
   mutate(ChangeFactor = case_when(
     PercentageDifference < 0 ~ "Decrease",
     PercentageDifference > 0 ~ "Increase",
     TRUE                     ~ "No change")
-  ) %>% 
-    select(DateLastWeek, DateThisWeek, AdmissionsLastWeek, AdmissionsThisWeek, PercentageDifference, ChangeFactor) %>% 
+  ) %>%
+    select(DateLastWeek, DateThisWeek, AdmissionsLastWeek, AdmissionsThisWeek, PercentageDifference, ChangeFactor) %>%
     head(1)
 
 
@@ -32,7 +32,7 @@ influenza_admissions_recent_week <- Influenza_admissions %>%
 altTextServer("influenza_mem_modal",
               title = "Influenza incidence rate per 100,000 population",
               content = tags$ul(tags$li("This is a plot showing the rate of influenza infection per 100,000 population in Scotland."),
-                                tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
+                                tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
                                 tags$li("The y axis shows the rate of influenza infection per 100,000 population."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
@@ -53,7 +53,7 @@ output$influenza_admissions_table <- renderDataTable({
   Influenza_admissions %>%
     arrange(desc(date_plot)) %>%
     select(week, admissions) %>%
-    group_by(week) %>% 
+    group_by(week) %>%
     summarise(Admissions = sum(admissions)) %>%
     rename('ISO Week' = week) #%>%
     #make_table(add_separator_cols_2dp = c(3),
@@ -66,7 +66,7 @@ output$influenza_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Influenza") %>%
     create_mem_linechart()
-  
+
 })
 
 
@@ -77,7 +77,7 @@ observeEvent(input$respiratory_season,
                                      .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
                                  selected = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
                                      .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-               
+
              }
 )
 
