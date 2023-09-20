@@ -5,31 +5,8 @@ metadataButtonServer(id="respiratory_influenza_admissions",
 
 
 
-# Recent weeks admissions
 
-influenza_admissions_recent_week <- Influenza_admissions %>%
-  tail(4) %>%
-  #select(-Rate_per_100000) %>%
-  pivot_wider(names_from = Flu_type_AB,
-              values_from = admissions) %>%
-  clean_names %>%
-  mutate(influenza_total_admissions = influenza_a + influenza_b) %>%
-  mutate(DateLastWeek = .$date_plot[1],
-         DateThisWeek = .$date_plot[2],
-         AdmissionsLastWeek = .$influenza_total_admissions[1],
-         AdmissionsThisWeek = .$influenza_total_admissions[2],
-         PercentageDifference = round((AdmissionsThisWeek/AdmissionsLastWeek - 1)*100, digits = 2)) %>%
-  mutate(ChangeFactor = case_when(
-    PercentageDifference < 0 ~ "Decrease",
-    PercentageDifference > 0 ~ "Increase",
-    TRUE                     ~ "No change")
-  ) %>%
-    select(DateLastWeek, DateThisWeek, AdmissionsLastWeek, AdmissionsThisWeek, PercentageDifference, ChangeFactor) %>%
-    head(1)
-
-
-
-altTextServer("influenza_mem_modal",
+altTextServer("influenza_admissions_modal",
               title = "Influenza incidence rate per 100,000 population",
               content = tags$ul(tags$li("This is a plot showing the rate of influenza infection per 100,000 population in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
@@ -51,21 +28,21 @@ altTextServer("influenza_mem_modal",
 # Influenza admissions table
 output$influenza_admissions_table <- renderDataTable({
   Influenza_admissions %>%
-    arrange(desc(date_plot)) %>%
-    select(week, admissions) %>%
-    group_by(week) %>%
-    summarise(Admissions = sum(admissions)) %>%
-    rename('ISO Week' = week) #%>%
-    #make_table(add_separator_cols_2dp = c(3),
-    #           filter_cols = c(1,2,4))
+    filter(FluType == "Influenza A & B") %>%
+    arrange(desc(Date)) %>%
+    select(Season, ISOWeek, Admissions) %>%
+    mutate(Season = factor(Season),
+           ISOWeek = factor(ISOWeek)) %>%
+    rename(`ISO Week` = ISOWeek) %>%
+    make_table(filter_cols = c(1,2))
 })
 
 
-# Influenza MEM plot
-output$influenza_mem_plot <- renderPlotly({
-  Respiratory_Pathogens_MEM_Scot %>%
-    filter(Pathogen == "Influenza") %>%
-    create_mem_linechart()
+# Influenza Adms plot
+output$influenza_admissions_plot <- renderPlotly({
+  Influenza_admissions %>%
+    filter(FluType == "Influenza A & B") %>%
+    create_adms_linechart()
 
 })
 
