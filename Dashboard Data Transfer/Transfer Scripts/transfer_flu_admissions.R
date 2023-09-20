@@ -3,8 +3,20 @@
 
 ##### Influenza
 
-date_reference <-readRDS("/conf/C19_Test_and_Protect/Analyst Space/Calum (Analyst Space)/flu_seasons.Rds") %>%
-  distinct(date, year, ISOweek, flu_season)
+#create weekord
+date_reference_ord <-readRDS("/conf/C19_Test_and_Protect/Analyst Space/Calum (Analyst Space)/flu_seasons.Rds") %>%
+  distinct(flu_season, year, ISOweek) %>%
+  mutate(alltime_weekord = row_number()) %>%
+  group_by(flu_season) %>%
+  mutate(season_weekord = row_number()) %>%
+  ungroup() %>%
+  rename(Weekord = season_weekord) %>%
+  select(-alltime_weekord)
+
+#create lookup to add season and weekord to data
+ date_reference <- readRDS("/conf/C19_Test_and_Protect/Analyst Space/Calum (Analyst Space)/flu_seasons.Rds") %>%
+  distinct(date, year, ISOweek, flu_season) %>%
+   left_join(date_reference_ord)
 
 i_influenza_admissions <- read_csv_with_options(match_base_filename(glue(input_data, "admissions_flu.csv")))
 
@@ -20,14 +32,14 @@ g_influenza_admissions <- i_influenza_admissions %>%
                 Year = year,
                 ISOWeek = ISOweek,
                 Season = flu_season) %>%
-  select(Date, Year, ISOWeek, Season, FluType, Admissions)
+  select(Date, Year, ISOWeek, Weekord, Season, FluType, Admissions)
 
 g_influenza_admissions_combined <- g_influenza_admissions %>%
-  group_by(Date, Year, ISOWeek, Season) %>%
+  group_by(Date, Year, ISOWeek, Weekord, Season) %>%
   summarise(Admissions = sum(Admissions)) %>%
   ungroup() %>%
   mutate(FluType = "Influenza A & B") %>%
-  select(Date, Year, ISOWeek, Season, FluType, Admissions)
+  select(Date, Year, ISOWeek, Weekord, Season, FluType, Admissions)
 
 g_influenza_admissions <- g_influenza_admissions %>%
   bind_rows(g_influenza_admissions_combined) %>%
