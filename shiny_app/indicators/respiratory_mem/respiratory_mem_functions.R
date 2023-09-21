@@ -429,7 +429,6 @@ create_adms_linechart <- function(data,
   # Wrangle data
   data = data %>%
     filter(ISOWeek != 53) %>%
-    filter(FluType == "Influenza A & B") %>%
     select(Season, ISOWeek, Weekord, Value) %>%
     arrange(Season, Weekord) %>%
     mutate(ISOWeek = as.character(ISOWeek),
