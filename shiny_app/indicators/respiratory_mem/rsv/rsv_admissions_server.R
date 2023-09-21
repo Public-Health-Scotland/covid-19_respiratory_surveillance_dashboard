@@ -6,21 +6,12 @@ metadataButtonServer(id="respiratory_rsv_admissions",
 
 
 altTextServer("rsv_admissions_modal",
-              title = "Influenza incidence rate per 100,000 population",
-              content = tags$ul(tags$li("This is a plot showing the rate of influenza infection per 100,000 population in Scotland."),
+              title = "RSV hospital admissions in Scotland",
+              content = tags$ul(tags$li("This is a plot showing the number of RSV hospital admissions in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
-                                tags$li("The y axis shows the rate of influenza infection per 100,000 population."),
-                                tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
-                                             seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", ",
-                                             seasons[6], ", and ", seasons[7], ".")),
-                                tags$li(glue("Activity levels for influenza based on MEM thresholds are represented by different coloured panels on the plot. ",
-                                             "The activity levels and MEM thresholds for influenza are: ",
-                                             "Baseline (< ", influenza_low_threshold, "), ",
-                                             "Low (", influenza_low_threshold, "-", influenza_moderate_threshold-0.01, "), ",
-                                             "Moderate (", influenza_moderate_threshold, "-", influenza_high_threshold-0.01, "), ",
-                                             "High (", influenza_high_threshold, "-", influenza_extraordinary_threshold-0.01, "), and ",
-                                             "Extraordinary (>= ", influenza_extraordinary_threshold, ")."))))
+                                tags$li("The y axis shows the number of hospital admissions."),
+                                tags$li("There is a trace for each of the following season from 2017/2018 to 2022/2023")))
 
 
 
