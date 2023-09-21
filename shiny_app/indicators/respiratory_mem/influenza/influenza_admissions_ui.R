@@ -14,9 +14,12 @@ influenza_admissions_recent_week <- Influenza_admissions %>%
   mutate(ChangeFactor = case_when(
     PercentageDifference < 0 ~ "Decrease",
     PercentageDifference > 0 ~ "Increase",
-    TRUE                     ~ "No change")
+    TRUE                     ~ "No change"),
+    icon= case_when(ChangeFactor == "Decrease"~"arrow-down",
+                    ChangeFactor == "Increase"~ "arrow-up",
+                    ChangeFactor == "No change"~"equals")
   ) %>%
-  select(DateLastWeek, DateThisWeek, AdmissionsLastWeek, AdmissionsThisWeek, PercentageDifference, ChangeFactor) %>%
+  select(DateLastWeek, DateThisWeek, AdmissionsLastWeek, AdmissionsThisWeek, PercentageDifference, ChangeFactor, icon) %>%
   head(1)
 
 tagList(
@@ -53,8 +56,7 @@ tagList(
                                               subtitle = glue("{influenza_admissions_recent_week %>%
                                                      .$ChangeFactor %>% str_to_sentence()} in the last week"),
                                               color = "teal",
-                                              icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == 'flu') %>%
-                                                  .$icon})),
+                                              icon = icon_no_warning_fn({influenza_admissions_recent_week %>%  .$icon})),
                                      # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                             )))), # headline
