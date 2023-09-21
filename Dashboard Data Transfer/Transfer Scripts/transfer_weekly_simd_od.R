@@ -26,7 +26,7 @@
 gpd_base_path<-"/conf/linkage/output/lookups/Unicode/"
 
 #use this to assign simd quintile by matching postcode to cases postcode
-spd_simd_lookup <- read_rds(glue(gpd_base_path,"Deprivation/postcode_2023_1_simd2020v2.rds"))%>%
+spd_simd_lookup <- read_rds(glue(gpd_base_path,"Deprivation/postcode_2023_2_simd2020v2.rds"))%>%
   mutate(PostCode=str_replace_all(string=pc7, pattern=" ", repl=""),
          simd=as.character(simd2020v2_sc_quintile)) %>%
   select(PostCode,simd)
