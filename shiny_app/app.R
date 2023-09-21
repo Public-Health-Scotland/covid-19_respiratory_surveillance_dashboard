@@ -142,10 +142,12 @@ ui <- fluidPage(
                                      value = "rsv",
                                      br(),
                                      radioGroupButtons("rsv_select", status = "home",
-                                                       choices = c("Infection levels"),
+                                                       choices = c("Infection levels", "Hospital admissions"),
                                                        direction = "horizontal", justified = F),
                                      conditionalPanel(condition="input.rsv_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/rsv/rsv_mem_ui.R"), local = TRUE)$value)),
+                                                      source(file.path("indicators/respiratory_mem/rsv/rsv_mem_ui.R"), local = TRUE)$value),
+                                     conditionalPanel(condition="input.rsv_select=='Hospital admissions'",
+                                                      source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Adenovirus",
                                      value = "adenovirus",
                                      br(),
@@ -182,7 +184,7 @@ ui <- fluidPage(
                ) # navbarlistPanel
                #
       ),#tabPanel
-      
+
       ##############################################.
       # SYNDROMIC SURVEILLANCE ----
       ##############################################.
@@ -220,14 +222,14 @@ ui <- fluidPage(
                icon = icon_no_warning_fn("virus"),
                value = "mortality",
                navlistPanel(widths = c(2,10), id = "mortality_panel", #icon = icon_no_warning_fn("spa")
-                            
+
                             tabPanel(title = "All-Cause Excess Mortality (Euromomo)",
                                      value = "euromomo",
                                      source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
                ) # navbarlistPanel
                #
       ),#tabPanel
-      
+
 
       ##############################################.
       # METADATA ----
@@ -284,7 +286,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
   source(file.path("indicators/mortality/euromomo/euromomo_functions.R"), local = TRUE)$value
-  
+
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_server.R"), local = TRUE)$value
@@ -301,6 +303,7 @@ server <- function(input, output, session) {
 
   source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
 
