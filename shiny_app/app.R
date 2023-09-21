@@ -176,9 +176,18 @@ ui <- fluidPage(
                                                        direction = "horizontal", justified = F),
                                      conditionalPanel(condition="input.rhinovirus_select=='Infection levels'",
                                                       source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value))
+                            ,
+                            tabPanel(title = "Other respiratory pathogens",
+                                     value = "other_pathogens",
+                                     br(), 
+                                     radioGroupButtons("other_pathogens_select", status = "home",
+                                                       choices = c("Infection levels"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.other_pathogens_select=='Infection levels'",
+                                                      source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value))
                ) # navbarlistPanel
                #
-      ),#tabPanel
+      ),#tabPanel                                                         
       
       ##############################################.
       # SYNDROMIC SURVEILLANCE ----
@@ -299,7 +308,8 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
-
+  source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
+  
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 
