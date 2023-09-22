@@ -610,6 +610,36 @@ adms_weekly_hb <- i_chiadm %>%
   left_join(location_names,by=c("location_code")) %>%
   select(week_ending, location_code, location_name, HospitalAdmissions)
 
+adms_total_hb <- i_chiadm %>%
+  group_by(week_ending, health_board_of_treatment) %>%
+  summarise(HospitalAdmissions = n()) %>%
+  mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
+  left_join(location_names,by=c("location_code")) %>%
+  select( location_code, location_name, HospitalAdmissions)
+
+
+adms_weekly_scotland_v2 <- i_chiadm %>%
+  mutate(week_ending = ceiling_date(
+    as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
+  ) %>%
+  group_by(week_ending) %>%
+  summarise(HospitalAdmissions = n()) %>%
+  mutate(location_name="Scotland", location_code="Scotland") %>%
+  select(week_ending, location_code, location_name, HospitalAdmissions)
+
+adms_weekly_hb_v2 <- i_chiadm %>%
+  mutate(week_ending = ceiling_date(
+    as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
+  ) %>%
+  group_by(week_ending, health_board_of_treatment) %>%
+  summarise(HospitalAdmissions = n()) %>%
+  mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
+  left_join(location_names,by=c("location_code")) %>%
+  mutate(LocationCode=if_else(location_code=="", " "~ location_code))
+  select(week_ending, location_code, location_name, HospitalAdmissions)
+
+
+
 rm(i_chiadm)
 
 g_adms_weekly_all <- bind_rows(adms_weekly_scotland, adms_weekly_hb) %>%
@@ -633,7 +663,7 @@ g_weekly_hb <- g_cases_weekly %>%
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0),
          HospitalAdmissions = replace(HospitalAdmissions, is.na(HospitalAdmissions), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
-  select(week_ending, Geography, GeographyQF, GeographyName,
+  select(WeekEnding=week_ending, Geography, GeographyQF, GeographyName, #im update format of week_ending
          TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
          TotalPositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDTests,
          WeeklyPositiveCases, CumulativePositiveCases,
@@ -656,7 +686,7 @@ g_weekly_la <- g_cases_weekly %>%
          PositivePillar1Tests = replace(PositivePillar1Tests, is.na(PositivePillar1Tests), 0),
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
-  select(week_ending, Geography, GeographyQF, GeographyName,
+  select(WeekEnding=week_ending, Geography, GeographyName, #im update format of week_ending & remove GeographyQF
          TotalTests, TotalLFDTests,
          TotalPositiveTests, PositiveLFDTests,
          WeeklyPositiveCases, CumulativePositiveCases,
