@@ -13,7 +13,7 @@ previous_week <- Cases %>%
   .$Date %>%
   convert_opendata_date()
 
-
+###Cases
 covid_cases_intro <- Cases %>%
   tail(14) %>%
   mutate(Date = as.character(Date)) %>%
@@ -69,6 +69,8 @@ cases_intro <- covid_cases_intro %>%
   bind_rows(flu_cases_intro) %>%
   bind_rows(nonflu_cases_intro)
 
+###Hosp Adms
+
 covid_hosp_adms_intro <- Admissions %>%
   tail(14) %>%
   mutate(AdmissionDate = as.character(AdmissionDate)) %>%
@@ -83,6 +85,33 @@ covid_hosp_adms_intro <- Admissions %>%
   mutate(Pathogen = "COVID-19") %>%
   mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
+
+flu_hosp_adms_intro <- Influenza_admissions %>%
+  filter(FluType == "Influenza A & B") %>%
+  tail(2) %>%
+  select(Date, Admissions) %>%
+  mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
+  select(-Date) %>%
+  pivot_wider(names_from = flag, values_from = Admissions) %>%
+  mutate(Pathogen = "Influenza") %>%
+  mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
+  select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
+
+rsv_hosp_adms_intro <- RSV_admissions %>%
+  tail(2) %>%
+  select(Date, Admissions) %>%
+  mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
+  select(-Date) %>%
+  pivot_wider(names_from = flag, values_from = Admissions) %>%
+  mutate(Pathogen = "Respiratory syncytial virus") %>%
+  mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
+  select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
+
+hosp_adms_intro <- covid_hosp_adms_intro %>%
+  bind_rows(flu_hosp_adms_intro) %>%
+  bind_rows(rsv_hosp_adms_intro)
+
+###Inpatients
 
 covid_inpatients_intro_latest <- Occupancy_Hospital %>%
   tail(1)
@@ -113,7 +142,7 @@ output$cases_intro_table <- renderDataTable({
 
 # Hospital admissions table
 output$hosp_adms_intro_table <- renderDataTable({
-  covid_hosp_adms_intro %>%
+  hosp_adms_intro %>%
     rename(`Percentage Change` = PercentageChange) %>%
     make_table(add_separator_cols_2dp = c(4))
 })
