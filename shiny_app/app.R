@@ -59,6 +59,16 @@ ui <- fluidPage(
 
       ), # tabpanel
       ##############################################.
+      # AT A GLANCE V2 ----
+      ##############################################.
+      tabPanel(title = "At a glance V2",
+               icon = icon_no_warning_fn("square-poll-vertical"),
+               value = "at_a_glance",
+
+               source(file.path("indicators/at_a_glance/at_a_glance_ui.R"), local = TRUE)$value
+
+      ), # tabpanel
+      ##############################################.
       # CASES ----
       ##############################################.
       #     tabPanel(title = "COVID-19 cases",
@@ -196,7 +206,7 @@ ui <- fluidPage(
       ),#tabPanel
 
 
-      ##############################################.
+     ##############################################.
       # SYNDROMIC SURVEILLANCE ----
       ##############################################.
       tabPanel(title ="Syndromic surveillance",
@@ -301,6 +311,7 @@ server <- function(input, output, session) {
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
   source(file.path("indicators/summary/summary_server.R"), local = TRUE)$value
+  source(file.path("indicators/at_a_glance/at_a_glance_server.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
