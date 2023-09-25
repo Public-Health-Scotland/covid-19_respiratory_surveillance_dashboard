@@ -22,7 +22,7 @@ rsv_cases_prev_week<-Respiratory_Scot %>%
 
 rsv_cases_summary<-rsv_cases_last_week %>%
   left_join(rsv_cases_prev_week, by=c("Pathogen")) %>%
-  mutate(PercentageDifference=round_half_up(rsv_cases_last_week-rsv_cases_prev_week)/rsv_cases_prev_week*100,
+  mutate(PercentageDifference=round_half_up((rsv_cases_last_week-rsv_cases_prev_week)/rsv_cases_prev_week*100,0),
          ChangeFactor = case_when(PercentageDifference < 0 ~ "decrease",
                                   PercentageDifference > 0 ~ "increase",
                                   PercentageDifference == 0 ~ "no change"),
