@@ -11,7 +11,7 @@ altTextServer("respiratory_over_time_modal",
                 tags$li(glue("This is a plot of the influenza cases in a given NHS health board",
                              " over time.")),
                 tags$li("The cases are presented as a rate, i.e. the number of people with",
-                        glue("influenza for every 10,000 people in that NHS health board.")),
+                        glue("influenza for every 100,000 people in that NHS health board.")),
                 tags$li("For Scotland there is an option to view the absolute number of cases."),
                 tags$li("The x axis is the date, commencing 02 Oct 2016."),
                 tags$li("The y axis is either the rate of cases or the number of cases."),
@@ -77,7 +77,7 @@ output$respiratory_over_time_plot <- renderPlotly({
   
   Respiratory_AllData %>%
     filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
-    filter(FluOrNonFlu == "flu") %>%
+    filter(FluOrNonFlu == "nonflu") %>%
     filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
     select_y_axis(., yaxis = input$respiratory_y_axis_plots) %>%
     make_respiratory_trend_over_time_plot(., y_axis_title = input$respiratory_y_axis_plots)
