@@ -41,6 +41,8 @@ write_csv(g_adm, glue(output_folder, "Admissions.csv"))
 
 rm(g_adm)
 
+#Opendata weekly admissions output
+
 g_weekly_adm<- i_chiadm %>%
   mutate(WeekEnding = ceiling_date(
     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)  ) %>%
@@ -48,11 +50,12 @@ g_weekly_adm<- i_chiadm %>%
   summarise(HospitalAdmissions = n()) %>%
   mutate(CumulativeHospitalAdmissions=(cumsum(HospitalAdmissions)),
          LocationCode="S92000003",
-         WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) 
+         WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) %>% 
+  select(WeekEnding, LocationCode,HospitalAdmissions, CumulativeHospitalAdmissions )
 
 write_csv(g_weekly_adm, glue(output_folder, "TEMP_WeeklyAdmissions.csv"))
 
-rm(g_adm_OD)
+rm(g_weekly_adm)
 
 ### b) Admissions_Age_Breakdown
 

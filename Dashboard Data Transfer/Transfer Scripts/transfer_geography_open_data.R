@@ -687,8 +687,8 @@ g_weekly_la <- g_cases_weekly %>%
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(WeekEnding=week_ending, Geography, GeographyName, #im update format of week_ending & remove GeographyQF
-         TotalTests, TotalLFDTests,
-         TotalPositiveTests, PositiveLFDTests,
+         TotalTests, -TotalLFDTests,# remove positive Total LFD tests
+         TotalPositiveTests, -PositiveLFDTests,# remove PositiveLFD tests
          WeeklyPositiveCases, CumulativePositiveCases,
          WeeklyPositivePCROnlyCases, CumulativePositivePCROnlyCases,
          WeeklyPositiveLFDOnlyCases, CumulativePositiveLFDOnlyCases,
