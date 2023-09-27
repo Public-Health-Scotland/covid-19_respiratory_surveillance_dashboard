@@ -477,3 +477,68 @@ create_adms_linechart <- function(data,
   return(adms_linechart)
 
 }
+
+# Create Summary Adms line chart
+create_summary_adms_linechart <- function(data,
+                                  #rate_dp = 2,
+                                  #seasons = NULL,
+                                  value_variable = "Admissions",
+                                  y_axis_title = "Number of hospital admissions") {
+
+  # Rename value variable
+  data <- data %>%
+    rename(Value = value_variable)
+
+
+  # Wrangle data
+  data = data %>%
+    filter(ISOWeek != 53) %>%
+    select(Season, ISOWeek, CaseDefinition, Weekord, Value) %>%
+    arrange(Season, Weekord, CaseDefinition) %>%
+    mutate(ISOWeek = as.character(ISOWeek),
+           ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
+
+  xaxis_plots[["title"]] <- "Week number"
+  xaxis_plots[["dtick"]] <- 2
+
+  #xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+  yaxis_plots[["title"]] <- y_axis_title
+
+  xaxis_plots[["showgrid"]] <- FALSE
+  yaxis_plots[["showgrid"]] <- FALSE
+
+
+
+  #Text for tooltip
+  tooltip_trend <- c(paste0("Season: ", data$Season,
+                            "<br>", "Week number: ", data$ISOWeek,
+                            "<br>", "Pathogen: ", data$CaseDefinition,
+                            "<br>", "Number: ", data$Value))
+
+  # Create plot
+  summary_adms_linechart = data %>%
+    plot_ly(x = ~ISOWeek,
+            y = ~Value,
+            textposition = "none",
+            text = tooltip_trend,
+            hoverinfo = "text",
+            color = ~CaseDefinition,
+            type="scatter",
+            mode="lines",
+            line = list(width = 5),
+            colors = mem_line_colours) %>%
+    layout(yaxis = yaxis_plots,
+           xaxis = xaxis_plots,
+           margin = list(b = 100, t = 5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")
+    ) %>%
+
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+  return(summary_adms_linechart)
+
+}
