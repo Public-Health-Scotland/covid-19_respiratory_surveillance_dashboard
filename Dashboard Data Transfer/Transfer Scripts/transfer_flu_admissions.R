@@ -18,6 +18,22 @@ date_reference_ord <-readRDS("/conf/C19_Test_and_Protect/Analyst Space/Calum (An
   distinct(date, year, ISOweek, flu_season) %>%
    left_join(date_reference_ord)
 
+i_resp_admissions_summary <- read_csv_with_options(match_base_filename(glue(input_data, "Combined_weekly_Flu_RSV_COVID_data.csv")))
+
+g_resp_admissions_summary <- i_resp_admissions_summary %>%
+  dplyr::rename(Admissions = Frequency,
+                Date = date_plot) %>%
+  mutate(date = as.Date(Date)) %>%
+  left_join(date_reference) %>%
+  mutate(Date = as_date(ceiling_date(as_date(Date), "week",
+                                     change_on_boundary = F))) %>%
+  dplyr::rename(CaseDefinition = Case_definition,
+                Year = year,
+                ISOWeek = ISOweek,
+                Season = flu_season) %>%
+  select(Date, Year, ISOWeek, Weekord, Season, CaseDefinition, Admissions)
+
+
 i_influenza_admissions <- read_csv_with_options(match_base_filename(glue(input_data, "admissions_flu.csv")))
 
 g_influenza_admissions <- i_influenza_admissions %>%
@@ -46,7 +62,7 @@ g_influenza_admissions <- g_influenza_admissions %>%
   arrange(Date)
 
 
-
+write.csv(g_resp_admissions_summary, glue(output_folder, "Respiratory_admissions_summary.csv"), row.names = FALSE)
 write.csv(g_influenza_admissions, glue(output_folder, "Influenza_admissions.csv"), row.names = FALSE)
 
 rm(i_influenza_admissions, g_influenza_admissions)
