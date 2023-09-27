@@ -197,8 +197,10 @@ g_simd_weekly_cases  <- df_simd %>%
   mutate(CrudeRatePositive=round_half_up(CrudeRatePositive)) %>% 
   mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d")) %>%
   mutate(Country="S92000003") %>% 
-  select(week_ending,Country, SIMDQuintile=simd, PositiveLastSevenDays, 
-         CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
+  select(week_ending,Country, SIMDQuintile=simd, CasesLastSevenDays=PositiveLastSevenDays, 
+         CumulativeCAses= CumulativePositive, 
+         CasesRateCases= CrudeRatePositive,
+         CrudeRateCasesQF=CrudeRatePositiveQF)  
   
 #if not using admissions this version is ready for export
 g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
@@ -206,7 +208,7 @@ g_simd_weekly_cases_od<-g_simd_weekly_cases %>%
   mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
 
 
-write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
+write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_cases_simd_weekly.csv"), na = "")
 
 rm(df_simd, g_daily_geog_simd_cases, g_daily_raw, i_combined_pcr_lfd_tests,
    g_simd_weekly_cases,g_simd_scotland_daily_cases, simd_populations)

@@ -471,7 +471,7 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
      select(WeekEnding=week_ending, Country, Sex=sex, SexQF, AgeGroup, AgeGroupQF,
             CasesLastSevenDays,CasesLastSevenDaysQF, CumulativeCases) 
    
-   
+ write_csv(g_age_sex_cases_weekly_od, glue("{output_folder}TEMP_cases_age_sex_weekly.csv"), na = "")   
 
    # remove intermediate files
    rm(g_cases_agegroup_sex_weekly, g_cases_agegroup_weekly,
@@ -482,6 +482,6 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
      g_cases_age_data_weekly, g_cases_raw, i_combined_pcr_lfd_tests)
         
    
-   write_csv(g_age_sex_cases_weekly_od, glue("{output_folder}TEMP_age_sex_weekly.csv"), na = "")
+  
    
    
