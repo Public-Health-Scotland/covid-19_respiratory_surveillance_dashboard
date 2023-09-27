@@ -74,15 +74,14 @@ od_date <- floor_date(today(), "week", 1) + 1
 od_sunday<- floor_date(today(), "week", 1) -1
 od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
 od_sunday_minus_14 <- today() - 17
-od_suppression_date <- "2023-05-31"
+#od_suppression_date <- "2023-05-31"
 
 
 ##### SIMD trend dataframe #######################################
 
 # create df template containing 5 simd quintiles (plus unassinged) for each day post Dec 2019 until today
 Dates <- data.frame(SpecimenDate=seq(as.Date("2019/12/08"), as.Date(Sys.Date()), "day"))
-# #Location_codes <- read.csv("//conf/linkage/output/Covid Daily Dashboard/Tableau process/Lookups/location_codes.csv")%>%
-# #  mutate(location_code=as.character(location_code))
+
 SIMD <- data.frame(SIMD=seq(1,5,1)) %>% 
   mutate(SIMD=as.character(SIMD))
 
@@ -100,28 +99,28 @@ rm(Dates, SIMD, df_unassinged)
 
 
 #### Functions ###########################################
+# 
+# od_suppress_value <- function(data, col_name) {
+#   
+#   needs_suppressed = data[[col_name]] == "" | (data[[col_name]]<5)
+#   
+#   data %>% 
+#     mutate(data[col_name] == if_else(
+#       needs_suprressed, 0, data[col_name]
+#     ))
+#   
+# }
 
-od_suppress_value <- function(data, col_name) {
-  
-  needs_suppressed = data[[col_name]] == "" | (data[[col_name]]<5)
-  
-  data %>% 
-    mutate(data[col_name] == if_else(
-      needs_suprressed, 0, data[col_name]
-    ))
-  
-}
-
-od_qualifiers <- function(data, col_name, symbol) {
-  
-  needs_symbol = data[[col_name]] == "" | is.na(data[[col_name]])
-  
-  data %>% 
-    mutate("{col_name}QF" := if_else(
-      needs_symbol, symbol, ""
-    ))
-  
-}
+# od_qualifiers <- function(data, col_name, symbol) {
+#   
+#   needs_symbol = data[[col_name]] == "" | is.na(data[[col_name]])
+#   
+#   data %>% 
+#     mutate("{col_name}QF" := if_else(
+#       needs_symbol, symbol, ""
+#     ))
+#   
+# }
 
 
 #### Cases ##############################
@@ -164,6 +163,9 @@ g_simd_scotland_daily_cases <- g_daily_geog_simd_test %>%
   group_by(Date,simd,location_code) %>%
   summarise(daily_positive = sum(flag_episode))
 
+
+rm(spd_simd_lookup, g_daily_raw, g_daily_geog_simd_test )
+
 ##### #SIMD trend - Scotland only  #############################
 
 g_simd_weekly_cases  <- df_simd %>%
@@ -174,172 +176,30 @@ g_simd_weekly_cases  <- df_simd %>%
   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
   ungroup() %>% 
   group_by(week_ending, simd) %>% 
-  mutate(PositiveLastSevendDays=sum(daily_positive)) %>% 
+  mutate(CasesLastSevendDays=sum(daily_positive)) %>% 
   ungroup() %>%   
   select(-Date,-daily_positive) %>% 
   unique()%>% 
   group_by(simd) %>% 
-  mutate(CumulativePositive=(cumsum(PositiveLastSevendDays))) %>% 
+  mutate(CumulativeCases=(cumsum(CasesLastSevendDays))) %>% 
   ungroup %>% 
-  arrange(desc(week_ending), simd) %>% 
+  arrange(week_ending, simd) %>% 
   left_join(simd_populations, by=c("location_code","simd")) %>% 
-  mutate(CrudeRatePositive=(CumulativePositive/Pop)*100000) %>% 
-  mutate(CrudeRatePositive=round_half_up(CrudeRatePositive)) %>% 
-  mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d")) %>%
-  select(week_ending ,simd, PositiveLastSevendDays, 
-         CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
+  mutate(CrudeRateCases=((CumulativeCases/Pop)*100000 ), 
+         CrudeRateCases=round_half_up(CrudeRateCases))  %>% 
+  mutate(CrudeRateCasesQF=if_else(is.na(CrudeRateCases),":","d"),
+         WeekEnding = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
+  select(WeekEnding ,SIMD=simd, CasesLastSevendDays, 
+         CumulativeCases, CrudeRateCases,CrudeRateCasesQF)  
   
-#if not using admisions this version is ready for export
-g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
-  rename(Date= week_ending) %>% 
-  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
+
+write_csv(g_simd_weekly_cases, glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
 
 
-write_csv(g_simd_weekly_cases_od, glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
-
-  
+rm(df_simd, g_simd_scotland_daily_cases, simd_populations, g_simd_weekly_cases)
 ##### End of script #######################################
 
 
-##### Admissions #######################################
-# Not currently being developed
-
-# adm_path <- "/conf/PHSCOVID19_Analysis/RAPID Reporting/Daily_extracts"
-# 
-# read_rds_with_options <- create_loader_with_options(readRDS)
-# i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI_Admissions_proxy.rds"))
-# 
-# g_simd_adm <- i_chiadm %>%
-#   filter(admission_date>as.Date("2020/02/27") & admission_date<as.Date(od_date-1)) %>% 
-#   rename(simd = simd2020v2_sc_quintile,
-#          Date=admission_date) %>% 
-#   mutate(simd = replace(simd, is.na(simd), "Unknown"),
-#          location_code="Scotland") 
-# 
-# 
-# g_simd_weekly_adm_v2<- g_simd_adm %>%
-#   mutate_if(is.numeric, ~replace_na(., 0))  %>% 
-#   group_by(Date,simd) %>%
-#   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F),
-#          simd = ifelse(is.na(simd), "Unknown", simd)) %>% 
-#       ungroup() %>%
-# group_by(week_ending, simd) %>%
-#   summarise(WeeklyHospitalAdmissions = n())%>%
-#   ungroup() %>% 
-#   mutate_if(is.numeric, ~replace_na(., 0))  %>% 
-#   group_by(simd) %>%
-#   mutate(CumulativeAdmissions=(cumsum(WeeklyHospitalAdmissions))) %>%
-#   ungroup
-# 
-# 
-# g_simd_weekly_cases_adm<-g_simd_weekly_cases %>% 
-#      left_join(g_simd_weekly_adm_v2, by= c("week_ending", "simd")) %>% 
-#select(week_ending,simd,WeeklyHospitalAdmissions) %>% 
-# group_by(simd) %>% 
-#   mutate(CumulativeAdmissions=(cumsum(WeeklyHospitalAdmissions))) %>% 
-#   ungroup 
-
-
-#  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
-
-  
-  # mutate(#TotalInfectionsPc = round_half_up(100*TotalInfections/sum(TotalInfections), 2),
-  #   #SIMD =as.character(SIMD),
-  #  # SIMD = recode(SIMD, "1" = "1 (most deprived)", "5" = "5 (least deprived)"),
-  #   simd = ifelse(is.na(simd), "Unknown", simd)) %>% 
-
-# 
-# 
-# healthboards <- c("NHS AYRSHIRE & ARRAN" = "S08000015",
-#                   "NHS BORDERS" = "S08000016",
-#                   "NHS DUMFRIES & GALLOWAY" = "S08000017",
-#                   "NHS FIFE" = "S08000029",
-#                   "NHS FORTH VALLEY" = "S08000019",
-#                   "NHS GREATER GLASGOW & CLYDE" = "S08000031",
-#                   "NHS GRAMPIAN" = "S08000020",
-#                   "NHS HIGHLAND" = "S08000022",
-#                   "NHS LANARKSHIRE" = "S08000032",
-#                   "NHS LOTHIAN" = "S08000024",
-#                   "NHS ORKNEY" = "S08000025",
-#                   "NHS SHETLAND" = "S08000026",
-#                   "NHS TAYSIDE" = "S08000030",
-#                   "NHS WESTERN ISLES" = "S08000028")
-# 
-# 
-# adms_weekly_scotland <- i_chiadm %>%
-#   mutate(week_ending = ceiling_date(
-#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-#   ) %>%
-#   group_by(week_ending) %>%
-#   summarise(HospitalAdmissions = n()) %>%
-#   mutate(location_name="Scotland", location_code="Scotland") %>%
-#   select(week_ending, location_code, location_name, HospitalAdmissions)
-# 
-# adms_weekly_hb <- i_chiadm %>%
-#   mutate(week_ending = ceiling_date(
-#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-#   ) %>%
-#   group_by(week_ending, health_board_of_treatment) %>%
-#   summarise(HospitalAdmissions = n()) %>%
-#   mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
-#   left_join(location_names,by=c("location_code")) %>%
-#   select(week_ending, location_code, location_name, HospitalAdmissions)
-# 
-# g_adms_weekly_all <- bind_rows(adms_weekly_scotland, adms_weekly_hb) %>%
-#   arrange(week_ending, location_code) %>%
-#   rename(Geography = location_code, GeographyName = location_name)
-
-
-
-
-# simd_weekly_cases_v2<- g_daily_casess_geog_simd %>%
-#   mutate(simd = replace(simd, is.na(simd), "Unknown")) %>% 
-#   mutate_if(is.numeric, ~replace_na(., 0)) %>% 
-#   group_by(Date,simd)%>%
-#   summarise(daily_positive = sum(flag_episode))%>%
-#   mutate(location_code="Scotland") %>% 
-#   ungroup() %>% 
-#   filter(Date>as.Date("2020/02/27") & Date<as.Date(od_date-1)) %>% 
-#   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
-#   group_by(week_ending, simd) %>% 
-#   mutate(PositiveLastSevendDays=sum(daily_positive)) %>% 
-#   ungroup %>% 
-#   select(-Date,-daily_positive) %>% 
-#   unique() %>% 
-#   group_by(simd) %>% 
-#   mutate(CumulativePositive=cumsum(PositiveLastSevendDays)) %>% 
-#   ungroup %>% 
-#   arrange(desc(week_ending), simd) %>% 
-#   left_join(simd_populations, by=c("location_code","simd")) %>% 
-#   mutate(CrudeRatePositive=(CumulativePositive/Pop)*100000) %>% 
-#   mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d"))
-
-# 
-# 
-# 
-# simd_trend <- df_simd %>%
-#   left_join(simd_scotland_trend, by=c("Date","location_code","simd"))%>%
-#   mutate_if(is.numeric, ~replace_na(., 0))%>%
-#   arrange(simd, location_code, Date)%>%
-#   group_by(simd, location_code)%>%
-#   mutate(cumulative_positive=cumsum(daily_positive)) %>% #,
-#      #    first_infections_cumulative = cumsum(first_infections_daily),
-#       #   reinfections_cumulative = cumsum(reinfections_daily))%>%
-#   # mutate(percentage_reinfections_daily = 100*reinfections_daily/daily_positive,
-#   #        percentage_reinfections_cumulative = 100*reinfections_cumulative/cumulative_positive)%>%
-#    filter(cumulative_positive!=0)%>%
-#   left_join(simd_pop_lookup,by=c("location_code","simd"))%>%
-#   mutate(cumulative_crude_rate_positive=(cumulative_positive/Pop)*100000,
-#          daily_crude_rate_positive=(daily_positive/Pop)*100000)%>%
-#   mutate(location_name="Scotland", geography="Scotland")%>% 
-#   filter(Date>as.Date("2020/02/27") & Date<as.Date(od_date-1))%>% # check what original 2nd date filter  pointed to : Date<as.Date(yesterday)
-#   select(Date, location_code, location_name, geography, simd, Pop, daily_positive, cumulative_positive,
-#          daily_crude_rate_positive, cumulative_crude_rate_positive)
-#          #first_infections_daily,
-#          #first_infections_cumulative, 
-#          #reinfections_daily, 
-#          #reinfections_cumulative,
-#       #percentage_reinfections_daily, percentage_reinfections_cumulative)
 
 
 
