@@ -153,3 +153,12 @@ output$inpatients_intro_table <- renderDataTable({
     rename(`Percentage Change` = PercentageChange) %>%
     make_table(add_separator_cols_2dp = c(4))
 })
+
+### Plot -----
+output$hosp_adms_intro_plot <- renderPlotly({
+  Respiratory_admissions_summary %>%
+    create_summary_adms_linechart()
+
+})
+
+

@@ -20,6 +20,10 @@ tagList(
   fluidRow(width=12,
            box(width = NULL,
                withNavySpinner(dataTableOutput("hosp_adms_intro_table"))),
+           linebreaks(1),
+           box(width = NULL,
+               withNavySpinner(
+                 plotlyOutput("hosp_adms_intro_plot"))),
            fluidRow(
              width=12, linebreaks(5))
   ), #fluidRow
