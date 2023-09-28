@@ -191,7 +191,7 @@ g_simd_weekly_cases_od  <- df_simd %>%
   group_by(simd) %>% 
   mutate(CumulativePositive=(cumsum(PositiveLastSevenDays))) %>% 
   ungroup %>% 
-  arrange(desc(week_ending), simd) %>% 
+  arrange(week_ending, simd) %>% 
   left_join(simd_populations, by=c("location_code","simd")) %>% 
   mutate(CrudeRatePositive=(CumulativePositive/Pop)*100000) %>% 
   mutate(CrudeRatePositive=round_half_up(CrudeRatePositive)) %>% 

@@ -116,7 +116,9 @@ rm(g_adm_agebd, totals)
 
 # Open data equivalent
 g_adm_agebd_od<-g_adm_agebd %>% 
-  rename(Admissions=TotalInfections, 
+  mutate(Country="S92000003") %>% 
+  select(WeekEnding=WeekOfAdmission,Country, AgeGroup, AgeGroupQF,
+         Admissions=TotalInfections, 
          AdmissionsQF=TotalInfectionsQF)
 
 
