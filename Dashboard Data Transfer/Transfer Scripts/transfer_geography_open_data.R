@@ -330,8 +330,11 @@ g_cumulative_geog_hb <- g_cumulative_geog %>%
 
 g_cumulative_geog_la <- g_cumulative_geog %>%
   filter(geography == "Local Authority") %>%
-  select(-c("geography", "CumulativePillar1Tests", "CumulativePillar2Tests", "CumulativePositivePillar1Tests",
-            "CumulativePositivePillar2Tests"))
+  select(Date, Geography, GeographyName, 
+         CumulativeTests, CumulativePositiveTests,
+         CumulativeCases,CrudeRatePositiveCases, 
+         CumulativePCROnlyCases, CumulativeLFDOnlyCases,
+         CumulativeLFDAndPCRCases)
 
 #save out cumulative geography open data file
 write_csv(g_cumulative_geog_hb, glue(output_folder, "TEMP_Geography_cumulative_hb.csv"))
@@ -570,107 +573,107 @@ g_all_tests_weekly <- Geog_weekly_all_tests %>%
 rm(Geog_weekly_all_tests)
 
 #Admissions
-adm_path <- "/conf/PHSCOVID19_Analysis/RAPID Reporting/Daily_extracts"
-
-read_rds_with_options <- create_loader_with_options(readRDS)
-i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI_Admissions_proxy.rds"))
-
-healthboards <- c("NHS AYRSHIRE & ARRAN" = "S08000015",
-                  "NHS BORDERS" = "S08000016",
-                  "NHS DUMFRIES & GALLOWAY" = "S08000017",
-                  "NHS FIFE" = "S08000029",
-                  "NHS FORTH VALLEY" = "S08000019",
-                  "NHS GREATER GLASGOW & CLYDE" = "S08000031",
-                  "NHS GRAMPIAN" = "S08000020",
-                  "NHS HIGHLAND" = "S08000022",
-                  "NHS LANARKSHIRE" = "S08000032",
-                  "NHS LOTHIAN" = "S08000024",
-                  "NHS ORKNEY" = "S08000025",
-                  "NHS SHETLAND" = "S08000026",
-                  "NHS TAYSIDE" = "S08000030",
-                  "NHS WESTERN ISLES" = "S08000028")
-
-
-adms_weekly_scotland <- i_chiadm %>%
-  mutate(week_ending = ceiling_date(
-    as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-  ) %>%
-  group_by(week_ending) %>%
-  summarise(HospitalAdmissions = n()) %>%
-  mutate(location_name="Scotland", location_code="Scotland") %>%
-  select(week_ending, location_code, location_name, HospitalAdmissions)
-
-adms_weekly_hb <- i_chiadm %>%
-  mutate(week_ending = ceiling_date(
-    as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-  ) %>%
-  group_by(week_ending, health_board_of_treatment) %>%
-  summarise(HospitalAdmissions = n()) %>%
-  mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
-  left_join(location_names,by=c("location_code")) %>%
-  select(week_ending, location_code, location_name, HospitalAdmissions)
-
-adms_total_hb <- i_chiadm %>%
-  group_by(week_ending, health_board_of_treatment) %>%
-  summarise(HospitalAdmissions = n()) %>%
-  mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
-  left_join(location_names,by=c("location_code")) %>%
-  select( location_code, location_name, HospitalAdmissions)
-
-
-adms_weekly_scotland_v2 <- i_chiadm %>%
-  mutate(week_ending = ceiling_date(
-    as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-  ) %>%
-  group_by(week_ending) %>%
-  summarise(HospitalAdmissions = n()) %>%
-  mutate(location_name="Scotland", location_code="Scotland") %>%
-  select(week_ending, location_code, location_name, HospitalAdmissions)
-
-adms_weekly_hb_v2 <- i_chiadm %>%
-  mutate(week_ending = ceiling_date(
-    as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-  ) %>%
-  group_by(week_ending, health_board_of_treatment) %>%
-  summarise(HospitalAdmissions = n()) %>%
-  mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
-  left_join(location_names,by=c("location_code")) %>%
-  mutate(LocationCode=if_else(location_code=="", " "~ location_code))
-  select(week_ending, location_code, location_name, HospitalAdmissions)
-
-
-
-rm(i_chiadm)
-
-g_adms_weekly_all <- bind_rows(adms_weekly_scotland, adms_weekly_hb) %>%
-  arrange(week_ending, location_code) %>%
-  rename(Geography = location_code, GeographyName = location_name) %>%
-  mutate(Geography = recode(Geography, "Scotland" = "S92000003")) %>%
-  select(-GeographyName)
-
-rm(adms_weekly_scotland, adms_weekly_hb)
+# adm_path <- "/conf/PHSCOVID19_Analysis/RAPID Reporting/Daily_extracts"
+# 
+# read_rds_with_options <- create_loader_with_options(readRDS)
+# i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI_Admissions_proxy.rds"))
+# 
+# healthboards <- c("NHS AYRSHIRE & ARRAN" = "S08000015",
+#                   "NHS BORDERS" = "S08000016",
+#                   "NHS DUMFRIES & GALLOWAY" = "S08000017",
+#                   "NHS FIFE" = "S08000029",
+#                   "NHS FORTH VALLEY" = "S08000019",
+#                   "NHS GREATER GLASGOW & CLYDE" = "S08000031",
+#                   "NHS GRAMPIAN" = "S08000020",
+#                   "NHS HIGHLAND" = "S08000022",
+#                   "NHS LANARKSHIRE" = "S08000032",
+#                   "NHS LOTHIAN" = "S08000024",
+#                   "NHS ORKNEY" = "S08000025",
+#                   "NHS SHETLAND" = "S08000026",
+#                   "NHS TAYSIDE" = "S08000030",
+#                   "NHS WESTERN ISLES" = "S08000028")
+# 
+# 
+# adms_weekly_scotland <- i_chiadm %>%
+#   mutate(week_ending = ceiling_date(
+#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
+#   ) %>%
+#   group_by(week_ending) %>%
+#   summarise(HospitalAdmissions = n()) %>%
+#   mutate(location_name="Scotland", location_code="Scotland") %>%
+#   select(week_ending, location_code, location_name, HospitalAdmissions)
+# 
+# adms_weekly_hb <- i_chiadm %>%
+#   mutate(week_ending = ceiling_date(
+#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
+#   ) %>%
+#   group_by(week_ending, health_board_of_treatment) %>%
+#   summarise(HospitalAdmissions = n()) %>%
+#   mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
+#   left_join(location_names,by=c("location_code")) %>%
+#   select(week_ending, location_code, location_name, HospitalAdmissions)
+# 
+# adms_total_hb <- i_chiadm %>%
+#   group_by(week_ending, health_board_of_treatment) %>%
+#   summarise(HospitalAdmissions = n()) %>%
+#   mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
+#   left_join(location_names,by=c("location_code")) %>%
+#   select( location_code, location_name, HospitalAdmissions)
+# 
+# 
+# adms_weekly_scotland_v2 <- i_chiadm %>%
+#   mutate(week_ending = ceiling_date(
+#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
+#   ) %>%
+#   group_by(week_ending) %>%
+#   summarise(HospitalAdmissions = n()) %>%
+#   mutate(location_name="Scotland", location_code="Scotland") %>%
+#   select(week_ending, location_code, location_name, HospitalAdmissions)
+# 
+# adms_weekly_hb_v2 <- i_chiadm %>%
+#   mutate(week_ending = ceiling_date(
+#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
+#   ) %>%
+#   group_by(week_ending, health_board_of_treatment) %>%
+#   summarise(HospitalAdmissions = n()) %>%
+#   mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
+#   left_join(location_names,by=c("location_code")) %>%
+#   mutate(LocationCode=if_else(location_code=="", " "~ location_code))
+#   select(week_ending, location_code, location_name, HospitalAdmissions)
+# 
+# 
+# 
+# rm(i_chiadm)
+# 
+# g_adms_weekly_all <- bind_rows(adms_weekly_scotland, adms_weekly_hb) %>%
+#   arrange(week_ending, location_code) %>%
+#   rename(Geography = location_code, GeographyName = location_name) %>%
+#   mutate(Geography = recode(Geography, "Scotland" = "S92000003")) %>%
+#   select(-GeographyName)
+# 
+# rm(adms_weekly_scotland, adms_weekly_hb)
 
 #Weekly HB file
 g_weekly_hb <- g_cases_weekly %>%
   filter(!(geography == "Local Authority")) %>%
   left_join(g_weekly_pos_tests, by=c("week_ending", "Geography")) %>%
   left_join(g_all_tests_weekly, by=c("week_ending", "Geography")) %>%
-  left_join(g_adms_weekly_all, by=c("week_ending", "Geography")) %>%
+#  left_join(g_adms_weekly_all, by=c("week_ending", "Geography")) %>%
   select(-geography) %>%
   arrange(week_ending, Geography)%>%
   mutate(TotalPositiveTests = replace(TotalPositiveTests, is.na(TotalPositiveTests), 0),
          PositivePillar1Tests = replace(PositivePillar1Tests, is.na(PositivePillar1Tests), 0),
-         PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0),
-         HospitalAdmissions = replace(HospitalAdmissions, is.na(HospitalAdmissions), 0)) %>%
+         PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
+    #     HospitalAdmissions = replace(HospitalAdmissions, is.na(HospitalAdmissions), 0)
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
-  select(WeekEnding=week_ending, Geography, GeographyQF, GeographyName, #im update format of week_ending
+  select(WeekEnding=week_ending, Geography, GeographyQF, GeographyName, 
          TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
          TotalPositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDTests,
          WeeklyPositiveCases, CumulativePositiveCases,
          WeeklyPositivePCROnlyCases, CumulativePositivePCROnlyCases,
          WeeklyPositiveLFDOnlyCases, CumulativePositiveLFDOnlyCases,
-         WeeklyPositivePCRAndLFDCases, CumulativePositivePCRAndLFDCases,
-         HospitalAdmissions)
+         WeeklyPositivePCRAndLFDCases, CumulativePositivePCRAndLFDCases)
+         #,HospitalAdmissions)
 write_csv(g_weekly_hb, glue(output_folder, "TEMP_weekly_HB.csv"), na = "")
 
 rm(g_weekly_hb)
@@ -687,8 +690,8 @@ g_weekly_la <- g_cases_weekly %>%
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(WeekEnding=week_ending, Geography, GeographyName, #im update format of week_ending & remove GeographyQF
-         TotalTests, -TotalLFDTests,# remove positive Total LFD tests
-         TotalPositiveTests, -PositiveLFDTests,# remove PositiveLFD tests
+         TotalTests, 
+         TotalPositiveTests, 
          WeeklyPositiveCases, CumulativePositiveCases,
          WeeklyPositivePCROnlyCases, CumulativePositivePCROnlyCases,
          WeeklyPositiveLFDOnlyCases, CumulativePositiveLFDOnlyCases,

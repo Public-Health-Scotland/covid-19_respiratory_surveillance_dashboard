@@ -148,6 +148,8 @@ g_carehome_timeseries<-i_carehome_timeseries  %>%
 
 write_csv(g_carehome_timeseries, glue("{output_folder}/TEMP_care_home_timne_series_{report_date}.csv"),
           na = "")
+write_csv(g_carehome_timeseries, glue("{output_folder}/TEMP_care_home_time_series.csv"),
+          na = "")
 
 rm(g_notes, g_board, g_outbreak, g_board_older, g_outbreak_older, i_ch, process_visiting_status_table,
    i_carehome_timeseries, g_carehome_time_series)

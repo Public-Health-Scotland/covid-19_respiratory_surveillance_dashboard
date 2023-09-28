@@ -47,11 +47,11 @@ g_weekly_adm<- i_chiadm %>%
   mutate(WeekEnding = ceiling_date(
     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)  ) %>%
   group_by(WeekEnding) %>%
-  summarise(HospitalAdmissions = n()) %>%
-  mutate(CumulativeHospitalAdmissions=(cumsum(HospitalAdmissions)),
+  summarise(Admissions = n()) %>%
+  mutate(CumulativeAdmissions=(cumsum(Admissions)),
          LocationCode="S92000003",
          WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) %>% 
-  select(WeekEnding, LocationCode,HospitalAdmissions, CumulativeHospitalAdmissions )
+  select(WeekEnding, LocationCode,Admissions, CumulativeAdmissions )
 
 write_csv(g_weekly_adm, glue(output_folder, "TEMP_WeeklyAdmissions.csv"))
 
@@ -109,9 +109,19 @@ g_adm_agebd %<>%
   mutate(WeekOfAdmission = format(WeekOfAdmission, "%Y%m%d")) %>%
   select(WeekOfAdmission, AgeGroup, AgeGroupQF, TotalInfections, TotalInfectionsQF)
 
-write.csv(g_adm_agebd, glue(output_folder, "Admissions_AgeBD.csv"), row.names = FALSE)
 
+write.csv(g_adm_agebd, glue(output_folder, "Admissions_AgeBD.csv"), row.names = FALSE)
 rm(g_adm_agebd, totals)
+
+
+# Open data equivalent
+g_adm_agebd_od<-g_adm_agebd %>% 
+  rename(Admissions=TotalInfections, 
+         AdmissionsQF=TotalInfectionsQF)
+
+
+write_csv(g_adm_agebd_od, glue("{output_folder}TEMP_Admissions_AgeBD_od.csv"), na = "")
+
 
 ### c) Admissions_AgeSex
 
