@@ -442,7 +442,7 @@ create_adms_linechart <- function(data,
                                  #seasons = NULL,
                                  value_variable = "Admissions",
                                  y_axis_title = "Number of hospital admissions") {
-
+  
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable)
@@ -455,9 +455,17 @@ create_adms_linechart <- function(data,
     arrange(Season, Weekord) %>%
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
+  
+  # Seasons in data
+  seasons <- unique(data$Season)
+  
+  # Current season data only
+  data_curr_season <- data %>%
+    filter(Season %in% seasons[length(seasons)])
 
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
+  xaxis_plots[["range"]] <- c(-1,52)
 
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -495,6 +503,23 @@ create_adms_linechart <- function(data,
 
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
+  
+  # For first week of new season (week 40), add in a marker
+  if(nrow(data_curr_season) == 1){
+    
+    adms_linechart <- adms_linechart %>%
+      add_trace(data = data_curr_season,
+                x = ~ISOWeek,
+                y = ~Value,
+                showlegend = F,
+                color = ~Season,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend,
+                hoverinfo = "text")
+  }
 
   return(adms_linechart)
 
