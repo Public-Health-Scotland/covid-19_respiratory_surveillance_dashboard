@@ -326,11 +326,18 @@ rm(g_total_cases, g_pos_tests, g_all_tests)
 
 g_cumulative_geog_hb <- g_cumulative_geog %>%
   filter(!(geography == "Local Authority")) %>%
-  select(-geography)
+  select(Date, HB=Geography, HBQF=GeographyQF,HBName=GeographyName,
+         CumulativeTests, CumulativePillar1Tests,
+         CumulativePillar2Tests, CumulativeLFDTests,
+         CumulativePositiveTests, CumulativePositivePillar1Tests, 
+         CumulativePositivePillar2Tests, CumulativePositiveLFDTests,
+         CumulativeCases, CrudeRatePositiveCases, 
+         CumulativePCROnlyCases, CumulativeLFDOnlyCases, 
+         CumulativeLFDAndPCRCases)
 
 g_cumulative_geog_la <- g_cumulative_geog %>%
   filter(geography == "Local Authority") %>%
-  select(Date, Geography, GeographyName, 
+  select(Date, CA= Geography, CAName=GeographyName, 
          CumulativeTests, CumulativePositiveTests,
          CumulativeCases,CrudeRatePositiveCases, 
          CumulativePCROnlyCases, CumulativeLFDOnlyCases,
@@ -666,7 +673,7 @@ g_weekly_hb <- g_cases_weekly %>%
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
     #     HospitalAdmissions = replace(HospitalAdmissions, is.na(HospitalAdmissions), 0)
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
-  select(WeekEnding=week_ending, Geography, GeographyQF, GeographyName, 
+  select(WeekEnding=week_ending, HB= Geography, HBQF=GeographyQF, HBName=GeographyName, 
          TotalTests, TotalPillar1Tests, TotalPillar2Tests, TotalLFDTests,
          TotalPositiveTests, PositivePillar1Tests,PositivePillar2Tests, PositiveLFDTests,
          WeeklyPositiveCases, CumulativePositiveCases,
@@ -689,7 +696,7 @@ g_weekly_la <- g_cases_weekly %>%
          PositivePillar1Tests = replace(PositivePillar1Tests, is.na(PositivePillar1Tests), 0),
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
-  select(WeekEnding=week_ending, Geography, GeographyName, #im update format of week_ending & remove GeographyQF
+  select(WeekEnding=week_ending, CA=Geography, CAName=GeographyName,
          TotalTests, 
          TotalPositiveTests, 
          WeeklyPositiveCases, CumulativePositiveCases,

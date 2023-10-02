@@ -482,7 +482,7 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
           AgeGroupQF=if_else(AgeGroup=="Total"|AgeGroup=="Unknown","d", ""))%>% 
      #mutate(CasesLastSevenDaysQF=if_else(is.na(CasesLastSevenDays),":","")) %>% 
      select(WeekEnding=week_ending, Country, Sex=sex, SexQF, AgeGroup, AgeGroupQF,
-            CasesLastSevenDays, CumulativeCases) 
+            WeeklyCases=CasesLastSevenDays, CumulativeCases) 
    
  write_csv(g_age_sex_cases_weekly_od, glue("{output_folder}TEMP_cases_age_sex_weekly.csv"), na = "")   
 
