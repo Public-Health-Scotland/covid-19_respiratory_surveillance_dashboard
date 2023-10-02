@@ -24,8 +24,8 @@ create_mem_linechart <- function(data,
                                  seasons = NULL,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
-
-  # Rename value variable
+  
+    # Rename value variable
   data <- data %>%
     rename(Value = value_variable) %>%
     mutate(Value = round_half_up(Value, rate_dp))
@@ -59,6 +59,7 @@ create_mem_linechart <- function(data,
 
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
+  xaxis_plots[["range"]] <- c(-1,52)
 
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -80,6 +81,10 @@ create_mem_linechart <- function(data,
                             "<br>", "Rate: ", data$Value,
                             "<br>", "Activity level: ", data$ActivityLevel))
 
+  # Current season data only
+  data_curr_season <- data %>%
+    filter(Season %in% seasons[length(seasons)])
+  
   # Create plot
   mem_linechart = data %>%
     plot_ly(x = ~ISOWeek,
@@ -102,7 +107,7 @@ create_mem_linechart <- function(data,
                   fillcolor = activity_level_colours[1],
                   line = list(color = "transparent"),
                   opacity = 0.5,
-                  x0 = 0,
+                  x0 = -1,
                   x1 = 52,
                   xref = "x",
                   y0 = 0,
@@ -113,7 +118,7 @@ create_mem_linechart <- function(data,
                   fillcolor = activity_level_colours[2],
                   line = list(color = "transparent"),
                   opacity = 0.5,
-                  x0 = 0,
+                  x0 = -1,
                   x1 = 52,
                   xref = "x",
                   y0 = baseline_max,#+0.00001,
@@ -124,7 +129,7 @@ create_mem_linechart <- function(data,
                   fillcolor = activity_level_colours[3],
                   line = list(color = "transparent"),
                   opacity = 0.5,
-                  x0 = 0,
+                  x0 = -1,
                   x1 = 52,
                   xref = "x",
                   y0 = low_max,#+0.00001,
@@ -135,7 +140,7 @@ create_mem_linechart <- function(data,
                   fillcolor = activity_level_colours[4],
                   line = list(color = "transparent"),
                   opacity = 0.5,
-                  x0 = 0,
+                  x0 = -1,
                   x1 = 52,
                   xref = "x",
                   y0 = moderate_max,#+0.00001,
@@ -146,7 +151,7 @@ create_mem_linechart <- function(data,
                   fillcolor = activity_level_colours[5],
                   line = list(color = "transparent"),
                   opacity = 0.5,
-                  x0 = 0,
+                  x0 = -1,
                   x1 = 52,
                   xref = "x",
                   y0 = high_max,#+0.00001,
@@ -174,6 +179,23 @@ create_mem_linechart <- function(data,
 
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
+  
+  # For first week of new season (week 40), add in a marker
+  if(nrow(data_curr_season) == 1){
+    
+    mem_linechart <- mem_linechart %>%
+      add_trace(data = data_curr_season,
+                x = ~ISOWeek,
+                y = ~Value,
+                showlegend = F,
+                color = ~Season,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend,
+                hoverinfo = "text")
+  }
 
   return(mem_linechart)
 
@@ -420,7 +442,7 @@ create_adms_linechart <- function(data,
                                  #seasons = NULL,
                                  value_variable = "Admissions",
                                  y_axis_title = "Number of hospital admissions") {
-
+  
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable)
@@ -433,9 +455,17 @@ create_adms_linechart <- function(data,
     arrange(Season, Weekord) %>%
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
+  
+  # Seasons in data
+  seasons <- unique(data$Season)
+  
+  # Current season data only
+  data_curr_season <- data %>%
+    filter(Season %in% seasons[length(seasons)])
 
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
+  xaxis_plots[["range"]] <- c(-1,52)
 
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -473,6 +503,23 @@ create_adms_linechart <- function(data,
 
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
+  
+  # For first week of new season (week 40), add in a marker
+  if(nrow(data_curr_season) == 1){
+    
+    adms_linechart <- adms_linechart %>%
+      add_trace(data = data_curr_season,
+                x = ~ISOWeek,
+                y = ~Value,
+                showlegend = F,
+                color = ~Season,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend,
+                hoverinfo = "text")
+  }
 
   return(adms_linechart)
 

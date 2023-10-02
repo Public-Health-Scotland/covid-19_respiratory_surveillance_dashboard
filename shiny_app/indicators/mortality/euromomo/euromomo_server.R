@@ -1,4 +1,3 @@
-
 metadataButtonServer(id="mortality_euromomo",
                      panel="All-Cause Excess Mortality (Euromomo)",
                      parent = session)
@@ -31,20 +30,37 @@ euromomo_extraordinary_threshold <- Respiratory_Euromomo %>%
   .$ExtraordinaryThreshold %>%
   round_half_up(2)
 
+
+# Latest reporting week
+latest_week <- Respiratory_Euromomo %>%
+  tail(1) %>%
+  .$ISOWeek %>%
+  as.character()
+
 # Get seasons used in line chart
-seasons <- Respiratory_Euromomo %>% 
-  select(Season) %>%
-  arrange(Season) %>%
-  distinct() %>%
-  tail(4)
-seasons <- seasons$Season
+if(latest_week %in% c("40","41","42")){
+  
+  euromomo_seasons <- Respiratory_Euromomo %>%
+    select(Season) %>%
+    arrange(Season) %>%
+    distinct() %>%
+    tail(5)
+  euromomo_seasons <- euromomo_seasons$Season
+} else{
+  euromomo_seasons <- Respiratory_Euromomo %>%
+    select(Season) %>%
+    arrange(Season) %>%
+    distinct() %>%
+    tail(4)
+  euromomo_seasons <- euromomo_seasons$Season
+}
 
 
 altTextServer("euromomo_mem_modal",
               title = "All-cause excess mortality (Euromomo)",
               content = tags$ul(tags$li(glue("This is a plot showing the weekly excess all-cause mortality for season ",
-                                             seasons[4], " compared to the last 3 seasons, ", seasons[1], ", ",
-                                             seasons[2], ", and ", seasons[3], ".")),
+                                             euromomo_seasons[4], " compared to the last 3 seasons, ", euromomo_seasons[1], ", ",
+                                             euromomo_seasons[2], ", and ", euromomo_seasons[3], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
                                 tags$li("The y axis shows the z-score."),
@@ -60,7 +76,7 @@ altTextServer("euromomo_mem_modal",
 altTextServer("euromomo_mem_age_modal",
               title = "All-cause excess mortality (Euromomo) by age",
               content = tags$ul(tags$li(glue("This is a plot showing the weekly excess all-cause mortality by age group for season ",
-                                             seasons[4], " compared to the previous season, ", seasons[3], ".")),
+                                             euromomo_seasons[length(euromomo_seasons)], " compared to the previous season, ", euromomo_seasons[length(euromomo_seasons)-1], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
                                         "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
                                 tags$li("The y axis shows the age group."),
@@ -68,12 +84,11 @@ altTextServer("euromomo_mem_age_modal",
                                 tags$li(glue("Data for the most recent weeks are incomplete and should be treated with caution."))))
 
 
-
 # Euromomo MEM table
 output$euromomo_mem_table <- renderDataTable({
   Respiratory_Euromomo %>%
     filter(AgeGroup == "All Ages") %>%
-    filter(Season %in% seasons) %>%
+    filter(Season %in% euromomo_seasons) %>%
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
                                 "Yes", "")) %>%
     arrange(desc(WeekEnding)) %>%
@@ -92,7 +107,7 @@ output$euromomo_mem_table <- renderDataTable({
 # Euromomo age MEM table
 output$euromomo_mem_age_table <- renderDataTable({
   Respiratory_Euromomo %>%
-    filter(Season %in% seasons[3:4]) %>%
+    filter(Season %in% euromomo_seasons[(length(euromomo_seasons)-1):length(euromomo_seasons)]) %>%
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
                                 "Yes", "")) %>%
     arrange(desc(WeekEnding)) %>%
