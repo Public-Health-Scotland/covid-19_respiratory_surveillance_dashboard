@@ -77,7 +77,7 @@ output$respiratory_over_time_plot <- renderPlotly({
   
   Respiratory_AllData %>%
     filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>%
-    filter(FluOrNonFlu == "nonflu") %>%
+    filter(FluOrNonFlu == "flu") %>%
     filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>%
     select_y_axis(., yaxis = input$respiratory_y_axis_plots) %>%
     make_respiratory_trend_over_time_plot(., y_axis_title = input$respiratory_y_axis_plots)
