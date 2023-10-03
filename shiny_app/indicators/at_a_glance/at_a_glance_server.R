@@ -13,36 +13,40 @@ previous_week <- Cases %>%
   .$Date %>%
   convert_opendata_date()
 
+pop_scot_total <- i_population_v2 %>%
+  filter(AgeGroup == "Total", Sex == "Total") %>%
+  .$PopNumber
+
 ###Cases
 covid_cases_intro <- Cases %>%
   tail(14) %>%
   mutate(Date = as.character(Date)) %>%
-  mutate(week_ending = as_date(ceiling_date(as_date(Date), "week",
-                                                 change_on_boundary = F))) %>%
+  mutate(week_ending = as_date(ceiling_date(as_date(Date), "week",change_on_boundary = F))) %>%
   group_by(week_ending) %>%
-  summarise(WeeklyTotal = sum(NumberCasesPerDay)) %>%
+  summarise(cases_number = sum(NumberCasesPerDay)) %>%
+  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>% 
   ungroup() %>%
-  mutate(flag = ifelse(week_ending == latest_week, "Latest Week", "Previous Week")) %>%
+  mutate(flag = ifelse(week_ending == latest_week, "latest_week", "previous_week")) %>%
   select(-week_ending) %>%
-  pivot_wider(names_from = flag, values_from = WeeklyTotal) %>%
-  mutate(Pathogen = "COVID-19") %>%
-  mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
-  select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
+  pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
+  mutate(Pathogen = "COVID-19") 
+ # mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
+  
 
 flu_cases_intro <- Respiratory_AllData %>%
   filter(FluOrNonFlu == "flu") %>%
   filter(Organism == "Influenza - Type A or B") %>%
   filter(BreakDown == "Scotland") %>%
   group_by(Date) %>%
-  summarise(WeeklyTotal = sum(Count)) %>%
+  summarise(cases_number = sum(Count)) %>%
   ungroup() %>%
   tail(2) %>%
-  mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
+  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>% 
+    mutate(flag = ifelse(Date == latest_week, "latest_week", "previous_week")) %>%
   select(-Date) %>%
-  pivot_wider(names_from = flag, values_from = WeeklyTotal) %>%
-  mutate(Pathogen = "Influenza") %>%
-  mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
-  select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
+  pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
+  mutate(Pathogen = "Influenza") 
+  # mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
 
 
 nonflu_cases_intro <- Respiratory_AllData %>%
@@ -50,24 +54,90 @@ nonflu_cases_intro <- Respiratory_AllData %>%
   filter(Organism != "Total") %>%
   filter(BreakDown == "Scotland") %>%
   group_by(Date, Organism) %>%
-  summarise(WeeklyTotal = sum(Count)) %>%
+  summarise(cases_number = sum(Count)) %>%
   ungroup() %>%
   filter(Date %in% latest_week | Date %in% previous_week) %>%
   ungroup() %>%
-  mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
+  mutate(flag = ifelse(Date == latest_week, "latest_week", "previous_week")) %>%
   select(-Date) %>%
-  pivot_wider(names_from = flag, values_from = WeeklyTotal) %>%
+  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>% 
+  pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
+  select(-c(flag_latest_week, flag_previous_week)) %>% 
   rename(Pathogen = Organism) %>%
-  mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
-  select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange) %>%
+  #mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   mutate(Pathogen =  factor(Pathogen, levels = c("Respiratory syncytial virus", "Adenovirus", "Human metapneumovirus",
                                                  "Mycoplasma pneumoniae", "Parainfluenza virus", "Rhinovirus",
                                                  "Seasonal coronavirus (Non-SARS-CoV-2)"))) %>%
   arrange(Pathogen)
 
+
 cases_intro <- covid_cases_intro %>%
   bind_rows(flu_cases_intro) %>%
-  bind_rows(nonflu_cases_intro)
+  bind_rows(nonflu_cases_intro) %>% 
+  select(Pathogen, 
+         'Number of cases (latest week)'= cases_number_latest_week, 
+         'Rate per 100,000 population (latest week)'= cases_rate_latest_week,
+         'Number of cases (previous week)'= cases_number_previous_week, 
+         'Rate per 100,000 population (previous week)'= cases_rate_previous_week)
+
+
+# 
+# covid_cases_intro <- Cases %>%
+#   tail(14) %>%
+#   mutate(Date = as.character(Date)) %>%
+#   mutate(week_ending = as_date(ceiling_date(as_date(Date), "week",
+#                                             change_on_boundary = F))) %>%
+#   group_by(week_ending) %>%
+#   summarise(WeeklyTotal = sum(NumberCasesPerDay)) %>%
+#   mutate(CumulativeRatePer100000 = round_half_up(100000 * WeeklyTotal / pop_grandtotal,1)) %>% 
+#   ungroup() %>%
+#   mutate(flag = ifelse(week_ending == latest_week, "Latest Week", "Previous Week")) %>%
+#   select(-week_ending) %>%
+#   pivot_wider(names_from = flag, values_from = WeeklyTotal) %>%
+#   mutate(Pathogen = "COVID-19") %>%
+#   mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
+#  select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
+
+
+
+# flu_cases_intro <- Respiratory_AllData %>%
+#   filter(FluOrNonFlu == "flu") %>%
+#   filter(Organism == "Influenza - Type A or B") %>%
+#   filter(BreakDown == "Scotland") %>%
+#   group_by(Date) %>%
+#   summarise(WeeklyTotal = sum(Count)) %>%
+#   ungroup() %>%
+#   tail(2) %>%
+#   mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
+#   select(-Date) %>%
+#   pivot_wider(names_from = flag, values_from = WeeklyTotal) %>%
+#   mutate(Pathogen = "Influenza") %>%
+#   mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
+#   select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
+
+# 
+# nonflu_cases_intro <- Respiratory_AllData %>%
+#   filter(FluOrNonFlu == "nonflu") %>%
+#   filter(Organism != "Total") %>%
+#   filter(BreakDown == "Scotland") %>%
+#   group_by(Date, Organism) %>%
+#   summarise(WeeklyTotal = sum(Count)) %>%
+#   ungroup() %>%
+#   filter(Date %in% latest_week | Date %in% previous_week) %>%
+#   ungroup() %>%
+#   mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
+#   select(-Date) %>%
+#   pivot_wider(names_from = flag, values_from = WeeklyTotal) %>%
+#   rename(Pathogen = Organism) %>%
+#   mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
+#   select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange) %>%
+#   mutate(Pathogen =  factor(Pathogen, levels = c("Respiratory syncytial virus", "Adenovirus", "Human metapneumovirus",
+#                                                  "Mycoplasma pneumoniae", "Parainfluenza virus", "Rhinovirus",
+#                                                  "Seasonal coronavirus (Non-SARS-CoV-2)"))) %>%
+#   arrange(Pathogen)
+
+
+
 
 ###Hosp Adms
 
@@ -136,15 +206,15 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
 # Cases table
 output$cases_intro_table <- renderDataTable({
   cases_intro %>%
-    rename(`Percentage Change` = PercentageChange) %>%
+  # rename(`Percentage Change` = PercentageChange) %>%
     make_table(add_separator_cols_2dp = c(4))
 })
 
 # Hospital admissions table
 output$hosp_adms_intro_table <- renderDataTable({
   hosp_adms_intro %>%
-    rename(`Percentage Change` = PercentageChange) %>%
-    make_table(add_separator_cols_2dp = c(4))
+    rename(`Percentage Change` = PercentageChange) #%>%
+   # make_table(add_separator_cols_2dp = c(4))
 })
 
 # Inpatients table
