@@ -3,14 +3,15 @@ tagList(
 
            metadataButtonUI("cases"),
            linebreaks(1),
-           h1("COVID-19 cases"),
-           p("Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus.",
-             "The most common symptoms are fever, chills, and sore throat. Anyone can get sick with",
-             "COVID-19 but most people will recover without treatment. As yet, COVID-19 has not been",
-             "shown to follow the same seasonal patterns as other respiratory pathogens.",
-             "Additional information can be found on the PHS page for" , tags$a(href = "https://publichealthscotland.scot/our-areas-of-work/conditions-and-diseases/covid-19/",
-                                                                                "COVID-19"), "."),
-           linebreaks(1)),
+           # h1("COVID-19 cases"),
+           # p("Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus.",
+           #   "The most common symptoms are fever, chills, and sore throat. Anyone can get sick with",
+           #   "COVID-19 but most people will recover without treatment. As yet, COVID-19 has not been",
+           #   "shown to follow the same seasonal patterns as other respiratory pathogens.",
+           #   "Additional information can be found on the PHS page for" , tags$a(href = "https://publichealthscotland.scot/our-areas-of-work/conditions-and-diseases/covid-19/",
+           #                                                                      "COVID-19"), "."),
+           # linebreaks(1)
+           ),
 
   fluidRow(width = 12,
            tagList(h2("Seven day average trend in wastewater COVID-19"),

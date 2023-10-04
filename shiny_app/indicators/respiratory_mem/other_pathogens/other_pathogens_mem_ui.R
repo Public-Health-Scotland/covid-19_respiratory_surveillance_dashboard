@@ -1,11 +1,12 @@
 tagList(
   fluidRow(width = 12,
            metadataButtonUI("other_pathogens_mem"),
-           linebreaks(1),
+           #linebreaks(1),
            h1("Additional respiratory infection activity data on other respiratory pathogens*"),
            p("*Please note that 'other respiratory pathogens' refers to all respiratory",
              " infections excluding influenza and COVID-19"),
-           linebreaks(1)),
+           linebreaks(1)
+           ),
 
    # fluidRow
 ##########summary boxes ############
@@ -39,9 +40,9 @@ tagList(
                                # This text is hidden by css but helps pad the box at the bottom
                                h6("hidden text for padding page")
                       )),
-            
+
             # headline figures for the week by subtype (scotland totals) and healthboard
-            
+
             tags$div(class = "headline",
             h3(glue("Other respiratory pathogens* cases by NHS Health Board")),
             h4(glue("during week {this_week_iso} (ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'nonflu') %>%
@@ -58,7 +59,7 @@ tagList(
                      withNavySpinner(valueBoxOutput("respiratory_headline_figures_other_pathogen_count", width = NULL))
                    )
             )
-            , 
+            ,
             column(6,
                    tagList(
                      pickerInput("other_headline_healthboard",
@@ -67,7 +68,7 @@ tagList(
                                      .$HBName %>% unique() %>% sort()}
                      ),  # pickerInput
                      withNavySpinner(valueBoxOutput("headline_figures_other_pathogen_healthboard_count", width = NULL))
-                   ) # tagList 
+                   ) # tagList
             ), # column
             # This text is hidden by css but helps pad the box at the bottom
             h6("hidden text for padding page")
@@ -110,7 +111,7 @@ fluidRow(width = 12,
 ),
 fluidRow(width = 12,
          tagList(uiOutput("other_pathogens_over_time_title"),#h3(glue("Influenza cases over time by subtype")),
-                 
+
                  tabBox(width = NULL,
                         type = "pills",
                         tabPanel("Plot",
@@ -158,7 +159,7 @@ fluidRow(width = 12,
 fluidRow(
   tagList(tagList(uiOutput("other_pathogens_by_age_sex_title"),
    # h2(glue("Influenza cases by age and/or sex in Scotland")),
-          
+
           tabBox(width = NULL,
                  type = "pills",
                  tabPanel("Plot",

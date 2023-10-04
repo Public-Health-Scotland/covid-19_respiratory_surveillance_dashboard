@@ -2,7 +2,7 @@ tagList(
   fluidRow(width = 12,
 
            metadataButtonUI("respiratory_adenovirus_mem"),
-           linebreaks(1),
+           #linebreaks(1),
            h1("Adenovirus Incidence Rates"),
            p("Adenoviruses most commonly present as respiratory infections but can also",
              "cause gastrointestinal infections and infect the lining of the eyes (conjunctivitis),",
