@@ -2,7 +2,7 @@ tagList(
   fluidRow(width = 12,
 
            metadataButtonUI("respiratory_rhinovirus_mem"),
-           linebreaks(1),
+           #linebreaks(1),
            h1("Rhinovirus Incidence Rates"),
            p("Rhinoviruses are the most frequent cause of the common cold worldwide.",
              "Most infections are mild, with symptoms including coughs, sneezing, and",

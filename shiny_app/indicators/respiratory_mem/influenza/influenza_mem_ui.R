@@ -3,14 +3,15 @@ tagList(
 
            metadataButtonUI("respiratory_influenza_mem"),
            linebreaks(1),
-           h1("Influenza Incidence Rates"),
-           p("Influenza, or flu, is a common infectious viral illness caused by influenza viruses.",
-             "Influenza can cause mild to severe illness with symptoms including fever (38°C or above),",
-             "cough, body aches, and fatigue. Influenza has a different presentation than the common",
-             "cold, with symptoms starting more suddenly, presenting more severely, and lasting longer.",
-             "Influenza can be caught all year round but is more common in the winter months.",
-             "Additional information can be found on the PHS page for influenza."),
-           linebreaks(1)),
+           #h1("Influenza Incidence Rates"),
+           #p("Influenza, or flu, is a common infectious viral illness caused by influenza viruses.",
+             #"Influenza can cause mild to severe illness with symptoms including fever (38°C or above),",
+             #"cough, body aches, and fatigue. Influenza has a different presentation than the common",
+             #"cold, with symptoms starting more suddenly, presenting more severely, and lasting longer.",
+             #"Influenza can be caught all year round but is more common in the winter months.",
+             #"Additional information can be found on the PHS page for influenza."),
+           #linebreaks(1)
+           ),
 
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),

@@ -3,8 +3,9 @@ tagList(
 
            metadataButtonUI("respiratory_influenza_subtype"),
            linebreaks(1),
-           h1("Influenza by subtype"),
-           linebreaks(1)),
+           #h1("Influenza by subtype"),
+           #linebreaks(1)
+           ),
 
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),
@@ -76,11 +77,11 @@ tagList(
                                             selected = "Number of cases") # pickerInput
                       )
                     ),
-  
-  
+
+
   fluidRow(width = 12,
            tagList(uiOutput("respiratory_over_time_title"),#h3(glue("Influenza cases over time by subtype")),
-                   
+
                    tabBox(width = NULL,
                           type = "pills",
                           tabPanel("Plot",
@@ -93,13 +94,13 @@ tagList(
                    ) # tabbox
            ) # taglist)
   ),
-  
+
   fluidRow(width = 12,
            linebreaks(2)),
-  
+
   fluidRow(width = 12,
            tagList(uiOutput("respiratory_by_season_title"),#h3(glue("Influenza cases over time by season")),
-                   
+
                    tabBox(width = NULL,
                           type = "pills",
                           tabPanel("Plot",
@@ -123,7 +124,7 @@ tagList(
                    ) # tabbox
            )#, # tagList
   ),
-  
+
   fluidRow(width = 12,
            linebreaks(2))
 

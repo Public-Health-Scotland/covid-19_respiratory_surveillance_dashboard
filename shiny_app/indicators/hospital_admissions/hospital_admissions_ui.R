@@ -2,8 +2,9 @@ tagList(
   fluidRow(width = 12,
            metadataButtonUI("hospital_admissions"),
            linebreaks(1),
-           h1("Acute COVID-19 hospital admissions"),
-           linebreaks(1)),
+           #h1("Acute COVID-19 hospital admissions"),
+           #linebreaks(1)
+           ),
 
   fluidRow(width = 12,
            tabBox(width = NULL,
