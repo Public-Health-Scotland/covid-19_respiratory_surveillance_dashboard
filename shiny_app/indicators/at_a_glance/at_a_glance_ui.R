@@ -10,7 +10,7 @@ tagList(
            box(width = NULL,
                withNavySpinner(dataTableOutput("cases_intro_table"))),
                fluidRow(
-                 width=12, linebreaks(5))
+                 width=12, linebreaks(1))
            ), #fluidRow
 
   fluidRow(width = 12,
@@ -25,7 +25,7 @@ tagList(
                withNavySpinner(
                  plotlyOutput("hosp_adms_intro_plot"))),
            fluidRow(
-             width=12, linebreaks(5))
+             width=12, linebreaks(1))
   ), #fluidRow
 
   fluidRow(width = 12,
