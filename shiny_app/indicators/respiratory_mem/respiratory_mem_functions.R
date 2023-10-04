@@ -24,7 +24,7 @@ create_mem_linechart <- function(data,
                                  seasons = NULL,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
-  
+
     # Rename value variable
   data <- data %>%
     rename(Value = value_variable) %>%
@@ -84,7 +84,7 @@ create_mem_linechart <- function(data,
   # Current season data only
   data_curr_season <- data %>%
     filter(Season %in% seasons[length(seasons)])
-  
+
   # Create plot
   mem_linechart = data %>%
     plot_ly(x = ~ISOWeek,
@@ -179,10 +179,10 @@ create_mem_linechart <- function(data,
 
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
-  
+
   # For first week of new season (week 40), add in a marker
   if(nrow(data_curr_season) == 1){
-    
+
     mem_linechart <- mem_linechart %>%
       add_trace(data = data_curr_season,
                 x = ~ISOWeek,
@@ -442,7 +442,7 @@ create_adms_linechart <- function(data,
                                  #seasons = NULL,
                                  value_variable = "Admissions",
                                  y_axis_title = "Number of hospital admissions") {
-  
+
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable)
@@ -455,10 +455,10 @@ create_adms_linechart <- function(data,
     arrange(Season, Weekord) %>%
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
-  
+
   # Seasons in data
   seasons <- unique(data$Season)
-  
+
   # Current season data only
   data_curr_season <- data %>%
     filter(Season %in% seasons[length(seasons)])
@@ -503,10 +503,10 @@ create_adms_linechart <- function(data,
 
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
-  
+
   # For first week of new season (week 40), add in a marker
   if(nrow(data_curr_season) == 1){
-    
+
     adms_linechart <- adms_linechart %>%
       add_trace(data = data_curr_season,
                 x = ~ISOWeek,
@@ -574,7 +574,7 @@ create_summary_adms_linechart <- function(data,
             type="scatter",
             mode="lines",
             line = list(width = 5),
-            colors = mem_line_colours) %>%
+            colors = phs_colours(c("phs-blue", "phs-purple", "phs-green"))) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            margin = list(b = 100, t = 5),

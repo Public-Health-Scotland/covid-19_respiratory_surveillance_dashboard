@@ -2,8 +2,9 @@ tagList(
   fluidRow(width = 12,
            metadataButtonUI("hospital_occupancy"),
            linebreaks(1),
-           h1("Hospital occupancy (inpatients)"),
-           linebreaks(1)),
+           #h1("Hospital occupancy (inpatients)"),
+           #linebreaks(1)
+           ),
 
 
 

@@ -69,6 +69,9 @@ cases_intro <- covid_cases_intro %>%
   bind_rows(flu_cases_intro) %>%
   bind_rows(nonflu_cases_intro)
 
+colnames(cases_intro)[2] <- paste("Week ending", as.character(latest_week))
+colnames(cases_intro)[3] <- paste("Week ending", as.character(previous_week))
+
 ###Hosp Adms
 
 covid_hosp_adms_intro <- Admissions %>%
@@ -111,6 +114,9 @@ hosp_adms_intro <- covid_hosp_adms_intro %>%
   bind_rows(flu_hosp_adms_intro) %>%
   bind_rows(rsv_hosp_adms_intro)
 
+colnames(hosp_adms_intro)[2] <- paste("Week ending", as.character(latest_week))
+colnames(hosp_adms_intro)[3] <- paste("Week ending", as.character(previous_week))
+
 ###Inpatients
 
 covid_inpatients_intro_latest <- Occupancy_Hospital %>%
@@ -131,27 +137,30 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
   mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
 
+colnames(covid_inpatients_intro)[2] <- paste("Week ending", as.character(latest_week))
+colnames(covid_inpatients_intro)[3] <- paste("Week ending", as.character(previous_week))
+
 ### Data tables -----
 
 # Cases table
 output$cases_intro_table <- renderDataTable({
   cases_intro %>%
     rename(`Percentage Change` = PercentageChange) %>%
-    make_table(add_separator_cols_2dp = c(4))
+    make_table(add_separator_cols_1dp = c(4))
 })
 
 # Hospital admissions table
 output$hosp_adms_intro_table <- renderDataTable({
   hosp_adms_intro %>%
     rename(`Percentage Change` = PercentageChange) %>%
-    make_table(add_separator_cols_2dp = c(4))
+    make_table(add_separator_cols_1dp = c(4))
 })
 
 # Inpatients table
 output$inpatients_intro_table <- renderDataTable({
   covid_inpatients_intro %>%
     rename(`Percentage Change` = PercentageChange) %>%
-    make_table(add_separator_cols_2dp = c(4))
+    make_table(add_separator_cols_1dp = c(4))
 })
 
 ### Plot -----

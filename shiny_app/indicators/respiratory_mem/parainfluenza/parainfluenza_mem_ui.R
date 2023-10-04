@@ -2,7 +2,7 @@ tagList(
   fluidRow(width = 12,
 
            metadataButtonUI("respiratory_parainfluenza_mem"),
-           linebreaks(1),
+          # linebreaks(1),
            h1("Parainfluenza Incidence Rates"),
            p("Human parainfluenza virus (HPIV) is a virus that causes respiratory illness in humans.",
              "Despite its name, parainfluenza is not related to influenza and exhibits different",

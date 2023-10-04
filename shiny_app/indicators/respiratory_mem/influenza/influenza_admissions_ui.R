@@ -27,8 +27,9 @@ tagList(
 
            metadataButtonUI("respiratory_influenza_admissions"),
            linebreaks(1),
-           h1("Influenza Hospital Admissions"),
-           linebreaks(1)),
+           #h1("Influenza Hospital Admissions"),
+           #linebreaks(1)
+           ),
 
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),

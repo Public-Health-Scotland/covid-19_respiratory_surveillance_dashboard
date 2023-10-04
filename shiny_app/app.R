@@ -122,7 +122,14 @@ ui <- fluidPage(
 
                             tabPanel(title = "COVID-19",
                                      value = "covid_19",
-                                     br(),
+                                     h1("COVID-19"),
+                                     p("Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus.",
+                                       "The most common symptoms are fever, chills, and sore throat. Anyone can get sick with",
+                                       "COVID-19 but most people will recover without treatment. As yet, COVID-19 has not been",
+                                       "shown to follow the same seasonal patterns as other respiratory pathogens.",
+                                       "Additional information can be found on the PHS page for" , tags$a(href = "https://publichealthscotland.scot/our-areas-of-work/conditions-and-diseases/covid-19/",
+                                                                                                          "COVID-19"), "."),
+                                     linebreaks(1),
                                      radioGroupButtons("covid19_select", status = "home",
                                                        choices = c("Infection levels", "Hospital admissions", "Hospital occupancy", "Archive"),
                                                        direction = "horizontal", justified = F),
@@ -137,7 +144,14 @@ ui <- fluidPage(
                             ),
                             tabPanel(title = "Influenza",
                                      value = "influenza",
-                                     br(),
+                                     h1("Influenza"),
+                                     p("Influenza, or flu, is a common infectious viral illness caused by influenza viruses.",
+                                       "Influenza can cause mild to severe illness with symptoms including fever (38°C or above),",
+                                       "cough, body aches, and fatigue. Influenza has a different presentation than the common",
+                                       "cold, with symptoms starting more suddenly, presenting more severely, and lasting longer.",
+                                       "Influenza can be caught all year round but is more common in the winter months.",
+                                       "Additional information can be found on the PHS page for influenza."),
+                                     linebreaks(1),
                                      radioGroupButtons("influenza_select", status = "home",
                                                        choices = c("Infection levels (all Influenza)", "Infection levels (by subtype)", "Hospital admissions"),
                                                        direction = "horizontal", justified = F),
@@ -150,7 +164,13 @@ ui <- fluidPage(
                                      ),
                             tabPanel(title = "RSV",
                                      value = "rsv",
-                                     br(),
+                                     h1("Respiratory syncytial virus (RSV)"),
+                                     p("Respiratory syncytial virus (RSV) is a virus that generally causes mild cold like",
+                                       "symptoms but may occasionally result in severe lower respiratory infection such as",
+                                       "bronchiolitis or pneumonia, particularly in infants and young children or in adults",
+                                       "with compromised cardiac, pulmonary, or immune systems. RSV has an annual seasonality",
+                                       "with peaks of activity in the winter months. Additional information can be found on the PHS page for RSV."),
+                                     linebreaks(1),
                                      radioGroupButtons("rsv_select", status = "home",
                                                        choices = c("Infection levels", "Hospital admissions"),
                                                        direction = "horizontal", justified = F),
@@ -160,46 +180,20 @@ ui <- fluidPage(
                                                       source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Adenovirus",
                                      value = "adenovirus",
-                                     br(),
-                                     radioGroupButtons("adenovirus_select", status = "home",
-                                                       choices = c("Infection levels"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.adenovirus_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_ui.R"), local = TRUE)$value)
-                            ),
+                                     source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_ui.R"), local = TRUE)$value),
+
                             tabPanel(title = "HMPV",
                                      value = "hmpv",
-                                     br(),
-                                     radioGroupButtons("hmpv_select", status = "home",
-                                                       choices = c("Infection levels"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.hmpv_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_ui.R"), local = TRUE)$value)),
+                                     source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_ui.R"), local = TRUE)$value),
                             tabPanel(title = "Parainfluenza",
                                      value = "parainfluenza",
-                                     br(),
-                                     radioGroupButtons("parainfluenza_select", status = "home",
-                                                       choices = c("Infection levels"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.parainfluenza_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_ui.R"), local = TRUE)$value)),
+                                     source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_ui.R"), local = TRUE)$value),
                             tabPanel(title = "Rhinovirus",
                                      value = "rhinovirus",
-                                     br(),
-                                     radioGroupButtons("rhinovirus_select", status = "home",
-                                                       choices = c("Infection levels"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.rhinovirus_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value))
-                            ,
+                                     source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value),
                             tabPanel(title = "Other respiratory pathogens",
                                      value = "other_pathogens",
-                                     br(), 
-                                     radioGroupButtons("other_pathogens_select", status = "home",
-                                                       choices = c("Infection levels"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.other_pathogens_select=='Infection levels'",
-                                                      source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value))
+                                     source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value)
                ) # navbarlistPanel
                #
 
@@ -217,20 +211,10 @@ ui <- fluidPage(
 
                             tabPanel(title = "NHS24 calls",
                                      value = "nhs24_calls",
-                                     br(),
-                                     radioGroupButtons("nhs24_calls_select", status = "home",
-                                                       choices = c("Infection levels"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.nhs24_calls_select=='Infection levels'",
-                                                      source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_ui.R"), local = TRUE)$value)),
+                                     source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_ui.R"), local = TRUE)$value),
                             tabPanel(title = "GP consultations",
                                      value = "gp_consultations",
-                                     br(),
-                                     radioGroupButtons("gp_consultations_select", status = "home",
-                                                       choices = c("Infection levels"),
-                                                       direction = "horizontal", justified = F),
-                                     conditionalPanel(condition="input.gp_consultations_select=='Infection levels'",
-                                                      source(file.path("indicators/syndromic_surveillance/gp/gp_ui.R"), local = TRUE)$value))
+                                     source(file.path("indicators/syndromic_surveillance/gp/gp_ui.R"), local = TRUE)$value)
                ) # navbarlistPanel
                #
       ),#tabPanel
@@ -242,13 +226,6 @@ ui <- fluidPage(
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("virus"),
                value = "mortality",
-               navlistPanel(widths = c(2,10), id = "mortality_panel", #icon = icon_no_warning_fn("spa")
-
-                            tabPanel(title = "All-Cause Excess Mortality (Euromomo)",
-                                     value = "euromomo",
-                                     source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
-               ) # navbarlistPanel
-               #
       ),#tabPanel
 
 
@@ -329,7 +306,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
-  
+
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 

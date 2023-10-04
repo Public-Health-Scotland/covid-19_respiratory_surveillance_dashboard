@@ -2,7 +2,7 @@ tagList(
   fluidRow(width = 12,
 
            metadataButtonUI("respiratory_hmpv_mem"),
-           linebreaks(1),
+           #linebreaks(1),
            h1("HMPV Incidence Rates"),
            p("Human Metapneumovirus (HMPV) is a virus associated with respiratory infections,",
              "ranging from mild symptoms to more severe illness such as bronchiolitis and",
