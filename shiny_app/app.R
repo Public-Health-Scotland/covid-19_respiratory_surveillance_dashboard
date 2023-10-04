@@ -181,19 +181,24 @@ ui <- fluidPage(
                             tabPanel(title = "Adenovirus",
                                      value = "adenovirus",
                                      source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_ui.R"), local = TRUE)$value),
-
                             tabPanel(title = "HMPV",
                                      value = "hmpv",
                                      source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_ui.R"), local = TRUE)$value),
+                            tabPanel(title = "Mycoplasma pneumoniae",
+                                     value = "mycoplasma_pneumoniae",
+                                     column(12, source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_mem_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Parainfluenza",
                                      value = "parainfluenza",
                                      source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_ui.R"), local = TRUE)$value),
                             tabPanel(title = "Rhinovirus",
                                      value = "rhinovirus",
                                      source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value),
-                            tabPanel(title = "Other respiratory pathogens",
-                                     value = "other_pathogens",
-                                     source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value)
+                            tabPanel(title = "Seasonal Coronavirus",
+                                     value = "seasonal_coronavirus",
+                                     column(12, source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_ui.R"), local = TRUE)$value))
+                            # tabPanel(title = "Other respiratory pathogens",
+                            #          value = "other_pathogens",
+                            #          source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value)
                ) # navbarlistPanel
                #
 
@@ -226,6 +231,7 @@ ui <- fluidPage(
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("virus"),
                value = "mortality",
+               source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value
       ),#tabPanel
 
 
@@ -305,8 +311,9 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
-  source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
-
+  #source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_server.R"), local = TRUE)$value
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 
