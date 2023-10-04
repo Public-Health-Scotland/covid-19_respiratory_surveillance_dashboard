@@ -1,5 +1,5 @@
 tagList(
-  fluidRow(width=12, h1("COVID-19 & respiratory surveillance in Scotland"),
+  fluidRow(width=12, h1("Viral respiratory diseases (including influenza and COVID-19) surveillance in Scotland"),
            linebreaks(1)), #fluidRow
 
   fluidRow(width = 12,
