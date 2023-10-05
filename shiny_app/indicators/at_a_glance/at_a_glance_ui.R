@@ -3,7 +3,7 @@ tagList(
            linebreaks(1)), #fluidRow
 
   fluidRow(width = 12,
-           tagList(h2("National respiratory surveillance in Scotland (number of cases)")),
+           tagList(h2("National respiratory surveillance in Scotland (week ending)")),
            linebreaks(1)), #fluidRow
 
   fluidRow(width=12,
@@ -20,6 +20,8 @@ tagList(
   fluidRow(width=12,
            box(width = NULL,
                withNavySpinner(dataTableOutput("hosp_adms_intro_table"))),
+           linebreaks(1),
+           tagList(h2("Hospital admissions by pathogen and week")),
            linebreaks(1),
            box(width = NULL,
                withNavySpinner(
