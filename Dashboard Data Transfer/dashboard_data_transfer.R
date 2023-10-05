@@ -58,6 +58,8 @@ i_population$AgeGroup[i_population$AgeGroup == "total"] <- "Total"
 i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove(x, "years"))
 i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove_all(x, " "))
 
+source("Transfer Scripts/population_lookups.R")
+
 # Refresh input data folder ----
 # Clear input data
 purrr::walk(list.files(path=input_data, full.names=TRUE), unlink, recursive=TRUE)
