@@ -365,13 +365,26 @@ tagList(h1("Metadata"),
                                      included in this figure after 10 days."),
              p("All inpatients in hospital, including in intensive care, and community, mental health and long stay hospitals are included in this figure."),
              p(strong("Source: NHS Health Boards")),
-             br()
+             br()),
              
              
-             
-             
-             ),
-             
+               #### INFLUENZA PANEL ----
+               bsCollapsePanel("Influenza",
+                               
+                               # Infection Levels ---- 
+                               h4("Infection levels"),
+                               p("ANYTHING TO GO HERE?????????"),
+                               p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                               br(),
+                               
+                               # Hospital admissions ---- 
+                               h4("Hospital admissions"),
+                               p("Patients admitted as an emergency to a hospital in Scotland with recently confirmed influenza are identified from Rapid Preliminary Inpatient Data (RAPID). 
+                                 RAPID is a daily submission of people who have been admitted to hospital in Scotland. 
+                                 The case definition includes patients admitted as an emergency to a medical specialty (excluding surgical and mental health specialties, 
+                                 and emergency admissions with patient injury codes) who have a positive influenza test result, taken within a period of between 14 days before the admission date and 48 hours after the admission date. 
+                                 RAPID data is updated on a weekly basis and NHS boards are required to submit information on admissions no later than midday Wednesday. A complete provisional dataset prepared on Tuesday 2pm is used for the analysis in this report."),
+                              p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)"))),
                                 
              
                 #### SYNDROMIC SURVEILLANCE PANEL ----
