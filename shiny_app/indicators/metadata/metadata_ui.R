@@ -365,7 +365,77 @@ tagList(h1("Metadata"),
                                      included in this figure after 10 days."),
              p("All inpatients in hospital, including in intensive care, and community, mental health and long stay hospitals are included in this figure."),
              p(strong("Source: NHS Health Boards")),
-             br()),
+             br(),
+             
+             # Archive ----
+             h4("Archive"),
+             # Estimated infections ----
+             h4("Estimated infections"),
+             p("The Office for National Statistics (ONS) publish results from the COVID-19 Infection Survey which aims to estimate how many
+                                     people test positive for COVID-19 infection at a given point. The ONS survey results are Scotland’s current best understanding of
+                                     community population prevalence."),
+             p("The Infection Survey invites private residential households to test whether they have the infection, regardless of whether they have symptoms,
+                                     using a PCR test. Data are based on confirmed positive COVID-19 test results of those living in private households, excluding those living in
+                                     care homes or other communal establishments. All data are provisional and subject to revision."),
+             p("For more details and further breakdowns on the Infection Survey please refer to",
+               tags$a("Coronavirus (COVID-19) Infection Survey, UK - Office for National Statistics",
+                      href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/bulletins/coronaviruscovid19infectionsurveypilot/previousReleases"),
+               "."),
+             p(strong("Source: The Office for National Statistics (ONS)")),
+             p("Please note, a",strong("confidence interval"), "gives an indication of the degree of uncertainty of an estimate, showing the precision of a sample estimate.
+                                     The 95% confidence intervals are calculated so that if we repeated the study many times, 95% of the time the true unknown value would lie between
+                                     the lower and upper confidence limits. A wider interval indicates more uncertainty in the estimate. Overlapping confidence intervals indicate that
+                                     there may not be a true difference between two estimates."),
+             br(),
+             
+             # ICU admissions ----
+             h4("ICU admissions"),
+             p("COVID-19 varies in severity from very mild symptoms through to those requiring hospital admission and the most ill who require
+                                     intensive care treatment and supported ventilation in an Intensive Care Unit (ICU). Monitoring the admission frequency to
+                                     critical care units in Scotland (ICU) is therefore an important measure of the severity of COVID-19."),
+             p("COVID-19 related ICU admissions have been identified as the following: A patient who has tested positive for COVID at any
+                                     time in the 21 days prior to admission to ICU, or who has tested positive from the date of admission up to and
+                                     including the date of ICU discharge. "),
+             p("Includes any patient admitted to ICU with:"),
+             
+             tags$li("a valid linkage to laboratory data ", strong("AND")),
+             tags$li("with laboratory confirmation for COVID-19 during the 21 days before the date of ICU admission ", strong("OR")),
+             tags$li("with laboratory confirmation for COVID-19 during their ICU stay, from the date of ICU admission up to and
+                                           including the date of ICU discharge."),
+             p(strong("Source: Scottish Intensive Care Society Audit Group (SICSAG)")),
+             br(),
+             p("Please note:"),
+             tags$li("SICSAG data are stored in a dynamic database and subject to ongoing validations, so data may change weekly."),
+             tags$li("Counts do not include any COVID-19 suspected cases who have not yet been lab confirmed. Therefore, there may
+                                           be a lag for recent days where patients may still be awaiting the results of COVID-19 tests."),
+             tags$li("Data excludes any patient under the age 15."),
+             tags$li("Individual patients are identified using their CHI number as recorded within the ICU admissions system.
+                                           There may be a very small number of patients where CHI was not recorded, for whom linkage to ECOSS for
+                                           COVID-19 status may not have been possible."),
+             tags$li("On 30 October 2020, Public Health Scotland became aware of an ongoing issue when linking ICU data to
+                                           laboratory data for COVID-19 test results. Any COVID-19 positive patients with a missing a
+                                           CHI number that had a first positive test in the community are unable to be linked to ICU data.
+                                           As a result, the COVID-19 positive ICU patients could be underreported by up to 10%."),
+             br(),
+             
+             
+             # ICU occupancy ----
+             h4("ICU occupancy (28 days or less)"),
+             p("COVID-19 confirmed ICU occupancy (28 days or less) have been identified as the following: This measure (available from 11 September 2020)
+                                     includes patients who first tested positive, within their current COVID-19 episode, in hospital or in the 14 days before admission.
+                                     Patients stop being included after 28 days in hospital (or 28 days after first testing positive if this is after admission).
+                                     COVID-19 episodes include both first infections and possible reinfections."),
+             br(),
+             h4("ICU occupancy (greater than 28 days)"),
+             p("COVID-19 confirmed ICU occupancy (greater than 28 days) are now identified as the following: This measure (available from 20 January)
+                                     includes long-stay COVID-19 patients who have been in ICU continuously for more than 28 days. This measure includes patients who first
+                                     tested positive, within their current COVID-19 episode, in hospital or in the 14 days before admission. Patients start being included
+                                     once they have exceeded 28 days in in ICU (or 28 days after first testing positive if this is after admission). Patients who have been
+                                     in hospital or ICU for 28 days or less are not included in this figure. COVID-19 episodes include both first infections and possible reinfections."),
+             br(),
+             p(strong("Source: NHS Health Boards"))
+             
+             ),
              
              
                #### INFLUENZA PANEL ----
@@ -386,6 +456,25 @@ tagList(h1("Metadata"),
                                  RAPID data is updated on a weekly basis and NHS boards are required to submit information on admissions no later than midday Wednesday. A complete provisional dataset prepared on Tuesday 2pm is used for the analysis in this report."),
                               p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)"))),
                                 
+             
+             #### RSV PANEL ----
+             bsCollapsePanel("RSV",
+                             
+                             # Infection Levels ---- 
+                             h4("Infection levels"),
+                             p("ANYTHING TO GO HERE?????????"),
+                             p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                             br(),
+                             
+                             # Hospital admissions ---- 
+                             h4("Hospital admissions"),
+                             p("Patients admitted as an emergency to a hospital in Scotland with recently confirmed RSV are identified from Rapid Preliminary Inpatient Data (RAPID). 
+                                 RAPID is a daily submission of people who have been admitted to hospital in Scotland. 
+                                 The case definition includes patients admitted as an emergency to a medical specialty (excluding surgical and mental health specialties, 
+                                 and emergency admissions with patient injury codes) who have a positive RSV test result, taken within a period of between 14 days before the admission date and 48 hours after the admission date. 
+                                 RAPID data is updated on a weekly basis and NHS boards are required to submit information on admissions no later than midday Wednesday. A complete provisional dataset prepared on Tuesday 2pm is used for the analysis in this report."),
+                             p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)"))),
+             
              
                 #### SYNDROMIC SURVEILLANCE PANEL ----
                 bsCollapsePanel("Syndromic Surveillance",
