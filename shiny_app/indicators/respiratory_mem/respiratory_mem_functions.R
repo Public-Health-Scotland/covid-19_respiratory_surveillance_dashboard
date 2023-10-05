@@ -24,8 +24,8 @@ create_mem_linechart <- function(data,
                                  seasons = NULL,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
-
-    # Rename value variable
+  
+  # Rename value variable
   data <- data %>%
     rename(Value = value_variable) %>%
     mutate(Value = round_half_up(Value, rate_dp))
@@ -73,7 +73,7 @@ create_mem_linechart <- function(data,
   low_max <- unique(data$MediumThreshold)
   moderate_max <- unique(data$HighThreshold)
   high_max <- unique(data$ExtraordinaryThreshold)
-  extraordinary_max <- max(pretty(data$Value), na.rm = T)
+  extraordinary_max <- max(pretty(c(data$Value, high_max)), na.rm = T)
 
   #Text for tooltip
   tooltip_trend <- c(paste0("Season: ", data$Season,
