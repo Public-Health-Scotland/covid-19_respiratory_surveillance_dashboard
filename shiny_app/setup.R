@@ -34,7 +34,7 @@ xaxis_plots <- list(title = FALSE, tickfont = list(size=14), titlefont = list(si
 
 yaxis_plots <- list(title = FALSE, rangemode="tozero", size = 4,
                     fixedrange = FALSE, tickfont = list(size=14),
-                    titlefont = list(size=14))
+                    titlefont = list(size=14), tickformat = ",d")
 
 navy <- "#010068"
 
