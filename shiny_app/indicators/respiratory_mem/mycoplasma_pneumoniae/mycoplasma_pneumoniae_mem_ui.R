@@ -9,8 +9,8 @@ tagList(
              "symptoms. Mycoplasma pneumoniae is most frequently seen in school-age children ",
              "and young adults, but individuals of any age may be infected. Infections peak in ",
              "winter, usually between late December and February, but Mycoplasma pneumoniae ",
-             "circulates throughout the year. Additional information can be found on the ",
-             "PHS page for Mycoplasma pneumoniae."),
+             "circulates throughout the year."), 
+            # "Additional information can be found on the PHS page for Mycoplasma pneumoniae."),
            linebreaks(1)),
   
   fluidRow(width = 12,

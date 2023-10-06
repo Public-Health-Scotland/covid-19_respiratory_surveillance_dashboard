@@ -8,7 +8,8 @@ tagList(
              "cause gastrointestinal infections and infect the lining of the eyes (conjunctivitis),",
              "the urinary tract, and the nervous system. They are very contagious and are",
              "relatively resistant to common disinfectants. Adenoviruses do not follow a seasonal",
-             "pattern and circulate all year round. Additional information can be found on the PHS page for adenovirus."),
+           #  "pattern and circulate all year round. Additional information can be found on the PHS page for adenovirus."),
+             "pattern and circulate all year round."),
            linebreaks(1)),
 
   fluidRow(width = 12,

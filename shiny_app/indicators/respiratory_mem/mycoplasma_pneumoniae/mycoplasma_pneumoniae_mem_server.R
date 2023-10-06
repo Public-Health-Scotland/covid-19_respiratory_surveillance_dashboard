@@ -110,7 +110,7 @@ output$mycoplasma_pneumoniae_mem_table <- renderDataTable({
     rename(`ISO Week` = ISOWeek,
            `Rate per 100,000` = RatePer100000,
            `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_2dp = c(3),
+    make_table(add_separator_cols_1dp = c(3),
                filter_cols = c(1,2,4))
 })
 
@@ -128,7 +128,7 @@ output$mycoplasma_pneumoniae_mem_hb_table <- renderDataTable({
            `NHS Health Board`= HBName,
            `Rate per 100,000` = RatePer100000,
            `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_2dp = c(4),
+    make_table(add_separator_cols_1dp = c(4),
                filter_cols = c(1,2,3,5))
 })
 
@@ -146,7 +146,7 @@ output$mycoplasma_pneumoniae_mem_age_table <- renderDataTable({
            `Age Group`= AgeGroup,
            `Rate per 100,000` = RatePer100000,
            `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_2dp = c(4),
+    make_table(add_separator_cols_1dp = c(4),
                filter_cols = c(1,2,3,5))
 })
 
