@@ -50,7 +50,7 @@ altTextServer("gp_mem_modal",
               title = "GP consultation rates for influenza-like illness (ILI) per 100,000 population",
               content = tags$ul(tags$li("This is a plot showing the rate of GP consultations per 100,000 population in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
-                                        "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
+                                        "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the rate of GP consultations for ILI per 100,000 population."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
                                              seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", ",
@@ -68,7 +68,7 @@ altTextServer("gp_mem_hb_modal",
               content = tags$ul(tags$li(glue("This is a plot showing the rate of GP consultations for ILI per 100,000 population by NHS Health Board for seasons ",
                                              seasons[6], " and ", seasons[7], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
-                                        "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
+                                        "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the NHS Health Board."),
                                 tags$li("Each cell is coloured according to the activity level: Baseline, Low, Moderate, High, or Extraordinary."),
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller NHS Health Boards. ",
@@ -82,7 +82,7 @@ altTextServer("gp_mem_age_modal",
               content = tags$ul(tags$li(glue("This is a plot showing the rate of GP consultations for ILI infection per 100,000 population by age group for seasons ",
                                              seasons[6], " and ", seasons[7], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
-                                        "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
+                                        "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the age group."),
                                 tags$li("Each cell is coloured according to the activity level: Baseline, Low, Moderate, High, or Extraordinary."),
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller age groups. ",
@@ -102,7 +102,7 @@ output$gp_mem_table <- renderDataTable({
     rename(`ISO Week` = ISOWeek,
            `Rate per 100,000` = RatePer100000,
            `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_2dp = c(3),
+    make_table(add_separator_cols_1dp = c(3),
                filter_cols = c(1,2,4))
 })
 
@@ -119,7 +119,7 @@ output$gp_mem_hb_table <- renderDataTable({
            `NHS Health Board`= HBName,
            `Rate per 100,000` = RatePer100000,
            `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_2dp = c(4),
+    make_table(add_separator_cols_1dp = c(4),
                filter_cols = c(1,2,3,5))
 })
 
@@ -136,7 +136,7 @@ output$gp_mem_age_table <- renderDataTable({
            `Age Group`= AgeGroup,
            `Rate per 100,000` = RatePer100000,
            `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_2dp = c(4),
+    make_table(add_separator_cols_1dp = c(4),
                filter_cols = c(1,2,3,5))
 })
 

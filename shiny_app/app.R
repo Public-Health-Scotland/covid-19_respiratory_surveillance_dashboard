@@ -193,7 +193,7 @@ ui <- fluidPage(
                             tabPanel(title = "Rhinovirus",
                                      value = "rhinovirus",
                                      column(12, source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value)),
-                            tabPanel(title = "Seasonal Coronavirus",
+                            tabPanel(title = "Seasonal Coronaviruses (not COVID-19)",
                                      value = "seasonal_coronavirus",
                                      column(12, source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_ui.R"), local = TRUE)$value))
                             # tabPanel(title = "Other respiratory pathogens",
