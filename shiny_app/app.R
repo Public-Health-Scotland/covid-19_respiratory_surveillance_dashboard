@@ -128,7 +128,7 @@ ui <- fluidPage(
                                        "COVID-19 but most people will recover without treatment. As yet, COVID-19 has not been",
                                        "shown to follow the same seasonal patterns as other respiratory pathogens.",
                                        "Additional information can be found on the PHS page for" , tags$a(href = "https://publichealthscotland.scot/our-areas-of-work/conditions-and-diseases/covid-19/",
-                                                                                                          "COVID-19"), "."),
+                                                                                                          "COVID-19.")),
                                      linebreaks(1),
                                      radioGroupButtons("covid19_select", status = "home",
                                                        choices = c("Infection levels", "Hospital admissions", "Hospital occupancy", "Archive"),
