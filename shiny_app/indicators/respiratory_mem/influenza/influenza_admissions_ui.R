@@ -42,28 +42,28 @@ tagList(
                                          .$AdmissionsThisWeek %>% format(big.mark=",")},
                                          subtitle = glue("Week ending {influenza_admissions_recent_week %>%
                                                 .$DateThisWeek %>% format('%d %b %y')}"),
-                                         color = "teal",
+                                         color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # previous week total number
                                      valueBox(value = {influenza_admissions_recent_week %>%
                                          .$AdmissionsLastWeek %>% format(big.mark=",")},
                                          subtitle = glue("Week ending {influenza_admissions_recent_week %>%
                                                 .$DateLastWeek %>% format('%d %b %y')}"),
-                                         color = "teal",
+                                         color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # percentage difference between the previous weeks
                                      valueBox(value = glue("{influenza_admissions_recent_week %>%
                                                   .$PercentageDifference}%"),
                                               subtitle = glue("{influenza_admissions_recent_week %>%
                                                      .$ChangeFactor %>% str_to_sentence()} in the last week"),
-                                              color = "teal",
+                                              color = "navy",
                                               icon = icon_no_warning_fn({influenza_admissions_recent_week %>%  .$icon})),
                                      # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                             )))), # headline
 
   fluidRow(width = 12,
-           tagList(h2("Influenza admissions in Scotland"))),
+           tagList(h2("Number of acute influenza admissions to hospital"))),
 
   fluidRow(
     tabBox(width = NULL,

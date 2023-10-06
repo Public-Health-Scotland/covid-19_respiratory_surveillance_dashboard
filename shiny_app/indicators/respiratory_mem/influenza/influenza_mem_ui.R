@@ -24,21 +24,21 @@ tagList(
                                          .$CountThisWeek %>% format(big.mark=",")},
                                          subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                                                 .$DateThisWeek %>% format('%d %b %y')}"),
-                                         color = "teal",
+                                         color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # previous week total number
                                      valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
                                          .$CountPreviousWeek %>% format(big.mark=",")},
                                          subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                                                 .$DatePreviousWeek %>% format('%d %b %y')}"),
-                                         color = "teal",
+                                         color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # percentage difference between the previous weeks
                                      valueBox(value = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                                                   .$PercentageDifference}%"),
                                               subtitle = glue("{Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                                                      .$ChangeFactor %>% str_to_sentence()} in the last week"),
-                                              color = "teal",
+                                              color = "navy",
                                               icon = icon_no_warning_fn({flu_icon_headline %>% filter(FluOrNonFlu == 'flu') %>%
                                                   .$icon})),
                                      # This text is hidden by css but helps pad the box at the bottom

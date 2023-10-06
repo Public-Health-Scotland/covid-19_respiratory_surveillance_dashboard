@@ -10,7 +10,7 @@ altTextServer("influenza_admissions_modal",
               title = "Influenza hospital admissions in Scotland",
               content = tags$ul(tags$li("This is a plot showing the number of influenza hospital admissions in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
-                                        "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
+                                        "Week 40 is typically the start of October and when the influenza season starts."),
                                 tags$li("The y axis shows the number of hospital admissions."),
                                 tags$li("There is a trace for each of the following season from 2016/2017 to 2022/2023")))
 
@@ -33,7 +33,7 @@ output$influenza_admissions_table <- renderDataTable({
 output$influenza_admissions_plot <- renderPlotly({
   Influenza_admissions %>%
     filter(FluType == "Influenza A & B") %>%
-    create_adms_linechart()
+    create_flu_adms_linechart()
 
 })
 
