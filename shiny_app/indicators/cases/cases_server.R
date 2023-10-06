@@ -1,6 +1,6 @@
 
 metadataButtonServer(id="cases",
-                     panel="COVID-19 cases",
+                     panel="COVID-19",
                      parent = session)
 
 jumpToTabButtonServer(id="cases_from_summary",

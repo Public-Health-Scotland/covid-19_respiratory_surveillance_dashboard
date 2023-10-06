@@ -1,5 +1,5 @@
 metadataButtonServer(id="gp_mem",
-                     panel="GP infection activity",
+                     panel="Syndromic Surveillance",
                      parent = session)
 
 # Low threshold

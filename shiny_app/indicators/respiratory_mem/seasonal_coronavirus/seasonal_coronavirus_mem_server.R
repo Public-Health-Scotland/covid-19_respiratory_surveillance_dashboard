@@ -1,6 +1,6 @@
 
 metadataButtonServer(id="respiratory_seasonal_coronavirus_mem",
-                     panel="Respiratory infection activity",
+                     panel="Seasonal Coronavirus",
                      parent = session)
 
 # Low threshold
