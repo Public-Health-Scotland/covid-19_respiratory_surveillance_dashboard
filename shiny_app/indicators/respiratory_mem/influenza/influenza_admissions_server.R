@@ -10,7 +10,7 @@ altTextServer("influenza_admissions_modal",
               title = "Influenza hospital admissions in Scotland",
               content = tags$ul(tags$li("This is a plot showing the number of influenza hospital admissions in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
-                                        "Week 40 is typically the start of October and when the influenza season starts."),
+                                        "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the number of hospital admissions."),
                                 tags$li("There is a trace for each of the following season from 2016/2017 to 2022/2023")))
 

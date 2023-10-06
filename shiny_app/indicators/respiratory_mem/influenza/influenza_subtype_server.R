@@ -26,7 +26,7 @@ altTextServer("respiratory_by_season_modal",
                 tags$li(glue("This is a plot of the influenza cases for a given subtype",
                              " over each season.")),
                 tags$li("There is a trace for each season, starting in 2016/2017."),
-                tags$li("The x axis is the isoweek. Week 40 is typically the start of October and when the influenza season starts"),
+                tags$li("The x axis is the isoweek. Week 40 is typically the start of October and when the winter respiratory season starts"),
                 tags$li(glue("The y axis is the rate of cases of the chosen influenza subtype in a given NHS health board.")),
                 tags$li("For Scotland there is an option to view the absolute number of cases."))
               #  tags$li("The trend is that each winter there is a peak in cases. The peak was",
