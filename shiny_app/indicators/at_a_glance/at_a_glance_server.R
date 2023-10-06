@@ -177,8 +177,8 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
   #mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   select(Pathogen, `Latest Week`, `Previous Week`)#, PercentageChange)
 
-colnames(covid_inpatients_intro)[2] <- paste("Week ending", as.character(latest_week))
-colnames(covid_inpatients_intro)[3] <- paste("Week ending", as.character(previous_week))
+colnames(covid_inpatients_intro)[2] <- paste("As at", as.character(latest_week))
+colnames(covid_inpatients_intro)[3] <- paste("As at", as.character(previous_week))
 
 ### Data tables -----
 
@@ -209,7 +209,7 @@ output$inpatients_intro_table <- renderDataTable({
 ### Plot -----
 output$hosp_adms_intro_plot <- renderPlotly({
   Respiratory_admissions_summary %>%
-    create_summary_adms_linechart()
+    make_adms_summary_plot()#create_summary_adms_linechart()
 
 })
 
