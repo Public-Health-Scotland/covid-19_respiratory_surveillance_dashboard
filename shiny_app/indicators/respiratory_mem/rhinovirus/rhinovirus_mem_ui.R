@@ -3,12 +3,12 @@ tagList(
 
            metadataButtonUI("respiratory_rhinovirus_mem"),
            #linebreaks(1),
-           h1("Rhinovirus Incidence Rates"),
+           h1("Rhinovirus"),
            p("Rhinoviruses are the most frequent cause of the common cold worldwide.",
              "Most infections are mild, with symptoms including coughs, sneezing, and",
              "nasal congestion but can lead to severe illness such as bronchitis, sinusitis,",
-             "or pneumonia. Rhinoviruses circulate year-round, with peaks in autumn and spring.",
-             "Additional information can be found on the PHS page for rhinovirus."),
+             "or pneumonia. Rhinoviruses circulate year-round, with peaks in autumn and spring."),
+#             "Additional information can be found on the PHS page for rhinovirus."),
            linebreaks(1)),
 
   fluidRow(width = 12,

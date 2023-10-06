@@ -3,8 +3,11 @@ tagList(
            
            metadataButtonUI("respiratory_seasonal_coronavirus_mem"),
            linebreaks(1),
-           h1("Seasonal Coronavirus Incidence Rates"),
-           p(""),
+           h1("Seasonal Coronaviruses (not COVID-19)"),
+           p("Seasonal Coronaviruses are a group of viruses that typically cause mild to moderate",
+             "upper respiratory tract infections, such as the common cold, but can cause lower-respiratory",
+             "tract illnesses such as pneumonia and bronchitis. Infection can occur in people of all ages.",
+             "Seasonal coronaviruses have an annual seasonality and typically circulate in the winter months."),
            linebreaks(1)),
   
   fluidRow(width = 12,
