@@ -443,7 +443,12 @@ tagList(h1("Metadata"),
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Influenza, or flu, is a common infectious viral illness caused by influenza viruses.",
+                                     "Influenza can cause mild to severe illness with symptoms including fever (38°C or above),",
+                                     "cough, body aches, and fatigue. Influenza has a different presentation than the common",
+                                     "cold, with symptoms starting more suddenly, presenting more severely, and lasting longer.",
+                                     "Influenza can be caught all year round but is more common in the winter months.",
+                                     "Additional information can be found on the PHS page for influenza."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br(),
                                    
@@ -462,7 +467,11 @@ tagList(h1("Metadata"),
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Respiratory syncytial virus (RSV) is a virus that generally causes mild cold like",
+                                   "symptoms but may occasionally result in severe lower respiratory infection such as",
+                                    "bronchiolitis or pneumonia, particularly in infants and young children or in adults",
+                                    "with compromised cardiac, pulmonary, or immune systems. RSV has an annual seasonality",
+                                    "with peaks of activity in the winter months. Additional information can be found on the PHS page for RSV."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br(),
                                    
@@ -480,7 +489,11 @@ tagList(h1("Metadata"),
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Adenoviruses most commonly present as respiratory infections but can also",
+                                     "cause gastrointestinal infections and infect the lining of the eyes (conjunctivitis),",
+                                     "the urinary tract, and the nervous system. They are very contagious and are",
+                                     "relatively resistant to common disinfectants. Adenoviruses do not follow a seasonal",
+                                     "pattern and circulate all year round. Additional information can be found on the PHS page for adenovirus."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br()
                                    
@@ -492,7 +505,11 @@ tagList(h1("Metadata"),
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Human Metapneumovirus (HMPV) is a virus associated with respiratory infections,",
+                                     "ranging from mild symptoms to more severe illness such as bronchiolitis and",
+                                     "pneumonia. Infection can occur in people of all ages, but commonly occurs in",
+                                     "infants and young children. HMPV has distinct annual seasonality, with the highest",
+                                     "transmission in the winter months. Additional information can be found on the PHS page for human metapneumovirus."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br()
                                    
@@ -504,7 +521,13 @@ tagList(h1("Metadata"),
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Mycoplasma pneumoniae is a bacterium that only infects humans. It typically ",
+                                     "causes mild infections of the upper respiratory tract, resulting in cold-like ",
+                                     "symptoms. Mycoplasma pneumoniae is most frequently seen in school-age children ",
+                                     "and young adults, but individuals of any age may be infected. Infections peak in ",
+                                     "winter, usually between late December and February, but Mycoplasma pneumoniae ",
+                                     "circulates throughout the year. Additional information can be found on the ",
+                                     "PHS page for Mycoplasma pneumoniae."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br()
                                    
@@ -516,7 +539,11 @@ tagList(h1("Metadata"),
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Human parainfluenza virus (HPIV) is a virus that causes respiratory illness in humans.",
+                                     "Despite its name, parainfluenza is not related to influenza and exhibits different",
+                                     "characteristics. It is an important cause of upper and lower respiratory disease in",
+                                     "infants and young children, elderly people and people who are immunocompromised.",
+                                     "Additional information can be found on the PHS page for parainfluenza."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br()
                                    
@@ -528,7 +555,11 @@ tagList(h1("Metadata"),
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Rhinoviruses are the most frequent cause of the common cold worldwide.",
+                                     "Most infections are mild, with symptoms including coughs, sneezing, and",
+                                     "nasal congestion but can lead to severe illness such as bronchitis, sinusitis,",
+                                     "or pneumonia. Rhinoviruses circulate year-round, with peaks in autumn and spring.",
+                                     "Additional information can be found on the PHS page for rhinovirus."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br()
                                    
