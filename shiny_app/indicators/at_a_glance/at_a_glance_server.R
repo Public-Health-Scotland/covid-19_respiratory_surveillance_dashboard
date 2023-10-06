@@ -24,14 +24,14 @@ covid_cases_intro <- Cases %>%
   mutate(week_ending = as_date(ceiling_date(as_date(Date), "week",change_on_boundary = F))) %>%
   group_by(week_ending) %>%
   summarise(cases_number = sum(NumberCasesPerDay)) %>%
-  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>% 
+  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>%
   ungroup() %>%
   mutate(flag = ifelse(week_ending == latest_week, "latest_week", "previous_week")) %>%
   select(-week_ending) %>%
   pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
-  mutate(Pathogen = "COVID-19") 
+  mutate(Pathogen = "COVID-19")
  # mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
-  
+
 
 flu_cases_intro <- Respiratory_AllData %>%
   filter(FluOrNonFlu == "flu") %>%
@@ -41,11 +41,11 @@ flu_cases_intro <- Respiratory_AllData %>%
   summarise(cases_number = sum(Count)) %>%
   ungroup() %>%
   tail(2) %>%
-  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>% 
+  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>%
     mutate(flag = ifelse(Date == latest_week, "latest_week", "previous_week")) %>%
   select(-Date) %>%
   pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
-  mutate(Pathogen = "Influenza") 
+  mutate(Pathogen = "Influenza")
   # mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
 
 
@@ -60,9 +60,9 @@ nonflu_cases_intro <- Respiratory_AllData %>%
   ungroup() %>%
   mutate(flag = ifelse(Date == latest_week, "latest_week", "previous_week")) %>%
   select(-Date) %>%
-  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>% 
+  mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>%
   pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
-  select(-c(flag_latest_week, flag_previous_week)) %>% 
+  select(-c(flag_latest_week, flag_previous_week)) %>%
   rename(Pathogen = Organism) %>%
   #mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   mutate(Pathogen =  factor(Pathogen, levels = c("Respiratory syncytial virus", "Adenovirus", "Human metapneumovirus",
@@ -73,16 +73,18 @@ nonflu_cases_intro <- Respiratory_AllData %>%
 
 cases_intro <- covid_cases_intro %>%
   bind_rows(flu_cases_intro) %>%
-  bind_rows(nonflu_cases_intro) %>% 
-  select(Pathogen, 
-         'Number of cases (latest week)'= cases_number_latest_week, 
+  bind_rows(nonflu_cases_intro) %>%
+  select(Pathogen,
+         'Number of cases (latest week)'= cases_number_latest_week,
          'Rate per 100,000 population (latest week)'= cases_rate_latest_week,
-         'Number of cases (previous week)'= cases_number_previous_week, 
+         'Number of cases (previous week)'= cases_number_previous_week,
          'Rate per 100,000 population (previous week)'= cases_rate_previous_week)
 
 
-colnames(cases_intro)[2] <- paste("Week ending", as.character(latest_week))
-colnames(cases_intro)[3] <- paste("Week ending", as.character(previous_week))
+colnames(cases_intro)[2] <- paste("Number of cases (", as.character(latest_week),")")
+colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(latest_week),")")
+colnames(cases_intro)[4] <- paste("Number of cases (", as.character(previous_week),")")
+colnames(cases_intro)[5] <- paste("Rate per 100,000 population (", as.character(previous_week),")")
 
 ###Hosp Adms
 
@@ -96,10 +98,10 @@ covid_hosp_adms_intro <- Admissions %>%
   ungroup() %>%
   mutate(flag = ifelse(week_ending == latest_week, "latest_week", "previous_week")) %>%
   select(-week_ending) %>%
-  mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>% 
+  mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>%
    # pivot_wider(names_from = flag, values_from = WeeklyTotal) %>%
   pivot_wider(names_from = flag, values_from = admissions_number:admissions_rate) %>%
-  select(-c(flag_latest_week, flag_previous_week)) %>% 
+  select(-c(flag_latest_week, flag_previous_week)) %>%
   mutate(Pathogen = "COVID-19")
   # mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   # select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
@@ -110,21 +112,21 @@ flu_hosp_adms_intro <- Influenza_admissions %>%
   select(Date, admissions_number = Admissions) %>%
   mutate(flag = ifelse(Date == latest_week, "latest_week", "previous_week")) %>%
   select(-Date) %>%
-  mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>% 
+  mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>%
   pivot_wider(names_from = flag, values_from = admissions_number:admissions_rate) %>%
   mutate(Pathogen = "Influenza") %>%
-  select(-c(flag_latest_week, flag_previous_week)) 
-  
-# 
+  select(-c(flag_latest_week, flag_previous_week))
+
+#
 # flu_hosp_adms_intro <- Influenza_admissions %>%
 #   filter(FluType == "Influenza A & B") %>%
 #   tail(2) %>%
 #   select(Date,admissions_number = Admissions) %>%
 #   mutate(flag = ifelse(week_ending == latest_week, "latest_week", "previous_week")) %>%
 #   select(-Date) %>%
-#   mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>% 
+#   mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>%
 #   pivot_wider(names_from = flag, values_from = admissions_number:admissions_rate) %>%
-#   mutate(Pathogen = "Influenza") 
+#   mutate(Pathogen = "Influenza")
 # #  mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
 # #  select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
 
@@ -134,22 +136,26 @@ rsv_hosp_adms_intro <- RSV_admissions %>%
   select(Date, admissions_number = Admissions) %>%
   mutate(flag = ifelse(Date == latest_week, "latest_week", "previous_week")) %>%
   select(-Date) %>%
-  mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>% 
-  pivot_wider(names_from = flag, values_from = admissions_number:admissions_rate) %>% 
+  mutate(admissions_rate = round_half_up(100000 * admissions_number / pop_scot_total,1)) %>%
+  pivot_wider(names_from = flag, values_from = admissions_number:admissions_rate) %>%
   mutate(Pathogen = "Respiratory syncytial virus") %>%
   # mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   # select(Pathogen, `Latest Week`, `Previous Week`, PercentageChange)
-  select(-c(flag_latest_week, flag_previous_week)) 
+  select(-c(flag_latest_week, flag_previous_week))
 
 hosp_adms_intro <- covid_hosp_adms_intro %>%
   bind_rows(flu_hosp_adms_intro) %>%
-  bind_rows(rsv_hosp_adms_intro) %>% 
-  select(Pathogen, 
-         'Number of admissions (latest week)'= admissions_number_latest_week, 
+  bind_rows(rsv_hosp_adms_intro) %>%
+  select(Pathogen,
+         'Number of admissions (latest week)'= admissions_number_latest_week,
          'Rate of admissions per 100,000 population (latest week)'= admissions_rate_latest_week,
-         'Number of admissions (previous week)'= admissions_number_previous_week, 
+         'Number of admissions (previous week)'= admissions_number_previous_week,
          'Rate of admissions per 100,000 population (previous week)'= admissions_rate_previous_week)
-  
+
+colnames(hosp_adms_intro)[2] <- paste("Number of admissions (", as.character(latest_week),")")
+colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population (", as.character(latest_week),")")
+colnames(hosp_adms_intro)[4] <- paste("Number of admissions (", as.character(previous_week),")")
+colnames(hosp_adms_intro)[5] <- paste("Rate of admissions per 100,000 population (", as.character(previous_week),")")
 
 ###Inpatients
 
@@ -171,8 +177,8 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
   #mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   select(Pathogen, `Latest Week`, `Previous Week`)#, PercentageChange)
 
-colnames(covid_inpatients_intro)[2] <- paste("Week ending", as.character(latest_week))
-colnames(covid_inpatients_intro)[3] <- paste("Week ending", as.character(previous_week))
+colnames(covid_inpatients_intro)[2] <- paste("As at", as.character(latest_week))
+colnames(covid_inpatients_intro)[3] <- paste("As at", as.character(previous_week))
 
 ### Data tables -----
 
@@ -186,7 +192,7 @@ output$cases_intro_table <- renderDataTable({
 
 # Hospital admissions table
 output$hosp_adms_intro_table <- renderDataTable({
-  hosp_adms_intro %>% 
+  hosp_adms_intro %>%
     #rename(`Percentage Change` = PercentageChange) #%>%
     make_table()
 
@@ -203,7 +209,7 @@ output$inpatients_intro_table <- renderDataTable({
 ### Plot -----
 output$hosp_adms_intro_plot <- renderPlotly({
   Respiratory_admissions_summary %>%
-    create_summary_adms_linechart()
+    make_adms_summary_plot()#create_summary_adms_linechart()
 
 })
 
