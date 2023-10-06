@@ -24,7 +24,7 @@ create_mem_linechart <- function(data,
                                  seasons = NULL,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
-  
+
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable) %>%
@@ -436,8 +436,8 @@ create_mem_heatmap <- function(data = df,
 
 }
 
-# Create Adms line chart
-create_adms_linechart <- function(data,
+# Create Flu Adms line chart
+create_flu_adms_linechart <- function(data,
                                  #rate_dp = 2,
                                  #seasons = NULL,
                                  value_variable = "Admissions",
@@ -482,7 +482,7 @@ create_adms_linechart <- function(data,
                             "<br>", "Number: ", data$Value))
 
   # Create plot
-  adms_linechart = data %>%
+  flu_adms_linechart = data %>%
     plot_ly(x = ~ISOWeek,
             y = ~Value,
             textposition = "none",
@@ -492,7 +492,7 @@ create_adms_linechart <- function(data,
             type="scatter",
             mode="lines",
             line = list(width = 5),
-            colors = mem_line_colours) %>%
+            colors = flu_hosp_adms_colours) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            margin = list(b = 100, t = 5),
@@ -521,7 +521,96 @@ create_adms_linechart <- function(data,
                 hoverinfo = "text")
   }
 
-  return(adms_linechart)
+  return(flu_adms_linechart)
+
+}
+
+# Create RSV Adms line chart
+create_rsv_adms_linechart <- function(data,
+                                      #rate_dp = 2,
+                                      #seasons = NULL,
+                                      value_variable = "Admissions",
+                                      y_axis_title = "Number of hospital admissions") {
+
+  # Rename value variable
+  data <- data %>%
+    rename(Value = value_variable)
+
+
+  # Wrangle data
+  data = data %>%
+    filter(ISOWeek != 53) %>%
+    select(Season, ISOWeek, Weekord, Value) %>%
+    arrange(Season, Weekord) %>%
+    mutate(ISOWeek = as.character(ISOWeek),
+           ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
+
+  # Seasons in data
+  seasons <- unique(data$Season)
+
+  # Current season data only
+  data_curr_season <- data %>%
+    filter(Season %in% seasons[length(seasons)])
+
+  xaxis_plots[["title"]] <- "Week number"
+  xaxis_plots[["dtick"]] <- 2
+  xaxis_plots[["range"]] <- c(-1,52)
+
+  #xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+  yaxis_plots[["title"]] <- y_axis_title
+
+  xaxis_plots[["showgrid"]] <- FALSE
+  yaxis_plots[["showgrid"]] <- FALSE
+
+
+
+  #Text for tooltip
+  tooltip_trend <- c(paste0("Season: ", data$Season,
+                            "<br>", "Week number: ", data$ISOWeek,
+                            "<br>", "Number: ", data$Value))
+
+  # Create plot
+  rsv_adms_linechart = data %>%
+    plot_ly(x = ~ISOWeek,
+            y = ~Value,
+            textposition = "none",
+            text = tooltip_trend,
+            hoverinfo = "text",
+            color = ~Season,
+            type="scatter",
+            mode="lines",
+            line = list(width = 5),
+            colors = rsv_hosp_adms_colours) %>%
+    layout(yaxis = yaxis_plots,
+           xaxis = xaxis_plots,
+           margin = list(b = 100, t = 5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")
+    ) %>%
+
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+  # For first week of new season (week 40), add in a marker
+  if(nrow(data_curr_season) == 1){
+
+    adms_linechart <- adms_linechart %>%
+      add_trace(data = data_curr_season,
+                x = ~ISOWeek,
+                y = ~Value,
+                showlegend = F,
+                color = ~Season,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend,
+                hoverinfo = "text")
+  }
+
+  return(rsv_adms_linechart)
 
 }
 
