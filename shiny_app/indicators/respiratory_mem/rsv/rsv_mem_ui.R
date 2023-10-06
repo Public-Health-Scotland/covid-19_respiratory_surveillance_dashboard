@@ -56,17 +56,17 @@ tagList(
                                        # this week total number
                                        valueBox(value = {rsv_cases_summary %>% .$rsv_cases_last_week %>% format(big.mark=",")},
                                            subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday%>% format('%d %b %y')}"),
-                                           color = "teal",
+                                           color = "navy",
                                            icon = icon_no_warning_fn("calendar-week")),
                                        # previous week total number
                                         valueBox(value = {rsv_cases_summary %>% .$rsv_cases_prev_week %>% format(big.mark=",")},
                                            subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday_minus_7%>% format('%d %b %y')}"),
-                                           color = "teal",
+                                           color = "navy",
                                            icon = icon_no_warning_fn("calendar-week")),
                                        # percentage difference between the previous weeks
                                        valueBox(value = glue("{rsv_cases_summary%>% .$PercentageDifference}%"),
                                           subtitle = glue("{rsv_cases_summary %>%.$ChangeFactor %>%  str_to_sentence()} in the last week"),
-                                           color = "teal",
+                                           color = "navy",
                                            icon = icon_no_warning_fn({rsv_cases_summary %>%  .$icon})),
                                         # This text is hidden by css but helps pad the box at the bottom
                                        h6("hidden text for padding page")
