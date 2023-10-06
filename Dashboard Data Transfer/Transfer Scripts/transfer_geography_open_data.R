@@ -56,7 +56,7 @@ la_pop <- base_la_population %>%
 
 populations <- bind_rows(hb_pop, la_pop, scotland_pop)
 
-rm(base_hb_population,base_la_population, hb_pop, la_pop, scotland_pop)
+#rm(base_hb_population,base_la_population, hb_pop, la_pop, scotland_pop)
 
 #read in combined file
 i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds"))%>%
@@ -145,7 +145,7 @@ Geog_all <- bind_rows(Geog, test_type_scotland, test_type_hb, test_type_ca)%>%
   select(Date, geography, location_code, location_name, test_type, total_positive, Pop,
          crude_rate_positive)
 
-rm(Scotland_geog, HB_geog, LA_geog, Geog, test_type_scotland, test_type_hb, test_type_ca)
+#rm(Scotland_geog, HB_geog, LA_geog, Geog, test_type_scotland, test_type_hb, test_type_ca)
 
 Combined_geog <- Geog_all %>%
   filter(test_type=="Combined")%>%
@@ -174,7 +174,7 @@ Geog_all_cases <- Combined_geog %>%
   select(Date,location_code,location_name,geography,Pop, total_positive,
          total_crude_rate_positive, pcr_positive, lfd_positive, pcr_and_lfd_positive)
 
-rm(Geog_all, Combined_geog, pcr_geog, lfd_geog, pcr_and_lfd_geog)
+#rm(Geog_all, Combined_geog, pcr_geog, lfd_geog, pcr_and_lfd_geog)
 
 g_total_cases <- Geog_all_cases %>%
   rename("CumulativeCases" = "total_positive") %>%
@@ -190,7 +190,7 @@ g_total_cases <- Geog_all_cases %>%
          CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases, geography)%>%
   arrange(Geography)
 
-rm(Geog_all_cases)
+#rm(Geog_all_cases)
 
 ##### Tests
 #Read in positive test data
@@ -228,7 +228,7 @@ cumulatives_pillar_LA <- pos_test_data%>%
 
 cumulatives_all <- bind_rows(cumulatives_pillar_scotland,cumulatives_pillar_board,cumulatives_pillar_LA)
 
-rm(cumulatives_pillar_scotland, cumulatives_pillar_board, cumulatives_pillar_LA)
+#rm(cumulatives_pillar_scotland, cumulatives_pillar_board, cumulatives_pillar_LA)
 
 pillar1 <- cumulatives_all %>%
   filter(pillar=="Pillar 1")%>%
@@ -253,7 +253,7 @@ Geog_all_pos_tests <- pillar1 %>%
          lfd_positive_tests = replace(lfd_positive_tests, is.na(lfd_positive_tests), 0))%>%
   mutate(total_positive_tests = pillar1_positive_tests + pillar2_positive_tests + lfd_positive_tests)
 
-rm(cumulatives_all, pillar1, pillar2, lfd_tests)
+#rm(cumulatives_all, pillar1, pillar2, lfd_tests)
 
 g_pos_tests <- Geog_all_pos_tests %>%
   rename("Geography" = "location_code",
@@ -264,7 +264,7 @@ g_pos_tests <- Geog_all_pos_tests %>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
   select(Date, Geography, CumulativePositiveTests, CumulativePositivePillar1Tests, CumulativePositivePillar2Tests, CumulativePositiveLFDTests)
 
-rm(Geog_all_pos_tests)
+#m(Geog_all_pos_tests)
 
 #Read in all test data
 all_test_data <-readRDS(glue("//conf/linkage/output/Covid Daily Dashboard/Tableau process/SVT/Interim files/Tests_specimendate_{od_date}.rds")) %>%
@@ -299,7 +299,7 @@ Geog_all_tests <- bind_rows(all_tests_scotland, all_tests_HB, all_tests_LA)%>%
   mutate_if(is.numeric, ~replace_na(., 0))%>%
   mutate(Total_tests_cumulative = Pillar1_tests_cumulative + Pillar2_tests_cumulative + LFD_tests_cumulative)
 
-rm(all_tests_scotland, all_tests_HB, all_tests_LA)
+#rm(all_tests_scotland, all_tests_HB, all_tests_LA)
 
 g_all_tests <- Geog_all_tests %>%
   rename("Geography" = "location_code",
@@ -311,7 +311,7 @@ g_all_tests <- Geog_all_tests %>%
   mutate(Geography = recode(Geography, "Scotland" = "S92000003"))%>%
   select(Date, Geography, CumulativeTests, CumulativePillar1Tests, CumulativePillar2Tests, CumulativeLFDTests)
 
-rm(Geog_all_tests)
+#rm(Geog_all_tests)
 
 #Combine cases, pos tests and all tests into one open data file
 g_cumulative_geog <- g_total_cases %>%
@@ -322,32 +322,35 @@ select(Date, Geography, GeographyQF,GeographyName,
        CumulativeTests, CumulativePillar1Tests, CumulativePillar2Tests, CumulativeLFDTests,
        CumulativePositiveTests, CumulativePositivePillar1Tests, CumulativePositivePillar2Tests, CumulativePositiveLFDTests,
        CumulativeCases, CrudeRatePositiveCases, CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases, geography)
-rm(g_total_cases, g_pos_tests, g_all_tests)
+#rm(g_total_cases, g_pos_tests, g_all_tests)
 
 g_cumulative_geog_hb <- g_cumulative_geog %>%
   filter(!(geography == "Local Authority")) %>%
-  select(Date, HB=Geography, HBQF=GeographyQF,HBName=GeographyName,
+  select(LatestDate=Date, HB=Geography, HBQF=GeographyQF, #HBName=GeographyName,
          CumulativeTests, CumulativePillar1Tests,
          CumulativePillar2Tests, CumulativeLFDTests,
          CumulativePositiveTests, CumulativePositivePillar1Tests, 
          CumulativePositivePillar2Tests, CumulativePositiveLFDTests,
-         CumulativeCases, CrudeRatePositiveCases, 
+         CumulativeCases,
+         CrudeRateCumulativeCases= CrudeRatePositiveCases, 
          CumulativePCROnlyCases, CumulativeLFDOnlyCases, 
          CumulativeLFDAndPCRCases)
 
 g_cumulative_geog_la <- g_cumulative_geog %>%
   filter(geography == "Local Authority") %>%
-  select(Date, CA= Geography, CAName=GeographyName, 
+  select(LatestDate=Date, CA= Geography, #CAName=GeographyName, 
          CumulativeTests, CumulativePositiveTests,
-         CumulativeCases,CrudeRatePositiveCases, 
+         CumulativeCases,
+         CrudeRateCumulativeCases= CrudeRatePositiveCases, 
          CumulativePCROnlyCases, CumulativeLFDOnlyCases,
          CumulativeLFDAndPCRCases)
 
 #save out cumulative geography open data file
-write_csv(g_cumulative_geog_hb, glue(output_folder, "TEMP_Geography_cumulative_hb.csv"))
-write_csv(g_cumulative_geog_la, glue(output_folder, "TEMP_Geography_cumulative_la.csv"))
+write_csv(g_cumulative_geog_hb, glue(od_folder, "cumulative_tests_cases_HB2019_{od_report_date}.csv"))
+write_csv(g_cumulative_geog_la, glue(od_folder, "cumulative_testcases_CA2019_{od_report_date}.csv"))
 
-rm(g_cumulative_geog, g_cumulative_geog_hb, g_cumulative_geog_la)
+
+#rm(g_cumulative_geog, g_cumulative_geog_hb, g_cumulative_geog_la)
 
 ##############Weekly############################
 
@@ -709,7 +712,7 @@ write_csv(g_weekly_la, glue(output_folder, "TEMP_weekly_LA.csv"), na = "")
 
 rm(CA_lookup, HB_lookup, location_names, populations, SPD, i_combined_pcr_lfd_tests, pos_test_data, all_test_data,
    cases_data, g_weekly_la, g_cases_weekly, g_weekly_pos_tests,
-   g_all_tests_weekly, g_adms_weekly_all)
+   g_all_tests_weekly)#, g_adms_weekly_all)
 
 #Hospital Occupancy
 # i_occupancy <- read_all_excel_sheets(glue("{input_data}/Hospital-ICU Daily Numbers_{od_date+1}.xlsx"))

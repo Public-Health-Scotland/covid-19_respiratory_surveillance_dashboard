@@ -2,75 +2,9 @@
 # Sourced from ../dashboard_data_transfer.R
 
 
-
 #open data date to read in combined file
 od_date <- floor_date(today(), "week", 1) + 1
 od_sunday<- floor_date(today(), "week", 1) -1
-
-
-##### create populations by age group #############################################
-
-# enter latest population year
-pop_year= 2021# use to filter through entire script, only need to update 1 line when Pop Est files updated
-
-gpd_base_path<-"/conf/linkage/output/lookups/Unicode/"
-
-# update when Pop Estimates updated
-base_hb_population <- readRDS(glue(gpd_base_path,"Populations/Estimates/HB2019_pop_est_5year_agegroups_1981_2021.rds"))%>% 
-  mutate(sex=if_else(sex_name=="F", "Female", "Male"))
-
-
-pop_agegroup_sex <- base_hb_population %>% 
-  filter(year == pop_year) %>% 
-  mutate(agegroup = case_when(age_group_name == "0" | age_group_name == "1-4" | age_group_name == "5-9" | age_group_name == "10-14" ~ "0 to 14",
-                              age_group_name == "15-19" ~ "15 to 19",
-                              age_group_name == "20-24" ~ "20 to 24",
-                              age_group_name == "25-29" | age_group_name == "30-34" | age_group_name == "35-39" | age_group_name == "40-44" ~ "25 to 44",
-                              age_group_name == "45-49" | age_group_name == "50-54" | age_group_name == "55-59" | age_group_name == "60-64" ~ "45 to 64",
-                              age_group_name == "65-69" | age_group_name == "70-74" ~ "65 to 74",
-                              age_group_name == "75-79" | age_group_name == "80-84" ~ "75 to 84",
-                              age_group_name == "85-89" | age_group_name == "90+" ~ "85+"),
-         location_code = "Scotland") %>% 
-  group_by(location_code, sex, agegroup) %>% 
-  summarise(pop = sum(pop))
-
-pop_agegroup_total<-pop_agegroup_sex %>% 
-  group_by(location_code, agegroup) %>% 
-  summarise(pop = sum(pop)) %>% 
-  mutate(sex="Total")
-
-pop_60plus_sex <- base_hb_population %>% 
-  filter(year == pop_year) %>% 
-  mutate(agegroup = case_when(age_group_name == "0" | age_group_name == "1-4" | age_group_name == "5-9" | age_group_name == "10-14" |
-                                age_group_name == "15-19" | age_group_name == "20-24" | age_group_name == "25-29" | 
-                                age_group_name == "30-34" | age_group_name == "35-39" | age_group_name == "40-44" |
-                                age_group_name == "45-49" | age_group_name == "50-54" | age_group_name == "55-59" ~ "0 to 59",
-                              TRUE ~ "60+"),
-         location_code = "Scotland") %>% 
-  group_by(location_code, sex, agegroup) %>% 
-  summarise(pop = sum(pop))
-
-#group without sex to obtain total pop 0-60 and plus 60 
-pop_60plus_total<-pop_60plus_sex %>% 
-  group_by(location_code, agegroup) %>% 
-  summarise(pop = sum(pop))  %>% 
-  mutate(sex="Total")
-
-# Total population of Scotland by sex
-pop_total_sex <- base_hb_population %>% 
-  filter(year == pop_year) %>% 
-  mutate(location_code = "Scotland", 
-         agegroup="Total")%>% 
-  group_by(location_code,sex) %>% 
-  summarise(pop = sum(pop)) %>% 
-  mutate(agegroup="Total")
-
-# Total population of Scotland combined sex
-pop_total_total<- pop_total_sex %>% 
-  group_by(location_code, agegroup) %>% 
-  summarise(pop=sum(pop)) %>% 
-  mutate(sex="Total")
-
 
 
 ##### create cases outputs ###################
@@ -165,27 +99,27 @@ g_cases_age_sex_all <- g_cases_raw %>%
                        Sex=="MALE"~"Male",TRUE ~ Sex)) %>% 
   ungroup()
 
-
-unknown_age_check<-g_cases_age_sex_all %>% 
-  filter(agegroup=='Unknown') %>% 
-  summarise(TotalPositive=sum(daily_positive)) %>% 
-  ungroup() 
-
-unknown_sex_check<-g_cases_age_sex_all %>% 
-  filter(sex=='Unknown') %>% 
-  summarise(TotalPositive=sum(daily_positive)) %>% 
-  ungroup() 
-
-unknown_agesex_check <-g_cases_age_sex_all %>% 
-  filter(agegroup=='Unknown'| sex=='Unknown')%>% 
-  summarise(TotalPositive=sum(daily_positive)) %>% 
-  ungroup() 
+# 
+# unknown_age_check<-g_cases_age_sex_all %>% 
+#   filter(agegroup=='Unknown') %>% 
+#   summarise(TotalPositive=sum(daily_positive)) %>% 
+#   ungroup() 
+# 
+# unknown_sex_check<-g_cases_age_sex_all %>% 
+#   filter(sex=='Unknown') %>% 
+#   summarise(TotalPositive=sum(daily_positive)) %>% 
+#   ungroup() 
+# 
+# unknown_agesex_check <-g_cases_age_sex_all %>% 
+#   filter(agegroup=='Unknown'| sex=='Unknown')%>% 
+#   summarise(TotalPositive=sum(daily_positive)) %>% 
+#   ungroup() 
 
 # g_known_age_sex <-g_cases_age_sex_all %>%
 # filter( agegroup!='Unknown', sex!='Unknown')
 
 #remove checks
-rm(unknown_age_check, unknown_agesex_check, unknown_sex_check)
+# rm(unknown_age_check, unknown_agesex_check, unknown_sex_check)
 # remove large input and process files
 rm(g_cases_raw, i_combined_pcr_lfd_tests)
 
@@ -294,15 +228,15 @@ arrange(Sex)%>%
 
 write_csv(g_age_sex_cumulative_od, glue("{output_folder}TEMP_cases_age_sex_cumulative.csv"), na = "")
 
-rm(g_agegroup_cumulative_combined, g_agegroup_sex_cumulative,g_agegroup_cumulative,
-   g_60_plus_cumulative_combined, g_60plus_sex_cumulative,g_60plus_cumulative,
-   g_total_age_sex_cases_cumulative, g_unknown_agesex_total_cases,                                                            
-   g_total_cumulative,  g_age_sex_cumulative_od )
-
+# rm(g_agegroup_cumulative_combined, g_agegroup_sex_cumulative,g_agegroup_cumulative,
+#    g_60_plus_cumulative_combined, g_60plus_sex_cumulative,g_60plus_cumulative,
+#    g_total_age_sex_cases_cumulative, g_unknown_agesex_total_cases,                                                            
+#    g_total_cumulative,  g_age_sex_cumulative_od )
+# 
 # remove pop_lookups
 rm(base_hb_population, pop_60plus_sex, pop_60plus_total,
    pop_agegroup_sex,pop_agegroup_total,
-   pop_total_sex, pop_total_total) 
+   pop_total_sex, pop_total_total)
 
 
 ###### weekly cases by age and sex #########################################################
@@ -342,7 +276,7 @@ df_agesex <- expand.grid(week_ending=unique(Dates$SpecimenDate), location_code="
 # #  filter(unknown_check!=(c( "0 to 59 Unknown", "60+ Unknown", "Total Unknown", "Unknown Unknown" ))) %>% 
   arrange(week_ending, sex)
 
-rm(Dates,Agegroups, Sex) #remove building blocks
+ rm(Dates,Agegroups, Sex) #remove building blocks
 ##################################
 # cases on a weekly basis 
 g_cases_age_filtered_weekly<-g_cases_age_filtered %>% 
@@ -489,11 +423,11 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
    # remove intermediate files
    rm(g_cases_agegroup_sex_weekly, g_cases_agegroup_weekly,
      g_agegroup_60plus_sex_cases_weekly, g_agegroup_60plus_cases_weekly,
-     g_total_age_sex_cases_weekly, g_total_age_total_sex_cases_weekly, df_agesex) 
-   
-   rm(g_cases_age_data,g_age_sex_cases_weekly, 
+     g_total_age_sex_cases_weekly, g_total_age_total_sex_cases_weekly, df_agesex)
+
+   rm(g_cases_age_data,g_age_sex_cases_weekly,
      g_cases_age_data_weekly, g_cases_raw, i_combined_pcr_lfd_tests)
-        
+
    
   
    

@@ -228,7 +228,7 @@ g_adm_agesex$TotalInfections <- as.numeric(g_adm_agesex$TotalInfections)
 
 # Add population
 
-g_adm_agesex %<>% left_join(i_population, by=c("AgeGroup", "Sex")) %>%
+g_adm_agesex %<>% left_join(i_population_v2, by=c("AgeGroup", "Sex")) %>%
   mutate(TotalInfectionsPer100000 = round_half_up(100000*TotalInfections/PopNumber, 2)) %>%
   select(-c("PopNumber")) %>%
   arrange(factor(AgeGroup, levels= c("0-4", "5-14", "15-19", "20-24", "25-44","45-64", "65-74", "75-84", "85+", "Unknown"))) %>%

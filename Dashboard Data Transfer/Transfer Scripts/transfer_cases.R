@@ -12,7 +12,7 @@ g_cases %<>%
   mutate(NumberCasesPerDay = as.numeric(NumberCasesPerDay),
          Cumulative = as.numeric(Cumulative))
 
-pop_grandtotal <- i_population %>%
+pop_grandtotal <- i_population_v2 %>%
   filter(AgeGroup == "Total", Sex == "Total") %>%
   .$PopNumber
 

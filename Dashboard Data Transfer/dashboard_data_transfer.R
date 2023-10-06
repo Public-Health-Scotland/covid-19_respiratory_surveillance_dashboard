@@ -109,6 +109,34 @@ source("Transfer Scripts/transfer_occupancy.R")
 #### Respiratory
 source("Transfer Scripts/transfer_respiratory.R")
 
-#### Open Data Geography
+#### Open Data 
+# output locations
+# all open data data saved to this location
+
+#output_folder <-glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/")
+
+#(glue(output_folder, "Ethnicity.csv"))
+od_date <- floor_date(today(), "week", 1) + 1
+od_sunday<- floor_date(today(), "week", 1) -1
+od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/"
+od_report_date <- format(od_date, "%Y%m%d")
+
+
+# archive location
+# current data sets saved to this location and over written at start of the next week's process 
+# append new row to date report
+ # date_previous_report_digit <- gsub("-","",date_previous_report)
+ # date_previous_report_digit_plus1 <- gsub("-","",date_previous_report+1) # for folder date - added 05/07/2023
+ # date_report_filepath <- glue("{output_filepath}/Archive/{date_previous_report_digit_plus1}/ReportedDate_Scot_Trends_{date_previous_report_digit}.csv")
+ # date_report_file <- read_csv(date_report_filepath)
+ # date_report_file_updated <- date_report_file %>% add_row (new_row) 
+ # 
+ # write_csv(date_report_file_updated, glue("{output_filepath}/{resource19}_{date_wednesday}.csv"), na = "")
+
+# Geography
 source("Transfer Scripts/transfer_geography_open_data.R")
+# age sex cases
+source("Transfer Scripts/transfer_weekly_agesex_cases_od.R")
+# simd cases data
+source("Transfer Scripts/transfer_weekly_simd_cases_od.R")
 
