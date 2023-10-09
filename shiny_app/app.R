@@ -297,7 +297,6 @@ server <- function(input, output, session) {
   source(file.path("indicators/cases/cases_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
-  source(file.path("indicators/Archive/archive_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value

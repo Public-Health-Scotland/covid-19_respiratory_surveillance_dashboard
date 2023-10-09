@@ -1,5 +1,5 @@
 metadataButtonServer(id="nhs24_mem",
-                     panel="Syndromic Surveillance",
+                     panel="NHS24 infection activity",
                      parent = session)
 
 # Low threshold

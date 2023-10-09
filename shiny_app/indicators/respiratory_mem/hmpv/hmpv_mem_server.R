@@ -1,6 +1,6 @@
 
 metadataButtonServer(id="respiratory_hmpv_mem",
-                     panel="HMPV",
+                     panel="Respiratory infection activity",
                      parent = session)
 
 # Low threshold

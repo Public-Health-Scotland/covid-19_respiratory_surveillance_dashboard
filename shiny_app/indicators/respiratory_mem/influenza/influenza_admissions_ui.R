@@ -24,7 +24,7 @@ influenza_admissions_recent_week <- Influenza_admissions %>%
 
 tagList(
   fluidRow(width = 12,
-           
+
            metadataButtonUI("respiratory_influenza_admissions"),
            linebreaks(1),
            #h1("Influenza Hospital Admissions"),
