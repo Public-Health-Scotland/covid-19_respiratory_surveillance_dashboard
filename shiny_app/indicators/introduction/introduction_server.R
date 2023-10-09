@@ -2,10 +2,13 @@
 
 #Naviagtion buttons on intro page ----
 observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", selected = "summary")})
-observeEvent(input$jump_to_cases, {updateTabsetPanel(session, "intabset", selected = "cases")})
-observeEvent(input$jump_to_hospital_admissions, {updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
-observeEvent(input$jump_to_hospital_occupancy, {updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
-observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "respiratory")})
+#observeEvent(input$jump_to_cases, {updateTabsetPanel(session, "intabset", selected = "cases")})
+#observeEvent(input$jump_to_hospital_admissions, {updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
+#observeEvent(input$jump_to_hospital_occupancy, {updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
+#observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "respiratory")})
+observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "repiratory_pathogens")})
+observeEvent(input$jump_to_syndromic, {updateTabsetPanel(session, "intabset", selected = "syndromic_surveillance")})
+observeEvent(input$jump_to_mortality, {updateTabsetPanel(session, "intabset", selected = "mortality")})
 observeEvent(input$jump_to_metadata, {updateTabsetPanel(session, "intabset", selected = "metadata")})
 observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", selected = "download")})
 
@@ -41,14 +44,14 @@ output$introduction_about <- renderUI({
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                    actionButton("jump_to_respiratory", "Syndromic surveillance"))),
+                    actionButton("jump_to_syndromic", "Syndromic surveillance"))),
             column(8, p("This section contains trend information of calls to NHS24 for respiratory symptoms
                         and trend information for General Practitioners consultations for Influenza-Like Illnesses (ILI)."))),
           br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                    actionButton("jump_to_respiratory", "Mortality"))),
+                    actionButton("jump_to_mortality", "Mortality"))),
             column(8, p("This section presents estimates of weekly all-cause excess
                         mortality, using the European monitoring system (Euromomo)."))),
           br(),
@@ -82,14 +85,12 @@ output$introduction_use <- renderUI({
                        alt ="Image of the 'At a glance' tab in the navigation bar")),
           p(tags$li("Click on 'Respiratory Pathogens', 'Syndromic Surveillance' or
                     'Mortality' to view each topic"),
-            tags$img(src = "intro_images/cases.png", height = 50,
-                       alt ="Image of the 'COVID-19 cases' tab in the navigation bar"),
-            tags$img(src = "intro_images/admissions.png", height = 50,
-                       alt ="Image of the 'COVID-19 hospital admissions' tab in the navigation bar"),
-            tags$img(src = "intro_images/occupancy.png", height = 50,
-                       alt ="Image of the'COVID-19 hospital occupancy' tab in the navigation bar"),
-            tags$img(src = "intro_images/respiratory.png", height = 50,
-                       alt ="Image of the 'Respiratory infection activity' tab in the navigation bar")),
+            tags$img(src = "intro_images/respiratory_pathogens.png", height = 50,
+                       alt ="Image of the 'Respiratory pathogens' tab in the navigation bar"),
+            tags$img(src = "intro_images/syndromic_surveillance.png", height = 50,
+                       alt ="Image of the'Syndromic surveillance' tab in the navigation bar"),
+            tags$img(src = "intro_images/mortality.png", height = 50,
+                       alt ="Image of the 'Mortality' tab in the navigation bar")),
           p(tags$li("Click on 'Metadata' to view notes about the data"),
             tags$img(src = "intro_images/metadata_tab.png", height = 50,
                        alt ="Image of the 'Metadata' tab in the navigation bar")),
@@ -102,9 +103,9 @@ output$introduction_use <- renderUI({
             tags$img(src = "intro_images/metadata_btn.png", height = 50,
                        alt ="Image of the metadata button")),
           p(tags$li("Click on the toggles to change the visible sub-topic"),
-            "e.g.", tags$img(src = "intro_images/tab_toggles.png", height = 50,
+            "e.g.", tags$img(src = "intro_images/tab_toggles_v2.png", height = 50,
                        alt ="Image of the tab toggle options used in the tabs. This image shows an example of the toggles
-                       in the 'COVID-19 hospital admissions' tab")),
+                       in the 'Respiratory pathogens COVID-19' tab")),
           p(tags$li("Summary banners display the most recently available headline figures")),
           p(tags$li("Click 'Plot/Data' toggle to switch between chart and data table view"),
             tags$img(src = "intro_images/plot_data_toggle.png", height = 60,
