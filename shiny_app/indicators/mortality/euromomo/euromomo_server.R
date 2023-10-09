@@ -1,5 +1,5 @@
 metadataButtonServer(id="mortality_euromomo",
-                     panel="Mortality",
+                     panel="All-Cause Excess Mortality (Euromomo)",
                      parent = session)
 
 # Low threshold

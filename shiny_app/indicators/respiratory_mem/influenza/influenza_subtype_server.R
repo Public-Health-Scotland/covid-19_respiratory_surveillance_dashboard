@@ -1,6 +1,6 @@
 
 metadataButtonServer(id="respiratory_influenza_subtype",
-                     panel="Influenza",
+                     panel="Respiratory infection activity",
                      parent = session)
 
 
