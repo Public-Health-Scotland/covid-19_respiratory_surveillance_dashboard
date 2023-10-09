@@ -215,8 +215,8 @@ g_simd_weekly_cases_od  <- df_simd %>%
   mutate(Country="S92000003") %>% 
   select(WeekEnding,Country, SIMDQuintile=simd, WeeklyCases=PositiveLastSevenDays, 
          CumulativeCases= CumulativePositive, 
-         CrudeRateCases= CrudeRatePositive,
-         CrudeRateCasesQF=CrudeRatePositiveQF)  
+         CrudeRateCumulativeCases= CrudeRatePositive,
+         CrudeRateCumulativeCasesQF=CrudeRatePositiveQF)  
 
 write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_cases_simd_weekly.csv"), na = "")
 

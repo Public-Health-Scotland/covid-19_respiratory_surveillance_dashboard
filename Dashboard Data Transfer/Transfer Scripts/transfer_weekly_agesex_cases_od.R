@@ -223,8 +223,11 @@ g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
 arrange(Sex)%>% 
   mutate(AgeGroup = recode(AgeGroup, "60+" = "60plus"),
          AgeGroup = recode(AgeGroup, "85+" = "85plus")) %>% 
-  select(Date, Country, Sex, SexQF, AgeGroup,AgeGroupQF,
-         TotalCases, CrudeRateCases,CrudeRateCasesQF) 
+  select(LatesttDate= Date,
+         Country, Sex, SexQF, AgeGroup,AgeGroupQF,
+         CumulativeCases= TotalCases, 
+         CrudeRateCumulativeCases= CrudeRateCases,
+         CrudeRateCumulativeCasesQF= CrudeRateCasesQF) 
 
 write_csv(g_age_sex_cumulative_od, glue("{output_folder}TEMP_cases_age_sex_cumulative.csv"), na = "")
 

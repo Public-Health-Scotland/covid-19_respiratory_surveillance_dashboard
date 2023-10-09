@@ -90,16 +90,27 @@ occupancy_hospital_scotland <- occupancy_hospital_healthboard %>%
   filter(Date==max(Date)) %>% 
   ungroup() %>% 
   select(-c(Date, HealthBoard))
+
+
   
-g_adm_occ_weekly<-occupancy_hospital_scotland %>% 
+g_adm_occ_weekly<-g_weekly_adm  %>% 
    mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>% 
   #mutate(WeekEnding=as.character(WeekEnding)) %>% 
-  left_join(g_weekly_adm, by=c("WeekEnding", "Country")) %>% 
+  left_join(occupancy_hospital_scotland, by=c("WeekEnding", "Country")) %>% 
+  mutate(OccupancyAsAtLastSundayQF=if_else(is.na(HospitalOccupancy), ":", HospitalOccupancy)) %>% 
     select(WeekEnding, Country, 
            Admissions, CumulativeAdmissions,
-           OccupancyAsOfLastSunday=HospitalOccupancy)
-  
-  write_csv(g_adm_occ_weekly, glue(output_folder, "TEMP_WeeklyAdmissionsOccupancy.csv"))
+           OccupancyAsAtLastSunday=HospitalOccupancy)
+
+# g_adm_occ_weekly<-occupancy_hospital_scotland %>% 
+#   mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>% 
+#   #mutate(WeekEnding=as.character(WeekEnding)) %>% 
+#   left_join(g_weekly_adm, by=c("WeekEnding", "Country")) %>% 
+#   select(WeekEnding, Country, 
+#          Admissions, CumulativeAdmissions,
+#          OccupancyAsAtLastSunday=HospitalOccupancy)
+
+write_csv(g_adm_occ_weekly, glue(output_folder, "TEMP_WeeklyAdmissionsOccupancy.csv"))
   
 
 rm(g_weekly_adm, 
