@@ -192,7 +192,7 @@ ui <- fluidPage(
                             tabPanel(title = "Rhinovirus",
                                      value = "rhinovirus",
                                      column(12, source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value)),
-                            tabPanel(title = "Seasonal Coronaviruses (not COVID-19)",
+                            tabPanel(title = "Other seasonal coronaviruses",
                                      value = "seasonal_coronavirus",
                                      column(12, source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_ui.R"), local = TRUE)$value))
                             # tabPanel(title = "Other respiratory pathogens",
@@ -297,7 +297,6 @@ server <- function(input, output, session) {
   source(file.path("indicators/cases/cases_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
-  source(file.path("indicators/Archive/archive_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value

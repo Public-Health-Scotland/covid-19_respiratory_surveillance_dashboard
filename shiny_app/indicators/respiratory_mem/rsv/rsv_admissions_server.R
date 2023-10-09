@@ -1,5 +1,5 @@
 metadataButtonServer(id="respiratory_rsv_admissions",
-                     panel="RSV",
+                     panel="Respiratory infection activity",
                      parent = session)
 
 
