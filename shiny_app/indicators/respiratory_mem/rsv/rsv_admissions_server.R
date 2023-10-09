@@ -9,7 +9,7 @@ altTextServer("rsv_admissions_modal",
               title = "RSV hospital admissions in Scotland",
               content = tags$ul(tags$li("This is a plot showing the number of RSV hospital admissions in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
-                                        "The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
+                                        "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the number of hospital admissions."),
                                 tags$li("There is a trace for each of the following season from 2017/2018 to 2022/2023")))
 
@@ -30,7 +30,7 @@ output$rsv_admissions_table <- renderDataTable({
 # RSV Adms plot
 output$rsv_admissions_plot <- renderPlotly({
   RSV_admissions %>%
-    create_adms_linechart()
+    create_rsv_adms_linechart()
 
 })
 

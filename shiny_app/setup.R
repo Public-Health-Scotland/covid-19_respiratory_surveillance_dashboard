@@ -174,6 +174,15 @@ activity_level_colours <- c("#01A148", "#FFDE17", "#F36523", "#ED1D24", "#7D4192
 mem_line_colours <- c("#010101", "#A35000", "#00FF1A", "#004785","#00a2e5",
                       "#376C31", "#FF0000")
 
+# Colours for lines on summary admissions line chart
+flu_hosp_adms_colours <- c(phs_colours("phs-rust-80"), phs_colours("phs-purple"), phs_colours("phs-green"),
+                            phs_colours("phs-magenta"), phs_colours("phs-teal"), phs_colours("phs-graphite"),
+                            phs_colours("phs-blue"))
+
+rsv_hosp_adms_colours <- c(phs_colours("phs-purple"), phs_colours("phs-green"),
+                           phs_colours("phs-magenta"), phs_colours("phs-teal"), phs_colours("phs-graphite"),
+                           phs_colours("phs-blue"))
+
 # Colours for lines on line chart
 euromomo_mem_line_colours <- c("#004785","#00a2e5", "#376C31", "#FF0000", "#FF0000")
 
