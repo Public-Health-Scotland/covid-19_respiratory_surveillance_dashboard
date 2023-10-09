@@ -12,18 +12,12 @@ observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", sel
 
 output$introduction_about <- renderUI({
 
-  tagList(h3(tags$b("COVID-19 & Respiratory Surveillance in Scotland")),
-          p("Surveillance of COVID-19 and respiratory infection is a key public health activity.
+  tagList(h3(tags$b("Viral Respiratory Diseases (including Infuenza and COVID-19) Surveillance in Scotland")),
+          p("Surveillance of viral respiratory diseases (including influenza and COVID-19) is a key public health activity.
             The spectrum of respiratory illnesses vary from asymptomatic illness to mild/moderate symptoms
-            to severe complications including death. There is no single respiratory surveillance component
-            that can describe the onset, severity and impact of respiratory infections."),
-          p("This dashboard consolidates existing COVID-19 dashboards into a single product and summarises
-            the current COVID-19 and respiratory data in Scotland, presenting statistics on infection levels
-            and key healthcare indicators."),
-          p("All covid rules and restrictions have been lifted in Scotland, but the virus has not gone away.
-            We all need to play our part in protecting ourselves and others. You can do this by following
-            NHS Inform Website advice on: ", tags$a(href = "https://www.gov.scot/coronavirus-covid-19/",
-                                                    "https://www.gov.scot/coronavirus-covid-19/.")),
+            to severe complications including death."),
+          p("This dashboard presents data on viral respiratory diseases in Scotland to support the understanding
+            of transmission of infection and NHS service planning and policy."),
           p("Please note that release of information involving small numbers carries a risk that individuals could be identified.",
             "We have carefully considered and assessed these risks, taking steps to reduce them as much as possible,",
             "and balancing them with the need to release useful information."),
@@ -33,45 +27,30 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_summary", "At a glance"))),
-            column(8, p("This section provides an overview of headline COVID-19 and respiratory
-                        surveillance indicators held within this dashboard."))),
+            column(8, p("This section provides updates on headline viral respiratory
+                        surveillance indicators, including COVID-19, influenza and RSV."))),
+          br(),
+
+
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_respiratory", "Respiratory pathogens"))),
+            column(8, p("This section contains trend information for a range of viral respiratory infections
+                        in Scotland."))),
           br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_cases", "COVID-19 cases"))),
-            column(8, p("This section shows the latest information on the number and rate of
-                        estimated infection levels in Scotland."),
-                   p("The Office for National Statistics (ONS) COVID-19 Infection Survey is
-                     Scotland’s current best understanding of community population prevalence.
-                     Outbreaks and trends are also monitored by measuring concentrations of COVID-19 in wastewater.
-                     PHS also monitor the number of reported positive COVID-19 cases as this
-                     offers a valuable early insight into trends of infection rates in Scotland."))),
+                    actionButton("jump_to_respiratory", "Syndromic surveillance"))),
+            column(8, p("This section contains trend information of calls to NHS24 for respiratory symptoms
+                        and trend information for General Practitioners consultations for Influenza-Like Illnesses (ILI)."))),
           br(),
 
           fluidRow(
             column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_hospital_admissions", "COVID-19 hospital admissions"))),
-            column(8, p("Alongside the estimated infection levels and reported COVID-19 cases presented
-                        in this dashboard, PHS also monitor COVID-19 hospital admissions as it is a
-                        measure of severe disease and captures pressures facing NHS hospitals.
-                        The latest information on acute COVID-19 hospital admissions are detailed in this section."))),
-          br(),
-
-          fluidRow(
-            column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_hospital_occupancy", "COVID-19 hospital occupancy"))),
-            column(8, p("This section contains the latest information on the number of patients
-                        in hospital with COVID-19. This is an indicative measure of the pressure on hospitals,
-                        as these patients still require isolation from other patients for infection control purposes."))),
-          br(),
-
-          fluidRow(
-            column(4,tags$div(class = "special_button",
-                              actionButton("jump_to_respiratory", "Respiratory infection activity"))),
-            column(8, p("This section contains the epidemiological information on seasonal respiratory infection
-                        activity in Scotland. The spectrum of respiratory illnesses, caused by these infections,
-                        vary from asymptomatic illness to mild/moderate symptoms to severe complications including death."))),
+                    actionButton("jump_to_respiratory", "Mortality"))),
+            column(8, p("This section presents estimates of weekly all-cause excess
+                        mortality, using the European monitoring system (Euromomo)."))),
           br(),
 
 
@@ -97,12 +76,12 @@ output$introduction_use <- renderUI({
   tagList(h3(tags$b("Interacting with the dashboard")),
           p(tags$li("Click on tabs in the blue navigation bar at the top to view each section"),
             tags$img(src = "intro_images/nav_bar.png", height = 50,
-                       alt ="Image of the a part of the navigation bar for reference")),
-          p(tags$li("Click on 'At a glance' to view the most recently available main statistic"),
+                       alt ="Image of a part of the navigation bar for reference")),
+          p(tags$li("Click on 'At a glance' to view the most recently available main statistics"),
             tags$img(src = "intro_images/at_a_glance_tab.png", height = 50,
                        alt ="Image of the 'At a glance' tab in the navigation bar")),
-          p(tags$li("Click on 'COVID-19 cases', 'COVID-19 hospital admissions', 'COVID-19 hospital occupancy' or
-                    'Respiratory infection activity' to view each topic"),
+          p(tags$li("Click on 'Respiratory Pathogens', 'Syndromic Surveillance' or
+                    'Mortality' to view each topic"),
             tags$img(src = "intro_images/cases.png", height = 50,
                        alt ="Image of the 'COVID-19 cases' tab in the navigation bar"),
             tags$img(src = "intro_images/admissions.png", height = 50,
@@ -191,7 +170,10 @@ output$introduction_contact <- renderUI({
             tags$a(href="https://github.com/Public-Health-Scotland/covid-19_respiratory_surveillance_dashboard", "GitHub repository (external website)",  target="_blank"), "."),
     tags$li("New releases will be published at the same time as the Public Health Scotland",
             tags$a(href = "https://www.publichealthscotland.scot/publications/weekly-national-respiratory-infection-and-covid-19-statistical-report/",
-                   "Weekly national respiratory infection and COVID-19 statistical report (external website)", target="_blank" ), "."),
+                   "Viral Respiratory Diseases (including influenza and COVID-19) in Scotland Surveillance Report (external website)", target="_blank" ), "."),
+    tags$li("Information on vaccine uptake for the COVID-10 and influenza vaccine programmes is available via",
+            tags$a(href = "https://scotland.shinyapps.io/phs-vaccination-surveillance/",
+                   "Public Health Scotland - Vacciantion Surveillance Dashboard", target="_blank"), "."),
     tags$li("Information on the wider impacts on the health care system from COVID-19 are available on the",
             tags$a(href = "https://scotland.shinyapps.io/phs-covid-wider-impact/",
                    "Wider Impacts dashboard (external website)", target="_blank" ), "."),
@@ -201,6 +183,9 @@ output$introduction_contact <- renderUI({
     tags$li("Information on deaths involving COVID-19 is available on the",
             tags$a(href = "https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-and-monthly-data-on-births-and-deaths/deaths-involving-coronavirus-covid-19-in-scotland/",
                    "National Records Scotland website (external website)", target="_blank" ), "."),
+    tags$li("Information from the UK Government (UKHSA) for data and insights on COVID-19 are available on the",
+            tags$a(href = "https://coronavirus.data.gov.uk/",
+                   "UKHSA dashboard", target="_blank", ".")),
     tags$li("Information from the World Health Organisation on COVID-19 is available on the",
             tags$a(href = "https://covid19.who.int/",
                    "WHO Coronovirus (COVID-19) dashboard (external website)", target="_blank" ), ".")
