@@ -19,7 +19,7 @@ output$introduction_about <- renderUI({
           p("Surveillance of viral respiratory diseases (including influenza and COVID-19) is a key public health activity.
             The spectrum of respiratory illnesses vary from asymptomatic illness to mild/moderate symptoms
             to severe complications including death."),
-          p("This dashboard presents data on viral respiratory diseases in Scotland to support the understanding
+          p("This interactive dashboard presents data on viral respiratory diseases in Scotland to support the understanding
             of transmission of infection and NHS service planning and policy."),
           p("Please note that release of information involving small numbers carries a risk that individuals could be identified.",
             "We have carefully considered and assessed these risks, taking steps to reduce them as much as possible,",
