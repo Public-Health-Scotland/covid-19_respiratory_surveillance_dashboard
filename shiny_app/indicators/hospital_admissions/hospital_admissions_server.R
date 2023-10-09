@@ -4,7 +4,7 @@
 ###########################
 
 metadataButtonServer(id="hospital_admissions",
-                     panel="COVID-19",
+                     panel="COVID-19 hospital admissions",
                      parent = session)
 
 jumpToTabButtonServer(id="hospital_admissions_from_summary",

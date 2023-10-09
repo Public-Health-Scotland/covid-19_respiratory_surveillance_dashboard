@@ -1,6 +1,6 @@
 
 metadataButtonServer(id="respiratory_rhinovirus_mem",
-                     panel="Rhinovirus",
+                     panel="Respiratory infection activity",
                      parent = session)
 
 # Low threshold
