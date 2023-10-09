@@ -378,7 +378,7 @@ tagList(h1("Metadata"),
                             The way in which this influenza data is captured has changed over the years, but the common method of presentation has remained constant
                             and has been to express GP consultations as a rate per hundred thousand population. 
                             Consultation rates are monitored on a Scotland-wide level, with additional breakdowns by age group and by Health Board."),
-                            p("Typically, around 923 practices (98% of all practices in Scotland) routinely report to PHS. 
+                            p("Typically, around 923 practices (98% of all practices in Scotland) routinely report to PHS)", 
 
                              h4("Other respiratory pathogens"),
                              p("The key non-influenza respiratory pathogens include adenovirus, seasonal coronaviruses (non-SARS-CoV-2), human metapneumovirus (HMPV),
@@ -697,11 +697,11 @@ tagList(h1("Metadata"),
                     p(tags$li("extraordinary activity (when activity is above very high threshold).")),
                     p("Respiratory pathogen and system-based activity levels allow comparisons to be made over time and with other countries that use the same methodology. 
                     In the context of influenza, it can also influence the timing of prescribing antiviral medication."),
-                    br(),
+                    br()),
                     
                     # Confidence interval ----
                     h4("Confidence interval"),
-                    p("A confidence interval gives an indication of the degree of uncertainty of an estimate, showing the precision of a sample estimate.
+                    p("A confidence interval gives an indication of the degree of uncertainty of an estimate, showing the precision of a sample estimate."),
 
                           p("Practices in Scotland use one of two GP software systems, EMIS or Cegedim (formerly known as INPS).
                             It is recognised that the quality of coding between practices and software systems varies and that this contributes to differences in consultation rates between practices."),
@@ -784,53 +784,19 @@ tagList(h1("Metadata"),
                    p("People have been allocated to different levels of deprivation based on the small area (data zone) in which they live and the",
                      tags$a("Scottish Index of Multiple Deprivation (SIMD) (external website)",
                             href = "https://simd.scot/#/simd2020/BTTTFTT/9/-4.0000/55.9000/"),
-                     "score for that area. SIMD scores are based on data for
-=======
-                  br(),
-                  
-                  # Moving Epidemic Method (MEM) ----
-                  h4("Moving Epidemic Method (MEM)"),
-                  p("MEM is a methodology used for setting thresholds and classifying epidemiological activity levels. 
-                    Using this model, thresholds are calculated using data from at least five previous seasons.
-                    A key assumption of this model is that the pathogen being observed must follow a distinct seasonal pattern of incidence."),
-                  p("NHS24, GP ILI consultations, influenza, RSV, seasonal coronavirus (non-SARS-CoV-2) and Euromomo (mortality) thresholds are calculated using the MEM methodology. 
-                    This methodology was adopted by the UK, the European Centre for Disease Prevention and Control (ECDC) and World Health Organisation (WHO) to define influenza activity levels."),
-                  br(),
-
-                  #Provisional figures ----
-                  h4("Provisional figures"),
-                  p("Hospital admissions for the most recent week may be incomplete for some Boards and should be treated as provisional and interpreted with caution.
-                    Where no data are available at the time of publication, the number of admissions for the previous week will be rolled forward for affected Boards.
-                    Missing data will either be due to a board not submitting on time or there being zero COVID-19 admissions in the latest week. These provisional data
-                    will be refreshed the following week"),
-                  br(),
-
-                  #Rate per 100,000 ----
-                  h4("Rate per 100,000"),
-                  p("Number of new laboratory positive test results expressed as a rate per 100,000 Scottish population (using the 2021 NRS mid-year population estimate)."),
-                  p("Virological data are dynamic, therefore, the incidence rate will change week to week as more data become available."),
-                  br(),
-
-                  #SIMD ----
-                  h4("Scottish Index of Multiple Deprivation (SIMD)"),
-                  p("People have been allocated to different levels of deprivation based on the small area (data zone) in which they live and the",
-                    tags$a("Scottish Index of Multiple Deprivation (SIMD) (external website)",
-                           href = "https://simd.scot/#/simd2020/BTTTFTT/9/-4.0000/55.9000/"),
-                    "score for that area. SIMD scores are based on data for
-                    38 indicators covering seven topic areas: income, employment, health, education, skills and training, housing, geographic access, and crime."),
-                   p("The SIMD identifies deprived areas, not deprived individuals."),
-                   p("In this tool we have presented results for people living in different SIMD ‘quintiles’. To produce quintiles,
+                     "score for that area. SIMD scores are based on data for 38 indicators", 
+                     "covering seven topic areas: income, employment, health, education, skills and training, housing, geographic access, and crime."),
+                  p("The SIMD identifies deprived areas, not deprived individuals."),
+                  p("In this tool we have presented results for people living in different SIMD ‘quintiles’. To produce quintiles,
                     data zones are ranked by their SIMD score then the areas each containing a fifth (20%) of the overall population of Scotland are identified.
                     People living in the most and least deprived areas that each contain a fifth of the population are assigned to SIMD quintile 1 and 5 respectively."),
-                   br(),
-                   
-                   #Seven day average ----
-                   h4("Seven day average"),
-                   p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations."),
-                   br()
-                   
-                   
-                   
+                  br(),
+                  
+                  #Seven day average ----
+                  h4("Seven day average"),
+                  p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations."),
+                  br()
+                  
                    ))
         
 )#tagList
