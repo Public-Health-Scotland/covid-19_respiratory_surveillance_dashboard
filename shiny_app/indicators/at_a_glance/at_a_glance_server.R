@@ -186,7 +186,7 @@ colnames(covid_inpatients_intro)[3] <- paste("As at", as.character(previous_week
 output$cases_intro_table <- renderDataTable({
   cases_intro %>%
   # rename(`Percentage Change` = PercentageChange) %>%
-   make_table()
+   make_summary_table()
 
 })
 
@@ -194,7 +194,7 @@ output$cases_intro_table <- renderDataTable({
 output$hosp_adms_intro_table <- renderDataTable({
   hosp_adms_intro %>%
     #rename(`Percentage Change` = PercentageChange) #%>%
-    make_table()
+    make_summary_table()
 
 })
 
@@ -202,7 +202,10 @@ output$hosp_adms_intro_table <- renderDataTable({
 output$inpatients_intro_table <- renderDataTable({
   covid_inpatients_intro%>%
    # rename(`Percentage Change` = PercentageChange) %>%
-    make_table()
+    make_summary_table()
+
+
+
 
 })
 
