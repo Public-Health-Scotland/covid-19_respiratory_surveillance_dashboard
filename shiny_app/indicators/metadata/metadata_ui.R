@@ -346,11 +346,13 @@ tagList(h1("Metadata"),
                    
                    
                    #### SEASONAL CORONAVIRUS PANEL ----
-                   bsCollapsePanel("Seasonal Coronavirus",
+                   bsCollapsePanel("Seasonal Coronaviruses (not COVID-19)",
                                    
                                    # Infection Levels ---- 
                                    h4("Infection levels"),
-                                   p("ANYTHING TO GO HERE?????????"),
+                                   p("Seasonal Coronaviruses are a group of viruses that typically cause mild to moderate upper respiratory tract infections, such as the common cold,
+                                     but can cause lower-respiratory tract illnesses such as pneumonia and bronchitis. Infection can occur in people of all ages. 
+                                     Seasonal coronaviruses have an annual seasonality and typically circulate in the winter months."),
                                    p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
                                    br()
                                    
