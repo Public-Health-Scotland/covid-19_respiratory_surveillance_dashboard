@@ -3,14 +3,13 @@ tagList(
            
            metadataButtonUI("respiratory_mycoplasma_pneumoniae_mem"),
            #linebreaks(1),
-           h1("Mycoplasma pneumoniae Incidence Rates"),
+           h1("Mycoplasma pneumoniae"),
            p("Mycoplasma pneumoniae is a bacterium that only infects humans. It typically ",
              "causes mild infections of the upper respiratory tract, resulting in cold-like ",
              "symptoms. Mycoplasma pneumoniae is most frequently seen in school-age children ",
              "and young adults, but individuals of any age may be infected. Infections peak in ",
              "winter, usually between late December and February, but Mycoplasma pneumoniae ",
-             "circulates throughout the year. Additional information can be found on the ",
-             "PHS page for Mycoplasma pneumoniae."),
+             "circulates throughout the year."), 
            linebreaks(1)),
   
   fluidRow(width = 12,

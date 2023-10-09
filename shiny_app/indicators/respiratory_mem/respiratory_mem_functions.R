@@ -24,7 +24,7 @@ create_mem_linechart <- function(data,
                                  seasons = NULL,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
-  
+
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable) %>%
@@ -436,8 +436,8 @@ create_mem_heatmap <- function(data = df,
 
 }
 
-# Create Adms line chart
-create_adms_linechart <- function(data,
+# Create Flu Adms line chart
+create_flu_adms_linechart <- function(data,
                                  #rate_dp = 2,
                                  #seasons = NULL,
                                  value_variable = "Admissions",
@@ -482,7 +482,7 @@ create_adms_linechart <- function(data,
                             "<br>", "Number: ", data$Value))
 
   # Create plot
-  adms_linechart = data %>%
+  flu_adms_linechart = data %>%
     plot_ly(x = ~ISOWeek,
             y = ~Value,
             textposition = "none",
@@ -492,7 +492,7 @@ create_adms_linechart <- function(data,
             type="scatter",
             mode="lines",
             line = list(width = 5),
-            colors = mem_line_colours) %>%
+            colors = flu_hosp_adms_colours) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            margin = list(b = 100, t = 5),
@@ -521,16 +521,16 @@ create_adms_linechart <- function(data,
                 hoverinfo = "text")
   }
 
-  return(adms_linechart)
+  return(flu_adms_linechart)
 
 }
 
-# Create Summary Adms line chart
-create_summary_adms_linechart <- function(data,
-                                  #rate_dp = 2,
-                                  #seasons = NULL,
-                                  value_variable = "Admissions",
-                                  y_axis_title = "Number of hospital admissions") {
+# Create RSV Adms line chart
+create_rsv_adms_linechart <- function(data,
+                                      #rate_dp = 2,
+                                      #seasons = NULL,
+                                      value_variable = "Admissions",
+                                      y_axis_title = "Number of hospital admissions") {
 
   # Rename value variable
   data <- data %>%
@@ -540,13 +540,21 @@ create_summary_adms_linechart <- function(data,
   # Wrangle data
   data = data %>%
     filter(ISOWeek != 53) %>%
-    select(Season, ISOWeek, CaseDefinition, Weekord, Value) %>%
-    arrange(Season, Weekord, CaseDefinition) %>%
+    select(Season, ISOWeek, Weekord, Value) %>%
+    arrange(Season, Weekord) %>%
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
 
+  # Seasons in data
+  seasons <- unique(data$Season)
+
+  # Current season data only
+  data_curr_season <- data %>%
+    filter(Season %in% seasons[length(seasons)])
+
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
+  xaxis_plots[["range"]] <- c(-1,52)
 
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -560,21 +568,20 @@ create_summary_adms_linechart <- function(data,
   #Text for tooltip
   tooltip_trend <- c(paste0("Season: ", data$Season,
                             "<br>", "Week number: ", data$ISOWeek,
-                            "<br>", "Pathogen: ", data$CaseDefinition,
                             "<br>", "Number: ", data$Value))
 
   # Create plot
-  summary_adms_linechart = data %>%
+  rsv_adms_linechart = data %>%
     plot_ly(x = ~ISOWeek,
             y = ~Value,
             textposition = "none",
             text = tooltip_trend,
             hoverinfo = "text",
-            color = ~CaseDefinition,
+            color = ~Season,
             type="scatter",
             mode="lines",
             line = list(width = 5),
-            colors = phs_colours(c("phs-blue", "phs-purple", "phs-green"))) %>%
+            colors = rsv_hosp_adms_colours) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            margin = list(b = 100, t = 5),
@@ -586,6 +593,82 @@ create_summary_adms_linechart <- function(data,
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
 
-  return(summary_adms_linechart)
+  # For first week of new season (week 40), add in a marker
+  if(nrow(data_curr_season) == 1){
+
+    adms_linechart <- adms_linechart %>%
+      add_trace(data = data_curr_season,
+                x = ~ISOWeek,
+                y = ~Value,
+                showlegend = F,
+                color = ~Season,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend,
+                hoverinfo = "text")
+  }
+
+  return(rsv_adms_linechart)
+
+}
+
+
+
+make_adms_summary_plot <- function(data){
+
+data %<>%
+  pivot_wider(names_from = CaseDefinition, values_from = Admissions)
+
+  yaxis_plots[["title"]] <- "Reported cases"
+  xaxis_plots[["title"]] <- "Week ending"
+
+  #xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
+
+  p <- plot_ly(data, x = ~Date,
+               textposition = "none",
+               text = ~paste0("<b>Season</b>: ", Season, "\n",
+                              "<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
+                              "<b>Week number</b>: ", ISOWeek, "\n",
+                              "<b>Influenza</b>: ", Influenza, "\n",
+                              "<b>RSV</b>: ", RSV, "\n",
+                              "<b>COVID-19</b>: ", `COVID-19`, "\n"),
+               hovertemplate = "%{text}",
+               height = 500)%>%
+
+    add_lines(y = ~Influenza,
+              line = list(color = phs_colours("phs-blue")),
+              name = 'Influenza') %>%
+
+    add_lines(y = ~RSV,
+              name = 'RSV',
+              line = list(color = phs_colours("phs-green"))) %>%
+
+    add_lines(y = ~`COVID-19`,
+              name = 'Covid-19',
+              line = list(color = phs_colours("phs-purple"))) %>%
+
+
+    # Adding vertical lines for notes on chart
+    add_lines_and_notes(dataframe = data,
+                        ycol = "Influenza",
+                        xs= c("2023-10-08"),
+                        notes=c("Season 23/24"),
+                        colors=c(phs_colours("phs-teal"))) %>%
+
+
+    layout(margin = list(b = 80, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(xanchor = "center", x = 0.5, y = -0.2, orientation = 'h'),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+  return(p)
 
 }

@@ -26,8 +26,7 @@ altTextServer("respiratory_by_season_modal",
                 tags$li(glue("This is a plot of the influenza cases for a given subtype",
                              " over each season.")),
                 tags$li("There is a trace for each season, starting in 2016/2017."),
-                tags$li("The x axis is the isoweek. The first isoweek is the first week of the year (in January)",
-                        "and the 52nd isoweek is the last week of the year."),
+                tags$li("The x axis is the isoweek. Week 40 is typically the start of October and when the winter respiratory season starts"),
                 tags$li(glue("The y axis is the rate of cases of the chosen influenza subtype in a given NHS health board.")),
                 tags$li("For Scotland there is an option to view the absolute number of cases."))
               #  tags$li("The trend is that each winter there is a peak in cases. The peak was",
@@ -46,7 +45,7 @@ output$respiratory_headline_figures_subtype_count <- renderValueBox ({
 
   valueBox(value = organism_summary_total,
            subtitle = glue("cases of {input$respiratory_headline_subtype} in Scotland"),
-           color = "teal",
+           color = "navy",
            icon = icon_no_warning_fn("virus"),
            width = NULL)
 
@@ -63,7 +62,7 @@ output$respiratory_headline_figures_healthboard_count <- renderValueBox ({
 
   valueBox(value = organism_summary_total,
            subtitle = glue("{input$respiratory_headline_subtype} cases per 100,000 people in {input$respiratory_headline_healthboard}"),
-           color = "teal",
+           color = "navy",
            icon = icon_no_warning_fn("house-medical"),
            width = NULL)
 

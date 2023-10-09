@@ -1,36 +1,28 @@
 # create values for headline boxes
-rsv_cases_last_week<-Respiratory_Scot %>%
+
+rsv_cases_recent_week <- Respiratory_Scot %>%
   filter(Pathogen == "Respiratory syncytial virus") %>%
-  group_by(Pathogen) %>%
-  mutate(last_sunday= max(WeekEnding) )%>%
-  filter(WeekEnding==last_sunday)%>%
-  ungroup %>%
-  mutate(last_sunday= as.character(last_sunday)) %>%
-  mutate(last_sunday=as.Date(last_sunday, format = "%Y%m%d")) %>%
-  rename(rsv_cases_last_week=NumberCasesPerWeek)
-
-rsv_cases_prev_week<-Respiratory_Scot %>%
-  filter(Pathogen == "Respiratory syncytial virus") %>%
-  group_by(Pathogen) %>%
-  mutate(last_sunday_minus_7=max(WeekEnding-7)) %>%
-  filter(WeekEnding==last_sunday_minus_7)%>%
-  ungroup%>%
-  mutate(last_sunday_minus_7= as.character(last_sunday_minus_7)) %>%
-  mutate(last_sunday_minus_7=as.Date(last_sunday_minus_7, format = "%Y%m%d")) %>%
-  select(rsv_cases_prev_week=NumberCasesPerWeek, last_sunday_minus_7, Pathogen)
-
-
-rsv_cases_summary<-rsv_cases_last_week %>%
-  left_join(rsv_cases_prev_week, by=c("Pathogen")) %>%
-  mutate(PercentageDifference=round_half_up((rsv_cases_last_week-rsv_cases_prev_week)/rsv_cases_prev_week*100,0),
-         ChangeFactor = case_when(PercentageDifference < 0 ~ "decrease",
-                                  PercentageDifference > 0 ~ "increase",
-                                  PercentageDifference == 0 ~ "no change"),
-         icon= case_when(ChangeFactor == "decrease"~"arrow-down",
-                         ChangeFactor == "increase"~ "arrow-up",
-                         ChangeFactor == "no change"~"equals"))
-
-rm(rsv_cases_last_week, rsv_cases_prev_week)
+  mutate(WeekEnding = convert_opendata_date(WeekEnding)) %>%
+  tail(2) %>%
+  select(-WeekBeginning) %>%
+  rename(Date = WeekEnding) %>%
+  #pivot_wider(names_from = FluType,
+  #            values_from = Admissions) %>%
+  mutate(DateLastWeek = .$Date[1],
+         DateThisWeek = .$Date[2],
+         CasesLastWeek = .$`NumberCasesPerWeek`[1],
+         CasesThisWeek = .$`NumberCasesPerWeek`[2],
+         PercentageDifference = round((CasesThisWeek/CasesLastWeek - 1)*100, digits = 2)) %>%
+  mutate(ChangeFactor = case_when(
+    PercentageDifference < 0 ~ "Decrease",
+    PercentageDifference > 0 ~ "Increase",
+    TRUE                     ~ "No change"),
+    icon= case_when(ChangeFactor == "Decrease"~"arrow-down",
+                    ChangeFactor == "Increase"~ "arrow-up",
+                    ChangeFactor == "No change"~"equals")
+  ) %>%
+  select(DateLastWeek, DateThisWeek, CasesLastWeek, CasesThisWeek, PercentageDifference, ChangeFactor, icon) %>%
+  head(1)
 ###
 
 tagList(
@@ -54,20 +46,20 @@ tagList(
                               tags$div(class = "headline",
                                        h3(glue("Total number of RSV cases in Scotland over the last two weeks")),
                                        # this week total number
-                                       valueBox(value = {rsv_cases_summary %>% .$rsv_cases_last_week %>% format(big.mark=",")},
-                                           subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday%>% format('%d %b %y')}"),
-                                           color = "teal",
+                                       valueBox(value = {rsv_cases_recent_week %>% .$CasesThisWeek %>% format(big.mark=",")},
+                                           subtitle = glue("Week ending {rsv_cases_recent_week %>% .$DateThisWeek%>% format('%d %b %y')}"),
+                                           color = "navy",
                                            icon = icon_no_warning_fn("calendar-week")),
                                        # previous week total number
-                                        valueBox(value = {rsv_cases_summary %>% .$rsv_cases_prev_week %>% format(big.mark=",")},
-                                           subtitle = glue("Week ending {rsv_cases_summary %>% .$last_sunday_minus_7%>% format('%d %b %y')}"),
-                                           color = "teal",
+                                        valueBox(value = {rsv_cases_recent_week %>% .$CasesLastWeek %>% format(big.mark=",")},
+                                           subtitle = glue("Week ending {rsv_cases_recent_week %>% .$DateLastWeek%>% format('%d %b %y')}"),
+                                           color = "navy",
                                            icon = icon_no_warning_fn("calendar-week")),
                                        # percentage difference between the previous weeks
-                                       valueBox(value = glue("{rsv_cases_summary%>% .$PercentageDifference}%"),
-                                          subtitle = glue("{rsv_cases_summary %>%.$ChangeFactor %>%  str_to_sentence()} in the last week"),
-                                           color = "teal",
-                                           icon = icon_no_warning_fn({rsv_cases_summary %>%  .$icon})),
+                                       valueBox(value = glue("{rsv_cases_recent_week%>% .$PercentageDifference}%"),
+                                          subtitle = glue("{rsv_cases_recent_week %>%.$ChangeFactor %>%  str_to_sentence()} in the last week"),
+                                           color = "navy",
+                                           icon = icon_no_warning_fn({rsv_cases_recent_week %>%  .$icon})),
                                         # This text is hidden by css but helps pad the box at the bottom
                                        h6("hidden text for padding page")
                                                                  )))), # headline

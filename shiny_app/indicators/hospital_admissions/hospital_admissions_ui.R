@@ -7,8 +7,6 @@ tagList(
            ),
 
   fluidRow(width = 12,
-           tabBox(width = NULL,
-                  type = "pills",
                   tabPanel("Acute hospital admissions",
                            tagList(h2("Number of acute COVID-19 admissions to hospital"),
                                    tags$div(class = "headline",
@@ -128,7 +126,6 @@ tagList(
 
                            ),
 
-                  tabPanel("Acute hospital admissions by ethnicity",
                            tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
                                    h4(strong("These data will next be updated in August 2023.")),
                            tabBox(width = NULL, type = "pills",
@@ -148,8 +145,6 @@ tagList(
                                   ) # tabpanel
                                            ) # tabbox
                            ) # taglist
-                           ) # tabpanel
-           )
   ),
   # Padding out the bottom of the page
   fluidRow(height="200px", width=12, linebreaks(5))

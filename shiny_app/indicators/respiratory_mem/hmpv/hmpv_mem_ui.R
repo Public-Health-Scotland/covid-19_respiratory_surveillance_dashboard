@@ -3,12 +3,12 @@ tagList(
 
            metadataButtonUI("respiratory_hmpv_mem"),
            #linebreaks(1),
-           h1("HMPV Incidence Rates"),
+           h1("HMPV"),
            p("Human Metapneumovirus (HMPV) is a virus associated with respiratory infections,",
              "ranging from mild symptoms to more severe illness such as bronchiolitis and",
              "pneumonia. Infection can occur in people of all ages, but commonly occurs in",
              "infants and young children. HMPV has distinct annual seasonality, with the highest",
-             "transmission in the winter months. Additional information can be found on the PHS page for human metapneumovirus."),
+             "transmission in the winter months."),
            linebreaks(1)),
 
   fluidRow(width = 12,
