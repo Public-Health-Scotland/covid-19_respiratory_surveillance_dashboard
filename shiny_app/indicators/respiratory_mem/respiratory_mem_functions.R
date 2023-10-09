@@ -653,11 +653,11 @@ data %<>%
 
 
     # Adding vertical lines for notes on chart
-    add_lines_and_notes(dataframe = data,
-                        ycol = "Influenza",
-                        xs= c("2023-10-08"),
-                        notes=c("Season 23/24"),
-                        colors=c(phs_colours("phs-teal"))) %>%
+    # add_lines_and_notes(dataframe = data,
+    #                     ycol = "Influenza",
+    #                     xs= c("2023-10-08"),
+    #                     notes=c("Season 23/24"),
+    #                     colors=c(phs_colours("phs-teal"))) %>%
 
 
     layout(margin = list(b = 80, t = 5),

@@ -10,7 +10,8 @@ tagList(
                   tabPanel("Acute hospital admissions",
                            tagList(h2("Number of acute COVID-19 admissions to hospital"),
                                    tags$div(class = "headline",
-                                            h3("Weekly totals from last three weeks"),
+                                            linebreaks(1),
+                                            #h3("Weekly totals from last three weeks"),
 
                                             valueBox(value = glue("{admissions_headlines[[1]]}*"),
                                                      subtitle = glue("Week ending {names(admissions_headlines)[[1]]}"),
@@ -78,6 +79,26 @@ tagList(
 
                            ),
 
+                           tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
+                                   h4(strong("These data will next be updated in November 2023.")),
+                                   tabBox(width = NULL, type = "pills",
+                                          tabPanel("Plot",
+                                                   tagList(
+                                                     linebreaks(1),
+                                                     altTextUI("hospital_admissions_ethnicity_modal"),
+                                                     withNavySpinner(
+                                                       plotlyOutput("hospital_admissions_ethnicity_plot")
+                                                     )
+                                                   )
+                                          ),
+                                          tabPanel("Data",
+                                                   withNavySpinner(
+                                                     dataTableOutput("hospital_admissions_ethnicity_table")
+                                                   )
+                                          ) # tabpanel
+                                   ) # tabbox
+                           ),
+
                            tagList(h2("Length of stay of acute COVID-19 hospital admissions"),
                                    tags$div(class = "headline",
                                             h3(glue("Median length of stay of acute COVID-19 hospital admissions for 4 week period {los_date_start %>% format('%d %b %y')} to {los_date_end%>% format('%d %b %y')} ")),
@@ -126,25 +147,7 @@ tagList(
 
                            ),
 
-                           tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
-                                   h4(strong("These data will next be updated in August 2023.")),
-                           tabBox(width = NULL, type = "pills",
-                                  tabPanel("Plot",
-                                           tagList(
-                                             linebreaks(1),
-                                             altTextUI("hospital_admissions_ethnicity_modal"),
-                                             withNavySpinner(
-                                               plotlyOutput("hospital_admissions_ethnicity_plot")
-                                               )
-                                          )
-                                              ),
-                                  tabPanel("Data",
-                                           withNavySpinner(
-                                               dataTableOutput("hospital_admissions_ethnicity_table")
-                                               )
-                                  ) # tabpanel
-                                           ) # tabbox
-                           ) # taglist
+ # taglist
   ),
   # Padding out the bottom of the page
   fluidRow(height="200px", width=12, linebreaks(5))
