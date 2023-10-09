@@ -1,5 +1,5 @@
 metadataButtonServer(id="respiratory_parainfluenza_mem",
-                     panel="Respiratory infection activity",
+                     panel="Parainfluenza",
                      parent = session)
 
 # Low threshold

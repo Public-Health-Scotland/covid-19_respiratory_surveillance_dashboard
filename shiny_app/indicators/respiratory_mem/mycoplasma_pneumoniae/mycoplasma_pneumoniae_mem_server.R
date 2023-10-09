@@ -1,6 +1,6 @@
 
 metadataButtonServer(id="respiratory_mycoplasma_pneumoniae_mem",
-                     panel="Respiratory infection activity",
+                     panel="Mycoplasma pneumoniae",
                      parent = session)
 
 # Low threshold
