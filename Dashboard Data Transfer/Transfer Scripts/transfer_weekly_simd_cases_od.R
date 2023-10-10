@@ -213,15 +213,19 @@ g_simd_weekly_cases_od  <- df_simd %>%
          WeekEnding= format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")
          ) %>%
   mutate(Country="S92000003") %>% 
-  select(WeekEnding,Country, SIMDQuintile=simd, WeeklyCases=PositiveLastSevenDays, 
+  select(WeekEnding,Country, SIMDQuintile=simd, 
+         WeeklyCases=PositiveLastSevenDays, 
          CumulativeCases= CumulativePositive, 
          CrudeRateCumulativeCases= CrudeRatePositive,
          CrudeRateCumulativeCasesQF=CrudeRatePositiveQF)  
 
-write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_cases_simd_weekly.csv"), na = "")
+#write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_cases_simd_weekly.csv"), na = "")
+write_csv(g_simd_weekly_cases_od, glue(od_folder, "weekly_cases_simd_{od_report_date}.csv"), na = "")
 
-rm(df_simd, g_daily_geog_simd_cases, g_daily_raw, i_combined_pcr_lfd_tests,
-   g_simd_weekly_cases,g_simd_scotland_daily_cases, simd_populations)
+
+
+rm(df_simd, g_daily_geog_simd_cases, i_combined_pcr_lfd_tests,
+   g_simd_weekly_cases_od,g_simd_scotland_daily_cases, simd_populations)
 
 ##### End of script #######################################
 

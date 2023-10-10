@@ -28,7 +28,7 @@ g_ethnicity <- i_ethnicity %>%
 
 write.csv(g_ethnicity, glue(output_folder, "Ethnicity.csv"), row.names = FALSE)
 
-#bring output bacdk in temporarily until source input, reforat for Opend Data
+#bring output back in temporarily until source input, reforat for Opend Data
 
 TEMP_ethnicity <- read_csv(glue(output_folder, "Ethnicity.csv"))
 
@@ -42,8 +42,9 @@ g_ethnicity_od=TEMP_ethnicity %>%
   select(MonthBeginning=MonthBegining, Country, EthnicGroup, 
          Admissions, AdmissionsQF, Percentage, PercentageQF)
 
-write.csv(g_ethnicity_od, glue(output_folder, "TEMP_Ethnicity_od.csv"), row.names = FALSE, na = "")
+write.csv(g_ethnicity_od, glue(od_folder, "ethnicity_{od_report_date}.csv"), row.names = FALSE, na = "")
 
+rm(g_ethnicity_od, TEMP_ethnicity)
 
 
 ### b) Ethnicity Chart

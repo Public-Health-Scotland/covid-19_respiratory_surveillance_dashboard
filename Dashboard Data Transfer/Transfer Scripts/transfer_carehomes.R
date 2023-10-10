@@ -149,15 +149,19 @@ g_carehome_timeseries<-i_carehome_timeseries  %>%
   select(WeekEnding, Resident, ResidentQF,
          Staff, StaffQF,Total, TotalQF)
 
-#write_csv(g_carehome_timeseries, glue("{output_folder}/TEMP_care_home_timne_series_{report_date}.csv"),
- #         na = "")
+# original output , is this still needed?
+write_csv(g_carehome_timeseries, glue("{output_folder}/TEMP_care_home_time_series_{report_date}.csv"),
+          na = "")
 
+#revised open data  output
 g_carehome_timeseries_od<-g_carehome_timeseries  %>%
   mutate(Country="S92000003") %>% 
   select(WeekEnding, Country, Resident, ResidentQF,
-         Staff, StaffQF,Total, TotalQF)
+         Staff, StaffQF,
+         TotalStaffAndResidents=Total, 
+         TotalStaffAndResidentsQF=TotalQF)
 
-write_csv(g_carehome_timeseries_od, glue("{output_folder}/care_home_time_series_{od_report_date}.csv"),na = "")
+write_csv(g_carehome_timeseries_od, glue(od_folder,"care_home_time_series_{od_report_date}.csv"),na = "")
 
           
 rm(g_notes, g_board, g_outbreak, g_board_older, g_outbreak_older, i_ch, process_visiting_status_table,

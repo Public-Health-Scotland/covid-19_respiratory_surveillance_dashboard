@@ -117,15 +117,16 @@ source("Transfer Scripts/transfer_respiratory.R")
 
 #(glue(output_folder, "Ethnicity.csv"))
 od_date <- floor_date(today(), "week", 1) + 1
-od_archive_date <-od_date-7
+od_report_date <- format(report_date, "%Y%m%d")
+od_archive_date <-format(report_date-7, "%Y%m%d")
 od_sunday<- floor_date(today(), "week", 1) -1
 od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/"
-od_archive_folder<- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{od_archive_date }")
+od_archive_folder<- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{report_date }")
 
 
 # Set the source directory where your files are located
 
-od_report_date <- format(od_date, "%Y%m%d")
+
 #od_archive_folder <- glue("{od_folder}/archived/{od_report_date}")
 
 
@@ -137,27 +138,26 @@ if (!dir.exists(od_archive_folder)) {
 #source_dir <- "/path/to/source/directory"
 
 # Create a vector of file names you want to move
-file_names_to_move <- c(glue("cumulative_testcases_HB2019_{od_report_date}.csv", 
-                         glue("cumulative_testcases_CA2019_{od_report_date}.csv")))
+# file_names_to_move <- c(glue("cumulative_testcases_HB2019_{od_report_date}.csv", 
+#                          glue("cumulative_testcases_CA2019_{od_report_date}.csv")))
 
 # Set the name of the new destination directory
 #destination_dir <- "/path/to/new/destination/directory"
 
-
-
-# Loop through the file names and move them to the new destination directory
-for (file_name in file_names_to_move) {
-  source_path <- file.path(od_folder, file_name)
-  destination_path <- file.path(od_archive_folder, file_name)
-  
-  # Move the file to the new destination directory
-  if (file.rename(od_folder, od_archive_folder)) {
-    cat("Moved", file_name, "to", destination_dir, "\n")
-  } else {
-    cat("Failed to move", file_name, "\n")
-  }
-}
-
+# 
+# 
+# # Loop through the file names and move them to the new destination directory
+# for (file_name in file_names_to_move) {
+#   source_path <- file.path(od_folder, file_name)
+#   destination_path <- file.path(od_archive_folder, file_name)
+# 
+#   # Move the file to the new destination directory
+#   if (file.rename(od_folder, od_archive_folder)) {
+#     cat("Moved", file_name, "to", destination_dir, "\n")
+#   } else {
+#     cat("Failed to move", file_name, "\n")
+#   }
+# }
 
 
 # Geography
@@ -167,3 +167,9 @@ source("Transfer Scripts/transfer_weekly_agesex_cases_od.R")
 # simd cases data
 source("Transfer Scripts/transfer_weekly_simd_cases_od.R")
 
+# remove(population files (i_population_v2 used in dashboard, not just Open Data) 
+rm(base_hb_population,  pop_60plus_sex, pop_60plus_total,
+   pop_agegroup_sex, pop_agegroup_total, pop_dash_ageband, 
+   pop_dash_fifteen_fourty_four, pop_dash_sex, pop_dash_sex_ageband,
+   pop_dash_total, pop_total_sex, pop_total_total, pop_dash_sex_fifteen_fourty_four)
+rm(i_population_v2)

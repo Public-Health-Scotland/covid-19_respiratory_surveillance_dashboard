@@ -343,8 +343,8 @@ g_cumulative_geog_la <- g_cumulative_geog %>%
          CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases)
 
 #save out cumulative geography open data file
-write_csv(g_cumulative_geog_hb, glue(od_folder, "cumulative_tests_cases_HB2019_{od_report_date}.csv"))
-write_csv(g_cumulative_geog_la, glue(od_folder, "cumulative_testcases_CA2019_{od_report_date}.csv"))
+write_csv(g_cumulative_geog_hb, glue(od_folder, "cumulative_tests_cases_HB_{od_report_date}.csv"))
+write_csv(g_cumulative_geog_la, glue(od_folder, "cumulative_tests_cases_CA_{od_report_date}.csv"))
 
 
 rm(g_cumulative_geog, g_cumulative_geog_hb, g_cumulative_geog_la)
@@ -614,7 +614,7 @@ g_weekly_hb <- g_cases_weekly %>%
          CumulativeLFDOnlyCases= CumulativePositiveLFDOnlyCases, 
          CumulativePCRAndLFDCases= CumulativePositivePCRAndLFDCases)
 
-write_csv(g_weekly_hb, glue(output_folder, "TEMP_weekly_HB.csv"), na = "")
+write_csv(g_weekly_hb, glue(od_folder, "weekly_tests_cases_HB_{od_report_date}.csv"), na = "")
 
 rm(g_weekly_hb)
 
@@ -641,7 +641,7 @@ g_weekly_la <- g_cases_weekly %>%
          CumulativeLFDOnlyCases= CumulativePositiveLFDOnlyCases,
          CumulativePCRAndLFDCases= CumulativePositivePCRAndLFDCases)
 
-write_csv(g_weekly_la, glue(output_folder, "TEMP_weekly_LA.csv"), na = "")
+write_csv(g_weekly_la, glue(od_folder, "weekly_tests_cases_CA_{od_report_date}.csv"), na = "")
 
 
 rm(CA_lookup, HB_lookup, location_names, populations, SPD, i_combined_pcr_lfd_tests, pos_test_data, all_test_data,

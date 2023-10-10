@@ -48,15 +48,13 @@ g_weekly_adm<- i_chiadm %>%
     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)  ) %>%
   group_by(WeekEnding) %>%
   summarise(Admissions = n()) %>%
-  mutate(CumulativeAdmissions=(cumsum(Admissions)),
+  mutate(#CumulativeAdmissions=(cumsum(Admissions)),
          Country="S92000003",
          WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) %>% 
-  select(WeekEnding, Country,Admissions, CumulativeAdmissions )
+  select(WeekEnding, Country, Admissions)#, CumulativeAdmissions )
 
-write_csv(g_weekly_adm, glue(output_folder, "TEMP_WeeklyAdmissions.csv"))
 
 # Adding national occupancy to weekly admissions for Open Data
-
 # Reporting Dates 
 od_date <- floor_date(today(), "week", 1) + 1
 od_sunday<- floor_date(today(), "week", 1) -1
@@ -71,7 +69,7 @@ occupancy_hospital_healthboard <- i_occupancy$Data %>%
   rename(HospitalOccupancy = total_number_of_confirmed_c19_inpatients_in_hospital_at_8am_yesterday_new_measure_number_of_confirmed_c19_inpatients_in_hospital_10_days_at_8am_as_of_08_05_2023,
          Date = date,
          HealthBoard = health_board) %>%
-  filter(Date >= "2020-09-08" & Date <= od_date-1) %>% # filter to sunday date
+  filter(Date >= "2020-09-08" & Date <= od_sunday) %>% # filter to sunday date
   mutate(HospitalOccupancy = as.numeric(HospitalOccupancy),
          Date = format(as.Date(Date-1), "%Y-%m-%d"), #-1 as number is for "8am yesterday"
          HealthBoard = str_replace(HealthBoard, "&", "and")) %>%
@@ -89,29 +87,23 @@ occupancy_hospital_scotland <- occupancy_hospital_healthboard %>%
   group_by(WeekEnding) %>% 
   filter(Date==max(Date)) %>% 
   ungroup() %>% 
+  mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>% 
+  mutate(WeekEnding=as.character(WeekEnding)) %>% 
   select(-c(Date, HealthBoard))
 
-
-  
+#join occupancy to admissions
 g_adm_occ_weekly<-g_weekly_adm  %>% 
-   mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>% 
-  #mutate(WeekEnding=as.character(WeekEnding)) %>% 
   left_join(occupancy_hospital_scotland, by=c("WeekEnding", "Country")) %>% 
-  mutate(OccupancyAsAtLastSundayQF=if_else(is.na(HospitalOccupancy), ":", HospitalOccupancy)) %>% 
+  mutate(InpatientsAsAtLastSundayQF=if_else(is.na(HospitalOccupancy),":","")) %>% 
     select(WeekEnding, Country, 
-           Admissions, CumulativeAdmissions,
-           OccupancyAsAtLastSunday=HospitalOccupancy)
+           Admissions, 
+           #CumulativeAdmissions,
+           InpatientsAsAtLastSunday=HospitalOccupancy, 
+           InpatientsAsAtLastSundayQF )
 
-# g_adm_occ_weekly<-occupancy_hospital_scotland %>% 
-#   mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>% 
-#   #mutate(WeekEnding=as.character(WeekEnding)) %>% 
-#   left_join(g_weekly_adm, by=c("WeekEnding", "Country")) %>% 
-#   select(WeekEnding, Country, 
-#          Admissions, CumulativeAdmissions,
-#          OccupancyAsAtLastSunday=HospitalOccupancy)
 
-write_csv(g_adm_occ_weekly, glue(output_folder, "TEMP_WeeklyAdmissionsOccupancy.csv"))
-  
+write_csv(g_adm_occ_weekly, glue(od_folder, "weekly_admissions_occupancy_{od_report_date}.csv"),na = "")
+
 
 rm(g_weekly_adm, 
    i_occupancy, occupancy_hospital_healthboard,
@@ -181,7 +173,8 @@ g_adm_agebd_od<-g_adm_agebd %>%
          Admissions=TotalInfections, 
          AdmissionsQF=TotalInfectionsQF)
 
-write_csv(g_adm_agebd_od, glue("{output_folder}TEMP_Admissions_AgeBD_od.csv"), na = "")
+#write_csv(g_adm_agebd_od, glue("{output_folder}TEMP_Admissions_AgeBD_od.csv"), na = "")
+write_csv(g_adm_agebd_od, glue(od_folder, "weekly_admissions_ageBD_{od_report_date}.csv"),na = "")
 
 rm(g_adm_agebd, totals, g_adm_agebd_od)
 
