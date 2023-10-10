@@ -624,7 +624,7 @@ data %<>%
   yaxis_plots[["title"]] <- "Reported cases"
   xaxis_plots[["title"]] <- "Week ending"
 
-  #xaxis_plots[["rangeslider"]] <- list(type = "date")
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
 
 
@@ -662,7 +662,7 @@ data %<>%
 
     layout(margin = list(b = 80, t = 5),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
-           legend = list(xanchor = "center", x = 0.5, y = -0.2, orientation = 'h'),
+           legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
 

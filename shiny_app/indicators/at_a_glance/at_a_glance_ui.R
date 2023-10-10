@@ -10,7 +10,8 @@ tagList(
            box(width = NULL,
                withNavySpinner(dataTableOutput("cases_intro_table"))),
                fluidRow(
-                 width=12, linebreaks(1))
+                 width=12, linebreaks(1)),
+           p("Please refer to metadata tab for further information on testing policies."),
            ), #fluidRow
 
   fluidRow(width = 12,
@@ -26,6 +27,7 @@ tagList(
 
   fluidRow(width=12,
            box(width = NULL,
+               altTextUI("adms_summary_modal"),
                withNavySpinner(
                  plotlyOutput("hosp_adms_intro_plot")),
            fluidRow(
