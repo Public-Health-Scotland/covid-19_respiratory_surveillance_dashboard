@@ -51,17 +51,17 @@ ui <- fluidPage(
       ##############################################.
       # AT A GLANCE ----
       ##############################################.
+      # tabPanel(title = "At a glance",
+      #          icon = icon_no_warning_fn("square-poll-vertical"),
+      #          value = "summary",
+      #
+      #          source(file.path("indicators/summary/summary_ui.R"), local = TRUE)$value
+      #
+      # ), # tabpanel
+      ##############################################.
+      # AT A GLANCE ----
+      ##############################################.
       tabPanel(title = "At a glance",
-               icon = icon_no_warning_fn("square-poll-vertical"),
-               value = "summary",
-
-               source(file.path("indicators/summary/summary_ui.R"), local = TRUE)$value
-
-      ), # tabpanel
-      ##############################################.
-      # AT A GLANCE V2 ----
-      ##############################################.
-      tabPanel(title = "At a glance V2",
                icon = icon_no_warning_fn("square-poll-vertical"),
                value = "at_a_glance",
 
@@ -82,35 +82,35 @@ ui <- fluidPage(
       ##############################################.
       # ADMISSIONS ----
       ##############################################.
-      tabPanel(title = "COVID-19 hospital admissions",
-               # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("hospital-user"),
-               value = "hospital_admissions",
-
-               #       source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
-
-      ), # tabpanel
+      # tabPanel(title = "COVID-19 hospital admissions",
+      #          # Look at https://fontawesome.com/search?m=free for icons
+      #          icon = icon_no_warning_fn("hospital-user"),
+      #          value = "hospital_admissions",
+      #
+      #          #       source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
+      #
+      # ), # tabpanel
       ##############################################.
       # OCCUPANCY ----
       ##############################################.
-      tabPanel(title = "COVID-19 hospital occupancy",
-               # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("bed-pulse"),
-               value = "hospital_occupancy",
-
-               #   source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
-
-      ), # tabpanel
+      # tabPanel(title = "COVID-19 hospital occupancy",
+      #          # Look at https://fontawesome.com/search?m=free for icons
+      #          icon = icon_no_warning_fn("bed-pulse"),
+      #          value = "hospital_occupancy",
+      #
+      #          #   source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
+      #
+      # ), # tabpanel
       ##############################################.
       # RESPIRATORY ----
       ##############################################.
-      tabPanel(title = "Respiratory infection activity",
-               # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("virus"),
-               value = "respiratory",
-
-               source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
-      ), # tabpanel
+      # tabPanel(title = "Respiratory infection activity",
+      #          # Look at https://fontawesome.com/search?m=free for icons
+      #          icon = icon_no_warning_fn("virus"),
+      #          value = "respiratory",
+      #
+      #          source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
+      # ), # tabpanel
       ##############################################.
       # RESPIRATORY PATHOGENS ----
       ##############################################.
