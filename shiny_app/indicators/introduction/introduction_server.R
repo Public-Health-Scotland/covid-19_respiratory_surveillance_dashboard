@@ -254,11 +254,7 @@ output$introduction_open_data <- renderUI({
             "gives access to statistics and reference data for information and re-use. ",
             "The platform is managed by Public Health Scotland. ",
             "Data is released under the Open Government Licence."),
-          p("You can download COVID-19 data presented in this dashboard from the ",
-            tags$a(href="https://www.opendata.nhs.scot/dataset/covid-19-in-scotland",
-            "COVID-19 Statistical Data in Scotland page (external website)", target="_blank"),
-            "."),
-          p("You can download Respiratory infection data presented in this dashboard from the ",
+          p("You can download viral respiratory disease data presented in this dashboard from the ",
             tags$a(href="https://www.opendata.nhs.scot/dataset/respiratory-infection-statistical-data-in-scotland",
                    "Respiratory Infection Statistical Data in Scotland page (external website)", target="_blank"),
             ".")
