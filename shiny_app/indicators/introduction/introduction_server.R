@@ -1,7 +1,7 @@
 
 
 #Naviagtion buttons on intro page ----
-observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", selected = "summary")})
+observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", selected = "at_a_glance")})
 #observeEvent(input$jump_to_cases, {updateTabsetPanel(session, "intabset", selected = "cases")})
 #observeEvent(input$jump_to_hospital_admissions, {updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
 #observeEvent(input$jump_to_hospital_occupancy, {updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
