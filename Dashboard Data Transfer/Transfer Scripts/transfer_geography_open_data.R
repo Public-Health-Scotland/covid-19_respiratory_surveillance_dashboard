@@ -343,8 +343,8 @@ g_cumulative_geog_la <- g_cumulative_geog %>%
          CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases)
 
 #save out cumulative geography open data file
-write_csv(g_cumulative_geog_hb, glue(od_folder, "cumulative_tests_cases_HB_{od_report_date}.csv"))
-write_csv(g_cumulative_geog_la, glue(od_folder, "cumulative_tests_cases_CA_{od_report_date}.csv"))
+write_csv(g_cumulative_geog_hb, glue(od_folder, "cumulative_tests_cases_HB_{od_report_date}.csv"), na = "")
+write_csv(g_cumulative_geog_la, glue(od_folder, "cumulative_tests_cases_CA_{od_report_date}.csv"), na = "")
 
 
 rm(g_cumulative_geog, g_cumulative_geog_hb, g_cumulative_geog_la)

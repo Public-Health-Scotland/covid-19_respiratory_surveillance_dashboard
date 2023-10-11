@@ -35,11 +35,6 @@ spd_simd_lookup <- read_rds(glue(gpd_base_path,"Deprivation/postcode_2023_1_simd
   select(PostCode,simd)
 
 ######### simd population lookup #####
-# SIMD population lookup rds
-# simd_pop_tableau <- read_rds("/conf/linkage/output/Covid Daily Dashboard/Tableau process/Lookups/SIMD_populations.rds")%>%
-#   ungroup() %>%
-#   mutate(location_code=as.character(location_code),simd=as.character(SIMD))%>%
-#   select(location_code,simd,Pop)
 
 base_datazone_population <-  read_rds(glue(gpd_base_path,"Populations/Estimates/DataZone2011_pop_est_5year_agegroups_2011_2021.rds"))
 
@@ -135,23 +130,6 @@ rm(Dates, SIMD, df_unassinged) # remove building blocks
 
 
 #### Cases ##############################
-
-
-#i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds") )
-# 
-# g_daily_raw<- i_combined_pcr_lfd_tests %>% 
-#   mutate(Sex = case_when(is.na(subject_sex)~submitted_subject_sex,TRUE ~ subject_sex)) %>%
-#   mutate(test_source = case_when(test_result_record_source %in% c("NHS DIGITAL","ONS","SGSS") ~ "UK Gov",
-#                                  test_result_record_source %in% c( "ECOSS","SCOT","SGSS")~ "NHS Lab"))  %>%
-#   mutate(test_source = case_when((test_result_record_source == "SGSS" & SGSS_ID == "Pillar 2") ~ "UK Gov",
-#                                  (test_result_record_source == "SGSS" & SGSS_ID == "Pillar 1") ~ "NHS Lab",
-#                                  TRUE~test_source)) %>%
-#   mutate(pillar=case_when(test_source=="UK Gov"~"Pillar 2", test_source=="NHS Lab"~"Pillar 1"))%>%
-#   mutate(pillar=case_when(test_type=="LFD"~"LFD",TRUE ~pillar)) %>% 
-#   select(specimen_id, SubLab, reporting_health_board, local_authority, postcode, specimen_date,
-#          test_result, Sex, age, date_reporting, date_test_received_at_bi,
-#          test_result_record_source, laboratory_code, pillar, flag_covid_case,
-#          derived_covid_case_type, episode_number_deduplicated, episode_derived_case_type)
 
 i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds"))%>%
   mutate(Sex = case_when(is.na(subject_sex)~submitted_subject_sex,TRUE ~ subject_sex))%>%

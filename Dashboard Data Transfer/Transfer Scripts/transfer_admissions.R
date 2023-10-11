@@ -54,16 +54,17 @@ g_weekly_adm<- i_chiadm %>%
   select(WeekEnding, Country, Admissions)#, CumulativeAdmissions )
 
 
-# Adding national occupancy to weekly admissions for Open Data
+# Add national occupancy to weekly admissions for Open Data
 # Reporting Dates 
 od_date <- floor_date(today(), "week", 1) + 1
 od_sunday<- floor_date(today(), "week", 1) -1
 od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
 od_sunday_minus_14 <- today() - 17
+
 # TBC
 
 i_occupancy <- read_all_excel_sheets(glue("{input_data}/Hospital-ICU Daily Numbers_{od_date+1}.xlsx"))
-#
+
 occupancy_hospital_healthboard <- i_occupancy$Data %>%
   clean_names() %>%
   rename(HospitalOccupancy = total_number_of_confirmed_c19_inpatients_in_hospital_at_8am_yesterday_new_measure_number_of_confirmed_c19_inpatients_in_hospital_10_days_at_8am_as_of_08_05_2023,
@@ -74,8 +75,7 @@ occupancy_hospital_healthboard <- i_occupancy$Data %>%
          Date = format(as.Date(Date-1), "%Y-%m-%d"), #-1 as number is for "8am yesterday"
          HealthBoard = str_replace(HealthBoard, "&", "and")) %>%
   select(Date, HealthBoard, HospitalOccupancy)
-#
-#
+##
 occupancy_hospital_scotland <- occupancy_hospital_healthboard %>%
   group_by(Date) %>%
   summarise(HospitalOccupancy = sum(HospitalOccupancy,na.rm=T)) %>%
@@ -173,7 +173,6 @@ g_adm_agebd_od<-g_adm_agebd %>%
          Admissions=TotalInfections, 
          AdmissionsQF=TotalInfectionsQF)
 
-#write_csv(g_adm_agebd_od, glue("{output_folder}TEMP_Admissions_AgeBD_od.csv"), na = "")
 write_csv(g_adm_agebd_od, glue(od_folder, "weekly_admissions_ageBD_{od_report_date}.csv"),na = "")
 
 rm(g_adm_agebd, totals, g_adm_agebd_od)

@@ -225,13 +225,13 @@ g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
 arrange(Sex)%>% 
   mutate(AgeGroup = recode(AgeGroup, "60+" = "60plus"),
          AgeGroup = recode(AgeGroup, "85+" = "85plus")) %>% 
-  select(LatesttDate= Date,
+  select(LatestDate= Date,
          Country, Sex, SexQF, AgeGroup,AgeGroupQF,
          CumulativeCases= TotalCases, 
          CrudeRateCumulativeCases= CrudeRateCases,
          CrudeRateCumulativeCasesQF= CrudeRateCasesQF) 
 
-write_csv(g_age_sex_cumulative_od, glue(od_folder, "cumulative_cases_age_sex_{od_report_date}.csv"))
+write_csv(g_age_sex_cumulative_od, glue(od_folder, "cumulative_cases_age_sex_{od_report_date}.csv"), na = "")
 
 
 rm(g_agegroup_cumulative_combined, g_agegroup_sex_cumulative,g_agegroup_cumulative,
@@ -291,9 +291,6 @@ g_cases_agegroup_sex_weekly<-g_cases_age_filtered_weekly %>%
      summarise(CasesLastSevenDays=sum(daily_positive)) %>% 
      ungroup() %>% 
   rename(agegroup=agegroup_scotland) 
-  # group_by(agegroup, sex) %>% 
-  # mutate(CumulativeCases=(cumsum(CasesLastSevenDays))) %>% 
-  # ungroup ()
 
 # 2 weekly cases by main age group combined sex
 g_cases_agegroup_weekly<- g_cases_age_filtered_weekly %>% 
@@ -301,36 +298,26 @@ g_cases_agegroup_weekly<- g_cases_age_filtered_weekly %>%
   summarise(CasesLastSevenDays=sum(daily_positive)) %>% 
   ungroup() %>%  
   rename(agegroup=agegroup_scotland)%>% 
-  # group_by(agegroup) %>% 
-  # mutate(CumulativeCases=(cumsum(CasesLastSevenDays))) %>% 
-  # ungroup() %>% 
-  mutate(sex="Total")
+    mutate(sex="Total")
 
 # 1 and 2 combined 
 g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
                                        g_cases_agegroup_weekly) %>% #
   arrange(week_ending, agegroup)
 
- 
 #  3  weekly cases  by age and sex using age_group_scotland_60plus grouping
   g_agegroup_60plus_sex_cases_weekly<- g_cases_age_filtered_weekly %>% 
    group_by(week_ending, agegroup_scotland_60plus, sex) %>% 
     summarise(CasesLastSevenDays=sum(daily_positive)) %>% 
     ungroup() %>%  
     rename(agegroup=agegroup_scotland_60plus)  
-    # group_by(agegroup, sex) %>% 
-    # mutate(CumulativeCases=(cumsum(CasesLastSevenDays))) %>% 
-    # ungroup ()
-    # 
+   
 #  4  weekly cases by age and COMBINED SEX using age_group_scotland_60plus grouping
   g_agegroup_60plus_cases_weekly<-g_cases_age_filtered_weekly %>% 
     group_by(week_ending, agegroup_scotland_60plus) %>% 
     summarise(CasesLastSevenDays=sum(daily_positive)) %>% 
     ungroup()%>%  
     rename(agegroup=agegroup_scotland_60plus) %>%
-  # group_by(agegroup) %>% 
-  #   mutate(CumulativeCases=(cumsum(CasesLastSevenDays))) %>% 
-  #   ungroup() %>% 
     mutate(sex="Total")
   
   # 3 & 4 combine age groups together
@@ -347,7 +334,6 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
 
   # 6 cumulative total cases by combined age, combined sexes
   g_total_age_total_sex_cases_weekly<-g_agegroup_60plus_sex_cases_weekly %>% 
-    #filter(agegroup!='Unknown'| sex=='Unknown') %>% 
     mutate(location_code="Scotland") %>% 
     group_by(week_ending, location_code) %>%
     summarise(CasesLastSevenDays=sum(CasesLastSevenDays)) %>% 
@@ -356,7 +342,6 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
            sex="Total") %>% 
     left_join(pop_total_total, by=(c("agegroup", "sex", "location_code")))
   
-     # 
 #7  calculate unknown age and/or sex
    g_unknown_agesex_weekly_cases <-g_cases_age_sex_all %>% 
      filter(agegroup=='Unknown'| sex=='Unknown')%>% 
@@ -368,12 +353,7 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
      summarise(CasesLastSevenDays=sum(daily_positive))  %>% 
      ungroup() %>% 
       mutate(agegroup="Unknown", sex="Unknown")  
-     # group_by(agegroup) %>% 
-     # mutate(CumulativeCases=(cumsum(CasesLastSevenDays))) %>% 
-     # ungroup ()
-     
-   
-   
+
 # combine weekly age group and sex combinations together  
    g_age_sex_cases_weekly<-bind_rows(g_agegroup_weekly_combined, 
                                      g_60_plus_weekly_combined,
@@ -384,8 +364,6 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
    g_age_sex_cases_weekly_od<-df_agesex %>% 
      left_join(g_age_sex_cases_weekly, by =c("week_ending","agegroup","sex"), multiple="all")  %>% 
      mutate(CasesLastSevenDays=if_else(is.na(CasesLastSevenDays),0,CasesLastSevenDays)) %>% # add 0 to NULL rows so allows cumulative calc
-     #filter(week_ending=="2023-09-24") %>% 
-    #  filter(unknown_check=="Unknown Unknown") %>% 
      group_by(unknown_check) %>%
      mutate(CumulativeCases=(cumsum(CasesLastSevenDays))) %>%
      ungroup () %>% 
@@ -394,25 +372,17 @@ g_agegroup_weekly_combined<- bind_rows(g_cases_agegroup_sex_weekly,
           SexQF= if_else(sex=="Total"|sex=="Unknown","d", ""),
           AgeGroup = recode(agegroup, "60+" = "60plus","85+" = "85plus"),
           AgeGroupQF=if_else(AgeGroup=="Total"|AgeGroup=="Unknown","d", ""))%>% 
-     #mutate(CasesLastSevenDaysQF=if_else(is.na(CasesLastSevenDays),":","")) %>% 
      select(WeekEnding=week_ending, Country, Sex=sex, SexQF, AgeGroup, AgeGroupQF,
             WeeklyCases=CasesLastSevenDays, 
             CumulativeCases) 
    
  write_csv(g_age_sex_cases_weekly_od, glue(od_folder, "weekly_cases_age_sex_{od_report_date}.csv", na=""))
  
-
-   # remove intermediate files
-   rm(g_cases_agegroup_sex_weekly, g_cases_agegroup_weekly,
-     g_agegroup_60plus_sex_cases_weekly, g_agegroup_60plus_cases_weekly,
-     g_total_age_sex_cases_weekly, g_total_age_total_sex_cases_weekly, df_agesex,
-     g_age_sex_cases_weekly_od, g_unknown_agesex_weekly_cases,
-     g_60_plus_weekly_combined,g_cases_age_filtered, g_age_sex_cases_weekly, 
-     g_agegroup_weekly_combined, g_cases_age_filtered_weekly,
-     g_cases_age_sex_all)
-
-
-   
-  
-   
-   
+# remove intermediate files
+rm(g_cases_agegroup_sex_weekly, g_cases_agegroup_weekly,
+   g_agegroup_60plus_sex_cases_weekly, g_agegroup_60plus_cases_weekly,
+   g_total_age_sex_cases_weekly, g_total_age_total_sex_cases_weekly, df_agesex,
+   g_age_sex_cases_weekly_od, g_unknown_agesex_weekly_cases,
+   g_60_plus_weekly_combined,g_cases_age_filtered, g_age_sex_cases_weekly, 
+   g_agegroup_weekly_combined, g_cases_age_filtered_weekly,
+   g_cases_age_sex_all)
