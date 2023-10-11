@@ -31,6 +31,18 @@ output_folder <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly C
 # Getting useful functions
 #source("data_transfer_functions.R")
 
+
+# Refresh input data folder ----
+# Clear input data
+purrr::walk(list.files(path=input_data, full.names=TRUE), unlink, recursive=TRUE)
+
+# Copy new files across from data folder
+data_folder <- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/",
+                    "Weekly Data Folders/{report_date}/Data")
+
+data_files = list.files(path=data_folder, recursive=TRUE, full.names=TRUE)
+purrr::walk(data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
+
 # Getting population information
 # ------------------------------
 
@@ -59,19 +71,6 @@ i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove(x,
 i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove_all(x, " "))
 
 source("Transfer Scripts/population_lookups.R")
-
-
-# Refresh input data folder ----
-# Clear input data
-purrr::walk(list.files(path=input_data, full.names=TRUE), unlink, recursive=TRUE)
-
-# Copy new files across from data folder
-data_folder <- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/",
-                    "Weekly Data Folders/{report_date}/Data")
-
-data_files = list.files(path=data_folder, recursive=TRUE, full.names=TRUE)
-purrr::walk(data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
-
 
 ##### Cases
 source("Transfer Scripts/transfer_cases.R")
