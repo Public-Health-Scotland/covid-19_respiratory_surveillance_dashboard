@@ -23,7 +23,7 @@ g_cases %<>%
          Date = format(Date, "%Y%m%d"))
 
 
-write_csv(g_cases, glue(output_folder, "TEMP_Cases.csv"))# so as to not overwrite main Cases.csv
+write_csv(g_cases, glue(output_folder, "Cases.csv"))
 
 rm(i_cases, g_cases, pop_grandtotal)
 

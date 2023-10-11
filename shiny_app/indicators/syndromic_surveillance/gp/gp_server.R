@@ -37,11 +37,10 @@ seasons_1 <- Respiratory_GPILI_MEM_Scot %>%
   distinct() %>%
   tail(6)
 seasons_2 <- Respiratory_GPILI_MEM_Scot %>%
+  filter(Season == "2010/2011") %>%
   select(Season) %>%
   arrange(Season) %>%
-  distinct() %>%
-  tail(13) %>%
-  head(1)
+  distinct() 
 seasons <- bind_rows(seasons_2, seasons_1)
 seasons <- seasons$Season
 

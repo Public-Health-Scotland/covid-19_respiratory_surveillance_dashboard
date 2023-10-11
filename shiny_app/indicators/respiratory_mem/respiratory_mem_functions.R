@@ -38,11 +38,10 @@ create_mem_linechart <- function(data,
       distinct() %>%
       tail(6)
     seasons_2 <- data %>%
+      filter(Season == "2010/2011") %>%
       select(Season) %>%
       arrange(Season) %>%
-      distinct() %>%
-      tail(13) %>%
-      head(1)
+      distinct()
     seasons <- bind_rows(seasons_2, seasons_1)
     seasons <- seasons$Season
   }
@@ -507,7 +506,7 @@ create_flu_adms_linechart <- function(data,
   # For first week of new season (week 40), add in a marker
   if(nrow(data_curr_season) == 1){
 
-    adms_linechart <- adms_linechart %>%
+    flu_adms_linechart <- flu_adms_linechart %>%
       add_trace(data = data_curr_season,
                 x = ~ISOWeek,
                 y = ~Value,
@@ -596,7 +595,7 @@ create_rsv_adms_linechart <- function(data,
   # For first week of new season (week 40), add in a marker
   if(nrow(data_curr_season) == 1){
 
-    adms_linechart <- adms_linechart %>%
+    rsv_adms_linechart <- rsv_adms_linechart %>%
       add_trace(data = data_curr_season,
                 x = ~ISOWeek,
                 y = ~Value,
