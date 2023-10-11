@@ -72,7 +72,11 @@ tagList(
                             withNavySpinner(plotlyOutput("wastewater_plot")),
                             fluidRow(column(
                               width=12, linebreaks(5),
-                              p("Wastewater concentration levels remain at low levels and week to week changes should be interpreted with caution."),
+                              p("Analyses produced by Biomathematics & Statistics Scotland
+                                (formally part of the James Hutton Institute) for the Wastewater
+                                Monitoring Programme in Scotland which is operated by Scottish
+                                Government in partnership with Scottish Water and the
+                                Scottish Environment Protection Agency."),
                             )))),
            tabPanel("Data",
                     tagList(linebreaks(1),

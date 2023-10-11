@@ -153,6 +153,7 @@ g_carehome_timeseries<-i_carehome_timeseries  %>%
 write_csv(g_carehome_timeseries, glue("{output_folder}/TEMP_care_home_time_series_{report_date}.csv"),
           na = "")
 
+
 #revised open data  output
 g_carehome_timeseries_od<-g_carehome_timeseries  %>%
   mutate(Country="S92000003") %>% 

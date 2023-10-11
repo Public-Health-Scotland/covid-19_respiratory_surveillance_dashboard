@@ -176,12 +176,12 @@ g_simd_weekly_cases_od  <- df_simd %>%
   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
   ungroup() %>% 
   group_by(week_ending, simd) %>% 
-  mutate(PositiveLastSevenDays=sum(daily_positive)) %>% 
+  mutate(WeeklyPositiveCases=sum(daily_positive)) %>% 
   ungroup() %>%   
   select(-Date,-daily_positive) %>% 
   unique()%>% 
   group_by(simd) %>% 
-  mutate(CumulativePositive=(cumsum(PositiveLastSevenDays))) %>% 
+  mutate(CumulativePositiveCases=(cumsum(WeeklyPositiveCases))) %>% 
   ungroup %>% 
   arrange(week_ending, simd) %>% 
   left_join(simd_populations, by=c("location_code","simd")) %>% 
