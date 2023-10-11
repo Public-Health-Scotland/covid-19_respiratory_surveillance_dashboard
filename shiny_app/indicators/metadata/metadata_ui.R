@@ -397,8 +397,7 @@ tagList(h1("Metadata"),
                     All-cause mortality is reported two weeks after the week of the occurrence of the deaths to allow for reporting delay."),
                   p(strong("Source:",
                            tags$a("National Records of Scotland (NRS)",
-                           href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-deaths-registered-in-scotland"),
-                  "."
+                           href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-deaths-registered-in-scotland")
                   ))),
              
              
