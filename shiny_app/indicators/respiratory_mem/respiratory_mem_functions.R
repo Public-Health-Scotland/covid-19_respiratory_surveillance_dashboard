@@ -38,11 +38,10 @@ create_mem_linechart <- function(data,
       distinct() %>%
       tail(6)
     seasons_2 <- data %>%
+      filter(Season == "2010/2011") %>%
       select(Season) %>%
       arrange(Season) %>%
-      distinct() %>%
-      tail(13) %>%
-      head(1)
+      distinct()
     seasons <- bind_rows(seasons_2, seasons_1)
     seasons <- seasons$Season
   }

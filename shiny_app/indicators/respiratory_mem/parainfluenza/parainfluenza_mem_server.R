@@ -41,13 +41,12 @@ seasons_1 <- Respiratory_Pathogens_MEM_Scot %>%
   arrange(Season) %>%
   distinct() %>%
   tail(6)
-seasons_2 <- Respiratory_Pathogens_MEM_Scot %>% 
+seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
+  filter(Season == "2010/2011") %>%
   filter(Pathogen == "Parainfluenza Virus") %>%
   select(Season) %>%
   arrange(Season) %>%
-  distinct() %>%
-  tail(13) %>%
-  head(1)
+  distinct()
 seasons <- bind_rows(seasons_2, seasons_1)
 seasons <- seasons$Season
 
