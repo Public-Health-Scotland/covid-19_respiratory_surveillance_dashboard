@@ -27,6 +27,16 @@ dashboard_folder <- "../"
 input_data <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Input/"
 output_folder <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/"
 
+# Open Data output locations and dates (still to fine tune this)
+od_date <- floor_date(today(), "week", 1) + 1
+od_report_date <- format(report_date, "%Y%m%d")
+od_archive_date <-format(report_date-7, "%Y%m%d")
+od_sunday<- floor_date(today(), "week", 1) -1
+# all open data data saved to this location
+od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/"
+# location for archive folders to go
+od_archive_folder<- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{report_date }")
+
 
 # Getting useful functions
 #source("data_transfer_functions.R")
@@ -109,55 +119,14 @@ source("Transfer Scripts/transfer_occupancy.R")
 #### Respiratory
 source("Transfer Scripts/transfer_respiratory.R")
 
-#### Open Data 
-# output locations
-# all open data data saved to this location
-
-#output_folder <-glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/")
-
-#(glue(output_folder, "Ethnicity.csv"))
-od_date <- floor_date(today(), "week", 1) + 1
-od_report_date <- format(report_date, "%Y%m%d")
-od_archive_date <-format(report_date-7, "%Y%m%d")
-od_sunday<- floor_date(today(), "week", 1) -1
-od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/"
-od_archive_folder<- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{report_date }")
+#### Open Data Transfer
+#still some development work to do on archiving steps
 
 
-# Set the source directory where your files are located
 
 
-#od_archive_folder <- glue("{od_folder}/archived/{od_report_date}")
-
-
-# Create the new destination directory if it doesn't exist
-if (!dir.exists(od_archive_folder)) {
-  dir.create(od_archive_folder)
-}
-# Set the source directory where your files are located
-#source_dir <- "/path/to/source/directory"
-
-# Create a vector of file names you want to move
-# file_names_to_move <- c(glue("cumulative_testcases_HB2019_{od_report_date}.csv", 
-#                          glue("cumulative_testcases_CA2019_{od_report_date}.csv")))
-
-# Set the name of the new destination directory
-#destination_dir <- "/path/to/new/destination/directory"
-
-# 
-# 
-# # Loop through the file names and move them to the new destination directory
-# for (file_name in file_names_to_move) {
-#   source_path <- file.path(od_folder, file_name)
-#   destination_path <- file.path(od_archive_folder, file_name)
-# 
-#   # Move the file to the new destination directory
-#   if (file.rename(od_folder, od_archive_folder)) {
-#     cat("Moved", file_name, "to", destination_dir, "\n")
-#   } else {
-#     cat("Failed to move", file_name, "\n")
-#   }
-# }
+#### Open Data Transfer when not part of other processes
+#still some development work to do on archiving steps
 
 
 # Geography
@@ -173,3 +142,33 @@ rm(base_hb_population,  pop_60plus_sex, pop_60plus_total,
    pop_dash_fifteen_fourty_four, pop_dash_sex, pop_dash_sex_ageband,
    pop_dash_total, pop_total_sex, pop_total_total, pop_dash_sex_fifteen_fourty_four)
 rm(i_population_v2)
+
+
+ # Open data archiving steps 
+# Create the new destination directory for archive steps
+if (!dir.exists(od_archive_folder)) {
+  dir.create(od_archive_folder)}
+
+# Set the source directory where your files are located
+#source_dir <- "/path/to/source/directory"
+
+# Create a vector of file names you want to move
+# file_names_to_move <- c(glue("cumulative_testcases_HB2019_{od_report_date}.csv", 
+#                          glue("cumulative_testcases_CA2019_{od_report_date}.csv")))
+
+# Set the name of the new destination directory
+#destination_dir <- "/path/to/new/destination/directory"
+
+# # Loop through the file names and move them to the new destination directory
+# for (file_name in file_names_to_move) {
+#   source_path <- file.path(od_folder, file_name)
+#   destination_path <- file.path(od_archive_folder, file_name)
+# 
+#   # Move the file to the new destination directory
+#   if (file.rename(od_folder, od_archive_folder)) {
+#     cat("Moved", file_name, "to", destination_dir, "\n")
+#   } else {
+#     cat("Failed to move", file_name, "\n")
+#   }
+# }
+
