@@ -24,7 +24,9 @@ tagList(h1("Metadata"),
                                      especially when prevalence of COVID-19 is high. An average and standard deviation is taken for three samples. Household drainage water
                                      is mixed with water from other urban sources, meaning composite samples will contain rainwater which dilutes the sample. Therefore,
                                      this variability is accounted for by controlling for rainfall."),
-                                   p(strong("Source: Biomathematics and Statistics Scotland (BioSS)")),
+                                   p(strong("Source: These analyses of the levels of SARS-CoV-2 detected in wastewater in Scotland are produced by Biomathematics & Statistics Scotland
+                                            (formally part of the James Hutton Institute) for the Wastewater Monitoring Programme in Scotland which is operated by Scottish Government 
+                                            in partnership with Scottish Water and the Scottish Environment Protection Agency.")),
                                    br(),
                                    
                                    # Reported cases ----
@@ -273,7 +275,7 @@ tagList(h1("Metadata"),
                                      "the urinary tract, and the nervous system. They are very contagious and are",
                                      "relatively resistant to common disinfectants. Adenoviruses do not follow a seasonal",
                                      "pattern and circulate all year round."),# Additional information can be found on the PHS page for adenovirus."),
-                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS)")),
                                    br()
                                    
                                    ),
@@ -289,7 +291,7 @@ tagList(h1("Metadata"),
                                      "pneumonia. Infection can occur in people of all ages, but commonly occurs in",
                                      "infants and young children. HMPV has distinct annual seasonality, with the highest",
                                      "transmission in the winter months."),# Additional information can be found on the PHS page for human metapneumovirus."),
-                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS)")),
                                    br()
                                    
                    ),
@@ -307,7 +309,7 @@ tagList(h1("Metadata"),
                                      "winter, usually between late December and February, but Mycoplasma pneumoniae ",
                                      "circulates throughout the year."),# Additional information can be found on the ",
                                     # "PHS page for Mycoplasma pneumoniae."),
-                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS)")),
                                    br()
                                    
                    ),
@@ -323,7 +325,7 @@ tagList(h1("Metadata"),
                                      "characteristics. It is an important cause of upper and lower respiratory disease in",
                                      "infants and young children, elderly people and people who are immunocompromised."),
                                      #"Additional information can be found on the PHS page for parainfluenza."),
-                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS)")),
                                    br()
                                    
                    ),
@@ -339,7 +341,7 @@ tagList(h1("Metadata"),
                                      "nasal congestion but can lead to severe illness such as bronchitis, sinusitis,",
                                      "or pneumonia. Rhinoviruses circulate year-round, with peaks in autumn and spring."),
                                      #"Additional information can be found on the PHS page for rhinovirus."),
-                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS)")),
                                    br()
                                    
                    ),
@@ -353,7 +355,7 @@ tagList(h1("Metadata"),
                                    p("Seasonal Coronaviruses are a group of viruses that typically cause mild to moderate upper respiratory tract infections, such as the common cold,
                                      but can cause lower-respiratory tract illnesses such as pneumonia and bronchitis. Infection can occur in people of all ages. 
                                      Seasonal coronaviruses have an annual seasonality and typically circulate in the winter months."),
-                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); Rapid and Preliminary Inpatient Data (RAPID)")),
+                                   p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS)")),
                                    br()
                                    
                    ),
@@ -381,6 +383,7 @@ tagList(h1("Metadata"),
                             and has been to express GP consultations as a rate per hundred thousand population. 
                             Consultation rates are monitored on a Scotland-wide level, with additional breakdowns by age group and by Health Board."),
                             p("Typically, around 923 practices (98% of all practices in Scotland) routinely report to PHS."), 
+                            p(strong("Source: GP consultations for influenza-like illness (ILI)")),
                             br()
                             ),
 
@@ -391,7 +394,12 @@ tagList(h1("Metadata"),
                   h4("Euromomo (all cause mortality)"),
                   p("National Records of Scotland provide daily information to PHS on the number of registered deaths relating to all causes. 
                     PHS use the European monitoring of excess mortality (Euromomo) system to estimate weekly all-cause excess mortality, which is presented as z-scores. 
-                    All-cause mortality is reported two weeks after the week of the occurrence of the deaths to allow for reporting delay.")),
+                    All-cause mortality is reported two weeks after the week of the occurrence of the deaths to allow for reporting delay."),
+                  p(strong("Source:",
+                           tags$a("National Records of Scotland (NRS)",
+                           href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-deaths-registered-in-scotland"),
+                  "."
+                  ))),
              
              
                 #### GLOSSARY PANEL ----
