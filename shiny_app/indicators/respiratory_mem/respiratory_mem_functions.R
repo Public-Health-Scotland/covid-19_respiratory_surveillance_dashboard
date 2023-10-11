@@ -507,7 +507,7 @@ create_flu_adms_linechart <- function(data,
   # For first week of new season (week 40), add in a marker
   if(nrow(data_curr_season) == 1){
 
-    adms_linechart <- adms_linechart %>%
+    flu_adms_linechart <- flu_adms_linechart %>%
       add_trace(data = data_curr_season,
                 x = ~ISOWeek,
                 y = ~Value,
@@ -596,7 +596,7 @@ create_rsv_adms_linechart <- function(data,
   # For first week of new season (week 40), add in a marker
   if(nrow(data_curr_season) == 1){
 
-    adms_linechart <- adms_linechart %>%
+    rsv_adms_linechart <- rsv_adms_linechart %>%
       add_trace(data = data_curr_season,
                 x = ~ISOWeek,
                 y = ~Value,
