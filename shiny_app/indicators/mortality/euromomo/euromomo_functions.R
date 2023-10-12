@@ -33,25 +33,13 @@ create_euromomo_mem_linechart <- function(data,
     rename(Value = value_variable) %>%
     mutate(Value = round_half_up(Value, rate_dp))
   
-  # If seasons not supplied, use most recent seasons
   if(is.null(seasons)){
-    
-    if(latest_week %in% c("40","41","42")){
-      
-      seasons <- data %>%
-        select(Season) %>%
-        arrange(Season) %>%
-        distinct() %>%
-        tail(5)
-      seasons <- seasons$Season
-    } else{
-      seasons <- data %>%
-        select(Season) %>%
-        arrange(Season) %>%
-        distinct() %>%
-        tail(4)
-      seasons <- seasons$Season
-    }
+    seasons <- data %>%
+      select(Season) %>%
+      arrange(Season) %>%
+      distinct() %>%
+      tail(4)
+    seasons <- seasons$Season
   }
   
   # Wrangle data
@@ -67,7 +55,7 @@ create_euromomo_mem_linechart <- function(data,
   # Add in reporting delay marker
   data = data %>%
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay" & is.na(new_row),
-                                " (reporting delay) ", ""))
+                                   " (reporting delay) ", ""))
   
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
@@ -85,7 +73,7 @@ create_euromomo_mem_linechart <- function(data,
   low_max <- unique(data$MediumThreshold)
   moderate_max <- unique(data$HighThreshold)
   high_max <- unique(data$ExtraordinaryThreshold)
-  extraordinary_max <- max(pretty(data$Value), na.rm = T)
+  extraordinary_max <- max(pretty(c(data$Value, high_max)), na.rm = T)
   
   #Text for tooltip
   tooltip_trend <- c(paste0("Season: ", data$Season,
@@ -96,14 +84,14 @@ create_euromomo_mem_linechart <- function(data,
   # Update for reporting delay
   data = data %>%
     mutate(SeasonDelay = ifelse(ActivityLevelDelay == "Reporting delay",
-                           "Reporting delay", Season))
+                                paste0(Season, " (Reporting delay)"), Season))
   
   # Current season data only
   data_curr_season <- data %>%
     filter(Season %in% seasons[length(seasons)])
   
   # If latest week isn't week 40 or 41
-  if(!nrow(data_curr_season) %in% c(1,2)){
+  if(!latest_week %in% c("40", "41", "42")){
     
     # Create plot
     mem_linechart = data %>%
@@ -223,25 +211,23 @@ create_euromomo_mem_linechart <- function(data,
   }
   
   # If latest week is week 40
-  if(nrow(data_curr_season) == 1){
-    
-    data <- data %>%
-      filter(!Season %in% seasons[length(seasons)])
+  if(latest_week %in% c("40", "41")){
     
     # Create plot
     mem_linechart = data %>%
       plot_ly(x = ~ISOWeek,
               y = ~Value,
               textposition = "none",
-              text = tooltip_trend[-length(tooltip_trend)], 
+              #text = tooltip_trend[-length(tooltip_trend)],
+              text = tooltip_trend,
               hoverinfo = "text",
               color = ~SeasonDelay,
               type="scatter",
               mode="lines",
               line = list(width = 5),
               linetype = ~SeasonDelay,
-              linetypes = c("solid", "solid", "solid", "solid", "dot"),
-              colors = euromomo_mem_line_colours) %>%
+              linetypes = c("solid", "solid", "solid", "dot", "dot"),
+              colors = c("#004785", "#00a2e5", "#376C31", "#376C31", "#FF0000")) %>%
       layout(yaxis = yaxis_plots,
              xaxis = xaxis_plots,
              margin = list(b = 100, t = 5),
@@ -325,41 +311,42 @@ create_euromomo_mem_linechart <- function(data,
       config(displaylogo = FALSE, displayModeBar = TRUE,
              modeBarButtonsToRemove = bttn_remove)
     
-    mem_linechart <- mem_linechart %>%
-      add_trace(data = data_curr_season,
-                x = ~ISOWeek,
-                y = ~Value,
-                showlegend = F,
-                color = ~SeasonDelay,
-                colors = "#FF0000",
-                type = "scatter",
-                mode = 'markers',
-                textposition = "none",
-                text = tooltip_trend,
-                hoverinfo = "text")
+    if(latest_week == "40"){
+      
+      mem_linechart <- mem_linechart %>%
+        add_trace(data = data_curr_season,
+                  x = ~ISOWeek,
+                  y = ~Value,
+                  showlegend = F,
+                  color = ~SeasonDelay,
+                  colors = "#FF0000",
+                  type = "scatter",
+                  mode = 'markers',
+                  textposition = "none",
+                  text = tooltip_trend,
+                  hoverinfo = "text")
+    }
     
   }
   
-  # If latest week is week 41
-  if(nrow(data_curr_season) == 2){
-    
-    data <- data %>%
-      filter(!Season %in% seasons[length(seasons)])
+  # If latest week is week 42
+  if(latest_week == "42"){
     
     # Create plot
     mem_linechart = data %>%
       plot_ly(x = ~ISOWeek,
               y = ~Value,
               textposition = "none",
-              text = tooltip_trend[-((length(tooltip_trend)-1):length(tooltip_trend))], 
+              #text = tooltip_trend[-length(tooltip_trend)],
+              text = tooltip_trend,
               hoverinfo = "text",
               color = ~SeasonDelay,
               type="scatter",
               mode="lines",
               line = list(width = 5),
               linetype = ~SeasonDelay,
-              linetypes = c("solid", "solid", "solid", "solid", "dot"),
-              colors = euromomo_mem_line_colours) %>%
+              linetypes = c("solid", "solid", "solid", "dot"),
+              colors = c("#004785", "#00a2e5", "#376C31", "#FF0000")) %>%
       layout(yaxis = yaxis_plots,
              xaxis = xaxis_plots,
              margin = list(b = 100, t = 5),
@@ -443,36 +430,21 @@ create_euromomo_mem_linechart <- function(data,
       config(displaylogo = FALSE, displayModeBar = TRUE,
              modeBarButtonsToRemove = bttn_remove)
     
-    mem_linechart <- mem_linechart %>%
-      add_trace(data = data_curr_season,
-                x = ~ISOWeek,
-                y = ~Value,
-                showlegend = F,
-                color = ~SeasonDelay,
-                colors = "#FF0000",
-                linetype = ~SeasonDelay,
-                linetypes = "dot",
-                type = "scatter",
-                mode = 'lines',
-                textposition = "none",
-                #text = tooltip_trend,
-                text = tooltip_trend[(length(tooltip_trend)-1):length(tooltip_trend)],
-                hoverinfo = "text")
   }
-    
-    return(mem_linechart)
-    
+  
+  return(mem_linechart)
+  
 }
-  
+
 
 # Create MEM heatmaps
 create_euromomo_mem_heatmap <- function(data, 
-                               rate_dp = 2,
-                               include_text_annotation = F,
-                               text_annotation_dp = 1,
-                               breakdown_variable = "AgeGroup",
-                               heatmap_seasons = NULL,
-                               value_variable = "ZScore") {
+                                        rate_dp = 2,
+                                        include_text_annotation = F,
+                                        text_annotation_dp = 1,
+                                        breakdown_variable = "AgeGroup",
+                                        heatmap_seasons = NULL,
+                                        value_variable = "ZScore") {
   
   # Latest reporting week
   latest_week <- data %>%
@@ -520,7 +492,7 @@ create_euromomo_mem_heatmap <- function(data,
   # Add in reporting delay marker
   data = data %>%
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
-                                " (reporting delay) ", ""))
+                                   " (reporting delay) ", ""))
   
   # Data for previous season
   data_prev_season <- data %>%
