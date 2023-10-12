@@ -38,23 +38,12 @@ latest_week <- Respiratory_Euromomo %>%
   as.character()
 
 # Get seasons used in line chart
-if(latest_week %in% c("40","41","42")){
-  
-  euromomo_seasons <- Respiratory_Euromomo %>%
-    select(Season) %>%
-    arrange(Season) %>%
-    distinct() %>%
-    tail(5)
-  euromomo_seasons <- euromomo_seasons$Season
-} else{
-  euromomo_seasons <- Respiratory_Euromomo %>%
+euromomo_seasons <- Respiratory_Euromomo %>%
     select(Season) %>%
     arrange(Season) %>%
     distinct() %>%
     tail(4)
-  euromomo_seasons <- euromomo_seasons$Season
-}
-
+euromomo_seasons <- euromomo_seasons$Season
 
 altTextServer("euromomo_mem_modal",
               title = "All-cause excess mortality (Euromomo)",
