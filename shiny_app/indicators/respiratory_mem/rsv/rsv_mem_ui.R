@@ -45,16 +45,16 @@ tagList(
                       tagList(h2(glue("Summary of RSV cases in Scotland")),
                               tags$div(class = "headline",
                                        h3(glue("Total number of RSV cases in Scotland over the last two weeks")),
-                                       # this week total number
-                                       valueBox(value = {rsv_cases_recent_week %>% .$CasesThisWeek %>% format(big.mark=",")},
-                                           subtitle = glue("Week ending {rsv_cases_recent_week %>% .$DateThisWeek%>% format('%d %b %y')}"),
-                                           color = "navy",
-                                           icon = icon_no_warning_fn("calendar-week")),
                                        # previous week total number
                                         valueBox(value = {rsv_cases_recent_week %>% .$CasesLastWeek %>% format(big.mark=",")},
                                            subtitle = glue("Week ending {rsv_cases_recent_week %>% .$DateLastWeek%>% format('%d %b %y')}"),
                                            color = "navy",
                                            icon = icon_no_warning_fn("calendar-week")),
+                                       # this week total number
+                                       valueBox(value = {rsv_cases_recent_week %>% .$CasesThisWeek %>% format(big.mark=",")},
+                                                subtitle = glue("Week ending {rsv_cases_recent_week %>% .$DateThisWeek%>% format('%d %b %y')}"),
+                                                color = "navy",
+                                                icon = icon_no_warning_fn("calendar-week")),
                                        # percentage difference between the previous weeks
                                        valueBox(value = glue("{rsv_cases_recent_week%>% .$PercentageDifference}%"),
                                           subtitle = glue("{rsv_cases_recent_week %>%.$ChangeFactor %>%  str_to_sentence()} in the last week"),

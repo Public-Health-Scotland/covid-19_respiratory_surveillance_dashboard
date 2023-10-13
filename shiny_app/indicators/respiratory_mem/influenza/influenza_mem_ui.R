@@ -19,18 +19,18 @@ tagList(
                     tagList(h2(glue("Summary of influenza cases in Scotland")),
                             tags$div(class = "headline",
                                      h3(glue("Total number of influenza cases in Scotland over the last two weeks")),
-                                     # this week total number
-                                     valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
-                                         .$CountThisWeek %>% format(big.mark=",")},
-                                         subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
-                                                .$DateThisWeek %>% format('%d %b %y')}"),
-                                         color = "navy",
-                                         icon = icon_no_warning_fn("calendar-week")),
                                      # previous week total number
                                      valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
                                          .$CountPreviousWeek %>% format(big.mark=",")},
                                          subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                                                 .$DatePreviousWeek %>% format('%d %b %y')}"),
+                                         color = "navy",
+                                         icon = icon_no_warning_fn("calendar-week")),
+                                     # this week total number
+                                     valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
+                                         .$CountThisWeek %>% format(big.mark=",")},
+                                         subtitle = glue("Week ending {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
+                                                .$DateThisWeek %>% format('%d %b %y')}"),
                                          color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # percentage difference between the previous weeks
