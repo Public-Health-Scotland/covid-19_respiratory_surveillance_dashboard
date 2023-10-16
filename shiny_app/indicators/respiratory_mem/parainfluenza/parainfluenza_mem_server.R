@@ -34,21 +34,30 @@ parainfluenza_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   .$ExtraordinaryThreshold %>%
   round_half_up(2)
 
+# # Get seasons used in line chart
+# seasons_1 <- Respiratory_Pathogens_MEM_Scot %>% 
+#   filter(Pathogen == "Parainfluenza Virus") %>%
+#   select(Season) %>%
+#   arrange(Season) %>%
+#   distinct() %>%
+#   tail(6)
+# seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
+#   filter(Season == "2010/2011") %>%
+#   filter(Pathogen == "Parainfluenza Virus") %>%
+#   select(Season) %>%
+#   arrange(Season) %>%
+#   distinct()
+# seasons <- bind_rows(seasons_2, seasons_1)
+# seasons <- seasons$Season
+
 # Get seasons used in line chart
-seasons_1 <- Respiratory_Pathogens_MEM_Scot %>% 
-  filter(Pathogen == "Parainfluenza Virus") %>%
+seasons <- data %>%
   select(Season) %>%
   arrange(Season) %>%
   distinct() %>%
   tail(6)
-seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
-  filter(Season == "2010/2011") %>%
-  filter(Pathogen == "Parainfluenza Virus") %>%
-  select(Season) %>%
-  arrange(Season) %>%
-  distinct()
-seasons <- bind_rows(seasons_2, seasons_1)
 seasons <- seasons$Season
+
 
 
 altTextServer("parainfluenza_mem_modal",
@@ -58,8 +67,8 @@ altTextServer("parainfluenza_mem_modal",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the rate of parainfluenza infection per 100,000 population."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
-                                             seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", ",
-                                             seasons[6], ", and ", seasons[7], ".")),
+                                             seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", and ",
+                                             seasons[6], ".")),
                                 tags$li(glue("Activity levels for parainfluenza based on MEM thresholds are represented by different coloured panels on the plot. ",
                                              "The activity levels and MEM thresholds for parainfluenza are: ",
                                              "Baseline (< ", parainfluenza_low_threshold, "), ", 
@@ -71,7 +80,7 @@ altTextServer("parainfluenza_mem_modal",
 altTextServer("parainfluenza_mem_hb_modal",
               title = "Parainfluenza incidence rate per 100,000 population by NHS Health Board",
               content = tags$ul(tags$li(glue("This is a plot showing the rate of parainfluenza infection per 100,000 population by NHS Health Board for seasons ",
-                                             seasons[6], " and ", seasons[7], ".")),
+                                             seasons[5], " and ", seasons[6], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the NHS Health Board."),
@@ -85,7 +94,7 @@ altTextServer("parainfluenza_mem_hb_modal",
 altTextServer("parainfluenza_mem_age_modal",
               title = "Parainfluenza incidence rate per 100,000 population by age group",
               content = tags$ul(tags$li(glue("This is a plot showing the rate of parainfluenza infection per 100,000 population by age group for seasons ",
-                                             seasons[6], " and ", seasons[7], ".")),
+                                             seasons[5], " and ", seasons[6], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the age group."),
@@ -100,6 +109,7 @@ altTextServer("parainfluenza_mem_age_modal",
 output$parainfluenza_mem_table <- renderDataTable({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Parainfluenza Virus") %>%
+    filter(Season %in% seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, RatePer100000, ActivityLevel) %>%
     mutate(Season = factor(Season),
@@ -116,6 +126,7 @@ output$parainfluenza_mem_table <- renderDataTable({
 output$parainfluenza_mem_hb_table <- renderDataTable({
   Respiratory_Pathogens_MEM_HB %>%
     filter(Pathogen == "Parainfluenza Virus") %>%
+    filter(Season %in% seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
     mutate(Season = factor(Season),
@@ -134,6 +145,7 @@ output$parainfluenza_mem_hb_table <- renderDataTable({
 output$parainfluenza_mem_age_table <- renderDataTable({
   Respiratory_Pathogens_MEM_Age %>%
     filter(Pathogen == "Parainfluenza Virus") %>%
+    filter(Season %in% seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
     mutate(Season = factor(Season),
