@@ -70,6 +70,7 @@ create_mem_linechart <- function(data,
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
   yaxis_plots[["title"]] <- y_axis_title
+  yaxis_plots[["tickformat"]] <- ""
 
   xaxis_plots[["showgrid"]] <- FALSE
   yaxis_plots[["showgrid"]] <- FALSE
