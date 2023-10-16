@@ -81,16 +81,17 @@ cases_intro <- covid_cases_intro %>%
   bind_rows(flu_cases_intro) %>%
   bind_rows(nonflu_cases_intro) %>%
   select(Pathogen,
-         'Number of cases (latest week)'= cases_number_latest_week,
-         'Rate per 100,000 population (latest week)'= cases_rate_latest_week,
          'Number of cases (previous week)'= cases_number_previous_week,
-         'Rate per 100,000 population (previous week)'= cases_rate_previous_week)
+         'Rate per 100,000 population (previous week)'= cases_rate_previous_week,
+         'Number of cases (latest week)'= cases_number_latest_week,
+         'Rate per 100,000 population (latest week)'= cases_rate_latest_week
+         )
 
 
-colnames(cases_intro)[2] <- paste("Number of cases (", as.character(latest_week_title),")")
-colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(latest_week_title),")")
-colnames(cases_intro)[4] <- paste("Number of cases (", as.character(previous_week_title),")")
-colnames(cases_intro)[5] <- paste("Rate per 100,000 population (", as.character(previous_week_title),")")
+colnames(cases_intro)[4] <- paste("Number of cases (", as.character(latest_week_title),")")
+colnames(cases_intro)[5] <- paste("Rate per 100,000 population (", as.character(latest_week_title),")")
+colnames(cases_intro)[2] <- paste("Number of cases (", as.character(previous_week_title),")")
+colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(previous_week_title),")")
 
 ###Hosp Adms
 
@@ -153,15 +154,16 @@ hosp_adms_intro <- covid_hosp_adms_intro %>%
   bind_rows(flu_hosp_adms_intro) %>%
   bind_rows(rsv_hosp_adms_intro) %>%
   select(Pathogen,
-         'Number of admissions (latest week)'= admissions_number_latest_week,
-         'Rate of admissions per 100,000 population (latest week)'= admissions_rate_latest_week,
          'Number of admissions (previous week)'= admissions_number_previous_week,
-         'Rate of admissions per 100,000 population (previous week)'= admissions_rate_previous_week)
+         'Rate of admissions per 100,000 population (previous week)'= admissions_rate_previous_week,
+         'Number of admissions (latest week)'= admissions_number_latest_week,
+         'Rate of admissions per 100,000 population (latest week)'= admissions_rate_latest_week
+         )
 
-colnames(hosp_adms_intro)[2] <- paste("Number of admissions (", as.character(latest_week_title),")")
-colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population (", as.character(latest_week_title),")")
-colnames(hosp_adms_intro)[4] <- paste("Number of admissions (", as.character(previous_week_title),")")
-colnames(hosp_adms_intro)[5] <- paste("Rate of admissions per 100,000 population (", as.character(previous_week_title),")")
+colnames(hosp_adms_intro)[4] <- paste("Number of admissions (", as.character(latest_week_title),")")
+colnames(hosp_adms_intro)[5] <- paste("Rate of admissions per 100,000 population (", as.character(latest_week_title),")")
+colnames(hosp_adms_intro)[2] <- paste("Number of admissions (", as.character(previous_week_title),")")
+colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population (", as.character(previous_week_title),")")
 
 ###Inpatients
 
@@ -181,10 +183,10 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
   pivot_wider(names_from = flag, values_from = HospitalOccupancy) %>%
   mutate(Pathogen = "COVID-19") %>%
   #mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
-  select(Pathogen, `Latest Week`, `Previous Week`)#, PercentageChange)
+  select(Pathogen, `Previous Week`, `Latest Week`)#, PercentageChange)
 
-colnames(covid_inpatients_intro)[2] <- paste("As at", as.character(latest_week_title))
-colnames(covid_inpatients_intro)[3] <- paste("As at", as.character(previous_week_title))
+colnames(covid_inpatients_intro)[3] <- paste("As at", as.character(latest_week_title))
+colnames(covid_inpatients_intro)[2] <- paste("As at", as.character(previous_week_title))
 
 ### Data tables -----
 
