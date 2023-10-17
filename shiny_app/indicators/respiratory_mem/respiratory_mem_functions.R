@@ -30,21 +30,28 @@ create_mem_linechart <- function(data,
     rename(Value = value_variable) %>%
     mutate(Value = round_half_up(Value, rate_dp))
 
-  # If seasons not supplied, use two most recent seasons
-  if(is.null(seasons)){
-    seasons_1 <- data %>%
-      select(Season) %>%
-      arrange(Season) %>%
-      distinct() %>%
-      tail(6)
-    seasons_2 <- data %>%
-      filter(Season == "2010/2011") %>%
-      select(Season) %>%
-      arrange(Season) %>%
-      distinct()
-    seasons <- bind_rows(seasons_2, seasons_1)
-    seasons <- seasons$Season
-  }
+  # # If seasons not supplied, use two most recent seasons
+  # if(is.null(seasons)){
+  #   seasons_1 <- data %>%
+  #     select(Season) %>%
+  #     arrange(Season) %>%
+  #     distinct() %>%
+  #     tail(6)
+  #   seasons_2 <- data %>%
+  #     filter(Season == "2010/2011") %>%
+  #     select(Season) %>%
+  #     arrange(Season) %>%
+  #     distinct()
+  #   seasons <- bind_rows(seasons_2, seasons_1)
+  #   seasons <- seasons$Season
+  # }
+  
+  seasons <- data %>%
+    select(Season) %>%
+    arrange(Season) %>%
+    distinct() %>%
+    tail(6)
+  seasons <- seasons$Season
 
   # Wrangle data
   data = data %>%
@@ -63,6 +70,7 @@ create_mem_linechart <- function(data,
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
   yaxis_plots[["title"]] <- y_axis_title
+  yaxis_plots[["tickformat"]] <- ""
 
   xaxis_plots[["showgrid"]] <- FALSE
   yaxis_plots[["showgrid"]] <- FALSE
