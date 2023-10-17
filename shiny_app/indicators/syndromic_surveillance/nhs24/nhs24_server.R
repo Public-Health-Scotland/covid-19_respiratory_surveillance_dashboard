@@ -45,7 +45,7 @@ nhs24_extraordinary_threshold <- Respiratory_NHS24_MEM_Scot %>%
 # seasons <- seasons$Season
 
 # Get seasons used in line chart
-seasons <- data %>%
+seasons <- Respiratory_NHS24_MEM_Scot %>%
   select(Season) %>%
   arrange(Season) %>%
   distinct() %>%

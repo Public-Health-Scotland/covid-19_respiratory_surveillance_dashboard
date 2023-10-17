@@ -45,7 +45,7 @@ gp_extraordinary_threshold <- Respiratory_GPILI_MEM_Scot %>%
 # seasons <- seasons$Season
 
 # Get seasons used in line chart
-seasons <- data %>%
+seasons <- Respiratory_GPILI_MEM_Scot %>%
   select(Season) %>%
   arrange(Season) %>%
   distinct() %>%

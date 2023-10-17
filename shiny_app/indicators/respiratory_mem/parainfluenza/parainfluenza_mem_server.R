@@ -51,7 +51,8 @@ parainfluenza_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %>%
 # seasons <- seasons$Season
 
 # Get seasons used in line chart
-seasons <- data %>%
+seasons <- Respiratory_Pathogens_MEM_Scot %>% 
+  filter(Pathogen == "Parainfluenza Virus") %>% 
   select(Season) %>%
   arrange(Season) %>%
   distinct() %>%
