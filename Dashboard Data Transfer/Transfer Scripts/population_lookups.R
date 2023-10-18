@@ -156,5 +156,4 @@ rm(pop_dash_sex_ageband,
    pop_dash_sex,
    pop_dash_total,
    pop_dash_sex_fifteen_fourty_four,
-   pop_dash_fifteen_fourty_four, 
-   i_population_v2)
+   pop_dash_fifteen_fourty_four)
