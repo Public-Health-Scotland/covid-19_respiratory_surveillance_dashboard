@@ -64,15 +64,15 @@ seasons <- seasons$Season
 
 altTextServer("mycoplasma_pneumoniae_mem_modal",
               title = "Mycoplasma Pneumoniae incidence rate per 100,000 population",
-              content = tags$ul(tags$li("This is a plot showing the rate of mycoplasma pneumoniae infection per 100,000 population in Scotland."),
+              content = tags$ul(tags$li("This is a plot showing the rate of Mycoplasma pneumoniae infection per 100,000 population in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
-                                tags$li("The y axis shows the rate of mycoplasma pneumoniae infection per 100,000 population."),
+                                tags$li("The y axis shows the rate of Mycoplasma pneumoniae infection per 100,000 population."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
                                              seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", and ",
                                              seasons[6], ".")),
-                                tags$li(glue("Activity levels for mycoplasma pneumoniae based on MEM thresholds are represented by different coloured panels on the plot. ",
-                                             "The activity levels and MEM thresholds for mycoplasma pneumoniae are: ",
+                                tags$li(glue("Activity levels for Mycoplasma pneumoniae based on MEM thresholds are represented by different coloured panels on the plot. ",
+                                             "The activity levels and MEM thresholds for Mycoplasma pneumoniae are: ",
                                              "Baseline (< ", mycoplasma_pneumoniae_low_threshold, "), ",
                                              "Low (", mycoplasma_pneumoniae_low_threshold, "-", mycoplasma_pneumoniae_moderate_threshold-0.01, "), ",
                                              "Moderate (", mycoplasma_pneumoniae_moderate_threshold, "-", mycoplasma_pneumoniae_high_threshold-0.01, "), ",
@@ -81,7 +81,7 @@ altTextServer("mycoplasma_pneumoniae_mem_modal",
 
 altTextServer("mycoplasma_pneumoniae_mem_hb_modal",
               title = "Mycoplasma pneumoniae incidence rate per 100,000 population by NHS Health Board",
-              content = tags$ul(tags$li(glue("This is a plot showing the rate of mycoplasma pneumoniae infection per 100,000 population by NHS Health Board for seasons ",
+              content = tags$ul(tags$li(glue("This is a plot showing the rate of Mycoplasma pneumoniae infection per 100,000 population by NHS Health Board for seasons ",
                                              seasons[5], " and ", seasons[6], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
@@ -95,7 +95,7 @@ altTextServer("mycoplasma_pneumoniae_mem_hb_modal",
 
 altTextServer("mycoplasma_pneumoniae_mem_age_modal",
               title = "Mycoplasma pneumoniae incidence rate per 100,000 population by age group",
-              content = tags$ul(tags$li(glue("This is a plot showing the rate of mycoplasma pneumoniae infection per 100,000 population by age group for seasons ",
+              content = tags$ul(tags$li(glue("This is a plot showing the rate of Mycoplasma pneumoniae infection per 100,000 population by age group for seasons ",
                                              seasons[5], " and ", seasons[6], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
@@ -168,7 +168,7 @@ output$mycoplasma_pneumoniae_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Mycoplasma Pneumoniae") %>%
     create_mem_linechart()
-  
+
 })
 
 # mycoplasma pneumoniae MEM by HB plot
@@ -177,7 +177,7 @@ output$mycoplasma_pneumoniae_mem_hb_plot <- renderPlotly({
     filter(Pathogen == "Mycoplasma Pneumoniae") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
-  
+
 })
 
 
@@ -187,7 +187,7 @@ output$mycoplasma_pneumoniae_mem_age_plot <- renderPlotly({
     filter(Pathogen == "Mycoplasma Pneumoniae") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
-  
+
 })
 
 

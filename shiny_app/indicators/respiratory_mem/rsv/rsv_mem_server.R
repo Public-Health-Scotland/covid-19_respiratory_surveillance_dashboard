@@ -47,7 +47,7 @@ rsv_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %>%
 #   filter(Pathogen == "Respiratory Syncytial Virus") %>%
 #   select(Season) %>%
 #   arrange(Season) %>%
-#   distinct() 
+#   distinct()
 # seasons <- bind_rows(seasons_2, seasons_1)
 # seasons <- seasons$Season
 
@@ -67,12 +67,12 @@ altTextServer("rsv_mem_modal",
               content = tags$ul(tags$li("This is a plot showing the rate of RSV infection per 100,000 population in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
-                                tags$li("The y axis shows the rate of rsv infection per 100,000 population."),
+                                tags$li("The y axis shows the rate of RSV infection per 100,000 population."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
                                              seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", and ",
                                              seasons[6], ".")),
                                 tags$li(glue("Activity levels for RSV based on MEM thresholds are represented by different coloured panels on the plot. ",
-                                        "The activity levels and MEM thresholds for HMPV are: ",
+                                        "The activity levels and MEM thresholds for RSV are: ",
                                         "Baseline (< ", rsv_low_threshold, "), ",
                                         "Low (", rsv_low_threshold, "-", rsv_moderate_threshold-0.01, "), ",
                                         "Moderate (", rsv_moderate_threshold, "-", rsv_high_threshold-0.01, "), ",
