@@ -45,7 +45,7 @@ create_mem_linechart <- function(data,
   #   seasons <- bind_rows(seasons_2, seasons_1)
   #   seasons <- seasons$Season
   # }
-  
+
   seasons <- data %>%
     select(Season) %>%
     arrange(Season) %>%
@@ -647,7 +647,7 @@ data %<>%
                height = 500)%>%
 
     add_lines(y = ~Influenza,
-              line = list(color = phs_colours("phs-blue")),
+              line = list(color = phs_colours("phs-blue"), dash = "dash"),
               name = 'Influenza') %>%
 
     add_lines(y = ~RSV,
@@ -656,7 +656,7 @@ data %<>%
 
     add_lines(y = ~`COVID-19`,
               name = 'Covid-19',
-              line = list(color = phs_colours("phs-purple"))) %>%
+              line = list(color = phs_colours("phs-purple"), dash = "dot")) %>%
 
 
     # Adding vertical lines for notes on chart

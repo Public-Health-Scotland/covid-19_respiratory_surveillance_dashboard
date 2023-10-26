@@ -222,9 +222,9 @@ altTextServer("adms_summary_modal",
               content = tags$ul(tags$li("This is a plot of the number of acute hospital admissions due to COVID-19, influenza and RSV."),
                                 tags$li("The x axis is the week ending"),
                                 tags$li("The y axis is the number of admissions"),
-                                tags$li("There are three traces: a blue trace which shows the number of admissions due to influenza;",
-                                        "a green trace which shows the number of admissions due to RSV;",
-                                        "and a purple trace which showss the number of admissions due to COVID-19.")
+                                tags$li("There are three traces: a blue dashed trace which shows the number of admissions due to influenza;",
+                                        "a green solid trace which shows the number of admissions due to RSV;",
+                                        "and a purple dotted trace which showss the number of admissions due to COVID-19.")
               )
 )
 

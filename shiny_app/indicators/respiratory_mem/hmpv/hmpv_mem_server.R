@@ -4,45 +4,45 @@ metadataButtonServer(id="respiratory_hmpv_mem",
                      parent = session)
 
 # Low threshold
-hmpv_low_threshold <- Respiratory_Pathogens_MEM_Scot %>% 
-  filter(Pathogen == "Human Metapneumovirus") %>% 
-  select(LowThreshold) %>% 
-  distinct() %>% 
+hmpv_low_threshold <- Respiratory_Pathogens_MEM_Scot %>%
+  filter(Pathogen == "Human Metapneumovirus") %>%
+  select(LowThreshold) %>%
+  distinct() %>%
   .$LowThreshold %>%
   round_half_up(2)
 
 # Moderate threshold
-hmpv_moderate_threshold <- Respiratory_Pathogens_MEM_Scot %>% 
-  filter(Pathogen == "Human Metapneumovirus") %>% 
-  select(MediumThreshold) %>% 
-  distinct() %>% 
+hmpv_moderate_threshold <- Respiratory_Pathogens_MEM_Scot %>%
+  filter(Pathogen == "Human Metapneumovirus") %>%
+  select(MediumThreshold) %>%
+  distinct() %>%
   .$MediumThreshold %>%
   round_half_up(2)
 
 # High threshold
-hmpv_high_threshold <- Respiratory_Pathogens_MEM_Scot %>% 
-  filter(Pathogen == "Human Metapneumovirus") %>% 
-  select(HighThreshold) %>% 
-  distinct() %>% 
+hmpv_high_threshold <- Respiratory_Pathogens_MEM_Scot %>%
+  filter(Pathogen == "Human Metapneumovirus") %>%
+  select(HighThreshold) %>%
+  distinct() %>%
   .$HighThreshold %>%
   round_half_up(2)
 
 # Extraordinary
-hmpv_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %>% 
-  filter(Pathogen == "Human Metapneumovirus") %>% 
-  select(ExtraordinaryThreshold) %>% 
-  distinct() %>% 
+hmpv_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %>%
+  filter(Pathogen == "Human Metapneumovirus") %>%
+  select(ExtraordinaryThreshold) %>%
+  distinct() %>%
   .$ExtraordinaryThreshold %>%
   round_half_up(2)
 
 # # Get seasons used in line chart
-# seasons_1 <- Respiratory_Pathogens_MEM_Scot %>% 
+# seasons_1 <- Respiratory_Pathogens_MEM_Scot %>%
 #   filter(Pathogen == "Human Metapneumovirus") %>%
 #   select(Season) %>%
 #   arrange(Season) %>%
 #   distinct() %>%
 #   tail(6)
-# seasons_2 <- Respiratory_Pathogens_MEM_Scot %>% 
+# seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
 #   filter(Season == "2010/2011") %>%
 #   filter(Pathogen == "Human Metapneumovirus") %>%
 #   select(Season) %>%
@@ -52,7 +52,7 @@ hmpv_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %>%
 # seasons <- seasons$Season
 
 # Get seasons used in line chart
-seasons <- Respiratory_Pathogens_MEM_Scot %>% 
+seasons <- Respiratory_Pathogens_MEM_Scot %>%
   filter(Pathogen == "Human Metapneumovirus") %>%
   select(Season) %>%
   arrange(Season) %>%
@@ -66,7 +66,7 @@ altTextServer("hmpv_mem_modal",
               content = tags$ul(tags$li("This is a plot showing the rate of HMPV infection per 100,000 population in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
-                                tags$li("The y axis shows the rate of influenza infection per 100,000 population."),
+                                tags$li("The y axis shows the rate of HMPV infection per 100,000 population."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", seasons[1], ", ",
                                              seasons[2], ", ", seasons[3], ", ", seasons[4], ", ", seasons[5], ", and ",
                                              seasons[6], ".")),
@@ -90,7 +90,7 @@ altTextServer("hmpv_mem_hb_modal",
                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to NHS Health Boards ",
                                         "with larger populations.")))
-                                
+
 
 altTextServer("hmpv_mem_age_modal",
               title = "HMPV incidence rate per 100,000 population by age group",
@@ -167,7 +167,7 @@ output$hmpv_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Human Metapneumovirus") %>%
     create_mem_linechart()
-  
+
 })
 
 # Influenza MEM by HB plot
@@ -176,7 +176,7 @@ output$hmpv_mem_hb_plot <- renderPlotly({
     filter(Pathogen == "Human Metapneumovirus") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
-  
+
 })
 
 
@@ -186,7 +186,7 @@ output$hmpv_mem_age_plot <- renderPlotly({
     filter(Pathogen == "Human Metapneumovirus") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
-  
+
 })
 
 
