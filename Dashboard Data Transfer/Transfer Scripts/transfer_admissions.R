@@ -70,10 +70,11 @@ occupancy_hospital_healthboard <- i_occupancy$Data %>%
   rename(HospitalOccupancy = total_number_of_confirmed_c19_inpatients_in_hospital_at_8am_yesterday_new_measure_number_of_confirmed_c19_inpatients_in_hospital_10_days_at_8am_as_of_08_05_2023,
          Date = date,
          HealthBoard = health_board) %>%
-  filter(Date >= "2020-09-08" & Date <= od_sunday) %>% # filter to sunday date
   mutate(HospitalOccupancy = as.numeric(HospitalOccupancy),
          Date = format(as.Date(Date-1), "%Y-%m-%d"), #-1 as number is for "8am yesterday"
-         HealthBoard = str_replace(HealthBoard, "&", "and")) %>%
+         HealthBoard = str_replace(HealthBoard, "&", "and")) %>%  
+  filter(Date >= "2020-09-08" & Date <= od_sunday) %>% # filter to sunday date
+
   select(Date, HealthBoard, HospitalOccupancy)
 ##
 occupancy_hospital_scotland <- occupancy_hospital_healthboard %>%

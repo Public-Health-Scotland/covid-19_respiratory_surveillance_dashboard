@@ -181,7 +181,7 @@ g_simd_weekly_cases_od  <- df_simd %>%
   select(-Date,-daily_positive) %>% 
   unique()%>% 
   group_by(simd) %>% 
-  mutate(CumulativePositiveCases=(cumsum(WeeklyPositiveCases))) %>% 
+  mutate(CumulativePositive=(cumsum(WeeklyPositiveCases))) %>% 
   ungroup %>% 
   arrange(week_ending, simd) %>% 
   left_join(simd_populations, by=c("location_code","simd")) %>% 
@@ -192,7 +192,7 @@ g_simd_weekly_cases_od  <- df_simd %>%
          ) %>%
   mutate(Country="S92000003") %>% 
   select(WeekEnding,Country, SIMDQuintile=simd, 
-         WeeklyCases=PositiveLastSevenDays, 
+         WeeklyCases=WeeklyPositiveCases, 
          CumulativeCases= CumulativePositive, 
          CrudeRateCumulativeCases= CrudeRatePositive,
          CrudeRateCumulativeCasesQF=CrudeRatePositiveQF)  
