@@ -174,7 +174,7 @@ output$introduction_contact <- renderUI({
                    "Viral Respiratory Diseases (including influenza and COVID-19) in Scotland Surveillance Report (external website)", target="_blank" ), "."),
     tags$li("Information on vaccine uptake for the COVID-10 and influenza vaccine programmes is available via",
             tags$a(href = "https://scotland.shinyapps.io/phs-vaccination-surveillance/",
-                   "Public Health Scotland - Vacciantion Surveillance Dashboard", target="_blank"), "."),
+                   "Public Health Scotland - Vaccination Surveillance Dashboard", target="_blank"), "."),
     tags$li("Information on the wider impacts on the health care system from COVID-19 are available on the",
             tags$a(href = "https://scotland.shinyapps.io/phs-covid-wider-impact/",
                    "Wider Impacts dashboard (external website)", target="_blank" ), "."),
@@ -189,7 +189,7 @@ output$introduction_contact <- renderUI({
                    "UKHSA dashboard", target="_blank", ".")),
     tags$li("Information from the World Health Organisation on COVID-19 is available on the",
             tags$a(href = "https://covid19.who.int/",
-                   "WHO Coronovirus (COVID-19) dashboard (external website)", target="_blank" ), ".")
+                   "WHO Coronavirus (COVID-19) dashboard (external website)", target="_blank" ), ".")
 
   ),
 
