@@ -299,3 +299,89 @@ write_csv(g_simd_trend, glue(output_folder, "Admissions_SimdTrend.csv"))
 rm(g_adm_agegroup, adm_path)
 
 
+### f) Admissions_healthboard
+
+g_adm_hb <- i_chiadm %>%
+  mutate(WeekEnding = ceiling_date(as.Date(admission_date), unit = "week", change_on_boundary = F)) %>%
+  group_by(WeekEnding, health_board_of_treatment) %>%
+  summarise(TotalInfections = n()) %>%
+  dplyr::rename(HealthBoard = health_board_of_treatment)
+
+g_adm_hb_scot <- i_chiadm %>%
+  mutate(WeekEnding = ceiling_date(as.Date(admission_date), unit = "week", change_on_boundary = F)) %>%
+  group_by(WeekEnding) %>%
+  summarise(TotalInfections = n()) %>%
+  mutate(HealthBoard = "NHS SCOTLAND") %>%
+  select(WeekEnding, HealthBoard, TotalInfections)
+
+g_adm_hb %<>%
+  bind_rows(g_adm_hb_scot) %>%
+  mutate(HealthBoard = factor(HealthBoard,
+                           levels = c("NHS AYRSHIRE & ARRAN", "NHS BORDERS", "NHS DUMFRIES & GALLOWAY", "NHS FIFE", "NHS FORTH VALLEY", "NHS GRAMPIAN",
+                                      "NHS GREATER GLASGOW & CLYDE", "NHS HIGHLAND", "NHS LANARKSHIRE", "NHS LOTHIAN", "NHS ORKNEY", "NHS SHETLAND",
+                                      "NHS TAYSIDE", "NHS WESTERN ISLES", "NATIONAL FACILITY", "NHS SCOTLAND"))) %>%
+  arrange(WeekEnding, HealthBoard) %>%
+  mutate(HealthBoard = recode(HealthBoard,
+                              "NHS AYRSHIRE & ARRAN" = "NHS Ayrshire and Arran",
+                              "NHS BORDERS" = "NHS Borders",
+                              "NHS DUMFRIES & GALLOWAY" = "NHS Dumfries and Galloway",
+                              "NHS FIFE" = "NHS Fife",
+                              "NHS FORTH VALLEY" = "NHS Forth Valley",
+                              "NHS GRAMPIAN" = "NHS Grampian",
+                              "NHS GREATER GLASGOW & CLYDE" = "NHS Greater Glasgow and Clyde",
+                              "NHS HIGHLAND" = "NHS Highland",
+                              "NHS LANARKSHIRE" = "NHS Lanarkshire",
+                              "NHS LOTHIAN" = "NHS Lothian",
+                              "NHS ORKNEY" = "NHS Orkney",
+                              "NHS SHETLAND" = "NHS Shetland",
+                              "NHS TAYSIDE" = "NHS Tayside",
+                              "NHS WESTERN ISLES" = "NHS Western Isles",
+                              "NATIONAL FACILITY" = "National Facility",
+                              "NHS SCOTLAND" = "Scotland"))
+
+# g_adm_hb_suppressed <- g_adm_hb %>%
+#   bind_rows(g_adm_hb_scot) %>%
+#   mutate(HealthBoard = factor(HealthBoard,
+#                               levels = c("NHS AYRSHIRE & ARRAN", "NHS BORDERS", "NHS DUMFRIES & GALLOWAY", "NHS FIFE", "NHS FORTH VALLEY", "NHS GRAMPIAN",
+#                                          "NHS GREATER GLASGOW & CLYDE", "NHS HIGHLAND", "NHS LANARKSHIRE", "NHS LOTHIAN", "NHS ORKNEY", "NHS SHETLAND",
+#                                          "NHS TAYSIDE", "NHS WESTERN ISLES", "NATIONAL FACILITY", "NHS SCOTLAND"))) %>%
+#   arrange(WeekEnding, HealthBoard) %>%
+#   mutate(HealthBoard = recode(HealthBoard,
+#                               "NHS AYRSHIRE & ARRAN" = "NHS Ayrshire and Arran",
+#                               "NHS BORDERS" = "NHS Borders",
+#                               "NHS DUMFRIES & GALLOWAY" = "NHS Dumfries and Galloway",
+#                               "NHS FIFE" = "NHS Fife",
+#                               "NHS FORTH VALLEY" = "NHS Forth Valley",
+#                               "NHS GRAMPIAN" = "NHS Grampian",
+#                               "NHS GREATER GLASGOW & CLYDE" = "NHS Greater Glasgow and Clyde",
+#                               "NHS HIGHLAND" = "NHS Highland",
+#                               "NHS LANARKSHIRE" = "NHS Lanarkshire",
+#                               "NHS LOTHIAN" = "NHS Lothian",
+#                               "NHS ORKNEY" = "NHS Orkney",
+#                               "NHS SHETLAND" = "NHS Shetland",
+#                               "NHS TAYSIDE" = "NHS Tayside",
+#                               "NHS WESTERN ISLES" = "NHS Western Isles",
+#                               "NATIONAL FACILITY" = "National Facility",
+#                               "NHS SCOTLAND" = "Scotland")) %>%
+#   mutate(HealthBoardQF = ifelse(HealthBoard == "Scotland", "d", "")) %>%
+# #Apply Suppression - NOTE: setting to -999 temporarily to highlight
+# mutate(Original = TotalInfections,
+#        TotalInfections =  ifelse(TotalInfections <5, -999, TotalInfections),
+#        TempFlag = ifelse(TotalInfections == -999, 1, 0)) %>%
+#   #Apply Secondary Suppression
+#   group_by(WeekEnding) %>%
+#   mutate(Row = row_number()) %>%
+#   mutate(TotalInfections = ifelse(
+#     test = (abs(TotalInfections) == min(abs(TotalInfections)) & (sum(TempFlag) == 1)),
+#     yes = -999, no = TotalInfections),
+#     TotalInfectionsQF = ifelse(TotalInfections == -999, "c", ""),
+#     TotalInfections = ifelse(TotalInfections == -999, NA, TotalInfections)) %>%
+#   #mutate(WeekEnding = format(WeekEnding, "%Y%m%d")) %>%
+#   select(WeekEnding, HealthBoard, HealthBoardQF, TotalInfections, TotalInfectionsQF)
+
+
+write.csv(g_adm_hb, glue(output_folder, "Admissions_HB.csv"), row.names = FALSE)
+
+rm(g_adm_hb)
+
+

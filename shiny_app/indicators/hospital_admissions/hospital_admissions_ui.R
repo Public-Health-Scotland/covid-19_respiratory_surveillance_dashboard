@@ -51,6 +51,15 @@ tagList(
 
                            ),
 
+
+                                    tagList(h2("Number of acute COVID-19 admissions to hospital by NHS Health Board; week ending")),
+
+
+                           fluidRow(width=12,
+                                    box(width = NULL,
+                                        withNavySpinner(dataTableOutput("hospital_admissions_hb_table"))),
+                           ),
+
                            tagList(h2("Weekly number of acute COVID-19 hospital admissions by deprivation category (SIMD)"))
 
                            ),

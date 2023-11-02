@@ -35,7 +35,7 @@ tagList(
   ), #fluidRow
 
   fluidRow(width = 12,
-           tagList(h2("Number of inpatients with COVID-19 in hospital")),
+           tagList(h2("Number of inpatients with COVID-19 in hospital (seven day average)")),
            linebreaks(1)), #fluidRow
 
   fluidRow(width=12,
