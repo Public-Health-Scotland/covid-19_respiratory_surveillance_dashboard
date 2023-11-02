@@ -19,7 +19,7 @@ pop_grandtotal <- i_population_v2 %>%
 g_cases %<>%
   mutate(SevenDayAverage = round_half_up(zoo::rollmean(NumberCasesPerDay, k = 7, fill = NA, align="right"),0),
          SevenDayAverageQF = ifelse(is.na(SevenDayAverage), "z", ""),
-         CumulativeRatePer100000 = round_half_up(100000 * Cumulative / pop_grandtotal,2),
+         CumulativeRatePer100000 = round_half_up(100000 * Cumulative / pop_grandtotal,1),
          Date = format(Date, "%Y%m%d"))
 
 

@@ -20,11 +20,11 @@ make_reported_cases_plot <- function(data){
                height = 500)%>%
 
     add_lines(y = ~NumberCasesPerDay,
-             line = list(color = phs_colours("phs-purple-30")),
+             line = list(color = phs_colours("phs-blue-30")),
              name = 'Reported cases') %>%
 
     add_lines(y = ~SevenDayAverage, name = '7 day average',
-              line = list(color = phs_colours("phs-purple"),
+              line = list(color = "navy",
                           dash = "dash",
                           width = 2)) %>%
 
@@ -82,14 +82,14 @@ make_ons_cases_plot <- function(data){
                height = 500)%>%
 
     add_lines(y = ~OfficialPositivityEstimate,
-              line = list(color = phs_colours("phs-purple-30")),
+              line = list(color = phs_colours("phs-blue-30")),
               name = 'Official positivity estimate',
               error_y = ~list(array = ErrorBarHeight/2,
                               arrayminus = ErrorBarLowerHeight,
                               symmetric = FALSE,
                               width = 0.5,
-                              color = phs_colours("phs-purple")),
-              marker = list(color = phs_colours("phs-purple"),
+                              color = "navy"),
+              marker = list(color = "navy",
                             size = 5)) %>%
 
     layout(margin = list(b = 80, t = 5),
@@ -179,7 +179,7 @@ make_wastewater_plot <- function(data){
                height = 500)%>%
 
     add_lines(y = ~WastewaterSevenDayAverageMgc,
-              line = list(color = phs_colours("phs-purple")),
+              line = list(color = "navy"),
               name = 'Wastewater viral RNA (Mgc/p/d)'
               #marker = list(color = phs_colours("phs-purple"),
                #             size = 5)

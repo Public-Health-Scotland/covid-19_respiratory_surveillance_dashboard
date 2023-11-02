@@ -40,6 +40,18 @@ od_archive_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekl
 # Getting useful functions
 #source("data_transfer_functions.R")
 
+
+# Refresh input data folder ----
+# Clear input data
+purrr::walk(list.files(path=input_data, full.names=TRUE), unlink, recursive=TRUE)
+
+# Copy new files across from data folder
+data_folder <- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/",
+                    "Weekly Data Folders/{report_date}/Data")
+
+data_files = list.files(path=data_folder, recursive=TRUE, full.names=TRUE)
+purrr::walk(data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
+
 # Getting population information
 # ------------------------------
 
@@ -68,19 +80,6 @@ i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove(x,
 i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove_all(x, " "))
 
 source("Transfer Scripts/population_lookups.R")
-
-# Refresh input data folder ----
-# Clear input data
-purrr::walk(list.files(path=input_data, full.names=TRUE), unlink, recursive=TRUE)
-
-# Copy new files across from data folder
-data_folder <- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/",
-                    "Weekly Data Folders/{report_date}/Data")
-
-data_files = list.files(path=data_folder, recursive=TRUE, full.names=TRUE)
-purrr::walk(data_files, file.copy, to = input_data, recursive=TRUE, overwrite=TRUE)
-
-
 
 ######  Open data archiving steps #######
 # run this section before the data transfer steps 
@@ -152,14 +151,32 @@ source("Transfer Scripts/transfer_occupancy.R")
 #### Respiratory
 source("Transfer Scripts/transfer_respiratory.R")
 
-# Geography
+#### Geography
 source("Transfer Scripts/transfer_geography_open_data.R")
 
-# age sex cases
+#### age sex cases
 source("Transfer Scripts/transfer_weekly_agesex_cases_od.R")
 
-# simd cases data
+#### simd cases data
 source("Transfer Scripts/transfer_weekly_simd_cases_od.R")
+
+#### Respiratory Pathogens - MEM
+source("Transfer Scripts/transfer_respiratory_pathogens_mem.R")
+
+#### Respiratory - Euromomo
+source("Transfer Scripts/transfer_respiratory_euromomo.R")
+
+#### Respiratory NHS24 - MEM
+source("Transfer Scripts/transfer_respiratory_nhs24_mem.R")
+
+#### Respiratory GP - MEM
+source("Transfer Scripts/transfer_respiratory_gp_mem.R")
+
+#### Influenza Hospital Admissions
+source("Transfer Scripts/transfer_flu_admissions.R")
+
+#### RSV Hospital Admissions
+source("Transfer Scripts/transfer_rsv_admissions.R")
 
 # remove(population files (i_population_v2 used in dashboard, not just Open Data) 
 rm(base_hb_population,  pop_60plus_sex, pop_60plus_total,
@@ -167,6 +184,3 @@ rm(base_hb_population,  pop_60plus_sex, pop_60plus_total,
    pop_dash_fifteen_fourty_four, pop_dash_sex, pop_dash_sex_ageband,
    pop_dash_total, pop_total_sex, pop_total_total, pop_dash_sex_fifteen_fourty_four)
 rm(i_population_v2)
-
-
-

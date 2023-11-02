@@ -148,3 +148,14 @@ i_population_v2<- bind_rows(pop_dash_sex_ageband,
                             pop_dash_fifteen_fourty_four) %>% 
   arrange(AgeGroup) %>% 
   rename(Sex=sex)
+
+
+write_csv(i_population_v2, glue(output_folder, "i_population_v2.csv"))
+
+rm(pop_dash_sex_ageband,
+   pop_dash_ageband,
+   pop_dash_sex,
+   pop_dash_total,
+   pop_dash_sex_fifteen_fourty_four,
+   pop_dash_fifteen_fourty_four)
+

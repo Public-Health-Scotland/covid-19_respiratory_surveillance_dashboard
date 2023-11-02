@@ -37,12 +37,13 @@ copy_to_shiny_data <- function(csv, startloc){
 }
 
 # Copy all csv files in processed_data to shiny_data as rds files
-files =  list.files(path=output_folder)
+files =  list.files(path=output_folder, pattern = ".csv")
 purrr::walk(files, copy_to_shiny_data, startloc = output_folder)
 
 # Now get all data dictionaries
 dictionary_files = list.files(path=data_dictionary_folder)
 purrr::walk(dictionary_files, copy_to_shiny_data, startloc = data_dictionary_folder)
+
 
 
 
