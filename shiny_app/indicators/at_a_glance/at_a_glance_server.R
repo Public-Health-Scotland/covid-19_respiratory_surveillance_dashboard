@@ -179,14 +179,14 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
   mutate(Date = as.character(Date)) %>%
   mutate(Date = as.Date(Date, format = "%Y%m%d")) %>%
   mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
-  select(flag, HospitalOccupancy) %>%
-  pivot_wider(names_from = flag, values_from = HospitalOccupancy) %>%
+  select(flag, SevenDayAverage) %>%
+  pivot_wider(names_from = flag, values_from = SevenDayAverage) %>%
   mutate(Pathogen = "COVID-19") %>%
   #mutate(PercentageChange = ((`Latest Week` - `Previous Week`)/`Previous Week`*100)) %>%
   select(Pathogen, `Previous Week`, `Latest Week`)#, PercentageChange)
 
-colnames(covid_inpatients_intro)[3] <- paste("As at", as.character(latest_week_title))
-colnames(covid_inpatients_intro)[2] <- paste("As at", as.character(previous_week_title))
+colnames(covid_inpatients_intro)[3] <- paste("Seven day average number (", as.character(latest_week_title),")")
+colnames(covid_inpatients_intro)[2] <- paste("Seven day average number (", as.character(previous_week_title),")")
 
 ### Data tables -----
 

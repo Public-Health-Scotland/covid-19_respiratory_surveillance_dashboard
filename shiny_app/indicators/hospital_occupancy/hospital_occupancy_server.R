@@ -62,6 +62,25 @@ output$hospital_occupancy_table <- renderDataTable({
 
 })
 
+# make data table with all the hospital occupancy health board data in it
+# HB Table
+output$hospital_occupancy_hb_table <- renderDataTable({
+  Occupancy_Hospital_HB %>%
+    select(Date, HealthBoard, SevenDayAverage) %>%
+    mutate(Date = as.Date(Date, format = "%Y-%m-%d")) %>%
+    filter(Date %in% adm_hb_dates) %>%
+    mutate(Date = format(Date, format = "%d %b %y")) %>%
+    pivot_wider(names_from = Date,
+                values_from = SevenDayAverage) %>%
+    mutate(HealthBoard = factor(HealthBoard,
+                                levels = c("NHS Ayrshire and Arran", "NHS Borders", "NHS Dumfries and Galloway", "NHS Fife", "NHS Forth Valley", "NHS Grampian",
+                                           "NHS Greater Glasgow and Clyde", "NHS Highland", "NHS Lanarkshire", "NHS Lothian", "NHS Orkney", "NHS Shetland",
+                                           "NHS Tayside", "NHS Western Isles", "Other", "Scotland"))) %>%
+    arrange(HealthBoard) %>%
+    dplyr::rename(`Health Board` = HealthBoard) %>%
+    make_summary_table(maxrows = 16)
+})
+
 # make data table with all the ICU occupancy data in it
 output$ICU_occupancy_table <- renderDataTable({
   Occupancy_ICU %>%

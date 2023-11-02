@@ -175,6 +175,22 @@ output$hospital_admissions_simd_plot <- renderPlotly({
 
 })
 
+# HB Table
+output$hospital_admissions_hb_table <- renderDataTable({
+  Admissions_HB %>%
+    filter(WeekEnding %in% adm_hb_dates) %>%
+    mutate(WeekEnding = format(WeekEnding, format = "%d %b %y")) %>%
+    pivot_wider(names_from = WeekEnding,
+                values_from = TotalInfections) %>%
+    mutate(HealthBoard = factor(HealthBoard,
+                                levels = c("NHS Ayrshire and Arran", "NHS Borders", "NHS Dumfries and Galloway", "NHS Fife", "NHS Forth Valley", "NHS Grampian",
+                                                        "NHS Greater Glasgow and Clyde", "NHS Highland", "NHS Lanarkshire", "NHS Lothian", "NHS Orkney", "NHS Shetland",
+                                                        "NHS Tayside", "NHS Western Isles", "National Facility", "Scotland"))) %>%
+    arrange(HealthBoard) %>%
+    dplyr::rename(`Health Board` = HealthBoard) %>%
+    make_summary_table(maxrows = 16)
+})
+
 
 ### LENGTH OF STAY ### ----
 
@@ -241,19 +257,19 @@ output$icu_admissions_table <- renderDataTable({
 # output$icu_admissions_plot<- renderPlotly({
 #   ICU %>%
 #     make_icu_admissions_plot()
-# 
+#
 # })
 
 # Plot
 output$icu_admissions_plot<- renderPlotly({
   ICU_weekly %>%
     make_icu_admissions_weekly_plot()
-  
+
 })
 
 output$disclosure_statement <- renderUI({
-  
-  tagList(p("* Statistical disclosure control has been applied according to ", 
+
+  tagList(p("* Statistical disclosure control has been applied according to ",
             tags$a(href="https://publichealthscotland.scot/media/3219/1_statistical-disclosure-control-protocol.pdf",
                                                        "PHS Statistical Disclosure Control Protocol (external website).",
                                                        target="_blank")))

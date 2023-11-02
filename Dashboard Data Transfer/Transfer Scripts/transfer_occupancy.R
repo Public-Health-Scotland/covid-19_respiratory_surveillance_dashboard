@@ -70,6 +70,23 @@ g_occupancy_hospital <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_
 
 write.csv(g_occupancy_hospital, glue(output_folder, "Occupancy_Hospital.csv"), row.names = FALSE)
 
+g_occupancy_hospital_hb <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland) %>%
+  group_by(HealthBoard) %>%
+  mutate(SevenDayAverage = round_half_up(zoo::rollmean(HospitalOccupancy, k = 7, fill = NA, align="right"),0),
+         SevenDayAverageQF = ifelse(is.na(SevenDayAverage), ":", ""),
+         SevenDayAverageQF = ifelse(Date <= 20200912 , "z", SevenDayAverageQF),
+         HospitalOccupancyQF = ifelse(is.na(HospitalOccupancy), ":", "")) %>%
+  ungroup() %>%
+  #filter(substr(HealthBoard,1,3) == "NHS") %>%
+  arrange(Date) %>%
+  select(Date, HealthBoard, HealthBoardQF, HospitalOccupancy, HospitalOccupancyQF, SevenDayAverage, SevenDayAverageQF) %>%
+  mutate(Date = as.Date(Date, format = "%Y%m%d")) %>%
+  mutate(HealthBoard = ifelse(substr(HealthBoard,1,1)=="Z", "Other", HealthBoard),
+         #HealthBoard = unlist(hblookup[HealthBoard]),
+         HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF))
+
+write.csv(g_occupancy_hospital_hb, glue(output_folder, "Occupancy_Hospital_HB.csv"), row.names = FALSE)
+
 ###ICU
 g_occupancy_ICU_healthboard <- i_occupancy$Data %>%
   clean_names() %>%

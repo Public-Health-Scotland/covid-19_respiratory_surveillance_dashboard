@@ -9,20 +9,20 @@ tagList(
 
 
   fluidRow(width = 12,
-           tagList(h2("Number of inpatients with COVID-19 in hospital"),
+           tagList(h2("Seven day average number of inpatients with COVID-19 in hospital"),
                    tags$div(class = "headline",
-                            h3(glue("Hospital occupancy (inpatients) on the Sunday of the latest three weeks available")),
-                            valueBox(value = {occupancy_headlines[[3]]$HospitalOccupancy %>% format(big.mark=",")},
+                            h3(glue("Seven day average hospital occupancy (inpatients) on the Sunday of the latest three weeks available")),
+                            valueBox(value = {occupancy_headlines[[3]]$SevenDayAverage %>% format(big.mark=",")},
                                      subtitle = glue("As at {names(occupancy_headlines)[[3]]}"),
                                      color = "navy",
                                      icon = icon_no_warning_fn("calendar-week")),
                             valueBox(#value = glue("{occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")}*"),
-                              value = {occupancy_headlines[[2]]$HospitalOccupancy %>% format(big.mark=",")},
+                              value = {occupancy_headlines[[2]]$SevenDayAverage %>% format(big.mark=",")},
                               subtitle = glue("As at {names(occupancy_headlines)[[2]]}"),
                                      color = "navy",
                                      icon = icon_no_warning_fn("calendar-week")),
                             valueBox(#value = glue("{occupancy_headlines[[1]]$HospitalOccupancy %>% format(big.mark=",")}*"),
-                              value = {occupancy_headlines[[1]]$HospitalOccupancy %>% format(big.mark=",")},
+                              value = {occupancy_headlines[[1]]$SevenDayAverage %>% format(big.mark=",")},
                               subtitle = glue("As at {names(occupancy_headlines)[[1]]}"),
                               color = "navy",
                               icon = icon_no_warning_fn("calendar-week")),
@@ -51,6 +51,14 @@ tagList(
     ) #tabbox
 
   ), # fluid row
+
+  tagList(h2("Seven day average of inpatients with COVID-19 in hospital by NHS Health Board; week ending")),
+
+
+  fluidRow(width=12,
+           box(width = NULL,
+               withNavySpinner(dataTableOutput("hospital_occupancy_hb_table"))),
+  ),
 
   fluidRow(
     br()),
