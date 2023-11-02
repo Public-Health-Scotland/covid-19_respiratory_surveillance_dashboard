@@ -72,7 +72,10 @@ write.csv(g_notes, glue(output_folder, glue("CareHomeVisitsNotes_{most_recent_da
 
 g_board <- i_ch$`Table 1` %>%
   process_visiting_status_table()
-
+shinyApp(ui, server)
+test<-ae_attendances %>% 
+  group_by(org_code) %>% 
+  summarise(mean( attendances))
 write_csv(g_board, glue(output_folder, glue("CareHomeVisitsBoard_{most_recent_date}.csv")))
 
 g_outbreak <- i_ch$`Table 2` %>%
@@ -146,8 +149,21 @@ g_carehome_timeseries<-i_carehome_timeseries  %>%
   select(WeekEnding, Resident, ResidentQF,
          Staff, StaffQF,Total, TotalQF)
 
-write_csv(g_carehome_timeseries, glue("{output_folder}/TEMP_care_home_timne_series_{report_date}.csv"),
+# original output , is this still needed?
+write_csv(g_carehome_timeseries, glue("{output_folder}/TEMP_care_home_time_series_{report_date}.csv"),
           na = "")
 
+
+#revised open data  output
+g_carehome_timeseries_od<-g_carehome_timeseries  %>%
+  mutate(Country="S92000003") %>% 
+  select(WeekEnding, Country, Resident, ResidentQF,
+         Staff, StaffQF,
+         TotalStaffAndResidents=Total, 
+         TotalStaffAndResidentsQF=TotalQF)
+
+write_csv(g_carehome_timeseries_od, glue(od_folder,"care_home_time_series_{od_report_date}.csv"),na = "")
+
+          
 rm(g_notes, g_board, g_outbreak, g_board_older, g_outbreak_older, i_ch, process_visiting_status_table,
-   i_carehome_timeseries, g_carehome_time_series)
+   i_carehome_timeseries, g_carehome_time_series, g_carehome_timeseries_od)

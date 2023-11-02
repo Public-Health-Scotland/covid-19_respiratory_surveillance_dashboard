@@ -27,6 +27,15 @@ dashboard_folder <- "../"
 input_data <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Input/"
 output_folder <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/"
 
+# Open Data output locations and dates (still to fine tune this)
+od_date <- floor_date(today(), "week", 1) + 1
+od_report_date <- format(report_date, "%Y%m%d")
+od_archive_date <-format(report_date-7)
+od_sunday<- floor_date(today(), "week", 1) -1
+# all open data data saved to this location
+od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/"
+# location for archive folders to go
+od_archive_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{report_date}"
 
 # Getting useful functions
 #source("data_transfer_functions.R")
@@ -72,6 +81,39 @@ i_population$AgeGroup <- sapply(i_population$AgeGroup, function(x) str_remove_al
 
 source("Transfer Scripts/population_lookups.R")
 
+######  Open data archiving steps #######
+# run this section before the data transfer steps 
+# the process moves all exisitn content from od_outputs folder
+# into a newly createdfolder within the archive sub-folder. 
+# this new folder is labelled with the previous week's publication date)
+
+# Set the source directory where your files are located
+source_dir <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/"
+
+# Set the name of the new destination directory
+destination_dir <- glue("/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{od_archive_date}")
+
+# Create the new destination directory for archive steps
+if (!dir.exists(destination_dir)) {
+  dir.create(destination_dir)}
+
+# List ***all*** files in the source directory
+files_to_move <- list.files(source_dir)
+
+# Loop through the files and move them to the new destination directory
+for (file_name in files_to_move) {
+  source_path <- file.path(source_dir, file_name)
+  destination_path <- file.path(destination_dir, file_name)
+# Move the file to the new destination directory
+  if (file.rename(source_path, destination_path)) {
+    cat("Moved", file_name, "to", destination_dir, "\n")
+  } else {
+    cat("Failed to move", file_name, "\n")
+    cat("Error message: ", geterrmessage(), "\n")
+  }
+}
+
+#####################
 ##### Cases
 source("Transfer Scripts/transfer_cases.R")
 
@@ -98,7 +140,7 @@ source("Transfer Scripts/transfer_los.R")
 # source("Transfer Scripts/transfer_ons.R")
 
 #### Care Homes
-# source("Transfer Scripts/transfer_carehomes.R")
+source("Transfer Scripts/transfer_carehomes.R")
 
 #### Wastewater
 source("Transfer Scripts/transfer_wastewater.R")
@@ -109,9 +151,17 @@ source("Transfer Scripts/transfer_occupancy.R")
 #### Respiratory
 source("Transfer Scripts/transfer_respiratory.R")
 
+#### Geography
+source("Transfer Scripts/transfer_geography_open_data.R")
+
+#### age sex cases
+source("Transfer Scripts/transfer_weekly_agesex_cases_od.R")
+
+#### simd cases data
+source("Transfer Scripts/transfer_weekly_simd_cases_od.R")
+
 #### Respiratory Pathogens - MEM
 source("Transfer Scripts/transfer_respiratory_pathogens_mem.R")
-
 
 #### Respiratory - Euromomo
 source("Transfer Scripts/transfer_respiratory_euromomo.R")
@@ -122,15 +172,15 @@ source("Transfer Scripts/transfer_respiratory_nhs24_mem.R")
 #### Respiratory GP - MEM
 source("Transfer Scripts/transfer_respiratory_gp_mem.R")
 
-
-#### Open Data Geography
-source("Transfer Scripts/transfer_geography_open_data.R")
-
-
 #### Influenza Hospital Admissions
 source("Transfer Scripts/transfer_flu_admissions.R")
-
 
 #### RSV Hospital Admissions
 source("Transfer Scripts/transfer_rsv_admissions.R")
 
+# remove(population files (i_population_v2 used in dashboard, not just Open Data) 
+rm(base_hb_population,  pop_60plus_sex, pop_60plus_total,
+   pop_agegroup_sex, pop_agegroup_total, pop_dash_ageband, 
+   pop_dash_fifteen_fourty_four, pop_dash_sex, pop_dash_sex_ageband,
+   pop_dash_total, pop_total_sex, pop_total_total, pop_dash_sex_fifteen_fourty_four)
+rm(i_population_v2)

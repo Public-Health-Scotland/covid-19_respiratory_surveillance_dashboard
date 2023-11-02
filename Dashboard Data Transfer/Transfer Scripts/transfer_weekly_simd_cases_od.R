@@ -35,11 +35,6 @@ spd_simd_lookup <- read_rds(glue(gpd_base_path,"Deprivation/postcode_2023_1_simd
   select(PostCode,simd)
 
 ######### simd population lookup #####
-# SIMD population lookup rds
-# simd_pop_tableau <- read_rds("/conf/linkage/output/Covid Daily Dashboard/Tableau process/Lookups/SIMD_populations.rds")%>%
-#   ungroup() %>%
-#   mutate(location_code=as.character(location_code),simd=as.character(SIMD))%>%
-#   select(location_code,simd,Pop)
 
 base_datazone_population <-  read_rds(glue(gpd_base_path,"Populations/Estimates/DataZone2011_pop_est_5year_agegroups_2011_2021.rds"))
 
@@ -136,25 +131,22 @@ rm(Dates, SIMD, df_unassinged) # remove building blocks
 
 #### Cases ##############################
 
-
-i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds") )
-
-g_daily_raw<- i_combined_pcr_lfd_tests %>% 
-  mutate(Sex = case_when(is.na(subject_sex)~submitted_subject_sex,TRUE ~ subject_sex)) %>%
+i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds"))%>%
+  mutate(Sex = case_when(is.na(subject_sex)~submitted_subject_sex,TRUE ~ subject_sex))%>%
   mutate(test_source = case_when(test_result_record_source %in% c("NHS DIGITAL","ONS","SGSS") ~ "UK Gov",
-                                 test_result_record_source %in% c( "ECOSS","SCOT","SGSS")~ "NHS Lab"))  %>%
+                                 test_result_record_source %in% c( "ECOSS","SCOT","SGSS")~ "NHS Lab"))%>%
   mutate(test_source = case_when((test_result_record_source == "SGSS" & SGSS_ID == "Pillar 2") ~ "UK Gov",
                                  (test_result_record_source == "SGSS" & SGSS_ID == "Pillar 1") ~ "NHS Lab",
-                                 TRUE~test_source)) %>%
+                                 TRUE~test_source))%>%
   mutate(pillar=case_when(test_source=="UK Gov"~"Pillar 2", test_source=="NHS Lab"~"Pillar 1"))%>%
-  mutate(pillar=case_when(test_type=="LFD"~"LFD",TRUE ~pillar)) %>% 
+  mutate(pillar=case_when(test_type=="LFD"~"LFD",TRUE ~pillar))%>%
   select(specimen_id, SubLab, reporting_health_board, local_authority, postcode, specimen_date,
          test_result, Sex, age, date_reporting, date_test_received_at_bi,
          test_result_record_source, laboratory_code, pillar, flag_covid_case,
          derived_covid_case_type, episode_number_deduplicated, episode_derived_case_type)
 
 
-g_daily_geog_simd_cases<- g_daily_raw %>%
+g_daily_geog_simd_cases<- i_combined_pcr_lfd_tests %>%
   mutate(PostCode=str_replace_all(string=postcode, pattern=" ", repl=""))%>%
   left_join(spd_simd_lookup,by="PostCode")%>%
   mutate(episode_number_deduplicated = replace_na(episode_number_deduplicated,0),
@@ -176,7 +168,7 @@ rm(spd_simd_lookup)
 
 ##### #SIMD weekly - Scotland only  #############################
 
-g_simd_weekly_cases  <- df_simd %>%
+g_simd_weekly_cases_od  <- df_simd %>%
   left_join(g_simd_scotland_daily_cases, by=c("Date","location_code","simd")) %>% 
   mutate_if(is.numeric, ~replace_na(., 0)) %>% 
   filter(Date>as.Date("2020/02/27") & Date<as.Date(od_date-1)) %>% 
@@ -184,124 +176,34 @@ g_simd_weekly_cases  <- df_simd %>%
   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
   ungroup() %>% 
   group_by(week_ending, simd) %>% 
-  mutate(PositiveLastSevenDays=sum(daily_positive)) %>% 
+  mutate(WeeklyPositiveCases=sum(daily_positive)) %>% 
   ungroup() %>%   
   select(-Date,-daily_positive) %>% 
   unique()%>% 
   group_by(simd) %>% 
-  mutate(CumulativePositive=(cumsum(PositiveLastSevenDays))) %>% 
+  mutate(CumulativePositive=(cumsum(WeeklyPositiveCases))) %>% 
   ungroup %>% 
-  arrange(desc(week_ending), simd) %>% 
+  arrange(week_ending, simd) %>% 
   left_join(simd_populations, by=c("location_code","simd")) %>% 
   mutate(CrudeRatePositive=(CumulativePositive/Pop)*100000) %>% 
   mutate(CrudeRatePositive=round_half_up(CrudeRatePositive)) %>% 
-  mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d")) %>%
+  mutate(CrudeRatePositiveQF=if_else(is.na(CrudeRatePositive),":","d"),
+         WeekEnding= format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")
+         ) %>%
   mutate(Country="S92000003") %>% 
-  select(week_ending,Country, SIMDQuintile=simd, PositiveLastSevenDays, 
-         CumulativePositive, CrudeRatePositive,CrudeRatePositiveQF)  
-  
-#if not using admissions this version is ready for export
-g_simd_weekly_cases_od<-g_simd_weekly_cases %>% 
-  rename(Date= week_ending,) %>% 
-  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
+  select(WeekEnding,Country, SIMDQuintile=simd, 
+         WeeklyCases=WeeklyPositiveCases, 
+         CumulativeCases= CumulativePositive, 
+         CrudeRateCumulativeCases= CrudeRatePositive,
+         CrudeRateCumulativeCasesQF=CrudeRatePositiveQF)  
+
+#write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_cases_simd_weekly.csv"), na = "")
+write_csv(g_simd_weekly_cases_od, glue(od_folder, "weekly_cases_simd_{od_report_date}.csv"), na = "")
 
 
-write_csv(g_simd_weekly_cases_od , glue("{output_folder}TEMP_simd_weekly.csv"), na = "")
 
-rm(df_simd, g_daily_geog_simd_cases, g_daily_raw, i_combined_pcr_lfd_tests,
-   g_simd_weekly_cases,g_simd_scotland_daily_cases, simd_populations)
+rm(df_simd, g_daily_geog_simd_cases, i_combined_pcr_lfd_tests,
+   g_simd_weekly_cases_od,g_simd_scotland_daily_cases, simd_populations)
 
 ##### End of script #######################################
-
-
-##### Admissions #######################################
-# Not currently being developed
-
-# adm_path <- "/conf/PHSCOVID19_Analysis/RAPID Reporting/Daily_extracts"
-# 
-# read_rds_with_options <- create_loader_with_options(readRDS)
-# i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI_Admissions_proxy.rds"))
-# 
-# g_simd_adm <- i_chiadm %>%
-#   filter(admission_date>as.Date("2020/02/27") & admission_date<as.Date(od_date-1)) %>% 
-#   rename(simd = simd2020v2_sc_quintile,
-#          Date=admission_date) %>% 
-#   mutate(simd = replace(simd, is.na(simd), "Unknown"),
-#          location_code="Scotland") 
-# 
-# 
-# g_simd_weekly_adm_v2<- g_simd_adm %>%
-#   mutate_if(is.numeric, ~replace_na(., 0))  %>% 
-#   group_by(Date,simd) %>%
-#   mutate(week_ending = ceiling_date(Date, unit = "week", change_on_boundary = F),
-#          simd = ifelse(is.na(simd), "Unknown", simd)) %>% 
-#       ungroup() %>%
-# group_by(week_ending, simd) %>%
-#   summarise(WeeklyHospitalAdmissions = n())%>%
-#   ungroup() %>% 
-#   mutate_if(is.numeric, ~replace_na(., 0))  %>% 
-#   group_by(simd) %>%
-#   mutate(CumulativeAdmissions=(cumsum(WeeklyHospitalAdmissions))) %>%
-#   ungroup
-# 
-# 
-# g_simd_weekly_cases_adm<-g_simd_weekly_cases %>% 
-#      left_join(g_simd_weekly_adm_v2, by= c("week_ending", "simd")) %>% 
-#select(week_ending,simd,WeeklyHospitalAdmissions) %>% 
-# group_by(simd) %>% 
-#   mutate(CumulativeAdmissions=(cumsum(WeeklyHospitalAdmissions))) %>% 
-#   ungroup 
-
-
-#  mutate(Date = format(strptime(Date, format = "%Y-%m-%d"), "%Y%m%d")) 
-
-  
-  # mutate(#TotalInfectionsPc = round_half_up(100*TotalInfections/sum(TotalInfections), 2),
-  #   #SIMD =as.character(SIMD),
-  #  # SIMD = recode(SIMD, "1" = "1 (most deprived)", "5" = "5 (least deprived)"),
-  #   simd = ifelse(is.na(simd), "Unknown", simd)) %>% 
-
-# 
-# 
-# healthboards <- c("NHS AYRSHIRE & ARRAN" = "S08000015",
-#                   "NHS BORDERS" = "S08000016",
-#                   "NHS DUMFRIES & GALLOWAY" = "S08000017",
-#                   "NHS FIFE" = "S08000029",
-#                   "NHS FORTH VALLEY" = "S08000019",
-#                   "NHS GREATER GLASGOW & CLYDE" = "S08000031",
-#                   "NHS GRAMPIAN" = "S08000020",
-#                   "NHS HIGHLAND" = "S08000022",
-#                   "NHS LANARKSHIRE" = "S08000032",
-#                   "NHS LOTHIAN" = "S08000024",
-#                   "NHS ORKNEY" = "S08000025",
-#                   "NHS SHETLAND" = "S08000026",
-#                   "NHS TAYSIDE" = "S08000030",
-#                   "NHS WESTERN ISLES" = "S08000028")
-# 
-# 
-# adms_weekly_scotland <- i_chiadm %>%
-#   mutate(week_ending = ceiling_date(
-#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-#   ) %>%
-#   group_by(week_ending) %>%
-#   summarise(HospitalAdmissions = n()) %>%
-#   mutate(location_name="Scotland", location_code="Scotland") %>%
-#   select(week_ending, location_code, location_name, HospitalAdmissions)
-# 
-# adms_weekly_hb <- i_chiadm %>%
-#   mutate(week_ending = ceiling_date(
-#     as.Date(admission_date),unit="week",week_start=7, change_on_boundary=FALSE)
-#   ) %>%
-#   group_by(week_ending, health_board_of_treatment) %>%
-#   summarise(HospitalAdmissions = n()) %>%
-#   mutate(location_code = recode(health_board_of_treatment, !!!healthboards, .default = NA_character_)) %>%
-#   left_join(location_names,by=c("location_code")) %>%
-#   select(week_ending, location_code, location_name, HospitalAdmissions)
-# 
-# g_adms_weekly_all <- bind_rows(adms_weekly_scotland, adms_weekly_hb) %>%
-#   arrange(week_ending, location_code) %>%
-#   rename(Geography = location_code, GeographyName = location_name)
-
-
-
 

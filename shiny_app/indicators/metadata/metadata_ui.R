@@ -13,8 +13,9 @@ tagList(h1("Metadata"),
                                    
                                    # Wastewater ----
                                    h4("Wastewater"),
-                                   p("In May 2020, the Scottish Environment Protection Agency (SEPA) began exploratory work to pinpoint fragments of coronavirus’
-                                     ribonucleic acid (RNA) in local wastewater samples. "),
+                                   p("In June 2020, Scottish Government, in partnership with Scottish Environment Protection Agency (SEPA), established a national Wastewater
+                                     Monitoring Programme for COVID-19 in Scotland. This surveillance system detects fragments, known as ribonucleic acid (RNA), of the
+                                     SARS-CoV-2 virus genome, from wastewater samples. "),
                                    p("In contrast to COVID-19 case records, virus shedding into wastewater is a biological process, meaning wastewater data is unaffected
                                      by factors that impact whether testing is done. Sewage samples are taken by Scottish Water from 116 sample sites across Scotland
                                      from the sewage network (wastewater treatment works). Composite samples are built up over a period of time. The amount of unique

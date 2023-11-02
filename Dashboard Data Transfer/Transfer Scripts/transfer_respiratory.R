@@ -448,12 +448,21 @@ write_csv(case_rates_age, glue(output_folder, "Respiratory_Age.csv"))
 write_csv(case_rates_sex, glue(output_folder, "Respiratory_Sex.csv"))
 write_csv(case_rates_age_sex , glue(output_folder, "Respiratory_Age_Sex.csv"))
 
-# Output to Open Data folder
+# Output to cl-out Open Data folder
 write_csv(cases_scotland, glue(resp_od_output_folder, "Respiratory_Scot.csv"))
 write_csv(case_rates_hb, glue(resp_od_output_folder, "Respiratory_HB.csv"))
 write_csv(case_rates_age, glue(resp_od_output_folder, "Respiratory_Age.csv"))
 write_csv(case_rates_sex, glue(resp_od_output_folder, "Respiratory_Sex.csv"))
 write_csv(case_rates_age_sex , glue(resp_od_output_folder, "Respiratory_Age_Sex.csv"))
+
+
+# Output to new output_folder Open Data subfolder with datestamp
+write_csv(cases_scotland, glue(od_folder, "Respiratory_Scot_{od_report_date}.csv"))
+write_csv(case_rates_hb, glue(od_folder, "Respiratory_HB_{od_report_date}.csv"))
+write_csv(case_rates_age, glue(od_folder, "Respiratory_Age_{od_report_date}.csv"))
+write_csv(case_rates_sex, glue(od_folder, "Respiratory_Sex_{od_report_date}.csv"))
+write_csv(case_rates_age_sex , glue(od_folder, "Respiratory_Age_Sex_{od_report_date}.csv"))
+
 
 # remove all data
 rm(i_respiratory_scotland_agg, i_respiratory_agegp_agg,
