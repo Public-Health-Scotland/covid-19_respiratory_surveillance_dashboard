@@ -52,7 +52,7 @@ tagList(
 
   ), # fluid row
 
-  tagList(h2("Seven day average of inpatients with COVID-19 in hospital by NHS Health Board; week ending")),
+  tagList(h2("Seven day average of inpatients with COVID-19 in hospital by NHS Health Board of treatment; week ending")),
 
 
   fluidRow(width=12,
