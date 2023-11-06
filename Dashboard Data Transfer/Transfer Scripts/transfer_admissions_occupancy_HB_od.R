@@ -45,29 +45,41 @@ df_hb_weekly <- expand.grid(HealthBoardName=unique(HealthBoardName$HealthBoardNa
                             KEEP.OUT.ATTRS = FALSE, 
                             stringsAsFactors = FALSE) %>%  
   left_join(hb_code, by="HealthBoardName" )%>% # add HB codes
-  mutate(HealthBoard= ifelse(HealthBoardName== "Scotland", "S92000003", HealthBoard))%>% #add code for Scotland
-  mutate(HealthBoardQF = ifelse(is.na(HealthBoard), ":", "")) # add QF for Jubilee
+  mutate(HealthBoard= case_when(HealthBoardName== "Scotland"~ "S92000003",
+                                HealthBoardName== "Golden Jubilee National Hospital"~ "SB0801",
+                                TRUE~  HealthBoard)) #add codes for Scotland & Jubilee
+ 
+###### import health board admissions from output folder
 
-###### import health board admissions from transfer admissions admissions process
-# bring output back in temporarily until source input, reformat for Open Data
+i_od_healthboard_admissions <- read_csv(glue(output_folder, "Admissions_HB.csv"))
 
-od_healthboard_admissions <- read_csv(glue(output_folder, "Admissions_HB.csv")) %>% 
+g_od_healthboard_admissions <-i_od_healthboard_admissions  %>% 
   rename(HealthBoardName=HealthBoard, Admissions=TotalInfections)%>% # rename for OD consistency
-  mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) #use OD data format
+  mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d"),# update Jubilee name, use OD date format
+         HealthBoardName = recode(HealthBoardName,  "National Facility"=
+                                  "Golden Jubilee National Hospital" )) 
   
+# import as at occupancy from outpout folder
+i_od_occupancy <- read_csv(glue(output_folder, "weekly_HB_occupancy.csv"))
+
+# join admissions and occupancy to  weekly framework
+g_weekly_healthboard_od<- df_hb_weekly %>% 
+left_join(g_od_healthboard_admissions, by=c("HealthBoardName","WeekEnding"), multiple="all") %>% 
+ mutate(WeekEnding=as.numeric(WeekEnding)) %>% 
+mutate(AdmissionsQF = ifelse(is.na(Admissions), ":", "")) %>% 
+left_join(i_od_occupancy, by=(c("WeekEnding", "HealthBoardName"))) %>% 
+  mutate(InpatientsAsAtLastSundayQF = ifelse(is.na(InpatientsAsAtLastSunday), ":", ""),
+         SevenDayAverageQF=  ifelse(is.na(SevenDayAverage), ":", "")) %>% 
+  select(WeekEnding, HealthBoard, Admissions, AdmissionsQF, 
+         InpatientsAsAtLastSunday, InpatientsAsAtLastSundayQF,
+         InpatientsSevenDayAverage= SevenDayAverage, 
+         InpatientsSevenDayAverageQF= SevenDayAverageQF)
+
+write_csv(g_weekly_healthboard_od, glue(od_folder, "weekly_admissions_occupancy_HB_{od_report_date}.csv"),na = "")
+
+rm(ckan, hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly, 
+   i_od_healthboard_admissions , g_od_healthboard_admissions,  i_od_occupancy, 
+   g_weekly_healthboard_od)
 
 
-# import as at occupancy
-od_occupancy <- read_csv(glue(output_folder, "weekly_HB_occupancy.csv"))
-# import as at occupancy
-# od_seven_day_occupancy <- read_csv(glue(output_folder, "Occupancy_Hospital_HB.csv")) %>% 
-#   mutate_all(~ifelse(is.na(.), "", .))
-
-
-weekly_healthboard_od<- df_hb_weekly %>% 
-  select(WeekEnding, HealthBoardName,HealthBoard,HealthBoardQF) %>% 
-  left_join(od_healthboard_admissions, by=c("HealthBoardName","WeekEnding"), multiple="all") %>% 
-  mutate(WeekEnding=as.numeric(WeekEnding)) %>% 
-  mutate(AdmissionsQF = ifelse(is.na(Admissions), ":", "")) %>% 
-  left_join(od_occupancy, by=(c("WeekEnding", "HealthBoardName")))
 
