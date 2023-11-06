@@ -88,7 +88,6 @@ g_occupancy_hospital_hb <- bind_rows(g_occupancy_hospital_healthboard, g_occupan
 write.csv(g_occupancy_hospital_hb, glue(output_folder, "Occupancy_Hospital_HB.csv"), row.names = FALSE)
 
 
-
 ########## Open Data Section ############
 
 g_weekly_ocupancy_od<-g_occupancy_hospital_hb %>% 
@@ -154,7 +153,7 @@ g_occupancy_ICU <- bind_rows(g_occupancy_ICU_healthboard, g_occupancy_ICU_scotla
 write.csv(g_occupancy_ICU, glue(output_folder, "Occupancy_ICU.csv"), row.names = FALSE)
 
 rm(i_occupancy, g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland, g_occupancy_hospital,
-   g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland, g_occupancy_ICU)
+   g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland, g_occupancy_ICU, g_weekly_ocupancy_od)
 
 
 
