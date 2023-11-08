@@ -52,7 +52,7 @@ tagList(
                            ),
 
 
-                                    tagList(h2("Number of acute COVID-19 admissions to hospital by NHS Health Board; week ending")),
+                                    tagList(h2("Number of acute COVID-19 admissions to hospital by NHS Health Board of treatment; week ending")),
 
 
                            fluidRow(width=12,

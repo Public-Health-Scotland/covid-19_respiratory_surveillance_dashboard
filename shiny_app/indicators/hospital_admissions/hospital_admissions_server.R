@@ -185,9 +185,9 @@ output$hospital_admissions_hb_table <- renderDataTable({
     mutate(HealthBoard = factor(HealthBoard,
                                 levels = c("NHS Ayrshire and Arran", "NHS Borders", "NHS Dumfries and Galloway", "NHS Fife", "NHS Forth Valley", "NHS Grampian",
                                                         "NHS Greater Glasgow and Clyde", "NHS Highland", "NHS Lanarkshire", "NHS Lothian", "NHS Orkney", "NHS Shetland",
-                                                        "NHS Tayside", "NHS Western Isles", "National Facility", "Scotland"))) %>%
+                                                        "NHS Tayside", "NHS Western Isles", "Golden Jubilee National Hospital", "Scotland"))) %>%
     arrange(HealthBoard) %>%
-    dplyr::rename(`Health Board` = HealthBoard) %>%
+    dplyr::rename(`Health Board of treatment` = HealthBoard) %>%
     make_summary_table(maxrows = 16)
 })
 

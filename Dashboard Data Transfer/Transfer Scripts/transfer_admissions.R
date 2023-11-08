@@ -50,12 +50,12 @@ g_weekly_adm<- i_chiadm %>%
   summarise(Admissions = n()) %>%
   mutate(#CumulativeAdmissions=(cumsum(Admissions)),
          Country="S92000003",
-         WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) %>% 
+         WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(WeekEnding, Country, Admissions)#, CumulativeAdmissions )
 
 
 # Add national occupancy to weekly admissions for Open Data
-# Reporting Dates 
+# Reporting Dates
 od_date <- floor_date(today(), "week", 1) + 1
 od_sunday<- floor_date(today(), "week", 1) -1
 od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
@@ -72,7 +72,7 @@ occupancy_hospital_healthboard <- i_occupancy$Data %>%
          HealthBoard = health_board) %>%
   mutate(HospitalOccupancy = as.numeric(HospitalOccupancy),
          Date = format(as.Date(Date-1), "%Y-%m-%d"), #-1 as number is for "8am yesterday"
-         HealthBoard = str_replace(HealthBoard, "&", "and")) %>%  
+         HealthBoard = str_replace(HealthBoard, "&", "and")) %>%
   filter(Date >= "2020-09-08" & Date <= od_sunday) %>% # filter to sunday date
 
   select(Date, HealthBoard, HospitalOccupancy)
@@ -81,32 +81,32 @@ occupancy_hospital_scotland <- occupancy_hospital_healthboard %>%
   group_by(Date) %>%
   summarise(HospitalOccupancy = sum(HospitalOccupancy,na.rm=T)) %>%
   ungroup() %>%
-  mutate(Date = as.Date(Date)) %>% 
-  mutate(WeekEnding = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
+  mutate(Date = as.Date(Date)) %>%
+  mutate(WeekEnding = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>%
   mutate(HealthBoard = "Scotland",
          Country="S92000003") %>%
-  group_by(WeekEnding) %>% 
-  filter(Date==max(Date)) %>% 
-  ungroup() %>% 
-  mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>% 
-  mutate(WeekEnding=as.character(WeekEnding)) %>% 
+  group_by(WeekEnding) %>%
+  filter(Date==max(Date)) %>%
+  ungroup() %>%
+  mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>%
+  mutate(WeekEnding=as.character(WeekEnding)) %>%
   select(-c(Date, HealthBoard))
 
 #join occupancy to admissions
-g_adm_occ_weekly<-g_weekly_adm  %>% 
-  left_join(occupancy_hospital_scotland, by=c("WeekEnding", "Country")) %>% 
-  mutate(InpatientsAsAtLastSundayQF=if_else(is.na(HospitalOccupancy),":","")) %>% 
-    select(WeekEnding, Country, 
-           Admissions, 
+g_adm_occ_weekly<-g_weekly_adm  %>%
+  left_join(occupancy_hospital_scotland, by=c("WeekEnding", "Country")) %>%
+  mutate(InpatientsAsAtLastSundayQF=if_else(is.na(HospitalOccupancy),":","")) %>%
+    select(WeekEnding, Country,
+           Admissions,
            #CumulativeAdmissions,
-           InpatientsAsAtLastSunday=HospitalOccupancy, 
+           InpatientsAsAtLastSunday=HospitalOccupancy,
            InpatientsAsAtLastSundayQF )
 
 
 write_csv(g_adm_occ_weekly, glue(od_folder, "weekly_admissions_occupancy_{od_report_date}.csv"),na = "")
 
 
-rm(g_weekly_adm, 
+rm(g_weekly_adm,
    i_occupancy, occupancy_hospital_healthboard,
    g_adm_occ_weekly)
 
@@ -168,10 +168,10 @@ write.csv(g_adm_agebd, glue(output_folder, "Admissions_AgeBD.csv"), row.names = 
 
 
 # Open data Output
-g_adm_agebd_od<-g_adm_agebd %>% 
-  mutate(Country="S92000003") %>% 
+g_adm_agebd_od<-g_adm_agebd %>%
+  mutate(Country="S92000003") %>%
   select(WeekEnding=WeekOfAdmission,Country, AgeGroup, AgeGroupQF,
-         Admissions=TotalInfections, 
+         Admissions=TotalInfections,
          AdmissionsQF=TotalInfectionsQF)
 
 write_csv(g_adm_agebd_od, glue(od_folder, "weekly_admissions_ageBD_{od_report_date}.csv"),na = "")
@@ -336,7 +336,7 @@ g_adm_hb %<>%
                               "NHS SHETLAND" = "NHS Shetland",
                               "NHS TAYSIDE" = "NHS Tayside",
                               "NHS WESTERN ISLES" = "NHS Western Isles",
-                              "NATIONAL FACILITY" = "National Facility",
+                              "NATIONAL FACILITY" = "Golden Jubilee National Hospital",
                               "NHS SCOTLAND" = "Scotland"))
 
 # g_adm_hb_suppressed <- g_adm_hb %>%
