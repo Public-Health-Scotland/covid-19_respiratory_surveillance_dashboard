@@ -36,7 +36,7 @@ HealthBoardName= data.frame(HealthBoardName=c("NHS Ayrshire and Arran",  "NHS Bo
                                               "NHS Forth Valley","NHS Grampian",
                                               "NHS Greater Glasgow and Clyde",
                                               "NHS Highland","NHS Lanarkshire",
-                                              "NHS Lothian","NHS Orkney","NHS Shetland",
+                                              "NHS Lothian","NHS Orkney","NHS Shetland","NHS Tayside",
                                               "NHS Western Isles","Golden Jubilee National Hospital",
                                               "Scotland" ))
              
@@ -64,13 +64,14 @@ i_od_occupancy <- read_csv(glue(output_folder, "weekly_HB_occupancy.csv"))
 
 # join admissions and occupancy to  weekly framework
 g_weekly_healthboard_od<- df_hb_weekly %>% 
-left_join(g_od_healthboard_admissions, by=c("HealthBoardName","WeekEnding"), multiple="all") %>% 
+left_join(g_od_healthboard_admissions, by=c("HealthBoardName","WeekEnding")) %>% 
  mutate(WeekEnding=as.numeric(WeekEnding)) %>% 
 mutate(AdmissionsQF = ifelse(is.na(Admissions), ":", "")) %>% 
 left_join(i_od_occupancy, by=(c("WeekEnding", "HealthBoardName"))) %>% 
   mutate(InpatientsAsAtLastSundayQF = ifelse(is.na(InpatientsAsAtLastSunday), ":", ""),
          SevenDayAverageQF=  ifelse(is.na(SevenDayAverage), ":", "")) %>% 
-  select(WeekEnding, HealthBoard, Admissions, AdmissionsQF, 
+  select(WeekEnding, 
+         HaelthBoardOfTreatment=HealthBoard, Admissions, AdmissionsQF, 
          InpatientsAsAtLastSunday, InpatientsAsAtLastSundayQF,
          InpatientsSevenDayAverage= SevenDayAverage, 
          InpatientsSevenDayAverageQF= SevenDayAverageQF)
