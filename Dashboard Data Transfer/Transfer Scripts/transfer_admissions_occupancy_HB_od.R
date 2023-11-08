@@ -71,7 +71,7 @@ left_join(i_od_occupancy, by=(c("WeekEnding", "HealthBoardName"))) %>%
   mutate(InpatientsAsAtLastSundayQF = ifelse(is.na(InpatientsAsAtLastSunday), ":", ""),
          SevenDayAverageQF=  ifelse(is.na(SevenDayAverage), ":", "")) %>% 
   select(WeekEnding, 
-         HaelthBoardOfTreatment=HealthBoard, Admissions, AdmissionsQF, 
+         HealthBoardOfTreatment=HealthBoard, Admissions, AdmissionsQF, 
          InpatientsAsAtLastSunday, InpatientsAsAtLastSundayQF,
          InpatientsSevenDayAverage= SevenDayAverage, 
          InpatientsSevenDayAverageQF= SevenDayAverageQF)
