@@ -1,9 +1,6 @@
 # Open data transfer for Geography
 # Sourced from ../dashboard_data_transfer.R
 
-#open data date to read in combined file
-od_date <- floor_date(today(), "week", 1) + 1
-od_sunday<- floor_date(today(), "week", 1) -1
 
 ##### create cases outputs ###################
 

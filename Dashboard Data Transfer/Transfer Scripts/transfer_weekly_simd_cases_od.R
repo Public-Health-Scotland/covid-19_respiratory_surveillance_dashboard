@@ -70,17 +70,6 @@ simd_populations <- bind_rows(pop_simd_hb, pop_simd_la, pop_simd_scotland) %>%
 rm(pop_simd_hb, pop_simd_la, pop_simd_scotland, base_datazone_population)
 
 
-##### set dates #######################################
-
-# Reporting Dates 
-od_date <- floor_date(today(), "week", 1) + 1
-od_sunday<- floor_date(today(), "week", 1) -1
-od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
-od_sunday_minus_14 <- today() - 17
-# TBC
-# od_suppression_date <- "2023-05-31" 
-
-
 ##### SIMD trend dataframe #######################################
 
 # create df template containing 5 simd quintiles (plus unassinged) for each day post Dec 2019 until today

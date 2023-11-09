@@ -28,23 +28,6 @@ g_ethnicity <- i_ethnicity %>%
 
 write.csv(g_ethnicity, glue(output_folder, "Ethnicity.csv"), row.names = FALSE)
 
-#bring output back in temporarily until source input, reforat for Opend Data
-
-TEMP_ethnicity <- read_csv(glue(output_folder, "Ethnicity.csv"))
-
-g_ethnicity_od=TEMP_ethnicity %>% 
-  mutate(Country= "S92000003" ,
-         AdmissionsQF = "", PercentageQF = "",
-         Admissions = ifelse(Admissions < 5, "", Admissions),
-         AdmissionsQF = ifelse(is.na(Admissions), "c", AdmissionsQF),
-         Percentage = ifelse(is.na(Admissions), "", Percentage),
-         PercentageQF = ifelse(is.na(Admissions), "c", PercentageQF)) %>% 
-  select(MonthBeginning=MonthBegining, Country, EthnicGroup, 
-         Admissions, AdmissionsQF, Percentage, PercentageQF)
-
-write.csv(g_ethnicity_od, glue(od_folder, "ethnicity_{od_report_date}.csv"), row.names = FALSE, na = "")
-
-rm(g_ethnicity_od, TEMP_ethnicity)
 
 
 ### b) Ethnicity Chart

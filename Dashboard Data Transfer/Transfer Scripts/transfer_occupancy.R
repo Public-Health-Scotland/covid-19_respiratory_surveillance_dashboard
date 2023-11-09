@@ -52,7 +52,7 @@ g_occupancy_hospital_scotland <- g_occupancy_hospital_healthboard %>%
          HealthBoardQF = "d")
 
 
-
+###############
 g_occupancy_hospital <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland) %>%
   group_by(HealthBoard) %>%
   mutate(SevenDayAverage = round_half_up(zoo::rollmean(HospitalOccupancy, k = 7, fill = NA, align="right"),0),
@@ -86,6 +86,28 @@ g_occupancy_hospital_hb <- bind_rows(g_occupancy_hospital_healthboard, g_occupan
          HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF))
 
 write.csv(g_occupancy_hospital_hb, glue(output_folder, "Occupancy_Hospital_HB.csv"), row.names = FALSE)
+
+
+########## Open Data Section ############
+
+g_weekly_ocupancy_od<-g_occupancy_hospital_hb %>% 
+  rename(HealthBoardName=HealthBoard) %>% 
+  mutate(HealthBoardName = recode(HealthBoardName,  "National Facility"=
+                                   "Golden Jubilee National Hospital" )) %>% # match HB name to one used in Open Data script
+  mutate(WeekEnding = ceiling_date(Date, unit = "week", change_on_boundary = F)) %>% 
+  group_by(WeekEnding, HealthBoardName) %>%  
+  filter(Date==max(Date)) %>% #obtain Sunday value for grouped week
+  rename() %>% 
+  ungroup()  %>% 
+  mutate( WeekEnding = format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d") ) %>% #od format
+  select(-Date, -HealthBoardQF,
+         InpatientsAsAtLastSunday= HospitalOccupancy, HospitalOccupancyQF, 
+         SevenDayAverage, SevenDayAverageQF, WeekEnding) 
+
+
+write_csv(g_weekly_ocupancy_od, glue(output_folder, "weekly_HB_occupancy.csv"),na = "")
+
+################
 
 ###ICU
 g_occupancy_ICU_healthboard <- i_occupancy$Data %>%
@@ -131,7 +153,7 @@ g_occupancy_ICU <- bind_rows(g_occupancy_ICU_healthboard, g_occupancy_ICU_scotla
 write.csv(g_occupancy_ICU, glue(output_folder, "Occupancy_ICU.csv"), row.names = FALSE)
 
 rm(i_occupancy, g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland, g_occupancy_hospital,
-   g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland, g_occupancy_ICU)
+   g_occupancy_ICU_healthboard, g_occupancy_ICU_scotland, g_occupancy_ICU, g_weekly_ocupancy_od, g_occupancy_hospital_hb)
 
 
 
