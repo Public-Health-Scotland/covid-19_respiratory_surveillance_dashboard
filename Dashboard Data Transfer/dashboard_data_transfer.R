@@ -32,6 +32,11 @@ od_date <- floor_date(today(), "week", 1) + 1
 od_report_date <- format(report_date, "%Y%m%d")
 od_archive_date <-format(report_date-7)
 od_sunday<- floor_date(today(), "week", 1) -1
+od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
+od_sunday_minus_14 <- today() - 17
+
+
+
 # all open data data saved to this location
 od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/"
 # location for archive folders to go
@@ -83,8 +88,8 @@ source("Transfer Scripts/population_lookups.R")
 
 ######  Open data archiving steps #######
 # run this section before the data transfer steps 
-# the process moves all exisitn content from od_outputs folder
-# into a newly createdfolder within the archive sub-folder. 
+# the process moves all existing content from od_outputs folder
+# into a newly created folder within the archive sub-folder. 
 # this new folder is labelled with the previous week's publication date)
 
 # Set the source directory where your files are located
@@ -139,7 +144,7 @@ source("Transfer Scripts/transfer_los.R")
 ##### ONS
 # source("Transfer Scripts/transfer_ons.R")
 
-#### Care Homes
+#### Care Homes ( first part not working, moved time series to separate script)
 source("Transfer Scripts/transfer_carehomes.R")
 
 #### Wastewater
@@ -151,21 +156,28 @@ source("Transfer Scripts/transfer_occupancy.R")
 #### Respiratory
 source("Transfer Scripts/transfer_respiratory.R")
 
-#### Geography
+#### Open data test and cases by HB or CA
 source("Transfer Scripts/transfer_geography_open_data.R")
 
-#### age sex cases
+#### Open Data age sex cases
 source("Transfer Scripts/transfer_weekly_agesex_cases_od.R")
 
-#### simd cases data
+#### Open data simd cases data
 source("Transfer Scripts/transfer_weekly_simd_cases_od.R")
 
-#### weekly covid hospital admissions & occupancy for open data
+#### Open data ethnicity open 
+source("Transfer Scripts/transfer_ethnicity_open_data.R")
+
+#### Open data care home times series 
+source("Transfer Scripts/transfer_carehome_timeseries_od.R")
+
+####  Open data weekly covid hospital admissions & occupancy for open data
 source("Transfer Scripts/transfer_admissions_occupancy_HB_od.R")
 
 
 #### Respiratory Pathogens - MEM
 source("Transfer Scripts/transfer_respiratory_pathogens_mem.R")
+
 
 #### Respiratory - Euromomo
 source("Transfer Scripts/transfer_respiratory_euromomo.R")
@@ -182,11 +194,13 @@ source("Transfer Scripts/transfer_flu_admissions.R")
 #### RSV Hospital Admissions
 source("Transfer Scripts/transfer_rsv_admissions.R")
 
-
-
+#remove open data values
+rm(od_date, od_report_date,od_archive_date ,od_sunday,od_sunday_minus_7,
+   od_sunday_minus_14, od_folder, od_archive_folder, gpd_base_path)
+   
 # remove(population files (i_population_v2 used in dashboard, not just Open Data) 
-rm(base_hb_population,  pop_60plus_sex, pop_60plus_total,
-   pop_agegroup_sex, pop_agegroup_total, pop_dash_ageband, 
-   pop_dash_fifteen_fourty_four, pop_dash_sex, pop_dash_sex_ageband,
-   pop_dash_total, pop_total_sex, pop_total_total, pop_dash_sex_fifteen_fourty_four)
-rm(i_population_v2)
+# rm(pop_60plus_sex, pop_60plus_total,
+#    pop_agegroup_sex, pop_agegroup_total, pop_dash_ageband, 
+#    pop_dash_fifteen_fourty_four, pop_dash_sex, pop_dash_sex_ageband,
+#    pop_dash_total, pop_total_sex, pop_total_total, 
+#    pop_dash_sex_fifteen_fourty_four,pop_year, i_population_v2)
