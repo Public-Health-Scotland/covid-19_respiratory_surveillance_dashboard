@@ -41,6 +41,7 @@ write_csv(g_adm, glue(output_folder, "Admissions.csv"))
 
 rm(g_adm)
 
+
 ### b) Admissions_Age_Breakdown
 
 g_adm_agebd <- i_chiadm %>%
@@ -99,10 +100,10 @@ write.csv(g_adm_agebd, glue(output_folder, "Admissions_AgeBD.csv"), row.names = 
 
 
 # Open data Output
-g_adm_agebd_od<-g_adm_agebd %>% 
-  mutate(Country="S92000003") %>% 
+g_adm_agebd_od<-g_adm_agebd %>%
+  mutate(Country="S92000003") %>%
   select(WeekEnding=WeekOfAdmission,Country, AgeGroup, AgeGroupQF,
-         Admissions=TotalInfections, 
+         Admissions=TotalInfections,
          AdmissionsQF=TotalInfectionsQF)
 
 write_csv(g_adm_agebd_od, glue(od_folder, "weekly_admissions_ageBD_{od_report_date}.csv"),na = "")
@@ -267,7 +268,7 @@ g_adm_hb %<>%
                               "NHS SHETLAND" = "NHS Shetland",
                               "NHS TAYSIDE" = "NHS Tayside",
                               "NHS WESTERN ISLES" = "NHS Western Isles",
-                              "NATIONAL FACILITY" = "National Facility",
+                              "NATIONAL FACILITY" = "Golden Jubilee National Hospital",
                               "NHS SCOTLAND" = "Scotland"))
 
 # g_adm_hb_suppressed <- g_adm_hb %>%

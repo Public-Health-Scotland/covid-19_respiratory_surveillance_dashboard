@@ -81,7 +81,7 @@ g_occupancy_hospital_hb <- bind_rows(g_occupancy_hospital_healthboard, g_occupan
   arrange(Date) %>%
   select(Date, HealthBoard, HealthBoardQF, HospitalOccupancy, HospitalOccupancyQF, SevenDayAverage, SevenDayAverageQF) %>%
   mutate(Date = as.Date(Date, format = "%Y%m%d")) %>%
-  mutate(HealthBoard = ifelse(substr(HealthBoard,1,1)=="Z", "National Facility", HealthBoard),
+  mutate(HealthBoard = ifelse(substr(HealthBoard,1,1)=="Z", "Golden Jubilee National Hospital", HealthBoard),
          #HealthBoard = unlist(hblookup[HealthBoard]),
          HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF))
 
