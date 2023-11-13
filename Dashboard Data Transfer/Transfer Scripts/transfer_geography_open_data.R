@@ -267,7 +267,7 @@ g_pos_tests <- Geog_all_pos_tests %>%
 rm(Geog_all_pos_tests)
 
 #Read in all test data
-all_test_data <-readRDS(glue("//conf/linkage/output/Covid Daily Dashboard/Tableau process/SVT/Interim files/Tests_specimendate_{od_date}.rds")) %>%
+all_test_data <-readRDS(glue("/PHI_conf/Real_Time_Epi/Routine_Reporting/Time_Series/Outputs/PCR_LFD/Tests_specimendate_{od_date}.rds")) %>%
   filter(specimen_date <= as.Date(od_sunday))
 
 all_tests_scotland <- all_test_data %>%
