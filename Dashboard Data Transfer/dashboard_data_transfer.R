@@ -145,7 +145,8 @@ source("Transfer Scripts/transfer_los.R")
 # source("Transfer Scripts/transfer_ons.R")
 
 #### Care Homes ( first part not working, moved time series to separate script)
-source("Transfer Scripts/transfer_carehomes.R")
+# archived until further notice
+#source("Transfer Scripts/transfer_carehomes.R")
 
 #### Wastewater
 source("Transfer Scripts/transfer_wastewater.R")

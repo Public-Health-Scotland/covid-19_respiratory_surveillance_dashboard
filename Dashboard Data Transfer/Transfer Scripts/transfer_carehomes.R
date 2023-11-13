@@ -72,10 +72,7 @@ write.csv(g_notes, glue(output_folder, glue("CareHomeVisitsNotes_{most_recent_da
 
 g_board <- i_ch$`Table 1` %>%
   process_visiting_status_table()
-shinyApp(ui, server)
-test<-ae_attendances %>% 
-  group_by(org_code) %>% 
-  summarise(mean( attendances))
+
 write_csv(g_board, glue(output_folder, glue("CareHomeVisitsBoard_{most_recent_date}.csv")))
 
 g_outbreak <- i_ch$`Table 2` %>%
