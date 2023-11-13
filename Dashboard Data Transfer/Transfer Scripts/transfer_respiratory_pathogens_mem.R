@@ -19,8 +19,6 @@ healthboards <- c("AA" = "S08000015",
                   "TY" = "S08000030",
                   "WI" = "S08000028")
 
-resp_od_output_folder <- paste0("/conf/linkage/output/Covid Daily Dashboard/", 
-                                "Tableau process/Open Data/Respiratory/")
 
 get_resp_year <- function(w, s){
   year <- case_when(w >= 1 & w <= 39 ~ paste0("20", substr(s, 6, 7)),
