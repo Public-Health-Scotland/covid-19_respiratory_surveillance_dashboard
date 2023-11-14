@@ -36,6 +36,7 @@ tagList(
                     # headline figures for the week in Scotland
                     tagList(h2(glue("Number of acute influenza admissions to hospital")),
                             tags$div(class = "headline",
+                                     br(),
 #                                     h3(glue("Total number of influenza hospital admissions in Scotland over the last two weeks")),
                                      # previous week total number
                                      valueBox(value = {influenza_admissions_recent_week %>%

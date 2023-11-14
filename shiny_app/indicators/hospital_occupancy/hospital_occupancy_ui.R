@@ -11,6 +11,7 @@ tagList(
   fluidRow(width = 12,
            tagList(h2("Number of inpatients with COVID-19 in hospital (seven day average)"),
                    tags$div(class = "headline",
+                            br(),
 #                            h3(glue("Seven day average hospital occupancy (inpatients) on the Sunday of the latest three weeks available")),
                             valueBox(value = {occupancy_headlines[[3]]$SevenDayAverage %>% format(big.mark=",")},
                                      subtitle = glue("As at {names(occupancy_headlines)[[3]]}"),
