@@ -34,9 +34,9 @@ tagList(
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),
                     # headline figures for the week in Scotland
-                    tagList(h2(glue("Summary of influenza hospital admissions in Scotland")),
+                    tagList(h2(glue("Number of acute influenza admissions to hospital")),
                             tags$div(class = "headline",
-                                     h3(glue("Total number of influenza hospital admissions in Scotland over the last two weeks")),
+#                                     h3(glue("Total number of influenza hospital admissions in Scotland over the last two weeks")),
                                      # previous week total number
                                      valueBox(value = {influenza_admissions_recent_week %>%
                                          .$AdmissionsLastWeek %>% format(big.mark=",")},
@@ -62,8 +62,8 @@ tagList(
                                      h6("hidden text for padding page")
                             )))), # headline
 
-  fluidRow(width = 12,
-           tagList(h2("Number of acute influenza admissions to hospital"))),
+#  fluidRow(width = 12,
+#           tagList(h2("Number of acute influenza admissions to hospital"))),
 
   fluidRow(
     tabBox(width = NULL,

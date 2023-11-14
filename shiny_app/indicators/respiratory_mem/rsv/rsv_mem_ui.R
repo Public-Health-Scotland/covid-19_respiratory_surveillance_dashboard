@@ -44,7 +44,7 @@ tagList(
                       # headline figures for the week in Scotland
                       tagList(h2(glue("Summary of RSV cases in Scotland")),
                               tags$div(class = "headline",
-                                       h3(glue("Total number of RSV cases in Scotland over the last two weeks")),
+                                      # h3(glue("Total number of RSV cases in Scotland over the last two weeks")),
                                        # previous week total number
                                         valueBox(value = {rsv_cases_recent_week %>% .$CasesLastWeek %>% format(big.mark=",")},
                                            subtitle = glue("Week ending {rsv_cases_recent_week %>% .$DateLastWeek%>% format('%d %b %y')}"),

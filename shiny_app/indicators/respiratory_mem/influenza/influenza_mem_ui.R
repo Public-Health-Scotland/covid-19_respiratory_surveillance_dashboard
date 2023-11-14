@@ -18,7 +18,7 @@ tagList(
                     # headline figures for the week in Scotland
                     tagList(h2(glue("Summary of influenza cases in Scotland")),
                             tags$div(class = "headline",
-                                     h3(glue("Total number of influenza cases in Scotland over the last two weeks")),
+                                    # h3(glue("Total number of influenza cases in Scotland over the last two weeks")),
                                      # previous week total number
                                      valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == "flu") %>%
                                          .$CountPreviousWeek %>% format(big.mark=",")},
