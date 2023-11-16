@@ -36,6 +36,10 @@ g_resp_admissions_summary <- i_resp_admissions_summary %>%
 
 i_influenza_admissions <- read_csv_with_options(match_base_filename(glue(input_data, "admissions_flu.csv")))
 
+# i_influenza_admissions <- i_influenza_admissions %>%
+#   mutate(date_plot = strptime(as.character(date_plot), "%d/%m/%Y")) %>%
+#   mutate(date_plot = format(date_plot, "%Y/%m/%d"))
+
 g_influenza_admissions <- i_influenza_admissions %>%
   dplyr::rename(Admissions = Frequency,
                 Date = date_plot) %>%

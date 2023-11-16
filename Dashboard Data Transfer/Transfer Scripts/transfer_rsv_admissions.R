@@ -20,6 +20,10 @@ date_reference <- readRDS("/conf/C19_Test_and_Protect/Analyst Space/Calum (Analy
 
 i_rsv_admissions <- read_csv_with_options(match_base_filename(glue(input_data, "admissions_rsv.csv")))
 
+# i_rsv_admissions <- i_rsv_admissions %>%
+#   mutate(date_plot = strptime(as.character(date_plot), "%Y-%m-%d")) %>%
+#   mutate(date_plot = format(date_plot, "%Y/%m/%d"))
+
 g_rsv_admissions <- i_rsv_admissions %>%
   dplyr::rename(Admissions = Freq_RSV_positives,
                 Date = date_plot) %>%
