@@ -131,15 +131,15 @@ tagList(
                                                           .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
                                                       selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
                                                           .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-                                ),
-                                column(4, pickerInput("respiratory_select_age_sex_breakdown",
-                                                      label = "Select the plot breakdown",
-                                                      choices = c("Age", "Sex", "Age + Sex"),
-                                                      selected = "Age")
-                                )
+                                )#,
+                                # column(4, pickerInput("respiratory_select_age_sex_breakdown",
+                                #                       label = "Select the plot breakdown",
+                                #                       choices = c("Age", "Sex", "Age + Sex"),
+                                #                       selected = "Age")
+                                # )
                               ),
                               altTextUI("influenza_age_sex"),
-                              withNavySpinner(plotlyOutput("influenza_age_sex_plot"))
+                              withNavySpinner(plotlyOutput("influenza_age_sex_pyramid_plot"))
                             ) # tagList
                    ), # tabPanel
                    tabPanel("Data",

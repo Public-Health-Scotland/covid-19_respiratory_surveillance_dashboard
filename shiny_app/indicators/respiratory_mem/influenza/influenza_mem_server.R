@@ -3,6 +3,23 @@ metadataButtonServer(id="respiratory_influenza_mem",
                      panel="Respiratory infection activity",
                      parent = session)
 
+reporting_sunday<- floor_date(today(), "week", 1) -1
+
+Date=data.frame(Date=seq(as.Date("2016-10-09"), as.Date(reporting_sunday), "week"))
+FluOrNonFlu= data.frame(FluOrNonFlu=c("flu" ))
+Season=data.frame(Season=c("2016/17", "2017/18", "2018/19", "2019/20", "2020/21", "2021/22", "2022/23", "2023/24" ))
+AgeGroup= data.frame(AgeGroup=c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+" ))
+Sex= data.frame(Sex=c("M", "F"))
+df_age_sex_weekly <- expand.grid(FluOrNonFlu=unique(FluOrNonFlu$FluOrNonFlu),
+                            Date=unique(Date$Date),
+                            Season=unique(Season$Season),
+                            AgeGroup=unique(AgeGroup$AgeGroup),
+                            Sex=unique(Sex$Sex),
+                            KEEP.OUT.ATTRS = FALSE,
+                            stringsAsFactors = FALSE) %>%
+  left_join(Respiratory_AllData, by = c('Date', 'Season', 'FluOrNonFlu', 'AgeGroup', 'Sex')) %>%
+  mutate_if(is.numeric, ~replace_na(., 0))
+
 # Low threshold
 influenza_low_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   filter(Pathogen == "Influenza") %>%
@@ -212,14 +229,26 @@ altTextServer("influenza_age_sex",
 )
 
 # plot that shows the breakdown by age/sex/age and sex
-output$influenza_age_sex_plot = renderPlotly({
+# output$influenza_age_sex_plot = renderPlotly({
+#
+#   Respiratory_AllData %>%
+#     filter(FluOrNonFlu == "flu") %>%
+#     filter_by_sex_age(., season = input$respiratory_season,
+#                       date = {input$respiratory_date %>% as.Date(format="%d %b %y")},
+#                       breakdown = input$respiratory_select_age_sex_breakdown) %>%
+#     make_age_sex_plot(., breakdown = input$respiratory_select_age_sex_breakdown)
+#
+# })
 
-  Respiratory_AllData %>%
-    filter(FluOrNonFlu == "flu") %>%
-    filter_by_sex_age(., season = input$respiratory_season,
-                      date = {input$respiratory_date %>% as.Date(format="%d %b %y")},
-                      breakdown = input$respiratory_select_age_sex_breakdown) %>%
-    make_age_sex_plot(., breakdown = input$respiratory_select_age_sex_breakdown)
+# pyramid plot that shows the breakdown by age and sex
+output$influenza_age_sex_pyramid_plot = renderPlotly({
+
+  df_age_sex_weekly %>%
+    filter(FluOrNonFlu == "flu",
+           scotland_by_age_sex_flag == 1,
+           Season == input$respiratory_season,
+           Date == {input$respiratory_date %>% as.Date(format="%d %b %y")}) %>%
+   make_age_sex_pyramid_plot()
 
 })
 
