@@ -179,7 +179,7 @@ mem_line_colours <- c("#A35000", "#00FF1A", "#004785","#00a2e5",
                       "#376C31", "#FF0000")
 
 # Colours for lines on summary admissions line chart
-flu_hosp_adms_colours <- c(phs_colours("phs-rust-80"), phs_colours("phs-purple"), phs_colours("phs-green"),
+flu_hosp_adms_colours <- c(phs_colours("phs-purple"), phs_colours("phs-green"),
                             phs_colours("phs-magenta"), phs_colours("phs-teal"), phs_colours("phs-graphite"),
                             phs_colours("phs-blue"))
 
