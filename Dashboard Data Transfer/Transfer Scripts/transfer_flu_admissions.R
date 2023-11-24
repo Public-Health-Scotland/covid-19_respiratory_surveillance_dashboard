@@ -70,3 +70,45 @@ write.csv(g_resp_admissions_summary, glue(output_folder, "Respiratory_admissions
 write.csv(g_influenza_admissions, glue(output_folder, "Influenza_admissions.csv"), row.names = FALSE)
 
 rm(i_influenza_admissions, g_influenza_admissions)
+
+#### flu healthboard admissions
+i_influenza_hb_admissions <- read_csv_with_options(match_base_filename(glue(input_data, "admissions_flu_hb.csv")))
+
+g_flu_adm_hb <- i_influenza_hb_admissions %>%
+  mutate(WeekBeginning = as.Date(week_start)) %>% 
+  mutate(WeekEnding = as.Date(week_end)) %>% 
+arrange(WeekEnding , NHS_BOARD_NAME_TREATMENT) %>%
+  mutate(HealthBoardOfTreatment = recode(NHS_BOARD_NAME_TREATMENT,
+                              "NHS AYRSHIRE & ARRAN" = "NHS Ayrshire and Arran",
+                              "NHS BORDERS" = "NHS Borders",
+                              "NHS DUMFRIES & GALLOWAY" = "NHS Dumfries and Galloway",
+                              "NHS FIFE" = "NHS Fife",
+                              "NHS FORTH VALLEY" = "NHS Forth Valley",
+                              "NHS GRAMPIAN" = "NHS Grampian",
+                              "NHS GREATER GLASGOW & CLYDE" = "NHS Greater Glasgow and Clyde",
+                              "NHS HIGHLAND" = "NHS Highland",
+                              "NHS LANARKSHIRE" = "NHS Lanarkshire",
+                              "NHS LOTHIAN" = "NHS Lothian",
+                              "NHS ORKNEY" = "NHS Orkney",
+                              "NHS SHETLAND" = "NHS Shetland",
+                              "NHS TAYSIDE" = "NHS Tayside",
+                              "NHS WESTERN ISLES" = "NHS Western Isles" )) %>% 
+  select(Flu_Season,week,WeekBeginning,WeekEnding, HealthBoardOfTreatment, 
+         TotalInfections=frequency)
+
+# g_flu_adm_hb<-g_flu_adm %>% 
+#   group_by(WeekBeginning,WeekEnding,week, Flu_Season, HealthBoardOfTreatment) %>% 
+#   summarise(TotalInfections = sum(frequency)) 
+
+g_flu_adm_scot <- g_flu_adm_hb  %>% 
+  group_by(Flu_Season,week,WeekBeginning,WeekEnding) %>% 
+  summarise(TotalInfections = sum(TotalInfections)) %>%
+  mutate(HealthBoardOfTreatment = "Scotland") 
+
+g_flu_adm_hb %<>%
+  bind_rows(g_flu_adm_scot) %>% 
+  arrange(WeekEnding)
+
+write.csv(g_flu_adm_hb, glue(output_folder, "Flu_Admissions_HB.csv"), row.names = FALSE)
+
+rm(i_influenza_hb_admissions, g_flu_adm_scot, g_flu_adm_hb)

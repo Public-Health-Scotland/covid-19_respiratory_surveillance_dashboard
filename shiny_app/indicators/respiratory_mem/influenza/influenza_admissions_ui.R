@@ -82,8 +82,17 @@ tagList(
 
     ), # tabBox
     linebreaks(1)
-  )#, # fluidRow
+      ), # fluidRow
+fluidRow(width = 12,
+         tagList(h2("Number of acute influenza admissions to hospital by NHS Health Board of Treatment; week ending")),
+         linebreaks(1)), #fluidRow
 
+fluidRow(width=12,
+         box(width = NULL,
+             withNavySpinner(dataTableOutput("flu_admissions_hb_table"))),
+         fluidRow(
+           width=12, linebreaks(1))
+),
 
 )
 
