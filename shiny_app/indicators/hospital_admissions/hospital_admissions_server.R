@@ -177,8 +177,9 @@ output$hospital_admissions_simd_plot <- renderPlotly({
 
 # HB Table
 output$hospital_admissions_hb_table <- renderDataTable({
-  Admissions_HB %>%
+  Admissions_HB_3wks%>%
     filter(WeekEnding %in% adm_hb_dates) %>%
+    rename(HealthBoard=HealthBoardOfTreatment) %>% 
     mutate(WeekEnding = format(WeekEnding, format = "%d %b %y")) %>%
     pivot_wider(names_from = WeekEnding,
                 values_from = TotalInfections) %>%
