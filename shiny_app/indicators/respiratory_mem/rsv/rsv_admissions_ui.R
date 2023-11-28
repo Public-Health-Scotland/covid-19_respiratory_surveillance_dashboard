@@ -1,21 +1,14 @@
 # Recent weeks admissions
 
 rsv_admissions_recent_week <- RSV_admissions %>%
-  tail(2) %>%
-  mutate(DateLastWeek = .$Date[1],
-         DateThisWeek = .$Date[2],
-         AdmissionsLastWeek = .$Admissions[1],
-         AdmissionsThisWeek = .$Admissions[2],
-         PercentageDifference = round((AdmissionsThisWeek/AdmissionsLastWeek - 1)*100, digits = 2)) %>%
-  mutate(ChangeFactor = case_when(
-    PercentageDifference < 0 ~ "Decrease",
-    PercentageDifference > 0 ~ "Increase",
-    TRUE                     ~ "No change"),
-    icon= case_when(ChangeFactor == "Decrease"~"arrow-down",
-                    ChangeFactor == "Increase"~ "arrow-up",
-                    ChangeFactor == "No change"~"equals")
-  ) %>%
-  select(DateLastWeek, DateThisWeek, AdmissionsLastWeek, AdmissionsThisWeek, PercentageDifference, ChangeFactor, icon) %>%
+  tail(3) %>%
+  mutate(DateTwoWeek = .$Date[1],
+         DateLastWeek = .$Date[2],
+         DateThisWeek = .$Date[3],
+         AdmissionsTwoWeek = .$Admissions[1],
+         AdmissionsLastWeek = .$Admissions[2],
+         AdmissionsThisWeek = .$Admissions[3]) %>%
+  select(DateTwoWeek, DateLastWeek, DateThisWeek, AdmissionsTwoWeek, AdmissionsLastWeek, AdmissionsThisWeek) %>%
   head(1)
 
 tagList(
@@ -34,6 +27,13 @@ tagList(
                             tags$div(class = "headline",
                                      br(),
 #                                     h3(glue("Total number of RSV hospital admissions in Scotland over the last two weeks")),
+                                     # two weeks ago total number
+                                     valueBox(value = {rsv_admissions_recent_week %>%
+                                     .$AdmissionsTwoWeek %>% format(big.mark=",")},
+                                     subtitle = glue("Week ending {rsv_admissions_recent_week %>%
+                                                .$DateTwoWeek %>% format('%d %b %y')}"),
+                                     color = "navy",
+                                     icon = icon_no_warning_fn("calendar-week")),
                                      # previous week total number
                                      valueBox(value = {rsv_admissions_recent_week %>%
                                          .$AdmissionsLastWeek %>% format(big.mark=",")},
@@ -42,19 +42,17 @@ tagList(
                                          color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # this week total number
-                                     valueBox(value = {rsv_admissions_recent_week %>%
-                                         .$AdmissionsThisWeek %>% format(big.mark=",")},
+                                     valueBox(value = glue("{rsv_admissions_recent_week %>%
+                                         .$AdmissionsThisWeek %>% format(big.mark=",")}*"),
                                          subtitle = glue("Week ending {rsv_admissions_recent_week %>%
                                                 .$DateThisWeek %>% format('%d %b %y')}"),
                                          color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
-                                     # percentage difference between the previous weeks
-                                     valueBox(value = glue("{rsv_admissions_recent_week %>%
-                                                  .$PercentageDifference}%"),
-                                              subtitle = glue("{rsv_admissions_recent_week %>%
-                                                     .$ChangeFactor %>% str_to_sentence()} in the last week"),
-                                              color = "navy",
-                                              icon = icon_no_warning_fn({rsv_admissions_recent_week %>%  .$icon})),
+                                     h4("* provisional figures",
+                                     actionButton("glossary",
+                                     label = "Go to glossary",
+                                     icon = icon_no_warning_fn("paper-plane")
+                                    )),
                                      # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                             )))), # headline
