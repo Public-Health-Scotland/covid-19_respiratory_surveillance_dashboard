@@ -49,5 +49,19 @@ observeEvent(input$respiratory_season,
              }
 )
 
-
+# HB Table
+output$flu_admissions_hb_table <- renderDataTable({
+  Flu_Admissions_HB_3wks %>%
+    #filter(WeekEnding %in% adm_hb_dates) %>%
+    mutate(WeekEnding = format(WeekEnding, format = "%d %b %y")) %>%
+    pivot_wider(names_from = WeekEnding,
+                values_from = TotalInfections) %>%
+    mutate(HealthBoardOfTreatment = factor(HealthBoardOfTreatment,
+                                levels = c("NHS Ayrshire and Arran", "NHS Borders", "NHS Dumfries and Galloway", "NHS Fife", "NHS Forth Valley", "NHS Grampian",
+                                           "NHS Greater Glasgow and Clyde", "NHS Highland", "NHS Lanarkshire", "NHS Lothian", "NHS Orkney", "NHS Shetland",
+                                           "NHS Tayside", "NHS Western Isles", "Golden Jubilee National Hospital","Scotland"))) %>%
+    arrange(HealthBoardOfTreatment) %>%
+    dplyr::rename(`Health Board of treatment` = HealthBoardOfTreatment) %>%
+    make_summary_table(maxrows = 16)
+})
 
