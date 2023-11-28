@@ -50,7 +50,7 @@ observeEvent(input$respiratory_season,
 # HB Table
 output$rsv_admissions_hb_table <- renderDataTable({
   RSV_Admissions_HB_3wks %>%
-    filter(WeekEnding %in% adm_hb_dates) %>%
+   # filter(WeekEnding %in% adm_hb_dates) %>%
     mutate(WeekEnding = format(WeekEnding, format = "%d %b %y")) %>%
     select(WeekEnding, HealthBoardOfTreatment,TotalInfections) %>% 
     pivot_wider(names_from = WeekEnding,

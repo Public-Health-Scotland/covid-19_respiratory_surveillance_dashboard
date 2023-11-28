@@ -147,10 +147,6 @@ g_flu_adm_hb_3weeks_full<-hb_last_three_weeks %>%
 write.csv(g_flu_adm_hb_3weeks_full, glue(output_folder, "Flu_Admissions_HB_3wks.csv"), row.names = FALSE)
 
 
-
-rm(i_flu_hb_admissions, g_flu_adm_scot, g_flu_adm_hb )
-
-
-
-
-rm(i_influenza_hb_admissions, g_flu_adm_scot, g_flu_adm_hb)
+rm(i_influenza_hb_admissions, g_flu_adm_scot, g_flu_adm_hb , g_flu_adm_hb_3weeks, 
+   g_flu_adm_hb_3weeks_full, hb_last_three_weeks, HealthBoardName, 
+   three_sunday_dates)
