@@ -47,7 +47,7 @@ seasonal_coronavirus_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %
 #   filter(Pathogen == "Coronavirus") %>%
 #   select(Season) %>%
 #   arrange(Season) %>%
-#   distinct() 
+#   distinct()
 # seasons <- bind_rows(seasons_2, seasons_1)
 # seasons <- seasons$Season
 
@@ -77,7 +77,10 @@ altTextServer("seasonal_coronavirus_mem_modal",
                                              "Low (", seasonal_coronavirus_low_threshold, "-", seasonal_coronavirus_moderate_threshold-0.01, "), ",
                                              "Moderate (", seasonal_coronavirus_moderate_threshold, "-", seasonal_coronavirus_high_threshold-0.01, "), ",
                                              "High (", seasonal_coronavirus_high_threshold, "-", seasonal_coronavirus_extraordinary_threshold-0.01, "), and ",
-                                             "Extraordinary (>= ", seasonal_coronavirus_extraordinary_threshold, ")."))))
+                                             "Extraordinary (>= ", seasonal_coronavirus_extraordinary_threshold, ").")),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 altTextServer("seasonal_coronavirus_mem_hb_modal",
               title = "Seasonal coronavirus incidence rate per 100,000 population by NHS Health Board",
@@ -90,7 +93,10 @@ altTextServer("seasonal_coronavirus_mem_hb_modal",
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller NHS Health Boards. ",
                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to NHS Health Boards ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 
 altTextServer("seasonal_coronavirus_mem_age_modal",
@@ -104,7 +110,10 @@ altTextServer("seasonal_coronavirus_mem_age_modal",
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller age groups. ",
                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to age groups ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 
 # seasonal coronavirus MEM table
@@ -168,7 +177,7 @@ output$seasonal_coronavirus_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Coronavirus") %>%
     create_mem_linechart()
-  
+
 })
 
 # seasonal coronavirus MEM by HB plot
@@ -177,7 +186,7 @@ output$seasonal_coronavirus_mem_hb_plot <- renderPlotly({
     filter(Pathogen == "Coronavirus") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
-  
+
 })
 
 
@@ -187,7 +196,7 @@ output$seasonal_coronavirus_mem_age_plot <- renderPlotly({
     filter(Pathogen == "Coronavirus") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
-  
+
 })
 
 

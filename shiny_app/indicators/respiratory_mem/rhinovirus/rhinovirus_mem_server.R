@@ -47,7 +47,7 @@ rhinovirus_extraordinary_threshold <- Respiratory_Pathogens_MEM_Scot %>%
 #   filter(Pathogen == "Rhinovirus") %>%
 #   select(Season) %>%
 #   arrange(Season) %>%
-#   distinct() 
+#   distinct()
 # seasons <- bind_rows(seasons_2, seasons_1)
 # seasons <- seasons$Season
 
@@ -77,7 +77,10 @@ altTextServer("rhinovirus_mem_modal",
                                         "Low (", rhinovirus_low_threshold, "-", rhinovirus_moderate_threshold-0.01, "), ",
                                         "Moderate (", rhinovirus_moderate_threshold, "-", rhinovirus_high_threshold-0.01, "), ",
                                         "High (", rhinovirus_high_threshold, "-", rhinovirus_extraordinary_threshold-0.01, "), and ",
-                                        "Extraordinary (>= ", rhinovirus_extraordinary_threshold, ")."))))
+                                        "Extraordinary (>= ", rhinovirus_extraordinary_threshold, ").")),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 altTextServer("rhinovirus_mem_hb_modal",
               title = "Rhinovirus incidence rate per 100,000 population by NHS Health Board",
@@ -90,7 +93,10 @@ altTextServer("rhinovirus_mem_hb_modal",
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller NHS Health Boards. ",
                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to NHS Health Boards ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 
 altTextServer("rhinovirus_mem_age_modal",
@@ -104,7 +110,10 @@ altTextServer("rhinovirus_mem_age_modal",
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller age groups. ",
                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to age groups ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 
 # Rhinovirus MEM table

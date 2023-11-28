@@ -77,7 +77,10 @@ altTextServer("adenovirus_mem_modal",
                                              "Low (", adenovirus_low_threshold, "-", adenovirus_moderate_threshold-0.01, "), ",
                                              "Moderate (", adenovirus_moderate_threshold, "-", adenovirus_high_threshold-0.01, "), ",
                                              "High (", adenovirus_high_threshold, "-", adenovirus_extraordinary_threshold-0.01, "), and ",
-                                             "Extraordinary (>= ", adenovirus_extraordinary_threshold, ")."))))
+                                             "Extraordinary (>= ", adenovirus_extraordinary_threshold, ").")),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 altTextServer("adenovirus_mem_hb_modal",
               title = "Adenovirus incidence rate per 100,000 population by NHS Health Board",
@@ -91,7 +94,10 @@ altTextServer("adenovirus_mem_hb_modal",
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller NHS Health Boards. ",
                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to NHS Health Boards ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 
 altTextServer("adenovirus_mem_age_modal",
@@ -105,7 +111,10 @@ altTextServer("adenovirus_mem_age_modal",
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller age groups. ",
                                         "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to age groups ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("By November 2023, all Community Acute Respiratory Infection (CARI) data were removed from the",
+                                        "overall number of laboratory-confirmed episodes. Changes to activity level thresholds for other",
+                                        "respiratory pathogens were minimal. Influenza activity level thresholds were not affected by this exclusion.")))
 
 
 # adenovirus MEM table
@@ -169,7 +178,7 @@ output$adenovirus_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Adenovirus") %>%
     create_mem_linechart()
-  
+
 })
 
 # adenovirus MEM by HB plot
@@ -178,7 +187,7 @@ output$adenovirus_mem_hb_plot <- renderPlotly({
     filter(Pathogen == "Adenovirus") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
-  
+
 })
 
 
@@ -188,7 +197,7 @@ output$adenovirus_mem_age_plot <- renderPlotly({
     filter(Pathogen == "Adenovirus") %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
-  
+
 })
 
 
