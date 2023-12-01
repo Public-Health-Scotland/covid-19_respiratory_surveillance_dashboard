@@ -1,5 +1,5 @@
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# RStudio Workbench is strictly for use by Public Health Scotland staff and     
+# RStudio Workbench is strictly for use by Public Health Scotland staff and
 # authorised users only, and is governed by the Acceptable Usage Policy https://github.com/Public-Health-Scotland/R-Resources/blob/master/posit_workbench_acceptable_use_policy.md.
 #
 # This is a shared resource and is hosted on a pay-as-you-go cloud computing
@@ -26,7 +26,7 @@ od_qualifiers <- function(data, col_name, symbol) {
 }
 
 ####### create framework to hang Covid admissions and occupancy on ######
-Dates <- data.frame(WeekEnding=seq(as.Date("2020-03-01"), as.Date(od_date-1), "week")) %>% 
+Dates <- data.frame(WeekEnding=seq(as.Date("2020-03-01"), as.Date(od_date-1), "week")) %>%
   mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) #use OD data format
 
 library(ckanr)
@@ -39,7 +39,7 @@ hb_code <- tbl(src = ckan$con, from = hb2019_id) %>%
   filter(is.na(hb_date_archived)) %>%
   select(HealthBoardName=hb_name, HealthBoard=hb)
 
-HealthBoardName= data.frame(HealthBoardName=c("NHS Ayrshire and Arran",  "NHS Borders", 
+HealthBoardName= data.frame(HealthBoardName=c("NHS Ayrshire and Arran",  "NHS Borders",
                                               "NHS Dumfries and Galloway","NHS Fife",
                                               "NHS Forth Valley","NHS Grampian",
                                               "NHS Greater Glasgow and Clyde",
@@ -48,11 +48,11 @@ HealthBoardName= data.frame(HealthBoardName=c("NHS Ayrshire and Arran",  "NHS Bo
                                               "NHS Western Isles","Golden Jubilee National Hospital",
                                               "Scotland" ))
 
-             
+
 df_hb_weekly <- expand.grid(HealthBoardName=unique(HealthBoardName$HealthBoardName),
                             WeekEnding=unique(Dates$WeekEnding),
-                            KEEP.OUT.ATTRS = FALSE, 
-                            stringsAsFactors = FALSE) %>%  
+                            KEEP.OUT.ATTRS = FALSE,
+                            stringsAsFactors = FALSE) %>%
   left_join(hb_code, by="HealthBoardName" )%>% # add HB codes
   mutate(HealthBoard= case_when(HealthBoardName== "Scotland"~ "S92000003",
                                 HealthBoardName== "Golden Jubilee National Hospital"~ "SB0801",
@@ -62,33 +62,33 @@ df_hb_weekly <- expand.grid(HealthBoardName=unique(HealthBoardName$HealthBoardNa
 
 i_od_healthboard_admissions <- read_csv(glue(output_folder, "Admissions_HB.csv"))
 
-g_od_healthboard_admissions <-i_od_healthboard_admissions  %>% 
+g_od_healthboard_admissions <-i_od_healthboard_admissions  %>%
   rename(HealthBoardName=HealthBoard, Admissions=TotalInfections)%>% # rename for OD consistency
   mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d"), # use OD date format
          HealthBoardName = recode(HealthBoardName,  "National Facility"=
                                   "Golden Jubilee National Hospital" )) # update Jubilee name,
-  
+
 # import as at occupancy from outpout folder
-i_od_occupancy <- read_csv(glue(output_folder, "weekly_HB_occupancy.csv")) %>% 
+i_od_occupancy <- read_csv(glue(output_folder, "weekly_HB_occupancy.csv")) %>%
   select(WeekEnding, HealthBoardName,
          InpatientsAsAtLastSunday, SevenDayAverage,
          -HospitalOccupancyQF, -SevenDayAverageQF)
 
 # join admissions and occupancy to  weekly frameworkd
-g_weekly_healthboard_od<- df_hb_weekly %>% 
-left_join(g_od_healthboard_admissions, by=c("HealthBoardName","WeekEnding")) %>% 
- mutate(WeekEnding=as.numeric(WeekEnding)) %>% 
-left_join(i_od_occupancy, by=(c("WeekEnding", "HealthBoardName"))) %>% 
+g_weekly_healthboard_od<- df_hb_weekly %>%
+left_join(g_od_healthboard_admissions, by=c("HealthBoardName","WeekEnding")) %>%
+ mutate(WeekEnding=as.numeric(WeekEnding)) %>%
+left_join(i_od_occupancy, by=(c("WeekEnding", "HealthBoardName"))) %>%
   mutate(HealthBoardOfTreatmentQF=case_when(HealthBoard=="S92000003"&!is.na(Admissions)~"d",
                                             TRUE~"")) %>%
   od_qualifiers(., "Admissions", ":") %>%
   od_qualifiers(., "InpatientsAsAtLastSunday", ":") %>%
   od_qualifiers(., "SevenDayAverage", ":") %>%
-  select(WeekEnding, 
+  select(WeekEnding,
          HealthBoardOfTreatment=HealthBoard, HealthBoardOfTreatmentQF,
-         Admissions, AdmissionsQF, 
+         Admissions, AdmissionsQF,
          InpatientsAsAtLastSunday, InpatientsAsAtLastSundayQF,
-         InpatientsSevenDayAverage= SevenDayAverage, 
+         InpatientsSevenDayAverage= SevenDayAverage,
          InpatientsSevenDayAverageQF= SevenDayAverageQF)
 
 
@@ -96,29 +96,28 @@ write_csv(g_weekly_healthboard_od, glue(od_folder, "weekly_admissions_occupancy_
 
 
 # #### flu and respiratory admissions by HB #####
-i_od_flu_hb_adm<- read_csv(glue(output_folder,"Flu_Admissions_HB.csv")) 
+i_od_flu_hb_adm<- read_csv(glue(output_folder,"Flu_Admissions_HB.csv"))
 
-g_od_flu_hb_adm<-i_od_flu_hb_adm %>% 
+g_od_flu_hb_adm<-i_od_flu_hb_adm %>%
   select(WeekEnding, HealthBoardName=HealthBoardOfTreatment,
-         InfluenzaAdmissions=TotalInfections) %>% 
+         InfluenzaAdmissions=TotalInfections) %>%
   mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) #%>%  # use OD date format
   #mutate(WeekEnding=as.numeric(WeekEnding))
 
 i_od_rsv_hb_adm <- read_csv(glue(output_folder,"RSV_Admissions_HB.csv"))
 
-g_od_rsv_hb_adm<-i_od_rsv_hb_adm%>% 
-  select(WeekEnding, HealthBoardName= HealthBoardOfTreatment, 
-         RSVAdmissions=TotalInfections) %>% 
+g_od_rsv_hb_adm<-i_od_rsv_hb_adm%>%
+  select(WeekEnding, HealthBoardName= HealthBoardOfTreatment,
+         RSVAdmissions=TotalInfections) %>%
   mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) #%>%  # use OD date format
 
-g_weekly_resp_hb_od<- df_hb_weekly %>% 
-  left_join(g_od_flu_hb_adm, by=c("HealthBoardName","WeekEnding")) %>% 
-  left_join(g_od_rsv_hb_adm, by=c("HealthBoardName","WeekEnding")) %>% 
-  mutate(HealthBoardOfTreatmentQF= if_else(HealthBoard=="S92000003","d","")) %>%  
+g_weekly_resp_hb_od<- df_hb_weekly %>%
+  left_join(g_od_flu_hb_adm, by=c("HealthBoardName","WeekEnding")) %>%
+  left_join(g_od_rsv_hb_adm, by=c("HealthBoardName","WeekEnding")) %>%
+  mutate(HealthBoardOfTreatmentQF= if_else(HealthBoard=="S92000003","d","")) %>%
   od_qualifiers(., "InfluenzaAdmissions", ":") %>%
-  od_qualifiers(., "RSVAdmissions", ":") %>% 
+  od_qualifiers(., "RSVAdmissions", ":") %>%
   select(WeekEnding,
-         HealthBoardName, #remove before final merge
          HealthBoardOfTreatment=HealthBoard,
          HealthBoardOfTreatmentQF,
          InfluenzaAdmissions,InfluenzaAdmissionsQF,
@@ -128,9 +127,9 @@ g_weekly_resp_hb_od<- df_hb_weekly %>%
 write_csv(g_weekly_resp_hb_od, glue(od_folder, "weekly_respiratory_admissions_HB.csv"),na = "")
 
 
-rm(ckan, hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly, 
-   i_od_healthboard_admissions , g_od_healthboard_admissions,  i_od_occupancy, 
-   g_weekly_healthboard_od, 
+rm(ckan, hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly,
+   i_od_healthboard_admissions , g_od_healthboard_admissions,  i_od_occupancy,
+   g_weekly_healthboard_od,
    i_od_flu_hb_adm, i_od_rsv_hb_adm, g_od_flu_hb_adm, g_od_rsv_hb_adm,
    g_weekly_resp_hb_od)
 
@@ -138,8 +137,8 @@ rm(ckan, hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly,
 
 #### create framework to hang influenza and rsv admissions on to  ####
 
- 
-# resp_dates<- data.frame(WeekEnding=seq(as.Date("2018-10-07"), as.Date(od_date-1), "week")) %>% 
+
+# resp_dates<- data.frame(WeekEnding=seq(as.Date("2018-10-07"), as.Date(od_date-1), "week")) %>%
 #   mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) #use OD data format
 
 #resp_adm_pathogen= data.frame(Pathogen=c("Influenza - Type A or B","Respiratory syncytial virus" ))
@@ -148,49 +147,49 @@ rm(ckan, hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly,
 # df_resp_hb_weekly <- expand.grid(HealthBoardName=unique(HealthBoardName$HealthBoardName),
 #                             WeekEnding=unique(resp_dates$WeekEnding),
 #                             Pathogen=unique(resp_adm_pathogen$Pathogen),
-#                             KEEP.OUT.ATTRS = FALSE, 
-#                             stringsAsFactors = FALSE) %>%  
-#   mutate(WeekEnding=as.numeric(WeekEnding)) %>% 
+#                             KEEP.OUT.ATTRS = FALSE,
+#                             stringsAsFactors = FALSE) %>%
+#   mutate(WeekEnding=as.numeric(WeekEnding)) %>%
 #   left_join(hb_code, by="HealthBoardName" )%>% # add HB codes
-#   filter(HealthBoardName!="Golden Jubilee National Hospital") %>% 
-#   mutate(HealthBoardOfTreatment_OD= case_when(HealthBoardName== "Scotland"~ "S92000003",TRUE~  HealthBoard)) %>%  
-#   select(-HealthBoard) %>% 
-#   rename(HealthBoardOfTreatment=HealthBoardName) %>% 
+#   filter(HealthBoardName!="Golden Jubilee National Hospital") %>%
+#   mutate(HealthBoardOfTreatment_OD= case_when(HealthBoardName== "Scotland"~ "S92000003",TRUE~  HealthBoard)) %>%
+#   select(-HealthBoard) %>%
+#   rename(HealthBoardOfTreatment=HealthBoardName) %>%
 #   arrange(WeekEnding, Pathogen)
 
-# i_od_flu_hb_adm <- read_csv(glue(output_folder,"Flu_Admissions_HB.csv")) %>% 
+# i_od_flu_hb_adm <- read_csv(glue(output_folder,"Flu_Admissions_HB.csv")) %>%
 #   mutate(Pathogen="Influenza - Type A or B")
-# i_od_rsv_hb_adm <- read_csv(glue(output_folder,"RSV_Admissions_HB.csv"))%>% 
+# i_od_rsv_hb_adm <- read_csv(glue(output_folder,"RSV_Admissions_HB.csv"))%>%
 #   mutate(Pathogen="Respiratory syncytial virus")
- 
+
 # # bind flu and rsv i_-files, rename variables
- 
-# g_od_flu_rsv_hb_adm <-i_od_flu_hb_adm %>% 
-#   rbind(i_od_rsv_hb_adm) %>% 
+
+# g_od_flu_rsv_hb_adm <-i_od_flu_hb_adm %>%
+#   rbind(i_od_rsv_hb_adm) %>%
 #     rename(Admissions=TotalInfections)%>% # rename for OD consistency
 #   mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) %>%  # use OD date format
 #   mutate(WeekEnding=as.numeric(WeekEnding)) #needed for join to framework
- 
+
 # # join flu/rsv admissions to  weekly framework
-# g_weekly_resp_hb_od<- df_resp_hb_weekly %>% 
-#   left_join(g_od_flu_rsv_hb_adm, by=c("HealthBoardOfTreatment","WeekEnding", "Pathogen")) %>% 
+# g_weekly_resp_hb_od<- df_resp_hb_weekly %>%
+#   left_join(g_od_flu_rsv_hb_adm, by=c("HealthBoardOfTreatment","WeekEnding", "Pathogen")) %>%
 #   mutate(HealthBoardOfTreatmentQF=case_when(HealthBoardOfTreatment_OD=="S92000003"&!is.na(Admissions)~"d",
 #                                                                 TRUE~""),
-#         AdmissionsQF = ifelse(is.na(Admissions), ":", "")) %>%  
-#   group_by(WeekEnding) %>% 
-#   arrange(WeekEnding, HealthBoardOfTreatment, Pathogen) %>% 
-#   select(WeekEnding, 
+#         AdmissionsQF = ifelse(is.na(Admissions), ":", "")) %>%
+#   group_by(WeekEnding) %>%
+#   arrange(WeekEnding, HealthBoardOfTreatment, Pathogen) %>%
+#   select(WeekEnding,
 #          Name=HealthBoardOfTreatment,
-#          HealthBoardOfTreatment=HealthBoardOfTreatment_OD, 
+#          HealthBoardOfTreatment=HealthBoardOfTreatment_OD,
 #          HealthBoardOfTreatmentQF,Pathogen,
 #          Admissions, AdmissionsQF)
-# 
-# 
-# 
+#
+#
+#
 # write_csv(g_weekly_resp_hb_od, glue(od_folder, "weekly_respiratory_admissions_HB_v1.csv"),na = "")
 
 
-# # %>% 
+# # %>%
 #   arrange( factor(HealthBoardOfTreatment,
 #                              levels = c("NHS AYRSHIRE & ARRAN", "NHS BORDERS", "NHS DUMFRIES & GALLOWAY", "NHS FIFE", "NHS FORTH VALLEY", "NHS GRAMPIAN",
 #                                         "NHS GREATER GLASGOW & CLYDE", "NHS HIGHLAND", "NHS LANARKSHIRE", "NHS LOTHIAN", "NHS ORKNEY", "NHS SHETLAND",
