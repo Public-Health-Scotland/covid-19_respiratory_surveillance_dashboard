@@ -124,7 +124,8 @@ g_weekly_resp_hb_od<- df_hb_weekly %>%
          RSVAdmissions,
          RSVAdmissionsQF)
 
-write_csv(g_weekly_resp_hb_od, glue(od_folder, "weekly_respiratory_admissions_HB.csv"),na = "")
+write_csv(g_weekly_resp_hb_od, 
+          glue(od_folder, "weekly_respiratory_admissions_HB_{od_report_date}.csv"),na = "")
 
 
 rm(ckan, hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly,
