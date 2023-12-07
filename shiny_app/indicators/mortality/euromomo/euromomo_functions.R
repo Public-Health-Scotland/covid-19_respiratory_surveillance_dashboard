@@ -501,13 +501,13 @@ create_euromomo_mem_heatmap <- function(data,
     mutate(Value = round_half_up(Value, rate_dp))
   
   # Ensure the correct colours are selected for activity levels in the data
-  act_levels_prev_season <- as.numeric(unique(sort(data_prev_season$ActivityLevel)))
-  activity_level_colours_prev_season <- activity_level_colours[act_levels_prev_season]
+  act_levels_prev_season <- unique(sort(data_prev_season$ActivityLevelDelay))
+  act_levels_prev_season_numeric <- as.numeric(act_levels_prev_season)
+  activity_level_colours_prev_season <- euromomo_activity_level_colours[act_levels_prev_season_numeric]
   
-  # If latest week is 40 or 41, ensure grey colour added
-  if(latest_week %in% c("40","41")){
-    activity_level_colours_prev_season <- c(activity_level_colours_prev_season, "#a6a6a6")
-  }
+  data_prev_season <- data_prev_season %>%
+    mutate(ActivityLevelDelay = factor(ActivityLevelDelay, levels = act_levels_prev_season))
+  
   
   
   # Create a heat map using Plotly
@@ -585,16 +585,13 @@ create_euromomo_mem_heatmap <- function(data,
     mutate(Value = round_half_up(Value, rate_dp))
   
   # Ensure the correct colours are selected for activity levels in the data
-  act_levels_curr_season <- as.numeric(unique(sort(data_curr_season$ActivityLevel)))
-  activity_level_colours_curr_season <- c(activity_level_colours[act_levels_curr_season],
-                                          "#a6a6a6")
+  act_levels_curr_season <- unique(sort(data_curr_season$ActivityLevelDelay))
+  act_levels_curr_season_numeric <- as.numeric(act_levels_curr_season)
+  activity_level_colours_curr_season <- euromomo_activity_level_colours[act_levels_curr_season_numeric]
   
-  # If latest week is 40, 41, or 42 update colours accordingly
-  if(latest_week %in% c("40","41","42")){
-    activity_level_colours_curr_season <- c("#a6a6a6")
-    data_curr_season <- data_curr_season %>%
-      mutate(ActivityLevelDelay = ActivityLevel)
-  }
+  data_curr_season <- data_curr_season %>%
+    mutate(ActivityLevelDelay = factor(ActivityLevelDelay, levels = act_levels_curr_season))
+  
   
   # Create a heat map using Plotly
   heatmap_curr_season <- plot_ly(

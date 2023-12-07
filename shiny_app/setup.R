@@ -172,6 +172,12 @@ activity_levels <- c("Baseline", "Low", "Moderate", "High", "Extraordinary")
 # Colours for thresholds
 activity_level_colours <- c("#01A148", "#FFDE17", "#F36523", "#ED1D24", "#7D4192")
 
+# Activity levels   for euromomo
+euromomo_activity_levels <- c("Baseline", "Low", "Moderate", "High", "Extraordinary", "Reporting delay")
+
+# Colours for thresholds for euromomo
+euromomo_activity_level_colours <- c("#01A148", "#FFDE17", "#F36523", "#ED1D24", "#7D4192", "#a6a6a6")
+
 # Colours for lines on line chart
 # mem_line_colours <- c("#010101", "#A35000", "#00FF1A", "#004785","#00a2e5",
 #                       "#376C31", "#FF0000")
