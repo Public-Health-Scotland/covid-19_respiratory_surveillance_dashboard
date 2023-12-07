@@ -217,7 +217,7 @@ create_mem_heatmap <- function(data = df,
                                breakdown_variable = "HBName",
                                heatmap_seasons = NULL,
                                value_variable = "RatePer100000") {
-
+  
   # Rename HB/Age variable
   # Rename value variable
   data <- data %>%
@@ -262,8 +262,13 @@ create_mem_heatmap <- function(data = df,
     mutate(Value = round_half_up(Value, rate_dp))
 
   # Ensure the correct colours are selected for activity levels in the data
-  act_levels_prev_season <- as.numeric(unique(sort(data_prev_season$ActivityLevel)))
-  activity_level_colours_prev_season <- activity_level_colours[act_levels_prev_season]
+  act_levels_prev_season <- unique(sort(data_prev_season$ActivityLevel))
+  act_levels_prev_season_numeric <- as.numeric(act_levels_prev_season)
+  activity_level_colours_prev_season <- activity_level_colours[act_levels_prev_season_numeric]
+  
+  # Update factor levels
+  data_prev_season <- data_prev_season %>%
+    mutate(ActivityLevel = factor(ActivityLevel, levels = act_levels_prev_season))
 
   # Create a heat map using Plotly
   heatmap_prev_season <- plot_ly(
@@ -340,8 +345,13 @@ create_mem_heatmap <- function(data = df,
     mutate(Value = round_half_up(Value, rate_dp))
 
   # Ensure the correct colours are selected for activity levels in the data
-  act_levels_curr_season <- as.numeric(unique(sort(data_curr_season$ActivityLevel)))
-  activity_level_colours_curr_season <- activity_level_colours[act_levels_curr_season]
+  act_levels_curr_season <- unique(sort(data_curr_season$ActivityLevel))
+  act_levels_curr_season_numeric <- as.numeric(act_levels_curr_season)
+  activity_level_colours_curr_season <- activity_level_colours[act_levels_curr_season_numeric]
+  
+  # Update factor levels
+  data_curr_season <- data_curr_season %>%
+    mutate(ActivityLevel = factor(ActivityLevel, levels = act_levels_curr_season))
 
   # Create a heat map using Plotly
   heatmap_curr_season <- plot_ly(
