@@ -1,4 +1,4 @@
-# Open data transfer for Geography
+# Open data transfer for Age & Sex cases
 # Sourced from ../dashboard_data_transfer.R
 
 
@@ -137,18 +137,15 @@ g_total_cumulative<-g_60plus_sex_cumulative %>%
    group_by(location_code) %>%
   summarise(TotalPositive=sum(TotalPositive)) %>% 
   ungroup() %>%
-   mutate(AgeGroup="Total",
+   mutate(agegroup="Total",
           sex="Total") %>% 
-   left_join(pop_dash_total, by=(c("AgeGroup", "sex"))) %>% 
-  rename(agegroup=AgeGroup)
+   left_join(pop_total_total, by=(c("agegroup", "sex", "location_code"))) 
 
 #7 calculate unknown age and/or sex
 g_unknown_agesex_total_cases <-g_cases_age_sex_all %>% 
   filter(agegroup=='Unknown'| sex=='Unknown')%>% 
   summarise(TotalPositive=sum(daily_positive)) %>% 
-  mutate(location_code="Scotland",AgeGroup="Unknown", sex="Unknown") %>% 
-  left_join(pop_dash_total, by=("AgeGroup"))%>% 
-  rename(agegroup=AgeGroup)
+  mutate(location_code="Scotland",agegroup="Unknown", sex="Unknown") 
 
 #combine all cumulative by aga-group and sex combinations and format for open data
 g_age_sex_cumulative_od <- bind_rows(g_agegroup_cumulative_combined,
@@ -174,7 +171,6 @@ arrange(Sex)%>%
 
 
 write_csv(g_age_sex_cumulative_od, glue(od_folder, "cumulative_cases_age_sex_{od_report_date}.csv"), na = "")
-
 
 
 ##### Weekly cases by age and sex  #########################################################
