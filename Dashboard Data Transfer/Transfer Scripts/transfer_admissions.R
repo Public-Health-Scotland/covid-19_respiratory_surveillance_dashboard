@@ -39,7 +39,24 @@ g_adm %<>%
 
 write_csv(g_adm, glue(output_folder, "Admissions.csv"))
 
-rm(g_adm)
+
+g_adm_weekly<-g_adm %>% 
+  select(AdmissionDate, TotalInfections) %>% 
+  mutate(AdmissionDate=ymd(AdmissionDate)) %>% 
+  mutate(WeekOfAdmission = ceiling_date(
+    AdmissionDate,unit="week",week_start=7, change_on_boundary=FALSE)) %>% 
+  group_by(WeekOfAdmission) %>% 
+  summarise(TotalInfections = sum(TotalInfections))%>%
+  ungroup() %>% 
+  mutate(ProvisionalFlag = case_when(
+    WeekOfAdmission > (report_date-10) ~ 1,
+           TRUE ~ 0)) %>% 
+    mutate(WeekOfAdmission = format(strptime(WeekOfAdmission, format = "%Y-%m-%d"), "%Y%m%d")) 
+
+write_csv(g_adm_weekly, glue(output_folder, "Admissions_Weekly.csv"))
+
+
+rm(g_adm, g_adm_weekly)
 
 
 ### b) Admissions_Age_Breakdown
