@@ -7,19 +7,23 @@
 make_hospital_admissions_plot <- function(data){
 
   # Wrangle Data
-  data <- data %>%
+  data <-data %>%
     arrange(desc(AdmissionDate)) %>%
     mutate(AdmissionDate = convert_opendata_date(AdmissionDate))
 
+  # slice last two weeks of data for use in provisional line on chart
+  last_sun_data<-  slice_head(data, n = 2) %>% 
+    select(AdmissionDate, TotalInfections)
+  
   # Provisional data
   prov_data <- data %>%
     filter(ProvisionalFlag == 1) %>%
-    select(AdmissionDate, TotalInfections, SevenDayAverage)
+    select(AdmissionDate, TotalInfections)
 
   # Remainder of the data
   non_prov_data <- data %>%
     filter(ProvisionalFlag == 0) %>%
-    select(AdmissionDate, TotalInfections, SevenDayAverage)
+    select(AdmissionDate, TotalInfections)
 
   # Create axis titles
   yaxis_title <- "Number of admissions"
@@ -34,42 +38,29 @@ make_hospital_admissions_plot <- function(data){
   yaxis_plots[["fixedrange"]] <- FALSE
 
   #Text for tooltip
-  tooltip_trend <- c(paste0("Date: ", format(non_prov_data$AdmissionDate, "%d %b %y"),
-                            "<br>", "Admissions: ", non_prov_data$TotalInfections,
-                            "<br>", "7 day average: ", format(non_prov_data$SevenDayAverage, nsmall=0, digits=3)))
-
+  tooltip_trend <- c(paste0("Week ending: ", format(non_prov_data$AdmissionDate, "%d %b %y"),
+                            "<br>", "Admissions: ", non_prov_data$TotalInfections))
+                           
   # Text for tooltip (provisional data)
   tooltip_trend_prov <- c(paste0("Provisional data: ",
-                                 "<br>", "Date: ", format(prov_data$AdmissionDate, "%d %b %y"),
-                                 "<br>", "Admissions: ", prov_data$TotalInfections,
-                                 "<br>", "7 day average: ", format(prov_data$SevenDayAverage, nsmall=0, digits=3)))
+                                 "<br>", "Week ending: ", format(prov_data$AdmissionDate, "%d %b %y"),
+                                 "<br>", "Admissions: ", prov_data$TotalInfections))
 
   #Creating time trend plot
   p <- plot_ly(non_prov_data, x = ~AdmissionDate) %>%
     add_lines(y = ~TotalInfections,
-              line = list(color = phs_colours("phs-blue-30")),
+              line = list(color = "navy"),
               text = tooltip_trend, hoverinfo = "text",
-              name = "Daily hospital admissions") %>%
-    add_lines(y = ~SevenDayAverage,
-              line = list(color = "navy",
-                          dash = "dash"),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "7 day average") %>%
-
+              name = "Weekly hospital admissions") %>%
+    
      # Add in provisional data
-    add_lines(data = prov_data,
+    add_lines(data = last_sun_data,
                x = ~AdmissionDate,
                y = ~TotalInfections,
                line = list(color = phs_colours("phs-graphite-50")),
                text = tooltip_trend_prov, hoverinfo = "text",
-               name = "Daily hospital admissions (provisional)") %>%
-    add_lines(data = prov_data,
-              y = ~SevenDayAverage,
-              line=list(color = phs_colours("phs-graphite"),
-                        dash = "dash"),
-              text = tooltip_trend_prov, hoverinfo = "text",
-              name = "7 day average (provisional)") %>%
-
+               name = "Weekly hospital admissions (provisional)") %>%
+  
   # Add in vertical lines
     # Adding vertical lines for notes on chart
     add_lines_and_notes(dataframe = data,

@@ -51,7 +51,8 @@ g_adm_weekly<-g_adm %>%
   mutate(ProvisionalFlag = case_when(
     WeekOfAdmission > (report_date-10) ~ 1,
            TRUE ~ 0)) %>% 
-    mutate(WeekOfAdmission = format(strptime(WeekOfAdmission, format = "%Y-%m-%d"), "%Y%m%d")) 
+    mutate(WeekOfAdmission = format(strptime(WeekOfAdmission, format = "%Y-%m-%d"), "%Y%m%d")) %>% 
+  rename(AdmissionDate=WeekOfAdmission)
 
 write_csv(g_adm_weekly, glue(output_folder, "Admissions_Weekly.csv"))
 

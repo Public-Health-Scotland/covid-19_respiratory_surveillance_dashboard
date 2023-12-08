@@ -23,17 +23,18 @@ observeEvent(input$glossary,
 
 altTextServer("hospital_admissions_modal",
               title = "Daily number of COVID-19 hospital admissions",
-              content = tags$ul(tags$li("This is a plot of daily COVID-19 hospital admissions."),
+              content = tags$ul(tags$li("This is a plot of weekly COVID-19 hospital admissions."),
                                 tags$li("The x axis is the date, starting 01 Mar 2020."),
-                                tags$li("The y axis is the number of admissions."),
-                                tags$li("There are two traces: a light blue trace which shows the number of",
-                                        "hospital admissions; and a dark blue trace overlayed which shows the 7 day average of this."),
+                                tags$li("The y axis is the number of admissions in that week."),
+                                tags$li("There is one blue trace, which shows the number of",
+                                        "hospital admissions."),
                                 tags$li("The data for the most recent week are provisional and displayed in grey."),
                                 tags$li("There are two vertical lines: the first denotes that prior to 5 Jan 2022 ",
                                         "reported cases are PCR only, and since then they include PCR and LFD cases; ",
                                         "the second marks the change in testing policy on 1 May 2022."),
-                                tags$li("There have been several peaks throughout the pandemic, notably in",
-                                        "Apr 2020, Oct 2020, Jan 2021, Jul 2021, Sep 2021, Jan 2022, Mar 2022 and Jun 2022.")
+                                tags$li("There have been several peaks since the start of the pandemic, notably in",
+                                        "Apr 2020, Oct 2020, Jan 2021, Jul 2021, Sep 2021,",
+                                        "Jan 2022, Mar 2022, Jun 2022, Jan 2023 and Mar 2023.")
               )
 )
 
@@ -110,22 +111,22 @@ altTextServer("icu_admissions_modal",
 
 # Table
 output$hospital_admissions_table <- renderDataTable({
-  Admissions %>%
+  Admissions_Weekly %>%
     arrange(desc(AdmissionDate)) %>%
     mutate(AdmissionDate = convert_opendata_date(AdmissionDate),
-           ProvisionalFlag = factor(recode(ProvisionalFlag, "1" = "p", "0" = ""))) %>%
-    select(AdmissionDate, TotalInfections, SevenDayAverage, ProvisionalFlag) %>%
-    dplyr::rename(`Date` = AdmissionDate,
+           ProvisionalFlag = factor(recode(ProvisionalFlag, "1" = "p", "0" = " "))) %>%
+    select(AdmissionDate, TotalInfections,  ProvisionalFlag) %>%
+    dplyr::rename(`Week of Admission` = AdmissionDate,
                   `Number of admissions` = TotalInfections,
-                  `7 day average` = SevenDayAverage,
                   `Is data provisional (p)?` = ProvisionalFlag) %>%
-    make_table(add_separator_cols = c(2,3),
-               filter_cols = 4)
+  make_table(add_separator_cols = 2,
+               filter_cols = 3)  
+    
 })
 
 # Plot
 output$hospital_admissions_plot <- renderPlotly({
-  Admissions %>%
+  Admissions_Weekly %>%
     make_hospital_admissions_plot()
 
 })
