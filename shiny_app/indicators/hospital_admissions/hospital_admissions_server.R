@@ -107,7 +107,7 @@ altTextServer("icu_admissions_modal",
               )
 )
 
-### DAILY ADMISSIONS ### ----
+### WEEKLY ADMISSIONS-Scotland ### ----
 
 # Table
 output$hospital_admissions_table <- renderDataTable({
@@ -176,7 +176,8 @@ output$hospital_admissions_simd_plot <- renderPlotly({
 
 })
 
-# HB Table
+### WEEKLY HB ADMISSIONS Table ### ----
+
 output$hospital_admissions_hb_table <- renderDataTable({
   Admissions_HB_3wks%>%
    # filter(WeekEnding %in% adm_hb_dates) %>%
