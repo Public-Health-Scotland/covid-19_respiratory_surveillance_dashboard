@@ -43,9 +43,9 @@ altTextServer("icu_occupancy_modal",
 
 # make data table with all the hospital occupancy data in it
 output$hospital_occupancy_table <- renderDataTable({
-  Occupancy_Hospital %>%
+  Occupancy_Weekly_Hospital_HB %>%
     mutate(Date = convert_opendata_date(Date)) %>%
-    filter(Date <= floor_date(today(), "week")) %>%
+   # filter(Date <= floor_date(today(), "week")) %>%
     dplyr::rename(`Hospital occupancy` = HospitalOccupancy,
                   `7 day average` = SevenDayAverage) %>%
                   #`ICU Occupancy (28 days or less)` = ICUOccupancy28OrLess,
