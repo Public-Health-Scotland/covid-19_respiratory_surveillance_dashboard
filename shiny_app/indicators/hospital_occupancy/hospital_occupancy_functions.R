@@ -1,10 +1,10 @@
+# function for occupancy or ICU plot, ICU data now archived but code retained as runs old data in the archive
 make_occupancy_plots <- function(data, occupancy) {
 
-  data %<>%
-    mutate(Date = convert_opendata_date(Date)) %>%
-    filter(Date <= floor_date(today(), "week"))
-
-  xaxis_plots[["title"]] <- "Date"
+  data%<>%
+    filter(HealthBoardQF== "d") # filter to Scotland
+    
+  xaxis_plots[["title"]] <- "Week ending"
 
   xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -14,28 +14,25 @@ make_occupancy_plots <- function(data, occupancy) {
     data %<>%
       mutate(y_axis = SevenDayAverage)
 
-    yaxis_plots[["title"]] <- "Number of people in hospital"
+    yaxis_plots[["title"]] <- "Average number of people in hospital"
 
-    p <- plot_ly(data, x = ~Date,
+    p <- plot_ly(data, x = ~WeekEnding,
                  textposition = "none",
                  colors = phs_colours("phs-magenta"),
-                 text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                                "<b>Number of People in hospital</b>: ", format(HospitalOccupancy, big.mark=","), "\n",
+                 text = ~paste0("<b>WeekEnding</b>: ", format(WeekEnding, "%d %b %y"), "\n",
+                              #  "<b>Number of People in hospital</b>: ", format(HospitalOccupancy, big.mark=","), "\n",
                                 "<b>7 day average number of people in hospital</b>: ", format(SevenDayAverage, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)%>%
-      add_lines(y = ~HospitalOccupancy,
-                line = list(color = phs_colours("phs-blue-30")),
-                name = 'Number of people in hospital') %>%
       add_lines(y = ~SevenDayAverage, name = '7 day average',
                 line = list(color = "navy",
-                            dash = "dash",
+                           # dash = "dash",
                             width = 2)) %>%
       add_lines_and_notes(dataframe = data,
                           ycol = "HospitalOccupancy",
                           xs= c("2023-05-08"),
                           notes=c("Change to inpatient definition from 08 May 2023 (max number 10 days)"),
-                          colors=c(phs_colours("phs-purple"))) %>%
+                          colors=c(phs_colours("phs-rust"))) %>% #phs_colours("phs-purple") 
       layout(legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'))
 
 

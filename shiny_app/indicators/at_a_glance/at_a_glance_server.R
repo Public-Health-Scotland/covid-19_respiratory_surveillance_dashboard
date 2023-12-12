@@ -167,18 +167,10 @@ colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population
 
 ###Inpatients
 
-covid_inpatients_intro_latest <- Occupancy_Hospital %>%
-  tail(1)
-
-covid_inpatients_intro_prev <- Occupancy_Hospital %>%
-  tail(8) %>%
-  slice(1)
-
-covid_inpatients_intro <- covid_inpatients_intro_prev %>%
-  bind_rows(covid_inpatients_intro_latest) %>%
-  mutate(Date = as.character(Date)) %>%
-  mutate(Date = as.Date(Date, format = "%Y%m%d")) %>%
-  mutate(flag = ifelse(Date == latest_week, "Latest Week", "Previous Week")) %>%
+covid_inpatients_intro <- Occupancy_Weekly_Hospital_HB %>% #use weekly value, filter to Scotland
+  filter(HealthBoardQF== "d") %>%
+  tail(2) %>% #last 2 weeks
+  mutate(flag= if_else(WeekEnding_od==max(WeekEnding_od),"Latest Week", "Previous Week")) %>% #add flags
   select(flag, SevenDayAverage) %>%
   pivot_wider(names_from = flag, values_from = SevenDayAverage) %>%
   mutate(Pathogen = "COVID-19") %>%
@@ -187,6 +179,7 @@ covid_inpatients_intro <- covid_inpatients_intro_prev %>%
 
 colnames(covid_inpatients_intro)[3] <- paste("Seven day average number (", as.character(latest_week_title),")")
 colnames(covid_inpatients_intro)[2] <- paste("Seven day average number (", as.character(previous_week_title),")")
+
 
 ### Data tables -----
 

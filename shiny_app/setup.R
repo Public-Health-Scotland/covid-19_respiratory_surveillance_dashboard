@@ -94,8 +94,16 @@ icu_headlines <- get_threeweek_admissions_figures(df = ICU,
                                                   sumcol = "NewCovidAdmissionsPerDay",
                                                   datecol="DateFirstICUAdmission")
 
-occupancy_headlines <- get_threeweek_occupancy_figures(df = Occupancy_Hospital,
-                                                       datecol = "Date")
+# occupancy_headlines <- get_threeweek_occupancy_figures(df = Occupancy_Hospital,
+#                                                        datecol = "Date")
+#imk addition (orig retained), Use weekly hospital hb files
+#filter to scotland, then create list
+occupancy_headlines <- Occupancy_Weekly_Hospital_HB %>% 
+  filter(HealthBoardQF== "d") 
+
+occupancy_headlines <- get_threeweek_occupancy_figures(df = occupancy_headlines,
+                                                       datecol = "WeekEnding_od")
+##
 
 adm_hb_dates <- c(Admissions_HB %>% tail(1) %>% .$WeekEnding, Admissions_HB %>% tail(1) %>% .$WeekEnding%>% {.-7}, Admissions_HB %>% tail(1) %>% .$WeekEnding%>% {.-14})
 

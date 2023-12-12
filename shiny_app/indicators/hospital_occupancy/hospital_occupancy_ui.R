@@ -7,7 +7,7 @@ tagList(
            ),
 
 
-
+#headline values are created in the setup script, occupancy updated to use the weekly HB values, filtered to Scotland
   fluidRow(width = 12,
            tagList(h2("Number of inpatients with COVID-19 in hospital (seven day average)"),
                    tags$div(class = "headline",
