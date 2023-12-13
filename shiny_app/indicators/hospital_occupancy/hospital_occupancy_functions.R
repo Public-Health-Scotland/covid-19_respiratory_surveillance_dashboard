@@ -14,14 +14,14 @@ make_occupancy_plots <- function(data, occupancy) {
     data %<>%
       mutate(y_axis = SevenDayAverage)
 
-    yaxis_plots[["title"]] <- "Average number of people in hospital"
+    yaxis_plots[["title"]] <- "Number of people in hospital<br>(7 day average)"
 
     p <- plot_ly(data, x = ~WeekEnding,
                  textposition = "none",
                  colors = phs_colours("phs-magenta"),
                  text = ~paste0("<b>WeekEnding</b>: ", format(WeekEnding, "%d %b %y"), "\n",
                               #  "<b>Number of People in hospital</b>: ", format(HospitalOccupancy, big.mark=","), "\n",
-                                "<b>7 day average number of people in hospital</b>: ", format(SevenDayAverage, big.mark=","), "\n"),
+                                "<b>number of people in hospital</b>(7 day average) : ", format(SevenDayAverage, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)%>%
       add_lines(y = ~SevenDayAverage, name = '7 day average',

@@ -40,7 +40,7 @@ tagList(
                             altTextUI("hospital_occupancy_modal"),
                             withNavySpinner(plotlyOutput("hospital_occupancy_plot")),
                             fluidRow(
-                              width=12, linebreaks(5))
+                              width=12, linebreaks(4))
                     ) # taglist
            ), # tabpanel
 
