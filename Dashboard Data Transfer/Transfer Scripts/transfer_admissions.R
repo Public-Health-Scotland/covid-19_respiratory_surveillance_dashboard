@@ -24,6 +24,7 @@ g_adm <- i_adm
 # Replace any NA with 0
 g_adm[is.na(g_adm)] <- 0
 
+# daily admissions
 g_adm %<>%
   dplyr::rename(AdmissionDate = admission_date,
                 TotalInfections = TestDIn,
@@ -39,7 +40,7 @@ g_adm %<>%
 
 write_csv(g_adm, glue(output_folder, "Admissions.csv"))
 
-
+# weekly admissions
 g_adm_weekly<-g_adm %>% 
   select(AdmissionDate, TotalInfections) %>% 
   mutate(AdmissionDate=ymd(AdmissionDate)) %>% 

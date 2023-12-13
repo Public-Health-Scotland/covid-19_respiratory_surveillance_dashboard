@@ -24,9 +24,9 @@ make_hospital_admissions_plot <- function(data){
   prov_data_2wk<-  slice_head(data, n = 2) %>% 
     select(AdmissionDate, TotalInfections) 
   
-  min_last_sun_date <- min(last_sun_data$AdmissionDate) # use to create proxy date
+  min_last_sun_date <- min(prov_data_2wk$AdmissionDate) # use to create proxy date
   
-  prov_data_2wk<- prov_data_2wk %>% 
+  prov_data_2wk%<>%
     mutate(proxy_day = ifelse(AdmissionDate == min_last_sun_date ,  1, 0)) %>% # use to add a day to the start of the dataframe
     mutate(AdmissionDate_Adj= AdmissionDate+proxy_day) %>% 
     select(AdmissionDate=AdmissionDate_Adj, TotalInfections) # provisional proxy now has a day gap between it and the non-provional data
@@ -81,7 +81,7 @@ make_hospital_admissions_plot <- function(data){
      name = "Weekly hospital admissions (provisional)") %>%
     # 
     # # Add in provisional dataframe with only the Sunday for use in the hover text
-    add_lines(data = prov_data,
+    add_lines(data = prov_data_1wk,
               x = ~AdmissionDate,
               y = ~TotalInfections,
               line = list(color = phs_colours("phs-graphite-50")),
