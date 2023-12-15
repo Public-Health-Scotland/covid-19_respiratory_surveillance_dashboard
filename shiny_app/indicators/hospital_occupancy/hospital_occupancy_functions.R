@@ -19,14 +19,12 @@ make_occupancy_plots <- function(data, occupancy) {
     p <- plot_ly(data, x = ~WeekEnding,
                  textposition = "none",
                  colors = phs_colours("phs-magenta"),
-                 text = ~paste0("<b>WeekEnding</b>: ", format(WeekEnding, "%d %b %y"), "\n",
-                              #  "<b>Number of People in hospital</b>: ", format(HospitalOccupancy, big.mark=","), "\n",
-                                "<b>number of people in hospital</b>(7 day average) : ", format(SevenDayAverage, big.mark=","), "\n"),
+                 text = ~paste0("<b>Week ending</b>: ", format(WeekEnding, "%d %b %y"), "\n",
+                                "<b>7 day average: ", format(SevenDayAverage, big.mark=","), "\n"),
                  hovertemplate = "%{text}",
                  height = 500)%>%
       add_lines(y = ~SevenDayAverage, name = '7 day average',
                 line = list(color = "navy",
-                           # dash = "dash",
                             width = 2)) %>%
       add_lines_and_notes(dataframe = data,
                           ycol = "HospitalOccupancy",

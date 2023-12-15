@@ -44,19 +44,15 @@ altTextServer("icu_occupancy_modal",
 )
 
 # make data table with all the hospital occupancy data in it
-# the Occupancy_Weekly_Hospital_HB has two dates, an numeric 'open data' version, formatted as a num, 
-# and a date formatted WeekEnding
+# the Occupancy_Weekly_Hospital_HB has two dates, an numeric 'open data' version, formatted as a number, 
+# and a date-formatted WeekEnding
 output$hospital_occupancy_table <- renderDataTable({
   Occupancy_Weekly_Hospital_HB %>%
     filter(HealthBoardQF== "d") %>% #filters for Scotland values
-    dplyr::rename(`Hospital occupancy` = HospitalOccupancy,
-                  `7 day average` = SevenDayAverage,
-                  'Week Ending'= WeekEnding) %>%
-                  #`ICU Occupancy (28 days or less)` = ICUOccupancy28OrLess,
-                  #`ICU Occupancy (greater than 28 days)` = ICUOccupancy28OrMore) %>%
    arrange(desc(WeekEnding_od)) %>% 
-    select('Week Ending', `Hospital occupancy`, `7 day average`) %>%  #`ICU Occupancy (28 days or less)`, `ICU Occupancy (greater than 28 days)`) %>%
-        #arrange(Date, desc(Geography)) %>%
+    select('Week ending' = WeekEnding,
+           'Number of patients in hospital' = HospitalOccupancy,
+           `7 day average`= SevenDayAverage) %>%
     make_table(.,
                 add_separator_cols=NULL, # Column indices to add thousand separators to
                 add_percentage_cols = NULL, # with % symbol and 2dp
