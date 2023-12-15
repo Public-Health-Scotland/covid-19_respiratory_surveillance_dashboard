@@ -22,7 +22,7 @@ observeEvent(input$glossary,
 # Hospital admissions ----
 
 altTextServer("hospital_admissions_modal",
-              title = "Daily number of COVID-19 hospital admissions",
+              title = "Weekly number of COVID-19 hospital admissions",
               content = tags$ul(tags$li("This is a plot of weekly COVID-19 hospital admissions."),
                                 tags$li("The x axis is the date, starting 01 Mar 2020."),
                                 tags$li("The y axis is the number of admissions in that week."),
@@ -53,7 +53,8 @@ altTextServer("hospital_admissions_simd_modal",
                                 tags$li("The plot contains a trace for each of the SIMD categories. SIMD 1 is",
                                         "highlighted in red and SIMD 5 in blue. The other categories are in grey."),
                                 tags$li("There have been several peaks throughout the pandemic, notably in",
-                                        "Apr 2020, Oct 2020, Jan 2021, Jul 2021, Sep 2021, Jan 2022, Mar 2022 and Jun 2022.")
+                                        "Apr 2020, Oct 2020, Jan 2021, Jul 2021, Sep 2021,",
+                                        "Jan 2022, Mar 2022, Jun 2022, Jan 2023 and Mar 2023.")
               )
 )
 
