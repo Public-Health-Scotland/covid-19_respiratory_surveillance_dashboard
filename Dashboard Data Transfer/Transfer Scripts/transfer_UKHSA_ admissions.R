@@ -13,14 +13,13 @@ i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI
 # Filter CHI and 12 files down to last Sunday
 i_chiadm %<>% filter(admission_date <= (report_date - 3))
 
-
-
 ### Admissions_Age_Breakdown
-
-
-
-g_adm_daily<- i_chiadm %>%
-  mutate(
+ukhsa_adm_daily<- i_chiadm %>%
+  dplyr::rename(AdmissionDate = admission_date) %>% 
+  mutate(ProvisionalFlag = case_when(
+          AdmissionDate > (report_date-10) ~ 1,
+          TRUE ~ 0),
+         AdmissionDate = format(as.Date(AdmissionDate), "%Y%m%d"),
     AgeYear = as.numeric(age_year),
     AgeGroup = case_when(AgeYear < 6 ~ '0-5',
                          AgeYear < 18 ~ '6-17',
@@ -35,24 +34,29 @@ g_adm_daily<- i_chiadm %>%
                          AgeYear < 200 ~ '85+',
                          is.na(AgeYear) ~ 'Unknown')) 
 
-g_adm_all_ages<- g_adm_daily %>%
-  group_by(Date=admission_date) %>%
-  summarise(Admissions = n()) %>%
+# create all age groups
+ukhsa_adm_all_ages<- ukhsa_adm_daily %>%
+  group_by(AdmissionDate) %>%
+  summarise(Admissions = sum(TestDIn)) %>%
   ungroup() %>% 
   mutate(AgeGroup="All ages")
 
-g_adm_daily_agegroup<- g_adm_daily %>%
-  group_by(Date=admission_date, AgeGroup) %>%
+
+# sum admissions by UKSA agegroup and bind all ages to it
+ukhsa_adm__agegroup<- ukhsa_adm_daily %>%
+  group_by(AdmissionDate, AgeGroup) %>%
   summarise(Admissions = n()) %>%
   ungroup() %>% 
-  rbind(g_adm_all_ages) 
+  rbind(ukhsa_adm_all_ages) 
 
-
-age_grp_pivot<-g_adm_daily_agegroup %>%
+#create pivot table
+ukhsa_adm_agegroup_pivot<-ukhsa_adm__agegroup %>%
   pivot_wider(names_from = AgeGroup,
               values_from = Admissions) %>% 
-  select(Date,'0-5','6-17','18-24','25-34','35-44','45-54',
-         '55-64','65-69', '70-74', '75-84','85+','All ages')
+  select(AdmissionDate,'0-5','6-17','18-24','25-34','35-44','45-54',
+         '55-64','65-69', '70-74', '75-84','85+', 'All ages')
 
-  write.csv(age_grp_pivot, glue(ukhsa_adm, "daily_adms_{od_report_date}.csv"), na="")
-
+  write.csv(ukhsa_adm_agegroup_pivot, glue(ukhsa_adm, "daily_adms_{od_report_date}.csv"), na="")
+  
+  rm(i_chiadm, ukhsa_adm__agegroup, ukhsa_adm_all_ages, ukhsa_adm_daily,
+     ukhsa_adm_agegroup_pivot)
