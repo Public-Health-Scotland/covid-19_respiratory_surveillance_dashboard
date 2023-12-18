@@ -45,7 +45,7 @@ ukhsa_adm_all_ages<- ukhsa_adm_daily %>%
 # sum admissions by UKSA agegroup and bind all ages to it
 ukhsa_adm__agegroup<- ukhsa_adm_daily %>%
   group_by(AdmissionDate, AgeGroup) %>%
-  summarise(Admissions = n()) %>%
+  summarise(Admissions = sum(TestDIn)) %>%
   ungroup() %>% 
   rbind(ukhsa_adm_all_ages) 
 
@@ -56,7 +56,7 @@ ukhsa_adm_agegroup_pivot<-ukhsa_adm__agegroup %>%
   select(AdmissionDate,'0-5','6-17','18-24','25-34','35-44','45-54',
          '55-64','65-69', '70-74', '75-84','85+', 'All ages')
 
-  write.csv(ukhsa_adm_agegroup_pivot, glue(ukhsa_adm, "daily_adms_{od_report_date}.csv"), na="")
+  write.csv(ukhsa_adm_agegroup_pivot, glue(ukhsa_adm, "daily_adms.csv"), na="")
   
   rm(i_chiadm, ukhsa_adm__agegroup, ukhsa_adm_all_ages, ukhsa_adm_daily,
      ukhsa_adm_agegroup_pivot)
