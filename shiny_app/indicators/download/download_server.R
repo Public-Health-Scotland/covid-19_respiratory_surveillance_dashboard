@@ -92,7 +92,7 @@ output$data_download_output <- downloadHandler(
     if(input$download_filetype == ".csv"){
       write.csv({chosen_dataset() %>% get()},
                 file,
-                row.names=FALSE)
+                row.names=FALSE, na="")
     } else if (input$download_filetype == ".xlsx"){
       openxlsx::write.xlsx({chosen_dataset() %>% get()}, file)
     } else {
