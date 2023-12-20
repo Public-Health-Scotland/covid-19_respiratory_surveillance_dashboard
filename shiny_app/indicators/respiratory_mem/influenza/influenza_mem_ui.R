@@ -110,7 +110,7 @@ tagList(
   ), # fluidRow
 
   fluidRow(
-    tagList(h2(glue("Influenza cases by age and/or sex in Scotland")),
+    tagList(h2(glue("Influenza cases by age and sex in Scotland")),
 
             tabBox(width = NULL,
                    type = "pills",
@@ -124,14 +124,14 @@ tagList(
                                                       choices = {Respiratory_AllData %>% filter(FluOrNonFlu == "flu") %>%
                                                           .$Season %>% unique()},
                                                       selected = "2022/23")
-                                ),
-                                column(4, pickerInput("respiratory_date",
-                                                      label = "Select date",
-                                                      choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
-                                                          .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                                      selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
-                                                          .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-                                )#,
+                                )
+                                # column(4, pickerInput("respiratory_date",
+                                #                       label = "Select date",
+                                #                       choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
+                                #                           .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+                                #                       selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
+                                #                           .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
+                                # )#,
                                 # column(4, pickerInput("respiratory_select_age_sex_breakdown",
                                 #                       label = "Select the plot breakdown",
                                 #                       choices = c("Age", "Sex", "Age + Sex"),

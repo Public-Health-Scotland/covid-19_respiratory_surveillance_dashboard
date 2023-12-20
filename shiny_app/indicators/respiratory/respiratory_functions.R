@@ -311,10 +311,13 @@ make_age_sex_pyramid_plot <- function(data, title = NULL) {
       Sex == "F" ~ -Rate,
       TRUE ~ Rate)) %>%
   mutate_if(is.numeric, ~replace_na(., 0)) %>%
-    mutate(AgeGroup = as.factor(AgeGroup))
+    mutate(AgeGroup = factor(AgeGroup, levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
 
   xaxis_breaks <- pretty(c(-max(data$Rate), 0, max(data$Rate)))
   yaxis_ticks <- list("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")
+  yaxis_ticks <- list(categoryorder = "array",
+                categoryarray = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+"))
+
 
   fig = data %>%
     plot_ly(x= ~Rate,
@@ -322,7 +325,7 @@ make_age_sex_pyramid_plot <- function(data, title = NULL) {
             color = ~Sex,
             type = 'bar',
             textposition = "none",
-            text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
+            text = ~paste0("<b>Season</b>: ", Season, "\n",
                            "<b>Sex</b>: ", Sex, "\n",
                            "<b>Age group</b>: ", AgeGroup, "\n",
                            "<b>Rate per 100,000</b>: ", format(Rate, big.mark=",")),
@@ -337,35 +340,26 @@ make_age_sex_pyramid_plot <- function(data, title = NULL) {
         linecolor = 'black',
         range = c(-max(data$Rate), max(data$Rate))
       ),
-      yaxis = list(
-        tickmode = "array",
-        title = "Age Group",
-        tickvals = yaxis_ticks,
-        ticktext= yaxis_ticks,
-        showline = TRUE,
-        linecolor = 'black',
-        range = levels(factor(data$AgeGroup))
+      yaxis = list(yaxis_ticks
+        #tickmode = "array",
+        #title = "Age Group",
+        #tickvals = yaxis_ticks,
+        #ticktext= yaxis_ticks,
+        #showline = TRUE,
+        #linecolor = 'black',
+        #range = levels(factor(data$AgeGroup))
       ),
       legend = list(title = ""),
-      annotations = list(
-        x = 0,
-        y = 1.05,
-        xref = 'paper',
-        yref = 'paper',
-        text = "Age Group vs. Number of People",
-        showarrow = FALSE,
-        font = list(size = 16)
-      ),
       margin = list(b = 100),
       paper_bgcolor = phs_colours("phs-liberty-10"),
       plot_bgcolor = phs_colours("phs-liberty-10"),
       title = title,
       barmode = 'overlay')
-    # layout(yaxis = list(title = "AgeGroup",
-    #                     showline = FALSE,
-    #                     fixedrange=TRUE,
-    #                     range = c(0,max(data$y_axis)),
-    #                     showlegend = T),
+    #layout(yaxis = list(#title = "AgeGroup",
+                        #showline = FALSE,
+                        #fixedrange=TRUE,
+                        #range = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
+                        #showlegend = T)
           # xaxis = list(title = "Rate per 100,000"),
            #title = title,
 
