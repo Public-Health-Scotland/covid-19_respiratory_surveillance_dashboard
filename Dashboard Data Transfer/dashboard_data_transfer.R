@@ -33,8 +33,8 @@ od_report_date <- format(report_date, "%Y%m%d")
 od_archive_date <-format(report_date-7)
 od_sunday<- floor_date(today(), "week", 1) -1
 od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
-od_sunday_minus_14 <- today() - 17
-
+#od_sunday_minus_14 <- today() - 17
+od_sunday_minus_14 <-  floor_date(today(), "week", 1) -15
 
 
 # all open data data saved to this location
