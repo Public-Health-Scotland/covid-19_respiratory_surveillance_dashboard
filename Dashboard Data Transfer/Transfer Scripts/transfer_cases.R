@@ -25,6 +25,22 @@ g_cases %<>%
 
 write_csv(g_cases, glue(output_folder, "Cases.csv"))
 
+g_cases_weekly <- i_cases$`Cumulative confirmed cases`
+
+g_cases_weekly %<>%
+  mutate(WeekEnding = ceiling_date(
+    as.Date(Date),unit="week",week_start=7, change_on_boundary=FALSE)) %>%
+  dplyr::rename(NumberCasesPerWeek = `Number of cases per day`) %>%
+  mutate(NumberCasesPerWeek = as.numeric(NumberCasesPerWeek),
+         Cumulative = as.numeric(Cumulative)) %>%
+  group_by(WeekEnding) %>%
+  summarise(NumberCasesPerWeek = sum(NumberCasesPerWeek)) %>%
+  mutate(Cumulative = cumsum(NumberCasesPerWeek)) %>%
+  mutate(WeekEnding = format(WeekEnding, "%Y%m%d"))
+
+write_csv(g_cases_weekly, glue(output_folder, "Cases_Weekly.csv"))
+
+
 rm(i_cases, g_cases, pop_grandtotal)
 
 

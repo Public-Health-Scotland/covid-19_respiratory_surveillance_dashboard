@@ -53,6 +53,54 @@ make_reported_cases_plot <- function(data){
 }
 
 
+make_weekly_reported_cases_plot <- function(data){
+
+
+  data %<>%
+    mutate(WeekEnding = convert_opendata_date(WeekEnding))
+
+  yaxis_plots[["title"]] <- "Reported cases"
+  xaxis_plots[["title"]] <- "Week ending"
+
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+
+
+  p <- plot_ly(data, x = ~WeekEnding,
+               textposition = "none",
+               text = ~paste0("<b>Week ending</b>: ", format(WeekEnding, "%d %b %y"), "\n",
+                              "<b>Reported cases</b>: ", format(NumberCasesPerWeek, big.mark=","), "\n"),
+               hovertemplate = "%{text}",
+               height = 500)%>%
+
+    add_lines(y = ~NumberCasesPerWeek,
+              line = list(color = "navy"),
+              name = 'Reported cases') %>%
+
+
+    # Adding vertical lines for notes on chart
+    add_lines_and_notes(dataframe = data,
+                        ycol = "NumberCasesPerWeek",
+                        xs= c("2022-01-09", "2022-05-01"),
+                        notes=c("From 5 Jan cases include PCR + LFD",
+                                "Change in testing policy on 1 May"),
+                        colors=c(phs_colours("phs-rust"),
+                                 phs_colours("phs-teal"))) %>%
+
+
+    layout(margin = list(b = 80, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(xanchor = "center", x = 0.5, y = -0.5, orientation = 'h'),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+
+  return(p)
+
+}
+
 
 
 make_ons_cases_plot <- function(data){

@@ -36,31 +36,28 @@ altTextServer("wastewater_modal",
 
 altTextServer("reported_cases_modal",
               title = "Reported COVID-19 cases",
-              content = tags$ul(tags$li("This is a plot of the number of reported COVID-19 cases each day."),
-                                tags$li("The x axis is the date"),
+              content = tags$ul(tags$li("This is a plot of the number of reported COVID-19 cases each week."),
+                                tags$li("The x axis is the week ending date"),
                                 tags$li("The y axis is the number of reported cases"),
-                                tags$li("There are two traces: a light blue trace which shows the number of reported cases each day;",
-                                        "and a dark blue trace overlayed which has the 7 day average of this."),
+                                tags$li("There is a navy blue trace which shows the number of reported cases each week."),
                                 tags$li("There are two vertical lines: the first denotes that prior to 5 Jan 2022 ",
                                         "reported cases are PCR only, and since then they include PCR and LFD cases; ",
-                                        "the second marks the change in testing policy on 1 May 2022."),
-                                tags$li("The 7 day average peaked at about 18,000 at the start of Jan 2022.")
+                                        "the second marks the change in testing policy on 1 May 2022.")
               )
 )
 
 output$reported_cases_table <- renderDataTable({
-  Cases %>%
-    mutate(Date = convert_opendata_date(Date)) %>%
-    dplyr::rename(`Reported cases` = NumberCasesPerDay,
-                  `7 day average` = SevenDayAverage) %>%
-    select(Date, `Reported cases`, `7 day average`) %>%
-    arrange(desc(Date)) %>%
-    make_table(add_separator_cols = c(2,3), order_by_firstcol = "desc")
+  Cases_Weekly %>%
+    mutate(WeekEnding = convert_opendata_date(WeekEnding)) %>%
+    dplyr::rename(`Reported cases` = NumberCasesPerWeek) %>%
+    select(WeekEnding, `Reported cases`) %>%
+    arrange(desc(WeekEnding)) %>%
+    make_table(add_separator_cols = c(2), order_by_firstcol = "desc")
 })
 
 output$reported_cases_plot <- renderPlotly({
-  Cases %>%
-    make_reported_cases_plot()
+  Cases_Weekly %>%
+    make_weekly_reported_cases_plot()
 
 })
 
