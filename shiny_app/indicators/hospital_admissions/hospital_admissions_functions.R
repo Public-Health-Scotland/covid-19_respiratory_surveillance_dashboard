@@ -3,23 +3,43 @@
 ### HOSPITAL ADMISSIONS ###
 ###########################
 
-# Daily Hospital Admissions plot
+# Weekly  Hospital Admissions plot
+# need to  split the last week of admission data from the rest of the data and flag it as provisional
+# BUT to show it as a line on the chart - need to slice the last 2 week's of data (i.e a start & end date)
+# BUT to allow the hover text for the last data point of the **non-provisional** data  to show
+# the provisional data must show a gap on the x-axis. This is done by creating
+# a proxy start date (i.e. Sunday plus one) for the plotted provisional data. 
+# to further complicate things the  provisional data's hover text needs to only appear over the last Sunday, 
+# (i.e.not over the proxy Monday date point). To do this the  wrangle creates **a 3rd dataframe**
+# that only contains the last Sunday's datafor use asthe hover text (but it has no line element)
+
 make_hospital_admissions_plot <- function(data){
 
   # Wrangle Data
-  data <- data %>%
+  data <-data %>%
     arrange(desc(AdmissionDate)) %>%
     mutate(AdmissionDate = convert_opendata_date(AdmissionDate))
 
-  # Provisional data
-  prov_data <- data %>%
+  # slice last two weeks of data for use in provisional line on chart
+  prov_data_2wk<-  slice_head(data, n = 2) %>% 
+    select(AdmissionDate, TotalInfections) 
+  
+  min_last_sun_date <- min(prov_data_2wk$AdmissionDate) # use to create proxy date
+  
+  prov_data_2wk%<>%
+    mutate(proxy_day = ifelse(AdmissionDate == min_last_sun_date ,  1, 0)) %>% # use to add a day to the start of the dataframe
+    mutate(AdmissionDate_Adj= AdmissionDate+proxy_day) %>% 
+    select(AdmissionDate=AdmissionDate_Adj, TotalInfections) # provisional proxy now has a day gap between it and the non-provional data
+  
+  # Provisional data used for hover text
+  prov_data_1wk <- data %>%
     filter(ProvisionalFlag == 1) %>%
-    select(AdmissionDate, TotalInfections, SevenDayAverage)
+    select(AdmissionDate, TotalInfections)
 
   # Remainder of the data
   non_prov_data <- data %>%
     filter(ProvisionalFlag == 0) %>%
-    select(AdmissionDate, TotalInfections, SevenDayAverage)
+    select(AdmissionDate, TotalInfections)
 
   # Create axis titles
   yaxis_title <- "Number of admissions"
@@ -34,41 +54,40 @@ make_hospital_admissions_plot <- function(data){
   yaxis_plots[["fixedrange"]] <- FALSE
 
   #Text for tooltip
-  tooltip_trend <- c(paste0("Date: ", format(non_prov_data$AdmissionDate, "%d %b %y"),
-                            "<br>", "Admissions: ", non_prov_data$TotalInfections,
-                            "<br>", "7 day average: ", format(non_prov_data$SevenDayAverage, nsmall=0, digits=3)))
-
-  # Text for tooltip (provisional data)
+  tooltip_trend <- c(paste0("Week ending: ", format(non_prov_data$AdmissionDate, "%d %b %y"),
+                            "<br>", "Admissions: ", non_prov_data$TotalInfections))
+                           
+  # Text for tooltip (provisional data, using 1 week dataframe)
   tooltip_trend_prov <- c(paste0("Provisional data: ",
-                                 "<br>", "Date: ", format(prov_data$AdmissionDate, "%d %b %y"),
-                                 "<br>", "Admissions: ", prov_data$TotalInfections,
-                                 "<br>", "7 day average: ", format(prov_data$SevenDayAverage, nsmall=0, digits=3)))
+                                 "<br>", "Week ending: ", format(prov_data_1wk$AdmissionDate, "%d %b %y"),
+                                 "<br>", "Admissions: ", prov_data_1wk$TotalInfections))
 
-  #Creating time trend plot
-  p <- plot_ly(non_prov_data, x = ~AdmissionDate) %>%
+    
+    # #Creating time trend plot
+    p <- plot_ly(non_prov_data, x = ~AdmissionDate) %>%
     add_lines(y = ~TotalInfections,
-              line = list(color = phs_colours("phs-blue-30")),
+              line = list(color = "navy"),
               text = tooltip_trend, hoverinfo = "text",
-              name = "Daily hospital admissions") %>%
-    add_lines(y = ~SevenDayAverage,
-              line = list(color = "navy",
-                          dash = "dash"),
-              text = tooltip_trend, hoverinfo = "text",
-              name = "7 day average") %>%
+              name = "Weekly hospital admissions") %>%
 
-     # Add in provisional data
-    add_lines(data = prov_data,
-               x = ~AdmissionDate,
-               y = ~TotalInfections,
-               line = list(color = phs_colours("phs-graphite-50")),
-               text = tooltip_trend_prov, hoverinfo = "text",
-               name = "Daily hospital admissions (provisional)") %>%
-    add_lines(data = prov_data,
-              y = ~SevenDayAverage,
-              line=list(color = phs_colours("phs-graphite"),
-                        dash = "dash"),
+    # # Add in provisional data using 2 weeks of data
+    add_lines(data = prov_data_2wk,
+              x = ~AdmissionDate,
+              y = ~TotalInfections,
+              line = list(color = phs_colours("phs-graphite-50"),
+                          dash = "dash"), # make it dashed to mask the "missing day" of data
+              hoverinfo = "none", # no hover for this line
+    # text = tooltip_trend_prov, hoverinfo = "text",
+     name = "Weekly hospital admissions (provisional)") %>%
+    # 
+    # # Add in provisional dataframe with only the Sunday for use in the hover text
+    add_lines(data = prov_data_1wk,
+              x = ~AdmissionDate,
+              y = ~TotalInfections,
+              line = list(color = phs_colours("phs-graphite-50")),
               text = tooltip_trend_prov, hoverinfo = "text",
-              name = "7 day average (provisional)") %>%
+              showlegend = FALSE 
+              ) %>%
 
   # Add in vertical lines
     # Adding vertical lines for notes on chart

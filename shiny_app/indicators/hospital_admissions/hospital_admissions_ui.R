@@ -42,12 +42,16 @@ tagList(
                                            tagList(
                                              linebreaks(1),
                                              altTextUI("hospital_admissions_modal"),
-                                             withNavySpinner(plotlyOutput("hospital_admissions_plot")))
-                                           ),
+                                             withNavySpinner(plotlyOutput("hospital_admissions_plot"))),
+                                           fluidRow(column(
+                                             width=12, linebreaks(1),
+                                             p("*Hospital admissions for the most recent week may be incomplete,",
+                                               "and should be treated as provisional and interpreted with caution."),
+                                           ))),
                                   tabPanel("Data",
                                            tagList(
                                              withNavySpinner(dataTableOutput("hospital_admissions_table")))
-                                           )
+                                           ),
 
                            ),
 
