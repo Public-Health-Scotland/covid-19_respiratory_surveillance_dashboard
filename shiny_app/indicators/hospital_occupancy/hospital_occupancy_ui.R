@@ -7,7 +7,7 @@ tagList(
            ),
 
 
-
+#headline values are created in the setup script, occupancy updated to use the weekly HB values, filtered to Scotland
   fluidRow(width = 12,
            tagList(h2("Number of inpatients with COVID-19 in hospital (seven day average)"),
                    tags$div(class = "headline",
@@ -40,7 +40,7 @@ tagList(
                             altTextUI("hospital_occupancy_modal"),
                             withNavySpinner(plotlyOutput("hospital_occupancy_plot")),
                             fluidRow(
-                              width=12, linebreaks(5))
+                              width=12, linebreaks(4))
                     ) # taglist
            ), # tabpanel
 
