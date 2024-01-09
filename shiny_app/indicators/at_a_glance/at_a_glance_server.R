@@ -1,25 +1,84 @@
-
 ### Setup data -----
+#cases labels-(matches covid-cases data set)
 
-# used to label 2 week tables
-# these may casues a mismatch between the data's actual dates and displayed 
-# dates if data are from the previous week
-latest_week_title <- format(floor_date(today(), "week", 1) - 1, "%d %b %y")
+latest_week_cases_title <- Cases_Weekly %>%
+  tail(1) %>%
+  select(WeekEnding) %>% 
+  convert_opendata_date()
 
-previous_week_title <- format(floor_date(today(), "week", 1) - 8, "%d %b %y")
+latest_week_cases_title %<>%
+    format("%d %b %y")
+  
+previous_week_cases_title <- Cases_Weekly %>%
+  tail(2) %>%
+  filter(WeekEnding== min(WeekEnding)) %>% 
+  select(WeekEnding) %>% 
+  convert_opendata_date() 
 
+previous_week_cases_title %<>%
+  format("%d %b %y")
+
+# admissions labels- (matches Respiratory_admissions_summary data set)
+latest_week_admissions_title <-Respiratory_admissions_summary %>%
+  tail(1) %>%
+  select(Date) 
+  
+# Convert to the correct format
+latest_week_admissions_title$Date<- format(latest_week_admissions_title $Date, "%d %b %y")
+  
+# make it a value 
+latest_week_admissions_title <- latest_week_admissions_title$Date
+  
+previous_week_admissions_title <- Respiratory_admissions_summary %>%
+  filter(CaseDefinition=='RSV') %>% 
+  tail(2) %>%
+  filter(Date== min(Date)) %>% 
+  select(Date) 
+  
+# Convert to correct format
+ previous_week_admissions_title $Date<- format(previous_week_admissions_title $Date, "%d %b %y")
+   
+# make it a value
+previous_week_admissions_title <- previous_week_admissions_title$Date
+   
+# occupancy labels- (uses weekly covid HB occupancy i.e. same dataframe that produces the table)
+
+latest_week_occupancy_title<- Occupancy_Weekly_Hospital_HB %>% 
+     filter(HealthBoardQF== "d") %>%#use weekly value, filter to Scotland
+     tail(1) %>%
+     select(Date=WeekEnding)
+# Convert to the correct format
+latest_week_occupancy_title$Date<- format(latest_week_occupancy_title$Date, "%d %b %y")
+   
+# Convert to the correct format
+latest_week_occupancy_title<-latest_week_occupancy_title$Date
+   
+previous_week_occupancy_title<- Occupancy_Weekly_Hospital_HB %>% 
+     filter(HealthBoardQF== "d") %>%#use weekly value, filter to Scotland
+     tail(2) %>%
+     select(Date=WeekEnding) %>% 
+     filter(Date== min(Date))
+   
+# Convert to the correct format
+   previous_week_occupancy_title$Date<- format(previous_week_occupancy_title$Date, "%d %b %y")
+   
+# makle it a value
+   previous_week_occupancy_title<- previous_week_occupancy_title$Date
+   
+# create value to produce population rate values
 pop_scot_total <- i_population_v2 %>%
   filter(AgeGroup == "Total", Sex == "Total") %>%
   .$PopNumber
 
-###Cases
+
+### Cases
+
 # create intermediate data frames for covid,flu and non-flu pathogens
 # limit  each data frame to the last 2 weeks and add a flag latest week /previous week
 # pivot the tables by dates
 # Order the pathogens in a consistent manner
 # join into one table
 # rename and add week titles for the dashboard
-# NB labels will be a mismatch when last week's data is used
 
 covid_cases_intro <- Cases_Weekly %>%
   tail(2) %>% # retain last 2 weeks
@@ -63,8 +122,7 @@ nonflu_cases_intro <- Respiratory_AllData %>%
                                                  "Seasonal coronavirus (Non-SARS-CoV-2)"))) %>%
   arrange(Pathogen)
 
-
-
+# combine the three intermediate dataframes
 cases_intro <- covid_cases_intro %>%
   bind_rows(flu_cases_intro) %>%
   bind_rows(nonflu_cases_intro) %>%
@@ -76,10 +134,10 @@ cases_intro <- covid_cases_intro %>%
          )
 
 
-colnames(cases_intro)[4] <- paste("Number of cases (", as.character(latest_week_title),")")
-colnames(cases_intro)[5] <- paste("Rate per 100,000 population (", as.character(latest_week_title),")")
-colnames(cases_intro)[2] <- paste("Number of cases (", as.character(previous_week_title),")")
-colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(previous_week_title),")")
+colnames(cases_intro)[4] <- paste("Number of cases (", as.character(latest_week_cases_title),")")
+colnames(cases_intro)[5] <- paste("Rate per 100,000 population (", as.character(latest_week_cases_title),")")
+colnames(cases_intro)[2] <- paste("Number of cases (", as.character(previous_week_cases_title),")")
+colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(previous_week_cases_title),")")
 
 ###Hosp Adms
 # create intermediate data frames for covid,flu and rsv using Respiratory_admissions_summary dataframe
@@ -89,7 +147,6 @@ colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(
 # Order the pathogens in a consistent manner
 # join into one table
 # rename and add week titles for the dashboard
-# NB labels will be a mismatch when last week's data is used
 
 hosp_adms_intro <- Respiratory_admissions_summary %>%
   tail(6) %>% 
@@ -108,10 +165,10 @@ hosp_adms_intro <- Respiratory_admissions_summary %>%
   arrange(Pathogen) %>% 
   mutate(Pathogen=if_else(Pathogen=="RSV", "Respiratory syncytial virus",Pathogen))
 
-colnames(hosp_adms_intro)[4] <- paste("Number of admissions (", as.character(latest_week_title),")")
-colnames(hosp_adms_intro)[5] <- paste("Rate of admissions per 100,000 population (", as.character(latest_week_title),")")
-colnames(hosp_adms_intro)[2] <- paste("Number of admissions (", as.character(previous_week_title),")")
-colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population (", as.character(previous_week_title),")")
+colnames(hosp_adms_intro)[4] <- paste("Number of admissions (", as.character(latest_week_admissions_title),")")
+colnames(hosp_adms_intro)[5] <- paste("Rate of admissions per 100,000 population (", as.character(latest_week_admissions_title),")")
+colnames(hosp_adms_intro)[2] <- paste("Number of admissions (", as.character(previous_week_admissions_title),")")
+colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population (", as.character(previous_week_admissions_title),")")
 
 ###Inpatients
 # only one data frame at the moment for Covid inpatients
@@ -120,7 +177,6 @@ colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population
 # Order the pathogens in a consistent manner
 # join into one table
 # rename and add week titles for the dashboard
-# NB labels will be a mismatch when last week's data is used
 
 covid_inpatients_intro <- Occupancy_Weekly_Hospital_HB %>% 
   filter(HealthBoardQF== "d") %>%#use weekly value, filter to Scotland
@@ -131,8 +187,8 @@ covid_inpatients_intro <- Occupancy_Weekly_Hospital_HB %>%
   mutate(Pathogen = "COVID-19") %>%
   select(Pathogen, `Previous Week`, `Latest Week`)
 
-colnames(covid_inpatients_intro)[3] <- paste("Seven day average number (", as.character(latest_week_title),")")
-colnames(covid_inpatients_intro)[2] <- paste("Seven day average number (", as.character(previous_week_title),")")
+colnames(covid_inpatients_intro)[3] <- paste("Seven day average number (", as.character(latest_week_occupancy_title),")")
+colnames(covid_inpatients_intro)[2] <- paste("Seven day average number (", as.character(previous_week_occupancy_title),")")
 
 
 ### Data tables -----
