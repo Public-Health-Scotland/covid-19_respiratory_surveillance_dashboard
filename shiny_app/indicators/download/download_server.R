@@ -1,14 +1,14 @@
 # Data download choices
 
-Occupancy_Weekly_Hospital_HB<-Occupancy_Weekly_Hospital_HB %>% 
-  filter(HealthBoardQF== "d") %>% #filters for Scotland values
-  select(WeekEnding=WeekEnding_od,
-         HealthBoardOfTreatment=HealthBoardName, 
-         HealthBoardOfTreatmentQF=HealthBoardQF,
-         InpatientsAsAtLastSunday=HospitalOccupancy, 
-         InpatientsAsAtLastSundayQF=HospitalOccupancyQF, 
-         InpatientsSevenDayAverage= SevenDayAverage, 
-         InpatientsSevenDayAverageQF=SevenDayAverageQF)
+# Occupancy_Weekly_Hospital_HB<-Occupancy_Weekly_Hospital_HB %>% 
+#   filter(HealthBoardQF== "d") %>% #filters for Scotland values
+#   select(WeekEnding=WeekEnding_od,
+#          HealthBoardOfTreatment=HealthBoardName, 
+#          HealthBoardOfTreatmentQF=HealthBoardQF,
+#          InpatientsAsAtLastSunday=HospitalOccupancy, 
+#          InpatientsAsAtLastSundayQF=HospitalOccupancyQF, 
+#          InpatientsSevenDayAverage= SevenDayAverage, 
+#          InpatientsSevenDayAverageQF=SevenDayAverageQF)
 
 
 metadataButtonServer(id="download",
