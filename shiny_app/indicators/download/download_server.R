@@ -1,13 +1,15 @@
 # Data download choices
 
-Occupancy_Weekly_Hospital_HB<-Occupancy_Weekly_Hospital_HB %>% 
+# copy & rename the the weekly hospital occcupancy dataframe (keeps the original
+# for other purposes) and renames variables to be consistent with Open Data
+Occupancy_Weekly_Hospital<-Occupancy_Weekly_Hospital_HB %>%
   filter(HealthBoardQF== "d") %>% #filters for Scotland values
   select(WeekEnding=WeekEnding_od,
-         HealthBoardOfTreatment=HealthBoardName, 
+         HealthBoardOfTreatment=HealthBoardName,
          HealthBoardOfTreatmentQF=HealthBoardQF,
-         InpatientsAsAtLastSunday=HospitalOccupancy, 
-         InpatientsAsAtLastSundayQF=HospitalOccupancyQF, 
-         InpatientsSevenDayAverage= SevenDayAverage, 
+         InpatientsAsAtLastSunday=HospitalOccupancy,
+         InpatientsAsAtLastSundayQF=HospitalOccupancyQF,
+         InpatientsSevenDayAverage= SevenDayAverage,
          InpatientsSevenDayAverageQF=SevenDayAverageQF)
 
 
@@ -34,7 +36,7 @@ hospital_admissions_download_choices <- list(
   # "Weekly RSV hospital admissions" = "RSV_admissions"
                                           )
 hospital_occupancy_download_choices <- list(
-  "Weekly COVID-19 hospital occupancy" = "Occupancy_Weekly_Hospital_HB",
+  "Weekly COVID-19 hospital occupancy" = "Occupancy_Weekly_Hospital",
   "Daily COVID-19 ICU occupancy" = "Occupancy_ICU"
 )
 vaccines_download_choices <- list(
