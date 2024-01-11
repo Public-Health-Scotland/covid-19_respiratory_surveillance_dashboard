@@ -89,35 +89,28 @@ covid_cases_intro <- Cases_Weekly %>%
   pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
   mutate(Pathogen = "COVID-19")
 
-flu_cases_intro <- Respiratory_AllData %>%
-  filter(FluOrNonFlu == "flu") %>%
-  filter(Organism == "Influenza - Type A or B") %>%
-  filter(BreakDown == "Scotland") %>%
+flu_cases_intro <- Respiratory_Scot %>%
+  filter(Pathogen == "Influenza - Type A or B") %>%
   tail(2) %>%
-  group_by(Date) %>%
-  summarise(cases_number = sum(Count)) %>%
-  ungroup() %>%
+  select(Date= WeekEnding, cases_number = NumberCasesPerWeek) %>%
   mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>%
   mutate(flag = ifelse(Date==max(Date), "latest_week", "previous_week")) %>%
   select(-Date) %>%
   pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
   mutate(Pathogen = "Influenza")
 
-nonflu_cases_intro <- Respiratory_AllData %>%
-  filter(FluOrNonFlu == "nonflu") %>%
-  filter(Organism != "Total") %>%
-  filter(BreakDown == "Scotland") %>% 
-     tail(14) %>% # 7 pathogens, last 2 weeks
-  group_by(Date, Organism) %>%
-  summarise(cases_number = sum(Count)) %>%# simplify the dataframe
-  ungroup() %>%
+nonflu_cases_intro <- Respiratory_Scot %>%
+  filter(Pathogen %in% c("Respiratory syncytial virus", "Adenovirus",
+                         "Human metapneumovirus", "Mycoplasma pneumoniae", 
+                         "Parainfluenza virus", "Rhinovirus",
+                         "Seasonal coronavirus (Non-SARS-CoV-2)"))%>%
+  tail(14) %>% # 7 pathogens, last 2 weeks
+  select(Date= WeekEnding, cases_number = NumberCasesPerWeek, Pathogen)   %>%
   mutate(flag = ifelse(Date==max(Date), "latest_week", "previous_week")) %>% # add flag
-  select(-Date) %>%
   mutate(cases_rate = round_half_up(100000 * cases_number / pop_scot_total,1)) %>%
-  pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
-  select(-c(flag_latest_week, flag_previous_week)) %>%
-  rename(Pathogen = Organism) %>%
-  mutate(Pathogen =  factor(Pathogen, levels = c("Respiratory syncytial virus", "Adenovirus", "Human metapneumovirus",
+  select(Pathogen,flag, cases_number,cases_rate ) %>%
+  pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>% 
+   mutate(Pathogen =  factor(Pathogen, levels = c("Respiratory syncytial virus", "Adenovirus", "Human metapneumovirus",
                                                  "Mycoplasma pneumoniae", "Parainfluenza virus", "Rhinovirus",
                                                  "Seasonal coronavirus (Non-SARS-CoV-2)"))) %>%
   arrange(Pathogen)
@@ -130,10 +123,9 @@ cases_intro <- covid_cases_intro %>%
          'Number of cases (previous week)'= cases_number_previous_week,
          'Rate per 100,000 population (previous week)'= cases_rate_previous_week,
          'Number of cases (latest week)'= cases_number_latest_week,
-         'Rate per 100,000 population (latest week)'= cases_rate_latest_week
-         )
+         'Rate per 100,000 population (latest week)'= cases_rate_latest_week )
 
-
+        
 colnames(cases_intro)[4] <- paste("Number of cases (", as.character(latest_week_cases_title),")")
 colnames(cases_intro)[5] <- paste("Rate per 100,000 population (", as.character(latest_week_cases_title),")")
 colnames(cases_intro)[2] <- paste("Number of cases (", as.character(previous_week_cases_title),")")
