@@ -14,6 +14,17 @@ tagList(
            p("Please refer to metadata tab for further information on testing policies."),
            ), #fluidRow
 
+  ###########
+  
+  fluidRow(width=12,
+           box(width = NULL,
+               withNavySpinner(dataTableOutput("three_week_mem_table"))),
+           fluidRow(
+             width=12, linebreaks(1)),
+           p("this is just a trial."),
+  ), #fluid roww
+  
+  #########
   fluidRow(width = 12,
            tagList(h2("Number and rate of acute hospital admissions due to COVID-19, influenza and RSV (week ending)")),
            linebreaks(1)), #fluidRow

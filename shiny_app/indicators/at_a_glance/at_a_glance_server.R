@@ -200,6 +200,15 @@ output$cases_intro_table <- renderDataTable({
 
 })
 
+##########
+# Cases table
+output$three_week_mem_table <- renderDataTable({
+  pivot_scot_mem %>%
+    make_summary_table()
+  
+})
+
+##########
 # Hospital admissions table
 output$hosp_adms_intro_table <- renderDataTable({
   hosp_adms_intro %>%
@@ -232,4 +241,87 @@ output$hosp_adms_intro_plot <- renderPlotly({
 
 })
 
+#mem labels-(matches MEM_Scot data set)
+#latest sunday
+latest_week_mem_title <-Respiratory_Pathogens_MEM_Scot %>%
+  tail(1) %>%
+  select(Date=WeekEnding)
+# Convert to correct format
+latest_week_mem_title$Date<- format(latest_week_mem_title$Date, "%d %b %y")
+# make it a value
+latest_week_mem_title <- latest_week_mem_title$Date
 
+
+ #middle sundau
+middle_week_mem_title <-Respiratory_Pathogens_MEM_Scot %>%
+  filter(Pathogen==("Influenza")) %>% 
+  tail(2) %>%
+  filter(WeekEnding==min(WeekEnding)) %>% 
+  select(Date=WeekEnding)
+# Convert to correct format
+  middle_week_mem_title$Date<- format(middle_week_mem_title$Date, "%d %b %y")
+# make it a value
+  middle_week_mem_title <- middle_week_mem_title$Date
+
+#earliest sunday
+  earliest_week_mem_title <-Respiratory_Pathogens_MEM_Scot %>%
+    filter(Pathogen==("Influenza")) %>% 
+    tail(3) %>%
+    filter(WeekEnding==min(WeekEnding)) %>% 
+    select(Date=WeekEnding)
+  # Convert to correct format
+  earliest_week_mem_title$Date<- format(earliest_week_mem_title$Date, "%d %b %y")
+  # make it a value
+  earliest_week_mem_title <-earliest_week_mem_title$Date
+
+
+
+pivot_scot_mem<-Respiratory_Pathogens_MEM_Scot %>% 
+  tail(24) %>% 
+  select(WeekEnding,Pathogen, RatePer100000, ActivityLevel) %>% 
+  #mutate(date = as.numeric(WeekEnding))
+  mutate(
+    min_date = min(WeekEnding),
+    max_date = max(WeekEnding),
+    flag = case_when(
+      WeekEnding == min_date ~ "3rdSunday",
+      WeekEnding == max_date ~ "1stSunday",
+      TRUE ~ "2ndSunday")) %>% 
+  select(-min_date, -max_date, -WeekEnding)  %>% 
+  pivot_wider(names_from = flag, values_from = RatePer100000: ActivityLevel)
+  
+
+colnames(pivot_scot_mem)[2] <- paste("Infection Rate (", as.character(earliest_week_mem_title),")")
+colnames(pivot_scot_mem)[3] <- paste("Infection Rate (", as.character(middle_week_mem_title),")")
+colnames(pivot_scot_mem)[4] <- paste("Infection Rate (", as.character(latest_week_mem_title),")")
+colnames(pivot_scot_mem)[4] <- paste("Activity Level (", as.character(earliest_week_mem_title),")")
+colnames(pivot_scot_mem)[6] <- paste("Activity Level (", as.character(middle_week_mem_title),")")
+colnames(pivot_scot_mem)[7] <- paste("Activity Level (", as.character(latest_week_mem_title),")")
+
+
+# Your data
+data <- data.frame(
+  Pathogen = c('A', 'B', 'C', 'D', 'E', 'F', 'G'),
+  wk1 = c('Baseline', 'Low', 'Baseline', 'Baseline', 'Baseline', 'Baseline', 'Baseline'),
+  wk2 = c('Low', 'Baseline', 'Baseline', 'Moderate', 'Baseline', 'Extraordinary', 'Extraordinary'),
+  wk3 = c('Moderate', 'High', 'Baseline', 'Baseline', 'Baseline', 'Baseline', 'Baseline')
+)
+
+# Reshape the data for the heatmap
+heatmap_data <- data %>%
+  pivot_longer(cols = starts_with("wk"), names_to = "Week", values_to = "Value")
+
+# Create the Plotly heatmap
+heatmap_plot <- plot_ly(
+  heatmap_data,
+  x = ~Week,
+  y = ~Pathogen,
+  z = ~Value,
+  type = "heatmap",
+  colorscale = "Viridis",  # You can choose another colorscale
+  reversescale = TRUE,
+  showscale = TRUE
+)
+
+# Show the plot
+heatmap_plot
