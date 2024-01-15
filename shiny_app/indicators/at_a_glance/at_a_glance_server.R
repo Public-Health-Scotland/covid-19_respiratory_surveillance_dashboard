@@ -299,28 +299,18 @@ colnames(pivot_scot_mem)[6] <- paste("Activity Level (", as.character(middle_wee
 colnames(pivot_scot_mem)[7] <- paste("Activity Level (", as.character(latest_week_mem_title),")")
 
 
-# Your data
-data <- data.frame(
-  Pathogen = c('A', 'B', 'C', 'D', 'E', 'F', 'G'),
-  wk1 = c('Baseline', 'Low', 'Baseline', 'Baseline', 'Baseline', 'Baseline', 'Baseline'),
-  wk2 = c('Low', 'Baseline', 'Baseline', 'Moderate', 'Baseline', 'Extraordinary', 'Extraordinary'),
-  wk3 = c('Moderate', 'High', 'Baseline', 'Baseline', 'Baseline', 'Baseline', 'Baseline')
-)
-
-# Reshape the data for the heatmap
-heatmap_data <- data %>%
-  pivot_longer(cols = starts_with("wk"), names_to = "Week", values_to = "Value")
-
 # Create the Plotly heatmap
 heatmap_plot <- plot_ly(
-  heatmap_data,
-  x = ~Week,
-  y = ~Pathogen,
-  z = ~Value,
+  data=pivot_scot_mem,
+  z = pivot_scot_mem,
+  x = colnames(heatmap_data),
+  y = rownames(heatmap_data),
   type = "heatmap",
   colorscale = "Viridis",  # You can choose another colorscale
   reversescale = TRUE,
-  showscale = TRUE
+  showscale = TRUE,
+  hoverinfo = "z+text",
+  text = heatmap_data
 )
 
 # Show the plot
