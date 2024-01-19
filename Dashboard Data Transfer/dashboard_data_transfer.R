@@ -211,6 +211,10 @@ rm(od_date, od_report_date,od_archive_date ,od_sunday,od_sunday_minus_7,
 #    pop_dash_total, pop_total_sex, pop_total_total, 
 #    pop_dash_sex_fifteen_fourty_four,pop_year, i_population_v2)
 
-#### UKHSA admission date, run ad_hoc
-source("Transfer Scripts/transfer_UKHSA_admissions.R")
+
+#### UKHSA admission date, run ad_hoc, note admission and occupancy transfer 
+# scripts also produce files to this folder. This was work in development and 
+# currently switched off until need for pivotted files are confirmed
+
+#source("Transfer Scripts/transfer_UKHSA_admissions.R")
 

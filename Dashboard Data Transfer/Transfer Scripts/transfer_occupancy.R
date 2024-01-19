@@ -68,7 +68,14 @@ g_occupancy_hospital <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_
          HealthBoardQF = ifelse(HealthBoard == "", ":", HealthBoardQF)) %>%
   filter(HealthBoard == "S92000003") #for disclosure reasons temporarily filtering for Scotland only
 
-write.csv(g_occupancy_hospital, glue(output_folder, "Occupancy_Hospital.csv"), row.names = FALSE)
+# daily occupancy no longer needed for dashboard
+#write.csv(g_occupancy_hospital, glue(output_folder, "Occupancy_Hospital.csv"), row.names = FALSE)
+
+# save to UKHSA adm folder
+write_csv(g_occupancy_hospital, glue(ukhsa_adm, "Occupancy_Hospital.csv", 
+                                     row.names = FALSE,
+                                     na = ""))
+
 
 g_occupancy_hospital_hb <- bind_rows(g_occupancy_hospital_healthboard, g_occupancy_hospital_scotland) %>%
   group_by(HealthBoard) %>%
