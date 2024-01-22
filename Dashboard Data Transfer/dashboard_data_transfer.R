@@ -42,7 +42,10 @@ od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid 
 # location for archive folders to go
 od_archive_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{report_date}"
 
-# Getting useful functions
+#UKHSA folder file path
+ukhsa_adm<-"/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/ukhsa_admissions/"
+
+  # Getting useful functions
 #source("data_transfer_functions.R")
 
 
@@ -207,3 +210,11 @@ rm(od_date, od_report_date,od_archive_date ,od_sunday,od_sunday_minus_7,
 #    pop_dash_fifteen_fourty_four, pop_dash_sex, pop_dash_sex_ageband,
 #    pop_dash_total, pop_total_sex, pop_total_total, 
 #    pop_dash_sex_fifteen_fourty_four,pop_year, i_population_v2)
+
+
+#### UKHSA admission date, run ad_hoc, note admission and occupancy transfer 
+# scripts also produce files to this folder. This was work in development and 
+# currently switched off until need for pivotted files are confirmed
+
+#source("Transfer Scripts/transfer_UKHSA_admissions.R")
+

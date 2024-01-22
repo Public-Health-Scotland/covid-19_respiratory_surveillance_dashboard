@@ -37,8 +37,14 @@ g_adm %<>%
          TRUE ~ 0),
          AdmissionDate = format(as.Date(AdmissionDate), "%Y%m%d"))
 
+# daily admission no longer needed for dashboard
+#write_csv(g_adm, glue(output_folder, "Admissions.csv"))
 
-write_csv(g_adm, glue(output_folder, "Admissions.csv"))
+# save to UKHSA adm folder
+write_csv(g_adm, glue(ukhsa_adm, "Admissions.csv", 
+                      row.names = FALSE,
+                      na = ""))
+
 
 # weekly admissions
 g_adm_weekly<-g_adm %>% 
