@@ -216,5 +216,5 @@ rm(od_date, od_report_date,od_archive_date ,od_sunday,od_sunday_minus_7,
 # scripts also produce files to this folder. This was work in development and 
 # currently switched off until need for pivotted files are confirmed
 
-#source("Transfer Scripts/transfer_UKHSA_admissions.R")
+source("Transfer Scripts/transfer_UKHSA_admissions.R")
 
