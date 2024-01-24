@@ -38,27 +38,27 @@ g_adm %<>%
          AdmissionDate = format(as.Date(AdmissionDate), "%Y%m%d"))
 
 # daily admission no longer needed for dashboard
-#write_csv(g_adm, glue(output_folder, "Admissions.csv"))
+write_csv(g_adm, glue(output_folder, "Admissions.csv"))
 
 # save to UKHSA adm folder
-write_csv(g_adm, glue(ukhsa_adm, "Admissions.csv", 
+write_csv(g_adm, glue(ukhsa_adm, "Admissions.csv",
                       row.names = FALSE,
                       na = ""))
 
 
 # weekly admissions
-g_adm_weekly<-g_adm %>% 
-  select(AdmissionDate, TotalInfections) %>% 
-  mutate(AdmissionDate=ymd(AdmissionDate)) %>% 
+g_adm_weekly<-g_adm %>%
+  select(AdmissionDate, TotalInfections) %>%
+  mutate(AdmissionDate=ymd(AdmissionDate)) %>%
   mutate(WeekOfAdmission = ceiling_date(
-    AdmissionDate,unit="week",week_start=7, change_on_boundary=FALSE)) %>% 
-  group_by(WeekOfAdmission) %>% 
+    AdmissionDate,unit="week",week_start=7, change_on_boundary=FALSE)) %>%
+  group_by(WeekOfAdmission) %>%
   summarise(TotalInfections = sum(TotalInfections))%>%
-  ungroup() %>% 
+  ungroup() %>%
   mutate(ProvisionalFlag = case_when(
     WeekOfAdmission > (report_date-10) ~ 1,
-           TRUE ~ 0)) %>% 
-    mutate(WeekOfAdmission = format(strptime(WeekOfAdmission, format = "%Y-%m-%d"), "%Y%m%d")) %>% 
+           TRUE ~ 0)) %>%
+    mutate(WeekOfAdmission = format(strptime(WeekOfAdmission, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   rename(AdmissionDate=WeekOfAdmission)
 
 write_csv(g_adm_weekly, glue(output_folder, "Admissions_Weekly.csv"))
