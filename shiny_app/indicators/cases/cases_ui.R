@@ -14,6 +14,35 @@ tagList(
            ),
 
   fluidRow(width = 12,
+           tagList(h2("Estimated COVID-19 infection rate"),
+                   h4("(ONS winter covid infection survey)"),
+                   p("Further SARS-CoV-2 prevalence results are available in the UKHSA report on Winter CIS, which can be found on their website",
+                     tags$a(href="https://www.gov.uk/government/statistics/winter-coronavirus-covid-19-infection-study-estimates-of-epidemiological-characteristics-england-and-scotland-2023-to-2024", "UKHSA Winter Coronavirus Infection Study (external website)",  target="_blank"), "."),
+                   tags$div(class = "headline",
+                            h3(glue("Figures from week ending {Winter_CIS %>% tail(1) %>%
+                .$EndDate %>% convert_opendata_date() %>%  format('%d %b %y')}")),
+                            valueBox(value = {Winter_CIS %>% tail(1) %>%
+                                .$EstimatedRatio},
+                                subtitle = "Estimated prevalence",
+                                color = "navy",
+                                icon = icon_no_warning_fn("viruses")),
+                            valueBox(value = {Winter_CIS %>% tail(1) %>%
+                                .$LowerCIRatio},
+                                subtitle = "Lower 95% confidence interval",
+                                color = "navy",
+                                icon = icon_no_warning_fn("viruses")),
+                            valueBox(value = {Winter_CIS %>% tail(1) %>%
+                                .$UpperCIRatio},
+                                subtitle = "Upper 95% confidence interval",
+                                color = "navy",
+                                icon = icon_no_warning_fn("viruses")),
+                            # This text is hidden by css but helps pad the box at the bottom
+                            h6("hidden text for padding page")
+                   )
+           ),
+           linebreaks(1)),
+
+  fluidRow(width = 12,
            tagList(h2("Seven day average trend in wastewater COVID-19"),
                    tags$div(class = "headline",
                             h3(glue("Figure from week ending {Wastewater %>% tail(1) %>%
