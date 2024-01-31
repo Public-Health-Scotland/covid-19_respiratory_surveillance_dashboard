@@ -23,6 +23,11 @@ library(R.utils)
 library(lubridate)
 library(png)
 library(tidyr)
+library(sf)
+library(sp)
+library(leaflet)
+library(terra)
+library(raster)
 
 # Load core functions ----
 source("functions/core_functions.R")

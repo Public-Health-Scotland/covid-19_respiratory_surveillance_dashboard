@@ -9,7 +9,7 @@ if (!pacman::p_isinstalled("friendlyloader")){pacman::p_install_gh("RosalynLP/fr
 
 pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate, ISOweek,
                janitor, stringr, data.table, stats, zoo, tidyr, readxl, readr, friendlyloader,
-               sf)
+               sf, sp, leaflet, terra, raster)
 
 # Setting permisisons for files outputted
 Sys.umask("006")
