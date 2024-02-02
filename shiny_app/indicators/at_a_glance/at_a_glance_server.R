@@ -231,5 +231,104 @@ output$hosp_adms_intro_plot <- renderPlotly({
     make_adms_summary_plot()#create_summary_adms_linechart()
 
 })
+##### map section
+library(sf)
+library(sp)
+library(leaflet)
 
 
+# Specify the path to your shapefile (.shp) without the file extension
+#needs addressed properly
+shapefile_path="/conf/C19_Test_and_Protect/Analyst Space/Iain (Analyst Space)/covid-19_respiratory_surveillance_dashboard/shiny_app/spatial_files/"
+
+# Read the shapefile
+HB_Polygons <- st_read(dsn = shapefile_path,layer="SG_NHS_HealthBoards_2019")
+# Specify a tolerance value for simplification
+tolerance <- 500 # You can adjust this value based on your needs
+
+# Simplify the polygon & edit HB code name for join
+Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) %>% 
+  rename(HB=HBCode) %>% 
+  select(-HBName)
+
+
+Intro_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, `Intro_Pathogens_MEM_HB `,
+                                           by="HB")  %>% 
+  mutate(ActivityLevel = factor(ActivityLevel,
+                                levels = c("Baseline","Low","Moderate" ,"High","Extraordinary"))) 
+
+unique_mem_levels <- unique(Respiratory_Pathogens_MEM_HB$ActivityLevel)
+
+# Transforming to WGS84 (EPSG:4326)
+Intro_Pathogens_MEM_HB_Polygons <- st_transform(Intro_Pathogens_MEM_HB_Polygons, crs = 4326)
+
+# Create a reactive expression for filtered data based on the selected ActivityLevel
+Intro_Pathogens_MEM_HB <- reactive({
+  filter_level <- input$Pathogen_filter
+  
+  if (filter_level == "All") {
+    return(Intro_Pathogens_MEM_HB_Polygons)
+  } else {
+    return(filter(Intro_Pathogens_MEM_HB_Polygons, ActivityLevel == filter_level))
+  }
+})
+
+  # Define the Leaflet map
+  output$map <- renderLeaflet({
+    leaflet(Intro_Pathogens_MEM_HB) %>%
+      setView(lng = -2, lat = 56.8, zoom = 6.25) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        weight = 1, 
+        smoothFactor = 0.5,
+        fillColor = ~colorFactor(
+          palette = custom_palette,
+          domain = c("Baseline", "Low", "Moderate", "High", "Extraordinary")
+        )(ActivityLevel),
+        opacity = 0.5, 
+        fillOpacity = 0.9,
+        color = "white",
+        dashArray = "2",
+        popup = ~paste0(
+          "<b>Date: </b>", format(WeekEnding, "%d %b %y"), "<br>",
+          "<b>Week Number: </b>", ISOWeek, "<br>",
+          "<b>Health board: </b>", HBName, "<br>",
+          "<b> Pathogen: ", "</b>", Pathogen, "<br>",
+          "<b> Activity Level: </b>", ActivityLevel, "<br>"
+        ),
+        highlightOptions =  highlightOptions(color = "white", weight = 2, bringToFront = TRUE)
+      )
+  })
+#}
+
+
+# 
+# # Create the leaflet map
+# leaflet(Intro_Pathogens_MEM_HB_Polygons) %>%
+#   setView(lng = -4.3, lat = 57.7, zoom = 6.25) %>%
+#   addProviderTiles("CartoDB.Positron") %>%
+#   addPolygons(
+#     weight = 1,
+#     smoothFactor = 0.5,
+#     fillColor = ~ActivityLevelColour,
+#     opacity = 0.6,
+#     fillOpacity = 0.7,
+#     color = "grey",
+#     dashArray = "0",
+#     popup = ~paste0(
+#       "<b>Date: </b>", format(WeekEnding, "%d %b %y"), "<br>",
+#       "<b>Week Number: </b>", ISOWeek, "<br>",
+#       "<b>Health board: </b>", HBName, "<br>",
+#       "<b> Pathogen: ", "</b>", Pathogen, "<br>",
+#       "<b> Activity Level: </b>", ActivityLevel, "<br>"  ),
+#     label = ~paste0(HBName    ),
+#     labelOptions = labelOptions(noHide = FALSE, direction = "auto"),  # Options for hover labels
+#     highlightOptions = highlightOptions(color = "black", weight = 2, bringToFront = TRUE)
+#   ) %>%
+#   addLegend(
+#     "bottomright",  # 'arg' should be one of “topright”, “bottomright”, “bottomleft”, “topleft”
+#     pal = colorFactor(palette = activity_level_colours, domain = unique_mem_levels),
+#     values = unique_mem_levels,  # Only include unique values
+#     title = ~paste0(" MEM Activity Level"),
+#     labFormat = labelFormat(activity_levels)
+#   )

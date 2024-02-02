@@ -13,6 +13,21 @@ tagList(
                  width=12, linebreaks(1)),
            p("Please refer to metadata tab for further information on testing policies."),
            ), #fluidRow
+  
+  fluidRow(width = 12,
+           tagList(h2("MEM across Health Board(week ending)")),
+           linebreaks(1)), #fluidRow
+  
+  fluidRow(width=12,
+           selectInput("pathogen_filter", "Select pathogen", 
+                       choices = c(levels(Intro_Pathogens_MEM_HB_Polygons$Pathogen)),
+                       selected = "Influenza"),
+           box(width = NULL,
+               leafletOutput("hb_mem_map")),
+           fluidRow(
+             width=12, linebreaks(1)),
+           p("Please refer to metadata tab for further information on testing policies."),
+  ), #fluidRow
 
   fluidRow(width = 12,
            tagList(h2("Number and rate of acute hospital admissions due to COVID-19, influenza and RSV (week ending)")),

@@ -148,7 +148,19 @@ respiratory_pathogens_MEM_hb <- respiratory_pathogens_MEM_hb %>%
 respiratory_pathogens_MEM_agegp <- respiratory_pathogens_MEM_agegp %>%
   arrange(WeekBeginning, AgeGroup, Pathogen)
 
+Intro_Pathogens_MEM_hb <-respiratory_pathogens_MEM_hb %>% 
+  mutate(ActivityLevelColour = case_when(
+    ActivityLevel == "Baseline" ~ "#01A148",
+    ActivityLevel == "Low" ~ "#FFDE17",
+    ActivityLevel == "Moderate" ~ "#F36523",
+    ActivityLevel == "High" ~ "#ED1D24",
+    ActivityLevel == "Extraordinary" ~ "#7D4192"
+  )) %>% 
+  filter(WeekEnding==max(WeekEnding))
+
 # Output
 write_csv(respiratory_pathogens_MEM_scotland, glue(output_folder, "Respiratory_Pathogens_MEM_Scot.csv"))
 write_csv(respiratory_pathogens_MEM_hb, glue(output_folder, "Respiratory_Pathogens_MEM_HB.csv"))
 write_csv(respiratory_pathogens_MEM_agegp, glue(output_folder, "Respiratory_Pathogens_MEM_Age.csv"))
+write_csv(Intro_Pathogens_MEM_hb , glue(output_folder, "Intro_Pathogens_MEM_HB .csv"))
+
