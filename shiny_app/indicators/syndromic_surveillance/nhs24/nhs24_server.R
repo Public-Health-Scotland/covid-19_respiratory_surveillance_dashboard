@@ -40,7 +40,7 @@ nhs24_extraordinary_threshold <- Respiratory_NHS24_MEM_Scot %>%
 #   filter(Season == "2010/2011") %>%
 #   select(Season) %>%
 #   arrange(Season) %>%
-#   distinct() 
+#   distinct()
 # seasons <- bind_rows(seasons_2, seasons_1)
 # seasons <- seasons$Season
 
@@ -80,9 +80,12 @@ altTextServer("nhs24_mem_hb_modal",
                                 tags$li("The y axis shows the NHS Health Board."),
                                 tags$li("Each cell is coloured according to the activity level: Baseline, Low, Moderate, High, or Extraordinary."),
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller NHS Health Boards. ",
-                                        "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
+                                        "The percentage of calls for respiratory symptoms shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to NHS Health Boards ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("MEM thresholds for each NHS Health Board are available in the metadata of the",
+                                        tags$a("accompanying report.",
+                                               href="https://www.publichealthscotland.scot/publications/show-all-releases?id=102486"))))
 
 
 altTextServer("nhs24_mem_age_modal",
@@ -94,9 +97,12 @@ altTextServer("nhs24_mem_age_modal",
                                 tags$li("The y axis shows the age group."),
                                 tags$li("Each cell is coloured according to the activity level: Baseline, Low, Moderate, High, or Extraordinary."),
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller age groups. ",
-                                        "The swab positivity rate shows greater fluctuation as a result of the lower number of samples taken relative ",
+                                        "The percentage of calls for respiratory symptoms shows greater fluctuation as a result of the lower number of samples taken relative ",
                                         "to the population size; this has the effect of generating small or large incidence rates compared to age groups ",
-                                        "with larger populations.")))
+                                        "with larger populations."),
+                                tags$li("MEM thresholds for each age group are available in the metadata of the",
+                                        tags$a("accompanying report.",
+                                               href="https://www.publichealthscotland.scot/publications/show-all-releases?id=102486"))))
 
 
 # NHS24 MEM table
