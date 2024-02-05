@@ -45,98 +45,39 @@ Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) %>%
    rename(HB=HBCode) %>% 
    select(-HBName)
  
-#plot(Simplified_HB_Polygons , col = "red")
-
-# 
-# # take hb mems and filter to last week
-# Intro_Pathogens_MEM_HB_2<-Intro_Pathogens_MEM_HB%>% 
-#   mutate(ActivityLevelColour = case_when(
-#     ActivityLevel == "Baseline" ~ "#01A148",
-#     ActivityLevel == "Low" ~ "#FFDE17",
-#     ActivityLevel == "Moderate" ~ "#F36523",
-#     ActivityLevel == "High" ~ "#ED1D24",
-#     ActivityLevel == "Extraordinary" ~ "#7D4192"
-#   )) %>% 
-#   filter(WeekEnding==max(WeekEnding))
-# 
 
 Intro_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, `Intro_Pathogens_MEM_HB `,
                                      by="HB")  %>% 
   mutate(ActivityLevel = factor(ActivityLevel,
                            levels = c("Baseline","Low","Moderate" ,"High","Extraordinary")))  %>% 
-   filter(Pathogen=="Coronavirus")
+   filter(Pathogen=="Influenza")
 
-unique_mem_levels <- unique(Respiratory_Pathogens_MEM_HB$ActivityLevel)
 
 # Transforming to WGS84 (EPSG:4326)
 Intro_Pathogens_MEM_HB_Polygons <- st_transform(Intro_Pathogens_MEM_HB_Polygons, crs = 4326)
 
-# Create the leaflet map
+activity_levels <- c("Baseline", "Low", "Moderate", "High", "Extraordinary")
+
+# Colours for thresholds
+activity_level_colours <- c("#01A148", "#FFDE17", "#F36523", "#ED1D24", "#7D4192")
+
+
 leaflet(Intro_Pathogens_MEM_HB_Polygons) %>%
-  setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>% #set to 5.25 zoom to include Shetland
+  setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
   addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(
-    weight = 1,
-    smoothFactor = 0.5,
-    fillColor = ~ActivityLevelColour,
-    opacity = 0.6,
-    fillOpacity = 0.7,
-    color = "grey",
-    dashArray = "0",
-        popup = ~paste0(
-          "<b>Date: </b>", format(WeekEnding, "%d %b %y"), "<br>",
-          "<b>Week Number: </b>", ISOWeek, "<br>",
-          "<b>Health board: </b>", HBName, "<br>",
-          "<b> Pathogen: ", "</b>", Pathogen, "<br>",
-          "<b> Activity Level: </b>", ActivityLevel, "<br>"  ),
-    label = ~paste0(HBName),
-    labelOptions = labelOptions(noHide = FALSE, direction = "auto"),  # Options for hover labels
-    highlightOptions = highlightOptions(color = "black", weight = 2, bringToFront = TRUE)
-  ) %>%
-  addLegend("bottomright",  # 'arg' should be one of “topright”, “bottomright”, “bottomleft”, “topleft”
-    pal = colorFactor(palette = activity_level_colours,domain = activity_levels ),
-    values = activity_levels,  # Only include unique values
-    title = " MEM Activity Level",
-   # labels =~ActivityLevel,
-   #labFormat = labelFormat(activity_levels)
-  )
-  # addLegend("bottomright",
-  #           pal = colorFactor(palette = activity_level_colours, domain = activity_levels),
-  #           values = activity_levels,
-  #           title = ~paste0(" MEM Activity Level"),
-  #           labels = activity_levels)
-
-
-# labFormat = labelFormat(transform = function(x) activity_levels[x])
- #pal = colorBin("YlOrRd", domain = employees_living_wage_cw_las_shape$measure_value, bins = bins)
-
-
-
-
-
-
-# # Create the leaflet map
-# leaflet(Intro_Pathogens_MEM_HB_Polygons) %>%
-#   setView(lng = -4.3, lat = 57.7, zoom = 6.25) %>%
-#   addProviderTiles("CartoDB.Positron") %>%
-#   addPolygons(
-#     weight = 1,
-#     smoothFactor = 0.5,
-#     fillColor = ~ActivityLevelColour,
-#     opacity = 0.6,
-#     fillOpacity= 0.7,
-#     color = "grey",
-#     dashArray = "0",
-#     popup = ~paste0(
-#       "<b>Date: </b>", format(WeekEnding, "%d %b %y"), "<br>",
-#       "<b>Week Number: </b>", ISOWeek, "<br>",
-#       "<b>Health board: </b>", HBName, "<br>",
-#       "<b> Pathogen: ", "</b>", Pathogen, "<br>",
-#       "<b> Activity Level: </b>", ActivityLevel, "<br>"  ),
-#       highlightOptions = highlightOptions(color = "black", weight = 2, bringToFront = TRUE))%>%
-#     addLegend("bottomright",#'arg' should be one of “topright”, “bottomright”, “bottomleft”, “topleft”
-#     pal = colorFactor(palette = activity_level_colours, domain = activity_levels),
-#     values = activity_levels,
-#     title = ~paste0(" MEM Activity Level") )
-#                 
+  addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
+              opacity = 0.6,
+              fillOpacity = 0.7,
+              color = "grey",
+              dashArray = "0",
+    popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
+                    "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
+                   "Rate: ", RatePer100000, "<br>","Activity level: ", ActivityLevel),
+    label = ~paste0(ActivityLevel),
+    labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
+    highlightOptions = highlightOptions(color = "black", weight = 2, bringToFront = TRUE) ) %>% 
+    addLegend(position = "bottomright",colors = activity_level_colours,
+              labels = activity_levels,title = " MEM Activity Level",
+              labFormat = labelFormat())
+ 
     
