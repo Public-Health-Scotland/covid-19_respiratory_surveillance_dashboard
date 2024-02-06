@@ -14,21 +14,36 @@ tagList(
            p("Please refer to metadata tab for further information on testing policies."),
            ), #fluidRow
   
-  fluidRow(width = 12,
-           tagList(h2("MEM across Health Board(week ending)")),
-           linebreaks(1)), #fluidRow
+  fluidRow(width = 12, # dynamic title for selected pathogen above map of hb mems
+           tagList(h2(textOutput("hb_mem_cases_title"))),
+           linebreaks(1)
+  ), # fluidRow
   
-  fluidRow(width=12,
-           selectInput("pathogen_filter", "Select pathogen", 
-                       choices = c(levels(Intro_Pathogens_MEM_HB_Polygons$Pathogen)),
-                       selected = "Influenza"),
-           box(width = NULL,
-               leafletOutput("hb_mem_map")),
-           fluidRow(
-             width=12, linebreaks(1)),
-           p("Please refer to metadata tab for further information on testing policies."),
-  ), #fluidRow
+  # mem healthboard map (and table)
+  fluidRow(
+    width = 12,
 
+    pickerInput(inputId = "pathogen_filter",
+                label = "Select a pathogen",
+                choices = {`Intro_Pathogens_MEM_HB ` %>%
+                    .$Pathogen %>%
+                    unique()},
+                selected = "Adenovirus"),
+             box(width = 4,
+                 leafletOutput("hb_mem_map")),
+             fluidRow(
+               width=12, linebreaks(1)),
+    
+    # fluidRow(width=8,
+    #          box(width = NULL,
+    #              withNavySpinner(dataTableOutput("hb_mem_cases_table"))),
+    #          linebreaks(1),
+    #          linebreaks(1)),
+    
+             p("Use the above filter to see the latest incident rates for non_Covid-19 respirtory pathogens.")
+    ), #fluidRow
+  
+  
   fluidRow(width = 12,
            tagList(h2("Number and rate of acute hospital admissions due to COVID-19, influenza and RSV (week ending)")),
            linebreaks(1)), #fluidRow
@@ -59,8 +74,6 @@ tagList(
            fluidRow(
              width=12, linebreaks(5))
   )
-
-
 
 
 ) #tagList

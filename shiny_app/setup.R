@@ -220,4 +220,30 @@ euromomo_mem_age_groups <- c("0-4", "5-14", "15-64", "65+", "All Ages")
 euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years",
                                   "65+ years", "All Ages")
 
+##### polygon creation temporary set up
+
+##### map section
+library(sf)
+library(sp)
+library(leaflet)
+
+# Specify the path to your shapefile (.shp) without the file extension
+#needs addressed properly
+shapefile_path="/conf/C19_Test_and_Protect/Analyst Space/Iain (Analyst Space)/covid-19_respiratory_surveillance_dashboard/shiny_app/spatial_files/"
+
+# Read the shapefile
+HB_Polygons <- st_read(dsn = shapefile_path,layer="SG_NHS_HealthBoards_2019")
+# Specify a tolerance value for simplification # You can adjust this value based on your needs
+tolerance <- 500 
+
+# Simplify the polygon & edit HB code name for join to mem HB 
+Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) %>% 
+  rename(HB=HBCode) %>% 
+  select(-HBName)
+
+Intro_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, `Intro_Pathogens_MEM_HB `,
+                                           by="HB") 
+
+# Transforming to WGS84 (EPSG:4326) need this to adjust placement of map
+Intro_Pathogens_MEM_HB_Polygons <- st_transform(Intro_Pathogens_MEM_HB_Polygons, crs = 4326)
 
