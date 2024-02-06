@@ -379,7 +379,7 @@ tagList(h1("Metadata"),
 
 
                    #### SEASONAL CORONAVIRUS PANEL ----
-                   bsCollapsePanel("Seasonal Coronaviruses (not COVID-19)",
+                   bsCollapsePanel("Seasonal Coronaviruses (non COVID-19)",
 
                                    # Infection Levels ----
                                    h4("Infection levels"),

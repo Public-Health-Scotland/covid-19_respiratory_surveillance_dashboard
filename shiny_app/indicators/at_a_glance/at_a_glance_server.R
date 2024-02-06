@@ -117,10 +117,10 @@ nonflu_cases_intro <- Respiratory_AllData %>%
   pivot_wider(names_from = flag, values_from = cases_number:cases_rate) %>%
   select(-c(flag_latest_week, flag_previous_week)) %>%
   rename(Pathogen = Organism) %>%
-  mutate(Pathogen = recode(Pathogen, "Seasonal coronavirus (Non-SARS-CoV-2)"="not COVID-19")) %>%
+  mutate(Pathogen = recode(Pathogen, "Seasonal coronavirus (Non-SARS-CoV-2)"="non COVID-19")) %>%
   mutate(Pathogen =  factor(Pathogen, levels = c("Respiratory syncytial virus", "Adenovirus", "Human metapneumovirus",
                                                  "Mycoplasma pneumoniae", "Parainfluenza virus", "Rhinovirus",
-                                                 "not COVID-19"))) %>%
+                                                 "non COVID-19"))) %>%
   arrange(Pathogen)
 
 # combine the three intermediate dataframes
