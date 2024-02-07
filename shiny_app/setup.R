@@ -241,9 +241,15 @@ Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) %>%
   rename(HB=HBCode) %>% 
   select(-HBName)
 
-Intro_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, `Intro_Pathogens_MEM_HB `,
+#current week joined polygon
+Intro_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, Intro_Pathogens_MEM_HB,
                                            by="HB") 
+
+# previous week joined polygon
+Intro_Pathogens_MEM_HB_Prev_Week_Polygons<-left_join(Simplified_HB_Polygons, Intro_Pathogens_MEM_HB_Prev_Week,
+                                           by="HB")
 
 # Transforming to WGS84 (EPSG:4326) need this to adjust placement of map
 Intro_Pathogens_MEM_HB_Polygons <- st_transform(Intro_Pathogens_MEM_HB_Polygons, crs = 4326)
+Intro_Pathogens_MEM_HB_Prev_Week_Polygons <- st_transform(Intro_Pathogens_MEM_HB_Prev_Week_Polygons, crs = 4326)
 
