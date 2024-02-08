@@ -182,6 +182,9 @@ source("Transfer Scripts/transfer_flu_admissions.R")
 #### RSV Hospital Admissions
 source("Transfer Scripts/transfer_rsv_admissions.R")
 
+#### CARI
+source("Transfer Scripts/transfer_respiratory_cari.R")
+
 ## Open Data transfers ##
 
 #### Open data test and cases by HB or CA
