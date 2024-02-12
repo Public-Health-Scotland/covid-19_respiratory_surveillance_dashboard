@@ -689,3 +689,159 @@ data %<>%
   return(p)
 
 }
+
+
+
+# create_cari_linechart <- function(data){
+#   
+#   data <- data %>%
+#     mutate(#EndDate = convert_opendata_date(EndDate),
+#       ErrorBarHeight = SwabPositivityUCL - SwabPositivityLCL,
+#       ErrorBarLowerHeight = SwabPositivity - SwabPositivityLCL)
+#   
+#   yaxis_plots[["title"]] <- "Swab Positivity (%)"
+#   xaxis_plots[["title"]] <- "Week ending"
+#   
+#   
+#   xaxis_plots[["rangeslider"]] <- list(type = "date")
+#   yaxis_plots[["fixedrange"]] <- FALSE
+#   yaxis_plots[["ticksuffix"]] <- "%"
+#   
+#   p <- plot_ly(data, x = ~WeekEnding,
+#                textposition = "none",
+#                text = ~paste0("<b>Season</b>: ", Season, "\n",
+#                               "<b>ISO week</b>: ", ISOWeek, "\n",
+#                               #"<b>Week ending</b>: ", format(WeekEnding, "%d %b %y"), "\n",
+#                               "<b>Number of positive samples</b>: ", format(PositiveSamples, big.mark=","), "\n",
+#                               "<b>Number of samples</b>: ", format(TotalSamples, big.mark=","), "\n",
+#                               "<b>Swab positivity</b>: ", round_half_up(SwabPositivity,1), "%\n", 
+#                               "<b>95% confidence interval</b>: ", round_half_up(SwabPositivityLCL,1),
+#                               "% - ", round_half_up(SwabPositivityUCL,1), "%"),
+#                hovertemplate = "%{text}",
+#                height = 500)%>%
+#     
+#     add_lines(y = ~SwabPositivity,
+#               line = list(color = phs_colours("phs-blue-30")),
+#               name = '',
+#               error_y = ~list(array = ErrorBarHeight/2,
+#                               arrayminus = ErrorBarLowerHeight,
+#                               symmetric = FALSE,
+#                               width = 0.5,
+#                               color = "navy"),
+#               marker = list(color = "navy",
+#                             size = 5)) %>%
+#     
+#     layout(margin = list(b = 80, t = 5),
+#            yaxis = yaxis_plots, xaxis = xaxis_plots,
+#            legend = list(x = 100, y = 0.5),
+#            paper_bgcolor = phs_colours("phs-liberty-10"),
+#            plot_bgcolor = phs_colours("phs-liberty-10"),
+#            hoverlabel = list(align = "left")) %>%
+#     
+#     config(displaylogo = FALSE, displayModeBar = TRUE,
+#            modeBarButtonsToRemove = bttn_remove)
+#   return(p)
+#   
+# }
+
+
+create_cari_linechart <- function(data){
+  
+  yaxis_plots[["title"]] <- "Swab Positivity (%)"
+  xaxis_plots[["title"]] <- "Week ending"
+  
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+  yaxis_plots[["ticksuffix"]] <- "%"
+  
+  p <- plot_ly(data = data,
+               x=~WeekEnding,
+               textposition = "none",
+               height = 500) %>%
+    add_trace(y=~SwabPositivityLCL,
+              type = "scatter",
+              mode = "lines",
+              line = list(color = 'transparent'),
+              name = "Lower confidence interval",
+              showlegend = TRUE,
+              hoverinfo = "none",
+              textposition = "none",
+              legendgroup = "z_confidence_interval") %>%
+    add_trace(y=~SwabPositivityUCL,
+              type = "scatter",
+              mode = "lines",
+              fill = 'tonexty',
+              fillcolor = phsstyles::phs_colours("phs-liberty-30"),
+              line = list(color = 'transparent'),
+              name = "Upper confidence interval",
+              showlegend = TRUE,
+              hoverinfo = "none",
+              textposition = "none",
+              legendgroup = "z_confidence_interval") %>%
+    add_trace(y=~SwabPositivity,
+              type = "scatter",
+              mode = "lines",
+              name = "Swab positivity",
+              line = list(color = phsstyles::phs_colours("phs-purple")),
+              showlegend = TRUE,
+              text = ~paste0("<b>Week ending</b>: ", format(WeekEnding, "%d %b %y"), "\n",
+                             "<b>Number of positive samples</b>: ", format(PositiveSamples, big.mark=","), "\n",
+                             "<b>Number of samples</b>: ", format(TotalSamples, big.mark=","), "\n",
+                             "<b>Swab positivity</b>: ", round_half_up(SwabPositivity,1), "%\n",
+                             "<b>95% confidence interval</b>: ", round_half_up(SwabPositivityLCL,1),
+                             "% - ", round_half_up(SwabPositivityUCL,1), "%"),
+              hovertemplate = "%{text}",
+              #hoverinfo = "none",
+              textposition = "none",
+              legendgroup = "rate") %>%
+    layout(margin = list(b = 80, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10"),
+           hoverlabel = list(align = "left"),
+           hovermode = "x"
+    ) %>%
+    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove)
+  return(p)
+  
+}
+
+
+create_cari_age_linechart <- function(data){
+  
+  yaxis_plots[["title"]] <- "Swab Positivity (%)"
+  xaxis_plots[["title"]] <- "Week ending"
+  
+  xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+  yaxis_plots[["ticksuffix"]] <- "%"
+  
+  p <- plot_ly(data) %>%
+    add_trace(x = ~WeekEnding, y = ~SwabPositivity, split = ~AgeGroup, text=~AgeGroup,
+              type="scatter", mode="lines",
+              color=~AgeGroup,
+              colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
+                                   "phs-purple", "phs-blue-50", "phs-magenta")),
+              text = ~paste0("<b>Week ending</b>: ", format(WeekEnding, "%d %b %y"), "\n",
+                             "<b>Number of positive samples</b>: ", format(PositiveSamples, big.mark=","), "\n",
+                             "<b>Number of samples</b>: ", format(TotalSamples, big.mark=","), "\n",
+                             "<b>Swab positivity</b>: ", round_half_up(SwabPositivity,1), "%\n",
+                             "<b>95% confidence interval</b>: ", round_half_up(SwabPositivityLCL,1),
+                             "% - ", round_half_up(SwabPositivityUCL,1), "%"),
+              hovertemplate = paste0('<b>Week ending</b>: %{x}<br>',
+                                     '<b>Age group</b>: %{text}<br>',
+                                     '<b>Swab positivity</b>: %{y}')
+    ) %>%
+    layout(margin = list(b = 100, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+    
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+  
+  return(p)
+  
+}

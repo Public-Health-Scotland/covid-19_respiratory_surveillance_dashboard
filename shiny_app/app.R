@@ -16,6 +16,7 @@ source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$va
 source(file.path("modules/jump_to_tab_button/jump_to_tab_button_ui.R"), local = TRUE)$value
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 source(file.path("modules/respiratory/respiratory_module_ui.R"), local = TRUE)$value
+source(file.path("modules/definitions/definitions_ui.R"), local = TRUE)$value
 
 # UI
 ui <- fluidPage(
@@ -171,12 +172,14 @@ ui <- fluidPage(
                                        "with peaks of activity in the winter months."),
                                      linebreaks(1),
                                      radioGroupButtons("rsv_select", status = "home",
-                                                       choices = c("Infection levels", "Hospital admissions"),
+                                                       choices = c("Infection levels", "Hospital admissions", "Swab positivity (community surveillance)"),
                                                        direction = "horizontal", justified = F),
                                      conditionalPanel(condition="input.rsv_select=='Infection levels'",
                                                       column(12, source(file.path("indicators/respiratory_mem/rsv/rsv_mem_ui.R"), local = TRUE)$value)),
                                      conditionalPanel(condition="input.rsv_select=='Hospital admissions'",
-                                                      column(12, source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_ui.R"), local = TRUE)$value))),
+                                                      column(12, source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.rsv_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/rsv/rsv_cari_ui.R"), local = TRUE)$value))),
                             tabPanel(title = "Adenovirus",
                                      value = "adenovirus",
                                      column(12, source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_ui.R"), local = TRUE)$value)),
@@ -308,6 +311,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/rsv/rsv_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
   #source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
@@ -318,6 +322,12 @@ server <- function(input, output, session) {
 
   source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_server.R"), local = TRUE)$value
   source(file.path("indicators/syndromic_surveillance/gp/gp_server.R"), local = TRUE)$value
+  
+  auto_invalidate <- reactiveTimer(10000)
+  observe({
+    auto_invalidate()
+    cat(".")
+  })
 
 
 }
