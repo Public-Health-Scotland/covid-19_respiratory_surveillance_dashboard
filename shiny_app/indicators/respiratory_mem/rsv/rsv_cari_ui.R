@@ -31,7 +31,7 @@ tagList(
   ),
   
   fluidRow(width = 12,
-           tabPanel(stringr::str_to_sentence("influenza"),
+           tabPanel(stringr::str_to_sentence("rsv"),
                     # headline figures for the week in Scotland
                     tagList(h2(glue("Summary of RSV swab positivity in the Community Acute Respiratory Infection (CARI) surveillance programme")),
                             tags$div(class = "headline",
