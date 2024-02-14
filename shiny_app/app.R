@@ -184,10 +184,37 @@ ui <- fluidPage(
                                                       column(12, source(file.path("indicators/respiratory_mem/rsv/rsv_cari_ui.R"), local = TRUE)$value))),
                             tabPanel(title = "Adenovirus",
                                      value = "adenovirus",
-                                     column(12, source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_ui.R"), local = TRUE)$value)),
+                                     h1("Adenovirus"),
+                                     p("Adenoviruses most commonly present as respiratory infections but can also",
+                                       "cause gastrointestinal infections and infect the lining of the eyes (conjunctivitis),",
+                                       "the urinary tract, and the nervous system. They are very contagious and are",
+                                       "relatively resistant to common disinfectants. Adenoviruses do not follow a seasonal",
+                                       "pattern and circulate all year round."),
+                                     linebreaks(1),
+                                     radioGroupButtons("adenovirus_select", status = "home",
+                                                       choices = c("Infection levels", "Swab positivity (community surveillance)"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.adenovirus_select=='Infection levels'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.adenovirus_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_cari_ui.R"), local = TRUE)$value))),
                             tabPanel(title = "HMPV",
                                      value = "hmpv",
-                                     column(12, source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_ui.R"), local = TRUE)$value)),
+                                     h1("HMPV"),
+                                     p("Human Metapneumovirus (HMPV) is a virus associated with respiratory infections,",
+                                       "ranging from mild symptoms to more severe illness such as bronchiolitis and",
+                                       "pneumonia. Infection can occur in people of all ages, but commonly occurs in",
+                                       "infants and young children. HMPV has distinct annual seasonality, with the highest",
+                                       "transmission in the winter months."),
+                                     linebreaks(1),
+                                     radioGroupButtons("hmpv_select", status = "home",
+                                                       choices = c("Infection levels", "Swab positivity (community surveillance)"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.hmpv_select=='Infection levels'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.hmpv_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/hmpv/hmpv_cari_ui.R"), local = TRUE)$value))
+                                     ),
                             tabPanel(title = "Mycoplasma pneumoniae",
                                      value = "mycoplasma_pneumoniae",
                                      column(12, source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_mem_ui.R"), local = TRUE)$value)),
@@ -310,8 +337,10 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/influenza/influenza_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/adenovirus/adenovirus_cari_server.R"), local = TRUE)$value
 
   source(file.path("indicators/respiratory_mem/hmpv/hmpv_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/hmpv/hmpv_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rsv/rsv_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rsv/rsv_cari_server.R"), local = TRUE)$value
