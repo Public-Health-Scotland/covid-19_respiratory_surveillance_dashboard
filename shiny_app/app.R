@@ -217,10 +217,39 @@ ui <- fluidPage(
                                      ),
                             tabPanel(title = "Mycoplasma pneumoniae",
                                      value = "mycoplasma_pneumoniae",
-                                     column(12, source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_mem_ui.R"), local = TRUE)$value)),
+                                     h1("Mycoplasma pneumoniae"),
+                                     p("Mycoplasma pneumoniae is a bacterium that only infects humans. It typically ",
+                                       "causes mild infections of the upper respiratory tract, resulting in cold-like ",
+                                       "symptoms. Mycoplasma pneumoniae is most frequently seen in school-age children ",
+                                       "and young adults, but individuals of any age may be infected. Infections peak in ",
+                                       "winter, usually between late December and February, but Mycoplasma pneumoniae ",
+                                       "circulates throughout the year."), 
+                                     linebreaks(1),
+                                     radioGroupButtons("mycoplasma_pneumoniae_select", status = "home",
+                                                       choices = c("Infection levels", "Swab positivity (community surveillance)"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.mycoplasma_pneumoniae_select=='Infection levels'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.mycoplasma_pneumoniae_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_cari_ui.R"), local = TRUE)$value))
+                                     ),
                             tabPanel(title = "Parainfluenza",
                                      value = "parainfluenza",
-                                     column(12, source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_ui.R"), local = TRUE)$value)),
+                                     h1("Parainfluenza"),
+                                     p("Human parainfluenza virus (HPIV) is a virus that causes respiratory illness in humans.",
+                                       "Despite its name, parainfluenza is not related to influenza and exhibits different",
+                                       "characteristics. It is an important cause of upper and lower respiratory disease in",
+                                       "infants and young children, elderly people and people who are immunocompromised."),
+                                     #             "Additional information can be found on the PHS page for parainfluenza."),
+                                     linebreaks(1),
+                                     radioGroupButtons("parainfluenza_select", status = "home",
+                                                       choices = c("Infection levels", "Swab positivity (community surveillance)"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.parainfluenza_select=='Infection levels'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.parainfluenza_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_cari_ui.R"), local = TRUE)$value))
+                                     ),
                             tabPanel(title = "Rhinovirus",
                                      value = "rhinovirus",
                                      column(12, source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value)),
@@ -345,9 +374,11 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/rsv/rsv_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rsv/rsv_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
   #source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_server.R"), local = TRUE)$value
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
