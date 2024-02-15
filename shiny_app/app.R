@@ -252,10 +252,37 @@ ui <- fluidPage(
                                      ),
                             tabPanel(title = "Rhinovirus",
                                      value = "rhinovirus",
-                                     column(12, source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value)),
+                                     h1("Rhinovirus"),
+                                     p("Rhinoviruses are the most frequent cause of the common cold worldwide.",
+                                       "Most infections are mild, with symptoms including coughs, sneezing, and",
+                                       "nasal congestion but can lead to severe illness such as bronchitis, sinusitis,",
+                                       "or pneumonia. Rhinoviruses circulate year-round, with peaks in autumn and spring."),
+                                     #             "Additional information can be found on the PHS page for rhinovirus."),
+                                     linebreaks(1),
+                                     radioGroupButtons("rhinovirus_select", status = "home",
+                                                       choices = c("Infection levels", "Swab positivity (community surveillance)"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.rhinovirus_select=='Infection levels'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.rhinovirus_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_cari_ui.R"), local = TRUE)$value))
+                                     ),
                             tabPanel(title = "Other seasonal coronaviruses",
                                      value = "seasonal_coronavirus",
-                                     column(12, source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_ui.R"), local = TRUE)$value))
+                                     h1("Other seasonal coronaviruses"),
+                                     p("Seasonal Coronaviruses (non COVID-19) are a group of viruses that typically cause mild to moderate",
+                                       "upper respiratory tract infections, such as the common cold, but can cause lower-respiratory",
+                                       "tract illnesses such as pneumonia and bronchitis. Infection can occur in people of all ages.",
+                                       "Seasonal coronaviruses have an annual seasonality and typically circulate in the winter months."),
+                                     linebreaks(1),
+                                     radioGroupButtons("seasonal_coronavirus_select", status = "home",
+                                                       choices = c("Infection levels", "Swab positivity (community surveillance)"),
+                                                       direction = "horizontal", justified = F),
+                                     conditionalPanel(condition="input.seasonal_coronavirus_select=='Infection levels'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.seasonal_coronavirus_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_cari_ui.R"), local = TRUE)$value))
+                                     )
                             # tabPanel(title = "Other respiratory pathogens",
                             #          value = "other_pathogens",
                             #          source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value)
@@ -376,10 +403,13 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/parainfluenza/parainfluenza_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/rhinovirus/rhinovirus_cari_server.R"), local = TRUE)$value
   #source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_cari_server.R"), local = TRUE)$value
+  
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 
