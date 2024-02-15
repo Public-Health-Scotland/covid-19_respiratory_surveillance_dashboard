@@ -132,7 +132,8 @@ ui <- fluidPage(
                                                                                                           "COVID-19.")),
                                      linebreaks(1),
                                      radioGroupButtons("covid19_select", status = "home",
-                                                       choices = c("Infection levels", "Hospital admissions", "Hospital occupancy", "Archive"),
+                                                       choices = c("Infection levels", "Hospital admissions", "Hospital occupancy",
+                                                                   "Swab positivity (community surveillance)", "Archive"),
                                                        direction = "horizontal", justified = F),
                                      conditionalPanel(condition="input.covid19_select=='Infection levels'",
                                                       column(12, source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value)),
@@ -140,6 +141,8 @@ ui <- fluidPage(
                                                       column(12, source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value)),
                                      conditionalPanel(condition="input.covid19_select=='Hospital occupancy'",
                                                       column(12, source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value)),
+                                     conditionalPanel(condition="input.covid19_select=='Swab positivity (community surveillance)'",
+                                                      column(12, source(file.path("indicators/respiratory_mem/covid_19/covid_cari_ui.R"), local = TRUE)$value)),
                                      conditionalPanel(condition="input.covid19_select=='Archive'",
                                                       column(12, source(file.path("indicators/Archive/archive_ui.R"), local = TRUE)$value))
                             ),
@@ -388,6 +391,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
   source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
+  source(file.path("indicators/respiratory_mem/covid_19/covid_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_subtype_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_admissions_server.R"), local = TRUE)$value
