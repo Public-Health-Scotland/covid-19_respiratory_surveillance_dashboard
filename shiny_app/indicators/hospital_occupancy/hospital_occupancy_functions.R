@@ -38,6 +38,7 @@ make_occupancy_plots <- function(data, occupancy) {
   } else if(occupancy == "icu") {
 
     data %<>%
+      mutate(Date = convert_opendata_date(Date)) %>%
       mutate(y_axis = SevenDayAverage)
 
     yaxis_plots[["title"]] <- "7 day average number of people in ICU"
