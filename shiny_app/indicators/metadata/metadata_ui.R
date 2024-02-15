@@ -423,7 +423,7 @@ tagList(h1("Metadata"),
                    bsCollapsePanel("Community Acute Respiratory Infection (CARI) surveillance",
                                    
                                    # CARI ----
-                                   h4("Swab positivity (community surveillance)"),
+                                   #h4("Swab positivity (community surveillance)"),
                                    p("CARI surveillance is a sentinel community surveillance programme for a range of respiratory pathogens: SARS-CoV-2, ",
                                      "influenza A and B, RSV, adenovirus, coronavirus (non-SARS CoV-2), human metapneumovirus, rhinovirus, parainfluenza and ",
                                      "Mycoplasma pneumoniae. The programme is open to GP practices across all NHS Boards in Scotland. To become a sentinel site, ",
