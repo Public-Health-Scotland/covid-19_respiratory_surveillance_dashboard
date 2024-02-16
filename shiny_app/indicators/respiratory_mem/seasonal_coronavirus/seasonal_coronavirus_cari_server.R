@@ -34,7 +34,7 @@ output$seasonal_coronavirus_cari_table <- renderDataTable({
 })
 
 # CARI - Seasonal Coronavirus swabpos by age table
-output$seasonal_coronavirus_age_table <- renderDataTable({
+output$seasonal_coronavirus_cari_age_table <- renderDataTable({
   Respiratory_Pathogens_CARI_Age %>%
     filter(Pathogen == "Seasonal Coronavirus (non-COVID-19)") %>%
     arrange(desc(WeekEnding)) %>%

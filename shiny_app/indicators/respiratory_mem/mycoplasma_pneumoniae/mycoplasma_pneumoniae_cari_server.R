@@ -34,7 +34,7 @@ output$mycoplasma_pneumoniae_cari_table <- renderDataTable({
 })
 
 # CARI - Mycoplasma Pneumoniae swabpos by age table
-output$mycoplasma_pneumoniae_age_table <- renderDataTable({
+output$mycoplasma_pneumoniae_cari_age_table <- renderDataTable({
   Respiratory_Pathogens_CARI_Age %>%
     filter(Pathogen == "Mycoplasma Pneumoniae") %>%
     arrange(desc(WeekEnding)) %>%

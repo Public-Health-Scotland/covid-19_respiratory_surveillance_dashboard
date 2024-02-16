@@ -34,7 +34,7 @@ output$parainfluenza_cari_table <- renderDataTable({
 })
 
 # CARI - Parainfluenza swabpos by age table
-output$parainfluenza_age_table <- renderDataTable({
+output$parainfluenza_cari_age_table <- renderDataTable({
   Respiratory_Pathogens_CARI_Age %>%
     filter(Pathogen == "Parainfluenza Virus") %>%
     arrange(desc(WeekEnding)) %>%

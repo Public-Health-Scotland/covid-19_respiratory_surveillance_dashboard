@@ -34,7 +34,7 @@ output$hmpv_cari_table <- renderDataTable({
 })
 
 # CARI - HMPV swabpos by age table
-output$hmpv_age_table <- renderDataTable({
+output$hmpv_cari_age_table <- renderDataTable({
   Respiratory_Pathogens_CARI_Age %>%
     filter(Pathogen == "Human Metapneumovirus") %>%
     arrange(desc(WeekEnding)) %>%

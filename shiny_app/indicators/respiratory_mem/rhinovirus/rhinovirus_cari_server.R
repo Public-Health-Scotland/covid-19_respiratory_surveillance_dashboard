@@ -34,7 +34,7 @@ output$rhinovirus_cari_table <- renderDataTable({
 })
 
 # CARI - Rhinovirus swabpos by age table
-output$rhinovirus_age_table <- renderDataTable({
+output$rhinovirus_cari_age_table <- renderDataTable({
   Respiratory_Pathogens_CARI_Age %>%
     filter(Pathogen == "Rhinovirus") %>%
     arrange(desc(WeekEnding)) %>%
