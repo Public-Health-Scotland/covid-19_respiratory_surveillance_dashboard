@@ -823,12 +823,6 @@ create_cari_age_linechart <- function(data){
               color=~AgeGroup,
               colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
                                    "phs-purple", "phs-blue-50", "phs-magenta")),
-              text = ~paste0("<b>Week ending</b>: ", format(WeekEnding, "%d %b %y"), "\n",
-                             "<b>Number of positive samples</b>: ", format(PositiveSamples, big.mark=","), "\n",
-                             "<b>Number of samples</b>: ", format(TotalSamples, big.mark=","), "\n",
-                             "<b>Swab positivity</b>: ", round_half_up(SwabPositivity,1), "%\n",
-                             "<b>95% confidence interval</b>: ", round_half_up(SwabPositivityLCL,1),
-                             "% - ", round_half_up(SwabPositivityUCL,1), "%"),
               hovertemplate = paste0('<b>Week ending</b>: %{x}<br>',
                                      '<b>Age group</b>: %{text}<br>',
                                      '<b>Swab positivity</b>: %{y}')
