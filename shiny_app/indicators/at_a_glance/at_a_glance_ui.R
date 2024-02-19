@@ -14,6 +14,26 @@ tagList(
            p("Please refer to metadata tab for further information on testing policies."),
            ), #fluidRow
 
+  fluidRow(width = 12, # dynamic title for selected pathogen above map of hb mems
+           tagList(h2("Incidence rate per 100,000 population by pathogen and NHS health board")),
+           linebreaks(1)
+  ), # fluidRow
+
+  fluidRow(width = 12,# mem healthboard maps
+           pickerInput(inputId = "hb_pathogen_filter",
+                       label = "Select a health board",
+                       choices = {Respiratory_Pathogens_MEM_HB %>%
+                           .$HBName %>%
+                           unique()},
+                       selected = "NHS Ayrshire and Arran"),
+           fluidRow(width=12,
+                    box(width= NULL,
+                        withNavySpinner(plotlyOutput("pathogen_mem_plot")))),
+           fluidRow(width=12, linebreaks(1)),
+           p("PLACEHOLDER: Use the above filter to see the latest incident rates for non_Covid-19 respiratory pathogens.")
+  ), #fluidRow   mem healthboard
+
+
   fluidRow(width = 12,
            tagList(h2("Number and rate of acute hospital admissions due to COVID-19, influenza and RSV (week ending)")),
            linebreaks(1)), #fluidRow

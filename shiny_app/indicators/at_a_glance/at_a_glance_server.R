@@ -140,6 +140,17 @@ colnames(cases_intro)[5] <- paste("Rate per 100,000 population (", as.character(
 colnames(cases_intro)[2] <- paste("Number of cases (", as.character(previous_week_cases_title),")")
 colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(previous_week_cases_title),")")
 
+
+# Pathogen MEM by HB plot
+output$pathogen_mem_plot <- renderPlotly({
+  Respiratory_Pathogens_MEM_HB %>%
+    filter(HBName == input$hb_pathogen_filter) %>%
+    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+    mutate(Pathogen = recode(Pathogen, "Coronavirus"="Seasonal Coronavirus (non-COVID-19)")) %>%
+    create_single_mem_heatmap(breakdown_variable = "Pathogen", heatmap_seasons = "2023/2024")
+
+})
+
 ###Hosp Adms
 # create intermediate data frames for covid,flu and rsv using Respiratory_admissions_summary dataframe
 # (same dataframe as that used for admissions graph below)
