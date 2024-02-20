@@ -23,9 +23,9 @@ ciDefinitionUI <- function(id) {
 swabposDefinitionUI <- function(id) {
   ns <- NS(id)
   
-  summaryButtonUI(ns("ci_definition"),
+  summaryButtonUI(ns("swabpos_definition"),
                   title = "What is swab positivity?",
-                  content = paste("Swab positivity is the proportion of positive laboratory results among a defined number of ",
+                  content = paste("Swab positivity is the percentage of positive laboratory results among a defined number of ",
                                   "laboratory tested samples, i.e. number of positives divided by total number of laboratory tests done."),
                   placement = "bottom",
                   label = "What is swab positivity?",

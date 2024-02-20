@@ -531,7 +531,7 @@ tagList(h1("Metadata"),
                   
                   #Swab positivity ----
                   h4("Swab positivity"),
-                  p("Swab positivity is the proportion of positive laboratory results among a defined number of ",
+                  p("Swab positivity is the percentage of positive laboratory results among a defined number of ",
                     "laboratory tested samples, i.e. number of positives divided by total number of laboratory tests done."),
                   br()
 
