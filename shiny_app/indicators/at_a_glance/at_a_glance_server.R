@@ -245,14 +245,30 @@ output$hosp_adms_intro_plot <- renderPlotly({
 # final layout of popups and hover elements
 
 
-
-
 # create dynamic map section title- pathogen text driven by pull down
 output$hb_mem_cases_title <- renderText({
-  paste0(input$pathogen_filter, " incidence rate per 100,000 population by NHS Health Board (Week Ending)")
+  paste("Map of", input$pathogen_filter, 
+        "incidence rates per 100,000 population by NHS Health Board")
 })
-# still to create dynamic sub headers to place above two maps displaying the dates
+# create dynamic sub headers to place above two maps displaying the dates
 
+
+map_this_week_date <- Intro_Pathogens_MEM_HB %>%
+  tail(1) %>% select(WeekEnding) 
+map_this_week_date$WeekEnding<- format(map_this_week_date$WeekEnding, "%d %b %y")
+
+
+map_prev_week_date <- Intro_Pathogens_MEM_HB_Prev_Week %>%
+  tail(1) %>%
+  mutate(WeekEnding = format(WeekEnding, "%d %b %y"))
+
+output$map_this_week_title <- renderText({
+  paste("Incidence rates for week ending", map_this_week_date$WeekEnding)
+})
+
+output$map_prev_week_title <- renderText({
+  paste0("Incidence rates (", map_prev_week_date$WeekEnding, ")")
+})
 # create the Leaflet map for current week
   output$hb_mem_map <- renderLeaflet({
     
@@ -279,7 +295,7 @@ output$hb_mem_cases_title <- renderText({
                  dashArray = "0",
                  popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
                                  "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
-                                 "NHS Health Board: ", HBName, "<br>",
+                                 "Health Board: ", HBName, "<br>",
                                  "Rate: ", RatePer100000, "<br>","Activity level: ", ActivityLevel),
                  label = ~paste0(ActivityLevel),
                  labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
@@ -316,7 +332,7 @@ output$hb_mem_cases_title <- renderText({
                   dashArray = "0",
                   popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
                                   "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
-                                  "NHS Health Board: ", HBName, "<br>",
+                                  "Health Board: ", HBName, "<br>",
                                   "Rate: ", RatePer100000, "<br>","Activity level: ", ActivityLevel),
                   label = ~paste0(ActivityLevel),
                   labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
