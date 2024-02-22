@@ -756,8 +756,7 @@ create_cari_linechart <- function(data){
   
   p <- plot_ly(data = data,
                x=~WeekEnding,
-               textposition = "none",
-               height = 500) %>%
+               textposition = "none") %>%
     add_trace(y=~SwabPositivityLCL,
               type = "scatter",
               mode = "lines",
