@@ -747,7 +747,7 @@ data %<>%
 
 create_cari_linechart <- function(data){
   
-  yaxis_plots[["title"]] <- "Swab Positivity (%)"
+  yaxis_plots[["title"]] <- "Swab positivity (%)"
   xaxis_plots[["title"]] <- "Week ending"
   
   xaxis_plots[["rangeslider"]] <- list(type = "date")
@@ -810,7 +810,7 @@ create_cari_linechart <- function(data){
 
 create_cari_age_linechart <- function(data){
   
-  yaxis_plots[["title"]] <- "Swab Positivity (%)"
+  yaxis_plots[["title"]] <- "Swab positivity (%)"
   xaxis_plots[["title"]] <- "Week ending"
   
   xaxis_plots[["rangeslider"]] <- list(type = "date")
