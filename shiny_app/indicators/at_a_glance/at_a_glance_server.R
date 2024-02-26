@@ -281,12 +281,11 @@ output$map_prev_week_title <- renderText({
                                                              "Mycoplasma pneumoniae",
                                                              "Parainfluenza virus",
                                                                              "Rhinovirus",
-                                                             "Seasonal Coronavirus (non-COVID-19)"
-                                                             )))
+                                                             "Seasonal Coronavirus (non-COVID-19)"  )))
+                                                           
     
     leaflet(Intro_Pathogens_MEM_HB_Polygons_filter) %>%
-    
-    setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
+      setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
       addProviderTiles("CartoDB.Positron") %>%
       addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
                  opacity = 0.6,
@@ -296,20 +295,18 @@ output$map_prev_week_title <- renderText({
                  popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
                                  "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
                                  "Health Board: ", HBName, "<br>",
-                                 "Rate: ", RatePer100000, "<br>","Activity level: ", ActivityLevel),
-                 label = ~paste0(ActivityLevel),
+                                 "Rate per 100,000: ", RatePer100000, 
+                                 "<br>","Activity level: ", ActivityLevel),
+                 label = ~paste0("Activity level: ", ActivityLevel),
                  labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
                  highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
       addLegend(position = "bottomright",colors = activity_level_colours,
                 labels = activity_levels,title = " MEM Activity Level",
-                labFormat = labelFormat()
-      )
-  })
+                labFormat = labelFormat()) })
   
   # create the Leaflet map for previous week
   output$hb_mem_map_prev_week <- renderLeaflet({
-    
-    Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter <- Intro_Pathogens_MEM_HB_Prev_Week_Polygons%>%
+      Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter <- Intro_Pathogens_MEM_HB_Prev_Week_Polygons%>%
       filter(Pathogen == input$pathogen_filter)%>% 
       mutate(Pathogen = factor(Pathogen,
                                levels = c("Influenza","Respiratory syncytial virus",
@@ -318,11 +315,8 @@ output$map_prev_week_title <- renderText({
                                           "Mycoplasma pneumoniae",
                                           "Parainfluenza virus",
                                           "Rhinovirus",
-                                          "Seasonal Coronavirus (non-COVID-19)"
-                               )))
-    
-    leaflet(Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter) %>%
-      
+                                          "Seasonal Coronavirus (non-COVID-19)")))
+      leaflet(Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter) %>%
       setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
       addProviderTiles("CartoDB.Positron") %>%
       addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
@@ -333,14 +327,14 @@ output$map_prev_week_title <- renderText({
                   popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
                                   "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
                                   "Health Board: ", HBName, "<br>",
-                                  "Rate: ", RatePer100000, "<br>","Activity level: ", ActivityLevel),
-                  label = ~paste0(ActivityLevel),
+                                  "Rate per 100,000: ", RatePer100000, "<br>",
+                                  "Activity level: ", ActivityLevel),
+                  label = ~paste0("Healthboard: ", HBName),
                   labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
                   highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
       addLegend(position = "bottomright",colors = activity_level_colours,
                 labels = activity_levels,title = " MEM Activity Level",
-                labFormat = labelFormat()
-      )
-  })
+                labFormat = labelFormat() )
+       })
   
   
