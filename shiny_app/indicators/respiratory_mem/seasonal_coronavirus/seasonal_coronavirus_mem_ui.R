@@ -2,13 +2,8 @@ tagList(
   fluidRow(width = 12,
 
            metadataButtonUI("respiratory_seasonal_coronavirus_mem"),
-           linebreaks(1),
-           h1("Other seasonal coronaviruses"),
-           p("Seasonal Coronaviruses (non COVID-19) are a group of viruses that typically cause mild to moderate",
-             "upper respiratory tract infections, such as the common cold, but can cause lower-respiratory",
-             "tract illnesses such as pneumonia and bronchitis. Infection can occur in people of all ages.",
-             "Seasonal coronaviruses have an annual seasonality and typically circulate in the winter months."),
-           linebreaks(1)),
+           linebreaks(1)
+           ),
 
   fluidRow(width = 12,
            tagList(h2("Seasonal Coronavirus incidence rate per 100,000 population in Scotland"))),

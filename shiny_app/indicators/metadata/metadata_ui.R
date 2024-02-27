@@ -417,7 +417,26 @@ tagList(h1("Metadata"),
                             p(strong("Source: GP consultations for influenza-like illness (ILI)")),
                             br()
                             ),
-
+                   
+                   
+                   #### CARI PANEL ----
+                   bsCollapsePanel("Community Acute Respiratory Infection (CARI) surveillance",
+                                   
+                                   # CARI ----
+                                   #h4("Swab positivity (community surveillance)"),
+                                   p("CARI surveillance is a sentinel community surveillance programme for a range of respiratory pathogens: COVID-19, ",
+                                     "influenza A and B, RSV, adenovirus, seasonal coronavirus (non-COVID-19), human metapneumovirus, rhinovirus, parainfluenza and ",
+                                     "mycoplasma pneumoniae. The programme is open to GP practices across all NHS Boards in Scotland. To become a sentinel site, ",
+                                     "GP practices voluntarily opt into the CARI programme. Patients in the community who consult a sentinel GP practice with respiratory ",
+                                     "symptoms and who meet the case definition for acute respiratory infection (ARI) are recruited, consented, and swabbed for the CARI ",
+                                     "programme."),  
+                                   p("Data are reported by week of swab for recruited individuals for whom test result data are available. Data are derived from samples ",
+                                     "tested up to the current reporting week, and any retrospective numbers are updated in the next weekly report. The CARI surveillance ",
+                                     "programme detects community transmission of specific pathogens."),
+                             p(strong("Source: Community Acute Respiratory Infection (CARI) sentinel practices")),
+                             br()
+                             ),
+                   
 
                 #### MORTALITY PANEL ----
                 bsCollapsePanel("Mortality",
@@ -508,6 +527,12 @@ tagList(h1("Metadata"),
                   #Seven day average ----
                   h4("Seven day average"),
                   p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations."),
+                  br(),
+                  
+                  #Swab positivity ----
+                  h4("Swab positivity"),
+                  p("Swab positivity is the percentage of positive laboratory results among a defined number of ",
+                    "laboratory tested samples, i.e. number of positives divided by total number of laboratory tests done."),
                   br()
 
                    ))
