@@ -16,7 +16,8 @@ altTextServer("seasonal_coronavirus_cari_age_modal",
               content = tags$ul(tags$li("This is a plot showing the swab positivity rate of Seasonal Coronavirus infection by age group in the Community Acute Respiratory Infection (CARI) surveillance programme."),
                                 tags$li("The x axis is the week ending date, starting 09 October 2022."),
                                 tags$li("The y axis is the swab positivity rate."),
-                                tags$li("The plot contains a trace showing the swab positivity rate for each of the following age groups: 0-4 years, 5-14 years, 15-44 years, 45-64 years, 65-74 years, and 75+ years.")))
+                                tags$li("The plot contains a trace showing the swab positivity rate for each of the following age groups: 0-4 years, 5-14 years, 15-44 years, 45-64 years, 65-74 years, and 75+ years."),
+                                tags$li("Each trace can be hidden/unhidden by clicking on the relevant age group from the legend on the right of the chart.")))
 
 # CARI - Overall Seasonal Coronavirus swabpos table
 output$seasonal_coronavirus_cari_table <- renderDataTable({
