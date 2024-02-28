@@ -259,8 +259,10 @@ map_this_week_date$WeekEnding<- format(map_this_week_date$WeekEnding, "%d %b %y"
 
 
 map_prev_week_date <- Intro_Pathogens_MEM_HB_Prev_Week %>%
-  tail(1) %>%
-  mutate(WeekEnding = format(WeekEnding, "%d %b %y"))
+  tail(1) %>% select(WeekEnding) 
+#  mutate(WeekEnding = format(WeekEnding, "%d %b %y"))
+map_prev_week_date$WeekEnding<- format(map_prev_week_date$WeekEnding, "%d %b %y")
+
 
 output$map_this_week_title <- renderText({
   paste("Incidence rates for week ending", map_this_week_date$WeekEnding)
@@ -301,7 +303,7 @@ output$map_prev_week_title <- renderText({
                  labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
                  highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
       addLegend(position = "bottomright",colors = activity_level_colours,
-                labels = activity_levels,title = " MEM Activity Level",
+                labels = activity_levels,title = "MEM Activity Level",
                 labFormat = labelFormat()) })
   
   # create the Leaflet map for previous week
@@ -333,7 +335,7 @@ output$map_prev_week_title <- renderText({
                   labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
                   highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
       addLegend(position = "bottomright",colors = activity_level_colours,
-                labels = activity_levels,title = " MEM Activity Level",
+                labels = activity_levels,title = "MEM Activity Level",
                 labFormat = labelFormat() )
        })
   

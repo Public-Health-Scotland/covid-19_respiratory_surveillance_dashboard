@@ -150,7 +150,7 @@ respiratory_pathogens_MEM_agegp <- respiratory_pathogens_MEM_agegp %>%
 
 
 # create small dataframe for use in at a glance mem hb boards
-intro_pathogens_MEM_hb <-respiratory_pathogens_MEM_hb %>% 
+intro_pathogens_MEM_hb<-respiratory_pathogens_MEM_hb %>% 
   mutate(ActivityLevelColour = case_when(
     ActivityLevel == "Baseline" ~ "#01A148",
     ActivityLevel == "Low" ~ "#FFDE17",
@@ -168,7 +168,7 @@ intro_pathogens_MEM_hb <-respiratory_pathogens_MEM_hb %>%
   arrange(HBName, Pathogen)
 
 
-intro_pathogens_MEM_hb_last_sunday <-respiratory_pathogens_MEM_hb %>% 
+intro_pathogens_MEM_hb_last_sunday<-respiratory_pathogens_MEM_hb %>% 
   mutate(ActivityLevelColour = case_when(
     ActivityLevel == "Baseline" ~ "#01A148",
     ActivityLevel == "Low" ~ "#FFDE17",

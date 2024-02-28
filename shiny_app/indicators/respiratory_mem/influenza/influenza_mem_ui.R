@@ -90,7 +90,30 @@ tagList(
     linebreaks(1)
   ), # fluidRow
 
+####  start map section ##########
+fluidRow(width = 12,
+         tagList(h2("Map of Influenza incidence rates by NHS Health Board for the last two weeks"))),
 
+
+fluidRow(
+  # width = 12,# mem healthboard maps
+  #        pickerInput(inputId = "pathogen_filter",
+  #                    label = "",
+  #                    choices = {Intro_Pathogens_MEM_HB %>%
+  #                        .$Pathogen %>%
+  #                        unique()},
+  #                    selected = "Influenza"),
+         # fluidRow(width = 8,
+         #          column(width=4, align = "left", tagList(textOutput("map_prev_week_flu_date"))),
+         #          column(width=4, align = "left", tagList(textOutput("map_this_week_flu_date")))
+         # ),
+         fluidRow(width=8,
+                  box(width= 4, leafletOutput("flu_mem_map_prev_week")),
+                  box(width= 4, leafletOutput("flu_mem_map_this_week"))),
+         fluidRow(width=12, linebreaks(1))
+), #fluidRow   mem healthboard    
+
+#### end map section ##########
   fluidRow(width = 12,
            tagList(h2("Influenza incidence rate per 100,000 population by age group"))),
 
