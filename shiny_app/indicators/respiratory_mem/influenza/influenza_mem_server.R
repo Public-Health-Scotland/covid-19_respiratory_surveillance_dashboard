@@ -316,8 +316,7 @@ map_this_week_flu_date$WeekEnding<- format(map_this_week_flu_date$WeekEnding, "%
 
 
 map_prev_week_flu_date <- Intro_Pathogens_MEM_HB_Prev_Week %>%
-  tail(1) %>%
-  mutate(WeekEnding = format(WeekEnding, "%d %b %y"))
+  tail(1)  %>% select(WeekEnding) 
 map_prev_week_flu_date$WeekEnding<- format(map_prev_week_flu_date$WeekEnding, "%d %b %y")
 
 output$map_this_week_title_flu <- renderText({
@@ -333,7 +332,7 @@ output$flu_mem_map_this_week <- renderLeaflet({
   Flu_MEM_HB_Polygons_filter_this_week <- Intro_Pathogens_MEM_HB_Polygons%>%
     filter(Pathogen == "Influenza") 
   
-  leaflet(Flu_MEM_HB_Polygons_filter) %>%
+  leaflet(Flu_MEM_HB_Polygons_filter_this_week) %>%
     setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
     addProviderTiles("CartoDB.Positron") %>%
     addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
@@ -358,7 +357,7 @@ output$flu_mem_map_prev_week <- renderLeaflet({
   Flu_MEM_HB_Polygons_filter_prev_week <- Intro_Pathogens_MEM_HB_Prev_Week_Polygons%>%
     filter(Pathogen == "Influenza")
   
-  leaflet(IFlu_MEM_HB_Polygons_filter_prev_week) %>%
+  leaflet(Flu_MEM_HB_Polygons_filter_prev_week) %>%
     setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
     addProviderTiles("CartoDB.Positron") %>%
     addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,

@@ -101,12 +101,12 @@ fluidRow(
   #                    label = "",
   #                    choices = {Intro_Pathogens_MEM_HB %>%
   #                        .$Pathogen %>%
-  #                        unique()},
+  #                        unique()},map_prev_week_title_flu
   #                    selected = "Influenza"),
-         # fluidRow(width = 8,
-         #          column(width=4, align = "left", tagList(textOutput("map_prev_week_flu_date"))),
-         #          column(width=4, align = "left", tagList(textOutput("map_this_week_flu_date")))
-         # ),
+         fluidRow(width = 8,
+                  column(width=4, align = "left", tagList(textOutput("map_prev_week_title_flu"))),
+                  column(width=4, align = "left", tagList(textOutput("map_this_week_title_flu")))
+         ),
          fluidRow(width=8,
                   box(width= 4, leafletOutput("flu_mem_map_prev_week")),
                   box(width= 4, leafletOutput("flu_mem_map_this_week"))),
