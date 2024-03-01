@@ -253,7 +253,12 @@ Intro_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, Intro_Pathoge
 Intro_Pathogens_MEM_HB_Prev_Week_Polygons<-left_join(Simplified_HB_Polygons, Intro_Pathogens_MEM_HB_Prev_Week,
                                            by="HB")
 
+#current season joined polygon
+Season_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, Respiratory_Pathogens_MEM_HB_This_Season,
+                                           by="HB") 
+
 # Transforming to WGS84 (EPSG:4326) need this to adjust placement of map
 Intro_Pathogens_MEM_HB_Polygons <- st_transform(Intro_Pathogens_MEM_HB_Polygons, crs = 4326)
 Intro_Pathogens_MEM_HB_Prev_Week_Polygons <- st_transform(Intro_Pathogens_MEM_HB_Prev_Week_Polygons, crs = 4326)
+Season_Pathogens_MEM_HB_Polygons <- st_transform(Season_Pathogens_MEM_HB_Polygons, crs = 4326)
 

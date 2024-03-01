@@ -378,5 +378,42 @@ output$flu_mem_map_prev_week <- renderLeaflet({
               labFormat = labelFormat() )
 })
 
+# create a map for all season
+
+output$flu_mem_map_this_season <- renderLeaflet({
+  
+  Season_Flu_MEM_HB_Polygons <-Season_Pathogens_MEM_HB_Polygons%>%
+    filter(Pathogen == "Influenza") %>%
+    filter(ISOWeek == input$week_slider)
+  
+  leaflet(Season_Flu_MEM_HB_Polygons) %>%
+    setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
+    addProviderTiles("CartoDB.Positron") %>%
+    addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
+                opacity = 0.6,
+                fillOpacity = 0.6,
+                color = "grey",
+                dashArray = "0",
+                popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
+                                "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
+                                "Health Board: ", HBName, "<br>",
+                                "Rate per 100,000: ", RatePer100000, 
+                                "<br>","Activity level: ", ActivityLevel),
+                label = ~paste0("Activity level: ", ActivityLevel),
+                labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
+                highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
+    addLegend(position = "bottomright",colors = activity_level_colours,
+              labels = activity_levels,title = "MEM Activity Level",
+              labFormat = labelFormat()) #%>% 
+    
+    # addControl(
+    #   html = "<div style='position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:16px;'>Map Title</div>",
+    #   position = "topleft") 
+   
+    
+    })
+
+
+
 ##########
 

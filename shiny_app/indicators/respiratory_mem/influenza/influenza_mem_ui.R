@@ -92,26 +92,31 @@ tagList(
 
 ####  start map section ##########
 fluidRow(width = 12,
-         tagList(h2("Map of Influenza incidence rates by NHS Health Board for the last two weeks"))),
+         tagList(h2("Map of Influenza incidence rates by NHS Health Board for the last season"))),
 
 
 fluidRow(
-  # width = 12,# mem healthboard maps
-  #        pickerInput(inputId = "pathogen_filter",
-  #                    label = "",
-  #                    choices = {Intro_Pathogens_MEM_HB %>%
-  #                        .$Pathogen %>%
-  #                        unique()},map_prev_week_title_flu
-  #                    selected = "Influenza"),
-         fluidRow(width = 8,
-                  column(width=4, align = "left", tagList(textOutput("map_prev_week_title_flu"))),
-                  column(width=4, align = "left", tagList(textOutput("map_this_week_title_flu")))
-         ),
-         fluidRow(width=8,
-                  box(width= 4, leafletOutput("flu_mem_map_prev_week")),
-                  box(width= 4, leafletOutput("flu_mem_map_this_week"))),
-         fluidRow(width=12, linebreaks(1))
-), #fluidRow   mem healthboard    
+  width = 12,# mem healthboard maps
+         sliderInput(inputId = "week_slider",
+                     label = "Select a week number",
+                     min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
+                     max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                     value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                     step=1
+                       )),
+fluidRow(
+  width = 8,
+  tags$head(
+    tags$style(
+      HTML("
+        .my-fluid-row {
+          height: 1000px; /* Adjust the height as needed */
+        }
+      ")
+    )
+  ),
+  box(width = 8, leafletOutput("flu_mem_map_this_season"))
+),
 
 #### end map section ##########
   fluidRow(width = 12,
