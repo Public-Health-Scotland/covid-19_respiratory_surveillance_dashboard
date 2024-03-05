@@ -90,33 +90,40 @@ tagList(
     linebreaks(1)
   ), # fluidRow
 
+  
 ####  start map section ##########
 fluidRow(width = 12,
-         tagList(h2("Map of Influenza incidence rates by NHS Health Board for the last season"))),
+         tagList(h2("Map of Influenza incidence rates by NHS Health Board for the current season"))),
 
 
 fluidRow(
   width = 12,# mem healthboard maps
-         sliderInput(inputId = "week_slider",
-                     label = "Select a week number",
-                     min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
-                     max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
-                     value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
-                     step=1
-                       )),
+  sliderInput(inputId = "week_slider",
+              label = "Select a week number",
+              min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
+              max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+              value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+              step=1
+  )),
 fluidRow(
-  width = 8,
-  tags$head(
-    tags$style(
-      HTML("
-        .my-fluid-row {
-          height: 1000px; /* Adjust the height as needed */
-        }
-      ")
-    )
-  ),
-  box(width = 8, leafletOutput("flu_mem_map_this_season"))
-),
+  width = 12,
+    box("map",
+      width = 4, leafletOutput("influenza_mem_map_this_season")),
+  box("Plot",
+      width =8,
+      tagList(
+        # altTextUI("influenza_mem_modal"),
+        withNavySpinner(plotlyOutput("test_plot")),
+        tagList(linebreaks(1),
+      ))
+)),
+# fluidRow(
+#   box(width = 12,
+#       tagList(withNavySpinner(plotlyOutput("test_plot")),
+#       ))
+#           ), # tabBox
+ # fluidRow
+
 
 #### end map section ##########
   fluidRow(width = 12,
