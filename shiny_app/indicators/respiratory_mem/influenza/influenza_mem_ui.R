@@ -93,29 +93,31 @@ tagList(
   
 ####  start map section ##########
 fluidRow(width = 12,
-         tagList(h2("Map of Influenza incidence rates by NHS Health Board for the current season"))),
+         tagList(h2(textOutput("flu_map_with_selected_date")))),
 
 
 fluidRow(
   width = 12,# mem healthboard maps
   sliderInput(inputId = "week_slider",
-              label = "Select a week number",
+              label = "Use this date-slider to look at infection levels in previous weeks",
               min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
               max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
               value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
               step=1
-  )),
+  ),
 fluidRow(
   width = 12,
-    box("map",
-      width = 4, leafletOutput("influenza_mem_map_this_season")),
-  box("Plot",
-      width =8,
-      tagList(
-        # altTextUI("influenza_mem_modal"),
-        withNavySpinner(plotlyOutput("test_plot")),
-        tagList(linebreaks(1),
-      ))
+  #tagList(h2(textOutput("flu_mem_selected_map_date"))),
+    box("map",   width = 8, leafletOutput("influenza_mem_map_this_season")),
+  
+  # mothballed
+  #box("Plot",
+  #     width =8,
+  #     tagList(
+  #       # altTextUI("influenza_mem_modal"),
+  #       withNavySpinner(plotlyOutput("test_plot")),
+  #       tagList(linebreaks(1)),
+  #     ))
 )),
 # fluidRow(
 #   box(width = 12,

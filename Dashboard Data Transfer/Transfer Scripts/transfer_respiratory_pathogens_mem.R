@@ -169,40 +169,40 @@ respiratory_pathogens_MEM_hb_season<-respiratory_pathogens_MEM_hb %>%
          )))  %>%
   arrange(HBName, Pathogen)
 
-intro_pathogens_MEM_hb<-respiratory_pathogens_MEM_hb %>%
-  mutate(ActivityLevelColour = case_when(
-    ActivityLevel == "Baseline" ~ "#01A148",
-    ActivityLevel == "Low" ~ "#FFDE17",
-    ActivityLevel == "Moderate" ~ "#F36523",
-    ActivityLevel == "High" ~ "#ED1D24",
-    ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
-  filter(WeekEnding==max(WeekEnding)) %>%
-  mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
-         Pathogen= factor(Pathogen,levels = c("Influenza",
-                                                   "Respiratory Syncytial Virus",
-                                           "Adenovirus","Human Metapneumovirus",
-                                           "Mycoplasma Pneumoniae",
-                                           "Parainfluenza Virus","Rhinovirus","Seasonal Coronavirus (non-COVID-19)"
-                                           )))  %>%
-  arrange(HBName, Pathogen)
+# intro_pathogens_MEM_hb<-respiratory_pathogens_MEM_hb %>%
+#   mutate(ActivityLevelColour = case_when(
+#     ActivityLevel == "Baseline" ~ "#01A148",
+#     ActivityLevel == "Low" ~ "#FFDE17",
+#     ActivityLevel == "Moderate" ~ "#F36523",
+#     ActivityLevel == "High" ~ "#ED1D24",
+#     ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
+#   filter(WeekEnding==max(WeekEnding)) %>%
+#   mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
+#          Pathogen= factor(Pathogen,levels = c("Influenza",
+#                                                    "Respiratory Syncytial Virus",
+#                                            "Adenovirus","Human Metapneumovirus",
+#                                            "Mycoplasma Pneumoniae",
+#                                            "Parainfluenza Virus","Rhinovirus","Seasonal Coronavirus (non-COVID-19)"
+#                                            )))  %>%
+#   arrange(HBName, Pathogen)
 
 
-intro_pathogens_MEM_hb_last_sunday<-respiratory_pathogens_MEM_hb %>%
-  mutate(ActivityLevelColour = case_when(
-    ActivityLevel == "Baseline" ~ "#01A148",
-    ActivityLevel == "Low" ~ "#FFDE17",
-    ActivityLevel == "Moderate" ~ "#F36523",
-    ActivityLevel == "High" ~ "#ED1D24",
-    ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
-  filter(WeekEnding==od_sunday_minus_7) %>%
-  mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
-         Pathogen= factor(Pathogen,levels = c("Influenza",
-                                              "Respiratory Syncytial Virus",
-                                              "Adenovirus","Human Metapneumovirus",
-                                              "Mycoplasma Pneumoniae",
-                                              "Parainfluenza Virus","Rhinovirus","Seasonal Coronavirus (non-COVID-19)"
-       )))  %>%
-arrange(HBName, Pathogen)
+# intro_pathogens_MEM_hb_last_sunday<-respiratory_pathogens_MEM_hb %>%
+#   mutate(ActivityLevelColour = case_when(
+#     ActivityLevel == "Baseline" ~ "#01A148",
+#     ActivityLevel == "Low" ~ "#FFDE17",
+#     ActivityLevel == "Moderate" ~ "#F36523",
+#     ActivityLevel == "High" ~ "#ED1D24",
+#     ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
+#   filter(WeekEnding==od_sunday_minus_7) %>%
+#   mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
+#          Pathogen= factor(Pathogen,levels = c("Influenza",
+#                                               "Respiratory Syncytial Virus",
+#                                               "Adenovirus","Human Metapneumovirus",
+#                                               "Mycoplasma Pneumoniae",
+#                                               "Parainfluenza Virus","Rhinovirus","Seasonal Coronavirus (non-COVID-19)"
+#        )))  %>%
+# arrange(HBName, Pathogen)
 
 
 # Output
@@ -210,9 +210,8 @@ write_csv(respiratory_pathogens_MEM_scotland, glue(output_folder, "Respiratory_P
 write_csv(respiratory_pathogens_MEM_hb, glue(output_folder, "Respiratory_Pathogens_MEM_HB.csv"))
 write_csv(respiratory_pathogens_MEM_agegp, glue(output_folder, "Respiratory_Pathogens_MEM_Age.csv"))
 
-#for use in at a glance mem maps
-write_csv(intro_pathogens_MEM_hb, glue(output_folder, "Intro_Pathogens_MEM_HB.csv"))
-write_csv(intro_pathogens_MEM_hb_last_sunday , glue(output_folder, "Intro_Pathogens_MEM_HB_Prev_Week.csv"))
+#for use in mem maps
+# write_csv(intro_pathogens_MEM_hb, glue(output_folder, "Intro_Pathogens_MEM_HB.csv"))
+# write_csv(intro_pathogens_MEM_hb_last_sunday , glue(output_folder, "Intro_Pathogens_MEM_HB_Prev_Week.csv"))
 write_csv(respiratory_pathogens_MEM_hb_season, glue(output_folder, "Respiratory_Pathogens_MEM_HB_This_Season.csv"))
 
-# write_csv(intro_pathogens_MEM_hb_last_sunday , glue(output_folder, "Intro_Pathogens_MEM_HB_Prev_Week.csv"))

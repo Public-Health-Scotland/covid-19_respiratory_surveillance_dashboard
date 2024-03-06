@@ -299,32 +299,63 @@ observeEvent(input$respiratory_season,
 # remove map zoom as two maps are independent of each other and could be confusing
 # finalse instruction text above or below maps
 # final layout of popups and hover elements
+ 
+# Define a reactive value to store the selected region 
+#moth balled 
+# selectedRegion <- reactiveVal(NULL)
+# 
+# # Function to update the selected region
+# influenza_map_filter <- function(region_id) {
+#   selectedRegion(region_id)
+# }
+# 
+# # Use this reactive value to filter the data
+# output$test_plot <- renderPlotly({
+#   region_id <- selectedRegion()
+#   
+#   # Filter the data based on the selected region
+#   if (!is.null(region_id)) {
+#     filtered_data <- Respiratory_Pathogens_MEM_HB_This_Season %>%
+#       filter(Pathogen == "Influenza" & HBName == region_id) 
+#   } else {
+#     # If no region is selected, use default data
+#     filtered_data <- Respiratory_Flu_MEM_Scot_This_Season
+#   }
+#   
+#   create_mem_linechart(filtered_data)
+# })
+# Respiratory_Flu_MEM_Scot_This_Season <- Respiratory_Pathogens_MEM_Scot_This_Season %>%
+#   filter(Pathogen=="Influenza")
+# 
+# # update the varible by selecting region on map
+# observeEvent(input$influenza_mem_map_this_season_click, {
+#   click_id <- input$influenza_mem_map_this_season_click$id
+#   print(click_id)  # Print the ID of the clicked region to the console
+#   influenza_map_filter(click_id)
+#   updateSelectizeInput(session, "influenza_hb_input", choices = click_id)
+# })
+#  
 
-# Define a reactive value to store the selected region
-selectedRegion <- reactiveVal(NULL)
-
-# Function to update the selected region
-influenza_map_filter <- function(region_id) {
-  selectedRegion(region_id)
-}
-
-# Use this reactive value to filter the data
-output$test_plot <- renderPlotly({
-  region_id <- selectedRegion()
-  
-  # Filter the data based on the selected region
-  if (!is.null(region_id)) {
-    filtered_data <- Respiratory_Pathogens_MEM_HB_This_Season %>%
-      filter(Pathogen == "Influenza" & HBName == region_id) 
-  } else {
-    # If no region is selected, use default data
-    filtered_data <- Respiratory_Flu_MEM_Scot_This_Season
-  }
-  
-  create_mem_linechart(filtered_data)
+# Create a reactive expression for flu_map_selected_date
+flu_map_selected_date <- reactive({
+  selected_week <- input$week_slider
+  flu_map_selected_date <- Respiratory_Pathogens_MEM_HB_This_Season %>%
+    filter(Pathogen == "Influenza" & HBName=="NHS Western Isles") %>%
+    filter(Weekord == selected_week) %>%
+    select(WeekEnding) %>% 
+    mutate(WeekEnding=as.Date(WeekEnding))
+  flu_map_selected_date$WeekEnding <- format(flu_map_selected_date$WeekEnding, "%d %b %y")
+  flu_map_selected_date
 })
 
- 
+
+# create dynamic sub headers
+
+# Render the dynamic map section title
+output$flu_map_with_selected_date <- renderText({
+  selected_date <- flu_map_selected_date()
+  paste("Map of this season's Influenza incident rates per 100,000 population for Week Ending (", selected_date$WeekEnding,")")
+})
 
 output$influenza_mem_map_this_season <- renderLeaflet({
 
@@ -340,13 +371,14 @@ output$influenza_mem_map_this_season <- renderLeaflet({
                 fillOpacity = 0.6,
                 color = "grey",
                 dashArray = "0",
-                popup = ~paste0("Season: ", Season, "<br>",
-                                "Week number: ", ISOWeek, "<br>",
+                popup = ~paste0("Season:", Season, "<br>",
+                                "Week number: ",Weekord,"<br>",
+                                "ISO week:", ISOWeek, "<br>",
                                 "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
-                                "Health Board: ", HBName, "<br>",
+                                "Health board: ", HBName, "<br>",
                                 "Rate per 100,000: ", RatePer100000,
                                 "<br>","Activity level: ", ActivityLevel),
-                label = ~paste0("Activity level: ", ActivityLevel),
+                label = ~paste0("Healthboard: ", HBName),
                 labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
                 highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>%
     addLegend(position = "bottomright", colors = activity_level_colours,
@@ -355,13 +387,4 @@ output$influenza_mem_map_this_season <- renderLeaflet({
 })
 # 
 
-Respiratory_Flu_MEM_Scot_This_Season <- Respiratory_Pathogens_MEM_Scot_This_Season %>%
-  filter(Pathogen=="Influenza")
 
-# update the varible by selecting region on map
-observeEvent(input$influenza_mem_map_this_season_click, {
-  click_id <- input$influenza_mem_map_this_season_click$id
-  print(click_id)  # Print the ID of the clicked region to the console
-  influenza_map_filter(click_id)
-  updateSelectizeInput(session, "influenza_hb_input", choices = click_id)
-})

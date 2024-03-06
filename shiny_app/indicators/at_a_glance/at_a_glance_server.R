@@ -245,98 +245,98 @@ output$hosp_adms_intro_plot <- renderPlotly({
 # final layout of popups and hover elements
 
 
-# create dynamic map section title- pathogen text driven by pull down
-output$hb_mem_cases_title <- renderText({
-  paste("Map of", input$pathogen_filter, 
-        "incidence rates per 100,000 population by NHS Health Board")
-})
-# create dynamic sub headers to place above two maps displaying the dates
-
-
-map_this_week_date <- Intro_Pathogens_MEM_HB %>%
-  tail(1) %>% select(WeekEnding) 
-map_this_week_date$WeekEnding<- format(map_this_week_date$WeekEnding, "%d %b %y")
-
-
-map_prev_week_date <- Intro_Pathogens_MEM_HB_Prev_Week %>%
-  tail(1) %>% select(WeekEnding) 
+# # create dynamic map section title- pathogen text driven by pull down
+# output$hb_mem_cases_title <- renderText({
+#   paste("Map of", input$pathogen_filter, 
+#         "incidence rates per 100,000 population by NHS Health Board")
+# })
+# # create dynamic sub headers to place above two maps displaying the dates
+# 
+# 
+# map_this_week_date <- Intro_Pathogens_MEM_HB %>%
+#   tail(1) %>% select(WeekEnding) 
+# map_this_week_date$WeekEnding<- format(map_this_week_date$WeekEnding, "%d %b %y")
+# 
+# 
+# map_prev_week_date <- Intro_Pathogens_MEM_HB_Prev_Week %>%
+#   tail(1) %>% select(WeekEnding) 
 #  mutate(WeekEnding = format(WeekEnding, "%d %b %y"))
-map_prev_week_date$WeekEnding<- format(map_prev_week_date$WeekEnding, "%d %b %y")
-
-
-output$map_this_week_title <- renderText({
-  paste("Incidence rates for week ending", map_this_week_date$WeekEnding)
-})
-
-output$map_prev_week_title <- renderText({
-  paste0("Incidence rates (", map_prev_week_date$WeekEnding, ")")
-})
-# create the Leaflet map for current week
-  output$hb_mem_map <- renderLeaflet({
-    
-    Intro_Pathogens_MEM_HB_Polygons_filter <- Intro_Pathogens_MEM_HB_Polygons%>%
-       filter(Pathogen == input$pathogen_filter)%>% 
-       mutate(Pathogen = factor(Pathogen,
-                                levels = c("Influenza","Respiratory syncytial virus",
-                                                             "Adenovirus",
-                                                             "Human metapneumovirus",
-                                                             "Mycoplasma pneumoniae",
-                                                             "Parainfluenza virus",
-                                                                             "Rhinovirus",
-                                                             "Seasonal Coronavirus (non-COVID-19)"  )))
-                                                           
-    
-    leaflet(Intro_Pathogens_MEM_HB_Polygons_filter) %>%
-      setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
-      addProviderTiles("CartoDB.Positron") %>%
-      addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
-                 opacity = 0.6,
-                 fillOpacity = 0.6,
-                 color = "grey",
-                 dashArray = "0",
-                 popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
-                                 "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
-                                 "Health Board: ", HBName, "<br>",
-                                 "Rate per 100,000: ", RatePer100000, 
-                                 "<br>","Activity level: ", ActivityLevel),
-                 label = ~paste0("Activity level: ", ActivityLevel),
-                 labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
-                 highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
-      addLegend(position = "bottomright",colors = activity_level_colours,
-                labels = activity_levels,title = "MEM Activity Level",
-                labFormat = labelFormat()) })
-  
-  # create the Leaflet map for previous week
-  output$hb_mem_map_prev_week <- renderLeaflet({
-      Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter <- Intro_Pathogens_MEM_HB_Prev_Week_Polygons%>%
-      filter(Pathogen == input$pathogen_filter)%>% 
-      mutate(Pathogen = factor(Pathogen,
-                               levels = c("Influenza","Respiratory syncytial virus",
-                                          "Adenovirus",
-                                          "Human metapneumovirus",
-                                          "Mycoplasma pneumoniae",
-                                          "Parainfluenza virus",
-                                          "Rhinovirus",
-                                          "Seasonal Coronavirus (non-COVID-19)")))
-      leaflet(Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter) %>%
-      setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
-      addProviderTiles("CartoDB.Positron") %>%
-      addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
-                  opacity = 0.6,
-                  fillOpacity = 0.6,
-                  color = "grey",
-                  dashArray = "0",
-                  popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
-                                  "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
-                                  "Health Board: ", HBName, "<br>",
-                                  "Rate per 100,000: ", RatePer100000, "<br>",
-                                  "Activity level: ", ActivityLevel),
-                  label = ~paste0("Healthboard: ", HBName),
-                  labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
-                  highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
-      addLegend(position = "bottomright",colors = activity_level_colours,
-                labels = activity_levels,title = "MEM Activity Level",
-                labFormat = labelFormat() )
-       })
+# map_prev_week_date$WeekEnding<- format(map_prev_week_date$WeekEnding, "%d %b %y")
+# 
+# 
+# output$map_this_week_title <- renderText({
+#   paste("Incidence rates for week ending", map_this_week_date$WeekEnding)
+# })
+# 
+# output$map_prev_week_title <- renderText({
+#    paste0("Incidence rates (", map_prev_week_date$WeekEnding, ")")
+# })
+# # create the Leaflet map for current week
+#   output$hb_mem_map <- renderLeaflet({
+#     
+#     Intro_Pathogens_MEM_HB_Polygons_filter <- Intro_Pathogens_MEM_HB_Polygons%>%
+#        filter(Pathogen == input$pathogen_filter)%>% 
+#        mutate(Pathogen = factor(Pathogen,
+#                                 levels = c("Influenza","Respiratory syncytial virus",
+#                                                              "Adenovirus",
+#                                                              "Human metapneumovirus",
+#                                                              "Mycoplasma pneumoniae",
+#                                                              "Parainfluenza virus",
+#                                                                              "Rhinovirus",
+#                                                              "Seasonal Coronavirus (non-COVID-19)"  )))
+#                                                            
+#     
+#     leaflet(Intro_Pathogens_MEM_HB_Polygons_filter) %>%
+#       setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
+#       addProviderTiles("CartoDB.Positron") %>%
+#       addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
+#                  opacity = 0.6,
+#                  fillOpacity = 0.6,
+#                  color = "grey",
+#                  dashArray = "0",
+#                  popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
+#                                  "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
+#                                  "Health Board: ", HBName, "<br>",
+#                                  "Rate per 100,000: ", RatePer100000, 
+#                                  "<br>","Activity level: ", ActivityLevel),
+#                  label = ~paste0("Activity level: ", ActivityLevel),
+#                  labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
+#                  highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
+#       addLegend(position = "bottomright",colors = activity_level_colours,
+#                 labels = activity_levels,title = "MEM Activity Level",
+#                 labFormat = labelFormat()) })
+#   
+#   # create the Leaflet map for previous week
+#   output$hb_mem_map_prev_week <- renderLeaflet({
+#       Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter <- Intro_Pathogens_MEM_HB_Prev_Week_Polygons%>%
+#       filter(Pathogen == input$pathogen_filter)%>% 
+#       mutate(Pathogen = factor(Pathogen,
+#                                levels = c("Influenza","Respiratory syncytial virus",
+#                                           "Adenovirus",
+#                                           "Human metapneumovirus",
+#                                           "Mycoplasma pneumoniae",
+#                                           "Parainfluenza virus",
+#                                           "Rhinovirus",
+#                                           "Seasonal Coronavirus (non-COVID-19)")))
+#       leaflet(Intro_Pathogens_MEM_HB_Prev_Week_Polygons_filter) %>%
+#       setView(lng = -4.3, lat = 57.7, zoom = 5.25) %>%
+#       addProviderTiles("CartoDB.Positron") %>%
+#       addPolygons(weight = 1,smoothFactor = 0.5,fillColor = ~ActivityLevelColour,
+#                   opacity = 0.6,
+#                   fillOpacity = 0.6,
+#                   color = "grey",
+#                   dashArray = "0",
+#                   popup = ~paste0("Season: ", Season, "<br>","Week number: ", ISOWeek, "<br>",
+#                                   "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
+#                                   "Health Board: ", HBName, "<br>",
+#                                   "Rate per 100,000: ", RatePer100000, "<br>",
+#                                   "Activity level: ", ActivityLevel),
+#                   label = ~paste0("Healthboard: ", HBName),
+#                   labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
+#                   highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>% 
+#       addLegend(position = "bottomright",colors = activity_level_colours,
+#                 labels = activity_levels,title = "MEM Activity Level",
+#                 labFormat = labelFormat() )
+#        })
   
   
