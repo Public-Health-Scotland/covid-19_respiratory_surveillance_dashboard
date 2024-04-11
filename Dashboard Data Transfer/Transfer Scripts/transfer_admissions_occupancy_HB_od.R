@@ -29,11 +29,13 @@ od_qualifiers <- function(data, col_name, symbol) {
 Dates <- data.frame(WeekEnding=seq(as.Date("2020-03-01"), as.Date(od_date-1), "week")) %>%
   mutate(WeekEnding= format(strptime(WeekEnding, format = "%Y-%m-%d"), "%Y%m%d")) #use OD data format
 
-library(ckanr)
-ckan <- src_ckan("https://www.opendata.nhs.scot")
+##To install phsopendata:
+## install.packages('phsopendata', type = 'source')
+
+library(phsopendata)
 hb2019_id<-"652ff726-e676-4a20-abda-435b98dd7bdc"
 
-hb_code <- tbl(src = ckan$con, from = hb2019_id) %>%
+hb_code <- get_resource(res_id = hb2019_id) %>%
   as_tibble() %>%
   clean_names() %>%
   filter(is.na(hb_date_archived)) %>%
@@ -124,7 +126,7 @@ g_weekly_resp_hb_od<- df_hb_weekly %>%
          RSVAdmissions,
          RSVAdmissionsQF)
 
-write_csv(g_weekly_resp_hb_od, 
+write_csv(g_weekly_resp_hb_od,
           glue(od_folder, "weekly_respiratory_admissions_HB_{od_report_date}.csv"),na = "")
 
 
