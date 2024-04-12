@@ -68,9 +68,10 @@ tagList(
                             withNavySpinner(plotlyOutput("wastewater_plot")),
                             fluidRow(column(
                               width=12, linebreaks(5),
-                              p("Analyses produced by Biomathematics & Statistics Scotland (formally part of the James Hutton Institute)",
-                                "for the Wastewater Monitoring Programme in Scotland which is operated by Scottish Government in partnership",
-                                "with Scottish Water and the Scottish Environment Protection Agency."),
+                              p("Wastewater data analyses for COVID-19 are produced by",
+                                "PHS Wastewater Analysis Group for the Wastewater Monitoring Programme in Scotland,",
+                                "which is operated by Scottish Government in partnership with",
+                                "Scottish Water and the Scottish Environment Protection Agency."),
 
                             )))),
            tabPanel("Data",
