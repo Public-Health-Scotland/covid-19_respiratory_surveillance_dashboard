@@ -54,7 +54,25 @@ tagList(
     linebreaks(1)
   ), # fluidRow
   
+  ####  start map section ##########
+  fluidRow(width = 12,
+           tagList(h2(textOutput("mycoplasma_pneumoniae_map_dynamic_header")))),# fluidrow
   
+  fluidRow(
+    width = 12,# mem healthboard maps
+    sliderInput(inputId = "mycoplasma_pneumoniae_week_slider",
+                label = "Use this date-slider to look at infection levels in previous weeks",
+                min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
+                max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                step=1  ),
+    fluidRow(
+      width = 12,
+      #tagList(h2(textOutput("flu_mem_selected_map_date"))),
+      box("placeholder",   width = 8, leafletOutput("mycoplasma_pneumoniae_mem_map_this_season")),
+    )), # fluid row
+  
+  #### end map section ##########
   fluidRow(width = 12,
            tagList(h2("Mycoplasma pneumoniae incidence rate per 100,000 population by age group"))),
   
@@ -74,6 +92,5 @@ tagList(
            
     ), # tabBox
     linebreaks(1)
-  )#, # fluidRow
-  
-)
+  ) # fluidRow
+  )

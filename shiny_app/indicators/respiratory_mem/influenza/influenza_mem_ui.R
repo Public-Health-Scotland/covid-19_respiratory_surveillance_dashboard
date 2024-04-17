@@ -57,7 +57,7 @@ tagList(
            tabPanel("Plot",
                     tagList(linebreaks(1),
                             altTextUI("influenza_mem_modal"),
-                            withNavySpinner(plotlyOutput("influenza_mem_plot")),
+                            plotlyOutput("influenza_mem_plot"),
                             )),
            tabPanel("Data",
                     tagList(linebreaks(1),
@@ -76,10 +76,20 @@ tagList(
     tabBox(width = NULL,
            type = "pills",
            tabPanel("Plot",
-                    tagList(linebreaks(1),
+                    tagList(linebreaks(1), 
                             altTextUI("influenza_mem_hb_modal"),
                             withNavySpinner(plotlyOutput("influenza_mem_hb_plot")),
                     )),
+           tabPanel("Map",
+                    tagList(linebreaks(1),
+                            sliderInput(inputId = "influenza_week_slider",
+                                        label = "Use this date-slider to look at infection levels in previous weeks",
+                                        min = min(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                                        max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                                        value = max(Season_Pathogens_MEM_HB_Polygons$Weekord), 
+                                        step=1  ),
+                            withNavySpinner(leafletOutput("influenza_mem_map_this_season"))), # tabBox
+              ), # tabPanel
            tabPanel("Data",
                     tagList(linebreaks(1),
                             withNavySpinner(dataTableOutput("influenza_mem_hb_table"))
@@ -92,40 +102,23 @@ tagList(
 
   
 ####  start map section ##########
-fluidRow(width = 12,
-         tagList(h2(textOutput("flu_map_with_selected_date")))),
-
-
-fluidRow(
-  width = 12,# mem healthboard maps
-  sliderInput(inputId = "week_slider",
-              label = "Use this date-slider to look at infection levels in previous weeks",
-              min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
-              max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
-              value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
-              step=1
-  ),
-fluidRow(
-  width = 12,
-  #tagList(h2(textOutput("flu_mem_selected_map_date"))),
-    box("map",   width = 8, leafletOutput("influenza_mem_map_this_season")),
-  
-  # mothballed
-  #box("Plot",
-  #     width =8,
-  #     tagList(
-  #       # altTextUI("influenza_mem_modal"),
-  #       withNavySpinner(plotlyOutput("test_plot")),
-  #       tagList(linebreaks(1)),
-  #     ))
-)),
+# fluidRow(width = 12,
+#          tagList(h2(textOutput("influenza_map_dynamic_header")))),# fluidrow
+# 
 # fluidRow(
-#   box(width = 12,
-#       tagList(withNavySpinner(plotlyOutput("test_plot")),
-#       ))
-#           ), # tabBox
- # fluidRow
-
+#   width = 12,# mem healthboard maps
+#   sliderInput(inputId = "influenza_week_slider",
+#               label = "Use this date-slider to look at infection levels in previous weeks",
+#               min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
+#               max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+#               value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+#               step=1  ),
+# fluidRow(
+#   width = 12,
+#   #tagList(h2(textOutput("flu_mem_selected_map_date"))),
+#     box("map",   width = 8, leafletOutput("influenza_mem_map_this_season")), # tabBox
+#   linebreaks(1)
+#  )), # fluid row
 
 #### end map section ##########
   fluidRow(width = 12,

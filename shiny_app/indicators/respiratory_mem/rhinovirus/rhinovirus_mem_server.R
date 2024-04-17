@@ -199,5 +199,43 @@ output$rhinovirus_mem_age_plot <- renderPlotly({
 
 })
 
+##### create a map #############
 
+### respiratory  mem levels with date slider to show progression through season
+# all users need to add .Rprofile to their project files and may need to run the library installation script
+# nb only need sf, sp and leaflet packages
+# joining of  simplified polygon shape file of HB2019 areas done in set-up.
+
+# still to do:
+#  create function for generating the map.
+# finalse instruction text above or below maps
+# final layout of popups and hover elements
+
+
+# Create a date slider reactive expression "rhinovirus_map_selected_date"
+rhinovirus_map_selected_date <- reactive({
+  selected_week <- input$rhinovirus_week_slider
+  rhinovirus_map_selected_date <- Respiratory_Pathogens_MEM_HB_This_Season %>%
+    filter(Pathogen == "Rhinovirus" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
+    filter(Weekord == selected_week) %>%
+    select(WeekEnding) %>% 
+    mutate(WeekEnding=as.Date(WeekEnding))
+  rhinovirus_map_selected_date$WeekEnding <- format(rhinovirus_map_selected_date$WeekEnding, "%d %b %y")
+  rhinovirus_map_selected_date
+})
+
+# create dynamic sub headers
+# Render the dynamic map section title
+output$rhinovirus_map_dynamic_header <- renderText({
+  selected_date <- rhinovirus_map_selected_date()
+  paste0("Map of this season's Rhinovirus incident rates per 100,000 population for Week Ending (", selected_date$WeekEnding,")")
+})
+
+output$rhinovirus_mem_map_this_season <- renderLeaflet({
+  # select week to display using $week_slider
+  Season_rhinovirus_MEM_HB_Polygons <- Season_Pathogens_MEM_HB_Polygons %>%
+    filter(Pathogen == "Rhinovirus") %>%
+    filter(Weekord == input$rhinovirus_week_slider) %>% 
+    create_mem_hb_map()
+})
 

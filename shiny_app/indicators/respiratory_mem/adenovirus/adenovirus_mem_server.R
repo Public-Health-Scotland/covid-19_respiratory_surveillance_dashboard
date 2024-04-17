@@ -202,3 +202,32 @@ output$adenovirus_mem_age_plot <- renderPlotly({
 
 
 
+##### create a map #############
+
+# Create a date slider reactive expression "adenovirus_map_selected_date"
+adenovirus_map_selected_date <- reactive({
+  selected_week <- input$adenovirus_week_slider
+  adenovirus_map_selected_date <- Respiratory_Pathogens_MEM_HB_This_Season %>%
+    filter(Pathogen == "Adenovirus" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
+    filter(Weekord == selected_week) %>%
+    select(WeekEnding) %>% 
+    mutate(WeekEnding=as.Date(WeekEnding))
+  adenovirus_map_selected_date$WeekEnding <- format(adenovirus_map_selected_date$WeekEnding, "%d %b %y")
+  adenovirus_map_selected_date
+})
+
+# create dynamic sub headers
+# Render the dynamic map section title
+output$adenovirus_map_dynamic_header <- renderText({
+  selected_date <- adenovirus_map_selected_date()
+  paste0("Map of this season's Adenovirus incident rates per 100,000 population for Week Ending (", selected_date$WeekEnding,")")
+})
+
+output$adenovirus_mem_map_this_season <- renderLeaflet({
+  # select week to display using $week_slider
+  Season_adenovirus_MEM_HB_Polygons <- Season_Pathogens_MEM_HB_Polygons %>%
+    filter(Pathogen == "Adenovirus") %>%
+    filter(Weekord == input$adenovirus_week_slider) %>% 
+    create_mem_hb_map()
+ 
+})

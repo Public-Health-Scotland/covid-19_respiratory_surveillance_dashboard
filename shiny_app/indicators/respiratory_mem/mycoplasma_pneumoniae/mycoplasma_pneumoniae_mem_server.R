@@ -199,5 +199,43 @@ output$mycoplasma_pneumoniae_mem_age_plot <- renderPlotly({
 
 })
 
+##### create a map #############
+
+### respiratory  mem levels with date slider to show progression through season
+# all users need to add .Rprofile to their project files and may need to run the library installation script
+# nb only need sf, sp and leaflet packages
+# joining of  simplified polygon shape file of HB2019 areas done in set-up.
+
+# still to do:
+# finalse instruction text above or below maps
+# final layout of popups and hover elements
+
+mycoplasma_pneumoniae_map_selected_date <- reactive({
+  selected_week <- input$mycoplasma_pneumoniae_week_slider
+  mycoplasma_pneumoniae_map_selected_date <- Respiratory_Pathogens_MEM_HB_This_Season %>%
+    filter(Pathogen == "Mycoplasma Pneumoniae" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
+    filter(Weekord == selected_week) %>%
+    select(WeekEnding) %>% 
+    mutate(WeekEnding=as.Date(WeekEnding))
+  mycoplasma_pneumoniae_map_selected_date$WeekEnding <- format(mycoplasma_pneumoniae_map_selected_date$WeekEnding, "%d %b %y")
+  mycoplasma_pneumoniae_map_selected_date
+})
+
+# create dynamic sub headers
+# Render the dynamic map section title
+output$mycoplasma_pneumoniae_map_dynamic_header<- renderText({
+  selected_date <- mycoplasma_pneumoniae_map_selected_date()
+  paste0("Map of this season's Mycoplasma pneumoniae incident rates per 100,000 population for Week Ending (", selected_date$WeekEnding,")")
+})
+
+output$mycoplasma_pneumoniae_mem_map_this_season <- renderLeaflet({
+  # select week to display using $week_slider
+  Season_mycoplasma_pneumoniae_MEM_HB_Polygons <- Season_Pathogens_MEM_HB_Polygons %>%
+    filter(Pathogen == "Mycoplasma Pneumoniae") %>%
+    filter(Weekord == input$mycoplasma_pneumoniae_week_slider) %>% 
+    create_mem_hb_map()
+ 
+})
+
 
 

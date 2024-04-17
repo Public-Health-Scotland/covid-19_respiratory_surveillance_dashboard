@@ -107,7 +107,25 @@ tagList(
     linebreaks(1)
   ), # fluidRow
 
-
+  ####  start map section ##########
+  fluidRow(width = 12,
+           tagList(h2(textOutput("rsv_map_dynamic_header")))),# fluidrow
+  
+  fluidRow(
+    width = 12,# mem healthboard maps
+    sliderInput(inputId = "rsv_week_slider",
+                label = "Use this date-slider to look at infection levels in previous weeks",
+                min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
+                max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                step=1  ),
+    fluidRow(
+      width = 12,
+      #tagList(h2(textOutput("flu_mem_selected_map_date"))),
+      box("placeholder",   width = 8, leafletOutput("rsv_mem_map_this_season")),
+      linebreaks(1)
+    )), # fluid row
+  #### end map section ##########
   fluidRow(width = 12,
            tagList(h2("RSV incidence rate per 100,000 population by age group"))),
 
@@ -127,6 +145,6 @@ tagList(
 
     ), # tabBox
     linebreaks(1)
-  )#, # fluidRow
-
+  ) # fluidRow
+  
 )
