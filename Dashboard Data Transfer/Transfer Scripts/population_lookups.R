@@ -152,6 +152,19 @@ i_population_v2<- bind_rows(pop_dash_sex_ageband,
 
 write_csv(i_population_v2, glue(output_folder, "i_population_v2.csv"))
 
+
+pop_healthboards<-base_hb_population %>% 
+  filter(year == pop_year) %>% 
+  group_by(hb2019, hb2019name) %>% 
+  summarise(pop = sum(pop)) %>% 
+  rename(location_code=hb2019, location_name=hb2019name)
+
+pop_scotland= pop_total_total %>% 
+   select(location_name=location_code, pop) %>% 
+  mutate(location_code="S92000003")
+pop_hb_scot=rbind(pop_healthboards, pop_scotland)
+
+rm(pop_hb_scot)
 # rm(pop_dash_sex_ageband,
 #    pop_dash_ageband,
 #    pop_dash_sex,
