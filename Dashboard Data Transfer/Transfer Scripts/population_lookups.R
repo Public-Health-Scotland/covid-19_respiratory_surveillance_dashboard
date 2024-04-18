@@ -164,7 +164,7 @@ pop_scotland= pop_total_total %>%
    select(location_name=location_code, pop) %>% 
   mutate(location_code="S92000003")
 
-pop_hb_scot=rbind(pop_healthboards, pop_scotland)
+pop_hb_scot_lookup=rbind(pop_healthboards, pop_scotland)
 
 ##### end healthboard pop estimates ####
 ##### create SIMD pop estimates  ####
@@ -190,13 +190,11 @@ pop_simd_scotland <- base_datazone_population %>%
   summarise(Pop = sum(total_pop))
 
 # Combining the above population breakdowns.
-simd_populations <- bind_rows(pop_simd_hb, pop_simd_la, pop_simd_scotland) %>% 
+simd_population_lookup <- bind_rows(pop_simd_hb, pop_simd_la, pop_simd_scotland) %>% 
   arrange(location_code, simd)  %>% 
   mutate(simd=as.character(simd))
 
 ##### end SIMD pop estimates  ####
-
-
 
 
 # rm(pop_dash_sex_ageband,

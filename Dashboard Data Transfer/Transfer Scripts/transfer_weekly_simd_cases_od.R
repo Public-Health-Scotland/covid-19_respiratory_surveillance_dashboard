@@ -91,33 +91,6 @@ df_simd <- expand.grid(Date=unique(Dates$SpecimenDate) , simd=unique(SIMD$SIMD),
 
 rm(Dates, SIMD, df_unassinged) # remove building blocks
 
-
-
-#### Functions ###########################################
-
-# od_suppress_value <- function(data, col_name) {
-#   
-#   needs_suppressed = data[[col_name]] == "" | (data[[col_name]]<5)
-#   
-#   data %>% 
-#     mutate(data[col_name] == if_else(
-#       needs_suprressed, 0, data[col_name]
-#     ))
-#   
-# }
-# 
-# od_qualifiers <- function(data, col_name, symbol) {
-#   
-#   needs_symbol = data[[col_name]] == "" | is.na(data[[col_name]])
-#   
-#   data %>% 
-#     mutate("{col_name}QF" := if_else(
-#       needs_symbol, symbol, ""
-#     ))
-#   
-# }
-
-
 #### Cases ##############################
 
 i_combined_pcr_lfd_tests<- readRDS(glue("/PHI_conf/Real_Time_Epi/Data/PCR_Data/weekly_report_pcr_lfd_tests_reinf_{od_date}.rds"))%>%
@@ -146,12 +119,15 @@ g_daily_geog_simd_cases<- i_combined_pcr_lfd_tests %>%
   mutate(Date=as.Date(specimen_date)) %>% 
   filter(Date <= as.Date(od_sunday)) %>% 
   arrange(desc(Date)) %>% 
-  mutate(location_code="Scotland") 
+  mutate(simd = replace(simd, is.na(simd), "Unknown")) 
   
 g_simd_scotland_daily_cases <- g_daily_geog_simd_cases %>%
-  mutate(simd = replace(simd, is.na(simd), "Unknown")) %>% 
+  mutate( location_code="Scotland") %>% 
   group_by(Date,simd,location_code) %>%
   summarise(daily_positive = sum(flag_episode))
+
+
+
 
 rm(spd_simd_lookup)
 
