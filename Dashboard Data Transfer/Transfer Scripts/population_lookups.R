@@ -22,14 +22,16 @@
 # retain i_population in the interim, but update cases with this version
 
 pop_year= 2021# use to filter through entire script, only need to update 1 line when Pop Est files updated
-
+pop_year_datazone=2021
 gpd_base_path<-"/conf/linkage/output/lookups/Unicode/"
 
 # update when Pop Estimates updated
 base_hb_population <- readRDS(glue(gpd_base_path,"Populations/Estimates/HB2019_pop_est_5year_agegroups_1981_2021.rds"))%>% 
   mutate(sex=if_else(sex_name=="F", "Female", "Male"))
 
+base_datazone_population <-  read_rds(glue(gpd_base_path,"Populations/Estimates/DataZone2011_pop_est_5year_agegroups_2011_2021.rds"))
 
+##### create age/sex pop estimates ####
 pop_agegroup_sex <- base_hb_population %>% 
   filter(year == pop_year) %>% # changes when GPD population estimates updated
   mutate(agegroup = case_when(age_group_name == "0" | age_group_name == "1-4" | age_group_name == "5-9" | age_group_name == "10-14" ~ "0 to 14",
@@ -87,7 +89,7 @@ pop_total_total<- pop_total_sex %>%
   mutate(sex="Total") %>% 
   ungroup()
 
-######  dashboard population for cases rates #######
+#  dashboard population for cases rates #
 pop_dash_sex_ageband <- base_hb_population %>% 
   filter(year == pop_year) %>% # changes when GPD population estimates updated
   mutate(AgeGroup = case_when(age_group_name == "0" | age_group_name == "1-4" ~ "0-4 ", 
@@ -122,7 +124,6 @@ pop_dash_total<-pop_dash_ageband  %>%
   mutate(sex="Total", AgeGroup="Total") %>% 
   ungroup()
 
-
 pop_dash_sex_fifteen_fourty_four<- base_hb_population %>% 
   filter(year == pop_year) %>% 
   mutate(AgeGroup = case_when(age_group_name==  "15-19" |age_group_name == "20-24"|
@@ -149,10 +150,10 @@ i_population_v2<- bind_rows(pop_dash_sex_ageband,
   arrange(AgeGroup) %>% 
   rename(Sex=sex)
 
-
 write_csv(i_population_v2, glue(output_folder, "i_population_v2.csv"))
 
-# create  healthboard population lookup
+##### end  age/sex pop estimates ####
+##### create healthboard pop estimates ####
 pop_healthboards<-base_hb_population %>% 
   filter(year == pop_year) %>% 
   group_by(hb2019, hb2019name) %>% 
@@ -162,7 +163,41 @@ pop_healthboards<-base_hb_population %>%
 pop_scotland= pop_total_total %>% 
    select(location_name=location_code, pop) %>% 
   mutate(location_code="S92000003")
+
 pop_hb_scot=rbind(pop_healthboards, pop_scotland)
+
+##### end healthboard pop estimates ####
+##### create SIMD pop estimates  ####
+pop_simd_hb <- base_datazone_population %>% 
+  filter(year == pop_year_datazone)  %>% 
+  rename(simd=simd2020v2_sc_quintile,location_code=hb2019,location_name=hb2019name ) %>%
+  group_by(location_code, location_name, simd) %>% 
+  summarise(Pop = sum(total_pop))
+
+# Breaking down the population of each local authority by SIMD quintile.
+pop_simd_la <- base_datazone_population %>% 
+  filter(year == pop_year_datazone)  %>% 
+  rename(simd=simd2020v2_sc_quintile, location_code=ca2019, location_name=ca2019name) %>%
+  group_by(location_code, simd) %>% 
+  summarise(Pop = sum(total_pop))
+
+# Breaking down the Scottish population by SIMD quintile
+pop_simd_scotland <- base_datazone_population %>% 
+  filter(year == pop_year)  %>% 
+  rename(simd = simd2020v2_sc_quintile) %>% 
+  mutate(location_name = "Scotland", location_code="S92000003") %>% 
+  group_by(location_code, simd) %>% 
+  summarise(Pop = sum(total_pop))
+
+# Combining the above population breakdowns.
+simd_populations <- bind_rows(pop_simd_hb, pop_simd_la, pop_simd_scotland) %>% 
+  arrange(location_code, simd)  %>% 
+  mutate(simd=as.character(simd))
+
+##### end SIMD pop estimates  ####
+
+
+
 
 # rm(pop_dash_sex_ageband,
 #    pop_dash_ageband,
