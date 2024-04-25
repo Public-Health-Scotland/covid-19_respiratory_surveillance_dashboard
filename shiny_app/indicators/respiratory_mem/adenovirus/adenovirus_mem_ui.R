@@ -61,9 +61,9 @@ tagList(
     width = 12,# mem healthboard maps
     sliderInput(inputId = "adenovirus_week_slider",
                 label = "Use this date-slider to look at infection levels in previous weeks",
-                min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
-                max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
-                value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
+                min = min(Season_Pathogens_MEM_HB_Polygons$WeekEnding), 
+                max = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+                value = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
                 step=1),
     fluidRow(
       width = 12,

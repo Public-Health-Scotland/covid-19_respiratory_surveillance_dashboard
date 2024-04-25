@@ -215,10 +215,10 @@ rsv_map_selected_date <- reactive({
   selected_week <- input$rsv_week_slider
   rsv_map_selected_date <- Respiratory_Pathogens_MEM_HB_This_Season %>%
     filter(Pathogen == "Respiratory Syncytial Virus" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
-    filter(Weekord == selected_week) %>%
-    select(WeekEnding) %>% 
-    mutate(WeekEnding=as.Date(WeekEnding))
-  rsv_map_selected_date$WeekEnding <- format(rsv_map_selected_date$WeekEnding, "%d %b %y")
+    filter(ISOWeek == selected_week) %>%
+    select(ISOWeek) %>% 
+  #  mutate(WeekEnding=as.Date(WeekEnding))
+ # rsv_map_selected_date$WeekEnding <- format(rsv_map_selected_date$WeekEnding, "%d %b %y")
   rsv_map_selected_date
 })
 
@@ -226,13 +226,13 @@ rsv_map_selected_date <- reactive({
 # Render the dynamic map section title
 output$rsv_map_dynamic_header<- renderText({
   selected_date <- rsv_map_selected_date()
-  paste0("Map of this season's RSV incident rates per 100,000 population for Week Ending (", selected_date$WeekEnding,")")
+  paste0("Map of this season's RSV incident rates per 100,000 population for Week Ending (", selected_date$ISOWeek,")")
 })
 
 output$rsv_mem_map_this_season <- renderLeaflet({
   # select week to display using $week_slider
   Season_rsv_MEM_HB_Polygons <- Season_Pathogens_MEM_HB_Polygons %>%
     filter(Pathogen == "Respiratory Syncytial Virus") %>%
-    filter(Weekord == input$rsv_week_slider) %>% 
+    filter(ISOWeek== input$rsv_week_slider) %>% 
     create_mem_hb_map()
 })

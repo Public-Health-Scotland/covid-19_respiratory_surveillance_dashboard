@@ -113,12 +113,21 @@ tagList(
   
   fluidRow(
     width = 12,# mem healthboard maps
+    # sliderInput(inputId = "rsv_week_slider",
+    #             label = "Use this date-slider to look at infection levels in previous weeks",
+    #             min = min(Season_Pathogens_MEM_HB_Polygons$WeekEnding), 
+    #             max = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+    #             value = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+    #             step=1  ),
+    
+    
     sliderInput(inputId = "rsv_week_slider",
-                label = "Use this date-slider to look at infection levels in previous weeks",
-                min = min(Season_Pathogens_MEM_HB_Polygons$Weekord), 
-                max = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
-                value = max(Season_Pathogens_MEM_HB_Polygons$Weekord),
-                step=1  ),
+    label = "Use this ISO week slider to look at infection levels in previous weeks",
+    min = min(mem_isoweeks), 
+    max = max(Season_Pathogens_MEM_HB_Polygons$ISOWeek),
+    value = max(Season_Pathogens_MEM_HB_Polygons$ISOWeek),
+    step = 1),
+    
     fluidRow(
       width = 12,
       #tagList(h2(textOutput("flu_mem_selected_map_date"))),
