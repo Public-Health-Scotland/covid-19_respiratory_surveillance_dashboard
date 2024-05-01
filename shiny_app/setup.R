@@ -98,8 +98,8 @@ icu_headlines <- get_threeweek_admissions_figures(df = ICU,
 #                                                        datecol = "Date")
 #imk addition (orig retained), Use weekly hospital hb files
 #filter to scotland, then create list
-occupancy_headlines <- Occupancy_Weekly_Hospital_HB %>% 
-  filter(HealthBoardQF== "d") 
+occupancy_headlines <- Occupancy_Weekly_Hospital_HB %>%
+  filter(HealthBoardQF== "d")
 
 occupancy_headlines <- get_threeweek_occupancy_figures(df = occupancy_headlines,
                                                        datecol = "WeekEnding_od")
@@ -219,5 +219,10 @@ mem_age_groups_full <- c("< 1 years", "1-4 years", "5-14 years", "15-44 years",
 euromomo_mem_age_groups <- c("0-4", "5-14", "15-64", "65+", "All Ages")
 euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years",
                                   "65+ years", "All Ages")
+
+#Equality seasons
+
+equality_seasons <- unique(Admissions_Ethnicity$Season) %>%
+  tail(2)
 
 
