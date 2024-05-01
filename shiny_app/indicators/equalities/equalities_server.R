@@ -13,7 +13,7 @@ altTextServer("equalities_admission_modal",
 
 
 # Plots ----
-observeEvent(input$equalities_select_indicator | input$equalities_select_pathogen, {
+#observeEvent(input$equalities_select_indicator | input$equalities_select_pathogen, {
 
 output$equalities_admission_plot <- renderPlotly ({
 
@@ -21,14 +21,14 @@ output$equalities_admission_plot <- renderPlotly ({
   if(input$equalities_select_indicator == "Ethnicity"){
 
     Admissions_Ethnicity %>%
-      filter(Pathogen = input$equalities_select_pathogen,
+      filter(Pathogen == input$equalities_select_pathogen,
              Season %in% equality_seasons) %>%
       make_equalities_admission_ethnicity_plot()
 
   } else {
 
     Admissions_Simd %>%
-      filter(Pathogen = input$equalities_select_pathogen,
+      filter(Pathogen == input$equalities_select_pathogen,
              Season %in% equality_seasons) %>%
       make_equalities_admission_simd_plot()
 
@@ -36,6 +36,6 @@ output$equalities_admission_plot <- renderPlotly ({
 
 })
 
-})
+#})
 
 

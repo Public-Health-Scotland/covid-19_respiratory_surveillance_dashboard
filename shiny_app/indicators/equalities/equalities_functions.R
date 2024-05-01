@@ -47,8 +47,8 @@ make_equalities_admission_simd_plot <- function(data){
   xaxis_plots[["title"]] <- "Proportion of admissions"
 
   # Adding slider
-  xaxis_plots[["rangeslider"]] <- list(type = "date")
-  yaxis_plots[["fixedrange"]] <- FALSE
+  #xaxis_plots[["rangeslider"]] <- list(type = "date")
+  #yaxis_plots[["fixedrange"]] <- FALSE
 
   p <- plot_ly(data) %>%
     add_trace(x = ~Proportion, y = ~SIMD,
