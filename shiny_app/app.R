@@ -226,7 +226,7 @@ ui <- fluidPage(
                                        "symptoms. Mycoplasma pneumoniae is most frequently seen in school-age children ",
                                        "and young adults, but individuals of any age may be infected. Infections peak in ",
                                        "winter, usually between late December and February, but Mycoplasma pneumoniae ",
-                                       "circulates throughout the year."), 
+                                       "circulates throughout the year."),
                                      linebreaks(1),
                                      radioGroupButtons("mycoplasma_pneumoniae_select", status = "home",
                                                        choices = c("Infection levels", "CARI community surveillance"),
@@ -324,6 +324,16 @@ ui <- fluidPage(
                column(12, source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
       ),#tabPanel
 
+     ##############################################.
+     # EQUALITIES ----
+     ##############################################.
+     tabPanel(title ="Equalities",
+              # Look at https://fontawesome.com/search?m=free for icons
+              icon = icon_no_warning_fn("virus"),
+              value = "equalities",
+              column(12, source(file.path("indicators/equalities/equalities_ui.R"), local = TRUE)$value)
+     ),#tabPanel
+
 
       ##############################################.
       # METADATA ----
@@ -413,13 +423,13 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_cari_server.R"), local = TRUE)$value
-  
+
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 
   source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_server.R"), local = TRUE)$value
   source(file.path("indicators/syndromic_surveillance/gp/gp_server.R"), local = TRUE)$value
-  
+
   auto_invalidate <- reactiveTimer(10000)
   observe({
     auto_invalidate()
