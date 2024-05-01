@@ -390,6 +390,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
   source(file.path("indicators/mortality/euromomo/euromomo_functions.R"), local = TRUE)$value
+  source(file.path("indicators/equalities/equalities_functions.R"), local = TRUE)$value
 
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
@@ -429,6 +430,8 @@ server <- function(input, output, session) {
 
   source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_server.R"), local = TRUE)$value
   source(file.path("indicators/syndromic_surveillance/gp/gp_server.R"), local = TRUE)$value
+
+  source(file.path("indicators/equalities/equalities_server.R"), local = TRUE)$value
 
   auto_invalidate <- reactiveTimer(10000)
   observe({
