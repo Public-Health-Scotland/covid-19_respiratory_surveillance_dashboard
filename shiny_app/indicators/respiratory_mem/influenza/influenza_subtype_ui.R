@@ -20,7 +20,7 @@ tagList(
                                                   label = glue("Select subtype"),
                                                   choices = {Respiratory_Summary_Factor %>%
                                                       filter(FluOrNonFlu == "flu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
-                                                      arrange(Breakdown) %>%
+                                                      arrange(desc(Breakdown) )%>% # makes drop down default to match value box at top of tab
                                                       .$Breakdown %>% unique() %>% as.character()}),
                                       withNavySpinner(valueBoxOutput("respiratory_headline_figures_subtype_count", width = NULL))
                                     )
@@ -111,7 +111,8 @@ tagList(
                                        column(6, pickerInput("respiratory_select_subtype",
                                                              label = glue("Select which subtype you would like to see"),
                                                              choices = {Respiratory_AllData %>%
-                                                                 filter(FluOrNonFlu == "flu" & !is.na(Organism)) %>% arrange(Organism) %>%
+                                                                 filter(FluOrNonFlu == "flu" & !is.na(Organism)) %>% 
+                                                               arrange(desc(Organism)) %>%  # makes drop down default to match value box at top of tab
                                                                  filter(!(FluOrNonFlu == "flu" & Organism == "Total")) %>%.$Organism %>% unique() %>% as.character()}) # pickerInput
                                        ) # column
                                      ), # fluidRow

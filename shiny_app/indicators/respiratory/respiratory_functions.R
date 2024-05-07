@@ -135,9 +135,16 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
     legend_title_name <- "Subtype"
     }
 
-  data %<>% arrange(Date, Organism) %>%
-    # Need to apply factor again to drop out the levels not present in this selection
-    mutate(Organism = factor(Organism))
+    # Define custom order for "Organism" levels (makes legend same order as dropdowns in other charts)
+  subtype_order <- c("Influenza - Type A or B",
+                    "Influenza - Type B",
+                    "Influenza - Type A (not subtyped)",
+                    "Influenza - Type A(H3)",
+                    "Influenza - Type A(H1N1)pdm09",
+                    "Influenza - Type A (any subtype)")
+  
+  # Reorder the levels of "Organism" in descending order
+  data$Organism <- factor(data$Organism, levels = subtype_order)
 
   xaxis_plots[["title"]] <- "Week ending"
   yaxis_plots[["title"]] <- y_axis_title
