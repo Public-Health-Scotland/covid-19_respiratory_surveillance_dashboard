@@ -449,6 +449,16 @@ tagList(h1("Metadata"),
                            href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-deaths-registered-in-scotland")
                   ))),
 
+                #### EQUALITIES PANEL ----
+                bsCollapsePanel("Equalities",
+
+                                h4("Equalities"),
+                                p("Equalities metadata here............."),
+                                p(strong("Source:",
+                                         tags$a("National Records of Scotland (NRS)",
+                                                href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-deaths-registered-in-scotland")
+                                ))),
+
 
                 #### GLOSSARY PANEL ----
                 bsCollapsePanel("Glossary",
