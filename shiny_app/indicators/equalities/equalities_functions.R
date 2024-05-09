@@ -20,7 +20,6 @@ make_equalities_admission_ethnicity_plot <- function(data){
               color=~Season,
               colors=phs_colours(c("phs-blue", "phs-purple")),
               hovertemplate = paste0('<b>Ethnicity</b>: %{y}<br>',
-                                     '<b>Season</b>: %{text}<br>',
                                      '<b>Proportion</b>: %{x}')
     ) %>%
     layout(margin = list(b = 100, t = 5),
