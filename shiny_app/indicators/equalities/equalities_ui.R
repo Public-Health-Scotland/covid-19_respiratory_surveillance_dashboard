@@ -4,8 +4,11 @@ tagList(
            metadataButtonUI("equalities"),
            # linebreaks(1),
            h1("Equalities"),
-           p("Paragraph about equalities here."),
-           #             "More information on NHS24 can be found…"),
+           p("This tab offers insights into the distribution of cases and acute hospital admissions for the selected pathogen,",
+             "comparing current and previous seasons. Data is broken down by ethnic group and deprivation",
+             "quintile (as measured by the Scottish Index of Multiple Deprivation – SIMD).",
+             "From May 2024, PHS has updated its methodology for recording the ethnic groups",
+             "of individuals using a more comprehensive lookup. All previous analyses have been archived."),
            linebreaks(1)
   ),
 
@@ -32,12 +35,12 @@ tagList(
                                            altTextUI("equalities_admission_modal"),
                                            withNavySpinner(plotlyOutput("equalities_admission_plot")),
                                            fluidRow(
-                                             width=12, linebreaks(5))))
-                          #tabPanel("Data",
-                          #         tagList(
-                          #           withNavySpinner(dataTableOutput("reported_cases_table"))
-                          #         ) # tagList
-                          #) # tabPanel
+                                             width=12, linebreaks(5)))),
+                          tabPanel("Data",
+                                   tagList(
+                                     withNavySpinner(dataTableOutput("equalities_admission_table"))
+                                   ) # tagList
+                          ) # tabPanel
                    ) # tabBox
            ) # tagList
   ) #fluidrow

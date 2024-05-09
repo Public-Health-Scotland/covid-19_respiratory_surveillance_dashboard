@@ -1,4 +1,10 @@
 
+metadataButtonServer(id="equalities",
+                     panel="Equalities",
+                     parent = session)
+
+
+
 altTextServer("equalities_admission_modal",
               title = "Equalities admissions",
               content = tags$ul(tags$li("This is a plot of the number of reported COVID-19 cases each week."),
@@ -37,5 +43,28 @@ output$equalities_admission_plot <- renderPlotly ({
 })
 
 #})
+
+#Data tables ----
+
+output$equalities_admission_table <- renderDataTable({
+
+  if(input$equalities_select_indicator == "Ethnicity"){
+
+    Admissions_Ethnicity %>%
+      filter(Pathogen == input$equalities_select_pathogen) %>%
+      select(Season, Pathogen, EthnicGroup, Proportion) %>%
+      dplyr::rename('Ethnic Group' = EthnicGroup) %>%
+      arrange(desc(Season)) %>%
+      make_table(add_separator_cols_2dp = 4)
+  } else {
+
+    Admissions_Simd %>%
+      filter(Pathogen == input$equalities_select_pathogen) %>%
+      select(Season, Pathogen, SIMD, Proportion) %>%
+      arrange(desc(Season)) %>%
+      make_table(add_separator_cols_2dp = 4)
+  }
+
+})
 
 
