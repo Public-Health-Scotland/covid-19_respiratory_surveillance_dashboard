@@ -453,11 +453,23 @@ tagList(h1("Metadata"),
                 bsCollapsePanel("Equalities",
 
                                 h4("Equalities"),
-                                p("Equalities metadata here............."),
-                                p(strong("Source:",
-                                         tags$a("National Records of Scotland (NRS)",
-                                                href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-deaths-registered-in-scotland")
-                                ))),
+                                p("Distribution of COVID-19, Influenza and RSV cases and acute hospital admissions by ethnic group and deprivation (Scottish Index of Multiple Deprivation)."),
+                                p("Please refer to COVID-19, Influenza or RSV metadata for definitions of cases and acute hospital admissions."),
+                                br(),
+                                h4("Ethnic group"),
+                                p("Ethnicity data are sourced from various NHS hospital activity datasets (SMR00, SMR01, SMR04, Rapid Preliminary Inpatient Data (RAPID) and A&E),",
+                                  "Case Management System (CMS) and Electronic Communication of Surveillance in Scotland (ECOSS)."),
+                                p("High level ethnicity groupings are presented as: White, Mixed or multiple ethnic groups, Asian, Asian Scottish or Asian British, African, Caribbean or Black, Other and Unknown."),
+                                br(),
+                                h4("Scottish Index of Multiple Deprivation (SIMD)"),
+                                p("People have been allocated to different levels of deprivation based on the small area (data zone) in which they live and the ",
+                                  tags$a("Scottish Index of Multiple Deprivation (SIMD) (external website)", href="https://simd.scot/#/simd2020/BTTTFTT/9/-4.0000/55.9000/"),
+                                  " score for that area. SIMD scores are based on data for 38 indicators covering seven topic areas: income, employment, health, education, skills and training, housing, geographic access, and crime."),
+                                p("The SIMD identifies deprived areas, not deprived individuals."),
+                                p("In this tool we have presented results for people living in different SIMD ‘quintiles’. To produce quintiles, data zones are ranked by their SIMD score then the areas each containing a fifth (20%)
+                                  of the overall population of Scotland are identified. People living in the most and least deprived areas that each contain a fifth of the population are assigned to SIMD quintile 1 and 5 respectively."),
+                                p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); UK Government self-reported / NSS Portal | Rapid and Preliminary Inpatient Data (RAPID)")
+                                )),
 
 
                 #### GLOSSARY PANEL ----
