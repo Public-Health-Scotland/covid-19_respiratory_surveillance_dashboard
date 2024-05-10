@@ -35,7 +35,7 @@ tagList(
                                            altTextUI("equalities_admission_modal"),
                                            withNavySpinner(plotlyOutput("equalities_admission_plot")),
                                            fluidRow(
-                                             width=12, linebreaks(5)))),
+                                             width=12, linebreaks(1)))),
                           tabPanel("Data",
                                    tagList(
                                      withNavySpinner(dataTableOutput("equalities_admission_table"))
