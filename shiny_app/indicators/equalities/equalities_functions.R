@@ -7,7 +7,7 @@ make_equalities_admission_ethnicity_plot <- function(data){
    # arrange(desc(WeekEnding)) %>%
    # mutate(WeekEnding = convert_opendata_date(WeekEnding))
 
-  yaxis_plots[["title"]] <- "Ethnicity"
+  yaxis_plots[["title"]] <- ""
   xaxis_plots[["title"]] <- "Proportion of admissions"
 
   # Adding slider
@@ -22,7 +22,7 @@ make_equalities_admission_ethnicity_plot <- function(data){
               hovertemplate = paste0('<b>Ethnicity</b>: %{y}<br>',
                                      '<b>Proportion</b>: %{x}')
     ) %>%
-    layout(margin = list(b = 100, t = 5),
+    layout(margin = list(b = 100, t = 5, l = 150),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
            legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
@@ -42,7 +42,7 @@ make_equalities_admission_simd_plot <- function(data){
   # arrange(desc(WeekEnding)) %>%
   # mutate(WeekEnding = convert_opendata_date(WeekEnding))
 
-  yaxis_plots[["title"]] <- "SIMD"
+  yaxis_plots[["title"]] <- ""
   xaxis_plots[["title"]] <- "Proportion of admissions"
 
   # Adding slider
@@ -58,7 +58,7 @@ make_equalities_admission_simd_plot <- function(data){
                                      '<b>Season</b>: %{text}<br>',
                                      '<b>Proportion</b>: %{x}')
     ) %>%
-    layout(margin = list(b = 100, t = 5),
+    layout(margin = list(b = 100, t = 5, l = 150),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
            legend = list(xanchor = "center", yanchor = "top", x = 0.5, y = -0.6, orientation = 'h'),
            paper_bgcolor = phs_colours("phs-liberty-10"),
