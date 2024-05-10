@@ -21,6 +21,9 @@ g_admissions_simd <- i_admissions_equalities %>%
   select(chi, Pathogen, Season, Week, Year, simd2020v2_sc_quintile) %>%
   dplyr::rename(CHI = chi,
                 SIMD = simd2020v2_sc_quintile) %>%
+  mutate(SIMD = as.character(SIMD),
+         SIMD = recode(SIMD, "1" = "1 (most deprived)", "5" = "5 (least deprived)"),
+         SIMD = ifelse(is.na(SIMD), "Unknown", SIMD)) %>%
   group_by(Season, Pathogen, SIMD) %>%
   summarise(Admissions = n())
 
