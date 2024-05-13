@@ -18,6 +18,11 @@ altTextServer("equalities_admission_modal",
 )
 
 
+output$equalities_admission_plot_title <- renderUI({h2(glue("Pecentage of ",tolower(input$equalities_select_pathogen),
+                                                            " hospital admissions by ",
+                                                        tolower(input$equalities_select_indicator)))})
+
+
 # Plots ----
 #observeEvent(input$equalities_select_indicator | input$equalities_select_pathogen, {
 
@@ -53,7 +58,8 @@ output$equalities_admission_table <- renderDataTable({
     Admissions_Ethnicity %>%
       filter(Pathogen == input$equalities_select_pathogen) %>%
       select(Season, Pathogen, EthnicGroup, Proportion) %>%
-      dplyr::rename('Ethnic Group' = EthnicGroup) %>%
+      dplyr::rename('Ethnic Group' = EthnicGroup,
+                    'Percentage (%)' = Proportion) %>%
       arrange(desc(Season)) %>%
       make_table(add_separator_cols_2dp = 4)
   } else {
@@ -61,6 +67,8 @@ output$equalities_admission_table <- renderDataTable({
     Admissions_Simd %>%
       filter(Pathogen == input$equalities_select_pathogen) %>%
       select(Season, Pathogen, SIMD, Proportion) %>%
+      dplyr::rename('Deprivation quintile' = SIMD,
+                    'Percentage (%)' = Proportion) %>%
       arrange(desc(Season)) %>%
       make_table(add_separator_cols_2dp = 4)
   }

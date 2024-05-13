@@ -21,13 +21,13 @@ tagList(
            ), # column
            column(6, pickerInput("equalities_select_indicator",
                                  label = "Select indicator",
-                                 choices = c("Ethnicity", "SIMD"),
+                                 choices = c("Ethnicity", "Deprivation quintile (SIMD)"),
                                  selected = "Ethnicity") # pickerInput
            )
   ),
 
   fluidRow(width = 12,
-           tagList(h2("Equalities admissions"),
+           tagList(uiOutput("equalities_admission_plot_title"),
                    tabBox(width = NULL,
                           type = "pills",
                           tabPanel("Plot",
