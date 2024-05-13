@@ -3,24 +3,26 @@
 make_equalities_admission_ethnicity_plot <- function(data){
 
 
-  #data %<>%
+  data %<>%
    # arrange(desc(WeekEnding)) %>%
-   # mutate(WeekEnding = convert_opendata_date(WeekEnding))
+    mutate(Proportion = round_half_up(Proportion,2))
 
   yaxis_plots[["title"]] <- ""
-  xaxis_plots[["title"]] <- "Proportion of admissions"
+  xaxis_plots[["title"]] <- "Percentage of admissions (%)"
 
   # Adding slider
  # xaxis_plots[["rangeslider"]] <- list(type = "date")
  # yaxis_plots[["fixedrange"]] <- FALSE
+
 
   p <- plot_ly(data) %>%
     add_trace(x = ~Proportion, y = ~EthnicGroup,
               type="bar", orientation = "h",
               color=~Season,
               colors=phs_colours(c("phs-blue", "phs-purple")),
-              hovertemplate = paste0('<b>Ethnicity</b>: %{y}<br>',
-                                     '<b>Proportion</b>: %{x}')
+              hovertemplate = ~paste0('<b>Season</b>:', Season, "<br>",
+                                      '<b>Ethnic Group</b>: %{y}<br>',
+                                      '<b>Percentage (%)</b>: %{x}')
     ) %>%
     layout(margin = list(b = 100, t = 5, l = 150),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
@@ -38,12 +40,13 @@ make_equalities_admission_ethnicity_plot <- function(data){
 make_equalities_admission_simd_plot <- function(data){
 
 
-  #data %<>%
+  data %<>%
   # arrange(desc(WeekEnding)) %>%
-  # mutate(WeekEnding = convert_opendata_date(WeekEnding))
+  mutate(Proportion = round_half_up(Proportion,2))
+
 
   yaxis_plots[["title"]] <- ""
-  xaxis_plots[["title"]] <- "Proportion of admissions"
+  xaxis_plots[["title"]] <- "Percentage of admissions (%)"
 
   # Adding slider
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
@@ -54,9 +57,9 @@ make_equalities_admission_simd_plot <- function(data){
               type="bar", orientation = "h",
               color=~Season,
               colors=phs_colours(c("phs-blue", "phs-purple")),
-              hovertemplate = paste0('<b>SIMD</b>: %{y}<br>',
-                                     '<b>Season</b>: %{text}<br>',
-                                     '<b>Proportion</b>: %{x}')
+              hovertemplate = ~paste0('<b>Season</b>:', Season, "<br>",
+                                      '<b>Deprivation quintile</b>: %{y}<br>',
+                                      '<b>Percentage (%)</b>: %{x}')
     ) %>%
     layout(margin = list(b = 100, t = 5, l = 150),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
