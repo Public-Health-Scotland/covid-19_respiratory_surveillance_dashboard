@@ -7,13 +7,17 @@ metadataButtonServer(id="equalities",
 
 altTextServer("equalities_admission_modal",
               title = "Equalities admissions",
-              content = tags$ul(tags$li("This is a plot of the number of reported COVID-19 cases each week."),
-                                tags$li("The x axis is the week ending date"),
-                                tags$li("The y axis is the number of reported cases"),
-                                tags$li("There is a navy blue trace which shows the number of reported cases each week."),
-                                tags$li("There are two vertical lines: the first denotes that prior to 5 Jan 2022 ",
-                                        "reported cases are PCR only, and since then they include PCR and LFD cases; ",
-                                        "the second marks the change in testing policy on 1 May 2022.")
+              content = tags$ul(tags$li("This is a plot of the percentage of hospital admissions by selected indicator (ethnic group or deprivation quintile)",
+                                        "for the selected pathogen (COVID-19, influenza or RSV)."),
+                                tags$li("There is two drop downs above the chart, the left one allows you to select",
+                                        "a pathogen for plotting, the right one allows you to select an indicator.",
+                                        "The default selection is COVID-19 and ethnic group"),
+                                tags$li("The x axis is the percentage of admissions"),
+                                tags$li("The y axis is the groupings for the selected indicator"),
+                                tags$li("The plot is a horizontal bar chart for each indicator grouping, where there",
+                                        "are two bars that correspond to last and the current season."),
+                                tags$li("There is a blue bar which shows the percentage of hospital admissions for the latest season."),
+                                tags$li("There is a purple bar which shows the percentage of admissions for the current season.")
               )
 )
 
