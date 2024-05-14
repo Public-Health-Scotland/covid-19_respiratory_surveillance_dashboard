@@ -150,6 +150,9 @@ source("Transfer Scripts/transfer_los.R")
 ##### Winter CIS (Bi-weekly)
  source("Transfer Scripts/transfer_winter_cis.R")
 
+##### Equalities (Twice-yearly)
+source("Transfer Scripts/transfer_equalities.R")
+
 #### Care Homes ( first part not working, moved time series to separate script)
 # archived until further notice
 #source("Transfer Scripts/transfer_carehomes.R")
