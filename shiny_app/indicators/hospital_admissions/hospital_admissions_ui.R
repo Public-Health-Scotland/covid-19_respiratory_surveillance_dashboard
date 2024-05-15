@@ -93,7 +93,7 @@ tagList(
                            ),
 
                            tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
-                                   h4(strong("These data will next be updated in May 2024.")),
+                                   h4(strong("These data will next be updated in June 2024.")),
                                    tabBox(width = NULL, type = "pills",
                                           tabPanel("Plot",
                                                    tagList(
