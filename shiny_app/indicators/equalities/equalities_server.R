@@ -21,11 +21,38 @@ altTextServer("equalities_admission_modal",
               )
 )
 
+observeEvent(input$equalities_select_pathogen,{
+  observeEvent(input$equalities_select_indicator,{
 
-output$equalities_admission_plot_title <- renderUI({h2(glue("Pecentage of ",tolower(input$equalities_select_pathogen),
+pathogen_selection <- input$equalities_select_pathogen
+indicator_selection <- input$equalities_select_indicator
+
+if (input$equalities_select_pathogen %in% c("COVID-19", "RSV")) {
+  pathogen_selection <- pathogen_selection
+
+}else{
+
+  pathogen_selection <- tolower(pathogen_selection)
+}
+
+output$equalities_admission_plot_title <- renderUI({h2(glue("Pecentage of ",{pathogen_selection},
                                                             " hospital admissions by ",
                                                         tolower(input$equalities_select_indicator)))})
 
+if (input$equalities_select_indicator == "Ethnicity") {
+  indicator_selection <- tolower(indicator_selection)
+
+}else{
+
+  indicator_selection <- "deprivation quintile (SIMD)"
+}
+
+output$equalities_admission_plot_title <- renderUI({h2(glue("Pecentage of ",{pathogen_selection},
+                                                            " hospital admissions by ",
+                                                            {indicator_selection}))})
+
+})
+})
 
 # Plots ----
 #observeEvent(input$equalities_select_indicator | input$equalities_select_pathogen, {
