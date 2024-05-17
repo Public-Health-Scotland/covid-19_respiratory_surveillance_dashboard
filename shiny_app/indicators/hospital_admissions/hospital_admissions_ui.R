@@ -64,53 +64,53 @@ tagList(
                                         withNavySpinner(dataTableOutput("hospital_admissions_hb_table"))),
                            ),
 
-                           tagList(h2("Weekly number of acute COVID-19 hospital admissions by deprivation category (SIMD)"))
+                           #tagList(h2("Weekly number of acute COVID-19 hospital admissions by deprivation category (SIMD)"))
 
                            ),
                            br(),
 
-                           tabBox(width = NULL, type = "pills",
-                                  tabPanel("Plot",
-                                           tagList(
-                                             linebreaks(1),
-                                             altTextUI("hospital_admissions_simd_modal"),
-                                             actionButton("btn_modal_simd",
-                                                          label = "What is SIMD?",
-                                                          class = "simd-btn",
-                                                          icon = icon_no_warning_fn("circle-question")
-                                             ),
-                                             withNavySpinner(
-                                               plotlyOutput("hospital_admissions_simd_plot"))
-                                            )
-                                           ),
-                                  tabPanel("Data",
-                                           tagList(
-                                             withNavySpinner(
-                                               dataTableOutput("hospital_admissions_simd_table"))
-                                            )
-                                           )
+                           # tabBox(width = NULL, type = "pills",
+                           #        tabPanel("Plot",
+                           #                 tagList(
+                           #                   linebreaks(1),
+                           #                   altTextUI("hospital_admissions_simd_modal"),
+                           #                   actionButton("btn_modal_simd",
+                           #                                label = "What is SIMD?",
+                           #                                class = "simd-btn",
+                           #                                icon = icon_no_warning_fn("circle-question")
+                           #                   ),
+                           #                   withNavySpinner(
+                           #                     plotlyOutput("hospital_admissions_simd_plot"))
+                           #                  )
+                           #                 ),
+                           #        tabPanel("Data",
+                           #                 tagList(
+                           #                   withNavySpinner(
+                           #                     dataTableOutput("hospital_admissions_simd_table"))
+                           #                  )
+                           #                 )
+                           #
+                           # ),
 
-                           ),
-
-                           tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
-                                   h4(strong("These data will next be updated in May 2024.")),
-                                   tabBox(width = NULL, type = "pills",
-                                          tabPanel("Plot",
-                                                   tagList(
-                                                     linebreaks(1),
-                                                     altTextUI("hospital_admissions_ethnicity_modal"),
-                                                     withNavySpinner(
-                                                       plotlyOutput("hospital_admissions_ethnicity_plot")
-                                                     )
-                                                   )
-                                          ),
-                                          tabPanel("Data",
-                                                   withNavySpinner(
-                                                     dataTableOutput("hospital_admissions_ethnicity_table")
-                                                   )
-                                          ) # tabpanel
-                                   ) # tabbox
-                           ),
+                           # tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
+                           #         h4(strong("These data will next be updated in May 2024.")),
+                           #         tabBox(width = NULL, type = "pills",
+                           #                tabPanel("Plot",
+                           #                         tagList(
+                           #                           linebreaks(1),
+                           #                           altTextUI("hospital_admissions_ethnicity_modal"),
+                           #                           withNavySpinner(
+                           #                             plotlyOutput("hospital_admissions_ethnicity_plot")
+                           #                           )
+                           #                         )
+                           #                ),
+                           #                tabPanel("Data",
+                           #                         withNavySpinner(
+                           #                           dataTableOutput("hospital_admissions_ethnicity_table")
+                           #                         )
+                           #                ) # tabpanel
+                           #         ) # tabbox
+                           # ),
 
                            tagList(h2("Length of stay of acute COVID-19 hospital admissions"),
                                    tags$div(class = "headline",
