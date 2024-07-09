@@ -30,7 +30,8 @@ tagList(
                                       pickerInput("respiratory_headline_healthboard",
                                                   label = "Select a NHS Health Board",
                                                   choices = {Respiratory_HB %>%
-                                                      .$HBName %>% unique() %>% sort()}
+                                                      .$HBName %>% unique() %>% sort()},
+                                                  selected = "Scotland"
                                       ),  # pickerInput
                                       withNavySpinner(valueBoxOutput("respiratory_headline_figures_healthboard_count", width = NULL))
                                     ) # tagList
@@ -111,7 +112,7 @@ tagList(
                                        column(6, pickerInput("respiratory_select_subtype",
                                                              label = glue("Select which subtype you would like to see"),
                                                              choices = {Respiratory_AllData %>%
-                                                                 filter(FluOrNonFlu == "flu" & !is.na(Organism)) %>% 
+                                                                 filter(FluOrNonFlu == "flu" & !is.na(Organism)) %>%
                                                                arrange(desc(Organism)) %>%  # makes drop down default to match value box at top of tab
                                                                  filter(!(FluOrNonFlu == "flu" & Organism == "Total")) %>%.$Organism %>% unique() %>% as.character()}) # pickerInput
                                        ) # column
