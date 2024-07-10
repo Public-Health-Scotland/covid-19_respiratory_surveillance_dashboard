@@ -25,7 +25,7 @@ output$introduction_about <- renderUI({
           p("Please note that release of information involving small numbers carries a risk that individuals could be identified.",
             "We have carefully considered and assessed these risks, taking steps to reduce them as much as possible,",
             "and balancing them with the need to release useful information."),
-          p(glue("This dashboard was last updated on {Deployment_Date}.")),
+          p(glue("This dashboard was last updated on {Deployment_Date} to include data up to {data_recent_date}.")),
           br(),
 
           fluidRow(
