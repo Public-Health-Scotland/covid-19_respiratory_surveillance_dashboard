@@ -220,4 +220,7 @@ euromomo_mem_age_groups <- c("0-4", "5-14", "15-64", "65+", "All Ages")
 euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years",
                                   "65+ years", "All Ages")
 
+# Set date data goes up to - previous Sunday
+data_recent_date <- floor_date(today(), "week") %>% format("%d %B %Y")
+
 
