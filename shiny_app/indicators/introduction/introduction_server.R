@@ -7,6 +7,7 @@ observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", sele
 #observeEvent(input$jump_to_hospital_occupancy, {updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
 #observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "respiratory")})
 observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "repiratory_pathogens")})
+observeEvent(input$jump_to_wastewater, {updateTabsetPanel(session, "intabset", selected = "wastewater")})
 observeEvent(input$jump_to_syndromic, {updateTabsetPanel(session, "intabset", selected = "syndromic_surveillance")})
 observeEvent(input$jump_to_mortality, {updateTabsetPanel(session, "intabset", selected = "mortality")})
 observeEvent(input$jump_to_metadata, {updateTabsetPanel(session, "intabset", selected = "metadata")})
@@ -40,6 +41,13 @@ output$introduction_about <- renderUI({
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_respiratory", "Respiratory pathogens"))),
             column(8, p("This section contains trend information for a range of viral respiratory infections
+                        in Scotland."))),
+          br(),
+          
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_wastewater", "Wastewater"))),
+            column(8, p("This section contains trend information for COVID-19 wastewater sureveillance 
                         in Scotland."))),
           br(),
 
