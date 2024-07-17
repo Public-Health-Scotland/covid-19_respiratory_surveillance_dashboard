@@ -406,6 +406,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
   source(file.path("indicators/mortality/euromomo/euromomo_functions.R"), local = TRUE)$value
+  source(file.path("indicators/wastewater/wastewater_functions.R"), local = TRUE)$value
 
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
