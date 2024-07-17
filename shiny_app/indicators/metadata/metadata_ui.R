@@ -389,6 +389,30 @@ tagList(h1("Metadata"),
                                    br()
 
                    ),
+                   
+                   
+                   #### WASTEWATER ----
+                   bsCollapsePanel("Wastewater",
+                                   
+                                   # Infection Levels ----
+                                   #h4("Wastewater"),
+                                   p("In June 2020, Scottish Government, in partnership with Scottish Environment Protection Agency (SEPA), established a national Wastewater
+                                     Monitoring Programme for COVID-19 in Scotland. This surveillance system detects fragments, known as ribonucleic acid (RNA), of the
+                                     SARS-CoV-2 virus genome, from wastewater samples. "),
+                                   p("In contrast to COVID-19 case records, virus shedding into wastewater is a biological process, meaning wastewater data is unaffected
+                                     by factors that impact whether testing is done. Sewage samples are taken by Scottish Water from 116 sample sites across Scotland
+                                     from the sewage network (wastewater treatment works). Composite samples are built up over a period of time. The amount of unique
+                                     fragments of viral DNA within known volumes of the sample is calculated, outputting a number which can be used to calculate the
+                                     number of COVID markers in each sample which is reported as million gene copies per litre (Mgc/p/d). Samples are representative of
+                                     wastewater from between 70-80% of the Scottish population.  Site level wastewater level can show substantial degree of variability,
+                                     especially when prevalence of COVID-19 is high. An average and standard deviation is taken for three samples. Household drainage water
+                                     is mixed with water from other urban sources, meaning composite samples will contain rainwater which dilutes the sample. Therefore,
+                                     this variability is accounted for by controlling for rainfall."),
+                                   p(strong("Source: Wastewater data analyses for COVID-19 are produced by PHS Wastewater Analysis Group for the Wastewater Monitoring Programme
+                                            in Scotland, which is operated by Scottish Government in partnership with Scottish Water and the Scottish Environment Protection Agency.")),
+                                   br()
+                                   
+                   ),
 
                    #### SYNDROMIC SURVEILLANCE PANEL ----
                    bsCollapsePanel("Syndromic Surveillance",
