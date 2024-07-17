@@ -5,7 +5,9 @@ i_national=  read_excel_with_options(glue(input_data, "wastewater_{format(report
 
 g_national <- i_national %>% 
   rename(Date = Date7DayEnding,
-         average = WWAvgMgc)
+         average = WWAvgMgc) %>%
+  mutate(Date = format(Date, "%Y%m%d"),
+         average = round_half_up(average,2))
 
 write_csv(g_national,
           glue(output_folder, "COVID_Wastewater_National_table.csv"))
