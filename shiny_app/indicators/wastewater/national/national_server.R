@@ -11,8 +11,8 @@ table_content <- data.frame(
   "Current_Week_Ending" = round(COVID_Wastewater_National_table %>% tail(1) %>% .$average,2)
 )
 
-colnames(table_content)[2] = glue("{(COVID_Wastewater_National_table %>% tail(8) %>% .$Date)[1] %>% format('%d %b %y')} ")
-colnames(table_content)[3] = glue("{COVID_Wastewater_National_table %>% tail(1) %>%.$Date %>% format('%d %b %y')}")
+colnames(table_content)[2] = glue("{(COVID_Wastewater_National_table %>% tail(8) %>% .$Date %>% convert_opendata_date())[1] %>% format('%d %b %y')} ")
+colnames(table_content)[3] = glue("{COVID_Wastewater_National_table %>% tail(1) %>%.$Date %>% convert_opendata_date() %>% format('%d %b %y')}")
 colnames(table_content) <- gsub("_", " ", colnames(table_content))
 
 output$wastewater_week_ending_table <- renderDataTable({
@@ -48,12 +48,14 @@ altTextServer("national_wastewater_modal",
 #wastewater plot
 output$national_wastewater_plot <- renderPlotly({
   COVID_Wastewater_National_table %>%
+    mutate(Date = convert_opendata_date(Date)) %>%
     make_national_wastewater_plot()
 
 })
 
 output$national_wastewater_table <- renderDataTable({
   COVID_Wastewater_National_table %>%
+    mutate(Date = convert_opendata_date(Date)) %>%
     dplyr::rename('7 day average (Mgc/p/d)' = average) %>%
     arrange(desc(Date)) %>%
     make_table(add_separator_cols_2dp = 2, order_by_firstcol = "desc",filter_cols = TRUE)
