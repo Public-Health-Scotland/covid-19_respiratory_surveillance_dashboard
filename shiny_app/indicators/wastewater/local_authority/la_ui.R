@@ -21,7 +21,7 @@ tagList(
                             altTextUI("CA_modal"),
                             withNavySpinner(plotlyOutput("council_area_plot")),
                             fluidRow(column(
-                              width=12, linebreaks(5),
+                              width=12, linebreaks(1),
                             )))),
            tabPanel("Data",
                     tagList(linebreaks(1),
@@ -30,7 +30,8 @@ tagList(
                             
                     )
            )
-    )
+    ),
+    linebreaks(1)
     
   )
 )#taglist

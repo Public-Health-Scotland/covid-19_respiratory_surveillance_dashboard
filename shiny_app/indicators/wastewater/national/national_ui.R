@@ -32,5 +32,7 @@ tagList(
 
                             withNavySpinner(dataTableOutput("national_wastewater_table"))
                     ) # tagList
-           )))
+           )),
+    linebreaks(1)
+    )
   )

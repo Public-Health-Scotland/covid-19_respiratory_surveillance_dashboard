@@ -29,7 +29,7 @@ tagList(
                             altTextUI("HB_modal"),
                             withNavySpinner(plotlyOutput("health_board_plot")),
                             fluidRow(column(
-                              width=12, linebreaks(5),
+                              width=12, linebreaks(1),
                             )))),
            tabPanel("Data",
                     tagList(linebreaks(1),
@@ -38,7 +38,8 @@ tagList(
                             
                     )
            )
-    )
+    ),
+    linebreaks(1)
     
   )
 )#taglist
