@@ -17,6 +17,7 @@ colnames(table_content) <- gsub("_", " ", colnames(table_content))
 
 output$wastewater_week_ending_table <- renderDataTable({
   datatable(table_content, rownames = FALSE,
+            style = 'bootstrap',
             options = list(
               dom = 't',  # Only show the table body
               paging = FALSE,  # Disable pagination

@@ -47,7 +47,7 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                               actionButton("jump_to_wastewater", "Wastewater"))),
-            column(8, p("This section contains trend information for COVID-19 wastewater sureveillance 
+            column(8, p("This section contains trend information for COVID-19 wastewater surveillance 
                         in Scotland."))),
           br(),
 
