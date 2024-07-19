@@ -42,8 +42,8 @@ altTextServer("national_wastewater_modal",
               title = "Seven day average trend in wastewater COVID-19",
               content = tags$ul(tags$li("This is a plot showing the running average trend in wastewater COVID-19."),
                                 tags$li("The x axis shows date of sample, starting from 28 May 2020."),
-                                tags$li("The y axis shows the wastewater viral level in million gene copies per person per day."),
-                                tags$li("There is one trace which shows the 7 day average of the watewater viral level."),
+                                tags$li("The y axis shows the wastewater COVID-19 viral level in million gene copies per person per day."),
+                                tags$li("There is one trace which shows the 7 day average of the watewater COVID-19 viral level."),
                                 tags$li("There have been peaks throughout the pandemic, notably in",
                                         "Sep 2021, Dec 2021, Mar 2022 and Jun 2022")))
 #wastewater plot
