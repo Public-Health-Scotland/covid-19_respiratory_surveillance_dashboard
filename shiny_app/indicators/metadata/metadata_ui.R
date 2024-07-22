@@ -395,7 +395,7 @@ tagList(h1("Metadata"),
                    bsCollapsePanel("Wastewater",
                                    
                                    # Infection Levels ----
-                                   #h4("Wastewater"),
+                                   h4("COVID-19"),
                                    p("In June 2020, Scottish Government, in partnership with Scottish Environment Protection Agency (SEPA), established a national Wastewater
                                      Monitoring Programme for COVID-19 in Scotland. This surveillance system detects fragments, known as ribonucleic acid (RNA), of the
                                      SARS-CoV-2 virus genome, from wastewater samples. "),
