@@ -15,7 +15,9 @@ output$council_area_plot =  renderPlotly({
       line = list(dash = 'solid', color = "#3F3685"),
       marker = list(color = "#3F3685"),
       name = input$selected_area,
-      text = ~paste("Week Ending Date:", End, "<br>Average (Mgc/p/d):", round(average, 2), "<br>Coverage:", paste0(round_half_up(coverage, 2)*100, "%")),
+      text = ~paste("Week Ending Date:", format(End, "%d %b %y"), 
+                    "<br>Average (Mgc/p/d):", round(average, 2), 
+                    "<br>Coverage:", paste0(round_half_up(coverage, 2)*100, "%")),
       hoverinfo = "text"
     ) %>%
     # Add the Scotland data
@@ -28,7 +30,9 @@ output$council_area_plot =  renderPlotly({
       line = list(dash = 'solid', color = "green"),  # Different style for Scotland
       marker = list(color = "green"),
       name = 'Scotland',
-      text = ~paste("Week Ending Date:", End, "<br>Scotland Average (Mgc/p/d):", round(average, 2), "<br>Scotland Coverage:", paste0(round_half_up(coverage, 2)*100, "%")),
+      text = ~paste("Week Ending Date:", format(End, "%d %b %y"), 
+                    "<br>Scotland Average (Mgc/p/d):", round(average, 2), 
+                    "<br>Scotland Coverage:", paste0(round_half_up(coverage, 2)*100, "%")),
       hoverinfo = "text"
     ) %>%
     layout(title = paste("COVID-19 wastewater viral RNA (Mgc/p/d) for", input$selected_area),
