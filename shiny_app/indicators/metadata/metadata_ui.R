@@ -11,36 +11,6 @@ tagList(h1("Metadata"),
                                    # Infection Levels ----
                                    h4("Infection Levels"),
 
-                                   # Estimated infections ----
-                                   h4("Estimated infections (winter covid infection survey)"),
-                                   p("The Office for National Statistics (ONS) publish results from the Winter COVID-19 Infection Survey which aims to estimate how many
-                                     people test positive for COVID-19 infection at a given point. The ONS survey results are Scotland’s current best understanding of
-                                     community population prevalence."),
-                                   p("The Winter COVID-19 Infection Study (WCIS) runs from November 2023 to March
-                                      2024, involving up to 200,000 participants across Scotland and England submitting
-                                      results from 32,000 lateral flow tests carried out each week. More information on this
-                                      study can be found at",
-                                     tags$a("Winter Coronavirus (COVID-19) Infection Study",
-                                            href="https://www.ons.gov.uk/surveys/informationforhouseholdsandindividuals/householdandindividualsurveys/wintercoronaviruscovid19infectionstudy"),
-                                     "."),
-                                   p("Further SARS-CoV-2 prevalence results are available in the UKHSA report on Winter
-                                      CIS, which can be found on their website",
-                                     tags$a("UKHSA Winter Coronavirus Infection Study",
-                                            href="https://www.gov.uk/government/statistics/winter-coronavirus-covid-19-infection-study-estimates-of-epidemiological-characteristics-england-and-scotland-2023-to-2024"),
-                                     "."),
-                                   p("The full publication for the Winter CIS results, including unweighted positivity figure as
-                                      well as further measures on age groups, sex, symptoms and self-reported health
-                                      outcomes, can be found on the ONS website",
-                                     tags$a("Winter Coronavirus Infection Study",
-                                            href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/datasets/wintercoronaviruscovid19infectionstudyenglandandscotland"),
-                                     "."),
-                                   p(strong("Source: The Office for National Statistics (ONS)")),
-                                   p("Please note, a",strong("confidence interval"), "gives an indication of the degree of uncertainty of an estimate, showing the precision of a sample estimate.
-                                     The 95% confidence intervals are calculated so that if we repeated the study many times, 95% of the time the true unknown value would lie between
-                                     the lower and upper confidence limits. A wider interval indicates more uncertainty in the estimate. Overlapping confidence intervals indicate that
-                                     there may not be a true difference between two estimates."),
-                                   br(),
-
                                    # Wastewater ----
                                    h4("Wastewater"),
                                    p("In June 2020, Scottish Government, in partnership with Scottish Environment Protection Agency (SEPA), established a national Wastewater
@@ -191,6 +161,36 @@ tagList(h1("Metadata"),
                                    p("For more details and further breakdowns on the Infection Survey please refer to",
                                      tags$a("Coronavirus (COVID-19) Infection Survey, UK - Office for National Statistics",
                                             href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/bulletins/coronaviruscovid19infectionsurveypilot/previousReleases"),
+                                     "."),
+                                   p(strong("Source: The Office for National Statistics (ONS)")),
+                                   p("Please note, a",strong("confidence interval"), "gives an indication of the degree of uncertainty of an estimate, showing the precision of a sample estimate.
+                                     The 95% confidence intervals are calculated so that if we repeated the study many times, 95% of the time the true unknown value would lie between
+                                     the lower and upper confidence limits. A wider interval indicates more uncertainty in the estimate. Overlapping confidence intervals indicate that
+                                     there may not be a true difference between two estimates."),
+                                   br(),
+
+                                   # Estimated infections (winter cis) ----
+                                   h4("Estimated infections (winter covid infection survey)"),
+                                   p("The Office for National Statistics (ONS) publish results from the Winter COVID-19 Infection Survey which aims to estimate how many
+                                     people test positive for COVID-19 infection at a given point. The ONS survey results are Scotland’s current best understanding of
+                                     community population prevalence."),
+                                   p("The Winter COVID-19 Infection Study (WCIS) runs from November 2023 to March
+                                      2024, involving up to 200,000 participants across Scotland and England submitting
+                                      results from 32,000 lateral flow tests carried out each week. More information on this
+                                      study can be found at",
+                                     tags$a("Winter Coronavirus (COVID-19) Infection Study",
+                                            href="https://www.ons.gov.uk/surveys/informationforhouseholdsandindividuals/householdandindividualsurveys/wintercoronaviruscovid19infectionstudy"),
+                                     "."),
+                                   p("Further SARS-CoV-2 prevalence results are available in the UKHSA report on Winter
+                                      CIS, which can be found on their website",
+                                     tags$a("UKHSA Winter Coronavirus Infection Study",
+                                            href="https://www.gov.uk/government/statistics/winter-coronavirus-covid-19-infection-study-estimates-of-epidemiological-characteristics-england-and-scotland-2023-to-2024"),
+                                     "."),
+                                   p("The full publication for the Winter CIS results, including unweighted positivity figure as
+                                      well as further measures on age groups, sex, symptoms and self-reported health
+                                      outcomes, can be found on the ONS website",
+                                     tags$a("Winter Coronavirus Infection Study",
+                                            href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/datasets/wintercoronaviruscovid19infectionstudyenglandandscotland"),
                                      "."),
                                    p(strong("Source: The Office for National Statistics (ONS)")),
                                    p("Please note, a",strong("confidence interval"), "gives an indication of the degree of uncertainty of an estimate, showing the precision of a sample estimate.
