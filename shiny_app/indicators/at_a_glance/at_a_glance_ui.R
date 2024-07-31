@@ -1,6 +1,6 @@
 tagList(
   fluidRow(width=12, h1("Viral respiratory diseases (including influenza and COVID-19) surveillance in Scotland"),
-           p(strong("The next release of this dashboard will be 11 July 2024.")),
+           p(strong("The next release of this dashboard will be 08 August 2024.")),
            linebreaks(1)), #fluidRow
 
   fluidRow(width = 12,
