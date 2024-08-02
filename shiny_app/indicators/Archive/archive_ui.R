@@ -38,8 +38,7 @@ tagList(
            linebreaks(1)),
 
   fluidRow(width = 12,
-           tagList(h2("Estimated COVID-19 infection rate"),
-                   h4("(ONS covid infection survey (November 2020 to March 2023))"),
+           tagList(h4("(ONS covid infection survey (November 2020 to March 2023))"),
                    p("The Office for National Statistics (ONS) published their",
                      tags$a(href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/bulletins/coronaviruscovid19infectionsurveypilot/24march2023", "final COVID-19 Infection Survey report (external website)",  target="_blank"), " on 24 March 2023."),
 #                   tags$div(class = "headline",
