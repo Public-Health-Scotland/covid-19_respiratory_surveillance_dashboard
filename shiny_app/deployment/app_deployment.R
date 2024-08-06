@@ -5,7 +5,7 @@
 # Source this file to deploy the app
 # Set this to TRUE to deploy for pre-release access (password protected)
 # Set this to FALSE to deploy to the public app
-pra <- FALSE
+pra <- TRUE
 
 # Get deployment functions
 source("shiny_app/deployment/deployment_functions.R")

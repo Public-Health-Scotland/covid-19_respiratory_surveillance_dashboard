@@ -27,17 +27,17 @@ hospital_admissions_download_choices <- list(
   "Weekly COVID-19 hospital admissions by age group" = "Admissions_AgeBD",
   "Length of stay of COVID-19 hospital admissions" = "Length_of_Stay",
   #"Daily COVID-19 admissions to ICU" = "ICU",
-  "Weekly COVID-19 admissions to ICU" = "ICU_weekly",
+  #"Weekly COVID-19 admissions to ICU" = "ICU_weekly",
   "Quarterly COVID-19 hospital admissions by ethnicity" = "Ethnicity",
-  "Weekly hospital admissions by SIMD" = "Admissions_SimdTrend" #, 
-  # added rsv and flu admissions, but not used at this time. 
+  "Weekly hospital admissions by SIMD" = "Admissions_SimdTrend" #,
+  # added rsv and flu admissions, but not used at this time.
   # Will need to add dictionaries if including these 2 files
   # "Weekly influenza hospital admissions" = "Influenza_admissions",
   # "Weekly RSV hospital admissions" = "RSV_admissions"
                                           )
 hospital_occupancy_download_choices <- list(
-  "Weekly COVID-19 hospital occupancy" = "Occupancy_Weekly_Hospital",
-  "Daily COVID-19 ICU occupancy" = "Occupancy_ICU"
+  "Weekly COVID-19 hospital occupancy" = "Occupancy_Weekly_Hospital"
+ # "Daily COVID-19 ICU occupancy" = "Occupancy_ICU"
 )
 vaccines_download_choices <- list(
   "Monthly vaccines administered and wasted" = "Vaccine_Wastage",
