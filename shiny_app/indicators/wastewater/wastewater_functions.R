@@ -40,3 +40,30 @@ make_national_wastewater_plot <- function(data){
 }
 
 
+create_wastewater_hb_map <- function(hb_data, site_data) {
+  
+  hb_map <- leaflet() %>% 
+    setView(lng = -4.3, lat = 57.7, zoom = 6.45) %>%
+    addProviderTiles("CartoDB.Positron") %>%
+    addPolygons(data = hb_data,
+                weight = 1, smoothFactor = 0.5, fillColor = '#3F3685',
+                opacity = 0.6, fillOpacity = 0.6, color = "black", dashArray = "0",
+                popup = ~paste0(
+                  "Week Ending Date: ", format(End, "%d %b %y"), "<br>",
+                  "Health board: ", health_board, "<br>",
+                  "Average (Mgc/p/d): ", round(average, 2), "<br>",
+                  "Coverage: ", paste0(round(coverage, 2)*100,"%")),
+                label = ~paste0("Healthboard: ", health_board),
+                labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
+                highlightOptions = highlightOptions(color = "#ECEBF3", weight = 2, bringToFront = TRUE),
+                group = "Health Boards") %>%
+    addCircleMarkers(data = site_data,
+                     radius = 2, color = "#83BB26", fill = TRUE, fillOpacity = 1,stroke=FALSE,
+                     popup = ~paste0("Site: ", site_name,"<br>",
+                                     "Health Board: ",health_board),
+                     group="Sites") %>% 
+    addLayersControl(overlayGroups = c("Health Boards", "Sites"),
+                     options = layersControlOptions(collapsed = FALSE))
+  return(hb_map)
+}
+

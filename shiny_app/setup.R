@@ -223,4 +223,100 @@ euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years",
 # Set date data goes up to - previous Sunday
 data_recent_date <- floor_date(today(), "week") %>% format("%d %B %Y")
 
+# Read in shapefile
+
+Sys.setenv("GDAL_DATA" = "/usr/gdal34/share/gdal")
+#load the geospatial libraries
+dyn.load("/usr/gdal34/lib/libgdal.so")
+dyn.load("/usr/geos310/lib64/libgeos_c.so", local = FALSE)
+library(sf)
+library(sp)
+library(leaflet)
+
+# Specify the path to your shapefile (.shp) without the file extension
+shapefile_path = "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles/Health Board 2019/"
+
+# Read the shapefile
+HB_Polygons <- st_read(dsn = shapefile_path,layer="SG_NHS_HealthBoards_2019")
+# Specify a tolerance value for simplification # You can adjust this value based on your needs
+tolerance <- 500
+
+Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) 
+
+#current week joined polygon
+
+WW_HB_table_edited = COVID_Wastewater_HB_table %>%
+  filter(!health_board %in% c("AllSites", "28Sites")) %>% #removing rows containing Allsites and 28sites
+  mutate(HBCode= case_when(health_board == 'NHS Ayrshire and Arran' ~ 'S08000015',
+                           health_board == 'NHS Borders' ~ 'S08000016',
+                           health_board  == 'NHS Dumfries and Galloway' ~ 'S08000017',
+                           health_board  == 'NHS Fife' ~ 'S08000029',
+                           health_board  == 'NHS Forth Valley' ~ 'S08000019',
+                           health_board  == 'NHS Grampian' ~ 'S08000020',
+                           health_board  == 'NHS Highland' ~ 'S08000022',
+                           health_board  == 'NHS Lanarkshire' ~ 'S08000032',
+                           health_board  == 'NHS Lothian' ~ 'S08000024',
+                           health_board  == 'NHS Orkney' ~ 'S08000025',
+                           health_board  == 'NHS Shetland' ~ 'S08000026',
+                           health_board  == 'NHS Tayside' ~ 'S08000030',
+                           health_board  == 'NHS Western Isles' ~ 'S08000028',
+                           health_board  == 'NHS Greater Glasgow and Clyde' ~ 'S08000031',
+                           TRUE ~ "NA"))
+
+HB_Polygons<-left_join(Simplified_HB_Polygons, WW_HB_table_edited, by="HBCode") 
+
+# Transforming to WGS84 (EPSG:4326) need this to adjust placement of map
+HB_Polygons <- st_transform(HB_Polygons, crs = 4326)
+
+site_lat_long= site_lat_long %>% 
+  rename('latitude'='Lat') %>% 
+  rename('longitude' = 'Lon') %>% 
+  rename('site_name'='Site Name') %>% 
+  rename('HB'='Health Area')
+
+
+site_lat_long <- site_lat_long %>%
+  mutate(across(c(latitude, longitude), ~ as.numeric(trimws(.)))) %>%
+  drop_na(latitude, longitude)
+
+
+site_lat_long_sf <- st_as_sf(site_lat_long, coords = c("longitude", "latitude"), crs = 27700)
+
+# Transform the site points to WGS84
+site_lat_long_sf <- st_transform(site_lat_long_sf, crs = 4326)
+
+site_lat_long_sf= site_lat_long_sf %>% 
+  mutate(health_board= case_when(HB == 'Ayrshire and Arran' ~ 'NHS Ayrshire and Arran',
+                                 HB == 'Borders' ~ 'NHS Borders',
+                                 HB  == 'Dumfries and Galloway' ~ 'NHS Dumfries and Galloway',
+                                 HB  == 'Fife' ~ 'NHS Fife',
+                                 HB  == 'Forth Valley' ~ 'NHS Forth Valley',
+                                 HB  == 'Grampian' ~ 'NHS Grampian',
+                                 HB  == 'Highland' ~ 'NHS Highland',
+                                 HB  == 'Lanarkshire' ~ 'NHS Lanarkshire',
+                                 HB  == 'Lothian' ~ 'NHS Lothian',
+                                 HB  == 'Orkney' ~ 'NHS Orkney',
+                                 HB  == 'Shetland' ~ 'NHS Shetland',
+                                 HB  == 'Tayside' ~ 'NHS Tayside',
+                                 HB  == 'Western Isles' ~ 'NHS Western Isles',
+                                 HB  == 'Greater Glasgow and Clyde' ~ 'NHS Greater Glasgow and Clyde',
+                                 TRUE ~ "NA"))
+
+#add the health board names for site_lat_long as well
+site_lat_long= site_lat_long %>% 
+  mutate(health_board= case_when(HB == 'Ayrshire and Arran' ~ 'NHS Ayrshire and Arran',
+                                 HB == 'Borders' ~ 'NHS Borders',
+                                 HB  == 'Dumfries and Galloway' ~ 'NHS Dumfries and Galloway',
+                                 HB  == 'Fife' ~ 'NHS Fife',
+                                 HB  == 'Forth Valley' ~ 'NHS Forth Valley',
+                                 HB  == 'Grampian' ~ 'NHS Grampian',
+                                 HB  == 'Highland' ~ 'NHS Highland',
+                                 HB  == 'Lanarkshire' ~ 'NHS Lanarkshire',
+                                 HB  == 'Lothian' ~ 'NHS Lothian',
+                                 HB  == 'Orkney' ~ 'NHS Orkney',
+                                 HB  == 'Shetland' ~ 'NHS Shetland',
+                                 HB  == 'Tayside' ~ 'NHS Tayside',
+                                 HB  == 'Western Isles' ~ 'NHS Western Isles',
+                                 HB  == 'Greater Glasgow and Clyde' ~ 'NHS Greater Glasgow and Clyde',
+                                 TRUE ~ "NA"))
 
