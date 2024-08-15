@@ -16,7 +16,7 @@ observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", sel
 output$introduction_about <- renderUI({
 
   tagList(h3(tags$b("Viral Respiratory Diseases (including Influenza and COVID-19) Surveillance in Scotland")),
-          p(strong("The next release of this dashboard will be 08 August 2024.")),
+          #p(strong("The next release of this dashboard will be 08 August 2024.")),
           p("Surveillance of viral respiratory diseases (including influenza and COVID-19) is a key public health activity.
             The spectrum of respiratory illnesses vary from asymptomatic illness to mild/moderate symptoms
             to severe complications including death."),
