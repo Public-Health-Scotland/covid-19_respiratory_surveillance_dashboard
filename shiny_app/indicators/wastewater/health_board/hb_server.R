@@ -5,6 +5,10 @@ metadataButtonServer(id="hb_wastewater_metadata",
 
 output$health_board_plot =  renderPlotly({
   filtered_data <- HB_table_edited %>% filter(health_board == input$selected_board)
+  hb_all_values <- filtered_data %>%
+    filter(!is.na(average)) %>%
+    select(End, average) %>%
+    bind_rows(HB_scotland %>% select(End, average))
   p <- plot_ly() %>%
     add_trace(
       data = filtered_data, 
@@ -35,12 +39,18 @@ output$health_board_plot =  renderPlotly({
                     "<br>Scotland Coverage:", paste0(round_half_up(coverage, 2)*100, "%")),
       hoverinfo = "text"
     ) %>%
+    add_lines_and_notes(dataframe = hb_all_values,
+                        ycol = "average",
+                        xs= c("2024-08-01"),
+                        notes=c("From 01 August 2024, COVID-19 water samples testing transferred<br>from Scottish Environment Protection Agency (SEPA) to NHS Lothian"),
+                        colors=c(phs_colours("phs-rust"))) %>%
     layout(title = paste("COVID-19 wastewater viral RNA (Mgc/p/d) for", input$selected_board),
            xaxis = list(title = "Week Ending Date",
                         rangeslider = list(type = "date")),
            yaxis = list(title = "Wastewater viral RNA (Mgc/p/d)"),
            paper_bgcolor = phs_colours("phs-liberty-10"),
-           plot_bgcolor = phs_colours("phs-liberty-10")) %>% 
+           plot_bgcolor = phs_colours("phs-liberty-10"),
+           legend = list(xanchor = "center", x = 0.5, y = -0.75, orientation = 'h')) %>% 
     
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
