@@ -59,12 +59,28 @@ tagList(
   
   fluidRow(
     width = 12,# mem healthboard maps
-    sliderInput(inputId = "adenovirus_week_slider",
-                label = "Use this date-slider to look at infection levels in previous weeks",
-                min = min(Season_Pathogens_MEM_HB_Polygons$WeekEnding), 
-                max = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
-                value = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
-                step=1),
+
+    # dateRangeInput(inputId = "adenovirus_week_slider",
+    #                label ="Select Date Range",
+    #                start = max(respiratory_pathogens_MEM_hb$WeekBeginning),
+    #                end =  max(respiratory_pathogens_MEM_hb$WeekEnding)),
+    
+    # Use dateInput instead of dateRangeInput to select only the week ending date
+    dateInput(inputId = "adenovirus_week_ending",
+              label ="Select Week Ending Date",
+              value = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+              min = min(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+              max =  max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+              format = "yyyy-mm-dd",
+              startview = "month",
+              weekstart = 1),
+    # sliderInput(inputId = "adenovirus_week_slider",
+    #             label = "Use this date-slider to look at infection levels in previous weeks",
+    #             min = min(Season_Pathogens_MEM_HB_Polygons$WeekEnding), 
+    #             max = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+    #             value = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
+    #             step=1),
+   # dateInput("date", "Select a Date"),
     fluidRow(
       width = 12,
       #tagList(h2(textOutput("flu_mem_selected_map_date"))),
