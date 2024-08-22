@@ -33,23 +33,23 @@ location_names <- bind_rows(HBnames,LAnames)
 rm(HBnames,LAnames)
 
 #Populations
-base_hb_population <- readRDS(glue("//conf/linkage/output/lookups/Unicode/Populations/Estimates/HB2019_pop_est_5year_agegroups_1981_2021.rds"))
-base_la_population <- readRDS(glue("//conf/linkage/output/lookups/Unicode/Populations/Estimates/CA2019_pop_est_5year_agegroups_1981_2021.rds"))
+base_hb_population <- readRDS(glue("//conf/linkage/output/lookups/Unicode/Populations/Estimates/HB2019_pop_est_5year_agegroups_1981_2022.rds"))
+base_la_population <- readRDS(glue("//conf/linkage/output/lookups/Unicode/Populations/Estimates/CA2019_pop_est_5year_agegroups_1981_2022.rds"))
 
 scotland_pop <- base_hb_population %>%
-  filter(year == 2021) %>%
+  filter(year == 2022) %>%
   mutate(location_code = "Scotland")%>%
   group_by(location_code) %>%
   summarise(Pop = sum(pop))
 
 hb_pop <- base_hb_population %>%
-  filter(year == 2021) %>%
+  filter(year == 2022) %>%
   rename(location_code = hb2019)%>%
   group_by(location_code) %>%
   summarise(Pop = sum(pop))
 
 la_pop <- base_la_population %>%
-  filter(year == 2021) %>%
+  filter(year == 2022) %>%
   rename(location_code = ca2019) %>%
   group_by(location_code) %>%
   summarise(Pop = sum(pop))
@@ -326,20 +326,20 @@ rm(g_total_cases, g_pos_tests, g_all_tests)
 
 g_cumulative_geog_hb <- g_cumulative_geog %>%
   filter(!(geography == "Local Authority")) %>%
-  select(LatestDate=Date, 
+  select(LatestDate=Date,
          HB=Geography, HBQF=GeographyQF, #HBName=GeographyName,
-         CumulativeTests, CumulativePillar1Tests, CumulativePillar2Tests, 
-         CumulativeLFDTests, CumulativePositiveTests, 
-         CumulativePositivePillar1Tests, CumulativePositivePillar2Tests, 
+         CumulativeTests, CumulativePillar1Tests, CumulativePillar2Tests,
+         CumulativeLFDTests, CumulativePositiveTests,
+         CumulativePositivePillar1Tests, CumulativePositivePillar2Tests,
          CumulativePositiveLFDTests,
-         CumulativeCases, CrudeRateCumulativeCases= CrudeRatePositiveCases, 
+         CumulativeCases, CrudeRateCumulativeCases= CrudeRatePositiveCases,
          CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases)
 
 g_cumulative_geog_la <- g_cumulative_geog %>%
   filter(geography == "Local Authority") %>%
-  select(LatestDate=Date, CA= Geography,  #CAName=GeographyName, 
+  select(LatestDate=Date, CA= Geography,  #CAName=GeographyName,
          CumulativeTests, CumulativePositiveTests,
-         CumulativeCases, CrudeRateCumulativeCases= CrudeRatePositiveCases, 
+         CumulativeCases, CrudeRateCumulativeCases= CrudeRatePositiveCases,
          CumulativePCROnlyCases, CumulativeLFDOnlyCases, CumulativeLFDAndPCRCases)
 
 #save out cumulative geography open data file
@@ -593,25 +593,25 @@ g_weekly_hb <- g_cases_weekly %>%
          PositivePillar1Tests = replace(PositivePillar1Tests, is.na(PositivePillar1Tests), 0),
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
-  select(WeekEnding=week_ending, 
-         HB= Geography, 
-         HBQF=GeographyQF, 
-         #HBName=GeographyName, 
-         WeeklyTotalTests= TotalTests, 
-         WeeklyTotalPillar1Tests= TotalPillar1Tests, 
-         WeeklyTotalPillar2Tests= TotalPillar2Tests, 
+  select(WeekEnding=week_ending,
+         HB= Geography,
+         HBQF=GeographyQF,
+         #HBName=GeographyName,
+         WeeklyTotalTests= TotalTests,
+         WeeklyTotalPillar1Tests= TotalPillar1Tests,
+         WeeklyTotalPillar2Tests= TotalPillar2Tests,
          WeeklyTotalLFDTests= TotalLFDTests,
-         WeeklyTotalPositiveTests= TotalPositiveTests, 
+         WeeklyTotalPositiveTests= TotalPositiveTests,
          WeeklyPositivePillar1Tests= PositivePillar1Tests,
-         WeeklyPositivePillar2Tests= PositivePillar2Tests, 
+         WeeklyPositivePillar2Tests= PositivePillar2Tests,
          WeeklyPositiveLFDTests= PositiveLFDTests,
          WeeklyCases= WeeklyPositiveCases,
          WeeklyPCROnlyCases= WeeklyPositivePCROnlyCases,
-         WeeklyLFDOnlyCases= WeeklyPositiveLFDOnlyCases, 
-         WeeklyPCRAndLFDCases= WeeklyPositivePCRAndLFDCases, 
+         WeeklyLFDOnlyCases= WeeklyPositiveLFDOnlyCases,
+         WeeklyPCRAndLFDCases= WeeklyPositivePCRAndLFDCases,
          CumulativeCases= CumulativePositiveCases,
          CumulativePCROnlyCases= CumulativePositivePCROnlyCases,
-         CumulativeLFDOnlyCases= CumulativePositiveLFDOnlyCases, 
+         CumulativeLFDOnlyCases= CumulativePositiveLFDOnlyCases,
          CumulativePCRAndLFDCases= CumulativePositivePCRAndLFDCases)
 
 write_csv(g_weekly_hb, glue(od_folder, "weekly_tests_cases_HB_{od_report_date}.csv"), na = "")
@@ -630,12 +630,12 @@ g_weekly_la <- g_cases_weekly %>%
          PositivePillar2Tests = replace(PositivePillar2Tests, is.na(PositivePillar2Tests), 0)) %>%
   mutate(week_ending = format(strptime(week_ending, format = "%Y-%m-%d"), "%Y%m%d")) %>%
   select(WeekEnding=week_ending, CA=Geography, #CAName=GeographyName,
-         WeeklyTotalTests= TotalTests, 
-         WeeklyTotalPositiveTests= TotalPositiveTests, 
+         WeeklyTotalTests= TotalTests,
+         WeeklyTotalPositiveTests= TotalPositiveTests,
          WeeklyCases= WeeklyPositiveCases,
          WeeklyPCROnlyCases= WeeklyPositivePCROnlyCases,
-         WeeklyLFDOnlyCases= WeeklyPositiveLFDOnlyCases, 
-         WeeklyPCRAndLFDCases= WeeklyPositivePCRAndLFDCases, 
+         WeeklyLFDOnlyCases= WeeklyPositiveLFDOnlyCases,
+         WeeklyPCRAndLFDCases= WeeklyPositivePCRAndLFDCases,
          CumulativeCases= CumulativePositiveCases,
          CumulativePCROnlyCases= CumulativePositivePCROnlyCases,
          CumulativeLFDOnlyCases= CumulativePositiveLFDOnlyCases,
