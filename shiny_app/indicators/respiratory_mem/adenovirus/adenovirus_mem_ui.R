@@ -58,7 +58,15 @@ tagList(
            tagList(h2(textOutput("adenovirus_map_dynamic_header")))),# fluidrow
   
   fluidRow(
-    width = 12,# mem healthboard maps
+    width = 12,
+    h5("Please season and week ending."),
+    pickerInput(inputId = "selected_season",
+                label = "Select a respiratory season",
+                choices = {Respiratory_Pathogens_MEM_HB_This_Season %>%
+                    #arrange(AgeGroup) %>%
+                    .$Season %>%
+                    unique()},
+                selected = "2023/2024"),
 
     # dateRangeInput(inputId = "adenovirus_week_slider",
     #                label ="Select Date Range",
@@ -66,7 +74,7 @@ tagList(
     #                end =  max(respiratory_pathogens_MEM_hb$WeekEnding)),
     
     # Use dateInput instead of dateRangeInput to select only the week ending date
-    dateInput(inputId = "adenovirus_week_ending",
+    dateInput(inputId = "adenovirus_week_slider",
               label ="Select Week Ending Date",
               value = max(Season_Pathogens_MEM_HB_Polygons$WeekEnding),
               min = min(Season_Pathogens_MEM_HB_Polygons$WeekEnding),

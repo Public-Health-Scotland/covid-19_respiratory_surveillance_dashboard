@@ -204,6 +204,16 @@ output$adenovirus_mem_age_plot <- renderPlotly({
 
 ##### create a map #############
 
+adenovirus_map_selected_season <- reactive({
+  selected_season <- input$adenovirus_season_slider
+  adenovirus_map_selected_season <- Respiratory_Pathogens_MEM_HB_This_Season %>%
+    filter(Pathogen == "Adenovirus" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
+    filter(Season== selected_seaspm) %>%
+    select(Season) %>% 
+  adenovirus_map_selected_season
+})
+
+
 # Create a date slider reactive expression "adenovirus_map_selected_date"
 adenovirus_map_selected_date <- reactive({
   selected_week <- input$adenovirus_week_slider
