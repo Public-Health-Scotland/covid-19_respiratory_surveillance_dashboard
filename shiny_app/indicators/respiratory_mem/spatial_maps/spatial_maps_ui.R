@@ -12,7 +12,7 @@ tagList(
 
 
   fluidRow(width = 12,
-           tagList(h2("Use these filter to select pathogen and time period"))),
+           tagList(h3("Use these filter to select pathogen and time period"))),
 
   
   ####  start map section ##########
@@ -42,7 +42,8 @@ tagList(
                    weekstart = 1)),# column
   ),#fluidrow
     fluidRow( width = 12,
-              box("A dynamic map place holder",   width = 12,
+              box(#"A dynamic map place holder", 
+                  width = 12,
                   leafletOutput("mem_map_two_seasons",width = "100%",height="750px"))
     ),# fluid row
     linebreaks(1)
