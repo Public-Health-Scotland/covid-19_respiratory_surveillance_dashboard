@@ -8,7 +8,7 @@ od_date <- floor_date(today(), "week", 1) + 1
 od_sunday<- floor_date(today(), "week", 1) -1
 
 #lookups
-SPD <- readRDS("/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2024_1.rds")
+SPD <- readRDS("/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2024_2.rds")
 
 CA_lookup <-SPD %>%
   select(ca2019,ca2019name)%>%
