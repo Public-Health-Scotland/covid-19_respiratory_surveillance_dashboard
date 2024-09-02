@@ -148,7 +148,33 @@ respiratory_pathogens_MEM_hb <- respiratory_pathogens_MEM_hb %>%
 respiratory_pathogens_MEM_agegp <- respiratory_pathogens_MEM_agegp %>%
   arrange(WeekBeginning, AgeGroup, Pathogen)
 
+# create small dataframe for use in maps
+respiratory_pathogens_MEM_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
+  filter(Season=="2022/2023" | Season=="2023/2024") %>% 
+  select(WeekEnding, Season, Year, ISOWeek,HB, HBName, Pathogen, 
+         RatePer100000,ActivityLevel, Weekord ) %>% 
+  mutate(ActivityLevelColour = case_when(
+    ActivityLevel == "Baseline" ~ "#01A148",
+    ActivityLevel == "Low" ~ "#FFDE17",
+    ActivityLevel == "Moderate" ~ "#F36523",
+    ActivityLevel == "High" ~ "#ED1D24",
+    ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
+  mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
+         Pathogen= factor(Pathogen,levels = c("Influenza",
+                                              "Respiratory Syncytial Virus",
+                                              "Adenovirus","Human Metapneumovirus",
+                                              "Mycoplasma Pneumoniae",
+                                              "Parainfluenza Virus","Rhinovirus","Seasonal Coronavirus (non-COVID-19)"
+         )))  %>%
+  arrange(HBName, Pathogen)
+
+
 # Output
 write_csv(respiratory_pathogens_MEM_scotland, glue(output_folder, "Respiratory_Pathogens_MEM_Scot.csv"))
 write_csv(respiratory_pathogens_MEM_hb, glue(output_folder, "Respiratory_Pathogens_MEM_HB.csv"))
 write_csv(respiratory_pathogens_MEM_agegp, glue(output_folder, "Respiratory_Pathogens_MEM_Age.csv"))
+
+
+#for use in mem maps
+write_csv(respiratory_pathogens_MEM_hb_two_seasons, glue(output_folder, "Respiratory_Pathogens_MEM_HB_Two_Seasons.csv"))
+

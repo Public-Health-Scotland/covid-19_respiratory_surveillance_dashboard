@@ -838,3 +838,37 @@ create_cari_age_linechart <- function(data){
   return(p)
   
 }
+
+
+
+###### hb mem map function ##### 
+
+create_mem_hb_map <- function(data) {
+  
+  mem_hb_map=data %>%
+    leaflet() %>% 
+    setView(lng = -4.3, lat = 57.7, zoom = 6.45) %>%
+    addProviderTiles("CartoDB.Positron") %>%
+    addPolygons(weight = 1, smoothFactor = 0.5, fillColor = ~ActivityLevelColour,
+                opacity = 0.6,
+                fillOpacity = 0.6,
+                color = "grey",
+                dashArray = "0",
+                popup = ~paste0("Season:", Season, "<br>",
+                                "Week number: ",Weekord,"<br>",
+                                "ISO week:", ISOWeek, "<br>",
+                                "(Week ending: </b>", format(WeekEnding, "%d %b %y"), ")<br>",
+                                "Health board: ", HBName, "<br>",
+                                "Rate per 100,000: ", RatePer100000,
+                                "<br>","Activity level: ", ActivityLevel),
+                label = ~paste0("Healthboard: ", HBName),
+                labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
+                highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE) ) %>%
+    addLegend(position = "bottomright", colors = activity_level_colours,
+              labels = activity_levels, title = "MEM Activity Level",
+              labFormat = labelFormat())
+  
+  return(mem_hb_map)
+  
+}
+
