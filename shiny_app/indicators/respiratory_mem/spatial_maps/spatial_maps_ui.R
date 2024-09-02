@@ -3,7 +3,7 @@ tagList(
   fluidRow(width = 12,
          #  metadataButtonUI("respiratory_rsv_mem"),
            linebreaks(1),
-           h1("Pathogen Incidence Rates by NHS Health Board"),
+           h2("Pathogen Incidence Rates by NHS Health Board"),
            p("This is a tab of maps. Lorem ipsum dolor sit amet, consectetur",
              "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"),
            #linebreaks(1)
