@@ -155,18 +155,20 @@ make_hospital_admissions_simd_plot <- function(data){
 
 # Hospital Admissions LOS plot
 make_hospital_admissions_los_plot <- function(data){
-
+  
   table <- data %>%
     arrange(desc(AdmissionWeekEnding)) %>%
     mutate(AdmissionWeekEnding = convert_opendata_date(AdmissionWeekEnding),
            Percent = ProportionOfAdmissions*100) %>%
-    select(AdmissionWeekEnding, AgeGroup, LengthOfStay, Percent) %>%
+    mutate(Year = substring(AdmissionWeekEnding,1,4)) %>% 
+    select(AdmissionWeekEnding, AgeGroup, LengthOfStay, Percent,Year) %>%
     dplyr::rename(`Week Ending` = AdmissionWeekEnding,
                   `Age Group` = AgeGroup,
                   `Length of Stay` = LengthOfStay)
-
+  
   table = table %>%
-    filter(`Age Group` == input$los_age) %>%
+    filter(`Age Group` == input$los_age ) %>% 
+    filter(`Year` == input$year) %>%
     mutate(`Length of Stay` = factor(`Length of Stay`,
                                      levels = c("1 day or less",
                                                 "2-3 days", "4-5 days",

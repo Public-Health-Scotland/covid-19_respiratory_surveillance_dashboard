@@ -65,6 +65,8 @@ altTextServer("hospital_admissions_los_modal",
                         "for acute COVID-19 hospital admissions."),
                 tags$li("There is a drop down above the chart which allows you to select",
                         "an age group for plotting. The default is all ages."),
+                tags$li("There is a drop down above the chart which allows you to select",
+                        "the year for plotting. The default is 2024."),
                 tags$li("The legend shows five categories for length of stay: 1 day or less;",
                         "2-3 days, 4-5 days, 6-7 days, 8+ days. See the metadata tab for further detail."),
                 tags$li("The x axis is the hospital admission date by week ending."),
@@ -201,12 +203,14 @@ output$hospital_admissions_hb_table <- renderDataTable({
 # Table
 output$hospital_admissions_los_table <- renderDataTable({
   Length_of_Stay %>%
+    mutate(Year = substring(AdmissionWeekEnding,1,4)) %>% 
     arrange(desc(AdmissionWeekEnding)) %>%
     mutate(AdmissionWeekEnding = convert_opendata_date(AdmissionWeekEnding),
            AgeGroup = factor(AgeGroup),
            LengthOfStay = factor(LengthOfStay),
            ProportionOfAdmissions = ProportionOfAdmissions*100) %>%
-    select(AdmissionWeekEnding, AgeGroup, LengthOfStay, ProportionOfAdmissions) %>%
+    select(AdmissionWeekEnding, AgeGroup, LengthOfStay, ProportionOfAdmissions, Year) %>%
+    filter(Year==input$year) %>% 
     dplyr::rename(`Week ending` = AdmissionWeekEnding,
                   `Age group` = AgeGroup,
                   `Length of stay` = LengthOfStay,
@@ -217,9 +221,11 @@ output$hospital_admissions_los_table <- renderDataTable({
 })
 
 
+
 # Plot
 output$hospital_admissions_los_plot<- renderPlotly({
   Length_of_Stay %>%
+    mutate(Year = substring(AdmissionWeekEnding,1,4)) %>% 
     make_hospital_admissions_los_plot()
 
 })
