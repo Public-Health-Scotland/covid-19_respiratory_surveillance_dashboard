@@ -93,7 +93,7 @@ tagList(
                            ),
 
                            tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
-                                   h4(strong("These data will next be updated in August 2024.")),
+                                   h4(strong("These data will next be updated in September 2024.")),
                                    tabBox(width = NULL, type = "pills",
                                           tabPanel("Plot",
                                                    tagList(
@@ -147,7 +147,7 @@ tagList(
                                                          selected = "All Ages"),
                                                    pickerInput(inputId = "year",
                                                                label = "Select year",
-                                                               choices = unique(sort((Length_of_Stay %>% 
+                                                               choices = unique(sort((Length_of_Stay %>%
                                                                                         mutate(Year = substring(AdmissionWeekEnding,1,4)))$Year,decreasing = T)),
                                                                selected = "2024"),
                                                    altTextUI("hospital_admissions_los_modal"),
