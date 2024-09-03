@@ -36,17 +36,27 @@ tagList(
                        choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
                            .$Pathogen %>%
                            unique()}, selected = "Influenza") ),#column
+    column(width = 6,# mem pathogen
+           pickerInput(inputId = "map_iso_week_filter",  
+                       label = "Select ISO week",
+                       choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
+                           .$ISOWeekSelector %>%
+                           unique()}
+                       #, selected = "Influenza"
+                       ) ),
+  ),
+    
   # column(width =4,     #mem season  
   #        pickerInput(inputId = "map_season_filter",
   #                    label = "Select a respiratory season",
   #                    choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%  .$Season %>%   unique()},
   #                   selected = "2023/2024")),
-  column(width =6, # mem week ending
-         dateInput(inputId = "map_week_ending",
-                   label = "Select Week Ending Date",
-                   value = data_recent_date,
-                   format = "yyyy-mm-dd")
-                   ),
+
+  #        dateInput(inputId = "map_week_ending",
+  #                  label = "Select Week Ending Date",
+  #                  value = data_recent_date,
+  #                  format = "yyyy-mm-dd")
+                #   ),
                    # label ="Select Date",
                    # value = max( Respiratory_Pathogens_Daily_MEM_HB_Two_Seasons$WeekEnding),
                    # # min = min(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
@@ -54,11 +64,11 @@ tagList(
                    # format = "yyyy-mm-dd",
                    # startview = "month",
                    # weekstart = 1)),# column
-  ),#fluidrow
     fluidRow( width = 12,
               box("A dynamic map place holder",   width = 12,
                   leafletOutput("mem_map_two_seasons",
-                                width = "100%",height="750px"))
-    ),# fluid row
-    linebreaks(1)
+                                width = "100%",height="750px")),
+    #),# fluid row
+    linebreaks(1),
+    )
 )# tag list

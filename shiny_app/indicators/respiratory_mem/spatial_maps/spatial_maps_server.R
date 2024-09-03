@@ -57,19 +57,29 @@ mem_map_pathogen_filter <- Respiratory_Pathogens_MEM_HB_Two_Seasons%>%
 #   mutate(Season = factor(Season,
 #                            levels = c("2023/2024","2022/2023"  )))
 
-
-
-# Create a date slider reactive expression "adenovirus_map_selected_date"
-map_week_ending <- reactive({
-  selected_week <- input$map_week_ending
+map_iso_week_ending <- reactive({
+  selected_week <- input$ISOWeekSelector
   map_selected_date <- Two_Seasons_Pathogens_MEM_HB_Polygons %>%
     filter(Pathogen == "Adenovirus" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
-    filter(WeekEnding== selected_week) %>%
-    select(WeekEnding) %>%
-    mutate(WeekEnding=as.Date(WeekEnding))
-  map_selected_date$WeekEnding <- format(map_selected_date$WeekEnding, "%d %b %y")
+    filter(ISOWeekSelector== selected_week) %>%
+    select(ISOWeekSelector)
+  # %>%
+  #   mutate(WeekEnding=as.Date(WeekEnding))
+  # map_selected_date$WeekEnding <- format(map_selected_date$WeekEnding, "%d %b %y")
   map_selected_date
 })
+
+# Create a date slider reactive expression "adenovirus_map_selected_date"
+# map_week_ending <- reactive({
+#   selected_week <- input$map_week_ending
+#   map_selected_date <- Two_Seasons_Pathogens_MEM_HB_Polygons %>%
+#     filter(Pathogen == "Adenovirus" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
+#     filter(WeekEnding== selected_week) %>%
+#     select(WeekEnding) %>%
+#     mutate(WeekEnding=as.Date(WeekEnding))
+#   map_selected_date$WeekEnding <- format(map_selected_date$WeekEnding, "%d %b %y")
+#   map_selected_date
+# })
 
 
 output$mem_map_two_seasons <- renderLeaflet({

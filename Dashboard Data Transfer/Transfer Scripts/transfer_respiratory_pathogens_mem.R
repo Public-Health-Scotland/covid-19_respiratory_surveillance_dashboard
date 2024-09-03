@@ -166,12 +166,11 @@ respiratory_pathogens_MEM_daily_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
   right_join(date_reference_map, by=c("Season", "Year", "ISOWeek")) %>% 
   select(Date, WeekEnding, Season, Year, ISOWeek,HB, HBName, Pathogen, 
          RatePer100000,ActivityLevel, Weekord ) %>% 
-  mutate(ActivityLevelColour = case_when(
-    ActivityLevel == "Baseline" ~ "#01A148",
-    ActivityLevel == "Low" ~ "#FFDE17",
-    ActivityLevel == "Moderate" ~ "#F36523",
-    ActivityLevel == "High" ~ "#ED1D24",
-    ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
+  mutate(ActivityLevel == "Baseline" ~ "#01A148",
+         ActivityLevel == "Low" ~ "#FFDE17",
+         ActivityLevel == "Moderate" ~ "#F36523",
+         ActivityLevel == "High" ~ "#ED1D24",
+         ActivityLevel == "Extraordinary" ~ "#7D4192"  ) %>%
   mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
          Pathogen= factor(Pathogen,levels = c("Influenza",
                                               "Respiratory Syncytial Virus",
@@ -190,13 +189,13 @@ respiratory_pathogens_MEM_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
   filter(Season=="2022/2023" | Season=="2023/2024") %>% 
   select(WeekEnding, Season, Year, ISOWeek,HB, HBName, Pathogen, 
          RatePer100000,ActivityLevel, Weekord ) %>% 
-  mutate(ActivityLevelColour = case_when(
-    ActivityLevel == "Baseline" ~ "#01A148",
-    ActivityLevel == "Low" ~ "#FFDE17",
-    ActivityLevel == "Moderate" ~ "#F36523",
-    ActivityLevel == "High" ~ "#ED1D24",
-    ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
-  mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
+  mutate(ISOWeekSelector=paste0("Week ",ISOWeek," (Season ",Season, ")"),
+         ActivityLevelColour = case_when( ActivityLevel == "Baseline" ~ "#01A148",
+                                          ActivityLevel == "Low" ~ "#FFDE17",
+                                          ActivityLevel == "Moderate" ~ "#F36523",
+                                          ActivityLevel == "High" ~ "#ED1D24",
+                                          ActivityLevel == "Extraordinary" ~ "#7D4192"  ),
+         Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
          Pathogen= factor(Pathogen,levels = c("Influenza",
                                               "Respiratory Syncytial Virus",
                                               "Adenovirus","Human Metapneumovirus",
