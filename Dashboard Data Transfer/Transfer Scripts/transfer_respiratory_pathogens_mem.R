@@ -148,6 +148,43 @@ respiratory_pathogens_MEM_hb <- respiratory_pathogens_MEM_hb %>%
 respiratory_pathogens_MEM_agegp <- respiratory_pathogens_MEM_agegp %>%
   arrange(WeekBeginning, AgeGroup, Pathogen)
 
+###### map section ##########
+date_reference_map <-readRDS("/conf/C19_Test_and_Protect/Analyst Space/Calum (Analyst Space)/flu_seasons.Rds") %>%
+  filter(flu_season=="2022/2023" | flu_season=="2023/2024") %>% 
+  select(Date=date, Season=flu_season, Year=year, ISOWeek=ISOweek )
+# distinct(flu_season, year, ISOweek) %>%
+# mutate(alltime_weekord = row_number()) %>%
+# group_by(flu_season) %>%
+# mutate(season_weekord = row_number()) %>%
+# ungroup() %>%
+# rename(Weekord = season_weekord) %>%
+# select(-alltime_weekord)
+
+# create larger daily dataframe for use in maps
+respiratory_pathogens_MEM_daily_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
+  filter(Season=="2022/2023" | Season=="2023/2024") %>% 
+  right_join(date_reference_map, by=c("Season", "Year", "ISOWeek")) %>% 
+  select(Date, WeekEnding, Season, Year, ISOWeek,HB, HBName, Pathogen, 
+         RatePer100000,ActivityLevel, Weekord ) %>% 
+  mutate(ActivityLevelColour = case_when(
+    ActivityLevel == "Baseline" ~ "#01A148",
+    ActivityLevel == "Low" ~ "#FFDE17",
+    ActivityLevel == "Moderate" ~ "#F36523",
+    ActivityLevel == "High" ~ "#ED1D24",
+    ActivityLevel == "Extraordinary" ~ "#7D4192"  )) %>%
+  mutate(Pathogen=if_else(Pathogen=="Coronavirus","Seasonal Coronavirus (non-COVID-19)" ,Pathogen),
+         Pathogen= factor(Pathogen,levels = c("Influenza",
+                                              "Respiratory Syncytial Virus",
+                                              "Adenovirus","Human Metapneumovirus",
+                                              "Mycoplasma Pneumoniae",
+                                              "Parainfluenza Virus","Rhinovirus","Seasonal Coronavirus (non-COVID-19)"
+         )))  %>%
+  arrange(HBName, Pathogen)
+
+write_csv(respiratory_pathogens_MEM_daily_hb_two_seasons, glue(output_folder, "Respiratory_Pathogens_Daily_MEM_HB_Two_Seasons.csv"))
+
+
+
 # create small dataframe for use in maps
 respiratory_pathogens_MEM_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
   filter(Season=="2022/2023" | Season=="2023/2024") %>% 

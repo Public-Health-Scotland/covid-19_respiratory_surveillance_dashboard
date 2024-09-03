@@ -60,9 +60,9 @@ mem_map_pathogen_filter <- Respiratory_Pathogens_MEM_HB_Two_Seasons%>%
 
 
 # Create a date slider reactive expression "adenovirus_map_selected_date"
-mem_map_date_filter <- reactive({
-  selected_week <- input$map_date_filter
-  map_selected_date <- Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
+map_week_ending <- reactive({
+  selected_week <- input$map_week_ending
+  map_selected_date <- Two_Seasons_Pathogens_MEM_HB_Polygons %>%
     filter(Pathogen == "Adenovirus" & HBName=="NHS Western Isles") %>% # i.e. 1 x HB and 1 x pathogen
     filter(WeekEnding== selected_week) %>%
     select(WeekEnding) %>%
@@ -76,7 +76,7 @@ output$mem_map_two_seasons <- renderLeaflet({
   filtered_data  <- Two_Seasons_Pathogens_MEM_HB_Polygons %>%
  #  filter(Season==input$map_season_filter) %>%
    filter(Pathogen == input$map_pathogen_filter) %>%
-    filter(WeekEnding== input$map_date_filter)%>% 
+    filter(WeekEnding== input$map_week_ending)%>% 
    # Check if filtered data is not empty
     #     if (nrow(filtered_data) == 0) {
     #   leaflet() %>%

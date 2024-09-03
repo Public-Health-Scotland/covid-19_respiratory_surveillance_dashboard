@@ -253,8 +253,13 @@ Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) %>%
 Two_Seasons_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, Respiratory_Pathogens_MEM_HB_Two_Seasons,
                                             by="HB") 
 
+# last 2 seasons but daily numbers
+Two_Seasons_Daily_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, Respiratory_Pathogens_Daily_MEM_HB_Two_Seasons,
+                                                 by="HB") 
+
 # Transforming to WGS84 (EPSG:4326) need this to adjust placement of map
 
 Two_Seasons_Pathogens_MEM_HB_Polygons <- st_transform(Two_Seasons_Pathogens_MEM_HB_Polygons, crs = 4326)
 
+Two_Seasons_Daily_Pathogens_MEM_HB_Polygons <- st_transform(Two_Seasons_Daily_Pathogens_MEM_HB_Polygons, crs = 4326)
 
