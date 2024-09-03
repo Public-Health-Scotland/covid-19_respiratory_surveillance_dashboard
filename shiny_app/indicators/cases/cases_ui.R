@@ -17,7 +17,7 @@ tagList(
 
   fluidRow(width = 12,
            tagList(h2("Seven day average trend in wastewater COVID-19"),
-                   h4(glue("Wastewater data analysis will be paused until the end of August as the responsibility of laboratory ",
+                   h4(glue("Wastewater data analysis will be paused until the end of September as the responsibility of laboratory ",
                            "COVID-19 water samples testing transfers from Scottish Environment Protection Agency (SEPA) to NHS Lothian.")),
                    tags$div(class = "headline",
                             h3(glue("Figure from week ending {Wastewater %>% tail(1) %>%
