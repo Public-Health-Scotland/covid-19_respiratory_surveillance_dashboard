@@ -1,5 +1,17 @@
 
+
 tagList(
+  useShinyjs(),  # Initialize shinyjs
+  
+  # Date input for week ending selection
+  fluidRow(
+    width = 12,
+    dateInput(inputId = "map_week_ending",
+              label = "Select Week Ending Date", 
+              value = Sys.Date(),
+              format = "yyyy-mm-dd")
+  ),
+  
   fluidRow(width = 12,
          #  metadataButtonUI("respiratory_rsv_mem"),
            linebreaks(1),
@@ -33,10 +45,10 @@ tagList(
   #                   selected = "2023/2024")),
   column(width =4, # mem week ending
          dateInput(inputId = "map_date_filter",
-                   label ="Select Week Ending Date",
+                   label ="Select Date",
                    value = max(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
-                   min = min(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
-                   max =  max(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
+                   # min = min(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
+                   # max =  max(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
                    format = "yyyy-mm-dd",
                    startview = "month",
                    weekstart = 1)),# column

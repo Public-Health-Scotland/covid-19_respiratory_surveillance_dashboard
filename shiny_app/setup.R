@@ -228,6 +228,7 @@ data_recent_date <- floor_date(today(), "week") %>% format("%d %B %Y")
 library(sf)
 library(sp)
 library(leaflet)
+library(shinyjs)
 
 # Specify the path to your shapefile (.shp) without the file extension
 #needs addressed properly

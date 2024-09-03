@@ -9,6 +9,38 @@
 
 ##### create a map #############
 
+# server <- function(input, output, session) {
+#   
+#   observe({
+#     # Prepare available dates as character strings
+#     available_dates <- as.character(unique(respiratory_pathogens_MEM_hb$WeekEnding))
+#     
+#     # Pass available dates to the JavaScript function
+#     runjs(sprintf("shinyjs.disableDates(%s);", jsonlite::toJSON(available_dates)))
+#   })
+# }
+server <- function(input, output, session) {
+  
+  observe({
+    # Prepare available dates as character strings
+    available_dates <- as.character(unique(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding))
+    
+    # Generate JavaScript to disable dates not in the available_dates array
+    js_code <- sprintf("
+      var availableDates = %s;
+      var dateInput = document.querySelector('.shiny-date-input input');
+      
+    flatpickr(dateInput, {
+        enable: availableDates.map(date => new Date(date)),
+        dateFormat: 'Y-m-d'
+      });
+    ", jsonlite::toJSON(available_dates))
+    
+    # Run the JavaScript to apply the filtering
+    runjs(js_code)
+  })
+}
+
 
 mem_map_pathogen_filter <- Respiratory_Pathogens_MEM_HB_Two_Seasons%>%
  # filter(Pathogen == input$map_season_filter)%>% 

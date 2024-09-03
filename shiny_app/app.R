@@ -19,7 +19,28 @@ source(file.path("modules/respiratory/respiratory_module_ui.R"), local = TRUE)$v
 source(file.path("modules/definitions/definitions_ui.R"), local = TRUE)$value
 
 # UI
+# ui <- fluidPage(
+#   ##### maps add on 
+#   useShinyjs(),  # Initialize shinyjs
+#   extendShinyjs(text = "
+#     shinyjs.disableDates = function(params) {
+#       var availableDates = params;
+#       var dateInput = document.querySelector('.shiny-date-input input');
+#       
+#       flatpickr(dateInput, {
+#         disable: function(date) {
+#           return !availableDates.includes(date.toISOString().slice(0, 10));
+#         }
+#       });
+#     }
+#   "),
+
+
 ui <- fluidPage(
+
+  
+  #### end maps  ###
+  
   tagList(
     # For go to top chevrons on scroll down
     use_gotop(),
