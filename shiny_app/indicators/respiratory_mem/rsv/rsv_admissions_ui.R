@@ -53,6 +53,11 @@ tagList(
                                      label = "Go to glossary",
                                      icon = icon_no_warning_fn("paper-plane")
                                     )),
+                                     h4(glue("As part of continuous review of data produced by Public Health Scotland (PHS), ",
+                                             "there is an update to the methodology used to process hospital admissions for ",
+                                             "RSV and Influenza. This change has been applied retrospectively from week 40 in ",
+                                             "2020 season and has resulted in minor changes to historic data each week."),
+                                      ),
                                      # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                             )))), # headline
