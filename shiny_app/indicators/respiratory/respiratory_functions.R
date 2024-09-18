@@ -124,14 +124,14 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
     colours <- c(phs_colours(c("phs-blue", "phs-rust", "phs-magenta",
                                "phs-green", "phs-teal", "phs-purple")), "black")
     linestyles <- c("dashdot", "longdashdot", "dash", "longdash", "solid", "dot", "solid")
-  
+
     legend_title_name <- "Pathogen"
-    
+
     } else {
     #flu
     colours <- c(phs_colours(c("phs-purple", "phs-teal", "phs-green", "phs-rust")), "black")
     linestyles <- c("solid", "solid", "solid", "dash", "dot")
-  
+
     legend_title_name <- "Subtype"
     }
 
@@ -142,7 +142,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
                     "Influenza - Type A(H3)",
                     "Influenza - Type A(H1N1)pdm09",
                     "Influenza - Type A (any subtype)")
-  
+
   # Reorder the levels of "Organism" in descending order
   data$Organism <- factor(data$Organism, levels = subtype_order)
 
@@ -310,8 +310,69 @@ make_age_sex_plot <- function(data, breakdown, title = NULL) {
 
 }
 
+# creates a plot looking at age/sex breakdowns in scotland
+make_age_sex_pyramid_plot <- function(data, title = NULL) {
+  data %<>%
+    mutate(Rate = case_when(
+      Sex == "F" ~ -Rate,
+      TRUE ~ Rate)) %>%
+    mutate_if(is.numeric, ~replace_na(., 0)) %>%
+    mutate(AgeGroup = factor(AgeGroup, levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
+
+  xaxis_breaks <- pretty(c(-max(data$Rate), 0, max(data$Rate)))
+  yaxis_ticks <- list("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")
+  yaxis_ticks <- list(categoryorder = "array",
+                      categoryarray = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+"))
 
 
+  fig = data %>%
+    plot_ly(x= ~Rate,
+            y= ~AgeGroup,
+            color = ~Sex,
+            type = 'bar',
+            textposition = "none",
+            text = ~paste0("<b>Season</b>: ", Season, "\n",
+                           "<b>Sex</b>: ", Sex, "\n",
+                           "<b>Age group</b>: ", AgeGroup, "\n",
+                           "<b>Rate per 100,000</b>: ", format(Rate, big.mark=",")),
+            hovertemplate = "%{text}",
+            colors = phs_colours(c("phs-purple", "phs-magenta"))) %>%
+    layout(
+      xaxis = list(
+        tickvals = xaxis_breaks,
+        ticktext = abs(xaxis_breaks),
+        title = "Rate per 100,000",
+        showline = TRUE,
+        linecolor = 'black',
+        range = c(-max(data$Rate), max(data$Rate))
+      ),
+      yaxis = list(yaxis_ticks
+                   #tickmode = "array",
+                   #title = "Age Group",
+                   #tickvals = yaxis_ticks,
+                   #ticktext= yaxis_ticks,
+                   #showline = TRUE,
+                   #linecolor = 'black',
+                   #range = levels(factor(data$AgeGroup))
+      ),
+      legend = list(title = ""),
+      margin = list(b = 100),
+      paper_bgcolor = phs_colours("phs-liberty-10"),
+      plot_bgcolor = phs_colours("phs-liberty-10"),
+      title = title,
+      barmode = 'overlay')
+  #layout(yaxis = list(#title = "AgeGroup",
+  #showline = FALSE,
+  #fixedrange=TRUE,
+  #range = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
+  #showlegend = T)
+  # xaxis = list(title = "Rate per 100,000"),
+  #title = title,
+
+  fig <- fig %>%
+    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove)
+  return(fig)
+}
 
 ##############################################
 # TABLES ----
