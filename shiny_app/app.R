@@ -315,39 +315,6 @@ ui <- fluidPage(
 
       ),#tabPanel
 
-      ##############################################.
-      # SPATIAL MAPS ----
-      ##############################################.
-      tabPanel(title ="Spatial maps",
-               # Look at https://fontawesome.com/search?m=free for icons
-               icon = icon_no_warning_fn("virus"),
-               value = "maps",
-               navlistPanel(widths = c(2,10), id = "maps_panel", #icon = icon_no_warning_fn("spa")
-               h1("Spatial maps"),
-               p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
-                 "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim",
-                 "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea",
-                 "commodo consequat. Duis aute irure dolor in reprehenderit in."),
-             #  linebreaks(1), 
-             # resp maps tab panel
-             tabPanel(
-               title="Pathogen MEM",
-               column(12, source(file.path("indicators/respiratory_mem/spatial_maps/spatial_maps_ui.R"), local = TRUE)$value)
-                           ), # resp mem tabpanel
-             
-             tabPanel(
-               title="COVID-19 Waste Water",
-               h2("A proxy for where another map could sit"),
-               # p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
-               #   "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim",
-               #   "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea",
-               #   "commodo consequat. Duis aute irure dolor in reprehenderit in."),
-               column(12, source(file.path("indicators/respiratory_mem/spatial_maps/spatial_wastewater_ui.R"), local = TRUE)$value)
-             ), # waste water tabpanel
-      )
-), # spatial maps tab panel
-      
-      
      ##############################################.
       # SYNDROMIC SURVEILLANCE ----
       ##############################################.
@@ -366,6 +333,23 @@ ui <- fluidPage(
                ) # navbarlistPanel
                #
       ),#tabPanel
+     
+     ##############################################.
+     # SPATIAL MAPS ----
+     ##############################################.
+     tabPanel(title ="Respiratory pathogen spatial maps",
+              # Look at https://fontawesome.com/search?m=free for icons
+              icon = icon_no_warning_fn("earth-europe"),
+              value = "maps",
+              h1("Spatial maps"),
+              p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+                "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim",
+                "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea",
+                "commodo consequat. Duis aute irure dolor in reprehenderit in."),
+              column(12, source(file.path("indicators/spatial_maps/spatial_maps_ui.R"), local = TRUE)$value)
+              ), # spatial maps tab panel
+     
+     ################### end spatial  map ###########
 
       ##############################################.
       # MORTALITY ----
@@ -466,7 +450,8 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_cari_server.R"), local = TRUE)$value
-  source(file.path("indicators/respiratory_mem/spatial_maps/spatial_maps_server.R"), local = TRUE)$value
+ 
+   source(file.path("indicators/spatial_maps/spatial_maps_server.R"), local = TRUE)$value
   
 
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
