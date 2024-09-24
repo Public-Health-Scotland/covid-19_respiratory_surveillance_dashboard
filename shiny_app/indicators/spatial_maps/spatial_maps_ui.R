@@ -16,33 +16,33 @@ tagList(
 
   
   ####  start map section ##########
-  #  fluidRow(width = 12,
-  # #          tagList(h2(textOutput("adenovirus_map_dynamic_header")))),# fluidrow
-  # 
-  fluidRow( 
-    column(width = 4,# mem pathogen
-           pickerInput(inputId = "map_pathogen_filter",  
-                       label = "Select pathogen",
+
+  fluidRow(
+    column(width = 4,# pathogen
+           pickerInput(inputId = "map_pathogen_filter",
+                       label = "Select a pathogen",
                        choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
                            .$Pathogen %>%
                            unique()}, selected = "Influenza") ),#column
-  # column(width =4,     #mem season  
-  #        pickerInput(inputId = "map_season_filter",
-  #                    label = "Select a respiratory season",
-  #                    choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%  .$Season %>%   unique()},
-  #                   selected = "2023/2024")),
-  column(width =4, # mem week ending
-         dateInput(inputId = "map_date_filter",
+  column(width =4,     #season
+         pickerInput(inputId = "map_season_filter",
+                     label = "Select a respiratory season",
+                     choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%  .$Season %>%   unique()},
+                    selected = "2023/2024")),
+  column(width =4, #  week ending
+         pickerInput(inputId = "map_date_filter",
                    label ="Select Week Ending Date",
-                   value = max(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
-                   min = min(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
-                   max =  max(Respiratory_Pathogens_MEM_HB_Two_Seasons$WeekEnding),
-                   format = "yyyy-mm-dd",
-                   startview = "month",
-                   weekstart = 1)),# column
+                   choices={Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
+                      filter(Season=="2023/2024") %>%
+                       .$WeekEnding %>% unique()%>%as.Date() %>%  format("%d %b %y")},
+                   selected= {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
+                     filter(Season == "2023/2024") %>%
+                       .$WeekEnding %>% max() %>% as.Date() %>% format("%d %b %y")})
+
+                   ),# column
   ),#fluidrow
     fluidRow( width = 12,
-              box(#"A dynamic map place holder", 
+              box("geo_spatial_v6", 
                   width = 12,
                   leafletOutput("mem_map_two_seasons",width = "100%",height="750px"))
     ),# fluid row
