@@ -341,11 +341,6 @@ ui <- fluidPage(
               # Look at https://fontawesome.com/search?m=free for icons
               icon = icon_no_warning_fn("earth-europe"),
               value = "maps",
-              h1("Spatial maps"),
-              p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
-                "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim",
-                "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea",
-                "commodo consequat. Duis aute irure dolor in reprehenderit in."),
               column(12, source(file.path("indicators/spatial_maps/spatial_maps_ui.R"), local = TRUE)$value)
               ), # spatial maps tab panel
      
