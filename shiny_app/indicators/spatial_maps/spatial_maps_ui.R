@@ -42,9 +42,11 @@ tagList(
                    ),# column
   ),#fluidrow
     fluidRow( width = 12,
-              box("geo_spatial_v6", 
-                  width = 12,
-                  leafletOutput("mem_map_two_seasons",width = "100%",height="750px"))
+              column("geo_spatial_v6", 
+                  width = 6,
+                  withSpinner(leafletOutput("mem_map_two_seasons",width = "100%",height="750px"))),#column
+              column(width=6,
+                     withSpinner(plotlyOutput("mem_map_plot"))) #column
     ),# fluid row
     linebreaks(1)
 )# tag list

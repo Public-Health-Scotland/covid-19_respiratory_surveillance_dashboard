@@ -49,25 +49,18 @@ observeEvent(input$map_season_filter, {
   updatePickerInput(session, inputId = "map_date_filter",
                     choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
                         filter(Season == input$map_season_filter) %>%
-                        .$WeekEnding %>%
-                        unique() %>%
-                        as.Date() %>%
-                        format("%d %b %y")},
+                        .$WeekEnding %>% unique() %>%   as.Date() %>% format("%d %b %y")},
                     selected = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
-                        filter(Season == input$map_season_filter) %>%
-                        .$WeekEnding %>%
-                        max() %>%
-                        as.Date() %>%
-                        format("%d %b %y")})
+                        filter(Season == input$map_season_filter) %>% .$WeekEnding %>%
+                        max() %>% as.Date() %>% format("%d %b %y")})
 })
 
 # update the varible rv_fuel_poverty
-observeEvent(input$employees_living_wage_cw_map_shape_click,{
-  rv_employees_living_wage_cw(input$employees_living_wage_cw_map_shape_click$id)
+observeEvent(input$map_HB_filter,{
+  Two_Seasons_Pathogens_MEM_HB(input$Two_Seasons_Pathogens_MEM_HB_Polygons_shape_click$id)
   
-  updateSelectizeInput(session, "employees_living_wage_cw_LA_input",
-                       #label = paste("Select input label", length(x)),
-                       choices = input$employees_living_wage_cw_map_shape_click$id)
+  updateSelectizeInput(session, "map_mem_plot",
+                       choices = input$map_HB_filter$id)
 })
 
 
@@ -76,6 +69,7 @@ observeEvent(input$employees_living_wage_cw_map_shape_click,{
 output$map_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
     filter(Pathogen == input$map_pathogen_filter) %>%
+    filter(HealthBoared== input$map_HB_filter) %>% 
     create_mem_linechart()
   
 })
