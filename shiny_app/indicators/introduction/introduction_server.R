@@ -8,6 +8,9 @@ observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", sele
 #observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "respiratory")})
 observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "repiratory_pathogens")})
 observeEvent(input$jump_to_syndromic, {updateTabsetPanel(session, "intabset", selected = "syndromic_surveillance")})
+##### maps ####
+observeEvent(input$jump_to_spatialmaps, {updateTabsetPanel(session, "intabset", selected = "maps")})
+##### end maps ####
 observeEvent(input$jump_to_mortality, {updateTabsetPanel(session, "intabset", selected = "mortality")})
 observeEvent(input$jump_to_metadata, {updateTabsetPanel(session, "intabset", selected = "metadata")})
 observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", selected = "download")})
@@ -49,6 +52,14 @@ output$introduction_about <- renderUI({
             column(8, p("This section contains trend information of calls to NHS24 for respiratory symptoms
                         and trend information for General Practitioners consultations for Influenza-Like Illnesses (ILI)."))),
           br(),
+          ###### map section ####
+          
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_spatialmaps", "Respiratory pathogens spatial maps"))),
+            column(8, p("This section contains trend information for a range of viral respiratory infections displayed in a map of Scotland."))),
+          br(),
+          ###### end map section ####
 
           fluidRow(
             column(4,tags$div(class = "special_button",
