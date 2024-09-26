@@ -44,4 +44,18 @@ observeEvent(input$map_season_filter, {
                         .$WeekEnding %>%  max() %>%
                         as.Date() %>% format("%d %b %y")})
 })
-
+# 
+# observeEvent(input$map_HB_filter, {
+#   selected_HB <- input$Two_Seasons_Pathogens_MEM_HB_Polygons_shape_click$id
+#   
+#   # Update the variable for the health board (assuming id exists)
+#   updateSelectizeInput(session, "map_mem_plot",
+#                        choices = selected_HB)
+# })
+# output$map_mem_plot <- renderPlotly({
+#   Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
+#     filter(Pathogen == input$map_pathogen_filter) %>%
+#     filter(HBName== input$map_HB_filter) %>% 
+#     create_mem_linechart()
+# })
+# 

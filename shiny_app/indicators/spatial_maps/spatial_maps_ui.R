@@ -52,7 +52,9 @@ tagList(
                        tagList(linebreaks(1)),
                        altTextUI("map_mem_modal"),
                        withNavySpinner(leafletOutput("mem_map_two_seasons",
-                                                     width = "100%",height="750px")))
+                                                     width = "100%",height="750px")),
+                      # withNavySpinner(plotlyOutput("map_mem_plot"))
+                      )
     ),# fluid row
     linebreaks(1)
 )# tag list
