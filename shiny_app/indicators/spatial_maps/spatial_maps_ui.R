@@ -1,5 +1,23 @@
   
   ####  start map section ##########
+  
+  map_two_seasons <- Respiratory_Pathogens_MEM_HB_Two_Seasons%>%
+    filter(Pathogen == "Influenza" & HBName == "NHS Ayrshire and Arran") %>%
+    select(Season) %>%
+    arrange(Season) %>%
+    distinct() %>%
+    head(2)
+  map_two_seasons <- map_two_seasons$Season
+
+  map_this_season <- Respiratory_Pathogens_MEM_HB_Two_Seasons%>%
+    filter(Pathogen == "Influenza" & HBName == "NHS Ayrshire and Arran") %>%
+    select(Season) %>%
+    arrange(Season) %>%
+    distinct() %>%
+    tail(1)
+  map_this_season <-map_this_season$Season
+
+
 
 tagList(
   fluidRow(width = 12,
@@ -31,16 +49,16 @@ tagList(
   column(width =4,     #season
          pickerInput(inputId = "map_season_filter",
                      label = "Respiratory season",
-                     choices = {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%  .$Season %>%   unique()},
-                    selected = "2023/2024")),
+                     choices = map_two_seasons,
+                    selected = map_this_season)),
   column(width =4, #  week ending
          pickerInput(inputId = "map_date_filter",
                    label ="Week ending date",
                    choices={Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
-                      filter(Season=="2023/2024") %>%
+                      filter(Season==map_this_season) %>%
                        .$WeekEnding %>% unique()%>%as.Date() %>%  format("%d %b %y")},
                    selected= {Respiratory_Pathogens_MEM_HB_Two_Seasons %>%
-                     filter(Season == "2023/2024") %>%
+                     filter(Season == map_this_season) %>%
                        .$WeekEnding %>% max() %>% as.Date() %>% format("%d %b %y")})
 
                    ),# column

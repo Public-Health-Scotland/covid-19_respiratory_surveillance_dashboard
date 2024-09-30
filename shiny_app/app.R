@@ -302,11 +302,7 @@ ui <- fluidPage(
                                      conditionalPanel(condition="input.seasonal_coronavirus_select=='CARI community surveillance'",
                                                       column(12, source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_cari_ui.R"), local = TRUE)$value)),
                                      ),
-                            # tabPanel(title = "Spatial maps",
-                            #          value = "maps",
-                            #          column(12, source(file.path("indicators/respiratory_mem/spatial_maps/spatial_maps_ui.R"), local = TRUE)$value)
-                            # )# tab panel
-                            # 
+
                             # tabPanel(title = "Other respiratory pathogens",
                             #          value = "other_pathogens",
                             #          source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value)
@@ -333,7 +329,7 @@ ui <- fluidPage(
                ) # navbarlistPanel
                #
       ),#tabPanel
-     
+################# map section ###########     
      ##############################################.
      # SPATIAL MAPS ----
      ##############################################.
@@ -445,10 +441,11 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/mycoplasma_pneumoniae/mycoplasma_pneumoniae_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_mem_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/seasonal_coronavirus/seasonal_coronavirus_cari_server.R"), local = TRUE)$value
- 
-   source(file.path("indicators/spatial_maps/spatial_maps_server.R"), local = TRUE)$value
   
-
+  ################# map section ###########     
+     source(file.path("indicators/spatial_maps/spatial_maps_server.R"), local = TRUE)$value
+  ################# end map section ########
+  
   source(file.path("indicators/mortality/euromomo/euromomo_server.R"), local = TRUE)$value
 
   source(file.path("indicators/syndromic_surveillance/nhs24/nhs24_server.R"), local = TRUE)$value

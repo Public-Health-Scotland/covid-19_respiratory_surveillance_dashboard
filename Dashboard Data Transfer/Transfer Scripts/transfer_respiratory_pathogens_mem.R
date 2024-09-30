@@ -148,6 +148,15 @@ respiratory_pathogens_MEM_hb <- respiratory_pathogens_MEM_hb %>%
 respiratory_pathogens_MEM_agegp <- respiratory_pathogens_MEM_agegp %>%
   arrange(WeekBeginning, AgeGroup, Pathogen)
 
+
+# Output
+write_csv(respiratory_pathogens_MEM_scotland, glue(output_folder, "Respiratory_Pathogens_MEM_Scot.csv"))
+write_csv(respiratory_pathogens_MEM_hb, glue(output_folder, "Respiratory_Pathogens_MEM_HB.csv"))
+write_csv(respiratory_pathogens_MEM_agegp, glue(output_folder, "Respiratory_Pathogens_MEM_Age.csv"))
+
+
+#### for use in spatial mem maps ####
+
 # create small dataframe for use in maps
 respiratory_pathogens_MEM_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
   filter(Season=="2022/2023" | Season=="2023/2024") %>% 
@@ -168,13 +177,5 @@ respiratory_pathogens_MEM_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
          )))  %>%
   arrange(HBName, Pathogen)
 
-
-# Output
-write_csv(respiratory_pathogens_MEM_scotland, glue(output_folder, "Respiratory_Pathogens_MEM_Scot.csv"))
-write_csv(respiratory_pathogens_MEM_hb, glue(output_folder, "Respiratory_Pathogens_MEM_HB.csv"))
-write_csv(respiratory_pathogens_MEM_agegp, glue(output_folder, "Respiratory_Pathogens_MEM_Age.csv"))
-
-
-#for use in mem maps
 write_csv(respiratory_pathogens_MEM_hb_two_seasons, glue(output_folder, "Respiratory_Pathogens_MEM_HB_Two_Seasons.csv"))
-
+#### end map section  ####

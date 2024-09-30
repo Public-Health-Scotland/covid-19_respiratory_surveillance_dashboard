@@ -224,7 +224,8 @@ euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years",
 data_recent_date <- floor_date(today(), "week") %>% format("%d %B %Y")
 
 
-##### map section
+####### map section ###########     
+
 library(sf)
 library(sp)
 library(leaflet)
@@ -233,12 +234,12 @@ library(leaflet)
 #needs addressed properly
 #shapefile_path="/conf/C19_Test_and_Protect/Analyst Space/Iain (Analyst Space)/covid-19_respiratory_surveillance_dashboard/shiny_app/spatial_files/"
 
-
+# map set-up 
+# open shape file
 shapefile_path <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/spatial_files/"
 
-
-# Read the shapefile
 HB_Polygons <- st_read(dsn = shapefile_path,layer="SG_NHS_HealthBoards_2019")
+
 # Specify a tolerance value for simplification # You can adjust this value based on your needs
 tolerance <- 500 
 
@@ -247,13 +248,11 @@ Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) %>%
   rename(HB=HBCode) %>% 
   select(-HBName)
 
-
 # last 2 seasons joined polygon
 Two_Seasons_Pathogens_MEM_HB_Polygons<-left_join(Simplified_HB_Polygons, Respiratory_Pathogens_MEM_HB_Two_Seasons,
                                             by="HB") 
 
 # Transforming to WGS84 (EPSG:4326) need this to adjust placement of map
-
 Two_Seasons_Pathogens_MEM_HB_Polygons <- st_transform(Two_Seasons_Pathogens_MEM_HB_Polygons, crs = 4326)
 
-
+##### end map section ####
