@@ -130,7 +130,7 @@ write_csv(g_weekly_resp_hb_od,
           glue(od_folder, "weekly_respiratory_admissions_HB_{od_report_date}.csv"),na = "")
 
 
-rm(ckan, hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly,
+rm( hb2019_id, hb_code, Dates,  HealthBoardName, df_hb_weekly,
    i_od_healthboard_admissions , g_od_healthboard_admissions,  i_od_occupancy,
    g_weekly_healthboard_od,
    i_od_flu_hb_adm, i_od_rsv_hb_adm, g_od_flu_hb_adm, g_od_rsv_hb_adm,
