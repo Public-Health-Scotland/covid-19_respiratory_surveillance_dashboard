@@ -33,7 +33,7 @@ tagList(
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("seasonal_coronavirus"),
                     # headline figures for the week in Scotland
-                    tagList(h2(glue("Seasonal Coronavirus swab positivity in the Community Acute Respiratory Infection (CARI) sentinel surveillance programme")),
+                    tagList(h2(glue("Seasonal Coronavirus testpositivity in the Community Acute Respiratory Infection (CARI) sentinel surveillance programme")),
                             tags$div(class = "headline",
                                      br(),
                                      # previous week total number
@@ -57,7 +57,7 @@ tagList(
 
 
   fluidRow(width = 12,
-           tagList(h2("CARI - Swab positivity for Seasonal Coronavirus"))),
+           tagList(h2("CARI - Test positivity for Seasonal Coronavirus"))),
 
   fluidRow(
     tabBox(width = NULL,
@@ -80,7 +80,7 @@ tagList(
   ), # fluidRow
 
   fluidRow(width = 12,
-           tagList(h2("CARI - Swab positivity for Seasonal Coronavirus by age group"))),
+           tagList(h2("CARI - Test positivity for Seasonal Coronavirus by age group"))),
 
   fluidRow(
     tabBox(width = NULL,

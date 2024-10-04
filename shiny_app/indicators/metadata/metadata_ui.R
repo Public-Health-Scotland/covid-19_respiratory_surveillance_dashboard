@@ -421,7 +421,7 @@ tagList(h1("Metadata"),
                    bsCollapsePanel("Community Acute Respiratory Infection (CARI) surveillance",
 
                                    # CARI ----
-                                   #h4("Swab positivity (community surveillance)"),
+                                   #h4("Test positivity (community surveillance)"),
                                    p("CARI surveillance is a sentinel community surveillance programme for a range of respiratory pathogens: COVID-19, ",
                                      "influenza A and B, RSV, adenovirus, seasonal coronavirus (non-COVID-19), human metapneumovirus, rhinovirus, parainfluenza and ",
                                      "mycoplasma pneumoniae. The programme is open to GP practices across all NHS Boards in Scotland. To become a sentinel site, ",
@@ -527,9 +527,9 @@ tagList(h1("Metadata"),
                   p("This is the numbers for the previous 7 days added together and then divided by 7. This helps to smooth out any short term fluctuations."),
                   br(),
 
-                  #Swab positivity ----
-                  h4("Swab positivity"),
-                  p("Swab positivity is the percentage of positive laboratory results among a defined number of ",
+                  #Test positivity ----
+                  h4("Test positivity"),
+                  p("Test positivity is the percentage of positive laboratory results among a defined number of ",
                     "laboratory tested samples, i.e. number of positives divided by total number of laboratory tests done."),
                   br()
 
