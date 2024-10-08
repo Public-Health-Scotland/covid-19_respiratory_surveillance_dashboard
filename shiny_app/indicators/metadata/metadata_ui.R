@@ -442,7 +442,7 @@ tagList(h1("Metadata"),
                                      "SARS-CoV-2, influenza A and B, RSV, adenovirus, coronavirus (non-SARS CoV-2), human metapneumovirus, rhinovirus, parainfluenza and Mycoplasma pneumoniae. 
                                      The programme is open to GP practices across all NHS Boards in Scotland. To become a sentinel site, ",
                                      "GP practices voluntarily opt into the CARI programme. Patients in the community who consult a sentinel GP practice with respiratory ",
-                                     "symptoms and who meet the case definition for acute respiratory infection (ARI) are recruited, consented, and testbed for the CARI ",
+                                     "symptoms and who meet the case definition for acute respiratory infection (ARI) are recruited, consented, and tested for the CARI ",
                                      "programme. Clinicians also complete a symptoms checklist."),
                                    p("The case definition is: sudden onset of symptoms; at least one of the following four respiratory symptoms: cough, 
                                      sore throat, shortness of breath, coryza; and a clinician's judgement that the illness is due to an infection."),
@@ -550,8 +550,9 @@ tagList(h1("Metadata"),
 
                   #Test positivity ----
                   h4("Test positivity"),
-                  p("Test positivity is the percentage of positive laboratory results among a defined number of ",
-                    "laboratory tested samples, i.e. number of positives divided by total number of laboratory tests done."),
+                  p("Proportion of positive laboratory results among a defined number of laboratory tested samples, i.e. number of positives divided
+                    by total number of laboratory tests done. Virological data is dynamic, therefore, the test positivity will change retrospectively
+                    week to week as more data becomes available."),
                   br()
 
                    ))
