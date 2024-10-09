@@ -4,7 +4,7 @@ metadataButtonServer(id="respiratory_hmpv_cari",
                      parent = session)
 
 altTextServer("hmpv_cari_modal",
-              title = "CARI - Twab positivity for HMPV",
+              title = "CARI - Test positivity for HMPV",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of HMPV infection in the Community Acute Respiratory Infection (CARI) surveillance programme."),
                                 tags$li("The x axis is the week ending date, starting 09 October 2022."),
                                 tags$li("The y axis is the test positivity rate."),
@@ -12,7 +12,7 @@ altTextServer("hmpv_cari_modal",
                                 tags$li("The bottom of the light purple shaded area represents the lower confidence interval and the top of the area represents the upper confidence interval.")))
 
 altTextServer("hmpv_cari_age_modal",
-              title = "CARI - Twab positivity for HMPV by age group",
+              title = "CARI - Test positivity for HMPV by age group",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of HMPV infection by age group in the Community Acute Respiratory Infection (CARI) surveillance programme."),
                                 tags$li("The x axis is the week ending date, starting 09 October 2022."),
                                 tags$li("The y axis is the test positivity rate."),
