@@ -7,11 +7,11 @@ metadataButtonServer(id="national_wastewater_metadata",
 
 table_content <- data.frame(
   "Wastewater" = "Mgc/p/d",
-  "Previous_Week_Ending" = round((COVID_Wastewater_National_table %>% tail(8) %>% .$average)[1],2),
+  "Previous_Week_Ending" = round((COVID_Wastewater_National_table %>% mutate(Date = convert_opendata_date(Date)) %>% filter(Date == max(Date) - days(7)) %>% .$average)[1],2),
   "Current_Week_Ending" = round(COVID_Wastewater_National_table %>% tail(1) %>% .$average,2)
 )
 
-colnames(table_content)[2] = glue("{(COVID_Wastewater_National_table %>% tail(8) %>% .$Date %>% convert_opendata_date())[1] %>% format('%d %b %y')} ")
+colnames(table_content)[2] = glue("{COVID_Wastewater_National_table %>% mutate(Date = convert_opendata_date(Date)) %>% filter(Date == max(Date) - days(7)) %>% .$Date %>% format('%d %b %y')}")
 colnames(table_content)[3] = glue("{COVID_Wastewater_National_table %>% tail(1) %>%.$Date %>% convert_opendata_date() %>% format('%d %b %y')}")
 colnames(table_content) <- gsub("_", " ", colnames(table_content))
 
