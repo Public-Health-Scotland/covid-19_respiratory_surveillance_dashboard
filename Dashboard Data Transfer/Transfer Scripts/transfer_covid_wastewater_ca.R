@@ -1,7 +1,7 @@
 # Dashboard data transfer for Wastewater CA data
 # Sourced from ../dashboard_data_transfer.R
 
-i_councilarea=  read_csv_with_options(glue(input_data, "CAtable{report_date-1}.csv")) %>% 
+i_councilarea=  read_csv_with_options(glue(input_data, "CAtable_NHSLothian{report_date-1}.csv")) %>% 
   select(-1)
 
 ca_avg <- i_councilarea %>% 

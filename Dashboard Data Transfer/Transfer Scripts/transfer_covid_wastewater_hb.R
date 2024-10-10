@@ -1,7 +1,7 @@
 # Dashboard data transfer for Wastewater HB data
 # Sourced from ../dashboard_data_transfer.R
 
-i_healthboard <- read_csv_with_options(glue(input_data, "HBtable{report_date-1}.csv")) %>% 
+i_healthboard <- read_csv_with_options(glue(input_data, "HBtable_NHSLothian{report_date-1}.csv")) %>% 
   select(-1)
 
 hb_avg <- i_healthboard %>% 
