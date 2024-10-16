@@ -9,7 +9,7 @@ tagList(
 
   fluidRow(width=12,
            box(width = NULL,
-               withNavySpinner(dataTableOutput("cases_intro_table"))),
+               withNavySpinner(reactableOutput("cases_intro_table"))),
                fluidRow(
                  width=12, linebreaks(1)),
            p("Please refer to metadata tab for further information on testing policies."),
