@@ -158,8 +158,24 @@ write_csv(respiratory_pathogens_MEM_agegp, glue(output_folder, "Respiratory_Path
 #### for use in spatial mem maps ####
 
 # create small dataframe for use in maps
+
+last_two_seasons <- respiratory_pathogens_MEM_hb%>%
+  filter(Pathogen == "Influenza" & HBName == "NHS Ayrshire and Arran") %>%
+  select(Season) %>%
+  arrange(Season) %>%
+  distinct() %>%
+  tail(1) 
+
+this_season= last_two_seasons %>% 
+  tail(1)%>% 
+  pull(Season)
+
+last_season= last_two_seasons %>% 
+ head(1)%>% 
+  pull(Season)
+
 respiratory_pathogens_MEM_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
-  filter(Season=="2022/2023" | Season=="2023/2024") %>% 
+  filter(Season==this_season | Season==last_season) %>% 
   select(WeekEnding, Season, Year, ISOWeek,HB, HBName, Pathogen, 
          RatePer100000,ActivityLevel, Weekord ) %>% 
   mutate(ActivityLevelColour = case_when(
@@ -178,4 +194,6 @@ respiratory_pathogens_MEM_hb_two_seasons<-respiratory_pathogens_MEM_hb %>%
   arrange(HBName, Pathogen)
 
 write_csv(respiratory_pathogens_MEM_hb_two_seasons, glue(output_folder, "Respiratory_Pathogens_MEM_HB_Two_Seasons.csv"))
+
+rm(respiratory_pathogens_MEM_hb_two_seasons, last_season, this_season, last_two_seasons )
 #### end map section  ####
