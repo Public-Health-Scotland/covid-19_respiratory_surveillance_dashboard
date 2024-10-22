@@ -307,7 +307,7 @@ ui <- fluidPage(
                             tabPanel(title = "National",
                                      value = "wastewater_national",
                                      column(12, source(file.path("indicators/wastewater/national/national_ui.R"), local = TRUE)$value)),
-                            tabPanel(title = "Health Board",
+                            tabPanel(title = "NHS Health Board",
                                      value = "wastewater_hb",
                                      column(12, source(file.path("indicators/wastewater/health_board/hb_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Local Authority",

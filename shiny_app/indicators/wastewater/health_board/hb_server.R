@@ -64,7 +64,7 @@ output$health_board_plot =  renderPlotly({
 altTextServer("HB_modal",
               title = "Weekly trend in wastewater COVID-19 by NHS Health Board",
               content = tags$ul(tags$li("This is a plot showing the weekly trend in wastewater COVID-19 for the selected NHS Health Board."),
-                                tags$li("The x-axis shows week ending date, starting from 02 June 2020."),
+                                tags$li("The x-axis shows week ending date, starting from June 2020."),
                                 tags$li("The y-axis shows the average wastewater COVID-19 viral level in million gene copies per person per day."),
                                 tags$li("The plot contains two traces. The purple line shows the average wastewater COVID-19 viral level in the ",
                                         "selected NHS Health Board. The green line shows the average wastewater COVID-19 viral level in Scotland."),

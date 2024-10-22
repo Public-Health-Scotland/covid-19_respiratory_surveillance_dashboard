@@ -1,5 +1,9 @@
 #create map
 
+metadataButtonServer(id="maps_wastewater_metadata",
+                     panel="Wastewater",
+                     parent = session)
+
 output$wastewater_spatial_map <- renderLeaflet({
   # select week to display 
   filtered_data = HB_Polygons %>% 
@@ -20,8 +24,8 @@ output$sites_table = renderDataTable({
   datatable(
     filtered_data %>% 
       select(health_board,site_name) %>% #select the columns needed
-      dplyr::rename('Site name' = site_name) %>% #rename the columns
-      dplyr::rename('Health Board' = health_board),
+      dplyr::rename('Wastewater Treatment Work' = site_name) %>% #rename the columns
+      dplyr::rename('NHS Health Board' = health_board),
     rownames = FALSE,
     options = list(
       dom = 't',        # Only show the table body

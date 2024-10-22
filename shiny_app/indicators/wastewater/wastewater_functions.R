@@ -55,19 +55,19 @@ create_wastewater_hb_map <- function(hb_data, site_data) {
                 opacity = 0.6, fillOpacity = 0.6, color = "black", dashArray = "0",
                 popup = ~paste0(
                   "Week Ending Date: ", format(End, "%d %b %y"), "<br>",
-                  "Health Board: ", health_board, "<br>",
+                  "NHS Health Board: ", health_board, "<br>",
                   "Average (Mgc/p/d): ", round(average, 2), "<br>",
                   "Coverage: ", paste0(round(coverage, 2)*100,"%")),
-                label = ~paste0("Health Board: ", health_board),
+                label = ~paste0("NHS Health Board: ", health_board),
                 labelOptions = labelOptions(noHide = FALSE, direction = "auto"),
                 highlightOptions = highlightOptions(color = "#ECEBF3", weight = 2, bringToFront = FALSE),
-                group = "Health Boards") %>%
+                group = "NHS Health Boards") %>%
     addCircleMarkers(data = site_data,
                      radius = 2, color = "#83BB26", fill = TRUE, fillOpacity = 1,stroke=FALSE,
-                     popup = ~paste0("Site: ", site_name,"<br>",
-                                     "Health Board: ",health_board),
-                     group="Sites") %>% 
-    addLayersControl(overlayGroups = c("Health Boards", "Sites"),
+                     popup = ~paste0("Wastewater Treatment Work: ", site_name,"<br>",
+                                     "NHS Health Board: ",health_board),
+                     group="WWTW") %>% 
+    addLayersControl(overlayGroups = c("NHS Health Boards", "WWTW"),
                      options = layersControlOptions(collapsed = FALSE))
   return(hb_map)
 }

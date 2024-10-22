@@ -64,7 +64,7 @@ output$council_area_plot =  renderPlotly({
 altTextServer("CA_modal",
               title = "Weekly trend in wastewater COVID-19 by Local authority",
               content = tags$ul(tags$li("This is a plot showing the weekly trend in wastewater COVID-19 for the selected Local authority."),
-                                tags$li("The x-axis shows week ending date, starting from 02 June 2020."),
+                                tags$li("The x-axis shows week ending date, starting from June 2020."),
                                 tags$li("The y-axis shows the average wastewater COVID-19 viral level in million gene copies per person per day."),
                                 tags$li("The plot contains two traces. The purple line shows the average wastewater COVID-19 viral level in the ",
                                         "selected Local authority. The green line shows the average wastewater COVID-19 viral level in Scotland."),

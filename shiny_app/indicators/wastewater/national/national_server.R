@@ -39,13 +39,12 @@ output$wastewater_week_ending_table <- renderDataTable({
 
 
 altTextServer("national_wastewater_modal",
-              title = "Seven day average trend in wastewater COVID-19",
+              title = "Seven-day average trend in wastewater COVID-19",
               content = tags$ul(tags$li("This is a plot showing the running average trend in wastewater COVID-19."),
                                 tags$li("The x axis shows date of sample, starting from 28 May 2020."),
                                 tags$li("The y axis shows the wastewater COVID-19 viral level in million gene copies per person per day."),
-                                tags$li("There is one trace which shows the 7 day average of the watewater COVID-19 viral level."),
-                                tags$li("There have been peaks throughout the pandemic, notably in",
-                                        "Sep 2021, Dec 2021, Mar 2022 and Jun 2022")))
+                                tags$li("There is one trace which shows the seven-day average of the COVID-19 wastewater viral RNA level.")))
+
 #wastewater plot
 output$national_wastewater_plot <- renderPlotly({
   COVID_Wastewater_National_table %>%
@@ -57,7 +56,7 @@ output$national_wastewater_plot <- renderPlotly({
 output$national_wastewater_table <- renderDataTable({
   COVID_Wastewater_National_table %>%
     mutate(Date = convert_opendata_date(Date)) %>%
-    dplyr::rename('7 day average (Mgc/p/d)' = average) %>%
+    dplyr::rename('Seven-day average (Mgc/p/d)' = average) %>%
     arrange(desc(Date)) %>%
     make_table(add_separator_cols_2dp = 2, order_by_firstcol = "desc",filter_cols = TRUE)
 })

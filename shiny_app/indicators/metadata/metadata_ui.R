@@ -389,6 +389,32 @@ tagList(h1("Metadata"),
                                    br()
 
                    ),
+                   
+                   
+                   #### WASTEWATER PANEL ----
+                   bsCollapsePanel("Wastewater",
+                                   
+                                   # Infection Levels ----
+                                   h4("COVID-19"),
+                                   p("In June 2020, Scottish Government, in partnership with Scottish Water and the Scottish Environment Protection Agency (SEPA), established a 
+                                     national Wastewater Monitoring Programme for SARS-CoV-2 in Scotland. This surveillance system detects fragments, known as ribonucleic acid 
+                                     (RNA), of the SARS-CoV-2 virus genome from wastewater samples."),
+                                   p("In contrast to COVID-19 case records, virus shedding into wastewater is a biological process, meaning wastewater data is unaffected by 
+                                     factors that impact whether individuals seek and access healthcare. Around 150-200 sewage samples each week are collected by Scottish Water 
+                                     from 115 wastewater treatment works across Scotland and sent to NHS Lothian for testing (carried out by SEPA until end July 2024)."),
+                                   p("A quantitative Polymerase Chain Reaction (qPCR) method is used to quantify the strength of the RNA signal in a cleaned and concentrated 
+                                     sample, allowing PHS to calculate the number of SARS-CoV-2 virus markers in each sample. This raw viral concentration is reported as gene 
+                                     copies per litre (gc/L). It should be noted that levels of SARS-CoV-2 quantity can show a substantial degree of variability, particularly 
+                                     at the scale of individual sampling sites. Household drainage water is typically mixed with water from other urban sources, meaning samples 
+                                     will contain rainwater which dilutes the sample. This variability is accounted for by controlling for the volumes of influent received by 
+                                     wastewater treatment works, known as ‘flow’ (sourced from Scottish Water). Flow is controlled for directly where feasible, or otherwise 
+                                     using an approximation based on ammonia levels. The data are also adjusted by the population size covered by each treatment works’ catchment 
+                                     area and finally reported as million gene copies per person per day (Mgc/p/d)."),
+                                   p(strong("Source: Wastewater data analyses for COVID-19 are produced by PHS Wastewater Analysis Group for the Wastewater Monitoring Programme 
+                                            in Scotland, which is operated by Scottish Government in partnership with Scottish Water and NHS Lothian")),
+                                   br()
+                                   
+                   ),
 
                    #### SYNDROMIC SURVEILLANCE PANEL ----
                    bsCollapsePanel("Syndromic Surveillance",
