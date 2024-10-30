@@ -17,6 +17,8 @@ metadataButtonServer(id="download",
                      panel="Cases",
                      parent = session)
 
+Wastewater <- COVID_Wastewater_National_table %>%
+  rename(WastewaterSevenDayAverageMgc = average)
 
 cases_download_choices <- list(
   "Weekly COVID-19 reported cases" = "Cases_Weekly",
