@@ -312,10 +312,10 @@ ui <- fluidPage(
                                      column(12, source(file.path("indicators/wastewater/health_board/hb_ui.R"), local = TRUE)$value)),
                             tabPanel(title = "Local Authority",
                                      value = "wastewater_la",
-                                     column(12, source(file.path("indicators/wastewater/local_authority/la_ui.R"), local = TRUE)$value))#,
-                            # tabPanel(title = "Spatial Maps",
-                            #          value = "wastewater_spatial_maps",
-                            #          column(12, source(file.path("indicators/wastewater/spatial_maps/maps_ui.R"), local = TRUE)$value))
+                                     column(12, source(file.path("indicators/wastewater/local_authority/la_ui.R"), local = TRUE)$value)),
+                            tabPanel(title = "Spatial Maps",
+                                     value = "wastewater_spatial_maps",
+                                     column(12, source(file.path("indicators/wastewater/spatial_maps/maps_ui.R"), local = TRUE)$value))
                ) # navbarlistPanel
                #
       ),#tabPanel
@@ -450,7 +450,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/wastewater/national/national_server.R"), local = TRUE)$value
   source(file.path("indicators/wastewater/health_board/hb_server.R"), local = TRUE)$value
   source(file.path("indicators/wastewater/local_authority/la_server.R"), local = TRUE)$value
-  #source(file.path("indicators/wastewater/spatial_maps/maps_server.R"), local = TRUE)$value
+  source(file.path("indicators/wastewater/spatial_maps/maps_server.R"), local = TRUE)$value
   
   auto_invalidate <- reactiveTimer(10000)
   observe({
