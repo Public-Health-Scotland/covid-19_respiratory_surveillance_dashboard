@@ -352,6 +352,16 @@ ui <- fluidPage(
                value = "mortality",
                column(12, source(file.path("indicators/mortality/euromomo/euromomo_ui.R"), local = TRUE)$value)
       ),#tabPanel
+     ##############################################.
+     # EQUALITIES ----
+     ##############################################.
+     tabPanel(title ="Equalities",
+              # Look at https://fontawesome.com/search?m=free for icons
+              icon = icon_no_warning_fn("virus"),
+              value = "equalities",
+              column(12, source(file.path("indicators/equalities/equalities_ui.R"), local = TRUE)$value)
+     ),#tabPanel
+     
 
 
       ##############################################.
@@ -410,6 +420,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
   source(file.path("indicators/mortality/euromomo/euromomo_functions.R"), local = TRUE)$value
   source(file.path("indicators/wastewater/wastewater_functions.R"), local = TRUE)$value
+  source(file.path("indicators/equalities/equalities_functions.R"), local = TRUE)$value
 
   # Get content for individual pages
   source(file.path("indicators/introduction/introduction_server.R"), local = TRUE)$value
@@ -453,6 +464,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/wastewater/national/national_server.R"), local = TRUE)$value
   source(file.path("indicators/wastewater/health_board/hb_server.R"), local = TRUE)$value
   source(file.path("indicators/wastewater/local_authority/la_server.R"), local = TRUE)$value
+  source(file.path("indicators/equalities/equalities_server.R"), local = TRUE)$value
   #source(file.path("indicators/wastewater/spatial_maps/maps_server.R"), local = TRUE)$value
   
   auto_invalidate <- reactiveTimer(10000)

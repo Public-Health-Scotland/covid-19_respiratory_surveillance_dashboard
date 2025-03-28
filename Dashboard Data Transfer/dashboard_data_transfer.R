@@ -150,6 +150,9 @@ source("Transfer Scripts/transfer_admissions.R")
 ##### Length of Stay
 source("Transfer Scripts/transfer_los.R")
 
+##### Equalities (Twice-yearly)
+source("Transfer Scripts/transfer_equalities.R")
+
 ##### Vaccine Wastage
 # source("Transfer Scripts/transfer_vacc_wastage.R")
 

@@ -491,6 +491,32 @@ tagList(h1("Metadata"),
                            tags$a("National Records of Scotland (NRS)",
                            href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/general-publications/weekly-deaths-registered-in-scotland")
                   ))),
+                
+                #### EQUALITIES PANEL ----
+                bsCollapsePanel("Equalities",
+                                
+                                h4("Equalities"),
+                                #p("Distribution of COVID-19, Influenza and RSV cases and acute hospital admissions by ethnic group and deprivation (Scottish Index of Multiple Deprivation)."),
+                                p("Distribution of COVID-19, Influenza and RSV acute hospital admissions by ethnic group and deprivation (Scottish Index of Multiple Deprivation)."),
+                                #p("Please refer to COVID-19, Influenza or RSV metadata for definitions of cases and acute hospital admissions."),
+                                p("Please refer to COVID-19, Influenza or RSV metadata for definitions of acute hospital admissions."),
+                                br(),
+                                h4("Ethnic group"),
+                                p("Ethnicity data are sourced from various NHS hospital activity datasets (SMR00, SMR01, SMR04, Rapid Preliminary Inpatient Data (RAPID) and A&E),",
+                                  "Case Management System (CMS) and Electronic Communication of Surveillance in Scotland (ECOSS)."),
+                                p("High level ethnicity groupings are presented as: White, Mixed or multiple ethnic groups, Asian, Asian Scottish or Asian British, African, Caribbean or Black, Other and Unknown."),
+                                br(),
+                                h4("Scottish Index of Multiple Deprivation (SIMD)"),
+                                p("The ",
+                                  tags$a("Scottish Index of Multiple Deprivation (SIMD) (external website)", href="https://simd.scot/#/simd2020/BTTTFTT/9/-4.0000/55.9000/"),
+                                  " provides a relative ranking of the data zones in Scotland from 1 (most deprived) to 6,976 (least deprived) based on a weighted combination of data for seven",
+                                  "domains: income, employment, health, education, skills and training, geographic access to services, crime and housing.",
+                                  "The dataset includes ranks for each domain, as well as quantile bands for the overall and domain ranks (5%, 10% and 20%)."),
+                                p("Each data zone is assigned to deciles and quintiles, with band 1 containing the most deprived data zones.",
+                                  "For instance, SIMD quintile 1 contains the most deprived 20% of data zones and quintile 5 contains the least deprived 20% of data zones."),
+                                p(strong("Source: Electronic Communication of Surveillance in Scotland (ECOSS); UK Government self-reported / NSS Portal | Rapid and Preliminary Inpatient Data (RAPID)")
+                                )),
+                
 
 
                 #### GLOSSARY PANEL ----

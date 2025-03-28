@@ -10,6 +10,7 @@ observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", 
 observeEvent(input$jump_to_wastewater, {updateTabsetPanel(session, "intabset", selected = "wastewater")})
 observeEvent(input$jump_to_syndromic, {updateTabsetPanel(session, "intabset", selected = "syndromic_surveillance")})
 observeEvent(input$jump_to_mortality, {updateTabsetPanel(session, "intabset", selected = "mortality")})
+observeEvent(input$jump_to_equalities, {updateTabsetPanel(session, "intabset", selected = "equalities")})
 observeEvent(input$jump_to_metadata, {updateTabsetPanel(session, "intabset", selected = "metadata")})
 observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", selected = "download")})
 
@@ -63,6 +64,15 @@ output$introduction_about <- renderUI({
                     actionButton("jump_to_mortality", "Mortality"))),
             column(8, p("This section presents estimates of weekly all-cause excess
                         mortality, using the European monitoring system (Euromomo)."))),
+          br(),
+          
+          fluidRow(
+            column(4,tags$div(class = "special_button",
+                              actionButton("jump_to_equalities", "Equalities"))),
+            column(8, p("This section presents data on the distribution of
+                        cases and acute hospital admissions for the selected pathogen, comparing
+                        current and previous seasons, broken down by ethnic group or
+                        Scottish Index of Multiple Deprivation – SIMD quintile."))),
           br(),
 
 
