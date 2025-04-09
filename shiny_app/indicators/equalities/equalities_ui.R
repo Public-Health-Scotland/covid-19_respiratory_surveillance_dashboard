@@ -25,7 +25,24 @@ tagList(
                                  choices = c("Ethnicity", "Deprivation quintile (SIMD)"),
                                  selected = "Ethnicity") # pickerInput
            )
-  ),
+  ),fluidRow(width = 12,
+             tagList(uiOutput("equalities_cases_plot_title"),
+                     tabBox(width = NULL,
+                            type = "pills",
+                            tabPanel("Plot",
+                                     tagList(linebreaks(1),
+                                             altTextUI("equalities_cases_modal"),
+                                             withNavySpinner(plotlyOutput("equalities_cases_plot")),
+                                             fluidRow(
+                                               width=12, linebreaks(1)))),
+                            tabPanel("Data",
+                                     tagList(
+                                       withNavySpinner(dataTableOutput("equalities_cases_table"))
+                                     ) # tagList
+                            ) # tabPanel
+                     ) # tabBox
+             ) # tagList
+  ), #fluidrow
   
   fluidRow(width = 12,
            tagList(uiOutput("equalities_admission_plot_title"),
