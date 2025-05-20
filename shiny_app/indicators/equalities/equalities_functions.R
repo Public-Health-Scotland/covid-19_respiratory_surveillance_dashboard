@@ -6,7 +6,7 @@ make_equalities_admission_ethnicity_plot <- function(data){
   
   data %<>%
     # arrange(desc(WeekEnding)) %>%
-    mutate(Proportion = round_half_up(Proportion,2)) %>% 
+    mutate(Proportion = round_half_up(Rate,2)) %>% 
     mutate(col = case_match(EthnicDesc,
                             "African" ~ palette[1],
                             "Asian (inc. Scottish/British)" ~ palette[2],
@@ -19,19 +19,20 @@ make_equalities_admission_ethnicity_plot <- function(data){
   
   
   yaxis_plots[["title"]] <- ""
-  xaxis_plots[["title"]] <- "Percentage of admissions (%)"
+  xaxis_plots[["title"]] <- "Rate of admission, per 1,000 population"
   
   # Adding slider
   # xaxis_plots[["rangeslider"]] <- list(type = "date")
   # yaxis_plots[["fixedrange"]] <- FALSE
   
   
-  p <- plot_ly(data,x = ~Proportion, y = c(~EthnicDesc,~EthnicGroup),
+  p <- plot_ly(data,x = ~Rate, y = c(~EthnicDesc,~EthnicGroup),
               type="bar", orientation = "h",
               marker = list(color = ~col),
               hovertemplate = ~paste0('<b>Season</b>:', Season, "<br>",
                                       '<b>Ethnic Group</b>: %{y}<br>',
-                                      '<b>Percentage (%)</b>: %{x}')
+                                      '<b>Rate</b>: %{x}'),
+              name = " "
     ) %>%
     layout(margin = list(b = 10, t = 5, l = 200),
            yaxis = yaxis_plots, xaxis = xaxis_plots,
@@ -93,7 +94,7 @@ make_equalities_cases_ethnicity_plot <- function(data){
   
   data %<>%
     # arrange(desc(WeekEnding)) %>%
-    mutate(Proportion = round_half_up(Proportion,2)) %>% 
+    mutate(Rate = round_half_up(Rate,2)) %>% 
     mutate(col = case_match(EthnicDesc,
                             "African" ~ palette[1],
                             "Asian (inc. Scottish/British)" ~ palette[2],
@@ -105,19 +106,20 @@ make_equalities_cases_ethnicity_plot <- function(data){
     arrange(desc(EthnicDesc))
   
   yaxis_plots[["title"]] <- ""
-  xaxis_plots[["title"]] <- "Percentage of cases (%)"
+  xaxis_plots[["title"]] <- "Rate of cases, per 1,000 population"
   
   # Adding slider
   # xaxis_plots[["rangeslider"]] <- list(type = "date")
   # yaxis_plots[["fixedrange"]] <- FALSE
   
   
-  p <- plot_ly(data,x = ~Proportion, y = c(~EthnicDesc,~EthnicGroup),
+  p <- plot_ly(data,x = ~Rate, y = c(~EthnicDesc,~EthnicGroup),
                type="bar", orientation = "h",
                marker = list(color = ~col),
                hovertemplate = ~paste0('<b>Season</b>:', Season, "<br>",
                                        '<b>Ethnic Group</b>: %{y}<br>',
-                                       '<b>Percentage (%)</b>: %{x}')
+                                       '<b>Rate</b>: %{x}'),
+               name = " "
   ) %>%
     layout(margin = list(b = 10, t = 5, l = 200),
            yaxis = yaxis_plots, xaxis = xaxis_plots,

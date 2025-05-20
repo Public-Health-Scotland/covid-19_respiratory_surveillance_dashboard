@@ -60,15 +60,20 @@ observeEvent(input$equalities_select_pathogen,{
     
     if (input$equalities_select_indicator == "Ethnicity") {
       indicator_selection <- tolower(indicator_selection)
-      
+      output$equalities_admission_plot_title <- renderUI({h2(glue("Rate of ",{pathogen_selection},
+                                                                  " hospital admissions by ",
+                                                                  {indicator_selection}))})
     }else{
       
       indicator_selection <- "deprivation quintile (SIMD)"
+      output$equalities_admission_plot_title <- renderUI({h2(glue("Percentage of ",{pathogen_selection},
+                                                                  " hospital admissions by ",
+                                                                  {indicator_selection}))})
     }
     
-    output$equalities_admission_plot_title <- renderUI({h2(glue("Percentage of ",{pathogen_selection},
-                                                                " hospital admissions by ",
-                                                                {indicator_selection}))})
+   # output$equalities_admission_plot_title <- renderUI({h2(glue("Percentage of ",{pathogen_selection},
+    #                                                            " hospital admissions by ",
+     #                                                           {indicator_selection}))})
     
   })
 })
@@ -94,16 +99,23 @@ observeEvent(input$equalities_select_pathogen,{
     
     if (input$equalities_select_indicator == "Ethnicity") {
       indicator_selection <- tolower(indicator_selection)
+      output$equalities_cases_plot_title <- renderUI({h2(glue("Rate of ",{pathogen_selection},
+                                                              " cases by ",
+                                                              {indicator_selection}))})
       
     }else{
       
       indicator_selection <- "deprivation quintile (SIMD)"
+      output$equalities_cases_plot_title <- renderUI({h2(glue("Percentage of ",{pathogen_selection},
+                                                              " cases by ",
+                                                              {indicator_selection}))})
+      
     }
     
-    output$equalities_cases_plot_title <- renderUI({h2(glue("Percentage of ",{pathogen_selection},
-                                                                " cases by ",
-                                                                {indicator_selection}))})
-    
+    # output$equalities_cases_plot_title <- renderUI({h2(glue("Percentage of ",{pathogen_selection},
+    #                                                             " cases by ",
+    #                                                             {indicator_selection}))})
+    # 
   })
 })
 
@@ -161,15 +173,16 @@ output$equalities_cases_plot <- renderPlotly ({
 
 #Data tables ----
 
+#admissions
 output$equalities_admission_table <- renderDataTable({
   
   if(input$equalities_select_indicator == "Ethnicity"){
     
     Admissions_Ethnicity %>%
       filter(Pathogen == input$equalities_select_pathogen) %>%
-      select(Season, Pathogen, EthnicGroup, Proportion) %>%
+      select(Season, Pathogen, EthnicGroup, Rate) %>%
       dplyr::rename('Ethnic Group' = EthnicGroup,
-                    'Percentage (%)' = Proportion) %>%
+                    'Rate' = Rate) %>%
       arrange(desc(Season)) %>%
       make_table(add_separator_cols_2dp = 4)
   } else {
