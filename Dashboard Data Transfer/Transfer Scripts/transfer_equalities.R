@@ -91,39 +91,68 @@ write.csv(g_easr_ethnicity, glue(output_folder, "Admissions_Ethnicity.csv"), row
 
 write.csv(g_admissions_simd, glue(output_folder, "Admissions_Simd.csv"), row.names = FALSE)
 
-rm(i_admissions_equalities, g_admissions_ethnicity, ethnicity_adm_prop, g_admissions_simd, simd_adm_prop)
+rm(i_admissions_equalities, g_easr_ethnicity, ethnicity_adm_prop, g_admissions_simd, simd_adm_prop)
 
 ##cases
 
+#cases - ethnicity
 i_cases_equalities <- read_excel_with_options(glue(input_data, "equality_cases_combined.xlsx"))
 
 
 
 g_cases_ethnicity <- i_cases_equalities %>%
-  select(chi, Pathogen, Season, Week, Year, ethnic_code, ethnic_group,ethnic_desc) %>%
+  select(chi,age_group, Pathogen, Season, Week, Year, ethnic_code, ethnic_group,ethnic_desc) %>%
+  filter(ethnic_group != "Not Known") %>%  #removing rows with unknowns
   dplyr::rename(CHI = chi,
                 EthnicCode = ethnic_code,
                 EthnicGroup = ethnic_group,
-                EthnicDesc = ethnic_desc) %>%
-  group_by(Season, Pathogen, EthnicCode, EthnicGroup,EthnicDesc) %>%
+                EthnicDesc = ethnic_desc,
+                AgeGroup = age_group) %>%
+  group_by(Season, Pathogen,AgeGroup, EthnicCode, EthnicGroup,EthnicDesc) %>%
   summarise(Cases = n())
 
  g_cases_ethnicity <-  g_cases_ethnicity %>% 
-   left_join(ethnicity_population, by = join_by( "EthnicGroup" == "ethnic_group", "EthnicCode" == "ethnic_code"))
+   left_join(ethnicity_age_population, by = c("EthnicGroup","AgeGroup"))
  
+
+ 
+ #use a join to attach the European Standard Population data
  g_cases_ethnicity <- g_cases_ethnicity %>% 
-   mutate(Rate = (Cases/population)*1000)
+   left_join(euro_std_pop,by = join_by("AgeGroup" == "age"))
  
-g_cases_ethnicity$Rate[is.na(g_cases_ethnicity$Rate)] <- 0
+ 
+ # inserting a column into our data frame for the age-specific rate
+ g_cases_ethnicity_standardised <-g_cases_ethnicity %>%
+   group_by(Season,Pathogen,EthnicGroup,AgeGroup) %>% 
+   mutate(age_specific_rate = (Cases * k) / census_population) %>% 
+   # insert 2 new columns
+   # the first column gives the age specific rate for the standard population
+   mutate(asr_std_popn = age_specific_rate * esp_2013)
+ 
+ 
+ # Step 1: Calculate EASR
+ g_easr_ethnicity_cases <- g_cases_ethnicity_standardised %>%
+   group_by(Season, Pathogen, EthnicGroup) %>% #dropping the age groups and calculating easr within each ethnic group
+   summarise(
+     EASR = sum(asr_std_popn) / sum(esp_2013),
+     .groups = "drop"
+   )
+ 
+ # Step 2: Join back EthnicDesc
+ 
+ 
+ g_easr_ethnicity_cases <- g_easr_ethnicity_cases %>%
+   left_join(
+     g_cases_ethnicity %>%
+       ungroup() %>% 
+       select(EthnicGroup, EthnicDesc) %>%
+       distinct(),
+     by = "EthnicGroup"
+   ) %>% 
+   select(Season,Pathogen,EthnicGroup,EthnicDesc,EASR)
 
-# ethnicity_cases_prop <- g_cases_ethnicity %>%
-#   group_by(Season, Pathogen) %>%
-#   summarise(Proportion = (Cases/sum(Cases))*100) %>%
-#   ungroup()
-# 
-# g_cases_ethnicity$Proportion = ethnicity_cases_prop$Proportion
-
-
+ 
+ #simd for cases
 
 g_cases_simd <- i_cases_equalities %>%
   select(chi, Pathogen, Season, Week, Year, simd2020v2_sc_quintile) %>%
@@ -143,8 +172,8 @@ simd_cases_prop <- g_cases_simd %>%
 g_cases_simd$Proportion = simd_cases_prop$Proportion
 
 
-write.csv(g_cases_ethnicity, glue(output_folder, "Cases_Ethnicity.csv"), row.names = FALSE)
+write.csv(g_easr_ethnicity_cases, glue(output_folder, "Cases_Ethnicity.csv"), row.names = FALSE)
 
 write.csv(g_cases_simd, glue(output_folder, "Cases_Simd.csv"), row.names = FALSE)
 
-rm(i_cases_equalities, g_cases_ethnicity, ethnicity_cases_prop, g_cases_simd, simd_cases_prop)
+rm(i_cases_equalities, g_easr_ethnicity_cases, ethnicity_cases_prop, g_cases_simd, simd_cases_prop)

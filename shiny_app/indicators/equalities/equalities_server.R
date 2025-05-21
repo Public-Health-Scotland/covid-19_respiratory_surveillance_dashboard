@@ -60,8 +60,8 @@ observeEvent(input$equalities_select_pathogen,{
     
     if (input$equalities_select_indicator == "Ethnicity") {
       indicator_selection <- tolower(indicator_selection)
-      output$equalities_admission_plot_title <- renderUI({h2(glue("Rate of ",{pathogen_selection},
-                                                                  " hospital admissions by ",
+      output$equalities_admission_plot_title <- renderUI({h2(glue("Directly age-standardised hospital admissions for ",{pathogen_selection},
+                                                                  " by ",
                                                                   {indicator_selection}))})
     }else{
       
@@ -99,8 +99,8 @@ observeEvent(input$equalities_select_pathogen,{
     
     if (input$equalities_select_indicator == "Ethnicity") {
       indicator_selection <- tolower(indicator_selection)
-      output$equalities_cases_plot_title <- renderUI({h2(glue("Rate of ",{pathogen_selection},
-                                                              " cases by ",
+      output$equalities_cases_plot_title <- renderUI({h2(glue("Directly age-standardised cases for ",{pathogen_selection},
+                                                              " by ",
                                                               {indicator_selection}))})
       
     }else{
@@ -180,9 +180,9 @@ output$equalities_admission_table <- renderDataTable({
     
     Admissions_Ethnicity %>%
       filter(Pathogen == input$equalities_select_pathogen) %>%
-      select(Season, Pathogen, EthnicGroup, Rate) %>%
+      select(Season, Pathogen, EthnicGroup, EASR) %>%
       dplyr::rename('Ethnic Group' = EthnicGroup,
-                    'Rate' = Rate) %>%
+                    'Rate' = EASR) %>%
       arrange(desc(Season)) %>%
       make_table(add_separator_cols_2dp = 4)
   } else {
@@ -205,9 +205,9 @@ output$equalities_cases_table <- renderDataTable({
     
     Cases_Ethnicity %>%
       filter(Pathogen == input$equalities_select_pathogen) %>%
-      select(Season, Pathogen, EthnicGroup, Proportion) %>%
+      select(Season, Pathogen, EthnicGroup, EASR) %>%
       dplyr::rename('Ethnic Group' = EthnicGroup,
-                    'Percentage (%)' = Proportion) %>%
+                    'Rate' = EASR) %>%
       arrange(desc(Season)) %>%
       make_table(add_separator_cols_2dp = 4)
   } else {

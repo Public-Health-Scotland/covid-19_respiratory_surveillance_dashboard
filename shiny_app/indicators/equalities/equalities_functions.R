@@ -6,7 +6,7 @@ make_equalities_admission_ethnicity_plot <- function(data){
   
   data %<>%
     # arrange(desc(WeekEnding)) %>%
-    mutate(Proportion = round_half_up(Rate,2)) %>% 
+    mutate(EASR = round_half_up(EASR,2)) %>% 
     mutate(col = case_match(EthnicDesc,
                             "African" ~ palette[1],
                             "Asian (inc. Scottish/British)" ~ palette[2],
@@ -19,14 +19,14 @@ make_equalities_admission_ethnicity_plot <- function(data){
   
   
   yaxis_plots[["title"]] <- ""
-  xaxis_plots[["title"]] <- "Rate of admission, per 1,000 population"
+  xaxis_plots[["title"]] <- "Rate of admission, per 100,000 population"
   
   # Adding slider
   # xaxis_plots[["rangeslider"]] <- list(type = "date")
   # yaxis_plots[["fixedrange"]] <- FALSE
   
   
-  p <- plot_ly(data,x = ~Rate, y = c(~EthnicDesc,~EthnicGroup),
+  p <- plot_ly(data,x = ~EASR, y = c(~EthnicDesc,~EthnicGroup),
               type="bar", orientation = "h",
               marker = list(color = ~col),
               hovertemplate = ~paste0('<b>Season</b>:', Season, "<br>",
@@ -94,7 +94,7 @@ make_equalities_cases_ethnicity_plot <- function(data){
   
   data %<>%
     # arrange(desc(WeekEnding)) %>%
-    mutate(Rate = round_half_up(Rate,2)) %>% 
+    mutate(EASR = round_half_up(EASR,2)) %>% 
     mutate(col = case_match(EthnicDesc,
                             "African" ~ palette[1],
                             "Asian (inc. Scottish/British)" ~ palette[2],
@@ -106,14 +106,14 @@ make_equalities_cases_ethnicity_plot <- function(data){
     arrange(desc(EthnicDesc))
   
   yaxis_plots[["title"]] <- ""
-  xaxis_plots[["title"]] <- "Rate of cases, per 1,000 population"
+  xaxis_plots[["title"]] <- "Rate of cases, per 100,000 population"
   
   # Adding slider
   # xaxis_plots[["rangeslider"]] <- list(type = "date")
   # yaxis_plots[["fixedrange"]] <- FALSE
   
   
-  p <- plot_ly(data,x = ~Rate, y = c(~EthnicDesc,~EthnicGroup),
+  p <- plot_ly(data,x = ~EASR, y = c(~EthnicDesc,~EthnicGroup),
                type="bar", orientation = "h",
                marker = list(color = ~col),
                hovertemplate = ~paste0('<b>Season</b>:', Season, "<br>",
