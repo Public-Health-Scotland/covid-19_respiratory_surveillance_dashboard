@@ -48,7 +48,7 @@ g_admissions_ethnicity_standardised <-g_admissions_ethnicity %>%
 g_easr_ethnicity <- g_admissions_ethnicity_standardised %>%
   group_by(Season, Pathogen, EthnicGroup) %>% #dropping the age groups and calculating easr within each ethnic group
   summarise(
-    EASR = sum(asr_std_popn) / sum(esp_2013),
+    EASR = sum(asr_std_popn) / k,
     .groups = "drop"
   )
 
@@ -91,14 +91,14 @@ write.csv(g_easr_ethnicity, glue(output_folder, "Admissions_Ethnicity.csv"), row
 
 write.csv(g_admissions_simd, glue(output_folder, "Admissions_Simd.csv"), row.names = FALSE)
 
-rm(i_admissions_equalities, g_easr_ethnicity, ethnicity_adm_prop, g_admissions_simd, simd_adm_prop)
+rm(i_admissions_equalities, g_easr_ethnicity, g_admissions_simd, simd_adm_prop)
 
 ##cases
 
-#cases - ethnicity
+
 i_cases_equalities <- read_excel_with_options(glue(input_data, "equality_cases_combined.xlsx"))
 
-
+#cases - ethnicity
 
 g_cases_ethnicity <- i_cases_equalities %>%
   select(chi,age_group, Pathogen, Season, Week, Year, ethnic_code, ethnic_group,ethnic_desc) %>%
@@ -134,7 +134,7 @@ g_cases_ethnicity <- i_cases_equalities %>%
  g_easr_ethnicity_cases <- g_cases_ethnicity_standardised %>%
    group_by(Season, Pathogen, EthnicGroup) %>% #dropping the age groups and calculating easr within each ethnic group
    summarise(
-     EASR = sum(asr_std_popn) / sum(esp_2013),
+     EASR = sum(asr_std_popn) / k,
      .groups = "drop"
    )
  
@@ -176,4 +176,4 @@ write.csv(g_easr_ethnicity_cases, glue(output_folder, "Cases_Ethnicity.csv"), ro
 
 write.csv(g_cases_simd, glue(output_folder, "Cases_Simd.csv"), row.names = FALSE)
 
-rm(i_cases_equalities, g_easr_ethnicity_cases, ethnicity_cases_prop, g_cases_simd, simd_cases_prop)
+rm(i_cases_equalities, g_easr_ethnicity_cases, g_cases_simd, simd_cases_prop)
