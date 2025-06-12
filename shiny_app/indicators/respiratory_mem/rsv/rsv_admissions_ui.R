@@ -1,6 +1,7 @@
 # Recent weeks admissions
 
 rsv_admissions_recent_week <- RSV_admissions %>%
+  arrange(Date) %>%
   tail(3) %>%
   mutate(DateTwoWeek = .$Date[1],
          DateLastWeek = .$Date[2],

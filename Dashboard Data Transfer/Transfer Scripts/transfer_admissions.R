@@ -5,10 +5,36 @@
 #-------------------#
 adm_path <- "/PHI_conf/RAPID_Pathogen_Reporting/"
 
-i_adm <- read_csv_with_options(glue("{adm_path}/Proxy provisional figures/{report_date}_12_Admissions_proxy.csv"))
+#i_adm <- read_csv_with_options(glue("{adm_path}/Proxy provisional figures/{report_date}_12_Admissions_proxy.csv"))
+
+i_adm <- read_rds(glue("{adm_path}/rapid_ecoss_joined_provisional.rds")) %>%
+  filter(covid_admission_flag == TRUE) %>%
+  group_by(admission_date) %>%
+  summarise(TestDIn = n()) %>%
+  ungroup() %>%
+  mutate(First_infection = NA,
+         Reinfection = NA,
+         `NA` = NA) %>%
+  select(admission_date, First_infection, Reinfection, `NA`, TestDIn) %>%
+  filter(admission_date <= report_date-3)
 
 read_rds_with_options <- create_loader_with_options(readRDS)
-i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI_Admissions_proxy.rds"))
+#i_chiadm <- read_rds_with_options(glue("{adm_path}/Proxy provisional figures/CHI_Admissions_proxy.rds"))
+
+i_chiadm <- read_rds(glue("{adm_path}/rapid_ecoss_joined_provisional.rds")) %>%
+  filter(covid_admission_flag == TRUE) %>%
+  select(chi_number, health_board_of_treatment, admission_date, age_year,
+         sex, covid_admission_flag, patient_postcode)
+
+spd_simd_lookup <- read_rds("/conf/linkage/output/lookups/Unicode/Deprivation/postcode_2025_1_simd2020v2.rds") %>%
+  mutate(patient_postcode=str_replace_all(string=pc7, pattern=" ", repl=""),
+         simd2020v2_sc_quintile=as.character(simd2020v2_sc_quintile)) %>%
+  select(patient_postcode,simd2020v2_sc_quintile)
+
+i_chiadm <- i_chiadm %>%
+  left_join(spd_simd_lookup)
+
+rm(spd_simd_lookup)
 
 i_simd_trend <- read_csv_with_options(glue(input_data, "/{format(report_date-2, format='%Y%m%d')} - simd summary.csv"))
 

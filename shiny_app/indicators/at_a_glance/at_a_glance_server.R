@@ -153,6 +153,7 @@ colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(
 
 hosp_adms_intro <- Respiratory_admissions_summary %>%
   tail(6) %>%
+  mutate(CaseDefinition = ifelse(CaseDefinition == "Covid-19", "COVID-19", CaseDefinition)) %>%
   mutate(flag = ifelse(Date==max(Date), "latest_week", "previous_week")) %>%
   select(-Date) %>%
   mutate(admissions_rate = round_half_up(100000 * Admissions / pop_scot_total,1)) %>%
@@ -231,6 +232,7 @@ altTextServer("adms_summary_modal",
 ### Plot -----
 output$hosp_adms_intro_plot <- renderPlotly({
   Respiratory_admissions_summary %>%
+    mutate(CaseDefinition = ifelse(CaseDefinition == "Covid-19", "COVID-19", CaseDefinition)) %>%
     make_adms_summary_plot()#create_summary_adms_linechart()
 
 })
