@@ -1,7 +1,14 @@
 ##### Length of Stay data transfer
 i_los_weekly <- read_csv_with_options(glue(input_data, "los_weekly.csv"))
 i_los_season <- read_csv_with_options(glue(input_data, "los_season.csv"))
+i_avg_los <-   read_csv_with_options(glue(input_data, "avg_los.csv"))
 
+#avg los #
+g_avg_los <- i_avg_los %>% 
+  rename(AgeGroup = los_age_band,
+         TotalLengthOfStay = total_los,
+         AverageLengthOfStay = avg_los)
+write.csv(g_avg_los, glue(output_folder, "Average_Length_of_Stay.csv"), row.names=FALSE)
 
 #  los by week ending 
 g_los_weekly <- i_los_weekly %>%
