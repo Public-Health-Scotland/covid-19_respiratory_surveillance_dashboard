@@ -98,36 +98,37 @@ p("Between 22 May and October 2025, Public Health Scotland (PHS) will be",
 
 # pyramid sections 
 # 
-# fluidRow(  
-# 
-#   tagList(uiOutput("flu_adm_pyr_title"),
-#           #tagList(h2(glue("Acute influenza admissions by age and sex in Scotland")),
-#           tabBox(width = NULL,
-#                  type = "pills",
-#                  tabPanel("Plot",
-#                           tagList(
-#                             linebreaks(1),
-#                             fluidRow( column(4, pickerInput("flu_age_sex_adm_season",
-#                                                             label = "Select a season",
-#                                                             choices = {Admissions_AgeSex_Season %>% 
-#                                                                 filter(Pathogen == "flu") %>%
-#                                                                 .$Season %>% unique()},
-#                                                             selected = "2024-2025")
-#                               )
-#                             ),
-#                             altTextUI("flu_adm_age_sex"),
-#                             withNavySpinner(plotlyOutput("flu_adm_age_sex_pyramid_plot"))
-#                             ) # tagList
-#                  ), # tabPanel
-#                  tabPanel("Data",
-#                           withNavySpinner(dataTableOutput("flu_adm_age_sex_pyramid_table")))
-#           ) # tabbox
-#   ), # tagList
-#   linebreaks(1),
-# ),
+fluidRow(
+
+  tagList(
+          tagList(h2(glue("Acute influenza admissions by age and sex in Scotland"))),
+          tabBox(width = NULL,
+                 type = "pills",
+                 tabPanel("Plot",
+                          uiOutput("flu_adm_pyr_title"),
+                          tagList(
+                            linebreaks(1),
+                            fluidRow( column(4, pickerInput("flu_age_sex_adm_season",
+                                                            label = "Select a season",
+                                                            choices = {Admissions_AgeSex_Season %>%
+                                                                filter(Pathogen == "flu") %>%
+                                                                .$Season %>% unique()},
+                                                            selected = "2024-2025")
+                              )
+                            ),
+                            altTextUI("flu_adm_age_sex"),
+                            withNavySpinner(plotlyOutput("flu_adm_age_sex_pyramid_plot"))
+                            ) # tagList
+                 ), # tabPanel
+                 tabPanel("Data",
+                          withNavySpinner(dataTableOutput("flu_adm_age_sex_pyramid_table")))
+          ) # tabbox
+  ), # tagList
+  linebreaks(1),
+ ),
 
 ##### LOS section
-# tagList(h2("Length of stay of acute influenza hospital admissions"),
+ tagList(h2("Length of stay of acute influenza hospital admissions"),
 #         tags$div(class = "headline",
 #                  h3(glue("Median length of stay of acute influenza hospital admissions for 4 week period {los_date_start %>% format('%d %b %y')} to {los_date_end%>% format('%d %b %y')} ")),
 #                  valueBox(value = glue("{Length_of_Stay_Median %>% 
@@ -152,28 +153,29 @@ p("Between 22 May and October 2025, Public Health Scotland (PHS) will be",
 # ),
 # br(),
 # 
-# tabBox(width = NULL, type = "pills",
-#        tabPanel("Plot",
-#                 tagList(uiOutput("flu_los_title")),
-#                 tagList(h5("Use the drop-down menu to select a season."),
-#                         pickerInput(inputId = "los_season_flu",
-#                                     label = "Select season",
-#                                     choices = admission_seasons,
-#                                     selected = "2024/2025"),
-#                         altTextUI("flu_los_modal"),
-#                         withNavySpinner(plotlyOutput("flu_los_plot") ),
-#                         )),
-#        tabPanel("Data",
-#                 tagList(linebreaks(1),
-#                         withNavySpinner(dataTableOutput("flu_los_table")) )
-#                 
-#        ) # tabPanel
-#       ),#tabbox
+tabBox(width = NULL, type = "pills",
+       tabPanel("Plot",
+                tagList(uiOutput("flu_los_title")),
+                tagList(h5("Use the drop-down menu to select a season."),
+                        pickerInput(inputId = "los_season_flu",
+                                    label = "Select season",
+                                    choices = admission_seasons,
+                                    selected = "2024/2025"),
+                        altTextUI("flu_los_modal"),
+                        withNavySpinner(plotlyOutput("flu_los_plot") ),
+                        )),
+       tabPanel("Data",
+                tagList(linebreaks(1),
+                        withNavySpinner(dataTableOutput("flu_los_table")) )
+
+       ) # tabPanel
+      ),#tabbox
 ### end LOS section
 
 # Padding out the bottom of the page
 fluidRow(height="200px", width=12, linebreaks(5))
 
 )#taglist
+)
 
 

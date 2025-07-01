@@ -377,37 +377,37 @@ output$hospital_admissions_ethnicity_perc_plot <- renderPlotly({
 #### Hosp adm pyramid ####
 #------------------------#
 
-# output$cov_adm_pyr_title <- renderUI({h3(glue("Acute COVID-19 hospital admissions by age and sex in Scotland; ",
+# output$cov_adm_pyr_title <- renderUI({h2(glue("Acute COVID-19 hospital admissions by age and sex in Scotland; ",
 #                                           input$cov_age_sex_adm_season))})
-# 
-# 
-# # pyramid plot that shows the breakdown by age and sex
-# output$covid_adm_age_sex_pyramid_plot = renderPlotly({
-#   Admissions_AgeSex_Season %>%
-#     filter(Pathogen == "cov",
-#            Sex %in% c("M", "F"),
-#            Season == input$cov_age_sex_adm_season) %>%
-#     make_age_sex_adm_pyramid_plot # hospital_admissions_functions
-#   
-# })
 
 
-# output$covid_adm_age_sex_pyramid_table = renderDataTable({
-#   
-#   covid_adm_sex_pyramid_table <- Admissions_AgeSex_Season %>%
-#     filter(Pathogen == "cov",
-#            Season == input$cov_age_sex_adm_season) %>%
-#     select(Season, AgeGroup, Sex, Rate) %>%
-#     mutate(Season = factor(Season)) %>%
-#     arrange(desc(Season), AgeGroup, Sex) %>%
-#     dplyr::rename("Season" = "Season",
-#                   "Age group" = "AgeGroup",
-#                   "Rate per 100,000" = "Rate") %>%
-#     mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
-#            `Age group` = factor(`Age group`, levels =
-#                                   c("All","Under 18","18-64","65-74","75+"))) %>%
-#     arrange(desc(`Season`), `Age group`, Sex) %>%
-#     make_table(add_separator_cols_1dp = c(4),
-#                filter_cols = c(1,2,3))
-#   
-# })
+# pyramid plot that shows the breakdown by age and sex
+output$covid_adm_age_sex_pyramid_plot = renderPlotly({
+  Admissions_AgeSex_Season %>%
+    filter(Pathogen == "cov",
+           Sex %in% c("M", "F"),
+           Season == input$cov_age_sex_adm_season) %>%
+    make_age_sex_adm_pyramid_plot # hospital_admissions_functions
+
+})
+
+
+output$covid_adm_age_sex_pyramid_table = renderDataTable({
+
+  covid_adm_sex_pyramid_table <- Admissions_AgeSex_Season %>%
+    filter(Pathogen == "cov",
+           Season == input$cov_age_sex_adm_season) %>%
+    select(Season, AgeGroup, Sex, Rate) %>%
+    mutate(Season = factor(Season)) %>%
+    arrange(desc(Season), AgeGroup, Sex) %>%
+    dplyr::rename("Season" = "Season",
+                  "Age group" = "AgeGroup",
+                  "Rate per 100,000" = "Rate") %>%
+    mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
+           `Age group` = factor(`Age group`, levels =
+                                  c("All","Under 18","18-64","65-74","75+"))) %>%
+    arrange(desc(`Season`), `Age group`, Sex) %>%
+    make_table(add_separator_cols_1dp = c(4),
+               filter_cols = c(1,2,3))
+
+})

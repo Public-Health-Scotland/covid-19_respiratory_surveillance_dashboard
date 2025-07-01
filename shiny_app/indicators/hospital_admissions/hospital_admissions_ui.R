@@ -103,27 +103,27 @@ tagList(
                                            "to include this analysis for other respiratory pathogens.")),
 ##### age/sex admissions pyramid        
            
-           # #tagList(h2(glue("Acute COVID-19 cases by age and sex in Scotland")),
-           # tagList(uiOutput("cov_adm_pyr_title")),
-           # tabBox(width = NULL,
-           #        type = "pills",
-           #        tabPanel("Plot",
-           #                 tagList(linebreaks(1),
-           #                         fluidRow(column(4, pickerInput("cov_age_sex_adm_season",
-           #                                                        label = "Select a season",
-           #                                                        choices = {Admissions_AgeSex_Season %>% 
-           #                                                            filter(Pathogen == "cov") %>%
-           #                                                            .$Season %>% unique()},
-           #                                                        selected = "2024-2025")  )),#tfluidrow
-           #                                                   altTextUI("covid_adm_age_sex"),
-           #                         withNavySpinner(plotlyOutput("covid_adm_age_sex_pyramid_plot"))
-           #                                                 ) # tagList
-           #                                        ), # tabPanel
-           #        tabPanel("Data",
-           #                 withNavySpinner(dataTableOutput("covid_adm_age_sex_pyramid_table"))) #tabpanel
-           #               ), # tabbox
-           #                         #), #age/sex 
-           #                # ),
+           tagList(h2(glue("Acute COVID-19 cases by age and sex in Scotland"))),
+           tagList(uiOutput("cov_adm_pyr_title")),
+           tabBox(width = NULL,
+                  type = "pills",
+                  tabPanel("Plot",
+                           tagList(linebreaks(1),
+                                   fluidRow(column(4, pickerInput("cov_age_sex_adm_season",
+                                                                  label = "Select a season",
+                                                                  choices = {Admissions_AgeSex_Season %>%
+                                                                      filter(Pathogen == "cov") %>%
+                                                                      .$Season %>% unique()},
+                                                                  selected = "2024-2025")  )),#tfluidrow
+                                                             altTextUI("covid_adm_age_sex"),
+                                   withNavySpinner(plotlyOutput("covid_adm_age_sex_pyramid_plot"))
+                                                           ) # tagList
+                                                  ), # tabPanel
+                  tabPanel("Data",
+                           withNavySpinner(dataTableOutput("covid_adm_age_sex_pyramid_table"))) #tabpanel
+                         ), # tabbox
+                                   #), #age/sex
+                          # ),
 ##### LOS section
 tagList(h2("Length of stay of acute COVID-19 hospital admissions"),
         ),

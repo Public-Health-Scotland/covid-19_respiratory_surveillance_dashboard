@@ -107,62 +107,58 @@ output$flu_admissions_hb_table <- renderDataTable({
 # 
 # output$flu_adm_pyr_title <- renderUI({h3(glue("Acute influenza hospital admissions by age and sex in Scotland; ",
 #                                               input$flu_age_sex_adm_season))})
-# 
-# # pyramid plot that shows the breakdown by age and sex
-# output$flu_adm_age_sex_pyramid_plot = renderPlotly({
-#   Admissions_AgeSex_Season %>%
-#     filter(Pathogen == "flu",
-#            Sex %in% c("M", "F"),
-#            Season == input$flu_age_sex_adm_season) %>%
-#     make_age_sex_adm_pyramid_plot # hospital_admissions_functions  
-# })
-# 
-# 
-# output$flu_adm_age_sex_pyramid_table = renderDataTable({
-#   
-#   flu_adm_age_sex_pyramid_table <- Admissions_AgeSex_Season %>%
-#     filter(Pathogen == "flu",
-#            Season == input$flu_age_sex_adm_season) %>%
-#     select(Season, AgeGroup, Sex, Rate) %>%
-#     mutate(Season = factor(Season)) %>%
-#     arrange(desc(Season), AgeGroup, Sex) %>%
-#     dplyr::rename("Season" = "Season",
-#                   "Age group" = "AgeGroup",
-#                   "Rate per 100,000" = "Rate") %>%
-#     mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
-#            `Age group` = factor(`Age group`, levels =
-#                                   c("All","Under 18","18-64","65-74","75+"))) %>%
-#     arrange(desc(`Season`), `Age group`, Sex) %>%
-#     make_table(add_separator_cols_1dp = c(4),
-#                filter_cols = c(1,2,3))
-#   
-# })
+
+# pyramid plot that shows the breakdown by age and sex
+output$flu_adm_age_sex_pyramid_plot = renderPlotly({
+  Admissions_AgeSex_Season %>%
+    filter(Pathogen == "flu",
+           Sex %in% c("M", "F"),
+           Season == input$flu_age_sex_adm_season) %>%
+    make_age_sex_adm_pyramid_plot # hospital_admissions_functions
+})
+
+
+output$flu_adm_age_sex_pyramid_table = renderDataTable({
+
+  flu_adm_age_sex_pyramid_table <- Admissions_AgeSex_Season %>%
+    filter(Pathogen == "flu",
+           Season == input$flu_age_sex_adm_season) %>%
+    select(Season, AgeGroup, Sex, Rate) %>%
+    mutate(Season = factor(Season)) %>%
+    arrange(desc(Season), AgeGroup, Sex) %>%
+    dplyr::rename("Season" = "Season",
+                  "Age group" = "AgeGroup",
+                  "Rate per 100,000" = "Rate") %>%
+    mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
+           `Age group` = factor(`Age group`, levels =
+                                  c("All","Under 18","18-64","65-74","75+"))) %>%
+    arrange(desc(`Season`), `Age group`, Sex) %>%
+    make_table(add_separator_cols_1dp = c(4),
+               filter_cols = c(1,2,3))
+
+})
 # 
 # ### LENGTH OF STAY ### ----
 # 
 # # los plot reactive title
-# output$flu_los_title <- renderUI({h3(glue("Influenza length of stay by age group in Season ",
-#                                           input$los_season_flu))})
-# # Plot
-# output$flu_los_plot<- renderPlotly({
-#   flu_los_weekly_plot<-Length_of_Stay_Season %>%
-#     filter(admission_type == "flu") %>% 
-#     filter(Season == input$los_season_flu) %>%
-#         make_hospital_admissions_los_plot() #function in "/...../indicators/hospital_admissions/hospital_admissions_functions.R"
-# })
-# # Table
-# output$flu_los_table <- renderDataTable({
-#   flu_los_weekly_table<- Length_of_Stay_Weekly %>% 
-#     filter(admission_type == "flu") %>% 
-#     filter(Season == input$los_season_flu) %>%
-#     mutate(`Length of stay` = factor(LengthOfStay,
-#                                      levels = c("1 day or less",
-#                                                 "2-3 days", "4-5 days",
-#                                                 "6-7 days", "8+ days"))) %>% 
-#     select(Season,
-#            'Week ending' = AdmissionWeekEnding, 
-#            'Age group' = AgeGroup,
-#            'Length of stay',
-#            'Percent' = PercentageOfAdmissions) })
+ output$flu_los_title <- renderUI({h3(glue("Influenza length of stay by age group in Season ",
+                                           input$los_season_flu))})
 
+# # Plot
+ output$flu_los_plot<-  renderPlotly({
+   avg_flu_los_plot <- Average_Length_of_Stay %>% 
+     filter(Pathogen == "Influenza",
+            Season == input$los_season_flu) %>% 
+     make_hospital_admissions_los_plot() #function in "/...../indicators/hospital_admissions/hospital_admissions_functions.R"
+   
+ })
+
+# # Table
+output$flu_los_table <- renderDataTable({
+  avg_flu_los_table <- Average_Length_of_Stay %>% 
+    filter(Pathogen == "Influenza",
+           Season == input$los_season_flu) %>% 
+    mutate(AverageLengthOfStay = round(AverageLengthOfStay,2)) %>% 
+    select(Season, 'Age group' = AgeGroup, 'Average Length of stay' = AverageLengthOfStay)
+})
 

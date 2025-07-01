@@ -1,7 +1,7 @@
 ##### Length of Stay data transfer
 i_los_weekly <- read_csv_with_options(glue(input_data, "los_weekly.csv"))
 i_los_season <- read_csv_with_options(glue(input_data, "los_season.csv"))
-i_avg_los <-   read_csv_with_options(glue(input_data, "avg_los.csv"))
+i_avg_los <-   read_csv_with_options(glue(input_data, "avg_los_ci.csv"))
 
 #avg los #
 g_avg_los <- i_avg_los %>% 

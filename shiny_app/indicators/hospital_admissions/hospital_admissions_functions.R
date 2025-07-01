@@ -155,49 +155,61 @@ make_hospital_admissions_simd_plot <- function(data){
 
 # Hospital Admissions LOS plot
 
-make_hospital_admissions_los_plot <-  function(data){
-  table <- data  
-    tooltip_trend <- paste0("Season: ", table$Season, "<br>",
-                            "Age group: ", table$AgeGroup, "<br>",
-                            "Average Length of Stay: ", round(table$AverageLengthOfStay,2)," days")
-    
-    p <- table %>%
-      plot_ly(x = ~AverageLengthOfStay,
-              y = ~AgeGroup,
-             # color = ~LengthOfStay,
-              type = 'scatter',
-             size = ~AverageLengthOfStay,
-              text = tooltip_trend,
-              hoverinfo = "text",
-              marker = list(size = 15,color = "#3F3685")
-      ) %>%
-      
-      layout(
-        yaxis = list(
-          title = "Age Groups",
-          showgrid = FALSE, # remove horizontal grid lines
-          zeroline = FALSE,# remove the zero line
-          showline = TRUE,   # show axis line
-          linecolor = "black", # color of the axis line
-          linewidth = 1 # thickness of the axis line
-        ),
-        xaxis = list(
-          title = "Average Length of Stay (days)",
-          showgrid = FALSE, # remove vertical grid lines
-          zeroline = FALSE, 
-          showline = TRUE,
-          linecolor = "black",
-          linewidth = 1
-        ),
-        
-             paper_bgcolor = phs_colours("phs-liberty-10"),
-             plot_bgcolor = phs_colours("phs-liberty-10")) %>%
-      # leaving only save plot button
-      config(displaylogo = F, displayModeBar = TRUE,
-             modeBarButtonsToRemove = bttn_remove )
-    # return(p)
-}
 
+
+make_hospital_admissions_los_plot <- function(data) {
+  table <- data  
+  
+  tooltip_trend <- paste0("Season: ", table$Season, "<br>",
+                          "Age group: ", table$AgeGroup, "<br>",
+                          "Average Length of Stay: ", round(table$AverageLengthOfStay, 2), " days<br>",
+                          "95% CI: ", round(table$ci_lower, 2), " - ", round(table$ci_upper, 2), " days")
+  
+  p <- table %>%
+    plot_ly(
+      x = ~AgeGroup,
+      y = ~AverageLengthOfStay,
+      type = 'scatter',
+      mode = 'markers',
+      text = tooltip_trend,
+      hoverinfo = "text",
+      marker = list(size = 15, color = "#3F3685"),
+      error_y = list(
+        type = "data",
+        symmetric = FALSE,
+        array = ~ci_upper - AverageLengthOfStay,
+        arrayminus = ~AverageLengthOfStay - ci_lower,
+        color = "black",
+        thickness = 1.5,
+        width = 5
+      )
+    ) %>%
+    layout(
+      yaxis = list(
+        title = "Average Length of Stay (days)",
+        showgrid = FALSE,
+        zeroline = FALSE,
+        showline = TRUE,
+        linecolor = "black",
+        linewidth = 1
+      ),
+      xaxis = list(
+        title = "Age Groups",
+        showgrid = FALSE,
+        zeroline = FALSE,
+        showline = TRUE,
+        linecolor = "black",
+        linewidth = 1
+      ),
+      paper_bgcolor = phs_colours("phs-liberty-10"),
+      plot_bgcolor = phs_colours("phs-liberty-10"),
+      margin = list(b = 80, t = 5)
+    ) %>%
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+  
+  return(p)
+}
 
 
 # make_hospital_admissions_los_plot <- function(data){
