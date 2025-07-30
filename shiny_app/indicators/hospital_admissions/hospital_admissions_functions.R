@@ -162,8 +162,10 @@ make_hospital_admissions_los_plot <- function(data) {
   
   tooltip_trend <- paste0("Season: ", table$Season, "<br>",
                           "Age group: ", table$AgeGroup, "<br>",
-                          "Average Length of Stay: ", round(table$AverageLengthOfStay, 2), " days<br>",
-                          "95% CI: ", round(table$ci_lower, 2), " - ", round(table$ci_upper, 2), " days")
+                          "Average Length of Stay: ", round(table$AverageLengthOfStay, 2), " days<br>"
+                          #,
+                          #"95% CI: ", round(table$ci_lower, 2), " - ", round(table$ci_upper, 2), " days"
+                          )
   
   p <- table %>%
     plot_ly(
@@ -173,16 +175,16 @@ make_hospital_admissions_los_plot <- function(data) {
       mode = 'markers',
       text = tooltip_trend,
       hoverinfo = "text",
-      marker = list(size = 15, color = "#3F3685"),
-      error_y = list(
-        type = "data",
-        symmetric = FALSE,
-        array = ~ci_upper - AverageLengthOfStay,
-        arrayminus = ~AverageLengthOfStay - ci_lower,
-        color = "black",
-        thickness = 1.5,
-        width = 5
-      )
+      marker = list(size = 15, color = "#3F3685")
+      #, error_y = list(
+      #   type = "data",
+      #   symmetric = FALSE,
+      #   array = ~ci_upper - AverageLengthOfStay,
+      #   arrayminus = ~AverageLengthOfStay - ci_lower,
+      #   color = "black",
+      #   thickness = 1.5,
+      #   width = 5
+      # )
     ) %>%
     layout(
       yaxis = list(
