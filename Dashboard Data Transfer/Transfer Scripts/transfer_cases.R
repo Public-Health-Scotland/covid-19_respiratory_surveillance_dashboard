@@ -91,6 +91,110 @@ covid_cases_weekly <- g_cases_weekly %>%
 
 write_csv(covid_cases_weekly, glue(output_folder, "covid_cases_weekly.csv"))
 
+#select the latest sex_agg_data file. Check that the latest file in the one you want to use
+# Define the directory path
+dir_path <- "/PHI_conf/Respiratory_Surveillance_Viral/Dashboard/Data/Lab Surveillance/Non-COVID Viral Pathogens"
+
+# List all CSV files containing 'sex_agg' in the name
+csv_files <- list.files(path = dir_path, pattern = "sex_agg.*\\.csv$", full.names = TRUE)
+
+# Get file info and sort by modification time
+file_info <- file.info(csv_files)
+latest_file <- rownames(file_info[order(file_info$mtime, decreasing = TRUE),])[1]
+
+# Assign to variable
+file_path_sex_agg_data <- latest_file
+
+# Print the selected file path
+print(paste("Latest sex_agg CSV file selected:", file_path_sex_agg_data))
+
+sex_agg_data <- read_csv(file_path_sex_agg_data)
+
+# list of pathogen names
+all_pathogens_list <- c("COVID-19", "Adenovirus", "HMPV", "Influenza (A or B)",
+                        "Mycoplasma pneumoniae", "Parainfluenza (Any Type)",
+                        "RSV", "Rhinovirus", "Seasonal coronavirus")
+
+sex_agg_data_final <- sex_agg_data %>%
+  filter(pathogen %in% all_pathogens_list) %>%
+  group_by(season, pathogen, year, week, weekord, measure) %>%
+  summarise(
+    count = sum(count, na.rm = TRUE),
+    Pop = sum(Pop, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    rate = round((count / Pop) * 100000, 4),
+    ISOweek_string = paste0(year, "-W", stringr::str_pad(week, 2, pad = "0"), "-1"),
+    ISOweek_beginning = ISOweek::ISOweek2date(ISOweek_string),
+    season = ifelse(
+      stringr::str_detect(season, "^\\d{4}/\\d{2}$"),
+      paste0(
+        stringr::str_extract(season, "^\\d{4}"), "/",
+        as.character(as.numeric(stringr::str_extract(season, "\\d{2}$")) + 2000)
+      ),
+      season
+    )
+  ) %>%
+  select(-ISOweek_string, -measure) %>%
+  rename(
+    FluSeason = season,
+    Organism = pathogen,
+    Year = year,
+    ISOweek = week
+  ) %>%
+  arrange(Year, ISOweek)
+
+
+covid_cases_weekly_to_join <- covid_cases_weekly %>%
+  mutate(
+    ISOweek_beginning = ISOweek::ISOweek2date(paste0(ISOWeekFull, "-1")),
+    Organism = "COVID-19",
+    Year = as.numeric(substr(Season, 1, 4))
+  ) %>%
+  rename(
+    ISOweek = ISOWeek,
+    weekord = Weekord,
+    FluSeason = Season,
+    rate = RatePer100000,
+    count = NumberCasesPerWeek
+  ) %>%
+  mutate(ISOweek = as.numeric(ISOweek))
+
+
+
+# Step 1: Combine and filter the data
+combined_data <- bind_rows(sex_agg_data_final, covid_cases_weekly_to_join) %>%
+  select(FluSeason, Organism, Year, ISOweek, weekord, count, Pop, rate, ISOweek_beginning) %>%
+  filter(Year >= (year(Sys.Date()) - 2)) %>%
+  arrange(Year, ISOweek)
+
+# Step 2: Get unique years
+unique_years <- sort(unique(combined_data$Year))
+
+# Step 3: Create a named vector of population estimates
+pop_lookup <- map_dbl(unique_years, function(y) {
+  pop <- get_scotland_population(y)
+  # If pop is 0, look back until a non-zero value is found
+  while (pop == 0 && y > min(unique_years)) {
+    y <- y - 1
+    pop <- get_scotland_population(y)
+  }
+  return(pop)
+})
+names(pop_lookup) <- unique_years
+
+# Step 4: Populate the Pop column using the lookup
+all_pathogen_data <- combined_data %>%
+  mutate(Pop = pop_lookup[as.character(Year)]) %>%
+  mutate(rate = round((count / Pop) * 100000, 4)) %>%
+  mutate(Organism = recode(Organism,
+                           "HMPV" = "Human metapneumovirus (HMPV)",
+                           "Seasonal coronavirus" = "Seasonal coronavirus (non-COVID-19)"
+                           
+  )) 
+
+write_csv(all_pathogen_data, glue(output_folder, "all_pathogen_data.csv"))
 
 
 

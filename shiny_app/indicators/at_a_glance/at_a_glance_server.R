@@ -255,5 +255,27 @@ output$cari_intro_plot <- renderPlotly({
   
 })
 
+##All pathogens stacked bar chart
+
+output$pathogen_barchart <- renderPlot({
+  create_pathogen_barchart()
+})
+
+# Change the Plot Description here
+
+altTextServer("all_pathogens_chart_text",
+              title = "All Pathogens Chart",
+              content = tags$ul(tags$li("This is a plot which shows a count of all the respiratory pathogens over the current and latest seasons."),
+                                tags$li("The x axis is the week number."),
+                                tags$li("The y axis is the count."),
+                                tags$li("",
+                                        ".",
+                                        ".")
+              )
+)
+
+
+
+
 
 

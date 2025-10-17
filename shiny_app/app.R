@@ -440,6 +440,7 @@ server <- function(input, output, session) {
   source(file.path("functions/core_functions.R"), local = TRUE)$value
   source(file.path("functions/plot_functions.R"), local = TRUE)$value
   source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
+  source(file.path("indicators/at_a_glance/at_a_glance_functions.R"), local = FALSE)$value
   source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_functions.R"), local = TRUE)$value
