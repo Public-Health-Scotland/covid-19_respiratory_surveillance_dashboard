@@ -68,8 +68,20 @@ tagList(
                withNavySpinner(
                  plotlyOutput("hosp_adms_intro_plot")),
            fluidRow(
-             width=12, linebreaks(5)))
-  )#, #fluidRow
+             width=12, linebreaks(5)))),
+  
+  # All Pathogens Trend Chart starts here. Move if desired.         
+  fluidRow(width = 12,
+           tagList(h2("All Pathogens Trend Chart")),
+           linebreaks(1)),
+  fluidRow(width=12,
+           box(width = NULL,
+               altTextUIStatic("all_pathogens_chart_text"),
+               withNavySpinner(
+                 plotOutput("pathogen_barchart")),
+               fluidRow(
+                 width=12, linebreaks(5))))
+)#, #fluidRow
 
   # fluidRow(width = 12,
   #          tagList(h2("Number of inpatients with COVID-19 in hospital (seven day average)")),
@@ -85,7 +97,7 @@ tagList(
 
 
 
-) #tagList
+ #tagList
 
 
 

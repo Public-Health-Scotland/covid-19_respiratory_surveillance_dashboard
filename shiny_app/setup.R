@@ -23,6 +23,8 @@ library(R.utils)
 library(lubridate)
 library(png)
 library(tidyr)
+library(rjson)
+library(ggtext)
 
 # Load core functions ----
 source("functions/core_functions.R")
