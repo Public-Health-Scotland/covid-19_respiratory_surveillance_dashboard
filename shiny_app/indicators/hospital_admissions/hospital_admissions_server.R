@@ -72,18 +72,16 @@ altTextServer("hospital_admissions_simd_modal",
 altTextServer("cov_los_modal",
               title = "Length of stay of acute COVID-19 hospital admissions",
               content = tags$ul(
-                tags$li("This is a plot of the distribution of lengths of stay in hospital",
-                        "for acute COVID-19 hospital admissions by respiratory season."),
+                tags$li("This is a plot of the median lengths of stay in hospital",
+                        "for acute COVID-19 hospital admissions by respiratory season, broken down by age group."),
                 tags$li("There is a drop down above the chart which allows you to select",
                         "the respiratory season for plotting. The default is the current season."),
-                tags$li("The legend shows five categories for length of stay: 1 day or less;",
-                        "2-3 days, 4-5 days, 6-7 days, 8+ days. See the metadata tab for further detail."),
-                tags$li("The x axis shows a break down of admissions by age groups: 0-17, 18-64, 65-74, 75+ and finally by All ages."),
-                tags$li("The y axis is the percentage of admissions in a given age group category."),
-                tags$li("The plot is a stacked bar chart, where the",
-                        "sections of vertical bars correspond to different length of stay categories.",
-                        "The bar sections are ordered from smallest length of stay to largest",
-                        "length of stay from bottom to top.") ))
+                tags$li("The legend shows seven categories for age group: <1, 1 to 4, 5 to 14,",
+                        "15 to 44, 45 to 64, 65 to 74 and 75+ years."),
+                tags$li("The 4-week rolling median is calculated using the length of stay for all individuals in a given age group 
+                        over the four-week period leading up to the given ISO week."),
+                tags$li("The x axis shows the ISO week that the 4-week rolling median relates to."),
+                tags$li("The y axis is the median length of stay in days.") ))
 
 
 altTextServer("hospital_admissions_ethnicity_modal",
@@ -303,23 +301,45 @@ output$cov_los_title <- renderUI({h3(glue("COVID-19 length of stay by age group 
 
 # Plot
 output$cov_los_plot<- renderPlotly({
-  cov_los_weekly_plot <- Length_of_Stay_Season %>%
-    filter(admission_type == "cov") %>% 
+  cov_los_weekly_plot <- Median_LOS_by_Age %>%
+    filter(pathogen == "COVID-19") %>% 
     filter(Season == input$los_season_cov) %>%
     make_hospital_admissions_los_plot()
-
+  
 })
+
+# output$cov_los_plot<- renderPlotly({
+#   cov_los_weekly_plot <- Length_of_Stay_Season %>%
+#     filter(admission_type == "cov") %>% 
+#     filter(Season == input$los_season_cov) %>%
+#     make_hospital_admissions_los_plot()
+# 
+# })
 # Table
+
 output$cov_los_table <- renderDataTable({
-  cov_los_weekly_table <-Length_of_Stay_Season %>% 
-    filter(admission_type == "cov") %>% 
-    filter(Season == input$los_season_cov) %>%
-    mutate(`Length of stay` = factor(LengthOfStay,
-                                     levels = c("1 day or less",
-                                                "2-3 days", "4-5 days",
-                                                "6-7 days", "8+ days"))) %>% 
-    select(Season, 'Age group' = AgeGroup,'Length of stay',
-           'Percent' = PercentageOfAdmissions) })
+  cov_los_weekly_table <- Median_LOS_by_Age %>% 
+    filter(pathogen == "COVID-19") %>% 
+    select(Season, week_ending, week, los_age_band, median_los) %>% 
+    mutate(los_age_band = factor(los_age_band, levels = c("<1", "1 to 4", "5 to 14",
+                                                          "15 to 44", "45 to 64", "65 to 74",  "75+"))) %>% 
+    arrange(desc(week_ending), los_age_band) %>% 
+    rename(`Median Length of Stay (4-week)` = median_los,
+           `Age Group` = los_age_band,
+           `ISO Week` = week,
+           `Week Ending` = week_ending)
+})
+# 
+# output$cov_los_table <- renderDataTable({
+#   cov_los_weekly_table <-Length_of_Stay_Season %>% 
+#     filter(admission_type == "cov") %>% 
+#     filter(Season == input$los_season_cov) %>%
+#     mutate(`Length of stay` = factor(LengthOfStay,
+#                                      levels = c("1 day or less",
+#                                                 "2-3 days", "4-5 days",
+#                                                 "6-7 days", "8+ days"))) %>% 
+#     select(Season, 'Age group' = AgeGroup,'Length of stay',
+#            'Percent' = PercentageOfAdmissions) })
 
 
 ######################
