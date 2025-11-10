@@ -195,7 +195,12 @@ tagList(
                                                                    .$Season %>% unique() },
                                                                selected = {Median_LOS_by_Age  %>%
                                                                    .$Season %>% unique() %>% tail(1)}),
-                                                   altTextUI("cov_los_modal"),
+                                            selectInput(inputId = "los_cov_age", 
+                                                        label = "Select age group(s) of interest:", 
+                                                        choices = unique(Median_LOS_by_Age$los_age_band),
+                                                        selected = sort(unique(Median_LOS_by_Age$los_age_band), decreasing = TRUE)[1],
+                                                        multiple = TRUE),
+                                            altTextUI("cov_los_modal"),
                                                    withNavySpinner( plotlyOutput("cov_los_plot"))
                                             ),#tabPanel,
                                   tabPanel("Data",

@@ -164,7 +164,7 @@ make_hospital_admissions_los_plot <- function(data, plot_pathogen){
     mutate(WeekNumber = as.numeric(substr(week, nchar(week) - 1, nchar(week))),
            WeekNumber = factor(WeekNumber, levels = week_order), 
            los_age_band = factor(los_age_band, levels = c("<1", "1 to 4", "5 to 14",
-                                                 "15 to 44", "45 to 64", "65 to 74",  "75+"))) #%>% 
+                                                 "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) #%>% 
     #filter(Season == "2025-2026")
   
   
@@ -178,6 +178,7 @@ make_hospital_admissions_los_plot <- function(data, plot_pathogen){
   xaxis_plots[["title"]] <- 'Week Number'
   yaxis_plots[["title"]] <- 'Length of stay in days<br>(4-week rolling median)'
   xaxis_plots[["dtick"]] <- 2
+  yaxis_plots[["dtick"]] <- 1
   xaxis_plots[["range"]] <- list(-0.5, 52.5)
     
   #yaxis_plots[["ticksuffix"]] <- "%"
@@ -187,7 +188,7 @@ make_hospital_admissions_los_plot <- function(data, plot_pathogen){
               type="scatter", mode="lines",
               color=~los_age_band,
               colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
-                                   "phs-purple", "phs-blue-50", "phs-magenta", "phs-graphite-50")),
+                                   "phs-purple", "phs-blue-50", "phs-magenta", "phs-graphite-50", "phs-teal")),
               # hovertemplate = paste0('<b>Week number</b>: %{x}<br>',
               #                        '<b>Age group</b>: %{text}<br>',
               #                        '<b>Test positivity</b>: %{y}')
@@ -206,7 +207,7 @@ make_hospital_admissions_los_plot <- function(data, plot_pathogen){
            modeBarButtonsToRemove = bttn_remove)
   
   # For first week of new season (week 40), add in a marker
-  if(nrow(plot_data) == length(levels(plot_data$los_age_band))){
+  if(length(unique(plot_data$week_ending)) == 1){
     
     p <- p %>%
       add_trace(data = plot_data,

@@ -76,8 +76,8 @@ altTextServer("cov_los_modal",
                         "for acute COVID-19 hospital admissions by respiratory season, broken down by age group."),
                 tags$li("There is a drop down above the chart which allows you to select",
                         "the respiratory season for plotting. The default is the current season."),
-                tags$li("The legend shows seven categories for age group: <1, 1 to 4, 5 to 14,",
-                        "15 to 44, 45 to 64, 65 to 74 and 75+ years."),
+                tags$li("There are seven distinct categories for age group that can be selected: <1, 1 to 4, 5 to 14,",
+                        "15 to 44, 45 to 64, 65 to 74 and 75+ years. As a default, the overall median for all age groups is shown."),
                 tags$li("The 4-week rolling median is calculated using the length of stay for all individuals in a given age group 
                         over the four-week period leading up to the given ISO week."),
                 tags$li("The x axis shows the ISO week that the 4-week rolling median relates to."),
@@ -304,6 +304,7 @@ output$cov_los_plot<- renderPlotly({
   cov_los_weekly_plot <- Median_LOS_by_Age %>%
     filter(pathogen == "COVID-19") %>% 
     filter(Season == input$los_season_cov) %>%
+    filter(los_age_band %in% input$los_cov_age) %>%
     make_hospital_admissions_los_plot()
   
 })
@@ -322,8 +323,10 @@ output$cov_los_table <- renderDataTable({
     filter(pathogen == "COVID-19") %>% 
     select(Season, week_ending, week, los_age_band, median_los) %>% 
     mutate(los_age_band = factor(los_age_band, levels = c("<1", "1 to 4", "5 to 14",
-                                                          "15 to 44", "45 to 64", "65 to 74",  "75+"))) %>% 
+                                                          "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
     arrange(desc(week_ending), los_age_band) %>% 
+    filter(Season == input$los_season_cov) %>%
+    filter(los_age_band %in% input$los_cov_age) %>%
     rename(`Median Length of Stay (4-week)` = median_los,
            `Age Group` = los_age_band,
            `ISO Week` = week,

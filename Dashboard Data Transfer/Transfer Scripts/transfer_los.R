@@ -1,11 +1,31 @@
 ##### Length of Stay data transfer
 
-all_path_median_los_by_age <- read_csv_with_options(match_base_filename(glue(input_data, "_all_path_median_los_by_age.csv")))
+all_path_median_los_by_age <- read_csv_with_options(match_base_filename(glue(input_data, "_median_los_by_age.csv")))
 
 all_path_median_los_by_age_table <- all_path_median_los_by_age %>%  
   select(Season, week_ending, week, pathogen, los_age_band, median_los)
 
 write.csv(all_path_median_los_by_age_table, glue(output_folder, "Median_LOS_by_Age.csv"), row.names=FALSE)
+
+
+
+#------------------------------------------------------------------------------#
+#### Create Open Data file ####
+#------------------------------------------------------------------------------#
+
+med_los_by_age_od <- all_path_median_los_by_age %>% 
+  mutate(ISOyear = isoyear(week_ending),
+         ISOweek = isoweek(week_ending),
+         WeekBeginning = format(ymd(week_start), "%Y%m%d"),
+         WeekEnding = format(ymd(week_ending), "%Y%m%d"),
+         Country = "S92000003") %>% 
+  rename(Pathogen = pathogen,
+         AgeGroup = los_age_band,
+         MedianLengthOfStay = median_los) %>% 
+  select(Season, ISOyear, ISOweek, WeekBeginning, WeekEnding, Country,
+         Pathogen, AgeGroup, MedianLengthOfStay)
+
+write.csv(med_los_by_age_od, file=paste0(file_paths$Outputs$Output_folder, "Median_LOS_by_Age_", od_report_date, ".csv"))
 
 rm(all_path_median_los_by_age, all_path_median_los_by_age_table)
 
