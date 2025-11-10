@@ -144,6 +144,33 @@ fluidRow(
 # ),
 
 ##### LOS section
+tagList(h2("Length of stay of acute RSV hospital admissions"),
+        br(),
+        tabBox( width = NULL, type = "pills",
+                tabPanel("Plot",
+                         tagList(uiOutput("rsv_los_title")),
+                         tagList(h5("Use the drop-down menu to select a season.")),
+                         pickerInput(inputId = "los_season_rsv",
+                                     label = "Select season",
+                                     choices = {Median_LOS_by_Age  %>%
+                                         .$Season %>% unique() },
+                                     selected = {Median_LOS_by_Age  %>%
+                                         .$Season %>% unique() %>% tail(1)}),
+                         selectInput(inputId = "los_rsv_age", 
+                                     label = "Select age group(s) of interest:", 
+                                     choices = unique(Median_LOS_by_Age$los_age_band),
+                                     selected = sort(unique(Median_LOS_by_Age$los_age_band), decreasing = TRUE)[1],
+                                     multiple = TRUE),
+                         altTextUI("rsv_los_modal"),
+                         withNavySpinner( plotlyOutput("rsv_los_plot"))
+                ),#tabPanel,
+                tabPanel("Data",
+                         tagList(linebreaks(1),
+                                 withNavySpinner(dataTableOutput("rsv_los_table")) )
+                ) # tabPanel
+        ),#tabbox
+
+        ### end LOS section
 # tagList(h2("Length of stay of acute RSV hospital admissions"),
 #         tags$div(class = "headline",
 #                  h3(glue("Median length of stay of acute RSV hospital admissions for 4 week period {los_date_start %>% format('%d %b %y')} to {los_date_end%>% format('%d %b %y')} ")),
@@ -190,4 +217,4 @@ fluidRow(
 fluidRow(height="200px", width=12, linebreaks(5))
 
 )#taglist
-
+)
