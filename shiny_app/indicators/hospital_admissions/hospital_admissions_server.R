@@ -81,7 +81,9 @@ altTextServer("cov_los_modal",
                 tags$li("The 4-week rolling median is calculated using the length of stay for all individuals in a given age group 
                         over the four-week period leading up to the given ISO week."),
                 tags$li("The x axis shows the ISO week that the 4-week rolling median relates to."),
-                tags$li("The y axis is the median length of stay in days.") ))
+                tags$li("The y axis is the median length of stay in days."),
+                tags$li("Where no data is available for a given week, this means that no individuals within that age group
+                        were admitted to hospital with COVID-19 over the 4-week period prior to the missing data point."),))
 
 
 altTextServer("hospital_admissions_ethnicity_modal",
