@@ -25,7 +25,7 @@ med_los_by_age_od <- all_path_median_los_by_age %>%
   select(Season, ISOyear, ISOweek, WeekBeginning, WeekEnding, Country,
          Pathogen, AgeGroup, MedianLengthOfStay)
 
-write.csv(med_los_by_age_od, file=paste0(file_paths$Outputs$Output_folder, "Median_LOS_by_Age_", od_report_date, ".csv"))
+write.csv(med_los_by_age_od, file=paste0(od_folder, "new/Median_LOS_by_Age_", od_report_date, ".csv"), row.names = FALSE)
 
 rm(all_path_median_los_by_age, all_path_median_los_by_age_table)
 
