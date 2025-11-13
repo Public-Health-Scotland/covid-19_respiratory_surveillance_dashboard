@@ -152,7 +152,7 @@ tagList(
            #                         #), #age/sex 
            #                # ),
 ##### LOS section
-                      tagList(h2("Length of stay of acute COVID-19 hospital admissions by age group")),
+                      tagList(h2("Median length of stay of acute COVID-19 hospital admissions by age group")),
                       br(),
                               #  temporary caveat for no LOS information
                               # tagList("Public Health Scotland have paused reporting of the Length",
@@ -188,8 +188,9 @@ tagList(
                            tabBox( width = NULL, type = "pills",
                                    tabPanel("Plot",
                                             #tagList(uiOutput("cov_los_title")),
-                                            tagList(h5("Use the drop-down menu to select a season.")),
-                                                   pickerInput(inputId = "los_season_cov",
+                                            #tagList(h5("Use the drop-down menu to select a season.")),
+                                            br(),
+                                            pickerInput(inputId = "los_season_cov",
                                                                label = "Select season",
                                                                choices = {Median_LOS_by_Age  %>%
                                                                    .$Season %>% unique() },

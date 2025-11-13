@@ -48,7 +48,7 @@ altTextServer("flu_adm_age_sex",
 
 
 altTextServer("flu_los_modal",
-              title = "Length of stay of acute influenza hospital admissions by age group",
+              title = "Median length of stay of acute influenza hospital admissions by age group",
               content = tags$ul(
                 tags$li("This is a plot of the median lengths of stay in hospital",
                         "for acute influenza hospital admissions by respiratory season, broken down by age group."),

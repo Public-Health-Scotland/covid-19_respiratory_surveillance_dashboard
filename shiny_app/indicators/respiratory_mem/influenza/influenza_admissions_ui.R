@@ -150,12 +150,13 @@ fluidRow(
 # ),
 
 ##### LOS section
- tagList(h2("Length of stay of acute influenza hospital admissions by age group"),
+ tagList(h2("Median length of stay of acute influenza hospital admissions by age group"),
          br(),
          tabBox( width = NULL, type = "pills",
                  tabPanel("Plot",
                           #tagList(uiOutput("flu_los_title")),
-                          tagList(h5("Use the drop-down menu to select a season.")),
+                          #tagList(h5("Use the drop-down menu to select a season.")),
+                          br(),
                           pickerInput(inputId = "los_season_flu",
                                       label = "Select season",
                                       choices = {Median_LOS_by_Age  %>%

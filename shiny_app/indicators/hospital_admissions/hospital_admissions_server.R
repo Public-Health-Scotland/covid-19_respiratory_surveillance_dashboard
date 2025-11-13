@@ -70,7 +70,7 @@ altTextServer("hospital_admissions_simd_modal",
 )
 
 altTextServer("cov_los_modal",
-              title = "Length of stay of acute COVID-19 hospital admissions by age group",
+              title = "Median length of stay of acute COVID-19 hospital admissions by age group",
               content = tags$ul(
                 tags$li("This is a plot of the median lengths of stay in hospital",
                         "for acute COVID-19 hospital admissions by respiratory season, broken down by age group."),
