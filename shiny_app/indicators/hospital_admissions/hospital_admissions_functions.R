@@ -183,17 +183,32 @@ make_hospital_admissions_los_plot <- function(data, plot_pathogen){
     
   #yaxis_plots[["ticksuffix"]] <- "%"
   
+  ## Add as two separate traces to enable 'All ages' to be shown as the default trace
   p <- plot_ly(plot_data) %>%
-    add_trace(x = ~WeekNumber, y = ~median_los, split = ~los_age_band, #text=~season,
+    add_trace(data = plot_data[plot_data$los_age_band!="All ages",],
+              x = ~WeekNumber, y = ~median_los, split = ~los_age_band, #text=~season,
               type="scatter", mode="lines",
               color=~los_age_band,
               colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
-                                   "phs-purple", "phs-blue-50", "phs-magenta", "phs-graphite-50", "phs-teal")),
+                                   "phs-purple", "phs-blue-50", "phs-magenta", "phs-teal")),
               # hovertemplate = paste0('<b>Week number</b>: %{x}<br>',
               #                        '<b>Age group</b>: %{text}<br>',
               #                        '<b>Test positivity</b>: %{y}')
               textposition = "none",
-              text = tooltip_trend,
+              text = tooltip_trend[plot_data$los_age_band!="All ages"],
+              hoverinfo = "text",
+              visible = "legendonly"
+    ) %>%
+    add_trace(data = plot_data[plot_data$los_age_band=="All ages",],
+              x = ~WeekNumber, y = ~median_los, split = ~los_age_band, #text=~season,
+              type="scatter", mode="lines",
+              color=~los_age_band,
+              colors=phs_colours(c("phs-graphite-50")),
+              # hovertemplate = paste0('<b>Week number</b>: %{x}<br>',
+              #                        '<b>Age group</b>: %{text}<br>',
+              #                        '<b>Test positivity</b>: %{y}')
+              textposition = "none",
+              text = tooltip_trend[plot_data$los_age_band=="All ages"],
               hoverinfo = "text"
     ) %>%
     layout(margin = list(b = 100, t = 5),
@@ -210,7 +225,7 @@ make_hospital_admissions_los_plot <- function(data, plot_pathogen){
   if(length(unique(plot_data$week_ending)) == 1){
     
     p <- p %>%
-      add_trace(data = plot_data,
+      add_trace(data = plot_data[plot_data$los_age_band!="All ages",],
                 x = ~WeekNumber,
                 y = ~median_los,
                 showlegend = F,
@@ -219,8 +234,20 @@ make_hospital_admissions_los_plot <- function(data, plot_pathogen){
                 type = "scatter",
                 mode = 'markers',
                 textposition = "none",
-                text = tooltip_trend,
-                hoverinfo = "text") }
+                text = tooltip_trend[plot_data$los_age_band!="All ages"],
+                hoverinfo = "text",
+                visible = "legendonly") %>% 
+      add_trace(data = plot_data[plot_data$los_age_band=="All ages",],
+                x = ~WeekNumber,
+                y = ~median_los,
+                showlegend = F,
+                color = ~los_age_band,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend[plot_data$los_age_band=="All ages"],
+                hoverinfo = "text")     }
   
   return(p)
   # 

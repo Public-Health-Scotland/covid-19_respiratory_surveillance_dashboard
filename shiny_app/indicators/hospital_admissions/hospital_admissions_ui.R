@@ -152,7 +152,7 @@ tagList(
            #                         #), #age/sex 
            #                # ),
 ##### LOS section
-                      tagList(h2("Length of stay of acute COVID-19 hospital admissions")),
+                      tagList(h2("Length of stay of acute COVID-19 hospital admissions by age group")),
                       br(),
                               #  temporary caveat for no LOS information
                               # tagList("Public Health Scotland have paused reporting of the Length",
@@ -187,7 +187,7 @@ tagList(
                            # br(), 
                            tabBox( width = NULL, type = "pills",
                                    tabPanel("Plot",
-                                            tagList(uiOutput("cov_los_title")),
+                                            #tagList(uiOutput("cov_los_title")),
                                             tagList(h5("Use the drop-down menu to select a season.")),
                                                    pickerInput(inputId = "los_season_cov",
                                                                label = "Select season",
@@ -195,11 +195,11 @@ tagList(
                                                                    .$Season %>% unique() },
                                                                selected = {Median_LOS_by_Age  %>%
                                                                    .$Season %>% unique() %>% tail(1)}),
-                                            selectInput(inputId = "los_cov_age", 
-                                                        label = "Select age group(s) of interest:", 
-                                                        choices = unique(Median_LOS_by_Age$los_age_band),
-                                                        selected = sort(unique(Median_LOS_by_Age$los_age_band), decreasing = TRUE)[1],
-                                                        multiple = TRUE),
+                                            # selectInput(inputId = "los_cov_age", 
+                                            #             label = "Select age group(s) of interest:", 
+                                            #             choices = unique(Median_LOS_by_Age$los_age_band),
+                                            #             selected = sort(unique(Median_LOS_by_Age$los_age_band), decreasing = TRUE)[1],
+                                            #             multiple = TRUE),
                                             altTextUI("cov_los_modal"),
                                                    withNavySpinner( plotlyOutput("cov_los_plot"))
                                             ),#tabPanel,

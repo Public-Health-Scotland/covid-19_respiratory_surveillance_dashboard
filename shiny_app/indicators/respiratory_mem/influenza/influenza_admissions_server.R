@@ -48,16 +48,16 @@ altTextServer("flu_adm_age_sex",
 
 
 altTextServer("flu_los_modal",
-              title = "Length of stay of acute influenza hospital admissions",
+              title = "Length of stay of acute influenza hospital admissions by age group",
               content = tags$ul(
                 tags$li("This is a plot of the median lengths of stay in hospital",
                         "for acute influenza hospital admissions by respiratory season, broken down by age group."),
-                tags$li("There is a drop down above the chart which allows you to select",
-                        "the respiratory season for plotting. The default is the current season."),
-                tags$li("There are seven distinct categories for age group that can be selected: <1, 1 to 4, 5 to 14,",
-                        "15 to 44, 45 to 64, 65 to 74 and 75+ years. As a default, the overall median for all age groups is shown."),
                 tags$li("The 4-week rolling median is calculated using the length of stay for all individuals in a given age group 
                         over the four-week period leading up to the given ISO week."),
+                tags$li("There is a drop down above the chart which allows you to select",
+                        "the respiratory season for plotting. The default is the current season."),
+                tags$li("There are eight distinct categories for age group that can be displayed: <1, 1 to 4, 5 to 14,",
+                        "15 to 44, 45 to 64, 65 to 74, 75+ years, and 'All ages'. As a default, the overall median for all age groups is shown."),
                 tags$li("The x axis shows the ISO week that the 4-week rolling median relates to."),
                 tags$li("The y axis is the median length of stay in days."),
                 tags$li("Where no data is available for a given week, this means that no individuals within that age group
@@ -184,15 +184,15 @@ output$flu_admissions_hb_table <- renderDataTable({
 # ### LENGTH OF STAY ### ----
 # 
 # # los plot reactive title
- output$flu_los_title <- renderUI({h3(glue("Influenza length of stay by age group in Season ",
-                                           input$los_season_flu))})
+ # output$flu_los_title <- renderUI({h3(glue("Influenza length of stay by age group in Season ",
+ #                                           input$los_season_flu))})
 
 # Plot
 output$flu_los_plot<- renderPlotly({
   flu_los_weekly_plot <- Median_LOS_by_Age %>%
     filter(pathogen == "Influenza") %>% 
     filter(Season == input$los_season_flu) %>%
-    filter(los_age_band %in% input$los_flu_age) %>%
+    #filter(los_age_band %in% input$los_flu_age) %>%
     make_hospital_admissions_los_plot()
   
 })
@@ -205,7 +205,7 @@ output$flu_los_table <- renderDataTable({
                                                           "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
     arrange(desc(week_ending), los_age_band) %>% 
     filter(Season == input$los_season_flu) %>%
-    filter(los_age_band %in% input$los_flu_age) %>%
+    #filter(los_age_band %in% input$los_flu_age) %>%
     rename(`Median Length of Stay (4-week)` = median_los,
            `Age Group` = los_age_band,
            `ISO Week` = week,

@@ -150,11 +150,11 @@ fluidRow(
 # ),
 
 ##### LOS section
- tagList(h2("Length of stay of acute influenza hospital admissions"),
+ tagList(h2("Length of stay of acute influenza hospital admissions by age group"),
          br(),
          tabBox( width = NULL, type = "pills",
                  tabPanel("Plot",
-                          tagList(uiOutput("flu_los_title")),
+                          #tagList(uiOutput("flu_los_title")),
                           tagList(h5("Use the drop-down menu to select a season.")),
                           pickerInput(inputId = "los_season_flu",
                                       label = "Select season",
@@ -162,11 +162,11 @@ fluidRow(
                                           .$Season %>% unique() },
                                       selected = {Median_LOS_by_Age  %>%
                                           .$Season %>% unique() %>% tail(1)}),
-                          selectInput(inputId = "los_flu_age", 
-                                      label = "Select age group(s) of interest:", 
-                                      choices = unique(Median_LOS_by_Age$los_age_band),
-                                      selected = sort(unique(Median_LOS_by_Age$los_age_band), decreasing = TRUE)[1],
-                                      multiple = TRUE),
+                          # selectInput(inputId = "los_flu_age", 
+                          #             label = "Select age group(s) of interest:", 
+                          #             choices = unique(Median_LOS_by_Age$los_age_band),
+                          #             selected = sort(unique(Median_LOS_by_Age$los_age_band), decreasing = TRUE)[1],
+                          #             multiple = TRUE),
                           altTextUI("flu_los_modal"),
                           withNavySpinner( plotlyOutput("flu_los_plot"))
                  ),#tabPanel,
