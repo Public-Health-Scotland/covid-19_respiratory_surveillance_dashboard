@@ -44,20 +44,20 @@ altTextServer("rsv_adm_age_sex",
 
 
 altTextServer("rsv_los_modal",
-              title = "Length of stay of acute RSV hospital admissions",
+              title = "Median length of stay of acute RSV hospital admissions by age group",
               content = tags$ul(
-                tags$li("This is a plot of the distribution of lengths of stay in hospital",
-                        "for acute RSV hospital admissions by respiratory season."),
+                tags$li("This is a plot of the median lengths of stay in hospital",
+                        "for acute RSV hospital admissions by respiratory season, broken down by age group."),
+                 tags$li("The 4-week rolling median is calculated using the length of stay for all individuals in a given age group 
+                        over the four-week period leading up to the given ISO week."),
                 tags$li("There is a drop down above the chart which allows you to select",
                         "the respiratory season for plotting. The default is the current season."),
-                tags$li("The legend shows five categories for length of stay: 1 day or less;",
-                        "2-3 days, 4-5 days, 6-7 days, 8+ days. See the metadata tab for further detail."),
-                tags$li("The x axis shows a break down of admissions by age groups: 0-17, 18-64, 65-74, 75+ and finally by All ages."),
-                tags$li("The y axis is the percentage of admissions in a given age group category."),
-                tags$li("The plot is a stacked bar chart, where the",
-                        "sections of vertical bars correspond to different length of stay categories.",
-                        "The bar sections are ordered from smallest length of stay to largest",
-                        "length of stay from bottom to top.") ))
+                tags$li("There are eight distinct categories for age group that can be displayed: <1, 1 to 4, 5 to 14,",
+                        "15 to 44, 45 to 64, 65 to 74, 75+ years, and 'All ages'. As a default, the overall median for all age groups is shown."),
+                tags$li("The x axis shows the ISO week that the 4-week rolling median relates to."),
+                tags$li("The y axis is the median length of stay in days."),
+                tags$li("Where no data is available for a given week, this means that no individuals within that age group
+                        were admitted to hospital with RSV over the 4-week period prior to the missing data point.") ))
 
 
 # RSV admissions table
@@ -185,7 +185,32 @@ output$rsv_admissions_hb_table <- renderDataTable({
 # 
 # # los plot reactive title
 # output$rsv_los_title <- renderUI({h3(glue("RSV length of stay by age group in Season ",
-#                                           input$los_season_flu))})
+#                                           input$los_season_rsv))})
+
+# Plot
+output$rsv_los_plot<- renderPlotly({
+  rsv_los_weekly_plot <- Median_LOS_by_Age %>%
+    filter(pathogen == "RSV") %>% 
+    filter(Season == input$los_season_rsv) %>%
+#    filter(los_age_band %in% input$los_rsv_age) %>%
+    make_hospital_admissions_los_plot()
+  
+})
+
+output$rsv_los_table <- renderDataTable({
+  flu_los_weekly_table <- Median_LOS_by_Age %>% 
+    filter(pathogen == "RSV") %>% 
+    select(Season, week_ending, week, los_age_band, median_los) %>% 
+    mutate(los_age_band = factor(los_age_band, levels = c("<1", "1 to 4", "5 to 14",
+                                                          "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
+    arrange(desc(week_ending), los_age_band) %>% 
+    filter(Season == input$los_season_rsv) %>%
+    #filter(los_age_band %in% input$los_rsv_age) %>%
+    rename(`Median Length of Stay (4-week)` = median_los,
+           `Age Group` = los_age_band,
+           `ISO Week` = week,
+           `Week Ending` = week_ending)
+})
 # 
 # # Plot
 # output$rsv_los_plot<- renderPlotly({

@@ -155,51 +155,172 @@ make_hospital_admissions_simd_plot <- function(data){
 
 # Hospital Admissions LOS plot
 
-make_hospital_admissions_los_plot <- function(data){
-  table <- data %>%
-    # mutate(Percent = ProportionOfAdmission*100) %>%
-    select(Pathogen, AgeGroup, LengthOfStay, PercentageOfAdmissions, Season) %>%
-    # dplyr::rename(`Age group` = AgeGroup,
-    #               `Length of stay` = LengthOfStay) %>% 
-    #filter(`Season` == input$season) %>%
-    mutate(LengthOfStay = factor(LengthOfStay,
-                                     levels = c("1 day or less",
-                                                "2-3 days", "4-5 days",
-                                                "6-7 days", "8+ days")))
+make_hospital_admissions_los_plot <- function(data, plot_pathogen){
   
-  tooltip_trend <- paste0("Season: ", table$Season, "<br>",
-                          "Age group: ", table$AgeGroup, "<br>",
-                          "Length of stay: ", table$LengthOfStay, "<br>",
-                          "Percent: ",table$PercentageOfAdmissions, "%")
+  # put weeks in correct order for season
+  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
   
-  xaxis_plots[["title"]] <- 'Age group'
-  yaxis_plots[["title"]] <- 'Percentage of admissions'
-  yaxis_plots[["ticksuffix"]] <- "%"
- 
-  p <- table %>%
-    plot_ly(x = ~AgeGroup,
-            y = ~PercentageOfAdmissions,
-            color = ~LengthOfStay,
-            type = 'bar',
-            colors = paste(phs_palettes$`main-blues`),
-            text = tooltip_trend,
-            hoverinfo = "text",
-            marker = list(line = list(width=.5, color = 'rgb(0,0,0)'))
+  plot_data <- data %>% #filter(pathogen == plot_pathogen) %>% 
+    mutate(WeekNumber = as.numeric(substr(week, nchar(week) - 1, nchar(week))),
+           WeekNumber = factor(WeekNumber, levels = week_order), 
+           los_age_band = factor(los_age_band, levels = c("<1", "1 to 4", "5 to 14",
+                                                 "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) #%>% 
+    #filter(Season == "2025-2026")
+  
+  
+  # Text for tooltip
+  tooltip_trend <- paste0(#"Season: ", plot_data$Season, "<br>",
+                          "Week ending: ", format(plot_data$week_ending, "%d %b %y"), "<br>",
+                          "Age group: ", plot_data$los_age_band, "<br>",
+                          "Median length of stay (days): ", plot_data$median_los, "<br>")#,
+                          #"Percent: ",plot_data$PercentageOfAdmissions, "%")
+  
+  xaxis_plots[["title"]] <- 'Week Number'
+  yaxis_plots[["title"]] <- 'Length of stay in days<br>(4-week rolling median)'
+  xaxis_plots[["dtick"]] <- 2
+  yaxis_plots[["dtick"]] <- 1
+  xaxis_plots[["range"]] <- list(-0.5, 52.5)
+    
+  #yaxis_plots[["ticksuffix"]] <- "%"
+  
+  ## Add as two separate traces to enable 'All ages' to be shown as the default trace
+  p <- plot_ly(plot_data) %>%
+    add_trace(data = plot_data[plot_data$los_age_band!="All ages",],
+              x = ~WeekNumber, y = ~median_los, split = ~los_age_band, #text=~season,
+              type="scatter", mode="lines",
+              color=~los_age_band,
+              colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
+                                   "phs-purple", "phs-blue-50", "phs-magenta", "phs-teal")),
+              # hovertemplate = paste0('<b>Week number</b>: %{x}<br>',
+              #                        '<b>Age group</b>: %{text}<br>',
+              #                        '<b>Test positivity</b>: %{y}')
+              textposition = "none",
+              text = tooltip_trend[plot_data$los_age_band!="All ages"],
+              hoverinfo = "text",
+              visible = "legendonly"
     ) %>%
-    layout(barmode = "stack",
-           yaxis = yaxis_plots,
-           xaxis = xaxis_plots,
-           legend = list(xanchor = "center", yanchor = "top",
-                         x = 0.5, y = -0.6, 
-                         orientation = 'h', traceorder = 'normal'),
+    add_trace(data = plot_data[plot_data$los_age_band=="All ages",],
+              x = ~WeekNumber, y = ~median_los, split = ~los_age_band, #text=~season,
+              type="scatter", mode="lines",
+              color=~los_age_band,
+              colors=phs_colours(c("phs-graphite-50")),
+              # hovertemplate = paste0('<b>Week number</b>: %{x}<br>',
+              #                        '<b>Age group</b>: %{text}<br>',
+              #                        '<b>Test positivity</b>: %{y}')
+              textposition = "none",
+              text = tooltip_trend[plot_data$los_age_band=="All ages"],
+              hoverinfo = "text"
+    ) %>%
+    layout(margin = list(b = 100, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           #xaxis = list(range = list(-0.5, 52.5)),
+           legend = list(x = 100, y = 0.5),
            paper_bgcolor = phs_colours("phs-liberty-10"),
            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
-    # leaving only save plot button
-    config(displaylogo = F, displayModeBar = TRUE,
-           modeBarButtonsToRemove = bttn_remove )
-   # return(p)
+    
+    config(displaylogo = FALSE, displayModeBar = TRUE,
+           modeBarButtonsToRemove = bttn_remove)
+  
+  # For first week of new season (week 40), add in a marker
+  if(length(unique(plot_data$week_ending)) == 1){
+    
+    p <- p %>%
+      add_trace(data = plot_data[plot_data$los_age_band!="All ages",],
+                x = ~WeekNumber,
+                y = ~median_los,
+                showlegend = F,
+                color = ~los_age_band,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend[plot_data$los_age_band!="All ages"],
+                hoverinfo = "text",
+                visible = "legendonly") %>% 
+      add_trace(data = plot_data[plot_data$los_age_band=="All ages",],
+                x = ~WeekNumber,
+                y = ~median_los,
+                showlegend = F,
+                color = ~los_age_band,
+                colors = "#FF0000",
+                type = "scatter",
+                mode = 'markers',
+                textposition = "none",
+                text = tooltip_trend[plot_data$los_age_band=="All ages"],
+                hoverinfo = "text")     }
+  
+  return(p)
+  # 
+  # p <- data %>%
+  #   plot_ly(x = ~WeekNumber,
+  #           y = ~median_los,
+  #           color = ~los_age_band,
+  #           type = 'bar',
+  #           colors = paste(phs_palettes$`main-blues`),
+  #           text = tooltip_trend,
+  #           hoverinfo = "text",
+  #           marker = list(line = list(width=.5, color = 'rgb(0,0,0)'))
+  #   ) %>%
+  #   layout(barmode = "stack",
+  #          yaxis = yaxis_plots,
+  #          xaxis = xaxis_plots,
+  #          legend = list(xanchor = "center", yanchor = "top",
+  #                        x = 0.5, y = -0.6, 
+  #                        orientation = 'h', traceorder = 'normal'),
+  #          paper_bgcolor = phs_colours("phs-liberty-10"),
+  #          plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+  #   # leaving only save plot button
+  #   config(displaylogo = F, displayModeBar = TRUE,
+  #          modeBarButtonsToRemove = bttn_remove )
+  # # return(p)
   
 }
+
+# make_hospital_admissions_los_plot <- function(data){
+#   table <- data %>%
+#     # mutate(Percent = ProportionOfAdmission*100) %>%
+#     select(Pathogen, AgeGroup, LengthOfStay, PercentageOfAdmissions, Season) %>%
+#     # dplyr::rename(`Age group` = AgeGroup,
+#     #               `Length of stay` = LengthOfStay) %>% 
+#     #filter(`Season` == input$season) %>%
+#     mutate(LengthOfStay = factor(LengthOfStay,
+#                                      levels = c("1 day or less",
+#                                                 "2-3 days", "4-5 days",
+#                                                 "6-7 days", "8+ days")))
+#   
+#   tooltip_trend <- paste0("Season: ", table$Season, "<br>",
+#                           "Age group: ", table$AgeGroup, "<br>",
+#                           "Length of stay: ", table$LengthOfStay, "<br>",
+#                           "Percent: ",table$PercentageOfAdmissions, "%")
+#   
+#   xaxis_plots[["title"]] <- 'Age group'
+#   yaxis_plots[["title"]] <- 'Percentage of admissions'
+#   yaxis_plots[["ticksuffix"]] <- "%"
+#  
+#   p <- table %>%
+#     plot_ly(x = ~AgeGroup,
+#             y = ~PercentageOfAdmissions,
+#             color = ~LengthOfStay,
+#             type = 'bar',
+#             colors = paste(phs_palettes$`main-blues`),
+#             text = tooltip_trend,
+#             hoverinfo = "text",
+#             marker = list(line = list(width=.5, color = 'rgb(0,0,0)'))
+#     ) %>%
+#     layout(barmode = "stack",
+#            yaxis = yaxis_plots,
+#            xaxis = xaxis_plots,
+#            legend = list(xanchor = "center", yanchor = "top",
+#                          x = 0.5, y = -0.6, 
+#                          orientation = 'h', traceorder = 'normal'),
+#            paper_bgcolor = phs_colours("phs-liberty-10"),
+#            plot_bgcolor = phs_colours("phs-liberty-10")) %>%
+#     # leaving only save plot button
+#     config(displaylogo = F, displayModeBar = TRUE,
+#            modeBarButtonsToRemove = bttn_remove )
+#    # return(p)
+#   
+# }
 
 
 
