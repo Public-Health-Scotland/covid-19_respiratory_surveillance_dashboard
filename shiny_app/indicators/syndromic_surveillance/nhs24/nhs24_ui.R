@@ -10,6 +10,9 @@ tagList(
              "respiratory illness in the community. As NHS24 is often patients first contact with the NHS,",
              "increases in activity will be reported here before they are detected by other surveillance",
              "systems, thus it can act as an early warning system for acute respiratory infections."),
+          p("NHS24 has recently undergone a major digital transformation. While data flows have resumed as",
+            "normal, the most recent weeks' data are provisional and may change as processes are still being",
+            "updated and validated."),
 #             "More information on NHS24 can be found…"),
            linebreaks(1)
            ),
