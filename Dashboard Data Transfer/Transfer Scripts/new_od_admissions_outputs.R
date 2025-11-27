@@ -108,7 +108,9 @@ all_resp_hb_admissions<-
   rbind(all_pathogens_scotland_admissions %>% 
           filter(Pathogen %in% c("Influenza (All)","RSV","COVID-19")) %>% 
           rename(HBcode=Country) %>% 
-          mutate(HBName="Scotland"),all_resp_hb_admissions_a) %>% 
+          mutate(HBName="Scotland",
+                 WeekBeginning = ymd(WeekBeginning),
+                 WeekEnding = ymd(WeekEnding)),all_resp_hb_admissions_a) %>% 
   relocate(HBName,.before = HBcode) %>% 
   mutate(HBQF=if_else(HBName=="Scotland","d",""),
          NumberAdmissionsPerWeek=
