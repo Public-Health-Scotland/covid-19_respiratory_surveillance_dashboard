@@ -456,16 +456,16 @@ output$influenza_age_sex_pyramid_table = renderDataTable({
 
 })
 
-observeEvent(input$flu_respiratory_season,
-             {
-               updatePickerInput(session, inputId = "flu_respiratory_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$flu_respiratory_season) %>%
-                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$flu_respiratory_season) %>%
-                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-
-             }
-)
+# observeEvent(input$flu_respiratory_season,
+#              {
+#                updatePickerInput(session, inputId = "flu_respiratory_date",
+#                                  choices = {Respiratory_AllData %>% filter(Season == input$flu_respiratory_season) %>%
+#                                      .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+#                                  selected = {Respiratory_AllData %>% filter(Season == input$flu_respiratory_season) %>%
+#                                      .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
+# 
+#              }
+# )
 
 
 
