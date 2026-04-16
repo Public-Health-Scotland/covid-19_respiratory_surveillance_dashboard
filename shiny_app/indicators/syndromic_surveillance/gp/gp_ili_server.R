@@ -126,28 +126,28 @@ output$gp_mem_table <- renderDataTable({
                filter_cols = c(1,2,4))
 })
 
-# GP MEM by HB table
-output$gp_mem_hb_table <- renderDataTable({
-  Respiratory_GPILI_MEM_HB %>%
-    filter(Season %in% gp_seasons) %>%
-    arrange(desc(WeekEnding)) %>%
-    select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
-    mutate(Season = factor(Season),
-           ISOWeek = factor(ISOWeek),
-           HBName = factor(HBName),
-           ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
-    rename(`ISO Week` = ISOWeek,
-           `NHS Health Board`= HBName,
-           `Rate per 100,000` = RatePer100000,
-           `Activity Level` = ActivityLevel) %>%
-    make_table(add_separator_cols_1dp = c(4),
-               filter_cols = c(1,2,3,5))
-})
+# # GP MEM by HB table
+# output$gp_mem_hb_table <- renderDataTable({
+#   Respiratory_GPILI_MEM_HB %>%
+#     filter(Season %in% gp_seasons) %>%
+#     arrange(desc(WeekEnding)) %>%
+#     select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
+#     # mutate(ActivityLevel = case_when(
+#     #   ActivityLevel == "Moderate" ~ "Medium",
+#     #   ActivityLevel == "Extraordinary" ~ "Very High",
+#     #   TRUE ~ ActivityLevel
+#     # )) %>%
+#     mutate(Season = factor(Season),
+#            ISOWeek = factor(ISOWeek),
+#            HBName = factor(HBName),
+#            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+#     rename(`ISO Week` = ISOWeek,
+#            `NHS Health Board`= HBName,
+#            `Rate per 100,000` = RatePer100000,
+#            `Activity Level` = ActivityLevel) %>%
+#     make_table(add_separator_cols_1dp = c(4),
+#                filter_cols = c(1,2,3,5))
+# })
 
 # GP MEM by Age table
 output$gp_mem_age_table <- renderDataTable({
@@ -183,20 +183,20 @@ output$gp_mem_plot <- renderPlotly({
     # )) %>%
     create_mem_linechart()
 
-})
+})  %>% bindCache(Deployment_Date)
 
-# GP MEM by HB plot
-output$gp_mem_hb_plot <- renderPlotly({
-  Respiratory_GPILI_MEM_HB %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
-    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
-    create_mem_heatmap(breakdown_variable = "HBCode")
-
-})
+# # GP MEM by HB plot
+# output$gp_mem_hb_plot <- renderPlotly({
+#   Respiratory_GPILI_MEM_HB %>%
+#     # mutate(ActivityLevel = case_when(
+#     #   ActivityLevel == "Moderate" ~ "Medium",
+#     #   ActivityLevel == "Extraordinary" ~ "Very High",
+#     #   TRUE ~ ActivityLevel
+#     # )) %>%
+#     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+#     create_mem_heatmap(breakdown_variable = "HBCode")
+# 
+# })
 
 
 # GP MEM by Age plot
@@ -210,7 +210,7 @@ output$gp_mem_age_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 
-})
+})  %>% bindCache(Deployment_Date)
 
 
 

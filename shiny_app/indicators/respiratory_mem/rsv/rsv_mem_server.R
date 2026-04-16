@@ -37,7 +37,7 @@ output$rsv_positivity_plot <- renderPlotly({
   Respiratory_Pathogens_Test_Positivity %>%
     create_test_pos_seasons_linechart(., "RSV")
   
-})
+})   %>% bindCache(Deployment_Date)
 
 ## Test positivity by age
 
@@ -83,7 +83,7 @@ output$rsv_positivity_age_plot <- renderPlotly({
     filter(season == input$test_pos_rsv_age) %>%
     create_positivity_age_chart()
   
-})
+})   %>% bindCache(input$test_pos_rsv_age)
 
 
 
@@ -288,7 +288,7 @@ output$rsv_mem_plot <- renderPlotly({
     # )) %>%
     create_mem_linechart()
 
-})
+}) %>% bindCache(Deployment_Date)
 
 # RSV MEM by HB plot
 output$rsv_mem_hb_plot <- renderPlotly({
@@ -302,7 +302,7 @@ output$rsv_mem_hb_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBName")
 
-})
+})   %>% bindCache(Deployment_Date)
 
 
 # RSV MEM by Age plot
@@ -317,7 +317,7 @@ output$rsv_mem_age_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 
-})
+})   %>% bindCache(Deployment_Date)
 
 
 altTextServer("rsv_age_sex",
@@ -348,7 +348,7 @@ output$rsv_age_sex_pyramid_plot = renderPlotly({
            Season == input$rsv_respiratory_season) %>%
     make_age_sex_pyramid_plot()#respiratory functions
   
-})
+})  %>% bindCache(input$rsv_respiratory_season)
 
 # Flu by age/sex/age and sex
 output$rsv_age_sex_pyramid_table = renderDataTable({

@@ -36,7 +36,7 @@ output$influenza_positivity_plot <- renderPlotly({
   Respiratory_Pathogens_Test_Positivity %>%
     create_test_pos_seasons_linechart(., "Influenza (A or B)")
   
-})
+})  %>% bindCache(Deployment_Date)
 
 
 ## Test positivity by age
@@ -82,7 +82,7 @@ output$flu_positivity_age_plot <- renderPlotly({
     filter(season == input$test_pos_flu_age) %>%
     create_positivity_age_chart()
   
-})
+})   %>% bindCache(input$test_pos_flu_age)
 
 
 # Low threshold
@@ -287,7 +287,7 @@ output$influenza_mem_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_linechart()
 
-})
+})  %>% bindCache(Deployment_Date)
 
 # Influenza MEM by HB plot
 output$influenza_mem_hb_plot <- renderPlotly({
@@ -301,7 +301,7 @@ output$influenza_mem_hb_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBName")
 
-})
+})  %>% bindCache(Deployment_Date)
 
 
 # Influenza MEM by Age plot
@@ -316,7 +316,7 @@ output$influenza_mem_age_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 
-})
+})   %>% bindCache(Deployment_Date)
 
 ### Age and sex plot ###
 
@@ -379,7 +379,7 @@ output$influenza_age_sex_pyramid_plot = renderPlotly({
            Season == input$flu_respiratory_season) %>%
     make_age_sex_pyramid_plot()#respiratory functions
 
-})
+})   %>% bindCache(input$flu_respiratory_season)
 
 # Flu by age/sex/age and sex
 output$influenza_age_sex_table = renderDataTable({

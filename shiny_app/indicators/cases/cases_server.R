@@ -46,7 +46,7 @@ output$covid_positivity_plot <- renderPlotly({
     filter(season >= "2023/2024") %>%
     create_test_pos_seasons_linechart(., "Covid-19")
 
-})
+})  %>% bindCache(Deployment_Date)
 
 
 
@@ -94,7 +94,7 @@ output$covid_positivity_age_plot <- renderPlotly({
     filter(season == input$test_pos_cov_age) %>%
     create_positivity_age_chart()
   
-})
+})  %>% bindCache(input$test_pos_cov_age)
 
 
 
@@ -159,33 +159,33 @@ output$covid_positivity_age_plot <- renderPlotly({
 # 
 # })
 
-output$covid_line_plot <- renderPlotly({
+# output$covid_line_plot <- renderPlotly({
+# 
+#   covid_cases_weekly %>%
+#     create_covid_line_chart()
+# })
 
-  covid_cases_weekly %>%
-    create_covid_line_chart()
-})
+# # COVID Rates per 100,000 table
+# output$covid_cases_table <- renderDataTable({
+#   covid_cases_weekly %>%
+#     arrange(desc(WeekEnding)) %>%
+#     select(Season, ISOWeek, RatePer100000) %>%
+#     mutate(Season = factor(Season),
+#            ISOWeek = factor(ISOWeek)) %>%
+#     rename(`ISO Week` = ISOWeek,
+#            `Rate per 100,000` = RatePer100000) %>%
+#     make_table(add_separator_cols_1dp = c(3),
+#                filter_cols = c(1,2))
+# })
 
-# COVID Rates per 100,000 table
-output$covid_cases_table <- renderDataTable({
-  covid_cases_weekly %>%
-    arrange(desc(WeekEnding)) %>%
-    select(Season, ISOWeek, RatePer100000) %>%
-    mutate(Season = factor(Season),
-           ISOWeek = factor(ISOWeek)) %>%
-    rename(`ISO Week` = ISOWeek,
-           `Rate per 100,000` = RatePer100000) %>%
-    make_table(add_separator_cols_1dp = c(3),
-               filter_cols = c(1,2))
-})
-
-altTextServer("reported_cases_per_100k",
-title = "COVID-19 incidence rate per 100,000 population in Scotland",
-content = tags$ul(tags$li("This is a plot showing the rate of laboratory-confirmed COVID-19 infection per 100,000 population in Scotland."),
- tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. Week 40 is typically the start of October and when the winter respiratory season starts."),
- tags$li("The y axis shows the rate of laboratory-confirmed COVID-19 infection per 100,000 population."),
- tags$li("There is a trace for the three most recent seasons: 2023/2024, 2024/2025 and 2025/26.")
-  )
-)
+# altTextServer("reported_cases_per_100k",
+# title = "COVID-19 incidence rate per 100,000 population in Scotland",
+# content = tags$ul(tags$li("This is a plot showing the rate of laboratory-confirmed COVID-19 infection per 100,000 population in Scotland."),
+#  tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. Week 40 is typically the start of October and when the winter respiratory season starts."),
+#  tags$li("The y axis shows the rate of laboratory-confirmed COVID-19 infection per 100,000 population."),
+#  tags$li("There is a trace for the three most recent seasons: 2023/2024, 2024/2025 and 2025/26.")
+#   )
+# )
 
 # output$wastewater_plot <- renderPlotly({
 #   Wastewater %>%
@@ -294,7 +294,7 @@ output$covid_mem_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_linechart()
   
-})
+})  %>% bindCache(Deployment_Date)
 
 ### HB ----
 
@@ -354,7 +354,7 @@ output$covid_mem_hb_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBName")
   
-})
+})   %>% bindCache(Deployment_Date)
 
 
 ### Age ----
@@ -414,7 +414,7 @@ output$covid_mem_age_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
   
-})
+})  %>% bindCache(Deployment_Date)
 
 
 ### AGE/SEX BY SEASON ----
@@ -446,7 +446,7 @@ output$covid_age_sex_pyramid_plot = renderPlotly({
     mutate(Sex = substr(Sex,1,1)) %>%
     mutate(AgeGroup = gsub(" years", "", AgeGroup)) %>%
     make_age_sex_pyramid_plot()#respiratory functions
-})
+})  %>% bindCache(input$covid_respiratory_season)
 
 # Flu by age/sex/age and sex
 output$covid_age_sex_pyramid_table = renderDataTable({
@@ -472,14 +472,14 @@ output$covid_age_sex_pyramid_table = renderDataTable({
 })
 
 
-observeEvent(input$covid_respiratory_season,
-             {
-               updatePickerInput(session, inputId = "covid_respiratory_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$covid_respiratory_season) %>%
-                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$covid_respiratory_season) %>%
-                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-               
-             }
-)
+# observeEvent(input$covid_respiratory_season,
+#              {
+#                updatePickerInput(session, inputId = "covid_respiratory_date",
+#                                  choices = {Respiratory_AllData %>% filter(Season == input$covid_respiratory_season) %>%
+#                                      .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
+#                                  selected = {Respiratory_AllData %>% filter(Season == input$covid_respiratory_season) %>%
+#                                      .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
+#                
+#              }
+# )
 

@@ -153,7 +153,7 @@ output$euromomo_mem_plot <- renderPlotly({
     # )) %>%
     create_euromomo_mem_linechart()
   
-})
+})  %>% bindCache(Deployment_Date)
 
 # Euromomo age MEM plot
 output$euromomo_mem_age_plot <- renderPlotly({
@@ -174,7 +174,7 @@ output$euromomo_mem_age_plot <- renderPlotly({
     create_euromomo_mem_heatmap(breakdown_variable = "AgeGroup",
                        value_variable = "ZScore")
   
-})
+})  %>% bindCache(Deployment_Date)
 
 
 observeEvent(input$jump_to_metadata_page, {updateTabsetPanel(session, "intabset", selected = "metadata")})

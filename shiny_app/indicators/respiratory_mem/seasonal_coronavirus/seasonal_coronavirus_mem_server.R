@@ -204,7 +204,7 @@ output$seasonal_coronavirus_mem_plot <- renderPlotly({
     # )) %>%
     create_mem_linechart()
 
-})
+})  %>% bindCache(Deployment_Date)
 
 # seasonal coronavirus MEM by HB plot
 output$seasonal_coronavirus_mem_hb_plot <- renderPlotly({
@@ -218,7 +218,7 @@ output$seasonal_coronavirus_mem_hb_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
 
-})
+})  %>% bindCache(Deployment_Date)
 
 
 # seasonal coronavirus MEM by Age plot
@@ -233,7 +233,7 @@ output$seasonal_coronavirus_mem_age_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 
-})
+})  %>% bindCache(Deployment_Date)
 
 
 

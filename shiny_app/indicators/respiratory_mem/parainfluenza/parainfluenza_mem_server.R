@@ -203,7 +203,7 @@ output$parainfluenza_mem_plot <- renderPlotly({
     # )) %>%
     create_mem_linechart()
 
-})
+})  %>% bindCache(Deployment_Date)
 
 # Parainfluenza MEM by HB plot
 output$parainfluenza_mem_hb_plot <- renderPlotly({
@@ -217,7 +217,7 @@ output$parainfluenza_mem_hb_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
 
-})
+})  %>% bindCache(Deployment_Date)
 
 
 # Parainfluenza MEM by Age plot
@@ -232,7 +232,7 @@ output$parainfluenza_mem_age_plot <- renderPlotly({
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 
-})
+})  %>% bindCache(Deployment_Date)
 
 
 
