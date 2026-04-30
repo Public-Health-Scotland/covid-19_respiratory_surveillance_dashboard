@@ -186,6 +186,211 @@ output$nhs24_mem_plot <- renderPlotly({
 
 })
 
+# NHS24 MEM plot
+output$nhs24_mem_plot2 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart2(value_variable = "Percentage",
+                         y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_report <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_report(value_variable = "Percentage",
+                                y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_mixed1 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_mixed1(value_variable = "Percentage",
+                                y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_mixed2 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_mixed2(value_variable = "Percentage",
+                                y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_mixed3 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_mixed3(value_variable = "Percentage",
+                                y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+
+
+
+
+
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_new <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_new(value_variable = "Percentage",
+                         y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_mixed1_new <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_mixed1_new(value_variable = "Percentage",
+                                y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_mixed2_new <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_mixed2_new(value_variable = "Percentage",
+                                y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_mixed3_new <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_mixed3_new(value_variable = "Percentage",
+                                y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_alt1 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_alt1(value_variable = "Percentage",
+                              y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_alt2 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_alt2(value_variable = "Percentage",
+                                    y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_alt3 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_alt3(value_variable = "Percentage",
+                              y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+
+
+# NHS24 MEM plot
+output$nhs24_mem_plot_alt3 <- renderPlotly({
+  Respiratory_NHS24_MEM_Scot %>%
+    # mutate(ActivityLevel = case_when(
+    #   ActivityLevel == "Moderate" ~ "Medium",
+    #   ActivityLevel == "Extraordinary" ~ "Very High",
+    #   TRUE ~ ActivityLevel
+    # )) %>%
+    create_mem_linechart_alt3(value_variable = "Percentage",
+                              y_axis_title = "Percentage of calls to NHS24 <br> for respiratory symptoms")
+  
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # NHS24 MEM by HB plot
 output$nhs24_mem_hb_plot <- renderPlotly({
   Respiratory_NHS24_MEM_HB %>%

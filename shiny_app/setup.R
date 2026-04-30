@@ -218,6 +218,8 @@ activity_levels <- c("Baseline", "Low", "Medium", "High", "Very high")
 # Colours for thresholds
 activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF")
 
+#activity_level_colours <- c("#FEF08AFF",  "#9EE3A7FF", "#6FC4BFFF", "#7A8FBFFF", "#8A6FA2FF")
+
 # Activity levels   for euromomo - not used, uses the generic levels above
 #euromomo_activity_levels <- c("Baseline", "Low", "Medium", "High", "Very High", "Reporting delay")
 
@@ -231,6 +233,19 @@ euromomo_activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B
 #                       "#376C31", "#FF0000")
 mem_line_colours <- rev(c("#12436D", "#801650", "#F46A25","#3F085C",
                       "#3E8ECC", "#3D3D3D"))
+
+mem_line_colours_alt <- c("#12436D", "#801650", "#F46A25", "#3E8ECC", "#A285D1", "black")
+
+mem_line_colours_alt3 <- c("#F46A25", "#3E8ECC", "black", "#F46A25", "#3E8ECC", "black")
+
+
+mem_line_colours2 <- c("#12436D", "#801650", "#F46A25", "#3E8ECC", "black", "black")
+
+mem_line_colours_alt1 <- c("#3E8ECC", "#3E8ECC", "#F46A25", "#F46A25", "#801650", "#801650")
+mem_line_colours_alt2 <- c("#12436D", "#801650", "#F46A25","#3F085C", "#3E8ECC", "black")
+
+# mem_line_colours2 <- c("#12436D", "#801650", "#F46A25","#3F085C",
+#                        "#3E8ECC", "#3D3D3D")
 
 # Colours for lines on summary admissions line chart
 flu_hosp_adms_colours <- c(phs_colours("phs-purple"), phs_colours("phs-green"),
