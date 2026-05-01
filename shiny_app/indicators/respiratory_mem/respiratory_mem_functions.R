@@ -25,6 +25,15 @@ create_mem_linechart <- function(data,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
   
+  data <- Respiratory_Pathogens_MEM_Scot %>%
+    filter(Pathogen == "Influenza") %>%
+    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
+  
+  rate_dp = 1
+  seasons = NULL
+  value_variable = "RatePer100000"
+  y_axis_title = "Rate per 100,000 population"
+  
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable) %>%
@@ -53,9 +62,16 @@ create_mem_linechart <- function(data,
     tail(6)
   seasons <- seasons$Season
   
+  # Drop week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOWeek != 53)
+    
+  }
+
   # Wrangle data
   data = data %>%
-    filter(ISOWeek != 53) %>%
     filter(Season %in% seasons) %>%
     select(Season, ISOWeek, Weekord, Value, ActivityLevel, LowThreshold,
            MediumThreshold, HighThreshold, VeryHighThreshold) %>%
@@ -65,7 +81,7 @@ create_mem_linechart <- function(data,
   
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- c(0,52)
+  xaxis_plots[["range"]] <- c(0,max(mem_isoweeks))
   
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -151,7 +167,7 @@ create_mem_linechart <- function(data,
                   line = list(color = "transparent"),
                   opacity = 0.5,
                   x0 = -1,
-                  x1 = 52,
+                  x1 = max(mem_isoweeks),
                   xref = "x",
                   y0 = 0,
                   y1 = baseline_max,
@@ -162,7 +178,7 @@ create_mem_linechart <- function(data,
                   line = list(color = "transparent"),
                   opacity = 0.5,
                   x0 = -1,
-                  x1 = 52,
+                  x1 = max(mem_isoweeks),
                   xref = "x",
                   y0 = baseline_max,#+0.00001,
                   y1 = low_max,
@@ -173,7 +189,7 @@ create_mem_linechart <- function(data,
                   line = list(color = "transparent"),
                   opacity = 0.5,
                   x0 = -1,
-                  x1 = 52,
+                  x1 = max(mem_isoweeks),
                   xref = "x",
                   y0 = low_max,#+0.00001,
                   y1 = medium_max,
@@ -184,7 +200,7 @@ create_mem_linechart <- function(data,
                   line = list(color = "transparent"),
                   opacity = 0.5,
                   x0 = -1,
-                  x1 = 52,
+                  x1 = max(mem_isoweeks),
                   xref = "x",
                   y0 = medium_max,#+0.00001,
                   y1 = high_max,
@@ -195,7 +211,7 @@ create_mem_linechart <- function(data,
                   line = list(color = "transparent"),
                   opacity = 0.5,
                   x0 = -1,
-                  x1 = 52,
+                  x1 = max(mem_isoweeks),
                   xref = "x",
                   y0 = high_max,#+0.00001,
                   y1 = very_high_max,
@@ -260,6 +276,8 @@ make_season_plot <- function(
     include_text_annotation,
     rate_dp,
     text_annotation_dp,
+    # mem_isoweeks_plot,
+    # mem_week_order_plot,
     x_visibility = TRUE
 ) {
   
@@ -313,13 +331,13 @@ make_season_plot <- function(
         showgrid = FALSE,
         showline = FALSE
       ),
-      shapes = apply(expand.grid(x = c(0.5:51.5, (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
+      shapes = apply(expand.grid(x = c(0.5:(max(mem_isoweeks)-0.5), (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
                                                                                                                                                                                                                         border_col = phs_colours("phs-liberty-10")))
       
     ) %>%
     layout(
       annotations = list(
-        x = 53,
+        x = max(mem_isoweeks)+1,
         y = length(data_breakdown) / 2,
         text = unique(df_season$Season),
         showarrow = FALSE,
@@ -352,6 +370,19 @@ create_mem_heatmap <- function(
     heatmap_seasons = NULL,
     value_variable = "RatePer100000"
 ) {
+  
+  # data <- Respiratory_Pathogens_MEM_HB %>%
+  #   filter(Pathogen == "Influenza") %>%
+  #   mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
+  # 
+  # rate_dp = 1
+  # include_text_annotation = FALSE
+  # text_annotation_dp = 1
+  # breakdown_variable = "HBName"
+  # heatmap_seasons = NULL
+  # value_variable = "RatePer100000"
+  
+  #heatmap_seasons = c("2020/2021", "2021/2022")
   
   data <- data %>%
     rename(Breakdown = all_of(breakdown_variable),
@@ -386,6 +417,62 @@ create_mem_heatmap <- function(
   
   data_breakdown <- unique(sort(data$Breakdown))
   
+  # # Check if there are any isoweeks 53
+  # check_week_53 <- data %>%
+  #   filter(Season %in% heatmap_seasons) %>%
+  #   filter(ISOWeek == 53)
+
+  # Update if week 53 is present
+  #if(nrow(check_week_53) != 0){
+  
+  # Update if week 53 is present
+  if(include_week_53){
+    
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(Season %in% heatmap_seasons) %>%
+      filter(ISOWeek == 53)
+
+    # Select season that needs updated
+    data_updated <- data %>%
+      filter(Season %in% heatmap_seasons & Season != unique(data_week_53$Season)) %>%
+      mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOWeek == 52) %>%
+      mutate(ISOWeek = 53,
+             Weekord = 14,
+             WeekBeginning = NA,
+             WeekEnding = NA,
+             Value = NA,
+             ActivityLevel = "NA")
+
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Weekord, Breakdown)
+
+    # Update data
+    data <- data %>%
+      filter(!Season == unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
+
+  #   # Update parameters
+  #   # Isoweeks from week 40 to 39
+  #   mem_isoweeks_plot <- c(40:53, 1:39)
+  #   # Weeks in order from 1 to 53
+  #   mem_week_order_plot <- c(1:53)
+  # 
+  # } else{
+  #   
+  #   # Isoweeks from week 40 to 39
+  #   mem_isoweeks_plot <- mem_isoweeks
+  #   # Weeks in order from 1 to 52
+  #   mem_week_order_plot <- mem_week_order
+    
+  }
+  
   # Create plots using external helper
   prev_plot <- make_season_plot(
     df_season = data %>% filter(Season == heatmap_seasons[1]),
@@ -394,6 +481,8 @@ create_mem_heatmap <- function(
     include_text_annotation = include_text_annotation,
     rate_dp = rate_dp,
     text_annotation_dp = text_annotation_dp,
+    # mem_isoweeks_plot = mem_isoweeks_plot,
+    # mem_week_order_plot = mem_week_order_plot,
     x_visibility = FALSE
   )
   
@@ -403,7 +492,9 @@ create_mem_heatmap <- function(
     breakdown_hover_label = breakdown_hover_label,
     include_text_annotation = include_text_annotation,
     rate_dp = rate_dp,
-    text_annotation_dp = text_annotation_dp
+    text_annotation_dp = text_annotation_dp#,
+    # mem_isoweeks_plot = mem_isoweeks_plot,
+    # mem_week_order_plot = mem_week_order_plot,
   )
   
   # Attach static legend

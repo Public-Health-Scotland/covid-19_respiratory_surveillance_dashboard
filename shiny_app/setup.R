@@ -213,10 +213,10 @@ mem_legend <- readPNG("www/MEM_legend_liberty10.PNG", native = FALSE, info = FAL
 euromomo_age_mem_legend <- readPNG("www/Euromomo_age_MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
 
 # Activity levels
-activity_levels <- c("Baseline", "Low", "Medium", "High", "Very high")
+activity_levels <- c("Baseline", "Low", "Medium", "High", "Very high", "NA")
 
 # Colours for thresholds
-activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF")
+activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF", phs_colours("phs-liberty-10"))
 
 # Activity levels   for euromomo - not used, uses the generic levels above
 #euromomo_activity_levels <- c("Baseline", "Low", "Medium", "High", "Very High", "Reporting delay")
@@ -245,10 +245,24 @@ rsv_hosp_adms_colours <- c(phs_colours("phs-purple"), phs_colours("phs-green"),
 #euromomo_mem_line_colours <- c("#004785","#00a2e5", "#376C31", "#FF0000", "#FF0000")
 euromomo_mem_line_colours <- c("#3F085C","#F46A25", "#801650", "#12436D", "#12436D")
 
-# Isoweeks from week 40 to 39
-mem_isoweeks <- c(40:52, 1:39)
-# Weeks in order from 1 to 52
-mem_week_order <- c(1:52)
+# Include week 53?
+include_week_53 <- TRUE
+
+if(include_week_53){
+  
+  # Isoweeks from week 40 to 39
+  mem_isoweeks <- c(40:53, 1:39)
+  # Weeks in order from 1 to 52
+  mem_week_order <- c(1:53)
+  
+} else{
+  
+  # Isoweeks from week 40 to 39
+  mem_isoweeks <- c(40:52, 1:39)
+  # Weeks in order from 1 to 52
+  mem_week_order <- c(1:52)
+  
+}
 
 # Age groups
 mem_age_groups <- c("< 1", "1-4", "5-14", "15-44", "45-64", "65-74",
