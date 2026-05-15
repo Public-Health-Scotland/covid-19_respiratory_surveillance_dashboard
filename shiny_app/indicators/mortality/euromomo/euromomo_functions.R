@@ -5,6 +5,38 @@ create_euromomo_mem_linechart <- function(data,
                                           value_variable = "ZScore",
                                           y_axis_title = "Z-score") {
   
+  data <- Respiratory_Euromomo %>%
+    filter(AgeGroup == "All Ages")
+  
+  # Test data
+  data_2526 <- data %>%
+    filter(Season == "2025/26") %>%
+    mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
+  
+  data_2526_wk53 <- data_2526 %>%
+    filter(ISOWeek == 52) %>%
+    mutate(ISOWeek = 53,
+           Weekord = 14)
+  
+  data <- data %>%
+    filter(Season != "2025/26") %>%
+    bind_rows(data_2526) %>%
+    bind_rows(data_2526_wk53) %>%
+    arrange(Season, Year, ISOWeek)
+  
+  rate_dp = 1
+  seasons = NULL
+  value_variable = "ZScore"
+  y_axis_title = "Z-score"
+  
+  # Drop week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOWeek != 53)
+    
+  }
+  
   # Latest reporting week
   latest_week <- data %>%
     tail(1) %>%
@@ -44,11 +76,57 @@ create_euromomo_mem_linechart <- function(data,
   
   # Wrangle data
   data = data %>%
-    filter(ISOWeek != 53) %>%
+    #filter(ISOWeek != 53) %>%
     filter(Season %in% seasons) %>%
     select(Season, ISOWeek, Weekord, Value, ActivityLevel, ActivityLevelDelay, LowThreshold, 
            MediumThreshold, HighThreshold, ExtraordinaryThreshold, new_row) %>%
-    arrange(Season, Weekord) %>%
+    arrange(Season, Weekord) 
+  
+  # # Add in missing week 53 if required (will create gaps in graphs)
+  # if(include_week_53){
+  # 
+  #   # Season with week 53
+  #   data_week_53 <- data %>%
+  #     filter(ISOWeek == 53)
+  # 
+  #   # If no rows, add in for all seasons
+  #   if(nrow(data_week_53) == 0){
+  # 
+  #     # Select season that needs updated
+  #     data_updated <- data %>%
+  #       mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+  # 
+  #   } else{
+  # 
+  #     # Select season that needs updated
+  #     data_updated <- data %>%
+  #       filter(Season != unique(data_week_53$Season)) %>%
+  #       mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+  # 
+  #   }
+  # 
+  #   # Create week 53 data
+  #   data_updated_wk53 <- data_updated %>%
+  #     filter(ISOWeek == 52) %>%
+  #     mutate(ISOWeek = 53,
+  #            Weekord = 14,
+  #            Value = NA,
+  #            ActivityLevel = "NA")
+  # 
+  #   # Add data in
+  #   data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+  #     arrange(Season, Weekord)
+  # 
+  #   # Update data
+  #   data <- data %>%
+  #     filter(!Season %in% unique(data_updated$Season)) %>%
+  #     bind_rows(data_updated) %>%
+  #     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+  #     arrange(Season, Weekord)
+  # 
+  # }
+  
+  data = data %>%
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
   
@@ -59,7 +137,7 @@ create_euromomo_mem_linechart <- function(data,
   
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- c(0,52)
+  xaxis_plots[["range"]] <- c(0,max(mem_isoweeks))
   
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -90,10 +168,10 @@ create_euromomo_mem_linechart <- function(data,
   data_curr_season <- data %>%
     filter(Season %in% seasons[length(seasons)])
   
-  week_template <- data.frame(seq(1:52))
+  week_template <- data.frame(seq(1:max(mem_isoweeks)))
   names(week_template) <- "ISOWeek"
   week_template <- week_template %>%
-    mutate(ISOWeek = factor(ISOWeek, levels = c(40:52,1:39)))
+    mutate(ISOWeek = factor(ISOWeek, levels = c(40:max(mem_isoweeks),1:39)))
   
   # If latest week isn't week 40 or 41
   if(!latest_week %in% c("40", "41", "42")){
@@ -523,6 +601,43 @@ create_euromomo_mem_heatmap <- function(data,
                                         heatmap_seasons = NULL,
                                         value_variable = "ZScore") {
   
+  data <-  Respiratory_Euromomo %>%
+    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels),
+           ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(activity_levels,
+                                                                      "Reporting delay")))
+  
+  rate_dp = 1
+  include_text_annotation = F
+  text_annotation_dp = 1
+  breakdown_variable = "AgeGroup"
+  heatmap_seasons = NULL
+  value_variable = "ZScore"
+  
+  data_2526 <- data %>%
+    filter(Season == "2025/26") %>%
+    mutate(Weekord = ifelse(ISOWeek >= 1 & ISOWeek <= 39, Weekord+1, Weekord))
+  
+  test <- data_2526 %>%
+    filter(ISOWeek == 52) %>%
+    mutate(ISOWeek = 53,
+           Weekord = 14)
+  
+  data_2526 <- bind_rows(data_2526, test) %>%
+    arrange(Weekord)
+  
+  data <- data %>%
+    filter(Season != "2025/26") %>%
+    bind_rows(data_2526)
+
+  rate_dp = 1
+  include_text_annotation = FALSE
+  text_annotation_dp = 1
+  breakdown_variable = "AgeGroup"
+  heatmap_seasons = NULL
+  value_variable = "ZScore"
+
+  #heatmap_seasons = c("2019/2020", "2020/2021")
+  
   # Latest reporting week
   latest_week <- data %>%
     tail(1) %>%
@@ -565,6 +680,55 @@ create_euromomo_mem_heatmap <- function(data,
   
   # Breakdown of data
   data_breakdown <- unique(sort(data$Breakdown))
+  
+  # Update if week 53 is present
+  if(include_week_53){
+
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(Season %in% heatmap_seasons) %>%
+      filter(ISOWeek == 53)
+
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season %in% heatmap_seasons) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    } else{
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season %in% heatmap_seasons & Season != unique(data_week_53$Season)) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    }
+
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOWeek == 52) %>%
+      mutate(ISOWeek = 53,
+             Weekord = 14,
+             WeekBeginning = NA,
+             WeekEnding = NA,
+             Value = NA,
+             ActivityLevel = "NA",
+             ActivityLevelDelay = "NA")
+
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Weekord, Breakdown)
+
+    # Update data
+    data <- data %>%
+      filter(!Season == unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+      mutate(ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(activity_levels, "Reporting delay")))
+
+  }
   
   # Add in reporting delay marker
   data = data %>%
@@ -623,12 +787,12 @@ create_euromomo_mem_heatmap <- function(data,
                    tickmode = "array",
                    dtick = 1,
                    showgrid = F),
-      shapes = apply(expand.grid(x = c(0.5:51.5, (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
+      shapes = apply(expand.grid(x = c(0.5:(max(mem_isoweeks)-0.5), (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
                                                                                                                                                                                                                         border_col = phs_colours("phs-liberty-10")))
     ) %>%
     layout(
       annotations = list(
-        x = 53,
+        x = max(mem_isoweeks)+1,
         y = length(data_breakdown)/2,
         text = ~Season,
         showarrow = F,

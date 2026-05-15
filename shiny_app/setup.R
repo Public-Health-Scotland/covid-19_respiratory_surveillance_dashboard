@@ -222,7 +222,7 @@ activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", 
 #euromomo_activity_levels <- c("Baseline", "Low", "Medium", "High", "Very High", "Reporting delay")
 
 # Colours for thresholds for euromomo
-euromomo_activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF", "#a6a6a6")
+euromomo_activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF", phs_colours("phs-liberty-10"), "#a6a6a6")
 
 # Colours for lines on line chart
 # mem_line_colours <- c("#010101", "#A35000", "#00FF1A", "#004785","#00a2e5",

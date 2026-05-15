@@ -25,14 +25,14 @@ create_mem_linechart <- function(data,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
   
-  data <- Respiratory_Pathogens_MEM_Scot %>%
-    filter(Pathogen == "Influenza") %>%
-    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
-  
-  rate_dp = 1
-  seasons = NULL
-  value_variable = "RatePer100000"
-  y_axis_title = "Rate per 100,000 population"
+  # data <- Respiratory_Pathogens_MEM_Scot %>%
+  #   filter(Pathogen == "Influenza") %>%
+  #   mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
+  # 
+  # rate_dp = 1
+  # seasons = NULL
+  # value_variable = "RatePer100000"
+  # y_axis_title = "Rate per 100,000 population"
   
   # Rename value variable
   data <- data %>%
@@ -75,9 +75,57 @@ create_mem_linechart <- function(data,
     filter(Season %in% seasons) %>%
     select(Season, ISOWeek, Weekord, Value, ActivityLevel, LowThreshold,
            MediumThreshold, HighThreshold, VeryHighThreshold) %>%
-    arrange(Season, Weekord) %>%
+    arrange(Season, Weekord)
+  
+  # # Add in missing week 53 if required (will create gaps in graphs)
+  # if(include_week_53){
+  #   
+  #   # Season with week 53
+  #   data_week_53 <- data %>%
+  #     filter(ISOWeek == 53)
+  #   
+  #   # If no rows, add in for all seasons
+  #   if(nrow(data_week_53) == 0){
+  #     
+  #     # Select season that needs updated
+  #     data_updated <- data %>%
+  #       mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+  #     
+  #   } else{
+  #     
+  #     # Select season that needs updated
+  #     data_updated <- data %>%
+  #       filter(Season != unique(data_week_53$Season)) %>%
+  #       mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+  #     
+  #   }
+  #   
+  #   # Create week 53 data
+  #   data_updated_wk53 <- data_updated %>%
+  #     filter(ISOWeek == 52) %>%
+  #     mutate(ISOWeek = 53,
+  #            Weekord = 14,
+  #            Value = NA,
+  #            ActivityLevel = "NA")
+  #   
+  #   # Add data in
+  #   data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+  #     arrange(Season, Weekord)
+  #   
+  #   # Update data
+  #   data <- data %>%
+  #     filter(!Season %in% unique(data_updated$Season)) %>%
+  #     bind_rows(data_updated) %>%
+  #     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+  #     arrange(Season, Weekord)
+  #   
+  # }
+  
+  # Wrangle data
+  data = data %>%
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
+  
   
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
@@ -382,7 +430,7 @@ create_mem_heatmap <- function(
   # heatmap_seasons = NULL
   # value_variable = "RatePer100000"
   
-  #heatmap_seasons = c("2020/2021", "2021/2022")
+  #heatmap_seasons = c("2019/2020", "2020/2021")
   
   data <- data %>%
     rename(Breakdown = all_of(breakdown_variable),
@@ -432,11 +480,23 @@ create_mem_heatmap <- function(
     data_week_53 <- data %>%
       filter(Season %in% heatmap_seasons) %>%
       filter(ISOWeek == 53)
-
-    # Select season that needs updated
-    data_updated <- data %>%
-      filter(Season %in% heatmap_seasons & Season != unique(data_week_53$Season)) %>%
-      mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+    
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+      
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season %in% heatmap_seasons) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+      
+    } else{
+      
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season %in% heatmap_seasons & Season != unique(data_week_53$Season)) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+      
+    }
 
     # Create week 53 data
     data_updated_wk53 <- data_updated %>%
@@ -2122,6 +2182,29 @@ create_cari_subtype_barchart <- function(data){
 
 create_cari_duodetection_chart_stacked <- function(data){
   
+  # data <- Respiratory_Pathogens_CARI_duodetections %>%
+  #   filter(Season=="2025/26") %>%
+  #   mutate(ISOWeekNo = as.numeric(ISOWeekNo))
+  # 
+  # test <- data %>%
+  #   filter(ISOWeekNo == 52) %>%
+  #   mutate(ISOWeekNo = 53)
+  # 
+  # data <- bind_rows(data, test)
+
+  # Check if season has 53 isoweeks
+  if(isoweek(ymd(paste0(substr(input$cari_season, 1, 4), "-12-31"))) == 53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+  
   yaxis_plots[["title"]] <- "Percentage (%)"
   xaxis_plots[["title"]] <- "ISO Week"
   
@@ -2130,11 +2213,8 @@ create_cari_duodetection_chart_stacked <- function(data){
   yaxis_plots[["ticksuffix"]] <- "%"
   yaxis_plots[["range"]] <- c(0,100)
   #xaxis_plots[["range"]] <- list(-0.5, 52.5)
-  xaxis_plots[["range"]] <- list(-0.5, 51.5)
+  xaxis_plots[["range"]] <- list(-0.5, max(week_order)-0.5)
   
-  
-  # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
   
   duodetection_colours <- c(
     "Adenovirus" = "#12436D",
@@ -2351,8 +2431,22 @@ create_cari_codetection_age_linechart <- function(data){
 
 create_test_pos_seasons_linechart <- function(data, pathogen_type){
   
-  # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+  # data <- Respiratory_Pathogens_Test_Positivity %>%
+  #   filter(season >= "2023/2024") 
+  # 
+  # pathogen_type = "Covid-19"
+  
+  if(include_week_53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
   
   # Select correct number of seasons to plot
   no_seasons <- case_when(pathogen_type == "Covid-19" ~ 4,
@@ -2366,11 +2460,16 @@ create_test_pos_seasons_linechart <- function(data, pathogen_type){
     tail(no_seasons)
   seasons <- seasons$season 
   
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOweek != "53")
+    
+  }
   
   data = data %>%
-    filter(ISOweek != "53" &
-             pathogen == pathogen_type &
-             season %in% seasons) %>%
+    filter(pathogen == pathogen_type &
+           season %in% seasons) %>%
     mutate(ISOweek = as.character(ISOweek),
            ISOweek = factor(ISOweek, levels = week_order), 
            WeekOrd = as.numeric(ISOweek)) %>%

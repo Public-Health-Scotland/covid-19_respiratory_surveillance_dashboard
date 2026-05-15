@@ -342,19 +342,32 @@ create_covid_line_chart <- function(data,
 # Create pathogen age Adms line chart
 create_positivity_age_chart <- function(data){
   
-  # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+  # data <- Respiratory_Pathogens_Test_Positivity_by_Age %>%
+  #   filter(pathogen == "Influenza (A or B)") %>%
+  #   filter(season == "2020/2021")
   
+  # Check if season has 53 isoweeks
+  if(isoweek(ymd(paste0(substr(input$test_pos_cov_age, 1, 4), "-12-31"))) == 53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+
   plot_data <- data %>%  
     mutate(WeekNumber = ISOweek,
            WeekNumber = factor(WeekNumber, levels = week_order), 
            agegrp = factor(agegrp, levels = c("Under 1", "1-4", "5-14",
                                                   "15-44", "45-64", "65-74",  "Over 75", "All ages"),
                              labels = c("Under 1", "1 to 4", "5 to 14",
-                                        "15 to 44", "45 to 64", "65 to 74",  "Over 75", "All ages"))) #%>%
-  #filter(Season == "2025-2026")
-  
-  
+                                        "15 to 44", "45 to 64", "65 to 74",  "Over 75", "All ages"))) %>%
+    arrange(WeekNumber)
+
   # Text for tooltip
   tooltip_trend <- paste0(#"Season: ", plot_data$Season, "<br>",
     "Week number: ", plot_data$WeekNumber, "<br>",
