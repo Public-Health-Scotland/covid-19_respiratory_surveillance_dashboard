@@ -25,14 +25,21 @@ create_mem_linechart <- function(data,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
   
-  # data <- Respiratory_Pathogens_MEM_Scot %>%
-  #   filter(Pathogen == "Influenza") %>%
-  #   mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
-  # 
-  # rate_dp = 1
-  # seasons = NULL
-  # value_variable = "RatePer100000"
-  # y_axis_title = "Rate per 100,000 population"
+  # Test data
+  data_2526 <- data %>%
+    filter(Season == "2025/2026") %>%
+    mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
+
+  data_2526_wk53 <- data_2526 %>%
+    filter(ISOWeek == 52) %>%
+    mutate(ISOWeek = 53,
+           Weekord = 14)
+
+  data <- data %>%
+    filter(Season != "2025/2026") %>%
+    bind_rows(data_2526) %>%
+    bind_rows(data_2526_wk53) %>%
+    arrange(Season, Year, ISOWeek)
   
   # Rename value variable
   data <- data %>%

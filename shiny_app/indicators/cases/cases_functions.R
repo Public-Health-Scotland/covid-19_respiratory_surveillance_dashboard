@@ -342,6 +342,7 @@ create_covid_line_chart <- function(data,
 # Create pathogen age Adms line chart
 create_positivity_age_chart <- function(data){
   
+  # # For testing iso week 53
   # data <- Respiratory_Pathogens_Test_Positivity_by_Age %>%
   #   filter(pathogen == "Influenza (A or B)") %>%
   #   filter(season == "2020/2021")
