@@ -81,16 +81,6 @@ output$euromomo_mem_table <- renderDataTable({
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
                                 "Yes", "")) %>%
     arrange(desc(Year), desc(ISOWeek)) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
-    # mutate(ActivityLevelDelay = case_when(
-    #   ActivityLevelDelay == "Moderate" ~ "Medium",
-    #   ActivityLevelDelay == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevelDelay
-    # )) %>%
     select(Season, ISOWeek, ZScore, ActivityLevel, ReportingDelay) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
@@ -111,16 +101,6 @@ output$euromomo_mem_age_table <- renderDataTable({
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
                                 "Yes", "")) %>%
     arrange(desc(Year), desc(ISOWeek)) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
-    # mutate(ActivityLevelDelay = case_when(
-    #   ActivityLevelDelay == "Moderate" ~ "Medium",
-    #   ActivityLevelDelay == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevelDelay
-    # )) %>%
     select(Season, ISOWeek, AgeGroup, ZScore, ActivityLevel, ReportingDelay) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
@@ -141,16 +121,6 @@ output$euromomo_mem_age_table <- renderDataTable({
 output$euromomo_mem_plot <- renderPlotly({
   Respiratory_Euromomo %>%
     filter(AgeGroup == "All Ages") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
-    # mutate(ActivityLevelDelay = case_when(
-    #   ActivityLevelDelay == "Moderate" ~ "Medium",
-    #   ActivityLevelDelay == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevelDelay
-    # )) %>%
     create_euromomo_mem_linechart()
   
 })
@@ -158,16 +128,6 @@ output$euromomo_mem_plot <- renderPlotly({
 # Euromomo age MEM plot
 output$euromomo_mem_age_plot <- renderPlotly({
   Respiratory_Euromomo %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
-    # mutate(ActivityLevelDelay = case_when(
-    #   ActivityLevelDelay == "Moderate" ~ "Medium",
-    #   ActivityLevelDelay == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevelDelay
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels),
            ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(activity_levels,
                                                                       "Reporting delay"))) %>%

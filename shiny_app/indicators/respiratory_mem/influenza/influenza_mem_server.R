@@ -355,17 +355,7 @@ altTextServer("influenza_age_sex",
               )
 )
 
-# plot that shows the breakdown by age/sex/age and sex
-# output$influenza_age_sex_plot = renderPlotly({
-#
-#   Respiratory_AllData %>%
-#     filter(FluOrNonFlu == "flu") %>%
-#     filter_by_sex_age(., season = input$respiratory_season,
-#                       date = {input$respiratory_date %>% as.Date(format="%d %b %y")},
-#                       breakdown = input$respiratory_select_age_sex_breakdown) %>%
-#     make_age_sex_plot(., breakdown = input$respiratory_select_age_sex_breakdown)
-#
-# })
+
 
 # pyramid plot that shows the breakdown by age and sex
 output$influenza_age_sex_pyramid_plot = renderPlotly({
@@ -456,16 +446,6 @@ output$influenza_age_sex_pyramid_table = renderDataTable({
 
 })
 
-observeEvent(input$flu_respiratory_season,
-             {
-               updatePickerInput(session, inputId = "flu_respiratory_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$flu_respiratory_season) %>%
-                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$flu_respiratory_season) %>%
-                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-
-             }
-)
 
 
 

@@ -1,15 +1,15 @@
-influenza_occupancy_recent_week <- occupancy_rapid %>%
-  filter(pathogen == "Influenza") %>%
+influenza_occupancy_recent_week <- occupancy_rapid_new %>%
+  filter(Pathogen == "Influenza (All)") %>%
   tail(3) %>%
   #select(-Rate_per_100000) %>%
-  pivot_wider(names_from = pathogen,
-              values_from = sevenday_ave_inpatients) %>%
-  mutate(DateTwoWeek = .$Date[1],
-         DateLastWeek = .$Date[2],
-         DateThisWeek = .$Date[3],
-         OccupancyTwoWeek = .$`Influenza`[1],
-         OccupancyLastWeek = .$`Influenza`[2],
-         OccupancyThisWeek = .$`Influenza`[3]) %>%
+  pivot_wider(names_from = Pathogen,
+              values_from = SevenDayAverageInpatients) %>%
+  mutate(DateTwoWeek = .$WeekEnding[1],
+         DateLastWeek = .$WeekEnding[2],
+         DateThisWeek = .$WeekEnding[3],
+         OccupancyTwoWeek = .$`Influenza (All)`[1],
+         OccupancyLastWeek = .$`Influenza (All)`[2],
+         OccupancyThisWeek = .$`Influenza (All)`[3]) %>%
   select(DateTwoWeek, DateLastWeek, DateThisWeek, OccupancyTwoWeek, OccupancyLastWeek, OccupancyThisWeek) %>%
   head(1)
 
@@ -89,8 +89,8 @@ fluidRow(
                   pickerInput(
                     inputId = "influenza_occupancy_selected_seasons", 
                     label = "Select season", 
-                    choices = tail(sort(unique(occupancy_rapid_hb$Season)), 3),
-                    selected = tail(sort(unique(occupancy_rapid_hb$Season)), 1)  # current season
+                    choices = tail(sort(unique(occupancy_rapid_hb_new$Season)), 3),
+                    selected = tail(sort(unique(occupancy_rapid_hb_new$Season)), 1)  # current season
                   ),
                   tagList(linebreaks(1),
                           altTextUI("influenza_occupancy_hb_modal"),

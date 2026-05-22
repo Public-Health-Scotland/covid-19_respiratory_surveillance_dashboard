@@ -36,26 +36,7 @@ tagList(
     linebreaks(1)
   ), # fluidRow
   
-  # fluidRow(width = 12,
-  #          tagList(h2("GP consultation rates for ARI per 100,000 population by NHS Health Board"))),
-  #
-  # fluidRow(
-  #   tabBox(width = NULL,
-  #          type = "pills",
-  #          tabPanel("Plot",
-  #                   tagList(linebreaks(1),
-  #                           altTextUI("gp_ari_mem_hb_modal"),
-  #                           withNavySpinner(plotlyOutput("gp_ari_mem_hb_plot")),
-  #                   )),
-  #          tabPanel("Data",
-  #                   tagList(linebreaks(1),
-  #                           withNavySpinner(dataTableOutput("gp_ari_mem_hb_table"))
-  #                   ) # tagList
-  #          ) # tabPanel
-  #
-  #   ), # tabBox
-  #   linebreaks(1)
-  # ), # fluidRow
+
   
   
   fluidRow(width = 12,

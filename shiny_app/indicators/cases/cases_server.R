@@ -97,68 +97,6 @@ output$covid_positivity_age_plot <- renderPlotly({
 })
 
 
-
-# altTextServer("ons_cases_modal",
-#               title = "Estimated COVID-19 infection rate",
-#               content = tags$ul(tags$li("This is a plot of the estimated COVID-19 infection rate in the population",
-#                                         "from the Office for National Statistics."),
-#                                 tags$li("The x axis shows week ending, starting from 06 November 2020."),
-#                                 tags$li("The y axis shows the official positivity estimate, as a percentage",
-#                                         "of the population in Scotland. "),
-#                                 tags$li("There is one trace which includes error bars denoting confidence intervals."),
-#                                 tags$li("The positivity estimate peaked at 1 in 11 for week ending 20 Mar 2022."),
-#                                 tags$li("The latest positivity estimate in week ending",
-#                                         glue("{ONS %>% tail(1) %>% .$EndDate %>% convert_opendata_date() %>% format('%d %b %y')}"),
-#                                         glue("is {ONS %>% tail(1) %>% .$EstimatedRatio}")
-#                                 )
-#               )
-# )
-
-
-
-# altTextServer("wastewater_modal",
-#               title = "Seven day average trend in wastewater COVID-19",
-#               content = tags$ul(tags$li("This is a plot showing the running average trend in wastewater COVID-19."),
-#                                 tags$li("The x axis shows date of sample, starting from 28 May 2020."),
-#                                 tags$li("The y axis shows the wastewater viral level in million gene copies per person per day."),
-#                                 tags$li("There is one trace which shows the 7 day average of the watewater viral level."),
-#                                 tags$li("There have been peaks throughout the pandemic, notably in",
-#                                         "Sep 2021, Dec 2021, Mar 2022 and Jun 2022")))
-
-#altTextServer("reported_cases_modal",
-              #title = "Reported COVID-19 cases",
-              #content = tags$ul(tags$li("This is a plot of the number of reported COVID-19 cases each week."),
-                               # tags$li("The x axis is the week ending date"),
-                                #tags$li("The y axis is the number of reported cases"),
-                                #tags$li("There is a navy blue trace which shows the number of reported cases each week."),
-                               # tags$li("There are two vertical lines: the first denotes that prior to 5 Jan 2022 ",
-                                        #"reported cases are PCR only, and since then they include PCR and LFD cases; ",
-                                        #"the second marks the change in testing policy on 1 May 2022.")
-            #  )
-#)
-
-#output$reported_cases_table <- renderDataTable({
-  #Cases_Weekly %>%
-    #mutate(WeekEnding = convert_opendata_date(WeekEnding)) %>%
-    #dplyr::rename(`Reported cases` = NumberCasesPerWeek) %>%
-    #select(WeekEnding, `Reported cases`) %>%
-    #arrange(desc(WeekEnding)) %>%
-    #make_table(add_separator_cols = c(2), order_by_firstcol = "desc")
-#})
-
-#output$reported_cases_plot <- renderPlotly({
-  #Cases_Weekly %>%
-    #make_weekly_reported_cases_plot()
-
-#})
-
-
-# output$ons_cases_plot <- renderPlotly({
-#   ONS %>%
-#     make_ons_cases_plot()
-# 
-# })
-
 output$covid_line_plot <- renderPlotly({
 
   covid_cases_weekly %>%
@@ -187,20 +125,6 @@ content = tags$ul(tags$li("This is a plot showing the rate of laboratory-confirm
   )
 )
 
-# output$wastewater_plot <- renderPlotly({
-#   Wastewater %>%
-#     make_wastewater_plot()
-# 
-# })
-# 
-# output$wastewater_table <- renderDataTable({
-#   Wastewater %>%
-#     mutate(Date = convert_opendata_date(Date)) %>%
-#            #WastewaterSevenDayAverageMgc = round_half_up(WastewaterSevenDayAverageMgc, 1)) %>%
-#     dplyr::rename('7 day average (Mgc/p/d)' = WastewaterSevenDayAverageMgc) %>%
-#     arrange(desc(Date)) %>%
-#     make_table(add_separator_cols_2dp = 2, order_by_firstcol = "desc")
-# })
 
 ###########
 ### MEM ###
@@ -266,11 +190,6 @@ output$covid_mem_table <- renderDataTable({
     filter(Season >= "2023/2024") %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
@@ -286,11 +205,6 @@ output$covid_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Covid-19") %>%
     filter(Season >= "2023/2024") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_linechart()
   
@@ -324,11 +238,6 @@ output$covid_mem_hb_table <- renderDataTable({
     filter(Season >= "2023/2024") %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            HBName = factor(HBName),
@@ -346,11 +255,6 @@ output$covid_mem_hb_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_HB %>%
     filter(Pathogen == "Covid-19") %>%
     filter(Season >= "2023/2024") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBName")
   
@@ -384,11 +288,6 @@ output$covid_mem_age_table <- renderDataTable({
     filter(Season >= "2023/2024") %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
@@ -406,11 +305,6 @@ output$covid_mem_age_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Age %>%
     filter(Pathogen == "Covid-19") %>%
     filter(Season >= "2023/2024") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
   
@@ -470,16 +364,4 @@ output$covid_age_sex_pyramid_table = renderDataTable({
                filter_cols = c(1,2,3))
   
 })
-
-
-observeEvent(input$covid_respiratory_season,
-             {
-               updatePickerInput(session, inputId = "covid_respiratory_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$covid_respiratory_season) %>%
-                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$covid_respiratory_season) %>%
-                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-               
-             }
-)
 

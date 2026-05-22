@@ -1,16 +1,10 @@
 # Recent weeks admissions
 
-adenovirus_admissions_recent_week <- all_pathogen_admissions %>%
- # mutate(Date = dmy(Date)) %>%
+adenovirus_admissions_recent_week <- admissions_scotland %>%
+  filter(Pathogen=="Adenovirus") %>% 
   tail(3) %>%
-  mutate(DateTwoWeek = .$Date[1],
-         DateLastWeek = .$Date[2],
-         DateThisWeek = .$Date[3],
-         AdmissionsTwoWeek = .$adeno[1],
-         AdmissionsLastWeek = .$adeno[2],
-         AdmissionsThisWeek = .$adeno[3]) %>%
-  select(DateTwoWeek, DateLastWeek, DateThisWeek, AdmissionsTwoWeek, AdmissionsLastWeek, AdmissionsThisWeek) %>%
-  head(1)
+  make_admissions_value_boxes()
+
 
 # adenovirus_admissions = all_pathogen_admissions %>% 
 #   select(Date, Year, ISOWeek, Weekord, Season,
@@ -31,28 +25,35 @@ tagList(
                     tagList(h2(glue("Number of acute adenovirus admissions to hospital in Scotland")),
                             tags$div(class = "headline",
                                      br(),
-#                                     h3(glue("Total number of influenza hospital admissions in Scotland over the last two weeks")),
+#                                     h3(glue("Total number of adenovirus hospital admissions in Scotland over the last two weeks")),
                                      # Two week ago total number
                                      valueBox(value = {adenovirus_admissions_recent_week %>%
                                      .$AdmissionsTwoWeek %>% format(big.mark=",")},
-                                     subtitle = glue("Week ending {adenovirus_admissions_recent_week %>%
-                                                .$DateTwoWeek %>% format('%d %b %y')}"),
+                                     subtitle = tagList(tags$strong(glue("({format(round_half_up(adenovirus_admissions_recent_week %>% .$RateTwoWeek,1), nsmall = 1)} per 100,000)")),
+                                     tags$br(),
+                                     glue("Week ending {adenovirus_admissions_recent_week %>%
+                                                .$DateTwoWeek %>% format('%d %b %y')}")),
                                      color = "navy",
                                      icon = icon_no_warning_fn("calendar-week")),
                                      # previous week total number
                                      valueBox(value = {adenovirus_admissions_recent_week %>%
                                          .$AdmissionsLastWeek %>% format(big.mark=",")},
-                                         subtitle = glue("Week ending {adenovirus_admissions_recent_week %>%
-                                                .$DateLastWeek %>% format('%d %b %y')}"),
+                                         subtitle = tagList(tags$strong(glue("({format(round_half_up(adenovirus_admissions_recent_week %>% .$RateLastWeek,1), nsmall = 1)} per 100,000)")),
+                                       tags$br(),
+                                         glue("Week ending {adenovirus_admissions_recent_week %>%
+                                                .$DateLastWeek %>% format('%d %b %y')}")),
                                          color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # this week total number
                                      valueBox(value = glue("{adenovirus_admissions_recent_week %>%
                                          .$AdmissionsThisWeek %>% format(big.mark=",")}*"),
-                                         subtitle = glue("Week ending {adenovirus_admissions_recent_week %>%
-                                                .$DateThisWeek %>% format('%d %b %y')}"),
+                                         subtitle = tagList(tags$strong(glue("({format(round_half_up(adenovirus_admissions_recent_week %>% .$RateThisWeek,1), nsmall = 1)} per 100,000)")),
+                                      tags$br(),
+                                         glue("Week ending {adenovirus_admissions_recent_week %>%
+                                                .$DateThisWeek %>% format('%d %b %y')}")),
                                          color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
+
                                      h4("* provisional figures",
                                         actionButton("glossary",
                                         label = "Go to glossary",

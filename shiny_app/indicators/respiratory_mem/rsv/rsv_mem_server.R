@@ -383,16 +383,6 @@ output$rsv_age_sex_pyramid_table = renderDataTable({
 })
 
 
-observeEvent(input$rsv_respiratory_season,
-             {
-               updatePickerInput(session, inputId = "rsv_respiratory_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$rsv_respiratory_season) %>%
-                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$rsv_respiratory_season) %>%
-                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-               
-             }
-)
 
 
 

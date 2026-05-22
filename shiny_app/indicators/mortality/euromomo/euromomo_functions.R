@@ -176,39 +176,6 @@ create_euromomo_mem_linechart <- function(data,
   # If latest week isn't week 40 or 41
   if(!latest_week %in% c("40", "41", "42")){
     
-    # linetypes <- c("longdashdot", "dash", "solid", "solid", "dot")
-    # 
-    # mem_linechart <- plot_ly()
-    # 
-    # seasons_delay <- sort(unique(data$SeasonDelay))
-    # 
-    # for (i in seq_along(seasons_delay)) {
-    #   
-    #   season_data <- data %>% 
-    #     filter(SeasonDelay == seasons_delay[i]) %>%
-    #     right_join(week_template)
-    #   
-    #   mem_linechart <- mem_linechart %>%
-    #     add_trace(
-    #       x = season_data$ISOWeek,
-    #       y = season_data$Value,
-    #       type = 'scatter',
-    #       mode = 'lines',
-    #       textposition = "none",
-    #       text = ~ c(paste0("Season: ", season_data$SeasonDelay,
-    #                         "<br>", "Week number: ", season_data$ISOWeek,
-    #                         "<br>", "Rate: ", season_data$Value,
-    #                         "<br>", "Activity level: ", season_data$ActivityLevel)),
-    #       hoverinfo = "text",
-    #       name = seasons_delay[i],
-    #       line = list(
-    #         color = 'black',
-    #         width = ifelse(i %in% c(4,5), 4, 2),  # First season double width
-    #         dash = linetypes[i]           # Different linetypes
-    #       )
-    #     )
-    # }
-    
     # Create plot
     mem_linechart = data %>%
       plot_ly(x = ~ISOWeek,
@@ -331,38 +298,6 @@ create_euromomo_mem_linechart <- function(data,
   # If latest week is week 40
   if(latest_week %in% c("40", "41")){
     
-    # linetypes <- c("dash", "solid", "solid", "dot", "dot")
-    # 
-    # mem_linechart <- plot_ly()
-    # 
-    # seasons_delay <- sort(unique(data$SeasonDelay))
-    # 
-    # for (i in seq_along(seasons_delay)) {
-    #   
-    #   season_data <- data %>% 
-    #     filter(SeasonDelay == seasons_delay[i]) %>%
-    #     right_join(week_template)
-    #   
-    #   mem_linechart <- mem_linechart %>%
-    #     add_trace(
-    #       x = season_data$ISOWeek,
-    #       y = season_data$Value,
-    #       type = 'scatter',
-    #       mode = 'lines',
-    #       textposition = "none",
-    #       text = ~ c(paste0("Season: ", season_data$SeasonDelay,
-    #                         "<br>", "Week number: ", season_data$ISOWeek,
-    #                         "<br>", "Rate: ", season_data$Value,
-    #                         "<br>", "Activity level: ", season_data$ActivityLevel)),
-    #       hoverinfo = "text",
-    #       name = seasons_delay[i],
-    #       line = list(
-    #         color = 'black',
-    #         width = ifelse(i == 6, 4, 2),  # First season double width
-    #         dash = linetypes[i]           # Different linetypes
-    #       )
-    #     )
-    # }
     
     # Create plot
     mem_linechart = data %>%

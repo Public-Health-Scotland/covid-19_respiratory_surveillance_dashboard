@@ -39,7 +39,6 @@ od_report_date <- format(report_date, "%Y%m%d")
 od_archive_date <-format(report_date)
 od_sunday<- floor_date(today(), "week", 1) -1
 od_sunday_minus_7 <- floor_date(today(), "week", 1) -8
-#od_sunday_minus_14 <- today() - 17
 od_sunday_minus_14 <-  floor_date(today(), "week", 1) -15
 
 
@@ -49,7 +48,7 @@ od_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid 
 od_archive_folder<- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/od_outputs/archived/{report_date}"
 
 #UKHSA folder file path
-ukhsa_adm<-"/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/ukhsa_admissions/"
+# ukhsa_adm<-"/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Output/ukhsa_admissions/"
 
   # Getting useful functions
 #source("data_transfer_functions.R")
@@ -152,7 +151,7 @@ source("Transfer Scripts/transfer_cases.R")
 #source("Transfer Scripts/transfer_admissions.R")
 
 ##### Length of Stay
- source("Transfer Scripts/transfer_los.R")
+#source("Transfer Scripts/transfer_los.R")
 
 ##### Vaccine Wastage
 # source("Transfer Scripts/transfer_vacc_wastage.R")
@@ -183,10 +182,10 @@ source("Transfer Scripts/transfer_cases.R")
 #source("Transfer Scripts/transfer_occupancy.R")
 
 #### Occupancy - RAPID methdd
-source("Transfer Scripts/transfer_occupancy_rapid.R")
+#source("Transfer Scripts/transfer_occupancy_rapid.R")
 
 #### Occupancy - UKHSA file
-source("Transfer Scripts/transfer_ukhsa_occupancy.R")
+#source("Transfer Scripts/transfer_ukhsa_occupancy.R")
 
 #### Respiratory
 source("Transfer Scripts/transfer_respiratory.R")
@@ -208,7 +207,7 @@ source("Transfer Scripts/transfer_respiratory.R")
 #source("Transfer Scripts/transfer_respiratory_gp_ari_mem.R")
 
 #### All respiratory pathogen admissions
-source("Transfer Scripts/transfer_respiratory_admissions.R")
+#source("Transfer Scripts/transfer_respiratory_admissions.R")
 
 #### Influenza Hospital Admissions
 #source("Transfer Scripts/transfer_flu_admissions.R")
@@ -310,16 +309,16 @@ source("Transfer Scripts/new_od_cases_raw_data.R")
 source("Transfer Scripts/new_od_cases_outputs.R")
 
 ##ADMISSIONS----
-source("Transfer Scripts/new_od_admissions_raw_data.R")
-source("Transfer Scripts/new_od_admissions_outputs.R")
-source("Transfer Scripts/new_od_los_outputs.R")
+# source("Transfer Scripts/new_od_admissions_raw_data.R")
+# source("Transfer Scripts/new_od_admissions_outputs.R")
+# source("Transfer Scripts/new_od_los_outputs.R")
 
 ##TESTS----
 source("Transfer Scripts/new_od_tests_raw_data.R")
 source("Transfer Scripts/new_od_tests_outputs.R")
 
 ##OCCUPANCY----
-source("Transfer Scripts/new_od_occupancy_outputs.R")
+#source("Transfer Scripts/new_od_occupancy_outputs.R")
 
 ##CARI----
 #source("Transfer Scripts/new_od_cari_outputs.R")

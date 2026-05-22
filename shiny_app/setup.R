@@ -25,6 +25,7 @@ library(png)
 library(tidyr)
 library(readxl)
 
+
 # Load core functions ----
 source("functions/core_functions.R")
 
@@ -84,70 +85,6 @@ if (config::get()$online){
   password_protect <- FALSE
 }
 
-# Creating variable for latest week for headlines
-
-# # Admissions and ICU
-# admissions_headlines <- get_threeweek_admissions_figures(df = Admissions,
-#                                                          sumcol = "TotalInfections",
-#                                                          datecol="AdmissionDate")
-
-# icu_headlines <- get_threeweek_admissions_figures(df = ICU,
-#                                                   sumcol = "NewCovidAdmissionsPerDay",
-#                                                   datecol="DateFirstICUAdmission")
-
-# Admissions
-admissions_headlines <- all_pathogen_admissions %>%
-  select(Date, cov) %>%
-  tail(3)
-
-# occupancy_headlines <- get_threeweek_occupancy_figures(df = Occupancy_Hospital,
-#                                                        datecol = "Date")
-#imk addition (orig retained), Use weekly hospital hb files
-#filter to scotland, then create list
-# occupancy_headlines <- Occupancy_Weekly_Hospital_HB %>% 
-#   filter(HealthBoardQF== "d") 
-# 
-# occupancy_headlines <- get_threeweek_occupancy_figures(df = occupancy_headlines,
-#                                                        datecol = "WeekEnding_od")
-##
-
-#adm_hb_dates <- c(Admissions_HB %>% tail(1) %>% .$WeekEnding, Admissions_HB %>% tail(1) %>% .$WeekEnding%>% {.-7}, Admissions_HB %>% tail(1) %>% .$WeekEnding%>% {.-14})
-
-##### LOS
-# los_date_end <- Admissions %>% tail(1) %>% .$AdmissionDate %>% convert_opendata_date() %>% {.-7}
-# 
-# los_date_start <- los_date_end-28
-# 
-# los_median_max <- Length_of_Stay_Median %>%
-#   filter(MedianLengthOfStay == max(MedianLengthOfStay))
-# 
-# los_median_min <- Length_of_Stay_Median %>%
-#   filter(MedianLengthOfStay == min(MedianLengthOfStay))
-# 
-# cov_los_median_max <- Length_of_Stay_Median %>%
-#   filter(Pathogen =="cov") %>% 
-#   filter(MedianLengthOfStay == max(MedianLengthOfStay))
-# 
-# cov_los_median_min <- Length_of_Stay_Median %>%
-#   filter(Pathogen =="cov") %>% 
-#   filter(MedianLengthOfStay ==min(MedianLengthOfStay) )
-# 
-# flu_los_median_max <- Length_of_Stay_Median %>%
-#   filter(Pathogen =="flu") %>% 
-#   filter(MedianLengthOfStay == max(MedianLengthOfStay))
-# 
-# flu_los_median_min <- Length_of_Stay_Median %>%
-#   filter(Pathogen =="flu") %>% 
-#   filter(MedianLengthOfStay ==min(MedianLengthOfStay) )
-# 
-# rsv_los_median_max <- Length_of_Stay_Median %>%
-#   filter(Pathogen =="rsv") %>% 
-#   filter(MedianLengthOfStay == max(MedianLengthOfStay)) %>% 
-#   tail(1)
-# 
-# rsv_los_median_min <- Length_of_Stay_Median %>%
-#   filter(Pathogen =="rsv") %>% 
-#   filter(MedianLengthOfStay ==min(MedianLengthOfStay) )
 
 ######
 
@@ -225,10 +162,6 @@ activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", 
 euromomo_activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF", phs_colours("phs-liberty-10"), "#a6a6a6")
 
 # Colours for lines on line chart
-# mem_line_colours <- c("#010101", "#A35000", "#00FF1A", "#004785","#00a2e5",
-#                       "#376C31", "#FF0000")
-# mem_line_colours <- c("#A35000", "#00FF1A", "#004785","#00a2e5",
-#                       "#376C31", "#FF0000")
 mem_line_colours <- rev(c("#12436D", "#801650", "#F46A25","#3F085C",
                       "#3E8ECC", "#3D3D3D"))
 
@@ -291,100 +224,19 @@ add_season <- function(input_data) {
                                             "-", as.numeric(str_sub(week, end = 4)) + 1, sep=""))))
 }
 
-# Read in shapefile
-# 
-# Sys.setenv("GDAL_DATA" = "/usr/gdal34/share/gdal")
-# #load the geospatial libraries
-# dyn.load("/usr/gdal34/lib/libgdal.so")
-# dyn.load("/usr/geos310/lib64/libgeos_c.so", local = FALSE)
-# library(sf)
-# library(sp)
-# library(leaflet)
-# 
-# # Specify the path to your shapefile (.shp) without the file extension
-# shapefile_path = "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles/Health Board 2019/"
-# 
-# # Read the shapefile
-# HB_Polygons <- st_read(dsn = shapefile_path,layer="SG_NHS_HealthBoards_2019")
-# # Specify a tolerance value for simplification # You can adjust this value based on your needs
-# tolerance <- 500
-# 
-# Simplified_HB_Polygons <- st_simplify(HB_Polygons, dTolerance = tolerance) 
 
-#current week joined polygon
-# 
-# WW_HB_table_edited = COVID_Wastewater_HB_table %>%
-#   filter(!health_board %in% c("AllSites", "28Sites")) %>% #removing rows containing Allsites and 28sites
-#   mutate(HBCode= case_when(health_board == 'NHS Ayrshire and Arran' ~ 'S08000015',
-#                            health_board == 'NHS Borders' ~ 'S08000016',
-#                            health_board  == 'NHS Dumfries and Galloway' ~ 'S08000017',
-#                            health_board  == 'NHS Fife' ~ 'S08000029',
-#                            health_board  == 'NHS Forth Valley' ~ 'S08000019',
-#                            health_board  == 'NHS Grampian' ~ 'S08000020',
-#                            health_board  == 'NHS Highland' ~ 'S08000022',
-#                            health_board  == 'NHS Lanarkshire' ~ 'S08000032',
-#                            health_board  == 'NHS Lothian' ~ 'S08000024',
-#                            health_board  == 'NHS Orkney' ~ 'S08000025',
-#                            health_board  == 'NHS Shetland' ~ 'S08000026',
-#                            health_board  == 'NHS Tayside' ~ 'S08000030',
-#                            health_board  == 'NHS Western Isles' ~ 'S08000028',
-#                            health_board  == 'NHS Greater Glasgow and Clyde' ~ 'S08000031',
-#                            TRUE ~ "NA"))
-# 
-# HB_Polygons<-left_join(Simplified_HB_Polygons, WW_HB_table_edited, by="HBCode") 
-# 
-# # Transforming to WGS84 (EPSG:4326) need this to adjust placement of map
-# HB_Polygons <- st_transform(HB_Polygons, crs = 4326)
-# 
-# site_lat_long= site_lat_long %>% 
-#   rename('latitude'='Lat') %>% 
-#   rename('longitude' = 'Lon') %>% 
-#   rename('site_name'='Site Name') %>% 
-#   rename('HB'='Health Area')
-# 
-# 
-# site_lat_long <- site_lat_long %>%
-#   mutate(across(c(latitude, longitude), ~ as.numeric(trimws(.)))) %>%
-#   drop_na(latitude, longitude)
-# 
-# 
-# site_lat_long_sf <- st_as_sf(site_lat_long, coords = c("longitude", "latitude"), crs = 27700)
-# 
-# # Transform the site points to WGS84
-# site_lat_long_sf <- st_transform(site_lat_long_sf, crs = 4326)
-# 
-# site_lat_long_sf= site_lat_long_sf %>% 
-#   mutate(health_board= case_when(HB == 'Ayrshire and Arran' ~ 'NHS Ayrshire and Arran',
-#                                  HB == 'Borders' ~ 'NHS Borders',
-#                                  HB  == 'Dumfries and Galloway' ~ 'NHS Dumfries and Galloway',
-#                                  HB  == 'Fife' ~ 'NHS Fife',
-#                                  HB  == 'Forth Valley' ~ 'NHS Forth Valley',
-#                                  HB  == 'Grampian' ~ 'NHS Grampian',
-#                                  HB  == 'Highland' ~ 'NHS Highland',
-#                                  HB  == 'Lanarkshire' ~ 'NHS Lanarkshire',
-#                                  HB  == 'Lothian' ~ 'NHS Lothian',
-#                                  HB  == 'Orkney' ~ 'NHS Orkney',
-#                                  HB  == 'Shetland' ~ 'NHS Shetland',
-#                                  HB  == 'Tayside' ~ 'NHS Tayside',
-#                                  HB  == 'Western Isles' ~ 'NHS Western Isles',
-#                                  HB  == 'Greater Glasgow and Clyde' ~ 'NHS Greater Glasgow and Clyde',
-#                                  TRUE ~ "NA"))
-# 
-# #add the health board names for site_lat_long as well
-# site_lat_long= site_lat_long %>% 
-#   mutate(health_board= case_when(HB == 'Ayrshire and Arran' ~ 'NHS Ayrshire and Arran',
-#                                  HB == 'Borders' ~ 'NHS Borders',
-#                                  HB  == 'Dumfries and Galloway' ~ 'NHS Dumfries and Galloway',
-#                                  HB  == 'Fife' ~ 'NHS Fife',
-#                                  HB  == 'Forth Valley' ~ 'NHS Forth Valley',
-#                                  HB  == 'Grampian' ~ 'NHS Grampian',
-#                                  HB  == 'Highland' ~ 'NHS Highland',
-#                                  HB  == 'Lanarkshire' ~ 'NHS Lanarkshire',
-#                                  HB  == 'Lothian' ~ 'NHS Lothian',
-#                                  HB  == 'Orkney' ~ 'NHS Orkney',
-#                                  HB  == 'Shetland' ~ 'NHS Shetland',
-#                                  HB  == 'Tayside' ~ 'NHS Tayside',
-#                                  HB  == 'Western Isles' ~ 'NHS Western Isles',
-#                                  HB  == 'Greater Glasgow and Clyde' ~ 'NHS Greater Glasgow and Clyde',
-#                                  TRUE ~ "NA"))
+
+# Function for admissions value boxes (used in UI so needs to be called earlier than respiratory_mem_functions.R)
+
+make_admissions_value_boxes <- function(data) {
+  as_tibble(list(DateTwoWeek = data$WeekEnding[1],
+                 DateLastWeek = data$WeekEnding[2],
+                 DateThisWeek = data$WeekEnding[3],
+                 AdmissionsTwoWeek = data$NumberAdmissionsPerWeek[1],
+                 AdmissionsLastWeek = data$NumberAdmissionsPerWeek[2],
+                 AdmissionsThisWeek = data$NumberAdmissionsPerWeek[3],
+                 RateTwoWeek = data$RateAdmissionsPerWeek[1],
+                 RateLastWeek = data$RateAdmissionsPerWeek[2], 
+                 RateThisWeek = data$RateAdmissionsPerWeek[3])) #%>%
+}
 

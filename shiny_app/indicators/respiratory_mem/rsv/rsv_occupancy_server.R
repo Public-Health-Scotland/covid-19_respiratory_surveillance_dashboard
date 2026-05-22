@@ -31,16 +31,15 @@ altTextServer("rsv_occupancy_hb_modal",
 
 # make data table with all the hospital occupancy data in it
 output$rsv_occupancy_table <- renderDataTable({
-  occupancy_rapid %>%
-    filter(pathogen == "RSV") %>% 
-    filter(Season %in% tail(sort(unique(occupancy_rapid$Season)), 3)) %>%
-    arrange(desc(Date)) %>% 
-    mutate(week = factor(as.numeric(substr(week,7,8))),
+  occupancy_rapid_new %>%
+    filter(Pathogen == "RSV") %>% 
+    arrange(desc(WeekEnding)) %>% 
+    mutate(ISOweek = factor(ISOweek),
            Season = factor(Season)) %>%
     select('Season' = Season,
-           'Week number' = week,
+           'Week number' = ISOweek,
            #'Number of patients in hospital as at Sunday' = bed_occupancy,
-           `7 day average of number of patients in hospital as at Sunday`= sevenday_ave_inpatients) %>%
+           `7 day average of number of patients in hospital as at Sunday`= SevenDayAverageInpatients) %>%
     make_table(.,
                 add_separator_cols=c(3), # Column indices to add thousand separators to
                 add_percentage_cols = NULL, # with % symbol and 2dp
@@ -52,25 +51,22 @@ output$rsv_occupancy_table <- renderDataTable({
 })
 
 output$rsv_occupancy_hb_table <- renderDataTable({
-  occupancy_rapid_hb %>%
-    filter(pathogen == "RSV") %>% 
-    filter(health_board != "Golden Jubilee National Hospital") %>%
-    filter(Season %in% tail(sort(unique(occupancy_rapid_hb$Season)), 3)) %>%
-    arrange(desc(Date)) %>% 
-    mutate(week = factor(as.numeric(substr(week,7,8))),
+  occupancy_rapid_hb_new %>%
+    filter(Pathogen == "RSV") %>% 
+    arrange(desc(WeekEnding)) %>% 
+    mutate(ISOweek = factor(ISOweek),
            Season = factor(Season),
-           health_board = factor(health_board)) %>%
+           HBName = factor(HBName)) %>%
     select('Season' = Season,
-           'Week number' = week,
-           'NHS Health Board' = health_board,
-           #'Number of patients in hospital as at Sunday' = bed_occupancy,
-           `7 day average of number of patients in hospital as at Sunday`= sevenday_ave_inpatients) %>%
+           'Week number' = ISOweek,
+           'NHS Health Board' = HBName,
+           `7 day average of number of patients in hospital as at Sunday`= SevenDayAverageInpatients) %>%
     make_table(.,
                add_separator_cols=c(4), # Column indices to add thousand separators to
                add_percentage_cols = NULL, # with % symbol and 2dp
                maxrows=15,
                order_by_firstcol="desc",
-               filter_cols = c(1,2,3)
+               filter_cols = c(1,2, 3)
     )
   
 })
@@ -78,17 +74,15 @@ output$rsv_occupancy_hb_table <- renderDataTable({
 
 
 output$rsv_occupancy_plot <- renderPlotly({
-  occupancy_rapid %>%
-    filter(pathogen == "RSV") %>%
-    filter(Season %in% tail(sort(unique(occupancy_rapid_hb$Season)), 3)) %>%
+  occupancy_rapid_new %>%
+    filter(Pathogen == "RSV") %>%
     create_pathogen_occupancy_linechart()
   
 })
 
 output$rsv_occupancy_hb_plot <- renderPlotly({
-  occupancy_rapid_hb %>%
-    filter(pathogen == "RSV") %>%
-    filter(health_board != "Golden Jubilee National Hospital") %>%
+  occupancy_rapid_hb_new %>%
+    filter(Pathogen == "RSV") %>%
     filter(Season %in% input$rsv_occupancy_selected_seasons) %>%
     create_pathogen_occupancy_hb_linechart()
   

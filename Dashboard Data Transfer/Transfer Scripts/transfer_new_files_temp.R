@@ -17,7 +17,14 @@ updated_files <- c("COVID_Wastewater_National_table.csv",
                    "Respiratory_GPILI_MEM_Age.csv",
                    "Respiratory_GPILI_MEM_Scot.csv",
                    "Respiratory_NHS24_MEM_Age.csv",
-                   "Respiratory_NHS24_MEM_Scot.csv")
+                   "Respiratory_NHS24_MEM_Scot.csv",
+                   "admissions_age.csv",
+                   "admissions_hb_new.csv",
+                   "admissions_scotland.csv",
+                   "admissions_simd_new.csv",
+                   "Average_Length_of_Stay.csv",
+                   "occupancy_rapid_hb_new.csv",
+                   "occupancy_rapid_new.csv")
 
 updates_to_move <- paste(input_data, updated_files, sep="")
 

@@ -1,18 +1,17 @@
 ## Organise HMPV admissions data into the right format for the plot and table
 
 
-hmpv_admissions <- age_rate_data_all_path %>% 
-  filter(age_band == "All Ages") %>% 
-  add_season() %>% 
-  select(week_ending, hmpv, hmpv_rate, Season) %>% 
-  rename(Date = week_ending,
-         Admissions = hmpv,
-         RatePer100000 = hmpv_rate) %>% 
-  mutate(Year = year(Date),
-         ISOWeek = isoweek(Date)) %>% 
-  mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9)),
-         Weekord = case_when(ISOWeek >= 40 ~ ISOWeek - 39,
-                             ISOWeek < 40 ~ ISOWeek + 13))
+hmpv_admissions <- admissions_scotland %>% 
+  filter(Pathogen == "HMPV") %>% 
+  mutate(ISOweek = as.numeric(ISOweek)) %>% 
+  mutate(Weekord = case_when(ISOweek >= 40 ~ ISOweek - 39,
+                             ISOweek < 40 ~ ISOweek + 13)) %>% 
+  rename(Date = WeekEnding,
+         Admissions = NumberAdmissionsPerWeek,
+         RatePer100000 = RateAdmissionsPerWeek,
+         Year = ISOyear,
+         ISOWeek = ISOweek)
+
 
 hmpv_adm_seasons <- tail(sort(unique(hmpv_admissions$Season)), 6)
 
@@ -71,12 +70,14 @@ output$hmpv_admissions_table <- renderDataTable({
 
 # HMPV admissions by age table
 output$hmpv_admissions_age_table <- renderDataTable({
-  age_rate_data_all_path %>%
-    add_season() %>% 
-    select(week_ending, age_band, Season,
-           Admissions = hmpv, rate = hmpv_rate) %>% 
-    mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9))) %>% 
-    filter(Season %in% hmpv_adm_seasons) %>% 
+  admissions_age %>%
+    filter(Pathogen=="HMPV") %>% 
+    select(week_ending = WeekEnding, age_band = AgeGroup, Season,
+           Admissions = NumberAdmissionsPerWeek, rate = RateAdmissionsPerWeek) %>% 
+    mutate(age_band = factor(age_band, levels = c("<1", "1-4", "5-14",
+                                                  "15-44", "45-64", "65-74",  "75+", "Total"),
+                             labels = c("<1", "1 to 4", "5 to 14",
+                                        "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
     make_admissions_age_table()
   
 })
@@ -100,32 +101,16 @@ output$hmpv_admissions_plot <- renderPlotly({
 
 # MPN Adms by age plot
 output$hmpv_admissions_age_plot <- renderPlotly({
-  age_rate_data_all_path %>%
-    add_season() %>%    
-    mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9))) %>% 
-    filter(Season %in% hmpv_adm_seasons) %>% 
-    #mutate(week_ending = dmy(week_ending)) %>%
-    #filter(age_band != "All Ages") %>% 
-    select(week_ending, age_band,
-           rate = hmpv_rate, Season) %>%
+  admissions_age %>%
+    filter(Pathogen=="HMPV") %>% 
+    select(week_ending = WeekEnding, age_band = AgeGroup,
+           rate = RateAdmissionsPerWeek, Season, week=ISOweek) %>%
     mutate(age_band = factor(age_band, levels = c("<1",  "1-4", "5-14", "15-44", "45-64",
-                                                  "65-74", "75+", "All Ages"))) %>% 
+                                                  "65-74", "75+", "Total"))) %>% 
     arrange(week_ending, age_band) %>%
-    mutate(week = isoweek(week_ending)) %>% 
     filter(Season == input$adm_season_hmpv_age) %>%
-    #filter(Season == "2024/2025") %>% 
-    create_pathogen_adms_age_linechart()
+    #filter(Season == "2024/25") %>% 
+    create_pathogen_adms_age_linechart
   
 })
-
-# observeEvent(input$respiratory_season,
-#              {
-#                updatePickerInput(session, inputId = "respiratory_date",
-#                                  choices = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
-#                                      .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-#                                  selected = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
-#                                      .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-# 
-#              }
-
 

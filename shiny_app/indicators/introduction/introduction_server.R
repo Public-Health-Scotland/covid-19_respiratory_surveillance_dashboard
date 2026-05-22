@@ -2,10 +2,6 @@
 
 #Naviagtion buttons on intro page ----
 observeEvent(input$jump_to_summary, {updateTabsetPanel(session, "intabset", selected = "at_a_glance")})
-#observeEvent(input$jump_to_cases, {updateTabsetPanel(session, "intabset", selected = "cases")})
-#observeEvent(input$jump_to_hospital_admissions, {updateTabsetPanel(session, "intabset", selected = "hospital_admissions")})
-#observeEvent(input$jump_to_hospital_occupancy, {updateTabsetPanel(session, "intabset", selected = "hospital_occupancy")})
-#observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "respiratory")})
 observeEvent(input$jump_to_respiratory, {updateTabsetPanel(session, "intabset", selected = "repiratory_pathogens")})
 observeEvent(input$jump_to_wastewater, {updateTabsetPanel(session, "intabset", selected = "wastewater")})
 observeEvent(input$jump_to_syndromic, {updateTabsetPanel(session, "intabset", selected = "syndromic_surveillance")})
@@ -168,24 +164,6 @@ output$introduction_use <- renderUI({
                            "Scottish Health and Social Care Open Data platform (external website)", target="_blank"))
           )
   )
-          # p(tags$li("Data can be downloaded in open data format from the 'Download data' tab by clicking the 'Download Data' button
-          #           as well as from the",
-          #           tags$a(href="https://www.opendata.nhs.scot",
-          #                  "Scottish Health and Social Care Open Data platform (external website)", target="_blank")),
-          #   tags$img(src = "intro_images/download_data.png", height = 50,
-          #              alt ="Image of the download data button")
-          #   ),
-          # p(tags$li("On the 'Download data' tab you can select the dataset and file type you wish to download")),
-          # p(tags$li("You can view a data summary and a data preview before downloading by click ing between the toggles"),
-          #   tags$img(src = "intro_images/summary_preview.png", height = 60,
-          #              alt ="Image of the data summary and data preview toggle")),
-          # p(tags$li("To download an image of any of the charts in the dashboard, click the camera icon in the top-right
-          #           corner of the chart and a png image file will automatically download"),
-          #   tags$img(src = "intro_images/camera.png", height = 50,
-          #              alt ="Image of the camera button on the graphs used to download the plot as a png file")),
-          # p(tags$li("Please note if you cannot see the full screen, try setting screen zoom to below 100%.
-          #           We are aware of this occasionally being an issue and are working to resolve it."))
-          # ) #tagList
 })
 
 output$introduction_contact <- renderUI({

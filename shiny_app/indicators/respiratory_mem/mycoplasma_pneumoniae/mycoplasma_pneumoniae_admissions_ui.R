@@ -1,16 +1,9 @@
 # Recent weeks admissions
 
-mpn_admissions_recent_week <- all_pathogen_admissions %>%
- # mutate(Date = dmy(Date)) %>%
+mpn_admissions_recent_week <- admissions_scotland %>%
+  filter(Pathogen=="Mycoplasma pneumoniae") %>% 
   tail(3) %>%
-  mutate(DateTwoWeek = .$Date[1],
-         DateLastWeek = .$Date[2],
-         DateThisWeek = .$Date[3],
-         AdmissionsTwoWeek = .$mpn[1],
-         AdmissionsLastWeek = .$mpn[2],
-         AdmissionsThisWeek = .$mpn[3]) %>%
-  select(DateTwoWeek, DateLastWeek, DateThisWeek, AdmissionsTwoWeek, AdmissionsLastWeek, AdmissionsThisWeek) %>%
-  head(1)
+  make_admissions_value_boxes()
 
 
 tagList(
@@ -32,22 +25,28 @@ tagList(
                                      # Two week ago total number
                                      valueBox(value = {mpn_admissions_recent_week %>%
                                      .$AdmissionsTwoWeek %>% format(big.mark=",")},
-                                     subtitle = glue("Week ending {mpn_admissions_recent_week %>%
-                                                .$DateTwoWeek %>% format('%d %b %y')}"),
+                                     subtitle = tagList(tags$strong(glue("({format(round_half_up(mpn_admissions_recent_week %>% .$RateTwoWeek,1), nsmall = 1)} per 100,000)")),
+                                                        tags$br(),
+                                                        glue("Week ending {mpn_admissions_recent_week %>%
+                                                .$DateTwoWeek %>% format('%d %b %y')}")),
                                      color = "navy",
                                      icon = icon_no_warning_fn("calendar-week")),
                                      # previous week total number
                                      valueBox(value = {mpn_admissions_recent_week %>%
                                          .$AdmissionsLastWeek %>% format(big.mark=",")},
-                                         subtitle = glue("Week ending {mpn_admissions_recent_week %>%
-                                                .$DateLastWeek %>% format('%d %b %y')}"),
+                                         subtitle = tagList(tags$strong(glue("({format(round_half_up(mpn_admissions_recent_week %>% .$RateLastWeek,1), nsmall = 1)} per 100,000)")),
+                                                            tags$br(),
+                                                            glue("Week ending {mpn_admissions_recent_week %>%
+                                                .$DateLastWeek %>% format('%d %b %y')}")),
                                          color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      # this week total number
                                      valueBox(value = glue("{mpn_admissions_recent_week %>%
                                          .$AdmissionsThisWeek %>% format(big.mark=",")}*"),
-                                         subtitle = glue("Week ending {mpn_admissions_recent_week %>%
-                                                .$DateThisWeek %>% format('%d %b %y')}"),
+                                              subtitle = tagList(tags$strong(glue("({format(round_half_up(mpn_admissions_recent_week %>% .$RateThisWeek,1), nsmall = 1)} per 100,000)")),
+                                                                 tags$br(),
+                                                                 glue("Week ending {mpn_admissions_recent_week %>%
+                                                .$DateThisWeek %>% format('%d %b %y')}")),
                                          color = "navy",
                                          icon = icon_no_warning_fn("calendar-week")),
                                      h4("* provisional figures",

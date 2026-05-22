@@ -1,27 +1,21 @@
 
-admissions_seasons <- age_rate_data_all_path %>%
-  add_season() %>%
-  mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9))) %>%
+admissions_seasons <- admissions_scotland %>%
   select(Season) %>%
   unique() %>%
   unlist(., use.names=FALSE)
 
 ## Organise Covid data into the right format for the plot and table
 
-
-cov_admissions <- age_rate_data_all_path %>% 
-  filter(age_band == "All Ages") %>% 
-  add_season() %>% 
-  select(week_ending, cov, cov_rate, Season) %>% 
-  rename(Date = week_ending,
-         Admissions = cov,
-         RatePer100000 = cov_rate) %>% 
-  mutate(Year = year(Date),
-         ISOWeek = isoweek(Date)) %>% 
-  mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9)),
-         Weekord = case_when(ISOWeek >= 40 ~ ISOWeek - 39,
-                             ISOWeek < 40 ~ ISOWeek + 13)) %>% 
-  filter(Season %in% tail(sort(unique(Season)), 3))
+cov_admissions <- admissions_scotland %>% 
+  filter(Pathogen == "COVID-19") %>% 
+  mutate(ISOweek = as.numeric(ISOweek)) %>% 
+  mutate(Weekord = case_when(ISOweek >= 40 ~ ISOweek - 39,
+                      ISOweek < 40 ~ ISOweek + 13)) %>% 
+  rename(Date = WeekEnding,
+         Admissions = NumberAdmissionsPerWeek,
+         RatePer100000 = RateAdmissionsPerWeek,
+         Year = ISOyear,
+         ISOWeek = ISOweek)
 
 cov_adm_seasons <- tail(sort(unique(cov_admissions$Season)), 3)
 
@@ -157,8 +151,8 @@ tagList(
                                              pickerInput(
                                                inputId = "hospital_adms_selected_seasons", 
                                                label = "Select season", 
-                                               choices = tail(sort(unique(admissions_hb_all_path$Season)), 3),
-                                               selected = tail(sort(unique(admissions_hb_all_path$Season)), 1)  # current season
+                                               choices = tail(sort(unique(admissions_hb_new$Season)), 3),
+                                               selected = tail(sort(unique(admissions_hb_new$Season)), 1)  # current season
                                                ),
                                              tagList(linebreaks(1),
                                                      altTextUI("hospital_admissions_hb_modal"),
@@ -175,20 +169,6 @@ tagList(
                           # ), 
                           ,
                            
-                           
-                           
-                           # fluidRow
-                           
-                           
-                           
-                           #          tagList(h2("Number of acute COVID-19 admissions to hospital by NHS Health Board of treatment; week ending")),
-                           # 
-                           # 
-                           # fluidRow(width=12,
-                           #          box(width = NULL,
-                           #              withNavySpinner(dataTableOutput("hospital_admissions_hb_table"))),
-                           # ),
-
                            tagList(h2("Rate of acute COVID-19 hospital admissions per 100,000 population by deprivation category (SIMD)"))
 
                            ),
@@ -222,66 +202,11 @@ tagList(
                                   
                            ),
 
-                           ##### age/sex admissions pyramid        
-                           
-                           # #tagList(h2(glue("Acute COVID-19 cases by age and sex in Scotland")),
-                           # tagList(uiOutput("cov_adm_pyr_title")),
-                           # tabBox(width = NULL,
-                           #        type = "pills",
-                           #        tabPanel("Plot",
-                           #                 tagList(linebreaks(1),
-                           #                         fluidRow(column(4, pickerInput("cov_age_sex_adm_season",
-                           #                                                        label = "Select a season",
-                           #                                                        choices = {Admissions_AgeSex_Season %>% 
-                           #                                                            filter(Pathogen == "cov") %>%
-                           #                                                            .$Season %>% unique()},
-                           #                                                        selected = "2024-2025")  )),#tfluidrow
-                           #                                                   altTextUI("covid_adm_age_sex"),
-                           #                         withNavySpinner(plotlyOutput("covid_adm_age_sex_pyramid_plot"))
-                           #                                                 ) # tagList
-                           #                                        ), # tabPanel
-                           #        tabPanel("Data",
-                           #                 withNavySpinner(dataTableOutput("covid_adm_age_sex_pyramid_table"))) #tabpanel
-                           #               ), # tabbox
-                           #                         #), #age/sex 
-                           #                # ),
+
                            ##### LOS section
                            tagList(h2("Average length of stay of acute COVID-19 hospital admissions"),
-                                   #  temporary caveat for no LOS information
-                                   # tagList("Public Health Scotland have paused reporting of the Length",
-                                   #         "of Stay of acute COVID-19 hospital admissions as we undertake developments",
-                                   #         "to include this analysis for other respiratory pathogens.")
-                                   ),
-                           
-                           
-                           # tagList(h2("Length of stay of acute COVID-19 hospital admissions"),
-                           #         tags$div(class = "headline",
-                           #                  h3(glue("Median length of stay of acute COVID-19 hospital admissions for 4 week period {los_date_start %>% format('%d %b %y')} to {los_date_end%>% format('%d %b %y')} ")),
-                           #                  valueBox(value = glue("{
-                           #                                       Length_of_Stay_Median %>% 
-                           #                                       filter(AgeGroup == 'All Ages') %>% 
-                           #                                       filter(Pathogen =='cov') %>%
-                           #                                       .$MedianLengthOfStay %>% round_half_up(1)} days"),
-                           #                           subtitle = glue("All ages"),
-                           #                           color = "navy",
-                           #                           icon = icon_no_warning_fn("clock")),# valuebox
-                           #                  valueBox(value = glue("{cov_los_median_min$MedianLengthOfStay %>%
-                           #                                        round_half_up(1)} days"),
-                           #                           subtitle = glue("Shortest median stay ({cov_los_median_min$AgeGroup})"),
-                           #                           color = "navy",
-                           #                           icon = icon_no_warning_fn("clock")),# value box
-                           #                  valueBox(value = glue("{cov_los_median_max$MedianLengthOfStay %>%
-                           #                                        round_half_up(1)} days"),
-                           #                           subtitle = glue("Longest median stay ({cov_los_median_max$AgeGroup})"),
-                           #                           color = "navy",
-                           #                           icon = icon_no_warning_fn("clock")),
-                           #                 # This text is hidden by css but helps pad the box at the bottom
-                           #                 h6("hidden text for padding page"))
-                           #         ),
-                           # br(), 
                            tabBox( width = NULL, type = "pills",
                                    tabPanel("Plot",
-                                            #tagList(uiOutput("cov_los_title")),
                                             tagList(h5("Use the drop-down menu to select a season."),
                                                     pickerInput(inputId = "los_season_cov",
                                                                 label = "Select season",
@@ -289,7 +214,6 @@ tagList(
                                                                 selected = tail(admission_seasons, 1)),
                                                     altTextUI("cov_los_modal"),
                                                     withNavySpinner( plotlyOutput("cov_los_plot")),
-                                                    #linebreaks(1)
                                             ),
                                             fluidRow(column(
                                               width=12, linebreaks(1),
@@ -317,3 +241,5 @@ tagList(
   fluidRow(height="200px", width=12, linebreaks(5))
   
 )#taglist
+
+)

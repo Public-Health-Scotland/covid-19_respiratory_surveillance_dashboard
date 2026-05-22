@@ -75,33 +75,6 @@ filter_over_time_plot_function <- function(data, healthboard) {
 
 }
 
-filter_by_sex_age = function(data, season, date, breakdown) {
-
-  filtered_data <- data %>%
-    filter(Season == season & Date == date)
-
-  if(breakdown == "Age") {
-
-    filtered_data = filtered_data %>%
-      filter(scotland_by_age_flag == 1)
-
-
-  } else if(breakdown == "Sex") {
-
-    filtered_data = filtered_data %>%
-      filter(scotland_by_sex_flag == 1)
-
-
-  } else if(breakdown == "Age + Sex") {
-
-    filtered_data = filtered_data %>%
-      filter(scotland_by_age_sex_flag == 1)
-
-  }
-
-}
-
-
 select_y_axis <- function(data, yaxis) {
 
   new_data <- data %>%
@@ -229,88 +202,6 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
 }
 
 
-# creates a plot looking at age/sex breakdowns in scotland
-make_age_sex_plot <- function(data, breakdown, title = NULL) {
-
-  if(breakdown == "Age") {
-
-    fig = data %>%
-      plot_ly(x= ~AgeGroup,
-              y= ~Rate,
-              size = ~Rate,
-              name = "Cases",
-              marker = list(opacity = 0.8, sizemode = 'area',
-                            sizemin = 1, sizeref =0.1,
-                            color = phs_colours("phs-teal")),
-              textposition = "none",
-              text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                             "<b>Age group</b>: ", AgeGroup, "\n",
-                             "<b>Rate per 100,000</b>: ", format(Rate, big.mark=",")),
-              hovertemplate = "%{text}",
-              type = 'scatter',
-              mode = 'markers') %>%
-      layout(yaxis = list(title = "Rate per 100,000",
-                          showline = FALSE,
-                          showlegend = T),
-             xaxis = list(title = "Age Group"),
-             title = title,
-             paper_bgcolor = phs_colours("phs-liberty-10"),
-             plot_bgcolor = phs_colours("phs-liberty-10"))
-
-  } else if(breakdown == "Sex") {
-
-    fig = data %>%
-      plot_ly(x= ~Sex,
-              y= ~Rate,
-              color = ~Sex,
-              textposition = "none",
-              hoverinfo = "none",
-              type = 'bar',
-              colors = phs_colours(c('phs-teal', 'phs-teal-50'))) %>%
-      layout(yaxis = list(title = "Rate per 100,000",
-                          showline = FALSE,
-                          fixedrange=TRUE,
-                          range = c(0,max(data$Rate)),
-                          showlegend = T),
-             xaxis = list(title = "Sex"),
-             title = title,
-             paper_bgcolor = phs_colours("phs-liberty-10"),
-             plot_bgcolor = phs_colours("phs-liberty-10"))
-
-  } else if(breakdown == "Age + Sex") {
-
-    fig = data %>%
-      plot_ly(x= ~AgeGroup,
-              y= ~Rate,
-              color = ~Sex,
-              type = 'bar',
-              textposition = "none",
-              text = ~paste0("<b>Date</b>: ", format(Date, "%d %b %y"), "\n",
-                             "<b>Sex</b>: ", Sex, "\n",
-                             "<b>Age group</b>: ", AgeGroup, "\n",
-                             "<b>Rate per 100,000</b>: ", format(Rate, big.mark=",")),
-              hovertemplate = "%{text}",
-              colors = phs_colours(c("phs-teal", "phs-teal-50"))) %>%
-      layout(yaxis = list(title = "Rate per 100,000",
-                          showline = FALSE,
-                          fixedrange=TRUE,
-                          range = c(0,max(data$y_axis)),
-                          showlegend = T),
-             xaxis = list(title = "Age group"),
-             title = title,
-             paper_bgcolor = phs_colours("phs-liberty-10"),
-             plot_bgcolor = phs_colours("phs-liberty-10"))
-
-
-  }
-
-  fig <- fig %>%
-    config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove)
-
-  return(fig)
-
-
-}
 
 # creates a plot looking at age/sex breakdowns in scotland
 make_age_sex_pyramid_plot <- function(data, title = NULL) {
@@ -355,69 +246,16 @@ make_age_sex_pyramid_plot <- function(data, title = NULL) {
         range = c(-max(data$Rate), max(data$Rate))
       ),
       yaxis = list(yaxis_ticks,
-                   #tickmode = "array",
-                   title = "Age Group"#,
-                   #tickvals = yaxis_ticks,
-                   #ticktext= yaxis_ticks,
-                   #showline = TRUE,
-                   #linecolor = 'black',
-                   #range = levels(factor(data$AgeGroup))
-      ),
+                   title = "Age Group"),
       legend = list(title = ""),
       margin = list(b = 100),
       paper_bgcolor = phs_colours("phs-liberty-10"),
       plot_bgcolor = phs_colours("phs-liberty-10"),
       title = title,
       barmode = 'overlay')
-  #layout(yaxis = list(#title = "AgeGroup",
-  #showline = FALSE,
-  #fixedrange=TRUE,
-  #range = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")))
-  #showlegend = T)
-  # xaxis = list(title = "Rate per 100,000"),
-  #title = title,
 
   fig <- fig %>%
     config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove)
   return(fig)
 }
-
-
-
-
-##############################################
-# TABLES ----
-##############################################.
-
-# Inputs:
-# data = the data table you'd like to style in DT
-# names = a vector of stylised names. leave blank if pre-prepared
-datatable_style_summary = function(data) {
-
-  data %>%
-    DT::datatable(rownames = FALSE,
-                  filter = "none",
-                  options = list(
-                    dom="t",
-                    initComplete = JS(
-                      "function(settings, json) {",
-                      "$(this.api().table().header()).css({'background-color': '#C5C3DA',
-        'color': '#3F3685'});",
-                      "}"),
-                    "pageLength" = 15
-
-                  )) %>%
-    formatStyle(., columns = 1,
-                fontWeight = "bold",
-                color = "#3F3685",
-                backgroundColor = "#C5C3DA") %>%
-    formatStyle(., columns = 2:5,
-                color = "black") %>%
-    formatStyle(., columns = 6,
-                color = "black",
-                backgroundColor = styleInterval(c(0, 10, 20, 50, 100, 500, 1000, Inf),
-                                                c("#ffffcc", '#ffeda0', '#fed976', "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026")))
-
-}
-
 

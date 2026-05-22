@@ -1,12 +1,12 @@
-rsv_occupancy_recent_week <- occupancy_rapid %>%
-  filter(pathogen == "RSV") %>%
+rsv_occupancy_recent_week <- occupancy_rapid_new %>%
+  filter(Pathogen == "RSV") %>%
   tail(3) %>%
   #select(-Rate_per_100000) %>%
-  pivot_wider(names_from = pathogen,
-              values_from = sevenday_ave_inpatients) %>%
-  mutate(DateTwoWeek = .$Date[1],
-         DateLastWeek = .$Date[2],
-         DateThisWeek = .$Date[3],
+  pivot_wider(names_from = Pathogen,
+              values_from = SevenDayAverageInpatients) %>%
+  mutate(DateTwoWeek = .$WeekEnding[1],
+         DateLastWeek = .$WeekEnding[2],
+         DateThisWeek = .$WeekEnding[3],
          OccupancyTwoWeek = .$`RSV`[1],
          OccupancyLastWeek = .$`RSV`[2],
          OccupancyThisWeek = .$`RSV`[3]) %>%
@@ -89,8 +89,8 @@ fluidRow(
                   pickerInput(
                     inputId = "rsv_occupancy_selected_seasons", 
                     label = "Select season", 
-                    choices = tail(sort(unique(occupancy_rapid_hb$Season)), 3),
-                    selected = tail(sort(unique(occupancy_rapid_hb$Season)), 1)  # current season
+                    choices = tail(sort(unique(occupancy_rapid_hb_new$Season)), 3),
+                    selected = tail(sort(unique(occupancy_rapid_hb_new$Season)), 1)  # current season
                   ),
                   tagList(linebreaks(1),
                           altTextUI("rsv_occupancy_hb_modal"),

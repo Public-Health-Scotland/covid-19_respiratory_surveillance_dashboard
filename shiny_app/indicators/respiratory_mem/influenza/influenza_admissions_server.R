@@ -114,16 +114,16 @@ output$influenza_admissions_table <- renderDataTable({
 
 # Influenza HB admissions table
 output$influenza_admissions_hb_table <- renderDataTable({
-  admissions_hb_all_path %>%
-    filter(admission_type == "flu") %>%
-    filter(health_board_of_treatment != "Golden Jubilee National Hospital") %>% 
-    filter(Season %in% flu_adm_seasons) %>%
-    arrange(desc(week_ending), health_board_of_treatment) %>%
-    mutate(health_board_of_treatment = factor(health_board_of_treatment)) %>%
-    select('Week ending' = week_ending, 
-           'NHS Health Board' = health_board_of_treatment,
-           'Number of hospital admissions' = n,
-           'Rate of hospital admissions per 100,000 population' = rate) %>%
+  admissions_hb_new %>%
+    filter(Pathogen == "Influenza (All)") %>%
+    filter(HBName != "Golden Jubilee National Hospital") %>% 
+    #filter(Season >= "2023/2024") %>%
+    arrange(desc(WeekEnding), HBName) %>%
+    mutate(HBName = factor(HBName)) %>%
+    select('Week ending' = WeekEnding, 
+           'NHS Health Board' = HBName,
+           'Number of hospital admissions' = NumberAdmissionsPerWeek,
+           'Rate of hospital admissions per 100,000 population' = RateAdmissionsPerWeek) %>%
     make_table(add_separator_cols_1dp = c(4),
                add_separator_cols = c(3),
                filter_cols = c(1,2))
@@ -141,12 +141,12 @@ output$influenza_admissions_plot <- renderPlotly({
 
 # Influenza Adms by HB plot
 output$influenza_admissions_hb_plot <- renderPlotly({
-  admissions_hb_all_path %>%
-    filter(admission_type == "flu") %>% 
-    filter(health_board_of_treatment != "Golden Jubilee National Hospital") %>% 
+  admissions_hb_new %>%
+    filter(Pathogen == "Influenza (All)") %>% 
+    filter(HBName != "Golden Jubilee National Hospital") %>% 
     filter(Season %in% input$influenza_adms_selected_seasons) %>%
-    select(Season, week, week_ending, health_board_of_treatment, rate) %>%
-    arrange(Season, week, week_ending, health_board_of_treatment) %>%
+    select(ISOweek, WeekEnding, HBName, RateAdmissionsPerWeek) %>%
+    arrange(WeekEnding, HBName) %>%
     create_pathogen_adms_hb_linechart()
 
 })
@@ -154,13 +154,14 @@ output$influenza_admissions_hb_plot <- renderPlotly({
 
 # Influenza admissions by age table
 output$influenza_admissions_age_table <- renderDataTable({
-  age_rate_data_all_path %>%
-    add_season() %>% 
-    select(week_ending, age_band, Season,
-           Admissions = flu, rate = flu_rate) %>% 
-    mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9)),
-           age_band = as.factor(age_band)) %>% 
-    filter(Season %in% flu_adm_seasons) %>% 
+  admissions_age %>%
+    filter(Pathogen=="Influenza (All)") %>% 
+    select(week_ending = WeekEnding, age_band = AgeGroup, Season,
+           Admissions = NumberAdmissionsPerWeek, rate = RateAdmissionsPerWeek) %>% 
+    mutate(age_band = factor(age_band, levels = c("<1", "1-4", "5-14",
+                                                  "15-44", "45-64", "65-74",  "75+", "Total"),
+                             labels = c("<1", "1 to 4", "5 to 14",
+                                        "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
     make_admissions_age_table()
   
 })
@@ -168,35 +169,19 @@ output$influenza_admissions_age_table <- renderDataTable({
 
 # Influenza Adms by age plot
 output$influenza_admissions_age_plot <- renderPlotly({
-  age_rate_data_all_path %>%
-    add_season() %>%    
-    mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9))) %>% 
-    filter(Season %in% flu_adm_seasons) %>% 
-    #mutate(week_ending = dmy(week_ending)) %>%
-    #filter(age_band != "All Ages") %>% 
-    select(week_ending, age_band,
-           rate = flu_rate, Season) %>%
+  admissions_age %>%
+    filter(Pathogen=="Influenza (All)") %>% 
+    select(week_ending = WeekEnding, age_band = AgeGroup,
+           rate = RateAdmissionsPerWeek, Season, week=ISOweek) %>%
     mutate(age_band = factor(age_band, levels = c("<1",  "1-4", "5-14", "15-44", "45-64",
-                                                  "65-74", "75+", "All Ages"))) %>% 
+                                                  "65-74", "75+", "Total"))) %>% 
     arrange(week_ending, age_band) %>%
-    mutate(week = isoweek(week_ending)) %>% 
     filter(Season == input$adm_season_flu_age) %>%
-    #filter(Season == "2024/2025") %>% 
+    #filter(Season == "2024/25") %>% 
     create_pathogen_adms_age_linechart()
   
 })
 
-
-observeEvent(input$respiratory_season,
-             {
-               updatePickerInput(session, inputId = "respiratory_date",
-                                 choices = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
-                                     .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                 selected = {Respiratory_AllData %>% filter(Season == input$respiratory_season) %>%
-                                     .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-
-             }
-)
 
 # # HB Table
 # output$flu_admissions_hb_table <- renderDataTable({
@@ -222,16 +207,16 @@ observeEvent(input$btn_modal_simd, { showModal(simd_modal) })
 
 # Table
 output$influenza_admissions_simd_table <- renderDataTable({
-  admissions_simd_Cov_flu_RSV %>% 
+  admissions_simd_new %>% 
     filter(Pathogen == "Influenza (All)") %>%
     arrange(desc(WeekEnding)) %>%
-    mutate(WeekEnding = convert_opendata_date(WeekEnding),
-           SIMD = factor(SIMD),
-           ProvisionalFlag = factor(recode(ProvisionalFlag, "1" = "p", "0" = ""))) %>%
-    select(WeekEnding, SIMD, NumberOfAdmissions, RateOfAdmissions, ProvisionalFlag) %>%
+    mutate(SIMD = factor(SIMD)) %>% 
+    mutate(ProvisionalFlag = case_when(WeekEnding == max(WeekEnding) ~ "p",
+                                       T ~ "")) %>%
+    select(WeekEnding, SIMD, NumberAdmissionsPerWeek, RateAdmissionsPerWeek, ProvisionalFlag) %>%
     dplyr::rename(`Week ending` = WeekEnding,
-                  `Number of admissions` = NumberOfAdmissions,
-                  `Admission Rate per 100k` = RateOfAdmissions,
+                  `Number of admissions` = NumberAdmissionsPerWeek,
+                  `Admission Rate per 100k` = RateAdmissionsPerWeek,
                   `Is data provisional (p)?` = ProvisionalFlag) %>%
     make_table(add_separator_cols = c(3),
                filter_cols = c(2,5))
@@ -241,12 +226,10 @@ output$influenza_admissions_simd_table <- renderDataTable({
 
 # Plot
 output$influenza_admissions_simd_plot <- renderPlotly({
-  admissions_simd_Cov_flu_RSV %>% 
+  admissions_simd_new %>% 
     filter(Pathogen == "Influenza (All)") %>%
-    mutate(week_ending = ymd(WeekEnding)) %>% 
-    add_season() %>%    
-    mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9))) %>% 
-    mutate(week = isoweek(week_ending)) %>% 
+    rename(week_ending = WeekEnding,
+           week = ISOweek) %>% 
     filter(Season == input$adm_season_flu_simd) %>%
     make_hospital_admissions_simd_plot()
   
@@ -254,43 +237,6 @@ output$influenza_admissions_simd_plot <- renderPlotly({
 
 
 
-#-----------------------#
-#### Flu adm pyramid ####
-#-----------------------#
-# 
-# output$flu_adm_pyr_title <- renderUI({h3(glue("Acute influenza hospital admissions by age and sex in Scotland; ",
-#                                               input$flu_age_sex_adm_season))})
-# 
-# # pyramid plot that shows the breakdown by age and sex
-# output$flu_adm_age_sex_pyramid_plot = renderPlotly({
-#   Admissions_AgeSex_Season %>%
-#     filter(Pathogen == "flu",
-#            Sex %in% c("M", "F"),
-#            Season == input$flu_age_sex_adm_season) %>%
-#     make_age_sex_adm_pyramid_plot # hospital_admissions_functions  
-# })
-# 
-# 
-# output$flu_adm_age_sex_pyramid_table = renderDataTable({
-#   
-#   flu_adm_age_sex_pyramid_table <- Admissions_AgeSex_Season %>%
-#     filter(Pathogen == "flu",
-#            Season == input$flu_age_sex_adm_season) %>%
-#     select(Season, AgeGroup, Sex, Rate) %>%
-#     mutate(Season = factor(Season)) %>%
-#     arrange(desc(Season), AgeGroup, Sex) %>%
-#     dplyr::rename("Season" = "Season",
-#                   "Age group" = "AgeGroup",
-#                   "Rate per 100,000" = "Rate") %>%
-#     mutate(Sex = factor(Sex, levels = c("All", "F", "M")),
-#            `Age group` = factor(`Age group`, levels =
-#                                   c("All","Under 18","18-64","65-74","75+"))) %>%
-#     arrange(desc(`Season`), `Age group`, Sex) %>%
-#     make_table(add_separator_cols_1dp = c(4),
-#                filter_cols = c(1,2,3))
-#   
-# })
-# 
 # ### LENGTH OF STAY ### ----
 # 
 # # los plot reactive title

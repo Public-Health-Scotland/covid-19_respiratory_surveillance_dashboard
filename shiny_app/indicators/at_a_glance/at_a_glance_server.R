@@ -19,27 +19,27 @@ previous_week_cases_title %<>%
   format("%d %b %y")
 
 # admissions labels- (matches Respiratory_admissions_summary data set)
-latest_week_admissions_title <-Respiratory_admissions_summary %>%
+latest_week_admissions_title <- admissions_scotland %>%
   tail(1) %>%
-  select(Date)
+  select(WeekEnding)
 
 # Convert to the correct format
-latest_week_admissions_title$Date<- format(latest_week_admissions_title $Date, "%d %b %y")
+latest_week_admissions_title$WeekEnding<- format(latest_week_admissions_title$WeekEnding, "%d %b %y")
 
 # make it a value
-latest_week_admissions_title <- latest_week_admissions_title$Date
+latest_week_admissions_title <- latest_week_admissions_title$WeekEnding
 
-previous_week_admissions_title <- Respiratory_admissions_summary %>%
-  filter(CaseDefinition=='RSV') %>%
+previous_week_admissions_title <- admissions_scotland %>%
+  filter(Pathogen=='RSV') %>%
   tail(2) %>%
-  filter(Date== min(Date)) %>%
-  select(Date)
+  filter(WeekEnding== min(WeekEnding)) %>%
+  select(WeekEnding)
 
 # Convert to correct format
- previous_week_admissions_title $Date<- format(previous_week_admissions_title $Date, "%d %b %y")
+ previous_week_admissions_title$WeekEnding<- format(previous_week_admissions_title$WeekEnding, "%d %b %y")
 
 # make it a value
-previous_week_admissions_title <- previous_week_admissions_title$Date
+previous_week_admissions_title <- previous_week_admissions_title$WeekEnding
 
 # occupancy labels- (uses weekly covid HB occupancy i.e. same dataframe that produces the table)
 
@@ -65,18 +65,18 @@ previous_week_admissions_title <- previous_week_admissions_title$Date
 # # makle it a value
 #    previous_week_occupancy_title<- previous_week_occupancy_title$Date
 
-latest_week_occupancy_title <- occupancy_rapid %>%
+latest_week_occupancy_title <- occupancy_rapid_new %>%
   tail(1) %>%
-  select(Date) %>%
-  mutate(Date = format(Date, "%d %b %y")) %>%
-  .$Date
+  select(WeekEnding) %>%
+  mutate(WeekEnding = format(WeekEnding, "%d %b %y")) %>%
+  .$WeekEnding
 
-previous_week_occupancy_title <- occupancy_rapid %>%
-  tail(6) %>%
-  select(Date) %>%
-  filter(Date == min(Date)) %>%
-  mutate(Date = format(Date, "%d %b %y")) %>%
-  .$Date
+previous_week_occupancy_title <- occupancy_rapid_new %>%
+  tail(4) %>%
+  select(WeekEnding) %>%
+  filter(WeekEnding == min(WeekEnding)) %>%
+  mutate(WeekEnding = format(WeekEnding, "%d %b %y")) %>%
+  .$WeekEnding
 
 # create value to produce population rate values
 pop_scot_total <- i_population_v2 %>%
@@ -164,27 +164,27 @@ colnames(cases_intro)[3] <- paste("Rate per 100,000 population (", as.character(
 # join into one table
 # rename and add week titles for the dashboard
 
-hosp_adms_intro <- Respiratory_admissions_summary %>%
-  #filter(CaseDefinition %in% c("Covid-19", "RSV", "Influenza")) %>%
+hosp_adms_intro <- admissions_scotland %>%
+  filter(!Pathogen %in% c("Influenza A", "Influenza B")) %>%
   tail(18) %>%
-  mutate(CaseDefinition = ifelse(CaseDefinition == "Covid-19", "COVID-19", CaseDefinition)) %>%
-  mutate(flag = ifelse(Date==max(Date), "latest_week", "previous_week")) %>%
-  select(-Date) %>%
-  mutate(admissions_rate = round_half_up(100000 * Admissions / pop_scot_total,1)) %>%
-  select(flag, Pathogen=CaseDefinition, admissions_number = Admissions,
-         admissions_rate) %>%
+  mutate(flag = ifelse(WeekEnding==max(WeekEnding), "latest_week", "previous_week")) %>%
+  select(-WeekEnding) %>%
+  #mutate(admissions_rate = round_half_up(100000 * Admissions / pop_scot_total,1)) %>%
+  select(flag, Pathogen, admissions_number = NumberAdmissionsPerWeek,
+         admissions_rate=RateAdmissionsPerWeek) %>%
    pivot_wider(names_from = flag, values_from = admissions_number:admissions_rate) %>%
   select(Pathogen,
          'Number of admissions (previous week)'= admissions_number_previous_week,
          'Rate of admissions per 100,000 population (previous week)'= admissions_rate_previous_week,
          'Number of admissions (latest week)'= admissions_number_latest_week,
          'Rate of admissions per 100,000 population (latest week)'= admissions_rate_latest_week  ) %>%
-  mutate(Pathogen =  factor(Pathogen, levels = c("COVID-19", "Influenza", "RSV", "Adenovirus",  "HMPV",  "MPN", "Parainfluenza", "Rhinovirus", "Seasonal Coronavirus (non-COVID-19)"))) %>%
+  mutate(Pathogen =  factor(Pathogen, levels = c("COVID-19", "Influenza (All)", "RSV", "Adenovirus",  "HMPV",  "Mycoplasma pneumoniae", "Parainfluenza (Any Type)", "Rhinovirus", "Seasonal coronavirus"))) %>%
   arrange(Pathogen) %>%
   mutate(Pathogen=if_else(Pathogen=="RSV", "Respiratory syncytial virus", Pathogen)) %>% 
-  mutate(Pathogen=if_else(Pathogen=="Non-seasonal Coronavirus", "Seasonal Coronavirus (non COVID-19)", Pathogen)) %>% 
+  mutate(Pathogen=if_else(Pathogen=="Seasonal coronavirus", "Seasonal Coronavirus (non COVID-19)", Pathogen)) %>% 
   mutate(Pathogen=if_else(Pathogen=="HMPV", "Human Metapneumovirus", Pathogen)) %>% 
-  mutate(Pathogen=if_else(Pathogen=="MPN", "Mycoplasma Pneumoniae", Pathogen))
+  mutate(Pathogen=if_else(Pathogen=="Parainfluenza (Any Type)", "Parainfluenza", Pathogen)) %>% 
+  mutate(Pathogen=if_else(Pathogen=="Influenza (All)", "Influenza", Pathogen))
 
 
 
@@ -214,14 +214,13 @@ colnames(hosp_adms_intro)[3] <- paste("Rate of admissions per 100,000 population
 # colnames(covid_inpatients_intro)[3] <- paste("Seven day average number (", as.character(latest_week_occupancy_title),")")
 # colnames(covid_inpatients_intro)[2] <- paste("Seven day average number (", as.character(previous_week_occupancy_title),")")
 
-inpatients_intro <- occupancy_rapid %>%
-  tail(10) %>%
-  filter(pathogen %in% c("COVID-19", "Influenza", "RSV")) %>% 
-  mutate(flag= if_else(Date == max(Date),"Latest Week", "Previous Week")) %>% #add flags
-  select(pathogen, flag, sevenday_ave_inpatients) %>%
-  pivot_wider(names_from = flag, values_from = sevenday_ave_inpatients) %>%
-  rename(Pathogen = pathogen) %>%
-  select(Pathogen, `Previous Week`, `Latest Week`)
+inpatients_intro <- occupancy_rapid_new %>%
+  tail(6) %>%
+  mutate(flag= if_else(WeekEnding == max(WeekEnding),"Latest Week", "Previous Week")) %>% #add flags
+  select(Pathogen, flag, SevenDayAverageInpatients) %>%
+  pivot_wider(names_from = flag, values_from = SevenDayAverageInpatients) %>%
+  mutate(Pathogen = case_when(Pathogen=="Influenza (All)" ~ "Influenza",
+                              TRUE ~ Pathogen)) 
 
 colnames(inpatients_intro)[3] <- paste("Seven day average number (", as.character(latest_week_occupancy_title),")")
 colnames(inpatients_intro)[2] <- paste("Seven day average number (", as.character(previous_week_occupancy_title),")")
@@ -268,18 +267,19 @@ altTextServer("cari_summary_modal",
 
 ### Plot -----
 output$hosp_adms_intro_plot <- renderPlotly({
-  Respiratory_admissions_summary %>%
-    mutate(CaseDefinition = ifelse(CaseDefinition == "Covid-19", "COVID-19", CaseDefinition)) %>%
-    mutate(CaseDefinition=if_else(CaseDefinition=="RSV", "Respiratory syncytial virus", CaseDefinition)) %>% 
-    mutate(CaseDefinition=if_else(CaseDefinition=="HMPV", "Human Metapneumovirus", CaseDefinition)) %>% 
-    mutate(CaseDefinition=if_else(CaseDefinition=="MPN", "Mycoplasma Pneumoniae", CaseDefinition)) %>% 
-    mutate(CaseDefinition=if_else(CaseDefinition=="Non-seasonal Coronavirus", "Seasonal Coronavirus (non COVID-19)", CaseDefinition)) %>% 
-    mutate(CaseDefinition =  factor(CaseDefinition, levels = c("COVID-19", "Influenza", "Respiratory syncytial virus", "Adenovirus",  
+  admissions_scotland %>%
+    mutate(Pathogen=if_else(Pathogen=="RSV", "Respiratory syncytial virus", Pathogen)) %>% 
+    mutate(Pathogen=if_else(Pathogen=="HMPV", "Human Metapneumovirus", Pathogen)) %>% 
+    mutate(Pathogen=if_else(Pathogen=="Parainfluenza (Any Type)", "Parainfluenza", Pathogen)) %>% 
+    mutate(Pathogen=if_else(Pathogen=="Influenza (All)", "Influenza", Pathogen)) %>% 
+    mutate(Pathogen=if_else(Pathogen=="Mycoplasma pneumoniae", "Mycoplasma Pneumoniae", Pathogen)) %>% 
+    mutate(Pathogen=if_else(Pathogen=="Seasonal coronavirus", "Seasonal Coronavirus (non-COVID-19)", Pathogen)) %>% 
+    mutate(Pathogen =  factor(Pathogen, levels = c("COVID-19", "Influenza", "Respiratory syncytial virus", "Adenovirus",  
                                                                "Human Metapneumovirus",  "Mycoplasma Pneumoniae", 
                                                                "Parainfluenza", "Rhinovirus", "Seasonal Coronavirus (non-COVID-19)"))) %>%
-    arrange(CaseDefinition) %>%
+    arrange(Pathogen) %>%
 
-    mutate(Date = ymd(Date)) %>%
+    #mutate(WeekEnding = ymd(WeekEnding)) %>%
     make_adms_summary_plot()#create_summary_adms_linechart()
 
 })

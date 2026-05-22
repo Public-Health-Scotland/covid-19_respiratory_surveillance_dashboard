@@ -448,13 +448,13 @@ server <- function(input, output, session) {
   # Get functions
   source(file.path("functions/core_functions.R"), local = TRUE)$value
   source(file.path("functions/plot_functions.R"), local = TRUE)$value
-  source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
+  #source(file.path("indicators/introduction/introduction_functions.R"), local = TRUE)$value
   #source(file.path("indicators/summary/summary_functions.R"), local = TRUE)$value
   source(file.path("indicators/cases/cases_functions.R"), local = TRUE)$value
   source(file.path("indicators/hospital_admissions/hospital_admissions_functions.R"), local = TRUE)$value
-  source(file.path("indicators/hospital_occupancy/hospital_occupancy_functions.R"), local = TRUE)$value
+  #source(file.path("indicators/hospital_occupancy/hospital_occupancy_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory/respiratory_functions.R"), local = TRUE)$value
-  source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
+  #source(file.path("indicators/metadata/metadata_functions.R"), local = TRUE)$value
   #source(file.path("indicators/download/download_functions.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/respiratory_mem_functions.R"), local = TRUE)$value
   source(file.path("indicators/mortality/euromomo/euromomo_functions.R"), local = TRUE)$value
@@ -468,7 +468,7 @@ server <- function(input, output, session) {
   source(file.path("indicators/hospital_admissions/hospital_admissions_server.R"), local = TRUE)$value
   source(file.path("indicators/hospital_occupancy/hospital_occupancy_server.R"), local = TRUE)$value
   #source(file.path("indicators/respiratory/respiratory_server.R"), local = TRUE)$value
-  source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
+  #source(file.path("indicators/metadata/metadata_server.R"), local = TRUE)$value
   source(file.path("indicators/download/download_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/covid_19/covid_cari_server.R"), local = TRUE)$value
   source(file.path("indicators/respiratory_mem/influenza/influenza_mem_server.R"), local = TRUE)$value

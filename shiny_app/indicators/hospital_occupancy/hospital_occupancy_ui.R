@@ -1,29 +1,18 @@
 # Figures for last three weeks
-covid_occupancy_recent_week <- occupancy_rapid %>%
-  arrange(week_ending) %>% 
-  filter(pathogen == "COVID-19") %>% 
+covid_occupancy_recent_week <- occupancy_rapid_new %>%
+  arrange(WeekEnding) %>% 
+  filter(Pathogen == "COVID-19") %>% 
   tail(3) %>%
-  #select(-Rate_per_100000) %>%
-  # pivot_wider(names_from = pathogen,
-  #             values_from = sevenday_ave_inpatients) %>%
-  mutate(DateTwoWeek = .$week_ending[1],
-         DateLastWeek = .$week_ending[2],
-         DateThisWeek = .$week_ending[3],
-         OccupancyTwoWeek = .$sevenday_ave_inpatients[1],
-         OccupancyLastWeek = .$sevenday_ave_inpatients[2],
-         OccupancyThisWeek = .$sevenday_ave_inpatients[3]) %>%
+  mutate(DateTwoWeek = .$WeekEnding[1],
+         DateLastWeek = .$WeekEnding[2],
+         DateThisWeek = .$WeekEnding[3],
+         OccupancyTwoWeek = .$SevenDayAverageInpatients[1],
+         OccupancyLastWeek = .$SevenDayAverageInpatients[2],
+         OccupancyThisWeek = .$SevenDayAverageInpatients[3]) %>%
   select(DateTwoWeek, DateLastWeek, DateThisWeek, OccupancyTwoWeek, OccupancyLastWeek, OccupancyThisWeek) %>%
   head(1)
 
 tagList(
-  # fluidRow(width = 12,
-  #          metadataButtonUI("hospital_occupancy"),
-  #          linebreaks(1),
-  #          #h1("Hospital occupancy (inpatients)"),
-  #          #linebreaks(1)
-  #          ),
-
-
 #headline values are created in the setup script, occupancy updated to use the weekly HB values, filtered to Scotland
   fluidRow(width = 12,
            tagList(h2("Number of inpatients with COVID-19 in hospital (seven day average) in Scotland"),
@@ -64,8 +53,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("hospital_occupancy_modal"),
                             withNavySpinner(plotlyOutput("hospital_occupancy_plot"))#,
-                            # fluidRow(
-                            #   width=12, linebreaks(4))
                     ) # taglist
            ), # tabpanel
 
@@ -90,8 +77,8 @@ fluidRow(
                   pickerInput(
                     inputId = "hospital_occupancy_selected_seasons", 
                     label = "Select season", 
-                    choices = tail(sort(unique(occupancy_rapid_hb$Season)), 3),
-                    selected = tail(sort(unique(occupancy_rapid_hb$Season)), 1)  # current season
+                    choices = tail(sort(unique(occupancy_rapid_hb_new$Season)), 3),
+                    selected = tail(sort(unique(occupancy_rapid_hb_new$Season)), 1)  # current season
                   ),
                   tagList(linebreaks(1),
                           altTextUI("hospital_occupancy_hb_modal"),

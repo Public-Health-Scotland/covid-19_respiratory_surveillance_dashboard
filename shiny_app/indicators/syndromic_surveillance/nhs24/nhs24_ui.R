@@ -9,11 +9,7 @@ tagList(
              "respiratory symptoms, are compared against historic data to assess activity levels of acute",
              "respiratory illness in the community. As NHS24 is often patients first contact with the NHS,",
              "increases in activity will be reported here before they are detected by other surveillance",
-             "systems, thus it can act as an early warning system for acute respiratory infections."),
-           #             "More information on NHS24 can be found…"),
-           #linebreaks(1)
-           # p(strong("Note: Data for ISO week 48 are temporarily unavailable due to technical issues. Data presented",
-           #          "here is therefore up to ISO week 47 only. Reporting will resume once these issues are resolved."))
+             "systems, thus it can act as an early warning system for acute respiratory infections.")
   ),
   
   fluidRow(width = 12,
@@ -37,26 +33,6 @@ tagList(
     linebreaks(1)
   ), # fluidRow
 
-  # fluidRow(width = 12,
-  #          tagList(h2("NHS24 calls for respiratory symptoms (%) by NHS Health Board"))),
-  #
-  # fluidRow(
-  #   tabBox(width = NULL,
-  #          type = "pills",
-  #          tabPanel("Plot",
-  #                   tagList(linebreaks(1),
-  #                           altTextUI("nhs24_mem_hb_modal"),
-  #                           withNavySpinner(plotlyOutput("nhs24_mem_hb_plot")),
-  #                   )),
-  #          tabPanel("Data",
-  #                   tagList(linebreaks(1),
-  #                           withNavySpinner(dataTableOutput("nhs24_mem_hb_table"))
-  #                   ) # tagList
-  #          ) # tabPanel
-  #
-  #   ), # tabBox
-  #   linebreaks(1)
-  # ), # fluidRow
 
 
   fluidRow(width = 12,
