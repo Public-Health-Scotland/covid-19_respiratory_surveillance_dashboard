@@ -99,7 +99,7 @@ create_positivity_age_chart <- function(data){
   #   filter(season == "2020/2021")
   
   # Check if season has 53 isoweeks
-  if(isoweek(ymd(paste0(substr(input$test_pos_cov_age, 1, 4), "-12-31"))) == 53){
+  if(isoweek(ymd(paste0(substr(unique(data$season), 1, 4), "-12-31"))) == 53){
     
     # put weeks in correct order for season
     week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
@@ -131,7 +131,7 @@ create_positivity_age_chart <- function(data){
   xaxis_plots[["dtick"]] <- 2
   #yaxis_plots[["dtick"]] <- 1
   yaxis_plots[["tickformat"]] <- NULL
-  xaxis_plots[["range"]] <- list(-0.5, 52.5)
+  xaxis_plots[["range"]] <- list(-0.5, max(week_order)-0.5)
   
   
   ## Add as two separate traces to enable 'All ages' to be shown as the default trace

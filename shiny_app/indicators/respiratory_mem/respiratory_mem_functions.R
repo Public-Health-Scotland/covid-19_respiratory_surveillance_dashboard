@@ -2198,9 +2198,19 @@ create_cari_duodetection_chart_stacked <- function(data){
   #   mutate(ISOWeekNo = 53)
   # 
   # data <- bind_rows(data, test)
+  
+  if(unique(data$Season) == "2024/25"){
+    
+    test <- data %>%
+      filter(ISOWeekNo == 52) %>%
+      mutate(ISOWeekNo = 53)
+
+    data <- bind_rows(data, test)
+    
+  }
 
   # Check if season has 53 isoweeks
-  if(isoweek(ymd(paste0(substr(input$cari_season, 1, 4), "-12-31"))) == 53){
+  if(isoweek(ymd(paste0(substr(unique(data$Season), 1, 4), "-12-31"))) == 53){
     
     # put weeks in correct order for season
     week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
@@ -2438,10 +2448,10 @@ create_cari_codetection_age_linechart <- function(data){
 
 create_test_pos_seasons_linechart <- function(data, pathogen_type){
   
-  # data <- Respiratory_Pathogens_Test_Positivity %>%
-  #   filter(season >= "2023/2024") 
-  # 
-  # pathogen_type = "Covid-19"
+  data <- Respiratory_Pathogens_Test_Positivity %>%
+    filter(season >= "2023/2024")
+
+  pathogen_type = "Covid-19"
   
   if(include_week_53){
     
@@ -2476,7 +2486,50 @@ create_test_pos_seasons_linechart <- function(data, pathogen_type){
   
   data = data %>%
     filter(pathogen == pathogen_type &
-           season %in% seasons) %>%
+           season %in% seasons) 
+  
+  # # Add in missing week 53 if required (will create gaps in graphs)
+  # if(include_week_53){
+  #   
+  #   # Season with week 53
+  #   data_week_53 <- data %>%
+  #     filter(ISOweek == 53)
+  #   
+  #   # If no rows, add in for all seasons
+  #   if(nrow(data_week_53) == 0){
+  #     
+  #     # Select season that needs updated
+  #     data_updated <- data
+  #     
+  #   } else{
+  #     
+  #     # Select season that needs updated
+  #     data_updated <- data %>%
+  #       filter(Season != unique(data_week_53$Season))
+  #     
+  #   }
+  #   
+  #   # Create week 53 data
+  #   data_updated_wk53 <- data_updated %>%
+  #     filter(ISOweek == 52) %>%
+  #     mutate(ISOweek = 53,
+  #            positive_count = NA,
+  #            total_samples = NA,
+  #            positivity_percentage = NA)
+  #   
+  #   # Add data in
+  #   data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+  #     arrange(season, year, ISOweek)
+  #   
+  #   # Update data
+  #   data <- data %>%
+  #     filter(!season %in% unique(data_updated$season)) %>%
+  #     bind_rows(data_updated) %>%
+  #     arrange(season, year, ISOweek)
+  #   
+  # }
+  
+  data = data %>%
     mutate(ISOweek = as.character(ISOweek),
            ISOweek = factor(ISOweek, levels = week_order), 
            WeekOrd = as.numeric(ISOweek)) %>%
@@ -2494,7 +2547,7 @@ create_test_pos_seasons_linechart <- function(data, pathogen_type){
   yaxis_plots[["title"]] <- "Test positivity (%)"
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- list(-0.5, 52.5)
+  xaxis_plots[["range"]] <- list(-0.5, max(week_order)-0.5)
   
   # Line below hashed to remove slider
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
