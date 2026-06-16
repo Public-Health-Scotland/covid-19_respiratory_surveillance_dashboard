@@ -531,44 +531,33 @@ create_euromomo_mem_heatmap <- function(data,
                                         breakdown_variable = "AgeGroup",
                                         heatmap_seasons = NULL,
                                         value_variable = "ZScore") {
-  
-  data <-  Respiratory_Euromomo %>%
-    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels),
-           ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(activity_levels,
-                                                                      "Reporting delay")))
-  
-  rate_dp = 1
-  include_text_annotation = F
-  text_annotation_dp = 1
-  breakdown_variable = "AgeGroup"
-  heatmap_seasons = NULL
-  value_variable = "ZScore"
-  
-  data_2526 <- data %>%
-    filter(Season == "2025/26") %>%
-    mutate(Weekord = ifelse(ISOWeek >= 1 & ISOWeek <= 39, Weekord+1, Weekord))
-  
-  test <- data_2526 %>%
-    filter(ISOWeek == 52) %>%
-    mutate(ISOWeek = 53,
-           Weekord = 14)
-  
-  data_2526 <- bind_rows(data_2526, test) %>%
-    arrange(Weekord)
-  
-  data <- data %>%
-    filter(Season != "2025/26") %>%
-    bind_rows(data_2526)
 
-  rate_dp = 1
-  include_text_annotation = FALSE
-  text_annotation_dp = 1
-  breakdown_variable = "AgeGroup"
-  heatmap_seasons = NULL
-  value_variable = "ZScore"
-
-  #heatmap_seasons = c("2019/2020", "2020/2021")
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/26") %>%
+  #   mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOWeek == 52) %>%
+  #   mutate(ISOWeek = 53,
+  #          Weekord = 14)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, ISOWeek)
+  # ####################
   
+  
+  # Drop week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOWeek != 53)
+    
+  }
+
   # Latest reporting week
   latest_week <- data %>%
     tail(1) %>%
