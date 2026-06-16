@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_mycoplasma_pneumoniae_cari",
-                     panel="Mycoplasma Pneumoniae",
-                     parent = session)
-
 altTextServer("mycoplasma_pneumoniae_cari_modal",
               title = "CARI - Test positivity for Mycoplasma Pneumoniae",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of Mycoplasma pneumoniae infection in the Community Acute Respiratory Infection (CARI) surveillance programme."),
@@ -43,23 +39,6 @@ output$mycoplasma_pneumoniae_cari_table <- renderDataTable({
                add_separator_cols_1dp = c(4,5,6))
 })
 
-# # CARI - Mycoplasma Pneumoniae swabpos by age table
-# output$mycoplasma_pneumoniae_cari_age_table <- renderDataTable({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Mycoplasma Pneumoniae") %>%
-#     arrange(desc(WeekEnding)) %>%
-#     select(WeekEnding, AgeGroup, TotalSamples, PositiveSamples, SwabPositivity, SwabPositivityLCL, SwabPositivityUCL) %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     rename(`Week Ending` = WeekEnding,
-#            `Age Group`= `AgeGroup`,
-#            `Total Samples` = TotalSamples,
-#            `Positive Samples` = PositiveSamples,
-#            `Test Positivity (%)` = SwabPositivity,
-#            `Lower Confidence Limit (%)` = SwabPositivityLCL,
-#            `Upper Confidence Limit (%)` = SwabPositivityUCL) %>%
-#     make_table(filter_cols = c(2))
-# })
 
 # CARI - Overall Mycoplasma Pneumoniae swabpos plot
 output$mycoplasma_pneumoniae_cari_plot <- renderPlotly({
@@ -69,15 +48,6 @@ output$mycoplasma_pneumoniae_cari_plot <- renderPlotly({
   
 })
 
-# # CARI - Mycoplasma Pneumoniae swabpos by age plot
-# output$mycoplasma_pneumoniae_cari_age_plot <- renderPlotly({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Mycoplasma Pneumoniae") %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     create_cari_age_linechart()
-#   
-# })
 
 # CARI - mpn swabpos by age table
 output$mpn_cari_age_table <- renderDataTable({

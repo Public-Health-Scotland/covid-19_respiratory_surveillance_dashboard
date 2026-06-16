@@ -1,11 +1,4 @@
 
-
-metadataButtonServer(id="respiratory_rsv_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
-
-
 altTextServer("rsv_admissions_modal",
               title = "Wekly rate of RSV hospital admissions in Scotland",
               content = tags$ul(tags$li("This is a plot showing the weekly rate of RSV hospital admissions in Scotland."),
@@ -18,15 +11,6 @@ altTextServer("rsv_admissions_modal",
               )
 )
 
-
-# altTextServer("rsv_admissions_modal",
-#               title = "RSV hospital admissions in Scotland",
-#               content = tags$ul(tags$li("This is a plot showing the number of RSV hospital admissions in Scotland."),
-#                                 tags$li("The x axis shows the ISO week of admission, from week 40 to week 39. ",
-#                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
-#                                 tags$li("The y axis shows the number of hospital admissions."),
-#                                 tags$li(glue("There is a trace for each of the following season from ", 
-#                                              rsv_adm_seasons[1], " to ", rsv_adm_seasons[6], "."))))
 
 altTextServer("rsv_admissions_age_modal",
               title = "RSV hospital admission rate per 100,000 population by age group",
@@ -43,23 +27,6 @@ altTextServer("rsv_admissions_hb_modal",
                                 tags$li("The x axis shows the ISO week of admission, from week 40 to week 39. "),
                                 tags$li("The y axis shows the hospital admission rate per 100,000 population.")
               ))
-
-
-altTextServer("rsv_adm_age_sex",
-              title = glue("Acute RSV admissions by age and sex in Scotland"),
-              content = tags$ul(
-                tags$li(glue("This is a pyramid plot of rate per 100,000 people of RSV cases in Scotland by age and sex.")),
-                tags$li("The information is displayed for a selected season."),
-                tags$li("Weekly rate data for age and sex on a weekly basis are available in ",
-                        "the PHS Open Data platform ",
-                        tags$a(href="https://www.opendata.nhs.scot/dataset/viral-respiratory-diseases-including-influenza-and-covid-19-data-in-scotland",
-                               "Viral Respiratory Diseases (Including Influenza and COVID-19) Data in Scotland page (external website).",
-                               target="_blank")),
-                tags$li("The y axis shows the age group. The left side of the y axis corresponds to females (F) and the right side to males (M)."),
-                tags$li("For the x axis the plot shows rate per 100,000 people.")
-                # tags$li("The youngest and oldest groups have the highest rates of illness.")
-              )
-)
 
 
 altTextServer("rsv_los_modal",
@@ -96,9 +63,6 @@ altTextServer("rsv_admissions_simd_modal",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),                                 tags$li("The y axis shows the hospital admission rate per 100,000 population."),
                                 tags$li("The plot contains a trace for each of the SIMD categories. SIMD 1 is",
                                         "highlighted in red and SIMD 5 in blue. The other categories are in grey."),
-                                # tags$li("There have been several peaks throughout the pandemic, notably in",
-                                #         "Apr 2020, Oct 2020, Jan 2021, Jul 2021, Sep 2021,",
-                                #         "Jan 2022, Mar 2022, Jun 2022, Jan 2023 and Mar 2023.")
               )
 )
 
@@ -122,7 +86,6 @@ output$rsv_admissions_hb_table <- renderDataTable({
   admissions_hb_new %>%
     filter(Pathogen == "RSV") %>%
     filter(HBName != "Golden Jubilee National Hospital") %>% 
-    #filter(Season >= "2023/2024") %>%
     arrange(desc(WeekEnding), HBName) %>%
     mutate(HBName = factor(HBName)) %>%
     select('Week ending' = WeekEnding, 
@@ -152,7 +115,6 @@ output$rsv_admissions_age_table <- renderDataTable({
 # RSV Adms plot
 output$rsv_admissions_plot <- renderPlotly({
   rsv_admissions %>%
-
     create_pathogen_adms_linechart()
 
 })
@@ -167,7 +129,6 @@ output$rsv_admissions_age_plot <- renderPlotly({
                                                   "65-74", "75+", "Total"))) %>% 
     arrange(week_ending, age_band) %>%
     filter(Season == input$adm_season_rsv_age) %>%
-    #filter(Season == "2024/25") %>% 
     create_pathogen_adms_age_linechart()
   
 })
@@ -231,8 +192,6 @@ output$rsv_admissions_simd_plot <- renderPlotly({
 output$rsv_los_title <- renderUI({h3(glue("RSV length of stay by age group in Season ",
                                           input$los_season_rsv))})
 
-#recent_ISO_week <- isoweek(floor_date(today(), "week", 1) - 8)  #Two Sundays ago - accounting for lag
-
 rsv_los_recent_ISO_week <- rsv_admissions %>%
   arrange(Date) %>%
   tail(2) %>%
@@ -259,7 +218,6 @@ output$rsv_los_plot <- renderPlotly({
 output$rsv_los_table <- renderDataTable({
   avg_rsv_los_table <- Average_Length_of_Stay %>% 
     filter(Pathogen == "RSV") %>% #,
-    #           Season == input$los_season_rsv) %>% 
     mutate(AverageLengthOfStay = round(AverageLengthOfStay,2),
            AgeGroup = factor(AgeGroup, levels = c("<1", "1 to 4", "5 to 14", "15 to 44", "45 to 64",  
                                                   "65 to 74", "75+", "All Ages")),
@@ -271,30 +229,4 @@ output$rsv_los_table <- renderDataTable({
   
 })
 
-# 
-# # los plot reactive title
-# output$rsv_los_title <- renderUI({h3(glue("RSV length of stay by age group in Season ",
-#                                           input$los_season_flu))})
-# 
-# # Plot
-# output$rsv_los_plot<- renderPlotly({
-#   rsv_los_weekly_plot<-Length_of_Stay_Season %>%
-#     filter(admission_type == "rsv") %>% 
-#     filter(Season == input$los_season_rsv) %>%
-#     make_hospital_admissions_los_plot() #function in "/...../indicators/hospital_admissions/hospital_admissions_functions.R"
-# })
-# # Table
-# output$rsv_los_table <- renderDataTable({
-#   rsv_los_weekly_table<- Length_of_Stay_Weekly %>% 
-#     filter(admission_type == "rsv") %>% 
-#     filter(Season == input$los_season_rsv) %>%
-#     mutate(`Length of stay` = factor(LengthOfStay,
-#                                      levels = c("1 day or less",
-#                                                 "2-3 days", "4-5 days",
-#                                                 "6-7 days", "8+ days"))) %>% 
-#     select(Season,
-#            'Week ending' = AdmissionWeekEnding, 
-#            'Age group' = AgeGroup,
-#            'Length of stay',
-#            'Percent' = PercentageOfAdmissions) })
 

@@ -2,9 +2,6 @@
 tagList(
 
   fluidRow(width = 12,
-
-           #metadataButtonUI("national_wastewater_metadata"),
-           #linebreaks(1),
            h1("COVID-19 Wastewater Surveillance"),
            p("Wastewater-based surveillance is a promising low cost means to enhance monitoring of ",
              "the presence and epidemiological activity of pathogens such as SARS-CoV-2 in the ",

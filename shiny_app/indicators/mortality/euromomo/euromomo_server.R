@@ -1,6 +1,3 @@
-metadataButtonServer(id="mortality_euromomo",
-                     panel="All-Cause Excess Mortality (Euromomo)",
-                     parent = session)
 
 # Low threshold
 euromomo_low_threshold <- Respiratory_Euromomo %>% 

@@ -1,8 +1,5 @@
 tagList(
   fluidRow(width = 12,
-
-           #metadataButtonUI("gp_mem"),
-           #linebreaks(1),
            h2("GP Consultations for Influenza-Like Illness (ILI)"),
            p("Influenza virus infections can cause a range of symptoms which are non-specific",
              "and resemble the clinical presentation of a variety of other pathogens. A clinical",

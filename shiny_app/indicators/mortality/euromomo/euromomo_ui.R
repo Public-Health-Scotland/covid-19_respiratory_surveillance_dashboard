@@ -1,8 +1,5 @@
 tagList(
   fluidRow(width = 12,
-           
-           # metadataButtonUI("mortality_euromomo"),
-           # linebreaks(1),
            h1("All-Cause Excess Mortality (Euromomo)"),
            p("All-cause excess mortality is defined as a statistically significant increase ",
              "in the number of deaths reported over the expected number for a given point in time. ",

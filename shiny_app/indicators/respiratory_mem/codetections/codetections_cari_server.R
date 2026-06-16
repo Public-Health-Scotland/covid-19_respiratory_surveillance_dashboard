@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_codetections_cari",
-                     panel="Co-detections",
-                     parent = session)
-
 altTextServer("duodetections_cari_modal",
               title = "CARI - Relative frequency (%) of each pathogen in all samples with two-pathogen co-detections",
               content = tags$ul(tags$li("This is a plot showing how often each individual pathogen is identified (expressed as a percentage of all pathogens identified) in all samples with two-pathogen co-detections in the Community Acute Respiratory Infection (CARI) surveillance programme."),

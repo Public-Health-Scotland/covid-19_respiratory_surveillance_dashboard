@@ -3,7 +3,6 @@
 mycoplasma_pneumoniae_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>% 
   filter(Pathogen == 'Mycoplasma Pneumoniae') %>%
   tail(2) %>%
-  #select(-WeekBeginning) %>%
   rename(Date = WeekEnding) %>%
   mutate(DateLastWeek = .$Date[1],
          DateThisWeek = .$Date[2],
@@ -25,7 +24,6 @@ mycoplasma_pneumoniae_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>%
 # CARI HB data
 mpn_cari_hb <- Respiratory_Pathogens_CARI_HB %>% 
   filter(Pathogen == 'Mycoplasma Pneumoniae') %>%
-  #filter(HBName != "Scotland") %>%
   mutate(SwabPositivity = as.numeric(SwabPositivity),
          SwabPositivityLCL = as.numeric(SwabPositivityLCL),
          SwabPositivityUCL = as.numeric(SwabPositivityUCL)) %>%
@@ -45,8 +43,6 @@ mpn_cari_age <- Respiratory_Pathogens_CARI_Age %>%
 tagList(
   
   fluidRow(width = 12,
-           # metadataButtonUI("respiratory_mycoplasma_pneumoniae_cari"),
-           # linebreaks(2),
            p("CARI surveillance is a sentinel community surveillance programme monitoring COVID-19, ",
              "influenza A and B, Respiratory Syncytial Virus (RSV), adenovirus, coronavirus (non-COVID19),", 
              "human metapneumovirus (HMPV), rhinovirus, parainfluenza and Mycoplasma pneumoniae. The ",
@@ -54,7 +50,6 @@ tagList(
              "GP practices voluntarily opt into the CARI programme. Patients in the community who consult a ",
              "sentinel GP practice with respiratory symptoms and who meet the case definition for acute ",
              "respiratory infection (ARI) are recruited, consented, and tested for the CARI programme.")##,
-           #linebreaks(1)
   ),
   
   fluidRow(width = 12,
@@ -144,7 +139,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("mpn_cari_hb_modal"),
                             swabposDefinitionUI("cari_mpn_hb_swabpos"),
-                            #ciDefinitionUI("cari_flu_hb_ci"),
                             withNavySpinner(plotlyOutput("mpn_cari_hb_plot")),
                     )),
            tabPanel("Data",

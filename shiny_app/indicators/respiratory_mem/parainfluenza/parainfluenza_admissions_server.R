@@ -14,10 +14,6 @@ para_admissions <- admissions_scotland %>%
 para_adm_seasons <- tail(sort(unique(para_admissions$Season)), 6)
 
 ## Plot descriptions
-metadataButtonServer(id="respiratory_para_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 
 altTextServer("para_admissions_modal",
               title = "Weekly rate of parainfluenza hospital admissions in Scotland",

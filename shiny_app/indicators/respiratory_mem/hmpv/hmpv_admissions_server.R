@@ -17,10 +17,6 @@ hmpv_adm_seasons <- tail(sort(unique(hmpv_admissions$Season)), 6)
 
 
 ## Plot descriptions
-metadataButtonServer(id="respiratory_hmpv_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 
 altTextServer("hmpv_admissions_modal",
               title = "Weekly rate of HMPV hospital admissions in Scotland",
@@ -41,16 +37,7 @@ altTextServer("hmpv_admissions_age_modal",
                                 tags$li("Traces can be added for each of the following age groups: <1 years, 1-4 years, 5-14 years, 15-44 years, 45-64 years, 65-74 years, and 75+ years."),                                tags$li("Each trace can be hidden/unhidden by clicking on the relevant age group from the legend on the right of the chart.")))
 
 
-# # HMPV admissions table
-# output$hmpv_admissions_table <- renderDataTable({
-#     all_pathogen_admissions %>%
-#     arrange(desc(Date)) %>%
-#     select(Season, ISOWeek, Admissions = hmpv) %>%
-#     mutate(Season = factor(Season),
-#            ISOWeek = factor(ISOWeek)) %>%
-#     rename(`ISO Week` = ISOWeek) %>%
-#     make_table(filter_cols = c(1,2))
-# })
+
 
 # HMPV admissions table
 
@@ -91,13 +78,7 @@ output$hmpv_admissions_plot <- renderPlotly({
   
 })
 
-# # MPN Adms plot
-# output$hmpv_admissions_plot <- renderPlotly({
-#   all_pathogen_admissions %>%
-#     select(Date, Year, ISOWeek, Weekord, Season, Admissions = hmpv) %>% 
-#     create_pathogen_adms_linechart()
-# 
-# })
+
 
 # MPN Adms by age plot
 output$hmpv_admissions_age_plot <- renderPlotly({

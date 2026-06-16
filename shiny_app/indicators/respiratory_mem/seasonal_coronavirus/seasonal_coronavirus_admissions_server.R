@@ -1,18 +1,4 @@
-## Organise adenovirus admissions data into the right format for the plot and table
-
-
-# coron_admissions <- age_rate_data_all_path %>% 
-#   filter(age_band == "All Ages") %>% 
-#   add_season() %>% 
-#   select(week_ending, coron, coron_rate, Season) %>% 
-#   rename(Date = week_ending,
-#          Admissions = coron,
-#          RatePer100000 = coron_rate) %>% 
-#   mutate(Year = year(Date),
-#          ISOWeek = isoweek(Date)) %>% 
-#   mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9)),
-#          Weekord = case_when(ISOWeek >= 40 ~ ISOWeek - 39,
-#                              ISOWeek < 40 ~ ISOWeek + 13))
+## Organise coronavirus admissions data into the right format for the plot and table
 
 coron_admissions <- admissions_scotland %>% 
   filter(Pathogen == "Seasonal coronavirus") %>% 
@@ -28,9 +14,6 @@ coron_admissions <- admissions_scotland %>%
 coron_adm_seasons <- tail(sort(unique(coron_admissions$Season)), 6)
 
 ## Plot descriptions
-metadataButtonServer(id="respiratory_seasonal_coronavirus_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
 
 altTextServer("seasonal_coronavirus_admissions_modal",
               title = "Weekly rate of seasonal coronavirus hospital admissions in Scotland",
@@ -102,10 +85,6 @@ output$seasonal_coronavirus_admissions_age_plot <- renderPlotly({
                                                   "65-74", "75+", "Total"))) %>% 
     arrange(week_ending, age_band) %>%
     filter(Season == input$adm_season_coron_age) %>%
-    #filter(Season == "2024/25") %>% 
     create_pathogen_adms_age_linechart
   
 })
-
-
-

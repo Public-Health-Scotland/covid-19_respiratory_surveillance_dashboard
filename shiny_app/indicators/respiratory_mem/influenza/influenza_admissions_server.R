@@ -1,10 +1,4 @@
 
-metadataButtonServer(id="respiratory_influenza_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
-
-
 altTextServer("influenza_admissions_modal",
               title = "Weekly rate of influenza hospital admissions in Scotland",
               content = tags$ul(tags$li("This is a plot showing the weekly rate of influenza hospital admissions in Scotland."),
@@ -34,22 +28,6 @@ altTextServer("influenza_admissions_hb_modal",
                                 ))
 
 
-altTextServer("flu_adm_age_sex",
-              title = glue("Acute influenza admissions by age and sex in Scotland"),
-              content = tags$ul(
-                tags$li(glue("This is a pyramid plot of rate per 100,000 people of acute influenza hospital admissions in Scotland by age and sex.")),
-                tags$li("The information is displayed for a selected  winter respiratory season.",
-                        "Respiratory seasons start at ISO week 40 and finish at ISO week 39."),
-                tags$li("Weekly rate data for age and sex on a weekly basis are available in ",
-                        "the PHS Open Data platform ",
-                        tags$a(href="https://www.opendata.nhs.scot/dataset/viral-respiratory-diseases-including-influenza-and-covid-19-data-in-scotland",
-                               "Viral Respiratory Diseases (Including Influenza and COVID-19) Data in Scotland page (external website).",
-                               target="_blank")),
-                tags$li("The y axis shows the age group. The left side of the y axis corresponds to females (F) and the right side to males (M)."),
-                tags$li("For the x axis the plot shows rate per 100,000 people.")
-                # tags$li("The youngest and oldest groups have the highest rates of illness.")
-              )
-)
 
 
 altTextServer("flu_los_modal",
@@ -87,16 +65,12 @@ altTextServer("influenza_admissions_simd_modal",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),                                  tags$li("The y axis shows the hospital admission rate per 100,000 population."),
                                 tags$li("The plot contains a trace for each of the SIMD categories. SIMD 1 is",
                                         "highlighted in red and SIMD 5 in blue. The other categories are in grey."),
-                                # tags$li("There have been several peaks throughout the pandemic, notably in",
-                                #         "Apr 2020, Oct 2020, Jan 2021, Jul 2021, Sep 2021,",
-                                #         "Jan 2022, Mar 2022, Jun 2022, Jan 2023 and Mar 2023.")
               )
 )
 
 # Influenza admissions table
 output$influenza_admissions_table <- renderDataTable({
   influenza_admissions %>%
-    #filter(FluType == "Influenza A & B") %>%
     filter(Season %in% flu_adm_seasons) %>%
     arrange(desc(Date)) %>%
     select(Season, ISOWeek, Admissions, RatePer100000) %>%
@@ -117,7 +91,6 @@ output$influenza_admissions_hb_table <- renderDataTable({
   admissions_hb_new %>%
     filter(Pathogen == "Influenza (All)") %>%
     filter(HBName != "Golden Jubilee National Hospital") %>% 
-    #filter(Season >= "2023/2024") %>%
     arrange(desc(WeekEnding), HBName) %>%
     mutate(HBName = factor(HBName)) %>%
     select('Week ending' = WeekEnding, 
@@ -133,7 +106,6 @@ output$influenza_admissions_hb_table <- renderDataTable({
 # Influenza Adms plot
 output$influenza_admissions_plot <- renderPlotly({
   influenza_admissions %>%
-    #filter(FluType == "Influenza A & B") %>%
     filter(Season %in% flu_adm_seasons) %>% 
     create_pathogen_adms_linechart()
 
@@ -183,21 +155,6 @@ output$influenza_admissions_age_plot <- renderPlotly({
 })
 
 
-# # HB Table
-# output$flu_admissions_hb_table <- renderDataTable({
-#   Flu_Admissions_HB_3wks %>%
-#     #filter(WeekEnding %in% adm_hb_dates) %>%
-#     mutate(WeekEnding = format(WeekEnding, format = "%d %b %y")) %>%
-#     pivot_wider(names_from = WeekEnding,
-#                 values_from = TotalInfections) %>%
-#     mutate(HealthBoardOfTreatment = factor(HealthBoardOfTreatment,
-#                                 levels = c("NHS Ayrshire and Arran", "NHS Borders", "NHS Dumfries and Galloway", "NHS Fife", "NHS Forth Valley", "NHS Grampian",
-#                                            "NHS Greater Glasgow and Clyde", "NHS Highland", "NHS Lanarkshire", "NHS Lothian", "NHS Orkney", "NHS Shetland",
-#                                            "NHS Tayside", "NHS Western Isles", "Golden Jubilee National Hospital","Scotland"))) %>%
-#     arrange(HealthBoardOfTreatment) %>%
-#     dplyr::rename(`Health Board of treatment` = HealthBoardOfTreatment) %>%
-#     make_summary_table(maxrows = 16)
-# })
 
 ### WEEKLY ADMISSIONS BY SIMD ### ----
 
@@ -243,7 +200,6 @@ output$influenza_admissions_simd_plot <- renderPlotly({
  output$flu_los_title <- renderUI({h3(glue("Influenza length of stay by age group in Season ",
                                            input$los_season_flu))})
 
-#recent_ISO_week <- isoweek(floor_date(today(), "week", 1) - 8)  #Two Sundays ago - accounting for lag
 
 flu_los_recent_ISO_week <- influenza_admissions %>%
   arrange(Date) %>%
@@ -282,27 +238,4 @@ output$flu_los_table <- renderDataTable({
                add_separator_cols_1dp = c(3))
   
 })
-
-# # Plot
-# output$flu_los_plot<- renderPlotly({
-#   flu_los_weekly_plot<-Length_of_Stay_Season %>%
-#     filter(admission_type == "flu") %>% 
-#     filter(Season == input$los_season_flu) %>%
-#         make_hospital_admissions_los_plot() #function in "/...../indicators/hospital_admissions/hospital_admissions_functions.R"
-# })
-# # Table
-# output$flu_los_table <- renderDataTable({
-#   flu_los_weekly_table<- Length_of_Stay_Weekly %>% 
-#     filter(admission_type == "flu") %>% 
-#     filter(Season == input$los_season_flu) %>%
-#     mutate(`Length of stay` = factor(LengthOfStay,
-#                                      levels = c("1 day or less",
-#                                                 "2-3 days", "4-5 days",
-#                                                 "6-7 days", "8+ days"))) %>% 
-#     select(Season,
-#            'Week ending' = AdmissionWeekEnding, 
-#            'Age group' = AgeGroup,
-#            'Length of stay',
-#            'Percent' = PercentageOfAdmissions) })
-
 

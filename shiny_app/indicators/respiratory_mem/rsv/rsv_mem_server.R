@@ -1,9 +1,4 @@
 
-metadataButtonServer(id="respiratory_rsv_mem",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
-
 altTextServer("rsv_positivity_modal",
               title = "RSV percentage test positivity",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of RSV testing across Scotland."),
@@ -119,21 +114,6 @@ rsv_very_high_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   .$VeryHighThreshold %>%
   round_half_up(2)
 
-# # Get seasons used in line chart
-# seasons_1 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Pathogen == "Respiratory Syncytial Virus") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct() %>%
-#   tail(6)
-# seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Season == "2010/2011") %>%
-#   filter(Pathogen == "Respiratory Syncytial Virus") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct()
-# seasons <- bind_rows(seasons_2, seasons_1)
-# seasons <- seasons$Season
 
 # Get seasons used in line chart
 rsv_seasons <- Respiratory_Pathogens_MEM_Scot %>%
@@ -213,11 +193,6 @@ output$rsv_mem_table <- renderDataTable({
     filter(Season %in% rsv_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
@@ -235,11 +210,6 @@ output$rsv_mem_hb_table <- renderDataTable({
     filter(Season %in% rsv_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            HBName = factor(HBName),
@@ -259,11 +229,6 @@ output$rsv_mem_age_table <- renderDataTable({
     filter(Season %in% rsv_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
@@ -281,11 +246,6 @@ output$rsv_mem_age_table <- renderDataTable({
 output$rsv_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Respiratory Syncytial Virus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     create_mem_linechart()
 
 })
@@ -294,11 +254,6 @@ output$rsv_mem_plot <- renderPlotly({
 output$rsv_mem_hb_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_HB %>%
     filter(Pathogen == "Respiratory Syncytial Virus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBName")
 
@@ -309,11 +264,6 @@ output$rsv_mem_hb_plot <- renderPlotly({
 output$rsv_mem_age_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Age %>%
     filter(Pathogen == "Respiratory Syncytial Virus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 
@@ -332,7 +282,6 @@ altTextServer("rsv_age_sex",
                                target="_blank")),
                 tags$li("The y axis shows the age group. The left side of the y axis corresponds to females and the right side to males."),
                 tags$li("For the x axis the plot shows rate per 100,000 population.")
-                # tags$li("The youngest and oldest groups have the highest rates of illness.")
               )
 )
 
@@ -344,7 +293,6 @@ output$rsv_age_sex_pyramid_plot = renderPlotly({
     mutate(Season = gsub("/", "/20", Season)) %>%
     mutate(Rate = round_half_up(Rate,1)) %>%
     filter(scotland_by_age_sex_season_flag == 1,
-           # scotland_by_age_sex_flag == 1,
            Season == input$rsv_respiratory_season) %>%
     make_age_sex_pyramid_plot()#respiratory functions
   
@@ -381,9 +329,4 @@ output$rsv_age_sex_pyramid_table = renderDataTable({
                filter_cols = c(1,2,3))
   
 })
-
-
-
-
-
 

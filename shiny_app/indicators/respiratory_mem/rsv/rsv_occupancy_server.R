@@ -1,15 +1,4 @@
 
-
-metadataButtonServer(id="hospital_occupancy",
-                     panel="RSV hospital occupancy",
-                     parent = session)
-
-
-jumpToTabButtonServer(id="hospital_occupancy_from_summary",
-                      location="hospital_occupancy",
-                      parent = session)
-
-
 # Hospital occupancy ----
 
 altTextServer("rsv_occupancy_modal",
@@ -87,10 +76,4 @@ output$rsv_occupancy_hb_plot <- renderPlotly({
     create_pathogen_occupancy_hb_linechart()
   
 })
-
-
-
-
-
-
 

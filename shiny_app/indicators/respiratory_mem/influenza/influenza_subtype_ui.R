@@ -1,12 +1,4 @@
 tagList(
-  # fluidRow(width = 12,
-  # 
-  #          metadataButtonUI("respiratory_influenza_subtype"),
-  #          linebreaks(1),
-  #          #h1("Influenza by subtype"),
-  #          #linebreaks(1)
-  #          ),
-
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),
                     tags$div(class = "headline",

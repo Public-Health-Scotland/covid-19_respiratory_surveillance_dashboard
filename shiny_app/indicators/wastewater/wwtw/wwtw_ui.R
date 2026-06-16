@@ -6,7 +6,6 @@ tagList(
         color: black;
       }
     "))),
-    #metadataButtonUI("hb_wastewater_metadata"),
     h1("COVID-19 Wastewater Surveillance"),
    p("Data for individual Waste Water Treatment Works (WWTW) can be downloaded from the PHS Open Data platform ",
      tags$a(href="https://www.opendata.nhs.scot/dataset/viral-respiratory-diseases-including-influenza-and-covid-19-data-in-scotland",

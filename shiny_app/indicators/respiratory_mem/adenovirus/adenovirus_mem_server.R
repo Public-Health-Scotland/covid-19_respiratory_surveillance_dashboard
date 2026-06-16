@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_adenovirus_mem",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 # Low threshold
 adenovirus_low_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   filter(Pathogen == "Adenovirus") %>%
@@ -35,21 +31,6 @@ adenovirus_very_high_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   .$VeryHighThreshold %>%
   round_half_up(2)
 
-# # Get seasons used in line chart
-# seasons_1 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Pathogen == "Adenovirus") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct() %>%
-#   tail(6)
-# seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Season == "2010/2011") %>%
-#   filter(Pathogen == "Adenovirus") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct()
-# seasons <- bind_rows(seasons_2, seasons_1)
-# seasons <- seasons$Season
 
 # Get seasons used in line chart
 adenovirus_seasons <- Respiratory_Pathogens_MEM_Scot %>%
@@ -66,7 +47,6 @@ altTextServer("adenovirus_mem_modal",
               content = tags$ul(tags$li("This is a plot showing the rate of laboratory-confirmed adenovirus infection per 100,000 population in Scotland."),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                        "Week 40 is typically the start of October and when the winter respiratory season starts."),
-                                       #"The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
                                 tags$li("The y axis shows the rate of laboratory-confirmed adenovirus infection per 100,000 population."),
                                 tags$li(glue("There is a trace for each of the following seasons: ", adenovirus_seasons[1], ", ",
                                              adenovirus_seasons[2], ", ", adenovirus_seasons[3], ", ", adenovirus_seasons[4], 
@@ -88,7 +68,6 @@ altTextServer("adenovirus_mem_hb_modal",
                                              adenovirus_seasons[5], " and ", adenovirus_seasons[6], ".")),
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
-                                #"The first ISO week is the first week of the year (in January) and the 52nd ISO week is the last week of the year."),
                                 tags$li("The y axis shows the NHS Health Board."),
                                 tags$li("Each cell is coloured according to the activity level: Baseline, Low, Medium, High, or Very High."),
                                 tags$li("Caution should be taken when interpreting the activity levels (and MEM thresholds) for smaller NHS Health Boards. ",
@@ -130,11 +109,6 @@ output$adenovirus_mem_table <- renderDataTable({
     filter(Season %in% adenovirus_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
@@ -152,11 +126,6 @@ output$adenovirus_mem_hb_table <- renderDataTable({
     filter(Pathogen == "Adenovirus") %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            HBName = factor(HBName),
@@ -176,11 +145,6 @@ output$adenovirus_mem_age_table <- renderDataTable({
     filter(Pathogen == "Adenovirus") %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
@@ -198,11 +162,6 @@ output$adenovirus_mem_age_table <- renderDataTable({
 output$adenovirus_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Adenovirus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     create_mem_linechart()
 
 })
@@ -211,11 +170,6 @@ output$adenovirus_mem_plot <- renderPlotly({
 output$adenovirus_mem_hb_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_HB %>%
     filter(Pathogen == "Adenovirus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
 
@@ -226,11 +180,6 @@ output$adenovirus_mem_hb_plot <- renderPlotly({
 output$adenovirus_mem_age_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Age %>%
     filter(Pathogen == "Adenovirus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 

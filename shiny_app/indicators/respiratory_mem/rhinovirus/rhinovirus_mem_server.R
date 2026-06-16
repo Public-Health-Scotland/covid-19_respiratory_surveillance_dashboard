@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_rhinovirus_mem",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 # Low threshold
 rhinovirus_low_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   filter(Pathogen == "Rhinovirus") %>%
@@ -35,21 +31,6 @@ rhinovirus_very_high_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   .$VeryHighThreshold %>%
   round_half_up(2)
 
-# # Get seasons used in line chart
-# seasons_1 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Pathogen == "Rhinovirus") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct() %>%
-#   tail(6)
-# seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Season == "2010/2011") %>%
-#   filter(Pathogen == "Rhinovirus") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct()
-# seasons <- bind_rows(seasons_2, seasons_1)
-# seasons <- seasons$Season
 
 # Get seasons used in line chart
 rhinovirus_seasons <- Respiratory_Pathogens_MEM_Scot %>%
@@ -129,11 +110,6 @@ output$rhinovirus_mem_table <- renderDataTable({
     filter(Season %in% rhinovirus_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
@@ -151,11 +127,6 @@ output$rhinovirus_mem_hb_table <- renderDataTable({
     filter(Season %in% rhinovirus_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            HBName = factor(HBName),
@@ -175,11 +146,6 @@ output$rhinovirus_mem_age_table <- renderDataTable({
     filter(Season %in% rhinovirus_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
@@ -197,11 +163,6 @@ output$rhinovirus_mem_age_table <- renderDataTable({
 output$rhinovirus_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Rhinovirus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     create_mem_linechart()
 
 })
@@ -210,11 +171,6 @@ output$rhinovirus_mem_plot <- renderPlotly({
 output$rhinovirus_mem_hb_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_HB %>%
     filter(Pathogen == "Rhinovirus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBCode")
 
@@ -225,11 +181,6 @@ output$rhinovirus_mem_hb_plot <- renderPlotly({
 output$rhinovirus_mem_age_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Age %>%
     filter(Pathogen == "Rhinovirus") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 

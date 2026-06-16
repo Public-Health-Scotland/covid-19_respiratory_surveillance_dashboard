@@ -1,7 +1,6 @@
 influenza_occupancy_recent_week <- occupancy_rapid_new %>%
   filter(Pathogen == "Influenza (All)") %>%
   tail(3) %>%
-  #select(-Rate_per_100000) %>%
   pivot_wider(names_from = Pathogen,
               values_from = SevenDayAverageInpatients) %>%
   mutate(DateTwoWeek = .$WeekEnding[1],
@@ -15,13 +14,6 @@ influenza_occupancy_recent_week <- occupancy_rapid_new %>%
 
 
 tagList(
-  # fluidRow(width = 12,
-  #          metadataButtonUI("hospital_occupancy"),
-  #          linebreaks(1),
-  #          #h1("Hospital occupancy (inpatients)"),
-  #          #linebreaks(1)
-  #          ),
-
 
 #headline values are created in the setup script, occupancy updated to use the weekly HB values, filtered to Scotland
   fluidRow(width = 12,
@@ -63,8 +55,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("influenza_occupancy_modal"),
                             withNavySpinner(plotlyOutput("influenza_occupancy_plot"))#,
-                            # fluidRow(
-                            #   width=12, linebreaks(4))
                     ) # taglist
            ), # tabpanel
 
@@ -105,14 +95,6 @@ fluidRow(
   ), # tabBox
   linebreaks(1)
 ), 
-
-  # tagList(h2("Seven day average of inpatients with COVID-19 in hospital by NHS Health Board of treatment; week ending")),
-  # 
-  # 
-  # fluidRow(width=12,
-  #          box(width = NULL,
-  #              withNavySpinner(dataTableOutput("hospital_occupancy_hb_table"))),
-  # ),
 
   fluidRow(
     br()),

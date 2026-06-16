@@ -1,12 +1,7 @@
 # Data download choices
 
-metadataButtonServer(id="download",
-                     panel="Cases",
-                     parent = session)
-
-
 output$download_open_data <- renderUI({
-  tagList(#h3("Open data"),
+  tagList(
           tags$a(img(src = "open-data-logo.png", height = 30,
                      alt ="Go to Scottish Health and Social Care Open Data platform (external site)"),
                  href = "https://www.opendata.nhs.scot",

@@ -1,7 +1,3 @@
-metadataButtonServer(id="nhs24_mem",
-                     panel="NHS24 infection activity",
-                     parent = session)
-
 
 # Low threshold
 nhs24_low_threshold <- Respiratory_NHS24_MEM_Scot %>%

@@ -1,6 +1,3 @@
-metadataButtonServer(id="gp_ari_mem",
-                     panel="GP infection activity",
-                     parent = session)
 
 # Low threshold
 gp_ari_low_threshold <- Respiratory_GPARI_MEM_Scot %>%

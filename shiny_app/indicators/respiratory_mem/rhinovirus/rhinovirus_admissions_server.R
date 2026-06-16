@@ -15,11 +15,6 @@ rhino_adm_seasons <- tail(sort(unique(rhino_admissions$Season)), 6)
 
 ## Plot descriptions
 
-metadataButtonServer(id="respiratory_rhino_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
-
 altTextServer("rhino_admissions_modal",
               title = "Weekly rate of rhinovirus hospital admissions in Scotland",
               content = tags$ul(tags$li("This is a plot showing the weekly rate of rhinovirus hospital admissions in Scotland."),
@@ -88,7 +83,6 @@ output$rhino_admissions_age_plot <- renderPlotly({
                                                   "65-74", "75+", "Total"))) %>% 
     arrange(week_ending, age_band) %>%
     filter(Season == input$adm_season_rhino_age) %>%
-    #filter(Season == "2024/25") %>% 
     create_pathogen_adms_age_linechart
   
 })

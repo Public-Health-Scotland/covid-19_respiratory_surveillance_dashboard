@@ -1,14 +1,4 @@
 
-metadataButtonServer(id="cases",
-                     panel="COVID-19 cases",
-                     parent = session)
-
-jumpToTabButtonServer(id="cases_from_summary",
-                      location="cases",
-                      parent = session)
-
-
-
 ### Test positivity
 
 altTextServer("covid_positivity_modal",

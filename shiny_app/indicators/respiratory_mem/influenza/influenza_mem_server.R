@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_influenza_mem",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 altTextServer("influenza_positivity_modal",
               title = "Influenza percentage test positivity",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate for influenza testing across Scotland."),
@@ -117,22 +113,6 @@ influenza_very_high_threshold <- Respiratory_Pathogens_MEM_Scot %>%
   .$VeryHighThreshold %>%
   round_half_up(2)
 
-# # Get seasons used in line chart
-# seasons_1 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Pathogen == "Influenza") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct() %>%
-#   tail(6)
-# seasons_2 <- Respiratory_Pathogens_MEM_Scot %>%
-#   filter(Season == "2010/2011") %>%
-#   filter(Pathogen == "Influenza") %>%
-#   select(Season) %>%
-#   arrange(Season) %>%
-#   distinct()
-# seasons <- bind_rows(seasons_2, seasons_1)
-# seasons <- seasons$Season
-
 # Get seasons used in line chart
 influenza_seasons <- Respiratory_Pathogens_MEM_Scot %>%
   filter(Pathogen == "Influenza") %>%
@@ -211,11 +191,6 @@ output$influenza_mem_table <- renderDataTable({
     filter(Season %in% influenza_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
@@ -233,11 +208,6 @@ output$influenza_mem_hb_table <- renderDataTable({
     filter(Season %in% influenza_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, HBName, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            HBName = factor(HBName),
@@ -257,11 +227,6 @@ output$influenza_mem_age_table <- renderDataTable({
     filter(Season %in% influenza_seasons) %>%
     arrange(desc(WeekEnding)) %>%
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
@@ -279,11 +244,6 @@ output$influenza_mem_age_table <- renderDataTable({
 output$influenza_mem_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Scot %>%
     filter(Pathogen == "Influenza") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_linechart()
 
@@ -293,11 +253,6 @@ output$influenza_mem_plot <- renderPlotly({
 output$influenza_mem_hb_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_HB %>%
     filter(Pathogen == "Influenza") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "HBName")
 
@@ -308,36 +263,12 @@ output$influenza_mem_hb_plot <- renderPlotly({
 output$influenza_mem_age_plot <- renderPlotly({
   Respiratory_Pathogens_MEM_Age %>%
     filter(Pathogen == "Influenza") %>%
-    # mutate(ActivityLevel = case_when(
-    #   ActivityLevel == "Moderate" ~ "Medium",
-    #   ActivityLevel == "Extraordinary" ~ "Very High",
-    #   TRUE ~ ActivityLevel
-    # )) %>%
     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup")
 
 })
 
 ### Age and sex plot ###
-
-# altTextServer("influenza_age_sex",
-#               title = glue("Influenza cases by age and/or sex in Scotland"),
-#               content = tags$ul(
-#                 tags$li(glue("This is a plot of the total influenza cases in Scotland.")),
-#                 tags$li("The information is displayed for a selected season and week."),
-#                 tags$li("One of three different plots is displayed depending on the breakdown",
-#                         "selected: either Age; Sex; or Age + Sex."),
-#                 tags$li("All three plots show rate per 100,000 people on the y axis."),
-#                 tags$li("For the x axis the first plot shows age group, the second shows",
-#                         "sex, and the third shows age group and sex."),
-#                 tags$li("The first plot (Age) is a bubble plot. This is a scatter plot",
-#                         "where both the position and the area of the circle correspond",
-#                         "to the rate per 100,000 people."),
-#                 tags$li("The second and third plots are bar charts where the left hand column",
-#                         "corresponds to female (F) and the right hand column to male (M).")
-#                 # tags$li("The youngest and oldest groups have the highest rates of illness.")
-#               )
-# )
 
 altTextServer("influenza_age_sex",
               title = glue("Laboratory-confirmed influenza cases by age and/or sex in Scotland"),
@@ -351,11 +282,8 @@ altTextServer("influenza_age_sex",
                                target="_blank")),
                 tags$li("The y axis shows the age group. The left side of the y axis corresponds to females and the right side to males."),
                 tags$li("For the x axis the plot shows rate per 100,000 population.")
-                # tags$li("The youngest and oldest groups have the highest rates of illness.")
               )
 )
-
-
 
 # pyramid plot that shows the breakdown by age and sex
 output$influenza_age_sex_pyramid_plot = renderPlotly({
@@ -365,7 +293,6 @@ output$influenza_age_sex_pyramid_plot = renderPlotly({
     mutate(Season = gsub("/", "/20", Season)) %>%
     mutate(Rate = round_half_up(Rate,1)) %>%
     filter(scotland_by_age_sex_season_flag == 1,
-           # scotland_by_age_sex_flag == 1,
            Season == input$flu_respiratory_season) %>%
     make_age_sex_pyramid_plot()#respiratory functions
 

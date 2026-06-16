@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_rhinovirus_cari",
-                     panel="Rhinovirus",
-                     parent = session)
-
 altTextServer("rhinovirus_cari_modal",
               title = "CARI - Test positivity for Rhinovirus",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of Rhinovirus infection in the Community Acute Respiratory Infection (CARI) surveillance programme."),
@@ -43,23 +39,7 @@ output$rhinovirus_cari_table <- renderDataTable({
                add_separator_cols_1dp = c(4,5,6))
 })
 
-# # CARI - Rhinovirus swabpos by age table
-# output$rhinovirus_cari_age_table <- renderDataTable({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Rhinovirus") %>%
-#     arrange(desc(WeekEnding)) %>%
-#     select(WeekEnding, AgeGroup, TotalSamples, PositiveSamples, SwabPositivity, SwabPositivityLCL, SwabPositivityUCL) %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     rename(`Week Ending` = WeekEnding,
-#            `Age Group`= `AgeGroup`,
-#            `Total Samples` = TotalSamples,
-#            `Positive Samples` = PositiveSamples,
-#            `Test Positivity (%)` = SwabPositivity,
-#            `Lower Confidence Limit (%)` = SwabPositivityLCL,
-#            `Upper Confidence Limit (%)` = SwabPositivityUCL) %>%
-#     make_table(filter_cols = c(2))
-# })
+
 
 # CARI - Overall Rhinovirus swabpos plot
 output$rhinovirus_cari_plot <- renderPlotly({
@@ -69,15 +49,6 @@ output$rhinovirus_cari_plot <- renderPlotly({
   
 })
 
-# # CARI - Rhinovirus swabpos by age plot
-# output$rhinovirus_cari_age_plot <- renderPlotly({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Rhinovirus") %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     create_cari_age_linechart()
-#   
-# })
 
 # CARI - rhinovirus swabpos by age table
 output$rhinovirus_cari_age_table <- renderDataTable({

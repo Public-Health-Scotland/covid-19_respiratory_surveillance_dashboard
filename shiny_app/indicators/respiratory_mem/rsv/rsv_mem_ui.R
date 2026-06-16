@@ -18,12 +18,7 @@ rsv_cases_recent_week <- Respiratory_AllData %>%
   rename(Pathogen = Organism,
          NumberCasesPerWeek = Count) %>%
   select(Date, Pathogen, NumberCasesPerWeek) %>% 
-  #mutate(WeekEnding = convert_opendata_date(WeekEnding)) %>%
   tail(2) %>%
-  #select(-WeekBeginning) %>%
-  #rename(Date = WeekEnding) %>%
-  #pivot_wider(names_from = FluType,
-  #            values_from = Admissions) %>%
   mutate(DateLastWeek = .$Date[1],
          DateThisWeek = .$Date[2],
          CasesLastWeek = .$`NumberCasesPerWeek`[1],
@@ -44,18 +39,6 @@ rsv_cases_recent_week <- Respiratory_AllData %>%
 ###
 
 tagList(
-  # fluidRow(width = 12,
-  #          metadataButtonUI("respiratory_rsv_mem"),
-  #          linebreaks(1),
-  #          #h1("RSV Incidence Rates"),
-  #          #p("Respiratory syncytial virus (RSV) is a virus that generally causes mild cold like",
-  #           # "symptoms but may occasionally result in severe lower respiratory infection such as",
-  #          #  "bronchiolitis or pneumonia, particularly in infants and young children or in adults",
-  #          #  "with compromised cardiac, pulmonary, or immune systems. RSV has an annual seasonality",
-  #          #  "with peaks of activity in the winter months. Additional information can be found on the PHS page for RSV."),
-  #          #linebreaks(1)
-  #          ),
-
 
     fluidRow(width = 12,
              tabPanel(stringr::str_to_sentence("influenza"),
@@ -63,7 +46,6 @@ tagList(
                       tagList(h2(glue("Summary of laboratory-confirmed RSV cases in Scotland")),
                               tags$div(class = "headline",
                                        br(),
-                                      # h3(glue("Total number of RSV cases in Scotland over the last two weeks")),
                                        # previous week total number
                                         valueBox(value = {rsv_cases_recent_week %>% .$CasesLastWeek %>% format(big.mark=",")},               
                                            subtitle = tagList(tags$strong(glue("({format(rsv_cases_recent_week %>% .$RateLastWeek, nsmall = 1)} per 100,000)")),
@@ -156,11 +138,6 @@ fluidRow(width = 12,
          tagList(h2("Laboratory-confirmed RSV incidence per 100,000 population by NHS Health Board"))),
 
 fluidRow(
-  #   p("Public Health Scotland have paused reporting of NHS Board-specific activity data as we investigate the ",
-  #     "impact of different testing practices by board on incidence rates and implications for smaller board areas ",
-  #     "specifically as they relate to the calculation of activity threshold levels."),
-  #   linebreaks(1)
-  # ),
   
   tabBox(width = NULL,
          type = "pills",

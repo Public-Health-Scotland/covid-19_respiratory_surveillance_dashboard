@@ -7,7 +7,6 @@ tagList(
         color: black;
       }
     "))),
-    #metadataButtonUI("la_wastewater_metadata"),
     h1("COVID-19 Wastewater Surveillance"),
     p("Wastewater-based surveillance is a promising low cost means to enhance monitoring of ",
       "the presence and epidemiological activity of pathogens such as SARS-CoV-2 in the ",

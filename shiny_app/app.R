@@ -11,9 +11,9 @@
 source("setup.R")
 
 # Getting UI for modules
-source(file.path("modules/metadata_button/metadata_button_ui.R"), local = TRUE)$value
+#source(file.path("modules/metadata_button/metadata_button_ui.R"), local = TRUE)$value
 source(file.path("modules/summary_button/summary_button_ui.R"), local = TRUE)$value
-source(file.path("modules/jump_to_tab_button/jump_to_tab_button_ui.R"), local = TRUE)$value
+#source(file.path("modules/jump_to_tab_button/jump_to_tab_button_ui.R"), local = TRUE)$value
 source(file.path("modules/alt_text/alt_text_modals_ui.R"), local = TRUE)$value
 #source(file.path("modules/respiratory/respiratory_module_ui.R"), local = TRUE)$value
 source(file.path("modules/definitions/definitions_ui.R"), local = TRUE)$value
@@ -52,16 +52,6 @@ ui <- fluidPage(
       ##############################################.
       # AT A GLANCE ----
       ##############################################.
-      # tabPanel(title = "At a glance",
-      #          icon = icon_no_warning_fn("square-poll-vertical"),
-      #          value = "summary",
-      #
-      #          source(file.path("indicators/summary/summary_ui.R"), local = TRUE)$value
-      #
-      # ), # tabpanel
-      ##############################################.
-      # AT A GLANCE ----
-      ##############################################.
       tabPanel(title = "At a glance",
                icon = icon_no_warning_fn("square-poll-vertical"),
                value = "at_a_glance",
@@ -69,49 +59,6 @@ ui <- fluidPage(
                source(file.path("indicators/at_a_glance/at_a_glance_ui.R"), local = TRUE)$value
 
       ), # tabpanel
-      ##############################################.
-      # CASES ----
-      ##############################################.
-      #     tabPanel(title = "COVID-19 cases",
-      #              # Look at https://fontawesome.com/search?m=free for icons
-      #              icon = icon_no_warning_fn("virus-covid"),
-      #              value = "cases",
-
-      #              source(file.path("indicators/cases/cases_ui.R"), local = TRUE)$value
-
-      #     ), # tabpanel
-      ##############################################.
-      # ADMISSIONS ----
-      ##############################################.
-      # tabPanel(title = "COVID-19 hospital admissions",
-      #          # Look at https://fontawesome.com/search?m=free for icons
-      #          icon = icon_no_warning_fn("hospital-user"),
-      #          value = "hospital_admissions",
-      #
-      #          #       source(file.path("indicators/hospital_admissions/hospital_admissions_ui.R"), local = TRUE)$value
-      #
-      # ), # tabpanel
-      ##############################################.
-      # OCCUPANCY ----
-      ##############################################.
-      # tabPanel(title = "COVID-19 hospital occupancy",
-      #          # Look at https://fontawesome.com/search?m=free for icons
-      #          icon = icon_no_warning_fn("bed-pulse"),
-      #          value = "hospital_occupancy",
-      #
-      #          #   source(file.path("indicators/hospital_occupancy/hospital_occupancy_ui.R"), local = TRUE)$value
-      #
-      # ), # tabpanel
-      ##############################################.
-      # RESPIRATORY ----
-      ##############################################.
-      # tabPanel(title = "Respiratory infection activity",
-      #          # Look at https://fontawesome.com/search?m=free for icons
-      #          icon = icon_no_warning_fn("virus"),
-      #          value = "respiratory",
-      #
-      #          source(file.path("indicators/respiratory/respiratory_ui.R"), local = TRUE)$value
-      # ), # tabpanel
       ##############################################.
       # RESPIRATORY PATHOGENS ----
       ##############################################.
@@ -324,11 +271,7 @@ ui <- fluidPage(
                                      linebreaks(1),
                                      column(12, source(file.path("indicators/respiratory_mem/codetections/codetections_cari_ui.R"), local = TRUE)$value)
                             )
-                            # tabPanel(title = "Other respiratory pathogens",
-                            #          value = "other_pathogens",
-                            #          source(file.path("indicators/respiratory_mem/other_pathogens/other_pathogens_mem_ui.R"), local = TRUE)$value)
                ) # navbarlistPanel
-               #
 
       ),#tabPanel
       
@@ -354,11 +297,7 @@ ui <- fluidPage(
                             tabPanel(title = "Wastewater Treatment Works",
                                      value = "wastewater_la",
                                      column(12, source(file.path("indicators/wastewater/wwtw/wwtw_ui.R"), local = TRUE)$value))
-                            # tabPanel(title = "Spatial Maps",
-                            #          value = "wastewater_spatial_maps",
-                            #          column(12, source(file.path("indicators/wastewater/spatial_maps/maps_ui.R"), local = TRUE)$value))
                ) # navbarlistPanel
-               #
       ),#tabPanel
 
 
@@ -439,10 +378,10 @@ server <- function(input, output, session) {
   }
 
   # Get modules
-  source(file.path("modules/metadata_button/metadata_button_server.R"), local = TRUE)$value
+  #source(file.path("modules/metadata_button/metadata_button_server.R"), local = TRUE)$value
   source(file.path("modules/alt_text/alt_text_modals_server.R"), local = TRUE)$value
   source(file.path("modules/summary_button/summary_button_server.R"), local = TRUE)$value
-  source(file.path("modules/jump_to_tab_button/jump_to_tab_button_server.R"), local = TRUE)$value
+  #source(file.path("modules/jump_to_tab_button/jump_to_tab_button_server.R"), local = TRUE)$value
   #source(file.path("modules/respiratory/respiratory_module_server.R"), local = TRUE)$value
 
   # Get functions

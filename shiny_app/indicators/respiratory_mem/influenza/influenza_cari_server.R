@@ -1,6 +1,3 @@
-metadataButtonServer(id="respiratory_influenza_cari",
-                     panel="Respiratory infection activity",
-                     parent = session)
 
 altTextServer("influenza_cari_modal",
               title = "CARI - Test positivity for Influenza",
@@ -172,16 +169,4 @@ output$influenza_cari_subtype2_plot <- renderPlotly({
     create_cari_subtype_barchart()
   
 })
-
-# # CARI - RSV swabpos by age plot
-# output$influenza_cari_age_plot <- renderPlotly({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Influenza") %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     create_cari_age_linechart()
-#   
-# })
-
-
 

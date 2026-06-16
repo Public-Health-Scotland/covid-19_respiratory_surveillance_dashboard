@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_parainfluenza_cari",
-                     panel="Parainfluenza Virus",
-                     parent = session)
-
 altTextServer("parainfluenza_cari_modal",
               title = "CARI - Test positivity for Parainfluenza",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of Parainfluenza infection in the Community Acute Respiratory Infection (CARI) surveillance programme."),
@@ -60,23 +56,6 @@ output$parainfluenza_cari_table <- renderDataTable({
                add_separator_cols_1dp = c(4,5,6))
 })
 
-# # CARI - Parainfluenza swabpos by age table
-# output$parainfluenza_cari_age_table <- renderDataTable({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Parainfluenza Virus") %>%
-#     arrange(desc(WeekEnding)) %>%
-#     select(WeekEnding, AgeGroup, TotalSamples, PositiveSamples, SwabPositivity, SwabPositivityLCL, SwabPositivityUCL) %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     rename(`Week Ending` = WeekEnding,
-#            `Age Group`= `AgeGroup`,
-#            `Total Samples` = TotalSamples,
-#            `Positive Samples` = PositiveSamples,
-#            `Test Positivity (%)` = SwabPositivity,
-#            `Lower Confidence Limit (%)` = SwabPositivityLCL,
-#            `Upper Confidence Limit (%)` = SwabPositivityUCL) %>%
-#     make_table(filter_cols = c(2))
-# })
 
 # CARI - Overall Parainfluenza swabpos plot
 output$parainfluenza_cari_plot <- renderPlotly({
@@ -85,16 +64,6 @@ output$parainfluenza_cari_plot <- renderPlotly({
     create_cari_linechart()
   
 })
-
-# # CARI - Parainfluenza swabpos by age plot
-# output$parainfluenza_cari_age_plot <- renderPlotly({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Parainfluenza Virus") %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     create_cari_age_linechart()
-#   
-# })
 
 
 # CARI - parainfluenza swabpos by age table

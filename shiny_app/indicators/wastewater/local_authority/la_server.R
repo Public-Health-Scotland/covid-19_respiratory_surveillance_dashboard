@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="la_wastewater_metadata",
-                     panel="Wastewater",
-                     parent = session)
-
 output$council_area_plot =  renderPlotly({
   filtered_data <- COVID_Wastewater_CA_table %>% filter(council_area == input$selected_area)
   ca_all_values <- filtered_data %>%

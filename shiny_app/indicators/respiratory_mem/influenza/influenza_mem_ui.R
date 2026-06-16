@@ -6,20 +6,6 @@ flu_cases_seasons <-
   tail(6)
 
 tagList(
-  # fluidRow(width = 12,
-  # 
-  #          metadataButtonUI("respiratory_influenza_mem"),
-  #          linebreaks(1),
-  #          #h1("Influenza Incidence Rates"),
-  #          #p("Influenza, or flu, is a common infectious viral illness caused by influenza viruses.",
-  #            #"Influenza can cause mild to severe illness with symptoms including fever (38°C or above),",
-  #            #"cough, body aches, and fatigue. Influenza has a different presentation than the common",
-  #            #"cold, with symptoms starting more suddenly, presenting more severely, and lasting longer.",
-  #            #"Influenza can be caught all year round but is more common in the winter months.",
-  #            #"Additional information can be found on the PHS page for influenza."),
-  #          #linebreaks(1)
-  #          ),
-
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),
                     # headline figures for the week in Scotland
@@ -28,7 +14,6 @@ tagList(
 
                             tags$div(class = "headline",
                                      br(),
-                                    # h3(glue("Total number of influenza cases in Scotland over the last two weeks")),
                                      # previous week total number
                                      valueBox(value = {Respiratory_Summary_Totals %>% filter(FluOrNonFlu == 'flu') %>%
                                          .$CountPreviousWeek %>% format(big.mark=",")},
@@ -129,11 +114,6 @@ tagList(
    
 
    fluidRow(
-     # p("Public Health Scotland have paused reporting of NHS Board-specific activity data as we investigate the ",
-     #   "impact of different testing practices by board on incidence rates and implications for smaller board areas ",
-     #   "specifically as they relate to the calculation of activity threshold levels."),
-     # linebreaks(1)
-     # ),
     tabBox(width = NULL,
            type = "pills",
            tabPanel("Plot",
@@ -190,18 +170,6 @@ tagList(
                                                       selected = {Respiratory_AllData %>% filter(FluOrNonFlu == "flu") %>%
                                                           .$Season %>% unique() %>% gsub("/", "/20", .) %>% tail(1)})
                                 )
-                                # column(4, pickerInput("respiratory_date",
-                                #                       label = "Select date",
-                                #                       choices = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
-                                #                           .$Date %>% unique() %>% as.Date() %>% format("%d %b %y")},
-                                #                       selected = {Respiratory_AllData %>% filter(Season == "2022/23") %>%
-                                #                           .$Date %>% max() %>% as.Date() %>% format("%d %b %y")})
-                                # )#,
-                                # column(4, pickerInput("respiratory_select_age_sex_breakdown",
-                                #                       label = "Select the plot breakdown",
-                                #                       choices = c("Age", "Sex", "Age + Sex"),
-                                #                       selected = "Age")
-                                # )
                               ),
                               altTextUI("influenza_age_sex"),
                               withNavySpinner(plotlyOutput("influenza_age_sex_pyramid_plot"))

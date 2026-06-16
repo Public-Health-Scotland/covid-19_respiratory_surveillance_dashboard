@@ -1,9 +1,4 @@
 
-metadataButtonServer(id="respiratory_influenza_subtype",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
-
 # Alt text ----
 altTextServer("respiratory_over_time_modal",
               title = glue("Laboratory-confirmed influenza cases by subtype"),
@@ -17,7 +12,6 @@ altTextServer("respiratory_over_time_modal",
                         "influenza for every 100,000 people in that NHS Health Board.")),
                 tags$li("For Scotland there is an option to view the absolute number of cases."),
                 tags$li("The y axis is either the rate of cases or the number of cases."),
-                #tags$li("The trend is that each winter there is a peak in cases.")
               )
 )
 
@@ -30,9 +24,6 @@ altTextServer("respiratory_by_season_modal",
                 tags$li("The x axis is the isoweek. Week 40 is typically the start of October and when the winter respiratory season starts"),
                 tags$li(glue("The y axis is the rate of laboratory-confirmed cases of the chosen influenza subtype in a given NHS health board.")),
                 tags$li("For Scotland there is an option to view the absolute number of cases."))
-              #  tags$li("The trend is that each winter there is a peak in cases. The peak was",
-              #          "highest in 2017/2018 at about 2,800 cases.")
-              # )
 )
 
 

@@ -37,14 +37,6 @@ previous_2week_admissions_title$WeekEnding <- format(previous_2week_admissions_t
 # # make it a value
 previous_2week_admissions_title <- previous_2week_admissions_title$WeekEnding
 
-metadataButtonServer(id="hospital_admissions",
-                     panel="COVID-19 hospital admissions",
-                     parent = session)
-
-jumpToTabButtonServer(id="hospital_admissions_from_summary",
-                      location="hospital_admissions",
-                      parent = session)
-
 observeEvent(input$glossary,
              {
                updateTabsetPanel(session = session, "intabset", selected = "metadata")
@@ -128,52 +120,6 @@ altTextServer("cov_los_modal",
                 tags$li("CIs will generally be wider when they are calculated based on less data 
                         (e.g. for an incomplete season).") ))
 
-
-altTextServer("hospital_admissions_ethnicity_modal",
-              title = "COVID-19 admissions to hospital by ethnicity",
-              content = tags$ul(
-                tags$li("This is a plot of COVID-19 admissions to hospital ",
-                        "broken down by ethnic group."),
-                tags$li("The x axis is the month of admission to hospital."),
-                tags$li("The y axis is the number of admissions."),
-                tags$li("The plot is a stacked bar chart for each month beginning,",
-                        "where the bars are broken down by ethnic group."),
-                tags$li("The ethnic groups are displayed from bottom to top in the",
-                        "following order: African; Asian, Asian Scottish or Asian British;",
-                        "Caribbean or Black; White; Mixed or Multiple Ethnic Groups;",
-                        "Other; Unknown.")
-              )
-)
-
-altTextServer("icu_admissions_modal",
-              title = "Weekly number of COVID-19 ICU admissions",
-              content = tags$ul(
-                tags$li("This is a plot of the weekly number of COVID-19 admissions to",
-                        "hospital intensive care units (ICU)."),
-                tags$li("The x axis is the week ending of admission, commencing 12 Mar 2020."),
-                tags$li("The y axis is the number of ICU admissions."),
-                tags$li("There is a dark blue trace which shows the number of ICU admissions each week."),
-                tags$li("There were large peaks in ICU admissions in Apr 2020, Jan 2021",
-                        "and Sep 2021. Since then the overall trend has been a decline",
-                        "in ICU admissions over time.")
-              )
-)
-
-
-altTextServer("covid_adm_age_sex",
-             title = glue("Acute COVID-19 cases by age and sex in Scotland"),
-             content = tags$ul(
-               tags$li(glue("This is a pyramid plot of rate per 100,000 people of acute COVID-19 hospital admissions in Scotland by age and sex.")),
-               tags$li("The information is displayed for a selected season."),
-               tags$li("Weekly rate data for age and sex on a weekly basis are available in ",
-                       "the PHS Open Data platform ",
-                       tags$a(href="https://www.opendata.nhs.scot/dataset/viral-respiratory-diseases-including-influenza-and-covid-19-data-in-scotland",
-                              "Viral Respiratory Diseases (Including Influenza and COVID-19) Data in Scotland page (external website).",
-                              target="_blank")),
-               tags$li("The y axis shows the age group. The left side of the y axis corresponds to females (F) and the right side to males (M)."),
-               tags$li("For the x axis the plot shows rate per 100,000 people.")
-             )
-)
 
 
 ### WEEKLY ADMISSIONS-Scotland ### ----

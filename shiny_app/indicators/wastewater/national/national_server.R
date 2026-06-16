@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="national_wastewater_metadata",
-                     panel="Wastewater",
-                     parent = session)
-
 # Create the table content
 
 table_content <- data.frame(

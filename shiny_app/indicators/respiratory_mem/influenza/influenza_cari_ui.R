@@ -3,7 +3,6 @@
 influenza_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>% 
   filter(Pathogen == 'Influenza') %>%
   tail(2) %>%
-  #select(-WeekBeginning) %>%
   rename(Date = WeekEnding) %>%
   mutate(DateLastWeek = .$Date[1],
          DateThisWeek = .$Date[2],
@@ -25,7 +24,6 @@ influenza_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>%
 # CARI HB data
 influenza_cari_hb <- Respiratory_Pathogens_CARI_HB %>% 
   filter(Pathogen == 'Influenza') %>%
-  #filter(HBName != "Scotland") %>%
   mutate(SwabPositivity = as.numeric(SwabPositivity),
          SwabPositivityLCL = as.numeric(SwabPositivityLCL),
          SwabPositivityUCL = as.numeric(SwabPositivityUCL)) %>%
@@ -43,8 +41,7 @@ influenza_cari_age <- Respiratory_Pathogens_CARI_Age %>%
 
 flu_cari_subtype <- Respiratory_Pathogens_CARI_Scot %>%
   filter(substr(Pathogen,1,9) %in% "Influenza") %>%
-  mutate(#WeekBeginning = as.Date(WeekBeginning),
-         WeekEnding = as.Date(WeekEnding)) %>%
+  mutate(WeekEnding = as.Date(WeekEnding)) %>%
   mutate(Pathogen = case_when(
     Pathogen == "Influenza" ~ "Type A and B",
     Pathogen == "Influenza A" ~ "Type A",
@@ -60,8 +57,6 @@ flu_cari_subtype <- Respiratory_Pathogens_CARI_Scot %>%
 tagList(
   
   fluidRow(width = 12,
-           # metadataButtonUI("respiratory_influenza_cari"),
-           # linebreaks(2),
            p("CARI surveillance is a sentinel community surveillance programme monitoring COVID-19, ",
              "influenza A and B, Respiratory Syncytial Virus (RSV), adenovirus, coronavirus (non-COVID19),", 
              "human metapneumovirus (HMPV), rhinovirus, parainfluenza and Mycoplasma pneumoniae. The ",
@@ -69,7 +64,6 @@ tagList(
              "GP practices voluntarily opt into the CARI programme. Patients in the community who consult a ",
              "sentinel GP practice with respiratory symptoms and who meet the case definition for acute ",
              "respiratory infection (ARI) are recruited, consented, and tested for the CARI programme.")#,
-           #linebreaks(1)
   ),
   
   fluidRow(width = 12,
@@ -103,9 +97,6 @@ tagList(
            tagList(h2("CARI - Test positivity for Influenza"))),
 
   fluidRow(
-    # selectInput("flu_cari_selected_subtype", "Select subtype:", 
-    #             choices = sort(unique(flu_cari_subtype$Pathogen)),
-    #             selected = sort(unique(flu_cari_subtype$Pathogen))[1]),
     tabBox(width = NULL,
            type = "pills",
            tabPanel("Plot",
@@ -163,7 +154,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("influenza_cari_hb_modal"),
                             swabposDefinitionUI("cari_influenza_hb_swabpos"),
-                            #ciDefinitionUI("cari_flu_hb_ci"),
                             withNavySpinner(plotlyOutput("influenza_cari_hb_plot")),
                     )),
            tabPanel("Data",
@@ -189,7 +179,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("influenza_cari_subtype1_modal"),
                             swabposDefinitionUI("cari_influenza_swabpos"),
-                            #ciDefinitionUI("cari_influenza_ci"),
                             withNavySpinner(plotlyOutput("influenza_cari_subtype1_plot")),
                     )),
            tabPanel("Data",

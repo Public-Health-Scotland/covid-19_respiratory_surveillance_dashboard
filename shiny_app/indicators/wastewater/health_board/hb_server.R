@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="hb_wastewater_metadata",
-                     panel="Wastewater",
-                     parent = session)
-
 output$health_board_plot =  renderPlotly({
   filtered_data <- HB_table_edited %>% filter(health_board == input$selected_board)
   hb_all_values <- filtered_data %>%

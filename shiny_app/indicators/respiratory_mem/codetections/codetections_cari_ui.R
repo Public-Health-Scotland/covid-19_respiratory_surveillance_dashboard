@@ -12,8 +12,6 @@ cari_seasons <- sort(unique(Respiratory_Pathogens_CARI_duodetections$Season))
 tagList(
   
   fluidRow(width = 12,
-           # metadataButtonUI("respiratory_codetections_cari"),
-           # linebreaks(2),
            p("CARI surveillance is a sentinel community surveillance programme monitoring COVID-19, ",
              "influenza A and B, Respiratory Syncytial Virus (RSV), adenovirus, coronavirus (non-COVID19),", 
              "human metapneumovirus (HMPV), rhinovirus, parainfluenza and Mycoplasma pneumoniae. The ",
@@ -21,7 +19,6 @@ tagList(
              "GP practices voluntarily opt into the CARI programme. Patients in the community who consult a ",
              "sentinel GP practice with respiratory symptoms and who meet the case definition for acute ",
              "respiratory infection (ARI) are recruited, consented, and tested for the CARI programme.")#,
-           #linebreaks(1)
   ),
   
   fluidRow(width = 12,

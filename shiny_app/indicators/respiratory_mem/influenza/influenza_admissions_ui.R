@@ -1,17 +1,3 @@
-## Format flu admissions data from age_rate_data_all_path - should no longer need Influenza_admissions.csv from Output folder
-
-# influenza_admissions <- age_rate_data_all_path %>% 
-#   filter(age_band == "All Ages") %>% 
-#   add_season() %>% 
-#   select(week_ending, flu, flu_rate, Season) %>% 
-#   rename(Date = week_ending,
-#          Admissions = flu,
-#          RatePer100000 = flu_rate) %>% 
-#   mutate(Year = year(Date),
-#          ISOWeek = isoweek(Date)) %>% 
-#   mutate(Season = paste0(substr(Season, 1, 4), "/", substr(Season, 6, 9)),
-#          Weekord = case_when(ISOWeek >= 40 ~ ISOWeek - 39,
-#                              ISOWeek < 40 ~ ISOWeek + 13)) 
 
 influenza_admissions <- admissions_scotland %>% 
   filter(Pathogen == "Influenza (All)") %>% 
@@ -36,21 +22,12 @@ influenza_admissions_recent_week <- admissions_scotland %>%
   make_admissions_value_boxes()
 
 tagList(
-  # fluidRow(width = 12,
-  # 
-  #          metadataButtonUI("respiratory_influenza_admissions"),
-  #          linebreaks(1),
-  #          #h1("Influenza Hospital Admissions"),
-  #          #linebreaks(1)
-  #          ),
-
   fluidRow(width = 12,
            tabPanel(stringr::str_to_sentence("influenza"),
                     # headline figures for the week in Scotland
                     tagList(h2(glue("Number of acute influenza admissions to hospital in Scotland")),
                             tags$div(class = "headline",
                                      br(),
-#                                     h3(glue("Total number of influenza hospital admissions in Scotland over the last two weeks")),
                                      # Two week ago total number
                                      valueBox(value = {influenza_admissions_recent_week %>%
                                      .$AdmissionsTwoWeek %>% format(big.mark=",")},
@@ -83,18 +60,12 @@ tagList(
                                         label = "Go to glossary",
                                         icon = icon_no_warning_fn("paper-plane")
                                     )),
-# p("Between 22 May and October 2025, Public Health Scotland (PHS) will be",
-#   "reporting Scotland level admissions for COVID-19,",
-#   "Influenza and RSV, due to low levels of hospital admissions."),
 
                                                                       # This text is hidden by css but helps pad the box at the bottom
                                      h6("hidden text for padding page")
                             )))), # headline
 
     fluidRow(width = 12,tagList(h2("Rate of acute influenza hospital admissions per 100,000 population in Scotland"))),
-
-#  fluidRow(width = 12,
-#           tagList(h2("Number of acute influenza admissions to hospital"))),
 
   fluidRow(
     tabBox(width = NULL,
@@ -211,7 +182,6 @@ tabBox(width = NULL, type = "pills",
 tagList(h2("Average length of stay of acute influenza hospital admissions"),
         tabBox( width = NULL, type = "pills",
                 tabPanel("Plot",
-                         #tagList(uiOutput("flu_los_title")),
                          tagList(h5("Use the drop-down menu to select a season."),
                                  pickerInput(inputId = "los_season_flu",
                                              label = "Select season",
@@ -219,7 +189,6 @@ tagList(h2("Average length of stay of acute influenza hospital admissions"),
                                              selected = tail(admission_seasons, 1)),
                                  altTextUI("flu_los_modal"),
                                  withNavySpinner( plotlyOutput("flu_los_plot")),
-                                 #linebreaks(1)
                          ),
                          fluidRow(column(
                            width=12, linebreaks(1),
@@ -230,97 +199,6 @@ tagList(h2("Average length of stay of acute influenza hospital admissions"),
                                  withNavySpinner(dataTableOutput("flu_los_table")) )
                 ) # tabPanel
         )#tabbox
-        ###
-        ### end LOS section
-        
-# fluidRow(width = 12,
-#          tagList(h2("Number of acute influenza admissions to hospital by NHS Health Board of Treatment; week ending")),
-#          linebreaks(1)), #fluidRow
-# 
-# fluidRow(width=12,
-#          box(width = NULL,
-#              withNavySpinner(dataTableOutput("flu_admissions_hb_table"))),
-#          fluidRow(
-#            width=12, linebreaks(1))
-# ),
-
-# pyramid sections 
-# 
-# fluidRow(  
-# 
-#   tagList(uiOutput("flu_adm_pyr_title"),
-#           #tagList(h2(glue("Acute influenza admissions by age and sex in Scotland")),
-#           tabBox(width = NULL,
-#                  type = "pills",
-#                  tabPanel("Plot",
-#                           tagList(
-#                             linebreaks(1),
-#                             fluidRow( column(4, pickerInput("flu_age_sex_adm_season",
-#                                                             label = "Select a season",
-#                                                             choices = {Admissions_AgeSex_Season %>% 
-#                                                                 filter(Pathogen == "flu") %>%
-#                                                                 .$Season %>% unique()},
-#                                                             selected = "2024-2025")
-#                               )
-#                             ),
-#                             altTextUI("flu_adm_age_sex"),
-#                             withNavySpinner(plotlyOutput("flu_adm_age_sex_pyramid_plot"))
-#                             ) # tagList
-#                  ), # tabPanel
-#                  tabPanel("Data",
-#                           withNavySpinner(dataTableOutput("flu_adm_age_sex_pyramid_table")))
-#           ) # tabbox
-#   ), # tagList
-#   linebreaks(1),
-# ),
-
-##### LOS section
-# tagList(h2("Length of stay of acute influenza hospital admissions"),
-#         tags$div(class = "headline",
-#                  h3(glue("Median length of stay of acute influenza hospital admissions for 4 week period {los_date_start %>% format('%d %b %y')} to {los_date_end%>% format('%d %b %y')} ")),
-#                  valueBox(value = glue("{Length_of_Stay_Median %>% 
-#                                        filter(AgeGroup == 'All Ages') %>% 
-#                                        filter(Pathogen =='flu') %>%
-#                                        .$MedianLengthOfStay %>% round_half_up(1)} days"),
-#                           subtitle = glue("All ages"),
-#                           color = "navy",
-#                           icon = icon_no_warning_fn("clock")),# valuebox
-#                  valueBox(value = glue("{flu_los_median_min$MedianLengthOfStay %>%
-#                                        round_half_up(1)} days"),
-#                           subtitle = glue("Shortest median stay ({flu_los_median_min$AgeGroup})"),
-#                           color = "navy",
-#                           icon = icon_no_warning_fn("clock")),# value box
-#                  valueBox(value = glue("{flu_los_median_max$MedianLengthOfStay %>%
-#                                        round_half_up(1)} days"),
-#                           subtitle = glue("Longest median stay ({flu_los_median_max$AgeGroup})"),
-#                           color = "navy",
-#                           icon = icon_no_warning_fn("clock")),
-#                  # This text is hidden by css but helps pad the box at the bottom
-#                  h6("hidden text for padding page"))
-# ),
-# br(),
-# 
-# tabBox(width = NULL, type = "pills",
-#        tabPanel("Plot",
-#                 tagList(uiOutput("flu_los_title")),
-#                 tagList(h5("Use the drop-down menu to select a season."),
-#                         pickerInput(inputId = "los_season_flu",
-#                                     label = "Select season",
-#                                     choices = admission_seasons,
-#                                     selected = "2024/2025"),
-#                         altTextUI("flu_los_modal"),
-#                         withNavySpinner(plotlyOutput("flu_los_plot") ),
-#                         )),
-#        tabPanel("Data",
-#                 tagList(linebreaks(1),
-#                         withNavySpinner(dataTableOutput("flu_los_table")) )
-#                 
-#        ) # tabPanel
-#       ),#tabbox
-### end LOS section
-
-# Padding out the bottom of the page
-#fluidRow(height="200px", width=12, linebreaks(5))
 ),
 
 # Padding out the bottom of the page

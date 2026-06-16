@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_covid_cari",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 altTextServer("covid_cari_modal",
               title = "CARI - Test positivity for COVID-19",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of COVID-19 infection in the Community Acute Respiratory Infection (CARI) surveillance programme."),
@@ -44,23 +40,6 @@ output$covid_cari_table <- renderDataTable({
                add_separator_cols_1dp = c(4,5,6))
 })
 
-# # CARI - COVID-19 swabpos by age table
-# output$covid_cari_age_table <- renderDataTable({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "COVID-19") %>%
-#     arrange(desc(WeekEnding)) %>%
-#     select(WeekEnding, AgeGroup, TotalSamples, PositiveSamples, SwabPositivity, SwabPositivityLCL, SwabPositivityUCL) %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     rename(`Week Ending` = WeekEnding,
-#            `Age Group`= `AgeGroup`,
-#            `Total Samples` = TotalSamples,
-#            `Positive Samples` = PositiveSamples,
-#            `Test Positivity (%)` = SwabPositivity,
-#            `Lower Confidence Limit (%)` = SwabPositivityLCL,
-#            `Upper Confidence Limit (%)` = SwabPositivityUCL) %>%
-#     make_table(filter_cols = c(2))
-# })
 
 # CARI - COVID-19 swabpos by age table
 output$covid_cari_age_table <- renderDataTable({
@@ -89,15 +68,7 @@ output$covid_cari_plot <- renderPlotly({
   
 })
 
-# # CARI - COVID-19 swabpos by age plot
-# output$covid_cari_age_plot <- renderPlotly({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "COVID-19") %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     create_cari_age_linechart()
-#   
-# })
+
 
 # CARI - COVID-19 swabpos by age plot
 output$covid_cari_age_plot <- renderPlotly({
@@ -107,29 +78,6 @@ output$covid_cari_age_plot <- renderPlotly({
   
 })
 
-# # CARI - Overall COVID-19 swabpos plot
-# output$covid_cari_hb_plot <- renderPlotly({
-#   covid_cari_hb %>%
-#     filter(HBName == input$covid_cari_selected_board) %>%
-#     create_cari_linechart()
-#   
-# })
-# 
-# # CARI - COVID-19 swabpos by age table
-# output$covid_cari_hb_table <- renderDataTable({
-#   covid_cari_hb %>%
-#     filter(HBName == input$covid_cari_selected_board) %>%
-#     arrange(desc(WeekEnding)) %>%
-#     select(WeekEnding, HBName, TotalSamples, PositiveSamples, SwabPositivity, SwabPositivityLCL, SwabPositivityUCL) %>%
-#     rename(`Week Ending` = WeekEnding,
-#            `NHS Health Board`= `HBName`,
-#            `Total Samples` = TotalSamples,
-#            `Positive Samples` = PositiveSamples,
-#            `Test Positivity (%)` = SwabPositivity,
-#            `Lower Confidence Limit (%)` = SwabPositivityLCL,
-#            `Upper Confidence Limit (%)` = SwabPositivityUCL) %>%
-#     make_table(filter_cols = c(2))
-# })
 
 
 # CARI - Overall COVID-19 swabpos plot
@@ -157,8 +105,3 @@ output$covid_cari_hb_table <- renderDataTable({
                add_separator_cols = c(3,4),
                add_separator_cols_1dp = c(5,6,7))
 })
-
-
-
-
-

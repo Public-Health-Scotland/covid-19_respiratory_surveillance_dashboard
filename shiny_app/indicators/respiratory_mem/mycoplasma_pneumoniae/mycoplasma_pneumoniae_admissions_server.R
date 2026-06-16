@@ -1,6 +1,5 @@
 ## Organise Mycoplasma pneumoniae admissions data into the right format for the plot and table
 
-
 mpn_admissions <- admissions_scotland %>% 
   filter(Pathogen == "Mycoplasma pneumoniae") %>% 
   mutate(ISOweek = as.numeric(ISOweek)) %>% 
@@ -16,11 +15,6 @@ mpn_admissions <- admissions_scotland %>%
 mpn_adm_seasons <- tail(sort(unique(mpn_admissions$Season)), 6)
 
 ## Plot descriptions
-
-metadataButtonServer(id="respiratory_mpn_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 
 altTextServer("mpn_admissions_modal",
               title = "Weekly rate of Mycoplasma pneumoniae hospital admissions in Scotland",
@@ -91,7 +85,6 @@ output$mpn_admissions_age_plot <- renderPlotly({
                                                   "65-74", "75+", "Total"))) %>% 
     arrange(week_ending, age_band) %>%
     filter(Season == input$adm_season_mpn_age) %>%
-    #filter(Season == "2024/25") %>% 
     create_pathogen_adms_age_linechart
   
 })

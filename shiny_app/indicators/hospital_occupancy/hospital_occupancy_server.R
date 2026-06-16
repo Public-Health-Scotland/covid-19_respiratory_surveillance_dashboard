@@ -1,15 +1,4 @@
 
-
-metadataButtonServer(id="hospital_occupancy",
-                     panel="COVID-19 hospital occupancy",
-                     parent = session)
-
-
-jumpToTabButtonServer(id="hospital_occupancy_from_summary",
-                      location="hospital_occupancy",
-                      parent = session)
-
-
 # Hospital occupancy ----
 
 altTextServer("hospital_occupancy_modal",

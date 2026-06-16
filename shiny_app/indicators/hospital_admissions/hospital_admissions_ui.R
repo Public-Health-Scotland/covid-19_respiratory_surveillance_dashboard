@@ -34,20 +34,11 @@ cov_admissions_recent_week <- cov_admissions %>%
   head(1)
 
 tagList(
-  # fluidRow(width = 12,
-  #          metadataButtonUI("hospital_admissions"),
-  #          linebreaks(1),
-  #          #h1("Acute COVID-19 hospital admissions"),
-  #          #linebreaks(1)
-  #          ),
-
   fluidRow(width = 12,
                   tabPanel("Acute hospital admissions",
                            tagList(h2("Number of acute COVID-19 admissions to hospital in Scotland"),
                                    tags$div(class = "headline",
                                             linebreaks(1),
-                                            #h3("Weekly totals from last three weeks"),
-
                                             valueBox(value = {cov_admissions_recent_week %>%
                                                 .$AdmissionsTwoWeek %>% format(big.mark=",")},
                                                 subtitle = tagList(tags$strong(glue("({format(round(cov_admissions_recent_week %>% .$RateTwoWeek,1), nsmall = 1)} per 100,000)")),
@@ -77,9 +68,6 @@ tagList(
                                                             label = "Go to glossary",
                                                             icon = icon_no_warning_fn("paper-plane")
                                                             )), 
-                                               # p("Between 22 May and October 2025, Public Health Scotland (PHS) will be",
-                                               #   "reporting Scotland level admissions for COVID-19,",
-                                               #   "Influenza and RSV, due to low levels of hospital admissions."),
                                                h6("hidden text for padding page")
                                               
                                                ,

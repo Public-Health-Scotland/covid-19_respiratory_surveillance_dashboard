@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_rsv_cari",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
 altTextServer("rsv_cari_modal",
               title = "CARI - Test positivity for RSV",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of RSV infection in the Community Acute Respiratory Infection (CARI) surveillance programme."),
@@ -44,23 +40,6 @@ output$rsv_cari_table <- renderDataTable({
                add_separator_cols_1dp = c(4,5,6))
 })
 
-# # CARI - RSV swabpos by age table
-# output$rsv_cari_age_table <- renderDataTable({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Respiratory Syncytial Virus") %>%
-#     arrange(desc(WeekEnding)) %>%
-#     select(WeekEnding, AgeGroup, TotalSamples, PositiveSamples, SwabPositivity, SwabPositivityLCL, SwabPositivityUCL) %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     rename(`Week Ending` = WeekEnding,
-#            `Age Group`= `AgeGroup`,
-#            `Total Samples` = TotalSamples,
-#            `Positive Samples` = PositiveSamples,
-#            `Test Positivity (%)` = SwabPositivity,
-#            `Lower Confidence Limit (%)` = SwabPositivityLCL,
-#            `Upper Confidence Limit (%)` = SwabPositivityUCL) %>%
-#     make_table(filter_cols = c(2))
-# })
 
 # CARI - Overall RSV swabpos plot
 output$rsv_cari_plot <- renderPlotly({
@@ -70,15 +49,6 @@ output$rsv_cari_plot <- renderPlotly({
   
 })
 
-# # CARI - RSV swabpos by age plot
-# output$rsv_cari_age_plot <- renderPlotly({
-#   Respiratory_Pathogens_CARI_Age %>%
-#     filter(Pathogen == "Respiratory Syncytial Virus") %>%
-#     mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-#                                                   "65-74 years", "75+ years"))) %>%
-#     create_cari_age_linechart()
-#   
-# })
 
 # CARI - rsv swabpos by age table
 output$rsv_cari_age_table <- renderDataTable({

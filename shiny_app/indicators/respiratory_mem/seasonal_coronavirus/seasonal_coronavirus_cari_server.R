@@ -1,8 +1,4 @@
 
-metadataButtonServer(id="respiratory_seasonal_coronavirus_cari",
-                     panel="Seasonal Coronavirus (non-COVID-19)",
-                     parent = session)
-
 altTextServer("seasonal_coronavirus_cari_modal",
               title = "CARI - Test positivity for seasonal coronavirus",
               content = tags$ul(tags$li("This is a plot showing the test positivity rate of seasonal coronavirus infection in the Community Acute Respiratory Infection (CARI) surveillance programme."),
@@ -88,15 +84,6 @@ output$seasonal_coronavirus_cari_plot <- renderPlotly({
 
 })
 
-# CARI - Seasonal Coronavirus swabpos by age plot
-output$seasonal_coronavirus_cari_age_plot <- renderPlotly({
-  Respiratory_Pathogens_CARI_Age %>%
-    filter(Pathogen == "Seasonal Coronavirus (non-COVID-19)") %>%
-    mutate(AgeGroup = factor(AgeGroup, levels = c("0-4 years", "5-14 years", "15-44 years", "45-64 years",
-                                                  "65-74 years", "75+ years"))) %>%
-    create_cari_age_linechart()
-
-})
 
 # CARI - seasonal_coronavirus swabpos by age table
 output$seasonal_coronavirus_cari_age_table <- renderDataTable({

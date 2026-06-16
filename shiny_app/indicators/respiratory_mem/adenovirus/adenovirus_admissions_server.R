@@ -17,11 +17,6 @@ adeno_adm_seasons <- tail(sort(unique(adeno_admissions$Season)), 6)
 
 ## Plot descriptions
 
-metadataButtonServer(id="respiratory_adenovirus_admissions",
-                     panel="Respiratory infection activity",
-                     parent = session)
-
-
 altTextServer("adenovirus_admissions_modal",
               title = "Weekly rate of adenovirus hospital admissions in Scotland",
               content = tags$ul(tags$li("This is a plot showing the weekly rate of adenovirus hospital admissions in Scotland."),
@@ -80,14 +75,6 @@ output$adenovirus_admissions_plot <- renderPlotly({
     create_pathogen_adms_linechart()
   
 })
-
-# output$adenovirus_admissions_plot <- renderPlotly({
-#   all_pathogen_admissions %>%
-#     select(Date, Year, ISOWeek, Weekord, Season, Admissions = adeno) %>% 
-#     create_pathogen_adms_linechart()
-# 
-# })
-
 
 
 # Adenovirus Adms by age plot

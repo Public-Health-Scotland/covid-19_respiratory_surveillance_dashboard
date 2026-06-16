@@ -3,7 +3,6 @@
 parainfluenza_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>% 
   filter(Pathogen == 'Parainfluenza Virus') %>%
   tail(2) %>%
-  #select(-WeekBeginning) %>%
   rename(Date = WeekEnding) %>%
   mutate(DateLastWeek = .$Date[1],
          DateThisWeek = .$Date[2],
@@ -25,7 +24,6 @@ parainfluenza_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>%
 # CARI HB data
 parainfluenza_cari_hb <- Respiratory_Pathogens_CARI_HB %>% 
   filter(Pathogen == 'Parainfluenza Virus') %>%
-  #filter(HBName != "Scotland") %>%
   mutate(SwabPositivity = as.numeric(SwabPositivity),
          SwabPositivityLCL = as.numeric(SwabPositivityLCL),
          SwabPositivityUCL = as.numeric(SwabPositivityUCL)) %>%
@@ -42,8 +40,7 @@ parainfluenza_cari_age <- Respiratory_Pathogens_CARI_Age %>%
 
 parainfluenza_cari_subtype <- Respiratory_Pathogens_CARI_Scot %>%
   filter(substr(Pathogen,1,19) %in% "Parainfluenza Virus") %>%
-  mutate(#WeekBeginning = as.Date(WeekBeginning),
-         WeekEnding = as.Date(WeekEnding)) %>%
+  mutate(WeekEnding = as.Date(WeekEnding)) %>%
   mutate(Pathogen = case_when(
     Pathogen == "Parainfluenza Virus" ~ "HPIV",
     Pathogen == "Parainfluenza Virus - Type 1" ~ "HPIV-1",
@@ -57,8 +54,6 @@ parainfluenza_cari_subtype <- Respiratory_Pathogens_CARI_Scot %>%
 tagList(
   
   fluidRow(width = 12,
-           # metadataButtonUI("respiratory_parainfluenza_cari"),
-           # linebreaks(2),
            p("CARI surveillance is a sentinel community surveillance programme monitoring COVID-19, ",
              "influenza A and B, Respiratory Syncytial Virus (RSV), adenovirus, coronavirus (non-COVID19),", 
              "human metapneumovirus (HMPV), rhinovirus, parainfluenza and Mycoplasma pneumoniae. The ",
@@ -66,7 +61,6 @@ tagList(
              "GP practices voluntarily opt into the CARI programme. Patients in the community who consult a ",
              "sentinel GP practice with respiratory symptoms and who meet the case definition for acute ",
              "respiratory infection (ARI) are recruited, consented, and tested for the CARI programme.")#,
-           #linebreaks(1)
   ),
   
   fluidRow(width = 12,
@@ -156,7 +150,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("parainfluenza_cari_hb_modal"),
                             swabposDefinitionUI("cari_parainfluenza_hb_swabpos"),
-                            #ciDefinitionUI("cari_flu_hb_ci"),
                             withNavySpinner(plotlyOutput("parainfluenza_cari_hb_plot")),
                     )),
            tabPanel("Data",
@@ -182,7 +175,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("parainfluenza_cari_subtype1_modal"),
                             swabposDefinitionUI("cari_parainfluenza_swabpos"),
-                            #ciDefinitionUI("cari_seasonal_coronavirus_ci"),
                             withNavySpinner(plotlyOutput("parainfluenza_cari_subtype1_plot")),
                     )),
            tabPanel("Data",

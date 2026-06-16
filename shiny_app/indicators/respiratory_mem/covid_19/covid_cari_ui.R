@@ -3,7 +3,6 @@
 covid_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>% 
   filter(Pathogen == 'COVID-19') %>%
   tail(2) %>%
-  #select(-WeekBeginning) %>%
   rename(Date = WeekEnding) %>%
   mutate(DateLastWeek = .$Date[1],
          DateThisWeek = .$Date[2],
@@ -25,7 +24,6 @@ covid_cari_recent_week <- Respiratory_Pathogens_CARI_Scot %>%
 # CARI HB data
 covid_cari_hb <- Respiratory_Pathogens_CARI_HB %>% 
   filter(Pathogen == 'COVID-19') %>%
-  #filter(HBName != "Scotland") %>%
   mutate(SwabPositivity = as.numeric(SwabPositivity),
          SwabPositivityLCL = as.numeric(SwabPositivityLCL),
          SwabPositivityUCL = as.numeric(SwabPositivityUCL)) %>%
@@ -43,8 +41,6 @@ covid_cari_age <- Respiratory_Pathogens_CARI_Age %>%
 tagList(
   
   fluidRow(width = 12,
-           # metadataButtonUI("respiratory_covid_cari"),
-           # linebreaks(2),
            p("CARI surveillance is a sentinel community surveillance programme monitoring COVID-19, ",
              "influenza A and B, Respiratory Syncytial Virus (RSV), adenovirus, coronavirus (non-COVID19),", 
              "human metapneumovirus (HMPV), rhinovirus, parainfluenza and Mycoplasma pneumoniae. The ",
@@ -52,7 +48,6 @@ tagList(
              "GP practices voluntarily opt into the CARI programme. Patients in the community who consult a ",
              "sentinel GP practice with respiratory symptoms and who meet the case definition for acute ",
              "respiratory infection (ARI) are recruited, consented, and tested for the CARI programme.")#,
-           #linebreaks(1)
   ),
   
   fluidRow(width = 12,
@@ -117,7 +112,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("covid_cari_age_modal"),
                             swabposDefinitionUI("cari_covid_age_swabpos"),
-                            #ciDefinitionUI("cari_covid_age_ci"),
                             withNavySpinner(plotlyOutput("covid_cari_age_plot")),
                     )),
            tabPanel("Data",
@@ -130,31 +124,6 @@ tagList(
     linebreaks(1)
   ), # fluidRow
   
-  # fluidRow(width = 12,
-  #          tagList(h2("CARI - Test positivity for COVID-19 by NHS Health Board"))),
-  # 
-  # fluidRow(
-  #   selectInput("covid_cari_selected_board", "Select NHS Health Board of interest:", 
-  #               choices = sort(unique(covid_cari_hb$HBName)),
-  #               selected = sort(unique(covid_cari_hb$HBName))[1]),
-  #   tabBox(width = NULL,
-  #          type = "pills",
-  #          tabPanel("Plot",
-  #                   tagList(linebreaks(1),
-  #                           altTextUI("covid_cari_hb_modal"),
-  #                           swabposDefinitionUI("cari_covid_hb_swabpos"),
-  #                           ciDefinitionUI("cari_covid_hb_ci"),
-  #                           withNavySpinner(plotlyOutput("covid_cari_hb_plot")),
-  #                   )),
-  #          tabPanel("Data",
-  #                   tagList(linebreaks(1),
-  #                           withNavySpinner(dataTableOutput("covid_cari_hb_table"))
-  #                   ) # tagList
-  #          ) # tabPanel
-  #          
-  #   ), # tabBox
-  #   linebreaks(1)
-  # ), # fluidRow
   
   fluidRow(width = 12,
            tagList(h2("CARI - Test positivity for COVID-19 by NHS Health Board")),
@@ -169,7 +138,6 @@ tagList(
                     tagList(linebreaks(1),
                             altTextUI("covid_cari_hb_modal"),
                             swabposDefinitionUI("cari_covid_hb_swabpos"),
-                            #ciDefinitionUI("cari_covid_hb_ci"),
                             withNavySpinner(plotlyOutput("covid_cari_hb_plot")),
                     )),
            tabPanel("Data",
