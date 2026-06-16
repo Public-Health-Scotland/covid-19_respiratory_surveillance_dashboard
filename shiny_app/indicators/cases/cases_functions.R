@@ -92,14 +92,23 @@ create_covid_line_chart <- function(data,
 
 # Create pathogen age Adms line chart
 create_positivity_age_chart <- function(data){
-  
-  # # For testing iso week 53
-  # data <- Respiratory_Pathogens_Test_Positivity_by_Age %>%
-  #   filter(pathogen == "Influenza (A or B)") %>%
-  #   filter(season == "2020/2021")
+ 
+  # ### Create test data for week 53
+  # if(unique(data$season == "2025/2026")){
+  #   
+  #   data_2526_wk53 <- data %>%
+  #     filter(ISOweek == 52) %>%
+  #     mutate(ISOweek = 53)
+  #   
+  #   data <- data %>%
+  #     bind_rows(data_2526_wk53) %>%
+  #     arrange(season, year, ISOweek)
+  #   
+  # }
+  # ################################
   
   # Check if season has 53 isoweeks
-  if(isoweek(ymd(paste0(substr(unique(data$season), 1, 4), "-12-31"))) == 53){
+  if(isoweek(ymd(paste0(substr(unique(data$season), 1, 4), "-12-31"))) == 53 | max(data$ISOweek) == 53){
     
     # put weeks in correct order for season
     week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
