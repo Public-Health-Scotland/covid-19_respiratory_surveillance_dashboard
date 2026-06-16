@@ -25,21 +25,22 @@ create_mem_linechart <- function(data,
                                  value_variable = "RatePer100000",
                                  y_axis_title = "Rate per 100,000 population") {
   
-  # Test data
-  data_2526 <- data %>%
-    filter(Season == "2025/2026") %>%
-    mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
-
-  data_2526_wk53 <- data_2526 %>%
-    filter(ISOWeek == 52) %>%
-    mutate(ISOWeek = 53,
-           Weekord = 14)
-
-  data <- data %>%
-    filter(Season != "2025/2026") %>%
-    bind_rows(data_2526) %>%
-    bind_rows(data_2526_wk53) %>%
-    arrange(Season, Year, ISOWeek)
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/2026" | Season == "2025/26") %>%
+  #   mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOWeek == 52) %>%
+  #   mutate(ISOWeek = 53,
+  #          Weekord = 14)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/2026" & Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, ISOWeek)
+  # #####################
   
   # Rename value variable
   data <- data %>%
@@ -68,49 +69,49 @@ create_mem_linechart <- function(data,
            MediumThreshold, HighThreshold, VeryHighThreshold) %>%
     arrange(Season, Weekord)
   
-  # # Add in missing week 53 if required (will create gaps in graphs)
-  # if(include_week_53){
-  #   
-  #   # Season with week 53
-  #   data_week_53 <- data %>%
-  #     filter(ISOWeek == 53)
-  #   
-  #   # If no rows, add in for all seasons
-  #   if(nrow(data_week_53) == 0){
-  #     
-  #     # Select season that needs updated
-  #     data_updated <- data %>%
-  #       mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
-  #     
-  #   } else{
-  #     
-  #     # Select season that needs updated
-  #     data_updated <- data %>%
-  #       filter(Season != unique(data_week_53$Season)) %>%
-  #       mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
-  #     
-  #   }
-  #   
-  #   # Create week 53 data
-  #   data_updated_wk53 <- data_updated %>%
-  #     filter(ISOWeek == 52) %>%
-  #     mutate(ISOWeek = 53,
-  #            Weekord = 14,
-  #            Value = NA,
-  #            ActivityLevel = "NA")
-  #   
-  #   # Add data in
-  #   data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
-  #     arrange(Season, Weekord)
-  #   
-  #   # Update data
-  #   data <- data %>%
-  #     filter(!Season %in% unique(data_updated$Season)) %>%
-  #     bind_rows(data_updated) %>%
-  #     mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
-  #     arrange(Season, Weekord)
-  #   
-  # }
+  # Add in missing week 53 if required (will create gaps in graphs)
+  if(include_week_53 & non_week_53_gap){
+
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(ISOWeek == 53)
+
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    } else{
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season != unique(data_week_53$Season)) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    }
+
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOWeek == 52) %>%
+      mutate(ISOWeek = 53,
+             Weekord = 14,
+             Value = NA,
+             ActivityLevel = "NA")
+
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Season, Weekord)
+
+    # Update data
+    data <- data %>%
+      filter(!Season %in% unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+      arrange(Season, Weekord)
+
+  }
   
   # Wrangle data
   data = data %>%
