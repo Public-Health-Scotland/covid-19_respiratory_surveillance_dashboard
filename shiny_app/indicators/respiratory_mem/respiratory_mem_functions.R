@@ -372,19 +372,31 @@ create_mem_heatmap <- function(
     heatmap_seasons = NULL,
     value_variable = "RatePer100000"
 ) {
-  
-  # data <- Respiratory_Pathogens_MEM_HB %>%
-  #   filter(Pathogen == "Influenza") %>%
-  #   mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
+
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/2026" | Season == "2025/26") %>%
+  #   mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
   # 
-  # rate_dp = 1
-  # include_text_annotation = FALSE
-  # text_annotation_dp = 1
-  # breakdown_variable = "HBName"
-  # heatmap_seasons = NULL
-  # value_variable = "RatePer100000"
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOWeek == 52) %>%
+  #   mutate(ISOWeek = 53,
+  #          Weekord = 14)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/2026" & Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, ISOWeek)
+  # #####################
   
-  #heatmap_seasons = c("2019/2020", "2020/2021")
+  # Drop week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOWeek != 53)
+    
+  }
   
   data <- data %>%
     rename(Breakdown = all_of(breakdown_variable),
@@ -417,15 +429,7 @@ create_mem_heatmap <- function(
   }
   
   data_breakdown <- unique(sort(data$Breakdown))
-  
-  # # Check if there are any isoweeks 53
-  # check_week_53 <- data %>%
-  #   filter(Season %in% heatmap_seasons) %>%
-  #   filter(ISOWeek == 53)
 
-  # Update if week 53 is present
-  #if(nrow(check_week_53) != 0){
-  
   # Update if week 53 is present
   if(include_week_53){
     
@@ -471,19 +475,6 @@ create_mem_heatmap <- function(
       bind_rows(data_updated) %>%
       mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels))
 
-  #   # Update parameters
-  #   # Isoweeks from week 40 to 39
-  #   mem_isoweeks_plot <- c(40:53, 1:39)
-  #   # Weeks in order from 1 to 53
-  #   mem_week_order_plot <- c(1:53)
-  # 
-  # } else{
-  #   
-  #   # Isoweeks from week 40 to 39
-  #   mem_isoweeks_plot <- mem_isoweeks
-  #   # Weeks in order from 1 to 52
-  #   mem_week_order_plot <- mem_week_order
-    
   }
   
   # Create plots using external helper
@@ -494,8 +485,6 @@ create_mem_heatmap <- function(
     include_text_annotation = include_text_annotation,
     rate_dp = rate_dp,
     text_annotation_dp = text_annotation_dp,
-    # mem_isoweeks_plot = mem_isoweeks_plot,
-    # mem_week_order_plot = mem_week_order_plot,
     x_visibility = FALSE
   )
   
@@ -505,9 +494,7 @@ create_mem_heatmap <- function(
     breakdown_hover_label = breakdown_hover_label,
     include_text_annotation = include_text_annotation,
     rate_dp = rate_dp,
-    text_annotation_dp = text_annotation_dp#,
-    # mem_isoweeks_plot = mem_isoweeks_plot,
-    # mem_week_order_plot = mem_week_order_plot,
+    text_annotation_dp = text_annotation_dp
   )
   
   # Attach static legend
