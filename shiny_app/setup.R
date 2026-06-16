@@ -179,7 +179,11 @@ rsv_hosp_adms_colours <- c(phs_colours("phs-purple"), phs_colours("phs-green"),
 euromomo_mem_line_colours <- c("#3F085C","#F46A25", "#801650", "#12436D", "#12436D")
 
 # Include week 53?
-include_week_53 <- TRUE
+include_week_53 <- FALSE
+
+# If week 53 is present, should lines with no week 53 be continuous or have a gap?
+# TRUE for gap, FALSE for continuous
+non_week_53_gap <- FALSE
 
 if(include_week_53){
   

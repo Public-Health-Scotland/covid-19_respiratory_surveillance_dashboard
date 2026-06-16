@@ -1476,11 +1476,21 @@ create_cari_codetection_age_linechart <- function(data){
 
 create_test_pos_seasons_linechart <- function(data, pathogen_type){
   
-  data <- Respiratory_Pathogens_Test_Positivity %>%
-    filter(season >= "2023/2024")
+  # ### Create test data for week 53
+  # data_2526 <- data %>%
+  #   filter(season == "2025/2026")
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOweek == 52) %>%
+  #   mutate(ISOweek = 53)
+  # 
+  # data <- data %>%
+  #   filter(season != "2025/2026") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(season, year, ISOweek)
+  # ################################
 
-  pathogen_type = "Covid-19"
-  
   if(include_week_53){
     
     # put weeks in correct order for season
@@ -1492,7 +1502,7 @@ create_test_pos_seasons_linechart <- function(data, pathogen_type){
     week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
     
   }
-  
+
   # Select correct number of seasons to plot
   no_seasons <- case_when(pathogen_type == "Covid-19" ~ 4,
                           pathogen_type == "RSV" ~ 6,
@@ -1505,57 +1515,59 @@ create_test_pos_seasons_linechart <- function(data, pathogen_type){
     tail(no_seasons)
   seasons <- seasons$season 
   
+  # Remove week 53, if required
   if(!include_week_53){
     
-    data = data %>%
-      filter(ISOweek != "53")
+    data <- data %>%
+      filter(ISOweek != 53)
     
   }
-  
+
+  # Select pathogen and seasons
   data = data %>%
     filter(pathogen == pathogen_type &
            season %in% seasons) 
   
-  # # Add in missing week 53 if required (will create gaps in graphs)
-  # if(include_week_53){
-  #   
-  #   # Season with week 53
-  #   data_week_53 <- data %>%
-  #     filter(ISOweek == 53)
-  #   
-  #   # If no rows, add in for all seasons
-  #   if(nrow(data_week_53) == 0){
-  #     
-  #     # Select season that needs updated
-  #     data_updated <- data
-  #     
-  #   } else{
-  #     
-  #     # Select season that needs updated
-  #     data_updated <- data %>%
-  #       filter(Season != unique(data_week_53$Season))
-  #     
-  #   }
-  #   
-  #   # Create week 53 data
-  #   data_updated_wk53 <- data_updated %>%
-  #     filter(ISOweek == 52) %>%
-  #     mutate(ISOweek = 53,
-  #            positive_count = NA,
-  #            total_samples = NA,
-  #            positivity_percentage = NA)
-  #   
-  #   # Add data in
-  #   data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
-  #     arrange(season, year, ISOweek)
-  #   
-  #   # Update data
-  #   data <- data %>%
-  #     filter(!season %in% unique(data_updated$season)) %>%
-  #     bind_rows(data_updated) %>%
-  #     arrange(season, year, ISOweek)
-  #   
-  # }
+  # Add in missing week 53 if required (will create gaps in graphs)
+  if(include_week_53 & non_week_53_gap){
+
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(ISOweek == 53)
+
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+
+      # Select season that needs updated
+      data_updated <- data
+
+    } else{
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(season != unique(data_week_53$season))
+
+    }
+
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOweek == 52) %>%
+      mutate(ISOweek = 53,
+             positive_count = NA,
+             total_samples = NA,
+             positivity_percentage = NA)
+
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(season, year, ISOweek)
+
+    # Update data
+    data <- data %>%
+      filter(!season %in% unique(data_updated$season)) %>%
+      bind_rows(data_updated) %>%
+      arrange(season, year, ISOweek)
+
+  }
   
   data = data %>%
     mutate(ISOweek = as.character(ISOweek),
