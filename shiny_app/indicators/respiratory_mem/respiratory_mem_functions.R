@@ -1311,28 +1311,27 @@ create_cari_subtype_barchart <- function(data){
 
 create_cari_duodetection_chart_stacked <- function(data){
   
-  # data <- Respiratory_Pathogens_CARI_duodetections %>%
-  #   filter(Season=="2025/26") %>%
+  # ### Create test data
+  # data <- data %>%
   #   mutate(ISOWeekNo = as.numeric(ISOWeekNo))
   # 
-  # test <- data %>%
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/26") %>%
+  #   mutate(ISOWeekNo = as.numeric(ISOWeekNo))
+  # 
+  # data_2526_wk53 <- data_2526 %>%
   #   filter(ISOWeekNo == 52) %>%
   #   mutate(ISOWeekNo = 53)
   # 
-  # data <- bind_rows(data, test)
-  
-  if(unique(data$Season) == "2024/25"){
-    
-    test <- data %>%
-      filter(ISOWeekNo == 52) %>%
-      mutate(ISOWeekNo = 53)
-
-    data <- bind_rows(data, test)
-    
-  }
+  # data <- data %>%
+  #   filter(Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, ISOWeekNo)
+  # #####################
 
   # Check if season has 53 isoweeks
-  if(isoweek(ymd(paste0(substr(unique(data$Season), 1, 4), "-12-31"))) == 53){
+  if(isoweek(ymd(paste0(substr(unique(data$Season), 1, 4), "-12-31"))) == 53 | max(data$ISOWeekNo) == 53){
     
     # put weeks in correct order for season
     week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
