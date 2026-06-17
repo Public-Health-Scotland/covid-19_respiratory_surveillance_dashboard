@@ -1032,14 +1032,86 @@ create_pathogen_occupancy_linechart <- function(data,
                                            value_variable = "SevenDayAverageInpatients",
                                            y_axis_title = "Number of patients in hospital\n (7 day average)") {
   
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/2026" | Season == "2025/26")
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOweek == 52) %>%
+  #   mutate(ISOweek = 53)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/2026" & Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, ISOyear, ISOweek)
+  # #####################
+  
+  if(include_week_53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+  
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable)
   
+  # Remove week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOweek != 53)
+    
+  }
+  
+  # Add in missing week 53 if required (will create gaps in graphs)
+  if(include_week_53 & non_week_53_gap){
+    
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(ISOweek == 53)
+    
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+      
+      # Select season that needs updated
+      data_updated <- data
+      
+    } else{
+      
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season != unique(data_week_53$Season))
+      
+    }
+    
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOweek == 52) %>%
+      mutate(ISOweek = 53,
+             Value = NA)
+    
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Season, ISOyear, ISOweek)
+    
+    # Update data
+    data <- data %>%
+      filter(!Season %in% unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      arrange(Season, ISOyear, ISOweek)
+    
+  }
   
   # Wrangle data
   data = data %>%
-    filter(ISOweek != 53) %>%
     select(Season, ISOweek, Value) %>%
     mutate(ISOweek = factor(ISOweek, levels = mem_isoweeks)) %>% 
     arrange(Season, ISOweek)
@@ -1114,8 +1186,36 @@ create_pathogen_occupancy_hb_linechart <- function(data,
                                                    value_variable = "SevenDayAverageInpatients",
                                                    y_axis_title = "Number of patients in hospital\n (7 day average)") {
   
+  # ### Create test data
+  # data <- data %>%
+  #   mutate(ISOweek = as.numeric(ISOweek))
+  # 
+  # if(unique(data$Season) == "2025/26"){
+  # 
+  #   data_2526_wk53 <- data %>%
+  #     filter(ISOweek == 52) %>%
+  #     mutate(ISOweek = 53)
+  # 
+  #   data <- data %>%
+  #     bind_rows(data_2526_wk53) %>%
+  #     arrange(WeekEnding, ISOweek)
+  # }
+  # #####################
+  
+  # Check if season has 53 isoweeks
+  if(isoweek(ymd(paste0(substr(unique(data$Season), 1, 4), "-12-31"))) == 53 | max(data$ISOweek) == 53){
+    
+    # put weeks in correct order for season
+    mem_isoweeks <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    mem_isoweeks <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+  
   # Define the desired ISO week ordering (numeric)
-  mem_isoweeks <- c(40:52, 1:39)
   mem_isoweeks_chr <- as.character(mem_isoweeks)
   
   # Rename the value column when provided as a string
@@ -1143,8 +1243,7 @@ create_pathogen_occupancy_hb_linechart <- function(data,
   
   # ---- Data wrangling: numeric x with custom order ----
   data <- data %>%
-    dplyr::filter(ISOweek != 53) %>% 
-    dplyr::arrange(desc(WeekEnding)) %>% 
+    dplyr::arrange(desc(WeekEnding), desc(ISOweek)) %>% 
     dplyr::select(Season, ISOweek, Value, HBName) %>%
     dplyr::mutate(
       # Numeric position in the desired order (1..52)
