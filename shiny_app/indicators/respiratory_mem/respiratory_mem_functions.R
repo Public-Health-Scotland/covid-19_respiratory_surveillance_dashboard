@@ -527,13 +527,89 @@ create_pathogen_adms_linechart <- function(data,
                                       value_variable = "RatePer100000",
                                       y_axis_title = "Rate of hospital admissions<br>per 100,000 population") {
   
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/2026" | Season == "2025/26") %>%
+  #   mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOWeek == 52) %>%
+  #   mutate(ISOWeek = 53,
+  #          Weekord = 14)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/2026" & Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, ISOWeek)
+  # #####################
+  
+  if(include_week_53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+  
   # Rename value variable
   data <- data %>%
     rename(Value = value_variable)
   
+  # Remove week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOWeek != 53)
+    
+  }
+  
+  # Add in missing week 53 if required (will create gaps in graphs)
+  if(include_week_53 & non_week_53_gap){
+    
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(ISOWeek == 53)
+    
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+      
+      # Select season that needs updated
+      data_updated <- data
+      
+    } else{
+      
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season != unique(data_week_53$Season))
+      
+    }
+    
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOWeek == 52) %>%
+      mutate(ISOWeek = 53,
+             Value = NA,
+             Weekord = 14)
+    
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Season, Year, ISOWeek)
+    
+    # Update data
+    data <- data %>%
+      filter(!Season %in% unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      arrange(Season, Year, ISOWeek)
+    
+  }
+  
   # Wrangle data
   data = data %>%
-    filter(ISOWeek != 53) %>%
     select(Season, ISOWeek, Weekord, Value) %>%
     arrange(Season, Weekord) %>%
     mutate(ISOWeek = as.character(ISOWeek),
@@ -553,7 +629,7 @@ create_pathogen_adms_linechart <- function(data,
   
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- c(0,52)
+  xaxis_plots[["range"]] <- c(0,max(week_order))
   
   yaxis_plots[["fixedrange"]] <- FALSE
   yaxis_plots[["title"]] <- y_axis_title
@@ -613,8 +689,39 @@ create_pathogen_adms_linechart <- function(data,
 # Create pathogen age Adms line chart
 create_pathogen_adms_age_linechart <- function(data){
   
+  # ### Create test data
+  # data <- data %>%
+  #   mutate(week = as.numeric(week))
+  # 
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/26")
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(week == 52) %>%
+  #   mutate(week = 53)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, week)
+  # #####################
+  
+  # Check if season has 53 isoweeks
+  if(isoweek(ymd(paste0(substr(unique(data$Season), 1, 4), "-12-31"))) == 53 | max(data$week) == 53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+  
   # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+  #week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
   
   plot_data <- data %>%  
     mutate(WeekNumber = as.numeric(substr(week, nchar(week) - 1, nchar(week))),
@@ -622,7 +729,8 @@ create_pathogen_adms_age_linechart <- function(data){
            age_band = factor(age_band, levels = c("<1", "1-4", "5-14",
                                                   "15-44", "45-64", "65-74",  "75+", "Total"),
                              labels = c("<1", "1 to 4", "5 to 14",
-                                        "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) #%>% 
+                                        "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
+    arrange(Season, WeekNumber)
 
   
   # Text for tooltip
@@ -635,7 +743,7 @@ create_pathogen_adms_age_linechart <- function(data){
   yaxis_plots[["title"]] <- "Rate of hospital admissions<br>per 100,000 population"
   xaxis_plots[["dtick"]] <- 2
   yaxis_plots[["tickformat"]] <- NULL
-  xaxis_plots[["range"]] <- list(-0.5, 52.5)
+  xaxis_plots[["range"]] <- list(-0.5, max(week_order)+0.5)
   
   
   ## Add as two separate traces to enable 'All ages' to be shown as the default trace
@@ -704,12 +812,39 @@ create_pathogen_adms_age_linechart <- function(data){
 # Create pathogen HB Adms line chart
 create_pathogen_adms_hb_linechart <- function(data){
   
-  # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
-
+  # ### Create test data
+  # data <- data %>%
+  #   mutate(ISOweek = as.numeric(ISOweek))
+  # 
+  # if(min(data$WeekEnding) == "2025-10-05"){
+  # 
+  #   data_2526_wk53 <- data %>%
+  #     filter(ISOweek == 52) %>%
+  #     mutate(ISOweek = 53)
+  # 
+  #   data <- data %>%
+  #     bind_rows(data_2526_wk53) %>%
+  #     arrange(WeekEnding, ISOweek)
+  # }
+  # #####################
+  
+  # Check if season has 53 isoweeks
+  if(isoweek(ymd(paste0(substr(min(data$WeekEnding), 1, 4), "-12-31"))) == 53 | max(data$ISOweek) == 53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+  
   plot_data <- data %>% 
     mutate(WeekNumber = as.numeric(ISOweek),
-           WeekNumber = factor(WeekNumber, levels = week_order))
+           WeekNumber = factor(WeekNumber, levels = week_order)) %>%
+    arrange(WeekNumber)
   
   plot_data <- plot_data %>%
     mutate(rate = round_half_up(RateAdmissionsPerWeek,1))
@@ -722,7 +857,7 @@ create_pathogen_adms_hb_linechart <- function(data){
   yaxis_plots[["title"]] <- "Rate of hospital admissions<br>per 100,000 population"
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- list(-0.5, 52.5)
+  xaxis_plots[["range"]] <- list(-0.5, max(week_order)+0.5)
   
   yaxis_plots[["fixedrange"]] <- FALSE
   yaxis_plots[["tickformat"]] <- NULL
