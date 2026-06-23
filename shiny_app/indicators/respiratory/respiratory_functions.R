@@ -90,6 +90,24 @@ select_y_axis <- function(data, yaxis) {
 
 # this plot makes a plot showing the rate/number of cases for each by each subtype
 make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
+  
+  # ### Create test data
+  # data <- data %>%
+  #   mutate(Week = as.numeric(Week))
+  # 
+  # if(unique(data$Season) == "2025/26"){
+  # 
+  #   data_2526_wk53 <- data %>%
+  #     filter(Week == 52) %>%
+  #     mutate(Week = 53)
+  # 
+  #   data <- data %>%
+  #     bind_rows(data_2526_wk53) %>%
+  #     arrange(Date, Week)
+  # }
+  # #####################
+  
+  
 
   # Checking whether flu or non flu
   if("Adenovirus" %in% data$Organism){
@@ -117,7 +135,7 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
   # Reorder the levels of "Organism" in descending order
   data$Organism <- factor(data$Organism, levels = subtype_order)
   
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1)) # put weeks in correct order for season
+  week_order <- c(seq(40, max(unique(data$Week)), 1), seq(1, 39, 1)) # put weeks in correct order for season
 
   xaxis_plots[["title"]] <- "ISO week"
   yaxis_plots[["title"]] <- y_axis_title
@@ -157,12 +175,88 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
 
 # this plot shows the rate/number of flu cases over the different seasons (so can easily compare differences in flu cases by season)
 make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
-
-  # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+  
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/2026" | Season == "2025/26") %>%
+  #   mutate(Weekord = ifelse(Week < 40, Weekord+1, Weekord))
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(Week == 52) %>%
+  #   mutate(Week = 53,
+  #          Weekord = 14)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/2026" & Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, Week)
+  # #####################
+  
+  if(include_week_53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+  
+  # Remove week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(Week != 53)
+    
+  }
+  
+  # Add in missing week 53 if required (will create gaps in graphs)
+  if(include_week_53 & non_week_53_gap){
+    
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(Week == 53)
+    
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+      
+      # Select season that needs updated
+      data_updated <- data %>%
+        mutate(Weekord = ifelse(Week < 40, Weekord+1, Weekord))
+      
+    } else{
+      
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(!Season %in% unique(data_week_53$Season)) %>%
+        mutate(Weekord = ifelse(Week < 40, Weekord+1, Weekord))
+      
+    }
+    
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(Week == 52) %>%
+      mutate(Week = 53,
+             Weekord = 14,
+             y_axis = NA)
+    
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Season, Year, Week)
+    
+    # Update data
+    data <- data %>%
+      filter(!Season %in% unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      arrange(Season, Year, Week)
+    
+  }
 
   data = data %>%
-    filter(Week != "53") %>%
+    #filter(Week != "53") %>%
     select(Season, Weekord, y_axis, Week, HealthboardCode) %>%
     arrange(Season, Weekord) %>%
     mutate(Week = as.character(Week),
