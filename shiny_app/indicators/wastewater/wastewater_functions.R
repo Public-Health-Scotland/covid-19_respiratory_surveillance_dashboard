@@ -20,7 +20,7 @@ make_national_wastewater_plot <- function(data){
                height = 500)%>%
     
     add_lines(y = ~average,
-              line = list(color = "#3F3685"),
+              line = list(color = "#12436D"),
               name = 'Wastewater viral RNA (Mgc/p/d)'
               #marker = list(color = phs_colours("phs-purple"),
               #             size = 5)

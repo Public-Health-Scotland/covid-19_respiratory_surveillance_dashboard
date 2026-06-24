@@ -109,28 +109,18 @@ make_respiratory_trend_over_time_plot <- function(data, y_axis_title) {
   
   
 
-  # Checking whether flu or non flu
-  if("Adenovirus" %in% data$Organism){
-    # nonflu
-    colours <- c(phs_colours(c("phs-blue", "phs-rust", "phs-magenta",
-                               "phs-green", "phs-teal", "phs-purple")), "black")
-    linestyles <- c("dashdot", "longdashdot", "dash", "longdash", "solid", "dot", "solid")
 
-    legend_title_name <- "Pathogen"
-
-    } else {
-    #flu
-    colours <- c(phs_colours(c("phs-purple","phs-magenta","phs-green" , "phs-blue-80"  )), "black")
+    colours <- c("#CCA2B9","#801650","#FBC3A8" , "#94AABD")#, "black")
     legend_title_name <- "Subtype"
-    }
+
 
       # Define custom order for "Organism" levels (makes legend same order as dropdowns in other charts)
 
   subtype_order <- c(
-    "Influenza - Type B", "Influenza - Type A (not subtyped)","Influenza - Type A(H3)",
-    "Influenza - Type A(H1N1)pdm09",
-    "Influenza - Type A (any subtype)"
-    )
+    "Type B", "Type A (not subtyped)","Type A(H3)",
+    "Type A(H1N1)pdm09")#,
+    # "Influenza - Type A (any subtype)"
+    # )
 
   # Reorder the levels of "Organism" in descending order
   data$Organism <- factor(data$Organism, levels = subtype_order)
@@ -282,8 +272,9 @@ make_respiratory_trend_by_season_plot_function <- function(data, y_axis_title) {
             type="scatter",
             mode="lines",
 #            linetypes = c("solid", "dot", "dash", "longdash", "dashdot", "longdashdot", "solid"),
-            colors = phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-rust',
-                                   'phs-blue', 'phs-green', 'phs-graphite'))) %>%
+            colors=rev(season_colours[1:length(unique(data$Season))])) %>% 
+    # phs_colours(c('phs-purple', 'phs-magenta', 'phs-teal', 'phs-rust',
+    #                                'phs-blue', 'phs-green', 'phs-graphite'))) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            paper_bgcolor = phs_colours("phs-liberty-10"),
@@ -329,7 +320,7 @@ make_age_sex_pyramid_plot <- function(data, title = NULL) {
                            "<b>Rate per 100,000 population</b>: ", format(abs(Rate), big.mark=",")),
             hoverinfo = "text",
             #hovertemplate = "%{text}",
-            colors = phs_colours(c("phs-purple", "phs-magenta"))) %>%
+            colors = c("#12436D", "#28A197")) %>%
     layout(
       xaxis = list(
         tickvals = xaxis_breaks,

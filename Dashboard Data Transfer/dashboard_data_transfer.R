@@ -14,11 +14,6 @@ pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate, ISOweek,
 # Setting permisisons for files outputted
 Sys.umask("006")
 
-# for use to mask hb admission and occupancy data
-## LIKELY NOT NEEDED AFTER ADMISSIONS CHANGES - CHECK AND REMOVE ##
-summer_2025 <- as.Date("2025-05-18")
-#oct_2025 <- "2025-10-05"
-
 # Getting main script location for working directory
 path_main_script_location = dirname(rstudioapi::getActiveDocumentContext()$path)
 

@@ -11,6 +11,14 @@ tagList(
                                       pickerInput("respiratory_headline_subtype",
                                                   label = glue("Select subtype"),
                                                   choices = {Respiratory_Summary_Factor %>%
+                                                      mutate(Breakdown = recode(Breakdown, 
+                                                                               "Influenza - Type A (any subtype)" = "Type A (any subtype)",
+                                                                               "Influenza - Type A(H1N1)pdm09" = "Type A(H1N1)pdm09",
+                                                                               "Influenza - Type A(H3)" = "Type A(H3)",
+                                                                               "Influenza - Type A (not subtyped)" = "Type A (not subtyped)",
+                                                                               "Influenza - Type B" = "Type B",
+                                                                               "Influenza - Type A or B" = "Type A or B"
+                                                      )) %>% 
                                                       filter(FluOrNonFlu == "flu" & SummaryMeasure == "Scotland_by_Organism_Total") %>%
                                                       arrange(desc(Breakdown) )%>% # makes drop down default to match value box at top of tab
                                                       .$Breakdown %>% unique() %>% as.character()}),

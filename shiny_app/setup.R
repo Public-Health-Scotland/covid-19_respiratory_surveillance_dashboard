@@ -89,12 +89,13 @@ if (config::get()$online){
 ######
 
 # Respiratory factor
-resp_order <- c("Influenza - Type A (any subtype)",
-                "Influenza - Type A(H1N1)pdm09",
-                "Influenza - Type A(H3)",
-                "Influenza - Type A (not subtyped)",
-                "Influenza - Type B",
-                "Influenza - Type A or B",
+
+resp_order <- c("Type A (any subtype)",
+                "Type A(H1N1)pdm09",
+                "Type A(H3)",
+                "Type A (not subtyped)",
+                "Type B",
+                "Type A or B",
                 "Adenovirus",
                 "Human metapneumovirus",
                 "Mycoplasma pneumoniae",
@@ -105,6 +106,14 @@ resp_order <- c("Influenza - Type A (any subtype)",
                 "Total")
 
 Respiratory_AllData %<>%
+  mutate(Organism = recode(Organism, 
+         "Influenza - Type A (any subtype)" = "Type A (any subtype)",
+         "Influenza - Type A(H1N1)pdm09" = "Type A(H1N1)pdm09",
+         "Influenza - Type A(H3)" = "Type A(H3)",
+         "Influenza - Type A (not subtyped)" = "Type A (not subtyped)",
+         "Influenza - Type B" = "Type B",
+         "Influenza - Type A or B" = "Type A or B"
+         )) %>% 
   mutate(
          AgeGroup = factor(AgeGroup,
                            levels = c("<1", "1-4", "5-14", "15-44", "45-64", "65-74", "75+")
@@ -143,6 +152,12 @@ all_seasons <- unique(Respiratory_AllData$Season)
 recent_six_seasons <- tail(all_seasons,6)
 admission_seasons <- unique(Average_Length_of_Stay$Season)
 
+## colours to be used for season charts throughout - matching to respiratory report
+season_colours <- c(phs_colours("phs-teal"), phs_colours("phs-green"),
+                    phs_colours("phs-blue"), phs_colours("phs-magenta"),
+                    phs_colours("phs-purple"), phs_colours("phs-graphite"))
+
+
 # Static legend for MEM plots
 mem_legend <- readPNG("www/MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
 
@@ -165,18 +180,11 @@ euromomo_activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B
 mem_line_colours <- rev(c("#12436D", "#801650", "#F46A25","#3F085C",
                       "#3E8ECC", "#3D3D3D"))
 
-# Colours for lines on summary admissions line chart
-flu_hosp_adms_colours <- c(phs_colours("phs-purple"), phs_colours("phs-green"),
-                            phs_colours("phs-magenta"), phs_colours("phs-teal"), phs_colours("phs-graphite"),
-                            phs_colours("phs-blue"))
+# Age group colours
 
-rsv_hosp_adms_colours <- c(phs_colours("phs-purple"), phs_colours("phs-green"),
-                           phs_colours("phs-magenta"), phs_colours("phs-teal"), phs_colours("phs-graphite"),
-                           phs_colours("phs-blue"))
+cases_agegpp_colours <- c("#A8CCE8", "#12436D", "#28A197", "#801650", 
+                       "#F46A25", "#A285D1", "#3F085C", "#3D3D3D")
 
-# Colours for lines on line chart
-#euromomo_mem_line_colours <- c("#004785","#00a2e5", "#376C31", "#FF0000", "#FF0000")
-euromomo_mem_line_colours <- c("#3F085C","#F46A25", "#801650", "#12436D", "#12436D")
 
 # Include week 53?
 include_week_53 <- FALSE
@@ -204,7 +212,7 @@ if(include_week_53){
 # Age groups
 mem_age_groups <- c("< 1", "1-4", "5-14", "15-44", "45-64", "65-74",
                     "75+", "All Ages")
-mem_age_groups_full <- c("< 1 years", "1-4 years", "5-14 years", "15-44 years",
+mem_age_groups_full <- c("< 1 year", "1-4 years", "5-14 years", "15-44 years",
                          "45-64 years", "65-74 years", "75+ years", "All Ages")
 
 # Age groups
@@ -215,18 +223,12 @@ euromomo_mem_age_groups_full <- c("0-4 years", "5-14 years", "15-64 years",
 # Set date data goes up to - previous Sunday
 data_recent_date <- floor_date(as.Date(Deployment_Date, format = "%d %B %Y"), "week") %>% format("%d %B %Y")
 
-## Function to add seasons into tables (used in admissions script)
 
-add_season <- function(input_data) {
-  input_data %>%
-    mutate(week_start = week_ending - 6,
-           week = ISOweek::ISOweek(week_ending),
-           Season = case_when(str_sub(week, start = -2) < 40 ~
-                                (paste(as.numeric(str_sub(week, end = 4)) -1 , "-",
-                                       as.numeric(str_sub(week, end = 4)), sep="")),
-                              TRUE ~ (paste(as.numeric(str_sub(week, end = 4)),
-                                            "-", as.numeric(str_sub(week, end = 4)) + 1, sep=""))))
-}
+# Relabel age groups for admissions
+
+admissions_age %<>% mutate(AgeGroup = factor(AgeGroup, levels = c("<1",  "1-4", "5-14", "15-44", "45-64",
+                                                                  "65-74", "75+", "Total"),
+                                             labels=mem_age_groups_full)) 
 
 
 

@@ -149,8 +149,9 @@ create_positivity_age_chart <- function(data){
               x = ~WeekNumber, y = ~positivity_percentage, split = ~agegrp, 
               type="scatter", mode="lines",
               color=~agegrp,
-              colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
-                                   "phs-purple", "phs-blue-50", "phs-magenta", "phs-teal")),
+              colors=cases_agegpp_colours,
+              # colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
+              #                      "phs-purple", "phs-blue-50", "phs-magenta", "phs-teal")),
               # hovertemplate = paste0('<b>Week number</b>: %{x}<br>',
               #                        '<b>Age group</b>: %{text}<br>',
               #                        '<b>Test positivity</b>: %{y}')

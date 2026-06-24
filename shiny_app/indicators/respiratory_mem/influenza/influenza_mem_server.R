@@ -43,7 +43,7 @@ altTextServer("flu_positivity_age_modal",
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis is test positivity rate."),
                                 tags$li("By default, the plot contains a trace showing the admission rate per 100,000 across all age groups."),
-                                tags$li("Traces can be added for each of the following age groups: <1 years, 1-4 years, 5-14 years, 15-44 years, 45-64 years, 65-74 years, and 75+ years."),
+                                tags$li("Traces can be added for each of the following age groups: < 1 year, 1-4 years, 5-14 years, 15-44 years, 45-64 years, 65-74 years, and 75+ years."),
                                 tags$li("Each trace can be hidden/unhidden by clicking on the relevant age group from the legend on the right of the chart.")
               )
 )
@@ -229,7 +229,12 @@ output$influenza_mem_age_table <- renderDataTable({
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
-           AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
+           AgeGroup = factor(AgeGroup, 
+                             levels = c("< 1 years", "1-4 years",
+                                        "5-14 years", "15-44 years",
+                                        "45-64 years", "65-74 years",
+                                        "75+ years", "All Ages"),
+                             labels = mem_age_groups_full),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Age Group`= AgeGroup,

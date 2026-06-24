@@ -32,6 +32,14 @@ output$respiratory_headline_figures_subtype_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_Summary %>%
     filter(SummaryMeasure == "Scotland_by_Organism_Total") %>%
+    mutate(Breakdown = recode(Breakdown, 
+                             "Influenza - Type A (any subtype)" = "Type A (any subtype)",
+                             "Influenza - Type A(H1N1)pdm09" = "Type A(H1N1)pdm09",
+                             "Influenza - Type A(H3)" = "Type A(H3)",
+                             "Influenza - Type A (not subtyped)" = "Type A (not subtyped)",
+                             "Influenza - Type B" = "Type B",
+                             "Influenza - Type A or B" = "Type A or B"
+    )) %>% 
     filter(Breakdown == input$respiratory_headline_subtype) %>%
     .$Count %>% format(big.mark=",")
 
@@ -46,6 +54,14 @@ output$respiratory_headline_figures_subtype_count <- renderValueBox ({
 output$respiratory_headline_figures_healthboard_count <- renderValueBox ({
 
   organism_summary_total <- Respiratory_HB %>%
+    mutate(Pathogen = recode(Pathogen, 
+                              "Influenza - Type A (any subtype)" = "Type A (any subtype)",
+                              "Influenza - Type A(H1N1)pdm09" = "Type A(H1N1)pdm09",
+                              "Influenza - Type A(H3)" = "Type A(H3)",
+                              "Influenza - Type A (not subtyped)" = "Type A (not subtyped)",
+                              "Influenza - Type B" = "Type B",
+                              "Influenza - Type A or B" = "Type A or B"
+    )) %>% 
     filter(HBName == input$respiratory_headline_healthboard) %>%
     filter(Pathogen == input$respiratory_headline_subtype) %>%
     tail(1) %>%
@@ -69,7 +85,8 @@ output$respiratory_over_time_plot <- renderPlotly({
   Respiratory_AllData %>%
     filter_over_time_plot_function(healthboard = input$respiratory_select_healthboard) %>% # respiratory functions
     filter(FluOrNonFlu == "flu") %>%
-    filter(Organism != "Total" & Organism != "Influenza - Type A (any subtype)" & Organism!= "Influenza - Type A or B") %>%
+    filter(Organism != "Total" & Organism != "Type A (any subtype)" & Organism!= "Type A or B" &
+             Organism!= "Type A (any subtype)") %>%
     filter(Season== input$respiratory_select_season) %>% 
     group_by(Date) %>% 
     mutate(total_cases  = sum(Count)) %>% 
@@ -110,7 +127,7 @@ output$respiratory_over_time_table <- renderDataTable ({
       filter(Season == input$respiratory_select_season, 
              Healthboard == input$respiratory_select_healthboard,
              FluOrNonFlu == "flu",
-             Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>% 
+             Organism != "Total" & Organism != "Type A (any subtype)") %>% 
       arrange(desc(Date), Organism) %>%
       select(Season, Week,Healthboard, Organism, Count, Rate) %>%
       mutate(Week = as.character(Week),
@@ -132,7 +149,7 @@ output$respiratory_over_time_table <- renderDataTable ({
      filter(Season == input$respiratory_select_season, 
             Healthboard == input$respiratory_select_healthboard,
             FluOrNonFlu == "flu",
-            Organism != "Total" & Organism != "Influenza - Type A (any subtype)") %>% 
+            Organism != "Total" & Organism != "Type A (any subtype)") %>% 
       arrange(desc(Date), Organism) %>%
       select(Season, Week,Healthboard, Organism, Rate) %>%
       mutate(Week = as.character(Week),

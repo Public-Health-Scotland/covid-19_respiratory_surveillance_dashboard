@@ -99,7 +99,11 @@ output$gp_mem_age_table <- renderDataTable({
     select(Season, ISOWeek, AgeGroup, RatePer100000, ActivityLevel) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
-           AgeGroup = factor(AgeGroup, levels = mem_age_groups_full),
+           AgeGroup = factor(AgeGroup, levels = c("< 1 years", "1-4 years",
+                                                  "5-14 years", "15-44 years",
+                                                  "45-64 years", "65-74 years",
+                                                  "75+ years", "All Ages"),
+                             labels=mem_age_groups_full), 
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Age Group`= AgeGroup,

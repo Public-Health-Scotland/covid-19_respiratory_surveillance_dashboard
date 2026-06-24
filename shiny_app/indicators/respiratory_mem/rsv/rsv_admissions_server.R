@@ -18,7 +18,7 @@ altTextServer("rsv_admissions_age_modal",
                                 tags$li("The x axis shows the ISO week of admission, from week 40 to week 39. ",
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),                                 tags$li("The y axis shows the hospital admission rate per 100,000 population."),
                                 tags$li("By default, the plot contains a trace showing the admission rate per 100,000 across all age groups."),
-                                tags$li("Traces can be added for each of the following age groups: <1 years, 1-4 years, 5-14 years, 15-44 years, 45-64 years, 65-74 years, and 75+ years."),
+                                tags$li("Traces can be added for each of the following age groups: < 1 year, 1-4 years, 5-14 years, 15-44 years, 45-64 years, 65-74 years, and 75+ years."),
                                 tags$li("Each trace can be hidden/unhidden by clicking on the relevant age group from the legend on the right of the chart.")))
 
 altTextServer("rsv_admissions_hb_modal",
@@ -39,8 +39,8 @@ altTextServer("rsv_los_modal",
                         "the date of admission in days."),
                 tags$li("There is a drop down above the chart which allows you to select",
                         "the respiratory season for plotting. The default is the current season."),
-                tags$li("The x axis shows a break down of admissions by age groups: Under 1, 1-4, 5-14, 15-44,
-                        45-64, 65-74, 75+ and finally for all ages combined."),
+                tags$li("The x axis shows a break down of admissions by age groups: <1 year, 1-4 years, 5-14 years, 
+                        15-44 years, 45-64 years, 65-74 years, and 75+ years and finally for all ages combined."),
                 tags$li("The y axis is the average length of stay for admissions within a given age group category."),
                 tags$li("For each age group category, the 95% confidence interval (CI) for the average length of stay is
                         also shown. The CI represents a range of plausible values for the average length of stay and 
@@ -78,7 +78,8 @@ output$rsv_admissions_table <- renderDataTable({
     rename(`ISO Week` = ISOWeek,
            `Number of Admissions` = Admissions,
            `Admission Rate per 100k` = RatePer100000) %>%
-    make_table(filter_cols = c(1,2))
+    make_table(add_separator_cols_1dp = c(4),
+               filter_cols = c(1,2))
 })
 
 # RSV HB admissions table
@@ -104,10 +105,6 @@ output$rsv_admissions_age_table <- renderDataTable({
     filter(Pathogen=="RSV") %>% 
     select(week_ending = WeekEnding, age_band = AgeGroup, Season,
            Admissions = NumberAdmissionsPerWeek, rate = RateAdmissionsPerWeek) %>% 
-    mutate(age_band = factor(age_band, levels = c("<1", "1-4", "5-14",
-                                                  "15-44", "45-64", "65-74",  "75+", "Total"),
-                             labels = c("<1", "1 to 4", "5 to 14",
-                                        "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
     make_admissions_age_table()
   
 })
@@ -125,8 +122,6 @@ output$rsv_admissions_age_plot <- renderPlotly({
     filter(Pathogen=="RSV") %>% 
     select(week_ending = WeekEnding, age_band = AgeGroup,
            rate = RateAdmissionsPerWeek, Season, week=ISOweek) %>%
-    mutate(age_band = factor(age_band, levels = c("<1",  "1-4", "5-14", "15-44", "45-64",
-                                                  "65-74", "75+", "Total"))) %>% 
     arrange(week_ending, age_band) %>%
     filter(Season == input$adm_season_rsv_age) %>%
     create_pathogen_adms_age_linechart()
@@ -166,7 +161,8 @@ output$rsv_admissions_simd_table <- renderDataTable({
                   `Number of admissions` = NumberAdmissionsPerWeek,
                   `Admission Rate per 100k` = RateAdmissionsPerWeek,
                   `Is data provisional (p)?` = ProvisionalFlag) %>%
-    make_table(add_separator_cols = c(3),
+    make_table(add_separator_cols_1dp = c(4),
+               add_separator_cols = c(3),
                filter_cols = c(2,5))
 })
 
@@ -207,7 +203,8 @@ output$rsv_los_text <- renderText({
 output$rsv_los_plot <- renderPlotly({
   avg_rsv_los_plot <- Average_Length_of_Stay %>% 
     mutate(AgeGroup = factor(AgeGroup, levels = c("<1", "1 to 4", "5 to 14", "15 to 44", "45 to 64",  
-                                                  "65 to 74", "75+", "All Ages"))) %>% 
+                                                  "65 to 74", "75+", "All Ages"),
+                             labels=mem_age_groups_full)) %>% 
     filter(Pathogen == "RSV",
            Season == input$los_season_rsv) %>% 
     make_hospital_admissions_los_plot()
@@ -220,7 +217,8 @@ output$rsv_los_table <- renderDataTable({
     filter(Pathogen == "RSV") %>% #,
     mutate(AverageLengthOfStay = round(AverageLengthOfStay,2),
            AgeGroup = factor(AgeGroup, levels = c("<1", "1 to 4", "5 to 14", "15 to 44", "45 to 64",  
-                                                  "65 to 74", "75+", "All Ages")),
+                                                  "65 to 74", "75+", "All Ages"),
+                             labels=mem_age_groups_full),
            Season = as.factor(Season)) %>% 
     arrange(desc(Season), AgeGroup) %>% 
     select(Season, 'Age group' = AgeGroup, 'Average Length of stay' = AverageLengthOfStay) %>%

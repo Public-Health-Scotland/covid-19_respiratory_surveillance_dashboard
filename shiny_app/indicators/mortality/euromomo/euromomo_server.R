@@ -96,13 +96,13 @@ output$euromomo_mem_age_table <- renderDataTable({
   Respiratory_Euromomo %>%
     filter(Season %in% euromomo_seasons[(length(euromomo_seasons)-1):length(euromomo_seasons)]) %>%
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
-                                "Yes", "")) %>%
-    arrange(desc(Year), desc(ISOWeek)) %>%
+                                "Yes", ""),
+           AgeGroup = factor(AgeGroup, levels = euromomo_mem_age_groups_full)) %>%
+    arrange(desc(Year), desc(ISOWeek), AgeGroup) %>%
     select(Season, ISOWeek, AgeGroup, ZScore, ActivityLevel, ReportingDelay) %>%
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ReportingDelay=factor(ReportingDelay),
-           AgeGroup = factor(AgeGroup, levels = euromomo_mem_age_groups_full),
            ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Z-score` = ZScore,

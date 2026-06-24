@@ -25,7 +25,8 @@ output$duodetections_cari_table <- renderDataTable({
     rename(`ISO Week` = ISOWeekNo,
            `Pathogen` = pathogen,
            `Percentage (%)` = perc) %>%
-    make_table(filter_cols = c(1,2,3))
+    make_table(add_separator_cols_1dp = c(4),
+               filter_cols = c(1,2,3))
 })
 
 
@@ -51,7 +52,8 @@ output$codetections_cari_table <- renderDataTable({
     rename(`Four-Week Ending` = FourWeekEnding,
            `Age Group` = AgeGroup,
            `Percentage of positive samples (%)` = perc) %>%
-    make_table(filter_cols = c(1,2))
+    make_table(add_separator_cols_1dp = c(3),
+               filter_cols = c(1,2))
 })
 
 

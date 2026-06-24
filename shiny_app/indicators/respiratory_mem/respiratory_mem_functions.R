@@ -154,10 +154,12 @@ create_mem_linechart <- function(data,
             textposition = "none",
             text = tooltip_trend,
             hoverinfo = "text",
-            color = ~Season,
+            color = I("black"),
+            linetype=~factor(Season, levels = sort(unique(Season), decreasing = TRUE)),
             type="scatter",
-            mode="lines",
-            colors = mem_line_colours) %>%
+            mode="lines"#,
+            #colors = "#000000"
+            ) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            margin = list(b = 100, t = 5),
@@ -238,7 +240,8 @@ create_mem_linechart <- function(data,
         )
       ),
       legend = list(y = 0.5,
-                    yanchor = 'middle')) %>%
+                    yanchor = 'middle',
+                    traceorder='reversed')) %>%
     
     config(displaylogo = FALSE, displayModeBar = TRUE,
            modeBarButtonsToRemove = bttn_remove)
@@ -259,6 +262,11 @@ create_mem_linechart <- function(data,
                 text = tooltip_trend,
                 hoverinfo = "text")
   }
+  
+  
+  mem_linechart <- mem_linechart %>%
+    style(line = list(width = 4), traces = which(seasons == min(seasons)))
+  
   
   return(mem_linechart)
   
@@ -652,7 +660,9 @@ create_pathogen_adms_linechart <- function(data,
             color = ~Season,
             type="scatter",
             mode="lines",
-            colors = flu_hosp_adms_colours) %>%
+            colors=rev(season_colours[1:length(unique(data$Season))])
+            #colors = flu_hosp_adms_colours
+            ) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            margin = list(b = 100, t = 5),
@@ -725,12 +735,11 @@ create_pathogen_adms_age_linechart <- function(data){
   
   plot_data <- data %>%  
     mutate(WeekNumber = as.numeric(substr(week, nchar(week) - 1, nchar(week))),
-           WeekNumber = factor(WeekNumber, levels = week_order), 
-           age_band = factor(age_band, levels = c("<1", "1-4", "5-14",
-                                                  "15-44", "45-64", "65-74",  "75+", "Total"),
-                             labels = c("<1", "1 to 4", "5 to 14",
-                                        "15 to 44", "45 to 64", "65 to 74",  "75+", "All ages"))) %>% 
-    arrange(Season, WeekNumber)
+           WeekNumber = factor(WeekNumber, levels = week_order)) 
+    # , 
+    #        age_band = factor(age_band, levels = c("<1", "1-4", "5-14",
+    #                                               "15-44", "45-64", "65-74",  "75+", "Total"),
+    #                          labels = mem_age_groups_full)) #%>% 
 
   
   # Text for tooltip
@@ -748,24 +757,25 @@ create_pathogen_adms_age_linechart <- function(data){
   
   ## Add as two separate traces to enable 'All ages' to be shown as the default trace
   p <- plot_ly(plot_data) %>%
-    add_trace(data = plot_data[plot_data$age_band!="All ages",],
+    add_trace(data = plot_data[plot_data$age_band!="All Ages",],
               x = ~WeekNumber, y = ~rate, split = ~age_band, 
               type="scatter", mode="lines",
               color=~age_band,
-              colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
-                                   "phs-purple", "phs-blue-50", "phs-magenta", "phs-teal")),
+              colors=cases_agegpp_colours,
+              # colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
+              #                      "phs-purple", "phs-blue-50", "phs-magenta", "phs-teal")),
               textposition = "none",
-              text = tooltip_trend[plot_data$age_band!="All ages"],
+              text = tooltip_trend[plot_data$age_band!="All Ages"],
               hoverinfo = "text",
               visible = "legendonly"
     ) %>%
-    add_trace(data = plot_data[plot_data$age_band=="All ages",],
+    add_trace(data = plot_data[plot_data$age_band=="All Ages",],
               x = ~WeekNumber, y = ~rate, split = ~age_band, 
               type="scatter", mode="lines",
               color=~age_band,
               colors=phs_colours(c("phs-graphite-50")),
               textposition = "none",
-              text = tooltip_trend[plot_data$age_band=="All ages"],
+              text = tooltip_trend[plot_data$age_band=="All Ages"],
               hoverinfo = "text"
     ) %>%
     layout(margin = list(b = 100, t = 5),
@@ -781,7 +791,7 @@ create_pathogen_adms_age_linechart <- function(data){
   if(length(unique(plot_data$week_ending)) == 1){
     
     p <- p %>%
-      add_trace(data = plot_data[plot_data$age_band!="All ages",],
+      add_trace(data = plot_data[plot_data$age_band!="All Ages",],
                 x = ~WeekNumber,
                 y = ~rate,
                 showlegend = F,
@@ -790,10 +800,10 @@ create_pathogen_adms_age_linechart <- function(data){
                 type = "scatter",
                 mode = 'markers',
                 textposition = "none",
-                text = tooltip_trend[plot_data$age_band!="All ages"],
+                text = tooltip_trend[plot_data$age_band!="All Ages"],
                 hoverinfo = "text",
                 visible = "legendonly") %>% 
-      add_trace(data = plot_data[plot_data$age_band=="All ages",],
+      add_trace(data = plot_data[plot_data$age_band=="All Ages",],
                 x = ~WeekNumber,
                 y = ~rate,
                 showlegend = F,
@@ -802,7 +812,7 @@ create_pathogen_adms_age_linechart <- function(data){
                 type = "scatter",
                 mode = 'markers',
                 textposition = "none",
-                text = tooltip_trend[plot_data$age_band=="All ages"],
+                text = tooltip_trend[plot_data$age_band=="All Ages"],
                 hoverinfo = "text")     }
   
   return(p)
@@ -1147,7 +1157,9 @@ create_pathogen_occupancy_linechart <- function(data,
             color = ~Season,
             type="scatter",
             mode="lines",
-            colors = flu_hosp_adms_colours) %>%
+            colors=rev(season_colours[1:length(unique(data$Season))])
+            # colors = flu_hosp_adms_colours
+            ) %>%
     layout(yaxis = yaxis_plots,
            xaxis = xaxis_plots,
            margin = list(b = 100, t = 5),
@@ -1345,13 +1357,13 @@ create_cari_age_linechart2 <- function(data){
   
   # Define a named color vector
   age_colours <- c(
-    "All ages" = "black",
+    "All ages" = "#3D3D3D",
     "0-4 years" = "#12436D",
     "5-14 years" = "#28A197",
     "15-44 years" = "#801650",
     "45-64 years" = "#F46A25",
-    "65-74 years" = "#3F085C",
-    "75+ years" = "#3E8ECC"
+    "65-74 years" = "#A285D1",
+    "75+ years" = "#3F085C"
   )
   
   p <- plot_ly(data) %>%
@@ -1500,10 +1512,10 @@ create_cari_subtype_barchart <- function(data){
 
   # Define a named color vector
   subtype_colours <- c(
-    "Type A (H1N1)" = "#801650",
-    "Type A (H3N2)" = "#F46A25",
-    "Type A (not subtyped)" = "#3F085C",
-    "Type B" = "#3E8ECC",
+    "Type A (H1N1)" = "#94AABD",
+    "Type A (H3N2)" = "#FBC3A8",
+    "Type A (not subtyped)" = "#801650",
+    "Type B" = "#CCA2B9",
     "HPIV-1" = "#28A197",
     "HPIV-2" = "#801650",
     "HPIV-3" = "#F46A25",
@@ -1540,6 +1552,70 @@ create_cari_subtype_barchart <- function(data){
   p
   
   return(p)
+  
+}
+
+create_cari_subtype_linechart <- function(data){
+  
+  yaxis_plots[["title"]] <- "Test positivity (%)"
+  xaxis_plots[["title"]] <- "Week ending"
+  
+  #xaxis_plots[["rangeslider"]] <- list(type = "date")
+  yaxis_plots[["fixedrange"]] <- FALSE
+  yaxis_plots[["ticksuffix"]] <- "%"
+  
+  
+  # Define a named color vector
+  subtype_colours <- c(
+    "Type A and B" = "black",
+    "Type A" = "#3D3D3D",
+    "Type A (H1N1)" = "#94AABD",
+    "Type A (H3N2)" = "#FBC3A8",
+    "Type A (not subtyped)" = "#801650",
+    "Type B" = "#CCA2B9",
+    "HPIV" = "black",
+    "HPIV-1" = "#28A197",
+    "HPIV-2" = "#801650",
+    "HPIV-3" = "#F46A25",
+    "HPIV-4" = "#3F085C",
+    "Seasonal coronavirus (non-COVID-19)" = "black",
+    "HCoV-229e (alpha)" = "#28A197",
+    "HCoV-NL63 (alpha)" = "#801650",
+    "HCoV-OC43 (beta)" = "#F46A25", 
+    "Untyped" = "#3F085C"
+  )
+  
+  p <- plot_ly(data) %>%
+    add_trace(x = ~WeekEnding, y = ~SwabPositivity, split = ~Pathogen, 
+              type="scatter", mode="lines",
+              color=~Pathogen,
+              colors=subtype_colours,
+              text = ~paste0("<b>Week ending</b>: ", format(WeekEnding, "%d %b %y"), "\n",
+                             "<b>Type/Subtype</b>: ", Pathogen, "\n",
+                             "<b>Number of positive samples</b>: ", format(PositiveSamples, big.mark=","), "\n",
+                             "<b>Number of samples</b>: ", format(TotalSamples, big.mark=","), "\n",
+                             "<b>Test positivity</b>: ", round_half_up(SwabPositivity,1), "%\n",
+                             "<b>95% confidence interval</b>: ", round_half_up(SwabPositivityLCL,1),
+                             "% - ", round_half_up(SwabPositivityUCL,1), "%"),
+              hovertemplate = "%{text}"
+    ) %>%
+    layout(margin = list(b = 100, t = 5),
+           yaxis = yaxis_plots, xaxis = xaxis_plots,
+           legend = list(x = 100, y = 0.5),
+           paper_bgcolor = phs_colours("phs-liberty-10"),
+           plot_bgcolor = phs_colours("phs-liberty-10"),
+           showlegend = TRUE) %>%
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    return(p)
   
 }
 
@@ -1817,8 +1893,7 @@ create_test_pos_seasons_linechart <- function(data, pathogen_type){
     add_trace(x = ~ISOweek, y = ~positivity_percentage, split = ~season, #text=~season,
               type="scatter", mode="lines",
               color=~season,
-              colors=phs_colours(c("phs-blue", "phs-rust", "phs-green",
-                                   "phs-purple", "phs-blue-50", "phs-magenta")),
+              colors=rev(season_colours[1:length(unique(data$season))]), 
               textposition = "none",
               text = tooltip_trend,
               hoverinfo = "text"
@@ -1841,7 +1916,7 @@ create_test_pos_seasons_linechart <- function(data, pathogen_type){
                 y = ~positivity_percentage,
                 showlegend = F,
                 color = ~season,
-                colors = "#FF0000",
+                colors = phs_colours("phs-teal"),
                 type = "scatter",
                 mode = 'markers',
                 textposition = "none",

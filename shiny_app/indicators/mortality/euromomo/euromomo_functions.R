@@ -160,6 +160,16 @@ create_euromomo_mem_linechart <- function(data,
     mutate(SeasonDelay = ifelse(ActivityLevelDelay == "Reporting delay",
                                 paste0(Season, " (Reporting delay)"), Season))
   
+  
+  season_delay_levels <- data %>%
+    arrange(Season, Weekord) %>%
+    pull(SeasonDelay) %>%
+    unique()
+  
+  #thick_levels <- tail(season_delay_levels, 2)
+  delayed_seasons <- grep("Reporting delay", season_delay_levels)
+  thick_levels <- season_delay_levels[unique(sort(c(delayed_seasons, delayed_seasons-1)))]
+  
   # Current season data only
   data_curr_season <- data %>%
     filter(Season %in% seasons[length(seasons)])
@@ -173,19 +183,49 @@ create_euromomo_mem_linechart <- function(data,
   if(!latest_week %in% c("40", "41", "42")){
     
     # Create plot
-    mem_linechart = data %>%
-      plot_ly(x = ~ISOWeek,
-              y = ~Value,
-              textposition = "none",
-              text = tooltip_trend, 
-              hoverinfo = "text",
-              color = ~SeasonDelay,
-              type="scatter",
-              mode="lines",
-#              line = list(width = 5),
-              linetype = ~SeasonDelay,
-              linetypes = c("solid", "solid", "solid", "solid", "dot"),
-              colors = euromomo_mem_line_colours) %>%
+    
+    # Base plot (thin lines)
+    mem_linechart <- plot_ly(
+      data = data %>% filter(!SeasonDelay %in% thick_levels),
+      x = ~ISOWeek,
+      y = ~Value,
+      textposition = "none",
+      text = ~paste0(
+        "Season: ", Season,
+        "<br>Week number: ", ISOWeek,
+        "<br>Z-score: ", Value, ReportingDelay,
+        "<br>Activity level: ", ActivityLevel, ReportingDelay
+      ),
+      hoverinfo = "text",
+      color = I("black"),
+      type = "scatter",
+      mode = "lines",
+      linetype = ~SeasonDelay,
+      linetypes = rev(c("dot", "solid", "dash", "dashdot", "longdash")),
+      line = list(width = 1)   # thin
+    )
+    
+    # Add thicker traces for last two levels
+    mem_linechart <- mem_linechart %>%
+      add_trace(
+        data = data %>% filter(SeasonDelay %in% thick_levels),
+        x = ~ISOWeek,
+        y = ~Value,
+        textposition = "none",
+        text = ~paste0(
+          "Season: ", Season,
+          "<br>Week number: ", ISOWeek,
+          "<br>Z-score: ", Value, ReportingDelay,
+          "<br>Activity level: ", ActivityLevel, ReportingDelay
+        ),
+        hoverinfo = "text",
+        color = I("black"),
+        type = "scatter",
+        mode = "lines",
+        linetype = ~SeasonDelay,
+        linetypes = rev(c("dot", "solid", "dash", "dashdot", "longdash")),
+        line = list(width = 4)   # thicker lines
+      ) %>%
       layout(yaxis = yaxis_plots,
              xaxis = xaxis_plots,
              margin = list(b = 100, t = 5),
@@ -280,12 +320,19 @@ create_euromomo_mem_linechart <- function(data,
                   x = ~ISOWeek,
                   y = ~Value,
                   showlegend = F,
-                  color = ~SeasonDelay,
-                  colors = "#12436D",
+                  color = I("black"),
+                  #color = ~SeasonDelay,
+                  #colors = "#12436D",
                   type = "scatter",
                   mode = 'markers',
                   textposition = "none",
-                  text = tooltip_trend[length(tooltip_trend)-4],
+                  text = ~paste0(
+                    "Season: ", Season,
+                    "<br>Week number: ", ISOWeek,
+                    "<br>Z-score: ", Value, ReportingDelay,
+                    "<br>Activity level: ", ActivityLevel, ReportingDelay
+                  ),
+                  #text = tooltip_trend[length(tooltip_trend)-4],
                   hoverinfo = "text")
       
     }
@@ -296,20 +343,47 @@ create_euromomo_mem_linechart <- function(data,
     
     
     # Create plot
-    mem_linechart = data %>%
-      plot_ly(x = ~ISOWeek,
-              y = ~Value,
-              textposition = "none",
-              #text = tooltip_trend[-length(tooltip_trend)],
-              text = tooltip_trend,
-              hoverinfo = "text",
-              color = ~SeasonDelay,
-              type="scatter",
-              mode="lines",
-              line = list(width = 5),
-              linetype = ~SeasonDelay,
-              linetypes = c("solid", "solid", "solid", "dot", "dot"),
-              colors = c("#3F085C","#F46A25", "#801650", "#801650", "#12436D")) %>%
+    mem_linechart <- plot_ly(
+      data = data %>% filter(!SeasonDelay %in% thick_levels),
+      x = ~ISOWeek,
+      y = ~Value,
+      textposition = "none",
+      text = ~paste0(
+        "Season: ", Season,
+        "<br>Week number: ", ISOWeek,
+        "<br>Z-score: ", Value, ReportingDelay,
+        "<br>Activity level: ", ActivityLevel, ReportingDelay
+      ),
+      hoverinfo = "text",
+      color = I("black"),
+      type = "scatter",
+      mode = "lines",
+      linetype = ~SeasonDelay,
+      linetypes = rev(c("dot", "dot", "solid", "dash", "dashdot")),#, "longdash")),
+      line = list(width = 1)   # thin
+    )
+    
+    # Add thicker traces for last two levels
+    mem_linechart <- mem_linechart %>%
+      add_trace(
+        data = data %>% filter(SeasonDelay %in% thick_levels),
+        x = ~ISOWeek,
+        y = ~Value,
+        textposition = "none",
+        text = ~paste0(
+          "Season: ", Season,
+          "<br>Week number: ", ISOWeek,
+          "<br>Z-score: ", Value, ReportingDelay,
+          "<br>Activity level: ", ActivityLevel, ReportingDelay
+        ),
+        hoverinfo = "text",
+        color = I("black"),
+        type = "scatter",
+        mode = "lines",
+        linetype = ~SeasonDelay,
+        linetypes = rev(c("dot", "dot", "dash", "dashdot", "longdash")),
+        line = list(width = 4)   # thicker lines
+      ) %>%
       layout(yaxis = yaxis_plots,
              xaxis = xaxis_plots,
              margin = list(b = 100, t = 5),
@@ -402,12 +476,18 @@ create_euromomo_mem_linechart <- function(data,
                   x = ~ISOWeek,
                   y = ~Value,
                   showlegend = F,
-                  color = ~SeasonDelay,
-                  colors = "#12436D",
+                  color = I("black"),
+                  #color = ~SeasonDelay,
+                  #colors = "#12436D",
                   type = "scatter",
                   mode = 'markers',
                   textposition = "none",
-                  text = tooltip_trend,
+                  text = ~paste0(
+                    "Season: ", Season,
+                    "<br>Week number: ", ISOWeek,
+                    "<br>Z-score: ", Value, ReportingDelay,
+                    "<br>Activity level: ", ActivityLevel, ReportingDelay
+                  ),
                   hoverinfo = "text")
     }
     
@@ -417,20 +497,47 @@ create_euromomo_mem_linechart <- function(data,
   if(latest_week == "42"){
     
     # Create plot
-    mem_linechart = data %>%
-      plot_ly(x = ~ISOWeek,
-              y = ~Value,
-              textposition = "none",
-              #text = tooltip_trend[-length(tooltip_trend)],
-              text = tooltip_trend,
-              hoverinfo = "text",
-              color = ~SeasonDelay,
-              type="scatter",
-              mode="lines",
-              line = list(width = 5),
-              linetype = ~SeasonDelay,
-              linetypes = c("solid", "solid", "solid", "dot"),
-              colors = c("#3F085C","#F46A25", "#801650", "#12436D")) %>%
+    mem_linechart <- plot_ly(
+      data = data %>% filter(!SeasonDelay %in% thick_levels),
+      x = ~ISOWeek,
+      y = ~Value,
+      textposition = "none",
+      text = ~paste0(
+        "Season: ", Season,
+        "<br>Week number: ", ISOWeek,
+        "<br>Z-score: ", Value, ReportingDelay,
+        "<br>Activity level: ", ActivityLevel, ReportingDelay
+      ),
+      hoverinfo = "text",
+      color = I("black"),
+      type = "scatter",
+      mode = "lines",
+      linetype = ~SeasonDelay,
+      linetypes = rev(c("dot", "solid", "dash", "dashdot")),#, "longdash")),
+      line = list(width = 1)   # thin
+    )
+    
+    # Add thicker traces for last two levels
+    mem_linechart <- mem_linechart %>%
+      add_trace(
+        data = data %>% filter(SeasonDelay %in% thick_levels),
+        x = ~ISOWeek,
+        y = ~Value,
+        textposition = "none",
+        text = ~paste0(
+          "Season: ", Season,
+          "<br>Week number: ", ISOWeek,
+          "<br>Z-score: ", Value, ReportingDelay,
+          "<br>Activity level: ", ActivityLevel, ReportingDelay
+        ),
+        hoverinfo = "text",
+        color = I("black"),
+        type = "scatter",
+        mode = "lines",
+        linetype = ~SeasonDelay,
+        linetypes = rev(c("dot", "dash", "dashdot", "longdash")),
+        line = list(width = 4)   # thicker lines
+      ) %>%
       layout(yaxis = yaxis_plots,
              xaxis = xaxis_plots,
              margin = list(b = 100, t = 5),
@@ -518,9 +625,11 @@ create_euromomo_mem_linechart <- function(data,
     
   }
   
+  
   return(mem_linechart)
   
 }
+
 
 
 # Create MEM heatmaps

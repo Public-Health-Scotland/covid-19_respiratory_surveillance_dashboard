@@ -12,8 +12,8 @@ output$health_board_plot =  renderPlotly({
       y = ~average, 
       type = 'scatter', 
       mode = 'lines+markers',
-      line = list(dash = 'solid', color = "#3F3685"),
-      marker = list(color = "#3F3685"),
+      line = list(dash = 'solid', color = "#28A197"),
+      marker = list(color = "#28A197"),
       name = input$selected_board,
       text = ~paste("Week Ending Date:", format(End, "%d %b %y"),
                     "<br>Average (Mgc/p/d):", round_half_up(average, 1), 
@@ -27,8 +27,8 @@ output$health_board_plot =  renderPlotly({
       y = ~average, 
       type = 'scatter', 
       mode = 'lines+markers',
-      line = list(dash = 'solid', color = "green"),  # Different style for Scotland
-      marker = list(color = "green"),
+      line = list(dash = 'solid', color = "#12436D"),  # Different style for Scotland
+      marker = list(color = "#12436D"),
       name = 'Scotland',
       text = ~paste("Week Ending Date:", format(End, "%d %b %y"), 
                     "<br>Scotland Average (Mgc/p/d):", round_half_up(average, 1), 
