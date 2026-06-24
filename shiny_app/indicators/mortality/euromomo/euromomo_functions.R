@@ -5,6 +5,34 @@ create_euromomo_mem_linechart <- function(data,
                                           value_variable = "ZScore",
                                           y_axis_title = "Z-score") {
   
+  data <- Respiratory_Euromomo %>%
+    filter(AgeGroup == "All Ages")
+  
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/26") %>%
+  #   mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOWeek == 52) %>%
+  #   mutate(ISOWeek = 53,
+  #          Weekord = 14)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, ISOWeek)
+  # ####################
+
+  # Drop week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOWeek != 53)
+    
+  }
+  
   # Latest reporting week
   latest_week <- data %>%
     tail(1) %>%
@@ -44,11 +72,57 @@ create_euromomo_mem_linechart <- function(data,
   
   # Wrangle data
   data = data %>%
-    filter(ISOWeek != 53) %>%
+    #filter(ISOWeek != 53) %>%
     filter(Season %in% seasons) %>%
     select(Season, ISOWeek, Weekord, Value, ActivityLevel, ActivityLevelDelay, LowThreshold, 
            MediumThreshold, HighThreshold, ExtraordinaryThreshold, new_row) %>%
-    arrange(Season, Weekord) %>%
+    arrange(Season, Weekord) 
+  
+  # Add in missing week 53 if required (will create gaps in graphs)
+  if(include_week_53 & non_week_53_gap){
+
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(ISOWeek == 53)
+
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    } else{
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season != unique(data_week_53$Season)) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    }
+
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOWeek == 52) %>%
+      mutate(ISOWeek = 53,
+             Weekord = 14,
+             Value = NA,
+             ActivityLevel = "NA")
+
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Season, Weekord)
+
+    # Update data
+    data <- data %>%
+      filter(!Season %in% unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+      arrange(Season, Weekord)
+
+  }
+  
+  data = data %>%
     mutate(ISOWeek = as.character(ISOWeek),
            ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
   
@@ -59,7 +133,7 @@ create_euromomo_mem_linechart <- function(data,
   
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- c(0,52)
+  xaxis_plots[["range"]] <- c(0,max(mem_isoweeks))
   
   #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
@@ -100,10 +174,10 @@ create_euromomo_mem_linechart <- function(data,
   data_curr_season <- data %>%
     filter(Season %in% seasons[length(seasons)])
   
-  week_template <- data.frame(seq(1:52))
+  week_template <- data.frame(seq(1:max(mem_isoweeks)))
   names(week_template) <- "ISOWeek"
   week_template <- week_template %>%
-    mutate(ISOWeek = factor(ISOWeek, levels = c(40:52,1:39)))
+    mutate(ISOWeek = factor(ISOWeek, levels = c(40:max(mem_isoweeks),1:39)))
   
   # If latest week isn't week 40 or 41
   if(!latest_week %in% c("40", "41", "42")){
@@ -163,7 +237,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = 0,
                     y1 = baseline_max,
@@ -174,7 +248,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = baseline_max,#+0.00001,
                     y1 = low_max,
@@ -185,7 +259,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = low_max,#+0.00001,
                     y1 = moderate_max,
@@ -196,7 +270,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = moderate_max,#+0.00001,
                     y1 = high_max,
@@ -207,7 +281,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = high_max,#+0.00001,
                     y1 = extraordinary_max,
@@ -321,7 +395,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = 0,
                     y1 = baseline_max,
@@ -332,7 +406,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = baseline_max,#+0.00001,
                     y1 = low_max,
@@ -343,7 +417,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = low_max,#+0.00001,
                     y1 = moderate_max,
@@ -354,7 +428,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = moderate_max,#+0.00001,
                     y1 = high_max,
@@ -365,7 +439,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = high_max,#+0.00001,
                     y1 = extraordinary_max,
@@ -475,7 +549,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = 0,
                     y1 = baseline_max,
@@ -486,7 +560,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = baseline_max,#+0.00001,
                     y1 = low_max,
@@ -497,7 +571,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = low_max,#+0.00001,
                     y1 = moderate_max,
@@ -508,7 +582,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = moderate_max,#+0.00001,
                     y1 = high_max,
@@ -519,7 +593,7 @@ create_euromomo_mem_linechart <- function(data,
                     line = list(color = "transparent"),
                     opacity = 0.5,
                     x0 = 0,
-                    x1 = 52,
+                    x1 = max(mem_isoweeks),
                     xref = "x",
                     y0 = high_max,#+0.00001,
                     y1 = extraordinary_max,
@@ -566,7 +640,33 @@ create_euromomo_mem_heatmap <- function(data,
                                         breakdown_variable = "AgeGroup",
                                         heatmap_seasons = NULL,
                                         value_variable = "ZScore") {
+
+  # ### Create test data
+  # data_2526 <- data %>%
+  #   filter(Season == "2025/26") %>%
+  #   mutate(Weekord = ifelse(ISOWeek < 40, Weekord+1, Weekord))
+  # 
+  # data_2526_wk53 <- data_2526 %>%
+  #   filter(ISOWeek == 52) %>%
+  #   mutate(ISOWeek = 53,
+  #          Weekord = 14)
+  # 
+  # data <- data %>%
+  #   filter(Season != "2025/26") %>%
+  #   bind_rows(data_2526) %>%
+  #   bind_rows(data_2526_wk53) %>%
+  #   arrange(Season, Year, ISOWeek)
+  # ####################
   
+  
+  # Drop week 53 if required
+  if(!include_week_53){
+    
+    data = data %>%
+      filter(ISOWeek != 53)
+    
+  }
+
   # Latest reporting week
   latest_week <- data %>%
     tail(1) %>%
@@ -609,6 +709,55 @@ create_euromomo_mem_heatmap <- function(data,
   
   # Breakdown of data
   data_breakdown <- unique(sort(data$Breakdown))
+  
+  # Update if week 53 is present
+  if(include_week_53){
+
+    # Season with week 53
+    data_week_53 <- data %>%
+      filter(Season %in% heatmap_seasons) %>%
+      filter(ISOWeek == 53)
+
+    # If no rows, add in for all seasons
+    if(nrow(data_week_53) == 0){
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season %in% heatmap_seasons) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    } else{
+
+      # Select season that needs updated
+      data_updated <- data %>%
+        filter(Season %in% heatmap_seasons & Season != unique(data_week_53$Season)) %>%
+        mutate(Weekord = ifelse(ISOWeek < 40, Weekord + 1, Weekord))
+
+    }
+
+    # Create week 53 data
+    data_updated_wk53 <- data_updated %>%
+      filter(ISOWeek == 52) %>%
+      mutate(ISOWeek = 53,
+             Weekord = 14,
+             WeekBeginning = NA,
+             WeekEnding = NA,
+             Value = NA,
+             ActivityLevel = "NA",
+             ActivityLevelDelay = "NA")
+
+    # Add data in
+    data_updated <- bind_rows(data_updated, data_updated_wk53) %>%
+      arrange(Weekord, Breakdown)
+
+    # Update data
+    data <- data %>%
+      filter(!Season == unique(data_updated$Season)) %>%
+      bind_rows(data_updated) %>%
+      mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+      mutate(ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(activity_levels, "Reporting delay")))
+
+  }
   
   # Add in reporting delay marker
   data = data %>%
@@ -667,12 +816,12 @@ create_euromomo_mem_heatmap <- function(data,
                    tickmode = "array",
                    dtick = 1,
                    showgrid = F),
-      shapes = apply(expand.grid(x = c(0.5:51.5, (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
+      shapes = apply(expand.grid(x = c(0.5:(max(mem_isoweeks)-0.5), (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
                                                                                                                                                                                                                         border_col = phs_colours("phs-liberty-10")))
     ) %>%
     layout(
       annotations = list(
-        x = 53,
+        x = max(mem_isoweeks)+1,
         y = length(data_breakdown)/2,
         text = ~Season,
         showarrow = F,

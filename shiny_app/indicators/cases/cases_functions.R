@@ -92,20 +92,43 @@ create_covid_line_chart <- function(data,
 
 # Create pathogen age Adms line chart
 create_positivity_age_chart <- function(data){
+ 
+  # ### Create test data for week 53
+  # if(unique(data$season == "2025/2026")){
+  #   
+  #   data_2526_wk53 <- data %>%
+  #     filter(ISOweek == 52) %>%
+  #     mutate(ISOweek = 53)
+  #   
+  #   data <- data %>%
+  #     bind_rows(data_2526_wk53) %>%
+  #     arrange(season, year, ISOweek)
+  #   
+  # }
+  # ################################
   
-  # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
-  
+  # Check if season has 53 isoweeks
+  if(isoweek(ymd(paste0(substr(unique(data$season), 1, 4), "-12-31"))) == 53 | max(data$ISOweek) == 53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
+
   plot_data <- data %>%  
     mutate(WeekNumber = ISOweek,
            WeekNumber = factor(WeekNumber, levels = week_order), 
            agegrp = factor(agegrp, levels = c("Under 1", "1-4", "5-14",
                                                   "15-44", "45-64", "65-74",  "Over 75", "All ages"),
                              labels = c("Under 1", "1 to 4", "5 to 14",
-                                        "15 to 44", "45 to 64", "65 to 74",  "Over 75", "All ages"))) #%>%
-  #filter(Season == "2025-2026")
-  
-  
+                                        "15 to 44", "45 to 64", "65 to 74",  "Over 75", "All ages"))) %>%
+    arrange(WeekNumber)
+
   # Text for tooltip
   tooltip_trend <- paste0(#"Season: ", plot_data$Season, "<br>",
     "Week number: ", plot_data$WeekNumber, "<br>",
@@ -117,7 +140,7 @@ create_positivity_age_chart <- function(data){
   xaxis_plots[["dtick"]] <- 2
   #yaxis_plots[["dtick"]] <- 1
   yaxis_plots[["tickformat"]] <- NULL
-  xaxis_plots[["range"]] <- list(-0.5, 52.5)
+  xaxis_plots[["range"]] <- list(-0.5, max(week_order)-0.5)
   
   
   ## Add as two separate traces to enable 'All ages' to be shown as the default trace
