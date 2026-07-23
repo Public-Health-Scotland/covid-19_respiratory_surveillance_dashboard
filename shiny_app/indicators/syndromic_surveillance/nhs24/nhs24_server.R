@@ -128,7 +128,12 @@ output$nhs24_mem_plot <- renderPlotly({
 # NHS24 MEM by Age plot
 output$nhs24_mem_age_plot <- renderPlotly({
   Respiratory_NHS24_MEM_Age %>%
-    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels),
+           AgeGroup = factor(AgeGroup, levels = c("< 1 years", "1-4 years",
+                                                  "5-14 years", "15-44 years",
+                                                  "45-64 years", "65-74 years",
+                                                  "75+ years", "All Ages"),
+                             labels = mem_age_groups_full)) %>%
     create_mem_heatmap(breakdown_variable = "AgeGroup", value_variable = "Percentage")
 
 })
