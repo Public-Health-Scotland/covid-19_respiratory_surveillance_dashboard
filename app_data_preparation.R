@@ -18,6 +18,8 @@ dir.create(here::here("shiny_app", "data"))
 dash_input_folder <- "/conf/C19_Test_and_Protect/Test & Protect - Warehouse/Weekly Covid Dashboard/Dashboard_Inputs/"
 shiny_data_folder <- "shiny_app/data/"
 
+# Set deployment date
+set_deployment_date()
 
 # Remove all files in shiny data folder
 purrr::walk(

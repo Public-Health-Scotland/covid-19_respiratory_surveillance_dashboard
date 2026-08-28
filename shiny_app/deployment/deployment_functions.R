@@ -1,11 +1,5 @@
 # Deployment functions
 
-set_deployment_date <- function(){
-
-  Deployment_Date <- lubridate::today() %>% format("%d %B %Y")
-  saveRDS(Deployment_Date, paste0(app_loc, "/data/Deployment_Date.rds"))
-
-}
 
 password_protect <- function(protect = TRUE){
 

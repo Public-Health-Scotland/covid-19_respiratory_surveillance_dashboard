@@ -21,6 +21,15 @@ get_hb_name <- function(code){
          )
 }
 
+#Set deployment date
+
+set_deployment_date <- function(){
+  
+  Deployment_Date <- lubridate::today() %>% format("%d %B %Y")
+  saveRDS(Deployment_Date, paste0(app_loc, "/data/Deployment_Date.rds"))
+  
+}
+
 ## Function to format a given entry in a table ----
 format_entry <- function(x, dp=0, perc=F){
   # x (numeric, char): entry

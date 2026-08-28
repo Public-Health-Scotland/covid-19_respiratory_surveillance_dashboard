@@ -22,8 +22,6 @@ source("shiny_app/deployment/deployment_functions.R")
 # NB: you must set this file up using information from colleagues
 source("shiny_app/deployment/deployment_secrets.R")
 
-# Set deployment date
-set_deployment_date()
 
 # This deploys the app
 deploy(app_loc, test = test, pra = pra)
