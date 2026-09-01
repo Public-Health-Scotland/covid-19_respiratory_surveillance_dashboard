@@ -48,7 +48,7 @@ cari_at_a_glance_spark <- Respiratory_Pathogens_CARI_Scot %>%
                                                 "Seasonal Coronavirus (non-COVID-19)"))) %>% 
   tail(52*9) %>% 
   #group_by(Pathogen) %>% 
-  mutate(lab_y_pos = max(SwabPositivity)*0.8,
+  mutate(lab_y_pos = max(SwabPositivity)*1.0,
          lab_x_pos = max(WeekEnding) - weeks(label_shift)) %>%  
   group_by(Pathogen) %>% 
   mutate(change = SwabPositivity - lag (SwabPositivity))
