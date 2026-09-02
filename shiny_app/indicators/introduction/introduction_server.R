@@ -13,7 +13,7 @@ observeEvent(input$jump_to_download, {updateTabsetPanel(session, "intabset", sel
 next_dashboard_date <- (floor_date(as.Date(Deployment_Date, format = "%d %B %Y") + weeks(4), "week", 7) + days(4)) %>% format("%d %B")
 
 output$introduction_about <- renderUI({
-
+  
   tagList(h3(tags$b("Viral Respiratory Diseases (including Influenza and COVID-19) Surveillance in Scotland")),
           #p(strong("The next release of this dashboard will be 08 August 2024.")),
           p("Surveillance of viral respiratory diseases (including influenza and COVID-19) is a key public health activity.
@@ -21,22 +21,36 @@ output$introduction_about <- renderUI({
             to severe complications including death."),
           p("This interactive dashboard presents data on viral respiratory diseases in Scotland to support the understanding
             of transmission of infection and NHS service planning and policy."),
-                    p("Please note that release of information involving small numbers carries a risk that individuals could be identified.",
+          p("Please note that release of information involving small numbers carries a risk that individuals could be identified.",
             "We have carefully considered and assessed these risks, taking steps to reduce them as much as possible,",
             "and balancing them with the need to release useful information."#,
             #"Between 22 May and October 2025, Public Health Scotland (PHS) will be reporting",
             #"Scotland level admissions for COVID-19, Influenza and RSV, due to low levels of hospital admissions.", 
             #"This approach aligns to the pre-pandemic reporting schedule for respiratory pathogens, which typically follow a",
             #"seasonal pattern with most cases/admissions occurring between October and April/May."
-            ), 
+          ),
+          p(tags$b("Notice of recent changes"),": From 3 September 2026, the presentation of data in the At a Glance tab has been updated.",
+            "These changes are intended to enhance the clarity and accessibility of the information. The underlying data has remained unchanged.",
+            "We encourage users to familiarise themselves with the revised layout."),
+          p(tags$b("New open data file"),": From 3 September 2026, a new open data file containing information on ICU admissions", 
+            "associated with respiratory infections will be available to download from",
+            tags$a(href="https://www.opendata.nhs.scot/dataset/viral-respiratory-diseases-including-influenza-and-covid-19-data-in-scotland%22", "(PHS open data)",
+                   target="_blank"),
+            "This addition will provide users with access to detailed ICU admission data for further analysis and reuse."),
+          p(tags$b("We value your feedback"),": Public Health Scotland (PHS) is undertaking an evaluation of their regular viral outputs, including this dashboard,",
+            "that are disseminated to the public and wider public health community."),
+          p("We would like to hear your views, please complete this",
+          tags$a(href="https://surveys.publichealthscotland.scot/761844?lang=en", "survey", target="_blank"), 
+          tags$b("by 18 September at 17:00.")),
           p(glue("This dashboard was last updated on {Deployment_Date} to include data up to {data_recent_date}.")),
-         # br(),
-         ##Note below to be removed after 8/10/26
+          # br(),
+          ##Note below to be removed after 8/10/26
           # strong(glue("Public Health Scotland (PHS) continue to consider timely ways to provide the public with official statistics. 
           #        Between 23 April and 8 October 2026, PHS are reducing the frequency of the Viral respiratory diseases in 
           #        Scotland dashboard to four-weekly. The dashboard will next be updated on {next_dashboard_date}.")),
           # br(),
           br(),
+          
 
           fluidRow(
             column(4,tags$div(class = "special_button",
