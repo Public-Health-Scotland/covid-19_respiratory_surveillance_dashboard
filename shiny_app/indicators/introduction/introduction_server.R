@@ -34,7 +34,7 @@ output$introduction_about <- renderUI({
             "We encourage users to familiarise themselves with the revised layout."),
           p(tags$b("New open data file"),": From 3 September 2026, a new open data file containing information on ICU admissions", 
             "associated with respiratory infections will be available to download from",
-            tags$a(href="https://www.opendata.nhs.scot/dataset/viral-respiratory-diseases-including-influenza-and-covid-19-data-in-scotland%22", "(PHS open data)",
+            tags$a(href="https://www.opendata.nhs.scot/dataset/viral-respiratory-diseases-including-influenza-and-covid-19-data-in-scotland", "(PHS open data)",
                    target="_blank"),
             "This addition will provide users with access to detailed ICU admission data for further analysis and reuse."),
           p(tags$b("We value your feedback"),": Public Health Scotland (PHS) is undertaking an evaluation of their regular viral outputs, including this dashboard,",
