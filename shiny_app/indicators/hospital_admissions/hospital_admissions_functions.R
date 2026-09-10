@@ -16,9 +16,37 @@
 
 # Weekly Admissions by SIMD plot
 make_hospital_admissions_simd_plot <- function(data){
-
+# 
+#   ### Create test data
+#   data <- data %>%
+#     mutate(week = as.numeric(week))
+# 
+#   if(unique(data$Season) == "2025/26"){
+# 
+#     data_2526_wk53 <- data %>%
+#       filter(week == 52) %>%
+#       mutate(week = 53)
+# 
+#     data <- data %>%
+#       bind_rows(data_2526_wk53) %>%
+#       arrange(week_ending, week)
+#   }
+#   #####################
+  
+  # Check if season has 53 isoweeks
+  if(isoweek(ymd(paste0(substr(unique(data$Season), 1, 4), "-12-31"))) == 53 | max(data$week) == 53){
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 53, 1), seq(1, 39, 1))
+    
+  } else{
+    
+    # put weeks in correct order for season
+    week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+    
+  }
   # put weeks in correct order for season
-  week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
+  #week_order <- c(seq(40, 52, 1), seq(1, 39, 1))
   
   data <- data %>%  
     mutate(WeekNumber = as.numeric(substr(week, nchar(week) - 1, nchar(week))),
@@ -27,7 +55,7 @@ make_hospital_admissions_simd_plot <- function(data){
   yaxis_plots[["title"]] <- "Rate of hospital admissions<br>per 100,000 population"
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- list(-0.5, 52.5)
+  xaxis_plots[["range"]] <- list(-0.5, max(week_order)+0.5)
   yaxis_plots[["tickformat"]] <- NULL
   
   # Adding slider

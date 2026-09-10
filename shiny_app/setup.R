@@ -113,8 +113,6 @@ Respiratory_Pathogens_MEM_Age %<>%
                            "75+ years", "All ages"))) %>% 
   arrange(desc(WeekEnding), AgeGroup)
 
-## Admissions by age file format
-
 
 
 # respiratory isoweeks
@@ -141,16 +139,16 @@ mem_legend <- readPNG("www/MEM_legend_liberty10.PNG", native = FALSE, info = FAL
 euromomo_age_mem_legend <- readPNG("www/Euromomo_age_MEM_legend_liberty10.PNG", native = FALSE, info = FALSE)
 
 # Activity levels
-activity_levels <- c("Baseline", "Low", "Medium", "High", "Very high")
+activity_levels <- c("Baseline", "Low", "Medium", "High", "Very high", "NA")
 
 # Colours for thresholds
-activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF")
+activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF", phs_colours("phs-liberty-10"))
 
 # Activity levels   for euromomo - not used, uses the generic levels above
 #euromomo_activity_levels <- c("Baseline", "Low", "Medium", "High", "Very High", "Reporting delay")
 
 # Colours for thresholds for euromomo
-euromomo_activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF", "#a6a6a6")
+euromomo_activity_level_colours <- c("#FDE725FF", "#5DC863FF", "#21908CFF", "#3B528BFF", "#440154FF", phs_colours("phs-liberty-10"), "#a6a6a6")
 
 # Colours for lines on line chart
 mem_line_colours <- rev(c("#12436D", "#801650", "#F46A25","#3F085C",
@@ -162,10 +160,28 @@ cases_agegpp_colours <- c("#A8CCE8", "#12436D", "#28A197", "#801650",
                        "#F46A25", "#A285D1", "#3F085C", "#3D3D3D")
 
 
-# Isoweeks from week 40 to 39
-mem_isoweeks <- c(40:52, 1:39)
-# Weeks in order from 1 to 52
-mem_week_order <- c(1:52)
+# Include week 53?
+include_week_53 <- TRUE
+
+# If week 53 is present, should lines with no week 53 be continuous or have a gap?
+# TRUE for gap, FALSE for continuous
+non_week_53_gap <- FALSE
+
+if(include_week_53){
+  
+  # Isoweeks from week 40 to 39
+  mem_isoweeks <- c(40:53, 1:39)
+  # Weeks in order from 1 to 52
+  mem_week_order <- c(1:53)
+  
+} else{
+  
+  # Isoweeks from week 40 to 39
+  mem_isoweeks <- c(40:52, 1:39)
+  # Weeks in order from 1 to 52
+  mem_week_order <- c(1:52)
+  
+}
 
 # Age groups
 mem_age_groups <- c("< 1", "1-4", "5-14", "15-44", "45-64", "65-74",
