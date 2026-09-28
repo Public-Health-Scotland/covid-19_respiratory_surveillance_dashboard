@@ -214,12 +214,12 @@ tagList(
                            ),#tabbox
                            ###
 ### end LOS section
-                           tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
-                                   #  temporary caveat for no Ethnicity information
-                                   tagList("Public Health Scotland have paused reporting of  COVID-19 admissions to",
-                                           "hospital broken down by ethnic group",
-                                           " as we undertake developments",
-                                           "to include this analysis for other respiratory pathogens.")),
+                           # tagList(h2("Number of acute COVID-19 admissions to hospital by ethnicity"),
+                           #         #  temporary caveat for no Ethnicity information
+                           #         tagList("Public Health Scotland have paused reporting of  COVID-19 admissions to",
+                           #                 "hospital broken down by ethnic group",
+                           #                 " as we undertake developments",
+                           #                 "to include this analysis for other respiratory pathogens.")),
                   )#tabPanel
   ), #fluid row
   
