@@ -169,7 +169,7 @@ output$introduction_use <- renderUI({
 
 output$introduction_contact <- renderUI({
   tagList(h3(tags$b("Contact us")),
-  p("Please contact the ", tags$a(href="mailto:phs.Covid19Data&Analytics@phs.scot", "Covid-19 Data & Analytics team"),
+  p("Please contact the ", tags$a(href="mailto:phs.respiratory@phs.scot", "Covid-19 Data & Analytics team"),
     "if you have any questions about the data in this dashboard."),
 
   p(tags$b("Further sources of information")),
