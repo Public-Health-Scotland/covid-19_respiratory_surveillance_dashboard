@@ -6,6 +6,10 @@ tagList(
              "diagnosis is often referred as Influenza-like Illness (ILI) by General Practitioners",
              "(GP). ILI consultation rates are used internationally as a key measure of influenza",
              "activity in the community and is used to gauge the severity of influenza seasons each winter."),
+           p(strong("Changes for 2026/27 season: "), "we have updated the adjustment for GP system as a response ",
+             "to the nation-wide move to a single system. This results in an overall drop in rates, but trends are ",
+             "unchanged. We are monitoring the effectivness of this change and therefore this section is classified ",
+             "as 'Official statistics in development'."),
             
            linebreaks(1)),
 

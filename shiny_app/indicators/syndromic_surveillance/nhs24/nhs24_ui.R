@@ -6,7 +6,12 @@ tagList(
              "respiratory symptoms, are compared against historic data to assess activity levels of acute",
              "respiratory illness in the community. As NHS24 is often patients first contact with the NHS,",
              "increases in activity will be reported here before they are detected by other surveillance",
-             "systems, thus it can act as an early warning system for acute respiratory infections.")
+             "systems, thus it can act as an early warning system for acute respiratory infections."),
+           #br(),
+           p(strong("Changes for 2026/27 season: "), "NHS24 data processing has been upgraded.",
+                    "We reviewed how signs and symptoms are defined and have added 'sore throat' ",
+                    "and 'loss of sense of taste or smell' to the respiratory definition. This has ",
+                    "been applied to historic data back to 2017 to allow for valid comparisons.")
   ),
   
   fluidRow(width = 12,

@@ -17,6 +17,9 @@ tagList(
 
 #headline values are created in the setup script, occupancy updated to use the weekly HB values, filtered to Scotland
   fluidRow(width = 12,
+           p(strong("Changes for 2026/27 season: "), "we have refined our process to to determine laboratory-confirmed hospital admissions ",
+             "by using a wider set of laboratory results in the linkage process, resulting in a small increase in the number of admissions. ",
+             "This change has been applied from the 2026/27 season onwards and retrospective application is likely to be introduced soon."),
            tagList(h2("Number of inpatients with influenza in hospital (seven day average) in Scotland"),
                    tags$div(class = "headline",
                             br(),
