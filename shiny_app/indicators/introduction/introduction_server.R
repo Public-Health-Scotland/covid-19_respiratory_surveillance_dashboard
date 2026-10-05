@@ -44,7 +44,7 @@ output$introduction_about <- renderUI({
                    "and have added 'sore throat' and  'loss of sense of taste or smell' to the respiratory definition. ",
                    "This has been applied to historic data back to 2017 to allow for valid comparisons.")),
           p(paste0("\u2022", " For GP consultation rates (ARI/ILI), we have updated the adjustment for GP system as a ",
-                   "response to the nation-wide move to a single system. This results in an overal drop in rates, but ",
+                   "response to the nation-wide move to a single system. This results in an overall drop in rates, but ",
                    "trends are unchanged. We are monitoring the effectiveness of this change and therefore this section ",
                    "is classified as 'Official statistics in development'.")),
           p(paste0("\u2022", " We have refined our process to determine laboratory-confirmed hospital admissions by using a ",
@@ -186,7 +186,7 @@ output$introduction_use <- renderUI({
 
 output$introduction_contact <- renderUI({
   tagList(h3(tags$b("Contact us")),
-  p("Please contact the ", tags$a(href="mailto:phs.respiratory@phs.scot", "Covid-19 Data & Analytics team"),
+  p("Please contact the ", tags$a(href="mailto:phs.respiratory@phs.scot", "Respiratory team"),
     "if you have any questions about the data in this dashboard."),
 
   p(tags$b("Further sources of information")),
