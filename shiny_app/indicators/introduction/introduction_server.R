@@ -29,14 +29,31 @@ output$introduction_about <- renderUI({
             #"This approach aligns to the pre-pandemic reporting schedule for respiratory pathogens, which typically follow a",
             #"seasonal pattern with most cases/admissions occurring between October and April/May."
           ),
+          br(),
+          
           p(glue("This dashboard was last updated on {Deployment_Date} to include data up to {data_recent_date}.")),
           # br(),
-          ##Note below to be removed after 8/10/26
-          # strong(glue("Public Health Scotland (PHS) continue to consider timely ways to provide the public with official statistics. 
-          #        Between 23 April and 8 October 2026, PHS are reducing the frequency of the Viral respiratory diseases in 
-          #        Scotland dashboard to four-weekly. The dashboard will next be updated on {next_dashboard_date}.")),
-          # br(),
+          
           br(),
+          
+          p(strong("Changes for 2026/27 season")),
+          p("PHS continually reviews and improves surveillance methods and outputs. Several changes have been introduced ",
+            "for the 2026/27 season to enhance accuracy, interpretation and presentation of infectious respiratory ",
+            "surveillance data in Scotland. The main changes are outlined below."),
+          p(paste0("\u2022", " NHS24 data processing has been upgraded. We reviewed how signs and symptoms are defined ",
+                   "and have added 'sore throat' and  'loss of sense of taste or smell' to the respiratory definition. ",
+                   "This has been applied to historic data back to 2017 to allow for valid comparisons.")),
+          p(paste0("\u2022", " For GP consultation rates (ARI/ILI), we have updated the adjustment for GP system as a ",
+                   "response to the nation-wide move to a single system. This results in an overall drop in rates, but ",
+                   "trends are unchanged. We are monitoring the effectiveness of this change and therefore this section ",
+                   "is classified as 'Official statistics in development'.")),
+          p(paste0("\u2022", " We have refined our process to determine laboratory-confirmed hospital admissions by using a ",
+                   "wider set of laboratory results in the linkage process, resulting in a small increase in the number of admissions. ",
+                   "This change has been applied from the 2026/27 season onwards and retrospective application is likely to be ",
+                   "introduced soon.")),
+          br(),
+          
+          
           
 
           fluidRow(
@@ -169,7 +186,7 @@ output$introduction_use <- renderUI({
 
 output$introduction_contact <- renderUI({
   tagList(h3(tags$b("Contact us")),
-  p("Please contact the ", tags$a(href="mailto:phs.Covid19Data&Analytics@phs.scot", "Covid-19 Data & Analytics team"),
+  p("Please contact the ", tags$a(href="mailto:phs.respiratory@phs.scot", "Respiratory team"),
     "if you have any questions about the data in this dashboard."),
 
   p(tags$b("Further sources of information")),
