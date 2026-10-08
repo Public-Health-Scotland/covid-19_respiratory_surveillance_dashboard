@@ -91,11 +91,11 @@ admissions_latest <- admissions_at_a_glance_spark  %>%
 activity_levels <- c("Baseline", "Low", "Medium", "High", "Very high")
 
 # Colours for thresholds
-colour_map <- c("Baseline" = "#FDE725FF",
-                "Low"= "#5DC863FF",
-                "Medium" = "#21908CFF",
-                "High" = "#3B528BFF",
-                "Very high" = "#440154FF")
+colour_map <- c("Baseline" = "#F3E79A",
+                "Low"= "#F9B282",
+                "Medium" = "#ED7C97",
+                "High" = "#BC5AA9",
+                "Very high" = "#704D9E")
 
 
 colour_map_alpha <- scales::alpha(colour_map, 0.3)
