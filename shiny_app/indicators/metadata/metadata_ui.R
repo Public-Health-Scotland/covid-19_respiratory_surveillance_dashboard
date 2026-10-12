@@ -338,17 +338,19 @@ tagList(h1("Metadata"),
 
                                                    # ACTIVITY LEVEL
                                                    h4("Activity Level"),
-                                                   p("In the context of the MEM and WHO methodology, epidemiological activity is characterised by five activity levels. The activity levels based on the
-                                                     MEM use 4 thresholds (Epidemic, Medium, High and Very high) and are categorised as:"),
-                                                   tags$ul(
-                                                     tags$li("baseline activity (when activity is below epidemic threshold);"),
-                                                     tags$li("low activity (when activity is between epidemic and medium thresholds);"),
-                                                     tags$li("medium activity (when activity is between medium and high thresholds);"),
-                                                     tags$li("high activity (when activity is between high and very high thresholds); and"),
-                                                     tags$li("very high activity (when activity is above very high threshold).")
-                                                   ),
-                                                   p("Respiratory pathogen and system-based activity levels allow comparisons to be made over time and with other countries that use the same methodology.
-                                                     In the context of influenza, it can also influence the timing of prescribing antiviral medication."),
+                                                   p("The activity level refers to the number or rate of positive test results for an organism and shows how common a respiratory
+                                                     infection or related measure is compared with what is usually seen."),
+                                                   # tags$ul(
+                                                   #   tags$li("baseline activity (when activity is below epidemic threshold);"),
+                                                   #   tags$li("low activity (when activity is between epidemic and medium thresholds);"),
+                                                   #   tags$li("medium activity (when activity is between medium and high thresholds);"),
+                                                   #   tags$li("high activity (when activity is between high and very high thresholds); and"),
+                                                   #   tags$li("very high activity (when activity is above very high threshold).")
+                                                   # ),
+                                                   p("Levels such as baseline, low, medium, high or very high are set by calculating thresholds and they then 
+                                                     help readers compare patterns over time and across settings and countries."),
+                                                   p(tags$a("Find out more information",
+                                                            href="https://publichealthscotland.scot/population-health/health-protection/respiratory-surveillance/technical-information/metrics-activity-levels/", target = "_blank")),
                                                    br(),
 
 
