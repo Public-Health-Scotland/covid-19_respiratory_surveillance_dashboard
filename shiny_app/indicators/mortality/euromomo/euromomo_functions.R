@@ -1,5 +1,5 @@
 # Create MEM line chart
-create_euromomo_mem_linechart <- function(data, 
+create_euromomo_mem_linechart <- function(data,
                                           rate_dp = 1,
                                           seasons = NULL,
                                           value_variable = "ZScore",
@@ -8,557 +8,699 @@ create_euromomo_mem_linechart <- function(data,
   # Latest reporting week
   latest_week <- data %>%
     tail(1) %>%
-    .$ISOWeek %>%
+    pull(ISOWeek) %>%
     as.character()
   
-  # Add in a new row so that dashed line works (not needed in week 42)
-  if(latest_week != 42){
+  # Add a new row so the reporting-delay dashed line works.
+  # This is not needed in week 42.
+  if (latest_week != "42") {
+    
     new_row <- data %>%
       tail(4) %>%
       head(1) %>%
-      mutate(ActivityLevelDelay = "Reporting delay",
-             new_row = "Yes")
-  } else{
+      mutate(
+        ActivityLevelDelay = "Reporting delay",
+        new_row = "Yes"
+      )
+    
+  } else {
+    
     new_row <- data %>%
       tail(0) %>%
       mutate(new_row = "")
+    
   }
   
-  # Combine
+  # Combine original data and reporting-delay row
   data <- bind_rows(data, new_row) %>%
     arrange(Season, Weekord)
   
   # Rename value variable
   data <- data %>%
-    rename(Value = value_variable) %>%
-    mutate(Value = round_half_up(Value, rate_dp))
+    rename(Value = all_of(value_variable)) %>%
+    mutate(
+      Value = round_half_up(Value, rate_dp)
+    )
   
-  if(is.null(seasons)){
+  # Use the four most recent seasons if seasons are not supplied
+  if (is.null(seasons)) {
+    
     seasons <- data %>%
       select(Season) %>%
       arrange(Season) %>%
       distinct() %>%
-      tail(4)
-    seasons <- seasons$Season
+      tail(4) %>%
+      pull(Season)
+    
   }
   
   # Wrangle data
-  data = data %>%
+  data <- data %>%
     filter(ISOWeek != 53) %>%
     filter(Season %in% seasons) %>%
-    select(Season, ISOWeek, Weekord, Value, ActivityLevel, ActivityLevelDelay, LowThreshold, 
-           MediumThreshold, HighThreshold, ExtraordinaryThreshold, new_row) %>%
+    select(
+      Season,
+      ISOWeek,
+      Weekord,
+      Value,
+      ActivityLevel,
+      ActivityLevelDelay,
+      new_row
+    ) %>%
     arrange(Season, Weekord) %>%
-    mutate(ISOWeek = as.character(ISOWeek),
-           ISOWeek = factor(ISOWeek, levels = mem_isoweeks))
+    mutate(
+      ISOWeek = as.character(ISOWeek),
+      ISOWeek = factor(
+        ISOWeek,
+        levels = mem_isoweeks
+      )
+    )
   
-  # Add in reporting delay marker
-  data = data %>%
-    mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay" & is.na(new_row),
-                                   " (reporting delay) ", ""))
+  # Add reporting-delay marker to tooltip
+  data <- data %>%
+    mutate(
+      ReportingDelay = ifelse(
+        ActivityLevelDelay == "Reporting delay" &
+          is.na(new_row),
+        " (reporting delay) ",
+        ""
+      )
+    )
   
+  # Axis settings
   xaxis_plots[["title"]] <- "Week number"
   xaxis_plots[["dtick"]] <- 2
-  xaxis_plots[["range"]] <- c(0,52)
+  #xaxis_plots[["range"]] <- c(0, 52)
+  xaxis_plots[["type"]] <- "category"
+  xaxis_plots[["categoryorder"]] <- "array"
+  xaxis_plots[["categoryarray"]] <- as.character(mem_isoweeks)
+  xaxis_plots[["range"]] <- c(-0.5, length(mem_isoweeks) - 0.5)
+  xaxis_plots[["showgrid"]] <- FALSE
   
-  #xaxis_plots[["rangeslider"]] <- list(type = "date")
   yaxis_plots[["fixedrange"]] <- FALSE
   yaxis_plots[["title"]] <- y_axis_title
-  
-  xaxis_plots[["showgrid"]] <- FALSE
   yaxis_plots[["showgrid"]] <- FALSE
   
-  # Get thresholds
-  baseline_max <- unique(data$LowThreshold)
-  low_max <- unique(data$MediumThreshold)
-  moderate_max <- unique(data$HighThreshold)
-  high_max <- unique(data$ExtraordinaryThreshold)
-  extraordinary_max <- max(pretty(c(data$Value, high_max)), na.rm = T)
+  # Update season label for reporting-delay traces
+  # data <- data %>%
+  #   mutate(
+  #     SeasonDelay = ifelse(
+  #       ActivityLevelDelay == "Reporting delay",
+  #       paste0(Season, " (Reporting delay)"),
+  #       Season
+  #     )
+  #   )
   
-  #Text for tooltip
-  tooltip_trend <- c(paste0("Season: ", data$Season,
-                            "<br>", "Week number: ", data$ISOWeek,
-                            "<br>", "Z-score: ", data$Value, data$ReportingDelay,
-                            "<br>", "Activity level: ", data$ActivityLevel, data$ReportingDelay))
+  # Identify whether each observation is observed or subject to
+  # reporting delay
+  data <- data %>%
+    mutate(
+      ReportingLine = ifelse(
+        ActivityLevelDelay == "Reporting delay",
+        "Reporting delay",
+        "Observed"
+      ),
+      ReportingLine = factor(
+        ReportingLine,
+        levels = c(
+          "Observed",
+          "Reporting delay"
+        )
+      ),
+      Season = factor(
+        Season,
+        levels = seasons
+      )
+    )
   
-  # Update for reporting delay
-  data = data %>%
-    mutate(SeasonDelay = ifelse(ActivityLevelDelay == "Reporting delay",
-                                paste0(Season, " (Reporting delay)"), Season))
+  # Set one colour for each season
+  season_colour_map <- setNames(
+    rev(season_colours[seq_along(seasons)]),
+    seasons
+  )
   
   
-  season_delay_levels <- data %>%
-    arrange(Season, Weekord) %>%
-    pull(SeasonDelay) %>%
-    unique()
+  # season_delay_levels <- data %>%
+  #   arrange(Season, Weekord) %>%
+  #   pull(SeasonDelay) %>%
+  #   unique()
+  # 
+  # delayed_seasons <- grep(
+  #   "Reporting delay",
+  #   season_delay_levels
+  # )
+  # 
+  # # Identify the current season and reporting-delay levels
+  # thick_positions <- unique(
+  #   sort(
+  #     c(
+  #       delayed_seasons,
+  #       delayed_seasons - 1
+  #     )
+  #   )
+  # )
+  # 
+  # # Remove invalid positions
+  # thick_positions <- thick_positions[
+  #   thick_positions >= 1 &
+  #     thick_positions <= length(season_delay_levels)
+  # ]
   
-  #thick_levels <- tail(season_delay_levels, 2)
-  delayed_seasons <- grep("Reporting delay", season_delay_levels)
-  thick_levels <- season_delay_levels[unique(sort(c(delayed_seasons, delayed_seasons-1)))]
+  #thick_levels <- season_delay_levels[thick_positions]
   
-  # Current season data only
+  # Current-season data
   data_curr_season <- data %>%
     filter(Season %in% seasons[length(seasons)])
   
-  week_template <- data.frame(seq(1:52))
-  names(week_template) <- "ISOWeek"
-  week_template <- week_template %>%
-    mutate(ISOWeek = factor(ISOWeek, levels = c(40:52,1:39)))
+  # # ------------------------------------------------------------
+  # # Latest week is not week 40, 41 or 42
+  # # ------------------------------------------------------------
+  # 
+  # if (!latest_week %in% c("40", "41", "42")) {
+  #   
+  #   mem_linechart <- plot_ly(
+  #     data = data,
+  #     x = ~ISOWeek,
+  #     y = ~Value,
+  #     textposition = "none",
+  #     text = ~paste0(
+  #       "Season: ", Season,
+  #       "<br>Week number: ", ISOWeek,
+  #       "<br>Z-score: ", Value, ReportingDelay,
+  #       "<br>Activity level: ", ActivityLevel,
+  #       ReportingDelay
+  #     ),
+  #     hoverinfo = "text",
+  #     color = ~Season,
+  #     colors = season_colour_map,
+  #     linetype = ~ReportingLine,
+  #     linetypes = c(
+  #       "solid",
+  #       "dash"
+  #     ),
+  #     type = "scatter",
+  #     mode = "lines",
+  #     line = list(
+  #       width = 1
+  #     ),
+  #     showlegend = FALSE
+  #   ) %>%
+  #     layout(
+  #       yaxis = yaxis_plots,
+  #       xaxis = xaxis_plots,
+  #       margin = list(
+  #         b = 100,
+  #         t = 5
+  #       ),
+  #       paper_bgcolor = phs_colours("phs-liberty-10"),
+  #       plot_bgcolor = phs_colours("phs-liberty-10")
+  #     )
+  #   
+  #  
+  #   
+  #   # Add marker for week 40 when the latest week is week 43
+  #   if (latest_week == "43") {
+  #     
+  #     current_season <- as.character(
+  #       seasons[length(seasons)]
+  #     )
+  #     
+  #     mem_linechart <- mem_linechart %>%
+  #       add_trace(
+  #         data = data %>%
+  #           filter(
+  #             as.character(Season) == current_season,
+  #             as.character(ISOWeek) == "40",
+  #             is.na(new_row)
+  #           ),
+  #         inherit = FALSE,
+  #         x = ~ISOWeek,
+  #         y = ~Value,
+  #         showlegend = FALSE,
+  #         type = "scatter",
+  #         mode = "markers",
+  #         marker = list(
+  #           color = unname(
+  #             season_colour_map[current_season]
+  #           )
+  #         ),
+  #         textposition = "none",
+  #         text = ~paste0(
+  #           "Season: ", Season,
+  #           "<br>Week number: ", ISOWeek,
+  #           "<br>Z-score: ", Value, ReportingDelay,
+  #           "<br>Activity level: ", ActivityLevel,
+  #           ReportingDelay
+  #         ),
+  #         hoverinfo = "text"
+  #       )
+  #   }
+  # }
+  # 
+  # 
+  # # ------------------------------------------------------------
+  # # Latest week is week 40 or 41
+  # # ------------------------------------------------------------
+  # 
+  # if (latest_week %in% c("40", "41")) {
+  #   
+  #   mem_linechart <- plot_ly(
+  #     data = data,
+  #     x = ~ISOWeek,
+  #     y = ~Value,
+  #     textposition = "none",
+  #     text = ~paste0(
+  #       "Season: ", Season,
+  #       "<br>Week number: ", ISOWeek,
+  #       "<br>Z-score: ", Value, ReportingDelay,
+  #       "<br>Activity level: ", ActivityLevel,
+  #       ReportingDelay
+  #     ),
+  #     hoverinfo = "text",
+  #     color = ~Season,
+  #     colors = season_colour_map,
+  #     linetype = ~ReportingLine,
+  #     linetypes = c(
+  #       "solid",
+  #       "dash"
+  #     ),
+  #     type = "scatter",
+  #     mode = "lines",
+  #     line = list(
+  #       width = 1
+  #     ),
+  #     showlegend = FALSE
+  #   ) %>%
+  #     layout(
+  #       yaxis = yaxis_plots,
+  #       xaxis = xaxis_plots,
+  #       margin = list(
+  #         b = 100,
+  #         t = 5
+  #       ),
+  #       paper_bgcolor = phs_colours("phs-liberty-10"),
+  #       plot_bgcolor = phs_colours("phs-liberty-10")
+  #     )
+  #   
+  #   
+  #   
+  #   # Add current-season marker when only week 40 is available
+  #   if (latest_week == "40") {
+  #     
+  #     current_season <- as.character(
+  #       seasons[length(seasons)]
+  #     )
+  #     
+  #     mem_linechart <- mem_linechart %>%
+  #       add_trace(
+  #         data = data_curr_season %>%
+  #           filter(
+  #             as.character(ISOWeek) == "40",
+  #             is.na(new_row)
+  #           ),
+  #         inherit = FALSE,
+  #         x = ~ISOWeek,
+  #         y = ~Value,
+  #         showlegend = FALSE,
+  #         type = "scatter",
+  #         mode = "markers",
+  #         marker = list(
+  #           color = unname(
+  #             season_colour_map[current_season]
+  #           )
+  #         ),
+  #         textposition = "none",
+  #         text = ~paste0(
+  #           "Season: ", Season,
+  #           "<br>Week number: ", ISOWeek,
+  #           "<br>Z-score: ", Value, ReportingDelay,
+  #           "<br>Activity level: ", ActivityLevel,
+  #           ReportingDelay
+  #         ),
+  #         hoverinfo = "text"
+  #       )
+  #   }
+  # }
+  # 
+  # 
+  # # ------------------------------------------------------------
+  # # Latest week is week 42
+  # # ------------------------------------------------------------
+  # 
+  # if (latest_week == "42") {
+  #   
+  #   mem_linechart <- plot_ly(
+  #     data = data,
+  #     x = ~ISOWeek,
+  #     y = ~Value,
+  #     textposition = "none",
+  #     text = ~paste0(
+  #       "Season: ", Season,
+  #       "<br>Week number: ", ISOWeek,
+  #       "<br>Z-score: ", Value, ReportingDelay,
+  #       "<br>Activity level: ", ActivityLevel,
+  #       ReportingDelay
+  #     ),
+  #     hoverinfo = "text",
+  #     color = ~Season,
+  #     colors = season_colour_map,
+  #     linetype = ~ReportingLine,
+  #     linetypes = c(
+  #       "solid",
+  #       "dash"
+  #     ),
+  #     type = "scatter",
+  #     mode = "lines",
+  #     line = list(
+  #       width = 1
+  #     ),
+  #     showlegend = FALSE
+  #   ) %>%
+  #     layout(
+  #       yaxis = yaxis_plots,
+  #       xaxis = xaxis_plots,
+  #       margin = list(
+  #         b = 100,
+  #         t = 5
+  #       ),
+  #       paper_bgcolor = phs_colours("phs-liberty-10"),
+  #       plot_bgcolor = phs_colours("phs-liberty-10")
+  #     )
+  #   
+  # 
+  # }
   
-  # If latest week isn't week 40 or 41
-  if(!latest_week %in% c("40", "41", "42")){
+  # ------------------------------------------------------------
+  # Create seasonal line chart
+  # ------------------------------------------------------------
+  
+  # Start with an empty Plotly chart
+  mem_linechart <- plot_ly()
+  
+  # Add each season separately so that:
+  #   - the legend contains only the season
+  #   - observed data use a solid line
+  #   - reporting-delay data use a dashed line
+  #   - both parts use the same season colour
+  for (season_name in as.character(seasons)) {
     
-    # Create plot
-    
-    # Base plot (thin lines)
-    mem_linechart <- plot_ly(
-      data = data %>% filter(!SeasonDelay %in% thick_levels),
-      x = ~ISOWeek,
-      y = ~Value,
-      textposition = "none",
-      text = ~paste0(
-        "Season: ", Season,
-        "<br>Week number: ", ISOWeek,
-        "<br>Z-score: ", Value, ReportingDelay,
-        "<br>Activity level: ", ActivityLevel, ReportingDelay
-      ),
-      hoverinfo = "text",
-      color = I("black"),
-      type = "scatter",
-      mode = "lines",
-      linetype = ~SeasonDelay,
-      linetypes = rev(c("dot", "solid", "dash", "dashdot", "longdash")),
-      line = list(width = 1)   # thin
+    season_colour <- unname(
+      season_colour_map[season_name]
     )
     
-    # Add thicker traces for last two levels
-    mem_linechart <- mem_linechart %>%
-      add_trace(
-        data = data %>% filter(SeasonDelay %in% thick_levels),
-        x = ~ISOWeek,
-        y = ~Value,
-        textposition = "none",
-        text = ~paste0(
-          "Season: ", Season,
-          "<br>Week number: ", ISOWeek,
-          "<br>Z-score: ", Value, ReportingDelay,
-          "<br>Activity level: ", ActivityLevel, ReportingDelay
-        ),
-        hoverinfo = "text",
-        color = I("black"),
-        type = "scatter",
-        mode = "lines",
-        linetype = ~SeasonDelay,
-        linetypes = rev(c("dot", "solid", "dash", "dashdot", "longdash")),
-        line = list(width = 4)   # thicker lines
+    # ----------------------------------------------------------
+    # Observed data
+    # ----------------------------------------------------------
+    
+    observed_data <- data %>%
+      filter(
+        as.character(Season) == season_name,
+        ReportingLine == "Observed"
       ) %>%
-      layout(yaxis = yaxis_plots,
-             xaxis = xaxis_plots,
-             margin = list(b = 100, t = 5),
-             paper_bgcolor = phs_colours("phs-liberty-10"),
-             plot_bgcolor = phs_colours("phs-liberty-10"),
-             shapes = list(
-               list(type = "rect",
-                    fillcolor = activity_level_colours[1],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = 0,
-                    y1 = baseline_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[2],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = baseline_max,#+0.00001,
-                    y1 = low_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[3],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = low_max,#+0.00001,
-                    y1 = moderate_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[4],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = moderate_max,#+0.00001,
-                    y1 = high_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[5],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = high_max,#+0.00001,
-                    y1 = extraordinary_max,
-                    yref = "y",
-                    layer = "below")
-             ))
+      arrange(Weekord)
     
-    # Add static legend
-    mem_linechart <- mem_linechart %>%
-      layout(
-        images = list(  
-          list(  
-            source =  raster2uri(mem_legend),  
-            xref = "paper",  
-            yref = "paper",  
-            x = 0.5,  
-            y = -0.35,  
-            sizex = 0.4,  
-            sizey = 0.3,  
-            xanchor="center",  
-            yanchor="bottom" 
-          )
-        ),
-        legend = list(y = 0.5,
-                      yanchor = 'middle')) %>%
-      
-      config(displaylogo = FALSE, displayModeBar = TRUE,
-             modeBarButtonsToRemove = bttn_remove)
-    
-    # If latest week is 43
-    if(latest_week == "43"){
+    if (nrow(observed_data) > 0) {
       
       mem_linechart <- mem_linechart %>%
-        add_trace(data = data %>% filter(Season == seasons[length(seasons)] & 
-                                           ISOWeek == "40" & is.na(new_row)),
-                  x = ~ISOWeek,
-                  y = ~Value,
-                  showlegend = F,
-                  color = I("black"),
-                  #color = ~SeasonDelay,
-                  #colors = "#12436D",
-                  type = "scatter",
-                  mode = 'markers',
-                  textposition = "none",
-                  text = ~paste0(
-                    "Season: ", Season,
-                    "<br>Week number: ", ISOWeek,
-                    "<br>Z-score: ", Value, ReportingDelay,
-                    "<br>Activity level: ", ActivityLevel, ReportingDelay
-                  ),
-                  #text = tooltip_trend[length(tooltip_trend)-4],
-                  hoverinfo = "text")
-      
+        add_trace(
+          data = observed_data,
+          inherit = FALSE,
+          x = ~ISOWeek,
+          y = ~Value,
+          type = "scatter",
+          mode = "lines",
+          
+          # Show only the season name in the legend
+          name = season_name,
+          legendgroup = season_name,
+          showlegend = TRUE,
+          
+          line = list(
+            color = season_colour,
+            width = 1,
+            dash = "solid"
+          ),
+          
+          textposition = "none",
+          text = ~paste0(
+            "Season: ", Season,
+            "<br>Week number: ", ISOWeek,
+            "<br>Z-score: ", Value,
+            "<br>Activity level: ", ActivityLevel
+          ),
+          hoverinfo = "text"
+        )
     }
-  }
+    
+    # ----------------------------------------------------------
+    # Reporting-delay data
+    # ----------------------------------------------------------
+    
+  #   reporting_delay_data <- data %>%
+  #     filter(
+  #       as.character(Season) == season_name,
+  #       ReportingLine == "Reporting delay"
+  #     ) %>%
+  #     arrange(Weekord)
+  #   
+  #   if (nrow(reporting_delay_data) > 0) {
+  #     
+  #     mem_linechart <- mem_linechart %>%
+  #       add_trace(
+  #         data = reporting_delay_data,
+  #         inherit = FALSE,
+  #         x = ~ISOWeek,
+  #         y = ~Value,
+  #         type = "scatter",
+  #         mode = "lines",
+  #         
+  #         # Use the same legend group but do not add
+  #         # another entry to the legend
+  #         name = season_name,
+  #         legendgroup = season_name,
+  #         showlegend = FALSE,
+  #         
+  #         # Same season colour, but dashed
+  #         line = list(
+  #           color = season_colour,
+  #           width = 1,
+  #           dash = "dash"
+  #         ),
+  #         
+  #         textposition = "none",
+  #         text = ~paste0(
+  #           "Season: ", Season,
+  #           "<br>Week number: ", ISOWeek,
+  #           "<br>Z-score: ", Value, ReportingDelay,
+  #           "<br>Activity level: ", ActivityLevel,
+  #           ReportingDelay
+  #         ),
+  #         hoverinfo = "text"
+  #       )
+  #   }
+  # }
   
-  # If latest week is week 40
-  if(latest_week %in% c("40", "41")){
+    # ----------------------------------------------------------
+    # Reporting-delay data
+    # ----------------------------------------------------------
     
-    
-    # Create plot
-    mem_linechart <- plot_ly(
-      data = data %>% filter(!SeasonDelay %in% thick_levels),
-      x = ~ISOWeek,
-      y = ~Value,
-      textposition = "none",
-      text = ~paste0(
-        "Season: ", Season,
-        "<br>Week number: ", ISOWeek,
-        "<br>Z-score: ", Value, ReportingDelay,
-        "<br>Activity level: ", ActivityLevel, ReportingDelay
-      ),
-      hoverinfo = "text",
-      color = I("black"),
-      type = "scatter",
-      mode = "lines",
-      linetype = ~SeasonDelay,
-      linetypes = rev(c("dot", "dot", "solid", "dash", "dashdot")),#, "longdash")),
-      line = list(width = 1)   # thin
-    )
-    
-    # Add thicker traces for last two levels
-    mem_linechart <- mem_linechart %>%
-      add_trace(
-        data = data %>% filter(SeasonDelay %in% thick_levels),
-        x = ~ISOWeek,
-        y = ~Value,
-        textposition = "none",
-        text = ~paste0(
-          "Season: ", Season,
-          "<br>Week number: ", ISOWeek,
-          "<br>Z-score: ", Value, ReportingDelay,
-          "<br>Activity level: ", ActivityLevel, ReportingDelay
-        ),
-        hoverinfo = "text",
-        color = I("black"),
-        type = "scatter",
-        mode = "lines",
-        linetype = ~SeasonDelay,
-        linetypes = rev(c("dot", "dot", "dash", "dashdot", "longdash")),
-        line = list(width = 4)   # thicker lines
+    reporting_delay_data <- data %>%
+      filter(
+        as.character(Season) == season_name,
+        ReportingLine == "Reporting delay"
       ) %>%
-      layout(yaxis = yaxis_plots,
-             xaxis = xaxis_plots,
-             margin = list(b = 100, t = 5),
-             paper_bgcolor = phs_colours("phs-liberty-10"),
-             plot_bgcolor = phs_colours("phs-liberty-10"),
-             shapes = list(
-               list(type = "rect",
-                    fillcolor = activity_level_colours[1],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = 0,
-                    y1 = baseline_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[2],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = baseline_max,#+0.00001,
-                    y1 = low_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[3],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = low_max,#+0.00001,
-                    y1 = moderate_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[4],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = moderate_max,#+0.00001,
-                    y1 = high_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[5],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = high_max,#+0.00001,
-                    y1 = extraordinary_max,
-                    yref = "y",
-                    layer = "below")
-             ))
+      arrange(Weekord)
     
-    # Add static legend
-    mem_linechart <- mem_linechart %>%
-      layout(
-        images = list(  
-          list(  
-            source =  raster2uri(mem_legend),  
-            xref = "paper",  
-            yref = "paper",  
-            x = 0.5,  
-            y = -0.35,  
-            sizex = 0.4,  
-            sizey = 0.3,  
-            xanchor="center",  
-            yanchor="bottom" 
-          )
-        ),
-        legend = list(y = 0.5,
-                      yanchor = 'middle')) %>%
-      
-      config(displaylogo = FALSE, displayModeBar = TRUE,
-             modeBarButtonsToRemove = bttn_remove)
-    
-    if(latest_week == "40"){
+    if (nrow(reporting_delay_data) > 0) {
       
       mem_linechart <- mem_linechart %>%
-        add_trace(data = data_curr_season,
-                  x = ~ISOWeek,
-                  y = ~Value,
-                  showlegend = F,
-                  color = I("black"),
-                  #color = ~SeasonDelay,
-                  #colors = "#12436D",
-                  type = "scatter",
-                  mode = 'markers',
-                  textposition = "none",
-                  text = ~paste0(
-                    "Season: ", Season,
-                    "<br>Week number: ", ISOWeek,
-                    "<br>Z-score: ", Value, ReportingDelay,
-                    "<br>Activity level: ", ActivityLevel, ReportingDelay
-                  ),
-                  hoverinfo = "text")
+        add_trace(
+          data = reporting_delay_data,
+          inherit = FALSE,
+          x = ~ISOWeek,
+          y = ~Value,
+          type = "scatter",
+          mode = "lines",
+          
+          name = season_name,
+          legendgroup = season_name,
+          
+          # Show the season here only if there is no observed trace
+          showlegend = nrow(observed_data) == 0,
+          
+          line = list(
+            color = season_colour,
+            width = 1,
+            dash = "dash"
+          ),
+          
+          textposition = "none",
+          text = ~paste0(
+            "Season: ", Season,
+            "<br>Week number: ", ISOWeek,
+            "<br>Z-score: ", Value, ReportingDelay,
+            "<br>Activity level: ", ActivityLevel,
+            ReportingDelay
+          ),
+          hoverinfo = "text"
+        )
     }
-    
   }
+  # ------------------------------------------------------------
+  # Apply layout and preserve week order
+  # ------------------------------------------------------------
   
-  # If latest week is week 42
-  if(latest_week == "42"){
-    
-    # Create plot
-    mem_linechart <- plot_ly(
-      data = data %>% filter(!SeasonDelay %in% thick_levels),
-      x = ~ISOWeek,
-      y = ~Value,
-      textposition = "none",
-      text = ~paste0(
-        "Season: ", Season,
-        "<br>Week number: ", ISOWeek,
-        "<br>Z-score: ", Value, ReportingDelay,
-        "<br>Activity level: ", ActivityLevel, ReportingDelay
+  mem_linechart <- mem_linechart %>%
+    layout(
+      yaxis = yaxis_plots,
+      xaxis = xaxis_plots,
+      margin = list(
+        b = 100,
+        t = 5
       ),
-      hoverinfo = "text",
-      color = I("black"),
-      type = "scatter",
-      mode = "lines",
-      linetype = ~SeasonDelay,
-      linetypes = rev(c("dot", "solid", "dash", "dashdot")),#, "longdash")),
-      line = list(width = 1)   # thin
+      paper_bgcolor = phs_colours("phs-liberty-10"),
+      plot_bgcolor = phs_colours("phs-liberty-10")
+    )
+  
+  
+  # ------------------------------------------------------------
+  # Add current-season marker in week 40
+  # ------------------------------------------------------------
+  
+  if (latest_week == "40") {
+    
+    current_season <- as.character(
+      seasons[length(seasons)]
     )
     
-    # Add thicker traces for last two levels
     mem_linechart <- mem_linechart %>%
       add_trace(
-        data = data %>% filter(SeasonDelay %in% thick_levels),
+        data = data_curr_season %>%
+          filter(
+            as.character(ISOWeek) == "40",
+            is.na(new_row)
+          ),
+        inherit = FALSE,
         x = ~ISOWeek,
         y = ~Value,
+        type = "scatter",
+        mode = "markers",
+        name = current_season,
+        legendgroup = current_season,
+        showlegend = FALSE,
+        marker = list(
+          color = unname(
+            season_colour_map[current_season]
+          )
+        ),
         textposition = "none",
         text = ~paste0(
           "Season: ", Season,
           "<br>Week number: ", ISOWeek,
-          "<br>Z-score: ", Value, ReportingDelay,
-          "<br>Activity level: ", ActivityLevel, ReportingDelay
+          "<br>Z-score: ", Value,
+          "<br>Activity level: ", ActivityLevel
         ),
-        hoverinfo = "text",
-        color = I("black"),
-        type = "scatter",
-        mode = "lines",
-        linetype = ~SeasonDelay,
-        linetypes = rev(c("dot", "dash", "dashdot", "longdash")),
-        line = list(width = 4)   # thicker lines
-      ) %>%
-      layout(yaxis = yaxis_plots,
-             xaxis = xaxis_plots,
-             margin = list(b = 100, t = 5),
-             paper_bgcolor = phs_colours("phs-liberty-10"),
-             plot_bgcolor = phs_colours("phs-liberty-10"),
-             shapes = list(
-               list(type = "rect",
-                    fillcolor = activity_level_colours[1],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = 0,
-                    y1 = baseline_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[2],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = baseline_max,#+0.00001,
-                    y1 = low_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[3],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = low_max,#+0.00001,
-                    y1 = moderate_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[4],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = moderate_max,#+0.00001,
-                    y1 = high_max,
-                    yref = "y",
-                    layer = "below"),
-               list(type = "rect",
-                    fillcolor = activity_level_colours[5],
-                    line = list(color = "transparent"),
-                    opacity = 0.5,
-                    x0 = 0,
-                    x1 = 52,
-                    xref = "x",
-                    y0 = high_max,#+0.00001,
-                    y1 = extraordinary_max,
-                    yref = "y",
-                    layer = "below")
-             ))
-    
-    # Add static legend
-    mem_linechart <- mem_linechart %>%
-      layout(
-        images = list(  
-          list(  
-            source =  raster2uri(mem_legend),  
-            xref = "paper",  
-            yref = "paper",  
-            x = 0.5,  
-            y = -0.3,  
-            sizex = 0.4,  
-            sizey = 0.3,  
-            xanchor="center",  
-            yanchor="bottom" 
-          )
-        ),
-        legend = list(y = 0.5,
-                      yanchor = 'middle')) %>%
-      
-      config(displaylogo = FALSE, displayModeBar = TRUE,
-             modeBarButtonsToRemove = bttn_remove)
-    
+        hoverinfo = "text"
+      )
   }
   
+  
+  # ------------------------------------------------------------
+  # Add week 40 marker when latest week is week 43
+  # ------------------------------------------------------------
+  
+  if (latest_week == "43") {
+    
+    current_season <- as.character(
+      seasons[length(seasons)]
+    )
+    
+    mem_linechart <- mem_linechart %>%
+      add_trace(
+        data = data %>%
+          filter(
+            as.character(Season) == current_season,
+            as.character(ISOWeek) == "40",
+            is.na(new_row)
+          ),
+        inherit = FALSE,
+        x = ~ISOWeek,
+        y = ~Value,
+        type = "scatter",
+        mode = "markers",
+        name = current_season,
+        legendgroup = current_season,
+        showlegend = FALSE,
+        marker = list(
+          color = unname(
+            season_colour_map[current_season]
+          )
+        ),
+        textposition = "none",
+        text = ~paste0(
+          "Season: ", Season,
+          "<br>Week number: ", ISOWeek,
+          "<br>Z-score: ", Value,
+          "<br>Activity level: ", ActivityLevel
+        ),
+        hoverinfo = "text"
+      )
+  }
+
+  # ------------------------------------------------------------
+  # Add excess mortality threshold at Z-score = 2
+  # ------------------------------------------------------------
+  
+  threshold_data <- tibble(
+    ISOWeek = factor(
+      mem_isoweeks,
+      levels = mem_isoweeks
+    ),
+    Threshold = 2
+  )
+  
+  mem_linechart <- mem_linechart %>%
+    add_trace(
+      data = threshold_data,
+      inherit = FALSE,
+      x = ~ISOWeek,
+      y = ~Threshold,
+      type = "scatter",
+      mode = "lines",
+      name = "Excess mortality threshold",
+      showlegend = TRUE,
+      hoverinfo = "text",
+      text = ~paste0(
+        "Week number: ",
+        ISOWeek,
+        "<br>Excess mortality threshold: Z-score = 2"
+      ),
+      line = list(
+        color = "#FF0000",
+        width = 2,
+        dash = "dash"
+      )
+    ) %>%
+    layout(
+      legend = list(
+        y = 0.5,
+        yanchor = "middle"
+      )
+    ) %>%
+    config(
+      displaylogo = FALSE,
+      displayModeBar = TRUE,
+      modeBarButtonsToRemove = bttn_remove
+    )
   
   return(mem_linechart)
   
 }
 
 
-
-# Create MEM heatmaps
+#------------------------#
+#### Create MEM heatmaps #
+#------------------------#
 create_euromomo_mem_heatmap <- function(data, 
                                         rate_dp = 1,
                                         include_text_annotation = F,
@@ -573,11 +715,59 @@ create_euromomo_mem_heatmap <- function(data,
     .$ISOWeek %>%
     as.character()
   
+  
   # Rename HB/Age variable
   # Rename value variable
+  # data <- data %>%
+  #   rename(Breakdown = breakdown_variable,
+  #          Value = value_variable)
+  
   data <- data %>%
-    rename(Breakdown = breakdown_variable,
-           Value = value_variable)
+    rename(
+      Breakdown = all_of(breakdown_variable),
+      Value = all_of(value_variable)
+    ) %>%
+    # mutate(
+    #   Value = as.numeric(Value),
+    #   
+    #   ThresholdLevel = case_when(
+    #     is.na(Value) ~ NA_real_,
+    #     Value >= 2 ~ 1,
+    #     TRUE ~ 0
+    #   ),
+    #   
+    #   ThresholdLabel = case_when(
+    #     is.na(Value) ~ NA_character_,
+    #     Value >= 2 ~ "Excess mortality",
+    #     TRUE ~ "Baseline"
+    #   )
+    # )
+    
+    mutate(
+      Value = as.numeric(Value),
+      
+      # Update the activity level used in the hover text and data table
+      ActivityLevel = case_when(
+        is.na(Value) ~ ActivityLevel,
+        Value >= 2 ~ "Above baseline",
+        TRUE ~ "Baseline"
+      ),
+      
+      # Reporting delay takes priority in the heatmap
+      HeatmapLevel = case_when(
+        ActivityLevelDelay == "Reporting delay" ~ 2,
+        !is.na(Value) & Value >= 2 ~ 1,
+        !is.na(Value) & Value < 2 ~ 0,
+        TRUE ~ NA_real_
+      ),
+      
+      HeatmapLabel = case_when(
+        ActivityLevelDelay == "Reporting delay" ~ "Reporting delay",
+        !is.na(Value) & Value >= 2 ~ "Above baseline",
+        !is.na(Value) & Value < 2 ~ "Baseline",
+        TRUE ~ NA_character_
+      )
+    )
   
   # If seasons not supplied, use two most recent seasons
   if(is.null(heatmap_seasons)){
@@ -621,31 +811,31 @@ create_euromomo_mem_heatmap <- function(data,
     mutate(Breakdown = factor(Breakdown)) %>%
     mutate(Value = round_half_up(Value, rate_dp))
   
-  # Ensure the correct colours are selected for activity levels in the data
-  act_levels_prev_season <- unique(sort(data_prev_season$ActivityLevelDelay))
-  act_levels_prev_season_numeric <- as.numeric(act_levels_prev_season)
-  activity_level_colours_prev_season <- euromomo_activity_level_colours[act_levels_prev_season_numeric]
-  
-  data_prev_season <- data_prev_season %>%
-    mutate(ActivityLevelDelay = factor(ActivityLevelDelay, levels = act_levels_prev_season))
-  
-  
-  
-  # Create a heat map using Plotly
+
   heatmap_prev_season <- plot_ly(
     data = data_prev_season,
     x = ~Weekord,
     y = ~as.numeric(Breakdown),
-    z = ~as.numeric(ActivityLevelDelay),
-    colors = activity_level_colours_prev_season,
-    alpha = 0.5,
+    z = ~HeatmapLevel,
+    
+    colorscale = mem_heatmap_colour_scale,
+    zmin = 0,
+    zmax = 2,
+    
+    opacity = 0.5,
+    
     showscale = FALSE,
     type = "heatmap",
-    hovertext = ~ paste0("Season: ", unique(data_prev_season$Season), "<br>",
-                         "Week number: ", ISOWeek, "<br>", 
-                         breakdown_hover, Breakdown_hover, "<br>",
-                         "Z-score: ", Value, ReportingDelay, "<br>",
-                         "Activity level: ", ActivityLevel, ReportingDelay),
+    
+    hovertext = ~paste0(
+      "Season: ", Season,
+      "<br>Week number: ", ISOWeek,
+      "<br>", breakdown_hover, Breakdown_hover,
+      "<br>Z-score: ", Value, coalesce(ReportingDelay, ""),
+      "<br>Activity level: ", HeatmapLabel,
+      coalesce(ReportingDelay, "")
+    ),
+    
     hoverinfo = "text"
   ) %>%
     layout(
@@ -653,29 +843,57 @@ create_euromomo_mem_heatmap <- function(data,
       plot_bgcolor = phs_colours("phs-liberty-10"),
       margin = list(b = 100, t = 5),
       title = "",
-      xaxis = list(title = list(text = "Week number",
-                                standoff = 10L),
-                   ticktext = mem_isoweeks[c(TRUE, FALSE)], 
-                   tickvals = mem_week_order[c(TRUE, FALSE)],
-                   tickmode = "array",
-                   showgrid = F,
-                   visible = F,
-                   dtick = 1),
-      yaxis = list(title = "", autorange = "reversed",
-                   ticktext = data_breakdown, 
-                   tickvals = c(1:length(data_breakdown)),
-                   tickmode = "array",
-                   dtick = 1,
-                   showgrid = F),
-      shapes = apply(expand.grid(x = c(0.5:51.5, (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
-                                                                                                                                                                                                                        border_col = phs_colours("phs-liberty-10")))
+      xaxis = list(
+        title = list(
+          text = "Week number",
+          standoff = 10L
+        ),
+        ticktext = mem_isoweeks[c(TRUE, FALSE)],
+        tickvals = mem_week_order[c(TRUE, FALSE)],
+        tickmode = "array",
+        showgrid = FALSE,
+        visible = FALSE,
+        dtick = 1
+      ),
+      yaxis = list(
+        title = "",
+        autorange = "reversed",
+        ticktext = data_breakdown,
+        tickvals = seq_along(data_breakdown),
+        tickmode = "array",
+        dtick = 1,
+        showgrid = FALSE
+      ),
+      shapes = apply(
+        expand.grid(
+          x = c(
+            0.5:51.5,
+            (length(data_breakdown) - 0.5):
+              (length(data_breakdown) + 0.5)
+          ),
+          y = c(
+            1.5:(length(data_breakdown) - 0.5),
+            0.5:(length(data_breakdown) - 0.5)
+          )
+        ),
+        1,
+        function(x) {
+          add_cell_border(
+            x[1],
+            x[1] + 1,
+            x[2],
+            x[2] + 1,
+            border_col = phs_colours("phs-liberty-10")
+          )
+        }
+      )
     ) %>%
     layout(
       annotations = list(
         x = 53,
-        y = length(data_breakdown)/2,
+        y = length(data_breakdown) / 2,
         text = ~Season,
-        showarrow = F,
+        showarrow = FALSE,
         textangle = 90,
         font = list(size = 14),
         height = 14,
@@ -684,20 +902,7 @@ create_euromomo_mem_heatmap <- function(data,
       )
     )
   
-  if(include_text_annotation){
-    
-    heatmap_prev_season <- heatmap_prev_season %>%
-      layout(
-        annotations = list(
-          x = ~Weekord,
-          y = ~as.numeric(Breakdown),
-          text = ~round_half_up(Value, text_annotation_dp),
-          font = list(size = 6, color = "white"),
-          showarrow = FALSE
-        )
-      )
-    
-  }
+  
   
   # Data for current season
   data_curr_season <- data %>%
@@ -705,30 +910,33 @@ create_euromomo_mem_heatmap <- function(data,
     mutate(Breakdown = factor(Breakdown)) %>%
     mutate(Value = round_half_up(Value, rate_dp))
   
-  # Ensure the correct colours are selected for activity levels in the data
-  act_levels_curr_season <- unique(sort(data_curr_season$ActivityLevelDelay))
-  act_levels_curr_season_numeric <- as.numeric(act_levels_curr_season)
-  activity_level_colours_curr_season <- euromomo_activity_level_colours[act_levels_curr_season_numeric]
-  
-  data_curr_season <- data_curr_season %>%
-    mutate(ActivityLevelDelay = factor(ActivityLevelDelay, levels = act_levels_curr_season))
-  
-  
+ 
   # Create a heat map using Plotly
+
   heatmap_curr_season <- plot_ly(
     data = data_curr_season,
     x = ~Weekord,
     y = ~as.numeric(Breakdown),
-    z = ~as.numeric(ActivityLevelDelay),
-    colors = activity_level_colours_curr_season,
-    alpha = 0.5,
+    z = ~HeatmapLevel,
+    
+    colorscale = mem_heatmap_colour_scale,
+    zmin = 0,
+    zmax = 2,
+    
+    opacity =0.5,
+    
     showscale = FALSE,
     type = "heatmap",
-    hovertext = ~ paste0("Season: ", unique(data_curr_season$Season), "<br>",
-                         "Week number: ", ISOWeek, "<br>", 
-                         breakdown_hover, Breakdown_hover, "<br>",
-                         "Z-score: ", Value, ReportingDelay, "<br>",
-                         "Activity level: ", ActivityLevel, ReportingDelay),
+    
+    hovertext = ~paste0(
+      "Season: ", Season,
+      "<br>Week number: ", ISOWeek,
+      "<br>", breakdown_hover, Breakdown_hover,
+      "<br>Z-score: ", Value, ReportingDelay,
+      "<br>Activity level: ", HeatmapLabel,
+      ReportingDelay
+    ),
+    
     hoverinfo = "text"
   ) %>%
     layout(
@@ -736,30 +944,57 @@ create_euromomo_mem_heatmap <- function(data,
       plot_bgcolor = phs_colours("phs-liberty-10"),
       margin = list(b = 100, t = 5),
       title = "",
-      xaxis = list(title = list(text = "Week number",
-                                standoff = 10L),
-                   ticktext = mem_isoweeks[c(TRUE, FALSE)], 
-                   tickvals = mem_week_order[c(TRUE, FALSE)],
-                   tickmode = "array",
-                   dtick = 1,
-                   showgrid = F),
-      yaxis = list(showline = FALSE,
-                   showaxisticks = F,
-                   title = "", 
-                   autorange = "reversed",
-                   ticktext = data_breakdown, 
-                   dtick = 1,
-                   tickvals = c(1:length(data_breakdown)),
-                   showgrid = F),
-      shapes = apply(expand.grid(x = c(0.5:51.5, (length(data_breakdown)-0.5):(length(data_breakdown)+0.5)), y = c(1.5:(length(data_breakdown)-0.5), 0.5:(length(data_breakdown)-0.5))), 1, function(x) add_cell_border(x[1], x[1]+1, x[2], x[2]+1,
-                                                                                                                                                                                                                        border_col = phs_colours("phs-liberty-10")))
+      xaxis = list(
+        title = list(
+          text = "Week number",
+          standoff = 10L
+        ),
+        ticktext = mem_isoweeks[c(TRUE, FALSE)],
+        tickvals = mem_week_order[c(TRUE, FALSE)],
+        tickmode = "array",
+        dtick = 1,
+        showgrid = FALSE
+      ),
+      yaxis = list(
+        showline = FALSE,
+        showaxisticks = FALSE,
+        title = "",
+        autorange = "reversed",
+        ticktext = data_breakdown,
+        tickvals = seq_along(data_breakdown),
+        dtick = 1,
+        showgrid = FALSE
+      ),
+      shapes = apply(
+        expand.grid(
+          x = c(
+            0.5:51.5,
+            (length(data_breakdown) - 0.5):
+              (length(data_breakdown) + 0.5)
+          ),
+          y = c(
+            1.5:(length(data_breakdown) - 0.5),
+            0.5:(length(data_breakdown) - 0.5)
+          )
+        ),
+        1,
+        function(x) {
+          add_cell_border(
+            x[1],
+            x[1] + 1,
+            x[2],
+            x[2] + 1,
+            border_col = phs_colours("phs-liberty-10")
+          )
+        }
+      )
     ) %>%
     layout(
       annotations = list(
         x = 53,
-        y = length(data_breakdown)/2,
+        y = length(data_breakdown) / 2,
         text = ~Season,
-        showarrow = F,
+        showarrow = FALSE,
         textangle = 90,
         font = list(size = 14),
         height = 14,
@@ -767,21 +1002,6 @@ create_euromomo_mem_heatmap <- function(data,
         yanchor = "middle"
       )
     )
-  
-  if(include_text_annotation){
-    
-    heatmap_curr_season <- heatmap_curr_season %>%
-      layout(
-        annotations = list(
-          x = ~Weekord,
-          y = ~as.numeric(Breakdown),
-          text = ~round_half_up(Value, text_annotation_dp),
-          font = list(size = 6, color = "white"),
-          showarrow = FALSE
-        )
-      )
-    
-  }
   
   # Add static legend
   heatmap_curr_season <- heatmap_curr_season %>%

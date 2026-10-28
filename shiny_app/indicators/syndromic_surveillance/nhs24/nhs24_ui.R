@@ -1,21 +1,21 @@
 tagList(
   fluidRow(width = 12,
-           h1("NHS24 Calls for Respiratory Symptoms"),
-           p("NHS24 is a telephone service operated by NHS Scotland to triage patients with an urgent,",
-             "but not life-threatening, need for medical attention. Trends in calls to NHS24, for",
+           h1("NHS 24 Calls for Respiratory Symptoms"),
+           p("NHS 24 is a telephone service operated by NHS Scotland to triage patients with an urgent,",
+             "but not life-threatening, need for medical attention. Trends in calls to NHS 24, for",
              "respiratory symptoms, are compared against historic data to assess activity levels of acute",
-             "respiratory illness in the community. As NHS24 is often patients first contact with the NHS,",
+             "respiratory illness in the community. As NHS 24 is often patients first contact with the NHS,",
              "increases in activity will be reported here before they are detected by other surveillance",
              "systems, thus it can act as an early warning system for acute respiratory infections."),
            #br(),
-           p(strong("Changes for 2026/27 season: "), "NHS24 data processing has been upgraded.",
+           p(strong("Changes for 2026/27 season: "), "NHS 24 data processing has been upgraded.",
                     "We reviewed how signs and symptoms are defined and have added 'sore throat' ",
                     "and 'loss of sense of taste or smell' to the respiratory definition. This has ",
                     "been applied to historic data back to 2017 to allow for valid comparisons.")
   ),
   
   fluidRow(width = 12,
-           tagList(h2("NHS24 calls for respiratory symptoms (%) in Scotland"))),
+           tagList(h2("NHS 24 calls for respiratory symptoms (%) in Scotland"))),
 
   fluidRow(
     tabBox(width = NULL,
@@ -38,7 +38,7 @@ tagList(
 
 
   fluidRow(width = 12,
-           tagList(h2("NHS24 calls for respiratory symptoms (%) by age group"))),
+           tagList(h2("NHS 24 calls for respiratory symptoms (%) by age group"))),
 
   fluidRow(
     tabBox(width = NULL,

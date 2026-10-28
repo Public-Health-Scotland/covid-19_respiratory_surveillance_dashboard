@@ -1,31 +1,31 @@
 
 # Low threshold
-euromomo_low_threshold <- Respiratory_Euromomo %>% 
-  select(LowThreshold) %>% 
-  distinct() %>% 
-  .$LowThreshold %>%
-  round_half_up(2)
-
-# Moderate threshold
-euromomo_moderate_threshold <- Respiratory_Euromomo %>% 
-  select(MediumThreshold) %>% 
-  distinct() %>% 
-  .$MediumThreshold %>%
-  round_half_up(2)
-
-# High threshold
-euromomo_high_threshold <- Respiratory_Euromomo %>% 
-  select(HighThreshold) %>% 
-  distinct() %>% 
-  .$HighThreshold %>%
-  round_half_up(2)
-
-# Extraordinary
-euromomo_extraordinary_threshold <- Respiratory_Euromomo %>% 
-  select(ExtraordinaryThreshold) %>% 
-  distinct() %>% 
-  .$ExtraordinaryThreshold %>%
-  round_half_up(2)
+# euromomo_low_threshold <- Respiratory_Euromomo %>% 
+#   select(LowThreshold) %>% 
+#   distinct() %>% 
+#   .$LowThreshold %>%
+#   round_half_up(2)
+# 
+# # Moderate threshold
+# euromomo_moderate_threshold <- Respiratory_Euromomo %>% 
+#   select(MediumThreshold) %>% 
+#   distinct() %>% 
+#   .$MediumThreshold %>%
+#   round_half_up(2)
+# 
+# # High threshold
+# euromomo_high_threshold <- Respiratory_Euromomo %>% 
+#   select(HighThreshold) %>% 
+#   distinct() %>% 
+#   .$HighThreshold %>%
+#   round_half_up(2)
+# 
+# # Extraordinary
+# euromomo_extraordinary_threshold <- Respiratory_Euromomo %>% 
+#   select(ExtraordinaryThreshold) %>% 
+#   distinct() %>% 
+#   .$ExtraordinaryThreshold %>%
+#   round_half_up(2)
 
 
 # Latest reporting week
@@ -42,6 +42,23 @@ euromomo_seasons <- Respiratory_Euromomo %>%
     tail(4)
 euromomo_seasons <- euromomo_seasons$Season
 
+
+
+Respiratory_Euromomo_threshold <- Respiratory_Euromomo %>%
+  mutate(
+    ActivityLevel = case_when(
+      ZScore >= 2 ~ "Above baseline",
+      TRUE ~ "Baseline"
+    ),
+    HeatmapLevel = case_when(
+      ActivityLevelDelay == "Reporting delay" ~ 2,
+      ZScore >= 2 ~ 1,
+      TRUE ~ 0
+    )
+  )
+
+
+
 altTextServer("euromomo_mem_modal",
               title = "All-cause excess mortality (Euromomo)",
               content = tags$ul(tags$li(glue("This is a plot showing the weekly excess all-cause mortality for season ",
@@ -50,13 +67,13 @@ altTextServer("euromomo_mem_modal",
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the z-score."),
-                                tags$li(glue("Activity levels for all-cause excess mortality based on MEM thresholds are represented by different coloured panels on the plot. ",
-                                             "The activity levels and MEM thresholds for all-cause excess mortality are: ",
-                                             "Baseline (< ", euromomo_low_threshold, "), ",
-                                             "Low (", euromomo_low_threshold, "-", euromomo_moderate_threshold-0.01, "), ",
-                                             "Medium (", euromomo_moderate_threshold, "-", euromomo_high_threshold-0.01, "), ",
-                                             "High (", euromomo_high_threshold, "-", euromomo_extraordinary_threshold-0.01, "), and ",
-                                             "Very High (>= ", euromomo_extraordinary_threshold, ").")),
+                                # tags$li(glue("Activity levels for all-cause excess mortality based on MEM thresholds are represented by different coloured panels on the plot. ",
+                                #              "The activity levels and MEM thresholds for all-cause excess mortality are: ",
+                                #              "Baseline (< ", euromomo_low_threshold, "), ",
+                                #              "Low (", euromomo_low_threshold, "-", euromomo_moderate_threshold-0.01, "), ",
+                                #              "Medium (", euromomo_moderate_threshold, "-", euromomo_high_threshold-0.01, "), ",
+                                #              "High (", euromomo_high_threshold, "-", euromomo_extraordinary_threshold-0.01, "), and ",
+                                #              "Very High (>= ", euromomo_extraordinary_threshold, ").")),
                                 tags$li(glue("Data for the most recent weeks are incomplete and should be treated with caution."))))
 
 altTextServer("euromomo_mem_age_modal",
@@ -66,13 +83,14 @@ altTextServer("euromomo_mem_age_modal",
                                 tags$li("The x axis shows the ISO week of sample, from week 40 to week 39. ", 
                                         "Week 40 is typically the start of October and when the winter respiratory season starts."),
                                 tags$li("The y axis shows the age group."),
-                                tags$li("Each cell is coloured according to the activity level: Baseline, Low, Medium, High, or Very High."),
+                                tags$li("Each cell is coloured according to the activity level: Baseline or Above Baseline."),
                                 tags$li(glue("Data for the most recent weeks are incomplete and should be treated with caution."))))
+
 
 
 # Euromomo MEM table
 output$euromomo_mem_table <- renderDataTable({
-  Respiratory_Euromomo %>%
+  Respiratory_Euromomo_threshold %>%
     filter(AgeGroup == "All Ages") %>%
     #filter(Season %in% euromomo_seasons) %>%
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
@@ -82,7 +100,7 @@ output$euromomo_mem_table <- renderDataTable({
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ReportingDelay=factor(ReportingDelay),
-           ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+           ActivityLevel = factor(ActivityLevel, levels = euromomo_activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Z-score` = ZScore,
            `Activity Level` = ActivityLevel,
@@ -93,7 +111,7 @@ output$euromomo_mem_table <- renderDataTable({
 
 # Euromomo age MEM table
 output$euromomo_mem_age_table <- renderDataTable({
-  Respiratory_Euromomo %>%
+  Respiratory_Euromomo_threshold %>%
     filter(Season %in% euromomo_seasons[(length(euromomo_seasons)-1):length(euromomo_seasons)]) %>%
     mutate(ReportingDelay = ifelse(ActivityLevelDelay == "Reporting delay",
                                 "Yes", ""),
@@ -103,7 +121,7 @@ output$euromomo_mem_age_table <- renderDataTable({
     mutate(Season = factor(Season),
            ISOWeek = factor(ISOWeek),
            ReportingDelay=factor(ReportingDelay),
-           ActivityLevel = factor(ActivityLevel, levels = activity_levels)) %>%
+           ActivityLevel = factor(ActivityLevel, levels = euromomo_activity_levels)) %>%
     rename(`ISO Week` = ISOWeek,
            `Z-score` = ZScore,
            `Age group` = AgeGroup,
@@ -116,7 +134,7 @@ output$euromomo_mem_age_table <- renderDataTable({
 
 # Euromomo MEM plot
 output$euromomo_mem_plot <- renderPlotly({
-  Respiratory_Euromomo %>%
+  Respiratory_Euromomo_threshold %>%
     filter(AgeGroup == "All Ages") %>%
     create_euromomo_mem_linechart()
   
@@ -124,9 +142,9 @@ output$euromomo_mem_plot <- renderPlotly({
 
 # Euromomo age MEM plot
 output$euromomo_mem_age_plot <- renderPlotly({
-  Respiratory_Euromomo %>%
-    mutate(ActivityLevel = factor(ActivityLevel, levels = activity_levels),
-           ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(activity_levels,
+  Respiratory_Euromomo_threshold %>%
+    mutate(ActivityLevel = factor(ActivityLevel, levels = euromomo_activity_levels),
+           ActivityLevelDelay = factor(ActivityLevelDelay, levels = c(euromomo_activity_levels,
                                                                       "Reporting delay"))) %>%
     create_euromomo_mem_heatmap(breakdown_variable = "AgeGroup",
                        value_variable = "ZScore")
