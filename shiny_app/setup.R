@@ -143,6 +143,8 @@ euromomo_age_mem_legend <- readPNG("www/Euromomo_age_MEM_legend_liberty10.PNG", 
 # Activity levels
 activity_levels <- c("Baseline", "Low", "Medium", "High", "Very high")
 
+euromomo_activity_levels <- c("Baseline", "Above baseline")
+
 # Colours for thresholds
 activity_level_colours <- c("#F3E79A", "#F9B282", "#ED7C97", "#BC5AA9", "#704D9E")
 
@@ -150,7 +152,24 @@ activity_level_colours <- c("#F3E79A", "#F9B282", "#ED7C97", "#BC5AA9", "#704D9E
 #euromomo_activity_levels <- c("Baseline", "Low", "Medium", "High", "Very High", "Reporting delay")
 
 # Colours for thresholds for euromomo
-euromomo_activity_level_colours <- c("#F3E79A", "#F9B282", "#ED7C97", "#BC5AA9", "#704D9E", "#a6a6a6")
+#euromomo_activity_level_colours <- c("#F3E79A", "#F9B282", "#ED7C97", "#BC5AA9", "#704D9E", "#a6a6a6")
+euromomo_activity_level_colours <- c("#F3E79A", "#704D9E")
+
+# euromomo 3 activity colours
+
+mem_heatmap_colour_scale <- list(
+  # Baseline
+  list(0.0000, "#F3E79A"),
+  list(0.2499, "#F3E79A"),
+  
+  # Above baseline
+  list(0.2500, "#704D9E"),
+  list(0.7499, "#704D9E"),
+  
+  # Reporting delay
+  list(0.7500, "#a6a6a6"),
+  list(1.0000, "#a6a6a6")
+)
 
 # Colours for lines on line chart
 mem_line_colours <- rev(c("#12436D", "#801650", "#F46A25","#3F085C",
