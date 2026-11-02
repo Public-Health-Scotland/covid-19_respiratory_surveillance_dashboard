@@ -40,7 +40,7 @@ output$introduction_about <- renderUI({
           p("PHS continually reviews and improves surveillance methods and outputs. Several changes have been introduced ",
             "for the 2026/27 season to enhance accuracy, interpretation and presentation of infectious respiratory ",
             "surveillance data in Scotland. The main changes are outlined below."),
-          p(paste0("\u2022", " NHS24 data processing has been upgraded. We reviewed how signs and symptoms are defined ",
+          p(paste0("\u2022", " NHS 24 data processing has been upgraded. We reviewed how signs and symptoms are defined ",
                    "and have added 'sore throat' and  'loss of sense of taste or smell' to the respiratory definition. ",
                    "This has been applied to historic data back to 2017 to allow for valid comparisons.")),
           p(paste0("\u2022", " For GP consultation rates (ARI/ILI), we have updated the adjustment for GP system as a ",
@@ -81,7 +81,7 @@ output$introduction_about <- renderUI({
           fluidRow(
             column(4,tags$div(class = "special_button",
                     actionButton("jump_to_syndromic", "Syndromic surveillance"))),
-            column(8, p("This section contains trend information of calls to NHS24 for respiratory symptoms
+            column(8, p("This section contains trend information of calls to NHS 24 for respiratory symptoms
                         and trend information for General Practitioners consultations for Influenza-Like Illnesses (ILI)."))),
           br(),
 
