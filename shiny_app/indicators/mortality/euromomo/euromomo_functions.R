@@ -932,9 +932,9 @@ create_euromomo_mem_heatmap <- function(data,
       "Season: ", Season,
       "<br>Week number: ", ISOWeek,
       "<br>", breakdown_hover, Breakdown_hover,
-      "<br>Z-score: ", Value, ReportingDelay,
+      "<br>Z-score: ", Value, coalesce(ReportingDelay, ""),
       "<br>Activity level: ", HeatmapLabel,
-      ReportingDelay
+      coalesce(ReportingDelay, "")
     ),
     
     hoverinfo = "text"
