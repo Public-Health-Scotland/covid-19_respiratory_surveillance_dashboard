@@ -2,13 +2,13 @@
 # Script to transfer data from Input data folder    #
 # to dashboard data folder                          #
 #####################################################
-
+#Test comment
 # Getting packages
 if(is.na(utils::packageDate("pacman"))) install.packages("pacman")
 if (!pacman::p_isinstalled("friendlyloader")){pacman::p_install_gh("RosalynLP/friendlyloader")}
 
 pacman::p_load(dplyr, magrittr, glue, openxlsx, lubridate, ISOweek,
-               janitor, stringr, data.table, stats, zoo, tidyr, readxl, 
+               janitor, stringr, data.table, stats, zoo, tidyr, readxl,
                readr, friendlyloader, phsopendata, rjson, purrr)
 
 # Setting permisisons for files outputted
@@ -54,7 +54,7 @@ if (!dir.exists(new_data_folder)) {
 # Create each subdirectory inside the main directory
 for (sub in sub_dirs) {
   dir_path <- file.path(new_data_folder, sub)
-  
+
   # Create subdirectory if it doesn't exist
   if (!dir.exists(dir_path)) {
     dir.create(dir_path, recursive = TRUE)
